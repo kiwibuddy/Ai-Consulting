@@ -99,6 +99,17 @@ export default function CoachBilling() {
     queryKey: ["/api/coach/clients"],
   });
 
+  // Helper to get display name for a client
+  const getClientName = (clientId: string) => {
+    const client = clients?.find(c => c.id === clientId) as any;
+    if (!client) return `Client #${clientId.slice(0, 8)}`;
+    const user = client.user;
+    if (user?.firstName || user?.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    return user?.email || `Client #${client.id.slice(0, 8)}`;
+  };
+
   const createInvoiceMutation = useMutation({
     mutationFn: async (data: {
       clientId: string;
@@ -244,7 +255,7 @@ export default function CoachBilling() {
                   <SelectContent>
                     {clients?.map((client) => (
                       <SelectItem key={client.id} value={client.id}>
-                        Client #{client.id.slice(0, 8)}
+                        {getClientName(client.id)}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -22,8 +22,16 @@ export const clientProfiles = pgTable("client_profiles", {
   userId: varchar("user_id").notNull(),
   phone: varchar("phone"),
   goals: text("goals"),
+  location: varchar("location"), // City, Country
+  preferredMeetingFormat: varchar("preferred_meeting_format"), // in_person, video_zoom, video_meet, flexible
   preferredContactMethod: varchar("preferred_contact_method").default("email"),
   notificationPreferences: text("notification_preferences").default("{}"),
+  // Coaching background
+  previousCoaching: text("previous_coaching"), // Previous coaching experience
+  assessmentsTaken: text("assessments_taken"), // JSON array: ["strengthsfinder", "disc", etc.]
+  assessmentResults: text("assessment_results"), // Free text for results
+  // Onboarding status
+  profileCompleted: boolean("profile_completed").default(false),
   status: varchar("status").default("active"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -40,6 +48,12 @@ export const intakeForms = pgTable("intake_forms", {
   experience: text("experience"),
   availability: text("availability"),
   howDidYouHear: varchar("how_did_you_hear"),
+  // New onboarding fields
+  location: varchar("location"), // City, Country
+  preferredMeetingFormat: varchar("preferred_meeting_format"), // in_person, video_zoom, video_meet, flexible
+  previousCoachingExperience: text("previous_coaching_experience"), // Description of prior coaching
+  assessmentsTaken: text("assessments_taken"), // JSON array: ["strengthsfinder", "disc", etc.]
+  assessmentResults: text("assessment_results"), // Free text for results (e.g., "Top 5: Achiever, Learner, Input...")
   status: intakeStatusEnum("status").default("pending"),
   coachNotes: text("coach_notes"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -134,11 +148,21 @@ export const testimonials = pgTable("testimonials", {
 export const coachSettings = pgTable("coach_settings", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().unique(),
+  // Profile/business info
+  businessName: varchar("business_name"),
+  bio: text("bio"),
+  location: varchar("location"), // City, Country
+  countryCode: varchar("country_code"), // Phone country code e.g. "+1", "+44"
+  phone: varchar("phone"), // Phone number without country code
+  // Pricing
   hourlyRate: integer("hourly_rate").default(150),
   sessionDuration: integer("session_duration").default(60),
   packageDiscount: integer("package_discount").default(10),
+  // Payment settings
   stripeAccountId: varchar("stripe_account_id"), // For Stripe Connect (optional)
   paypalEmail: varchar("paypal_email"), // For PayPal payouts
+  // Onboarding
+  onboardingCompleted: boolean("onboarding_completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

@@ -15,6 +15,7 @@ import type { EventAttributes } from "ics";
 import {
   sendEmail,
   intakeSubmittedEmail,
+  intakeConfirmationEmail,
   accountCreatedEmail,
   sessionScheduledEmail,
   sessionReminderEmail,
@@ -121,8 +122,20 @@ export async function registerRoutes(
   // Submit intake form (public)
   app.post("/api/intake", async (req, res) => {
     try {
-      const data = insertIntakeFormSchema.parse(req.body);
+      // Handle assessmentsTaken array - convert to JSON string if provided
+      const intakeData = { ...req.body };
+      if (Array.isArray(intakeData.assessmentsTaken)) {
+        intakeData.assessmentsTaken = JSON.stringify(intakeData.assessmentsTaken);
+      }
+
+      const data = insertIntakeFormSchema.parse(intakeData);
       const intake = await storage.createIntakeForm(data);
+      
+      // Send confirmation email to the client
+      await sendEmail(intakeConfirmationEmail(
+        data.email,
+        data.firstName
+      ));
       
       // Notify all coaches about the new intake
       const coaches = await storage.getUsersByRole("coach");
@@ -142,6 +155,7 @@ export async function registerRoutes(
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: error.errors });
       } else {
+        console.error("Intake form error:", error);
         res.status(500).json({ error: "Failed to submit intake form" });
       }
     }
@@ -171,8 +185,14 @@ export async function registerRoutes(
       const updateSchema = z.object({
         phone: z.string().optional(),
         goals: z.string().optional(),
+        location: z.string().optional(),
+        preferredMeetingFormat: z.string().optional(),
         preferredContactMethod: z.string().optional(),
         notificationPreferences: z.string().optional(),
+        previousCoaching: z.string().optional(),
+        assessmentsTaken: z.string().optional(), // JSON array as string
+        assessmentResults: z.string().optional(),
+        profileCompleted: z.boolean().optional(),
       });
       const data = updateSchema.parse(req.body);
       
@@ -924,9 +944,21 @@ export async function registerRoutes(
   app.patch("/api/coach/settings", requireCoach, async (req, res) => {
     try {
       const settingsSchema = z.object({
+        // Profile/business info
+        businessName: z.string().optional(),
+        bio: z.string().optional(),
+        location: z.string().optional(),
+        countryCode: z.string().optional(),
+        phone: z.string().optional(),
+        // Pricing
         hourlyRate: z.number().min(0).optional(),
         sessionDuration: z.number().min(15).max(180).optional(),
         packageDiscount: z.number().min(0).max(100).optional(),
+        // Payment settings
+        stripeAccountId: z.string().optional(),
+        paypalEmail: z.string().optional(),
+        // Onboarding
+        onboardingCompleted: z.boolean().optional(),
       });
       const data = settingsSchema.parse(req.body);
       

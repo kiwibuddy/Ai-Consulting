@@ -44,6 +44,15 @@ export default function CoachDashboard() {
 
   const activeClients = clients?.filter((c) => c.status === "active") || [];
   const pendingIntakes = intakes?.filter((i) => i.status === "pending") || [];
+  
+  // Helper to get display name for a client
+  const getClientName = (client: any) => {
+    const user = client.user;
+    if (user?.firstName || user?.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    return user?.email || `Client #${client.id.slice(0, 8)}`;
+  };
   const upcomingSessions = sessions?.filter((s) => s.status === "scheduled" && isFuture(new Date(s.scheduledAt))) || [];
   const todaySessions = upcomingSessions.filter((s) => isToday(new Date(s.scheduledAt)));
   const completedSessions = sessions?.filter((s) => s.status === "completed") || [];
@@ -187,7 +196,7 @@ export default function CoachDashboard() {
                         <Users className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">Client #{client.id.slice(0, 8)}</p>
+                        <p className="font-medium truncate">{getClientName(client)}</p>
                         <p className="text-sm text-muted-foreground truncate">
                           {client.goals?.slice(0, 50) || "No goals specified"}...
                         </p>

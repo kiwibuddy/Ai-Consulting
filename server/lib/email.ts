@@ -513,3 +513,131 @@ export function paymentReceivedEmail(
     `,
   };
 }
+
+export function verificationEmail(userEmail: string, userName: string, verificationToken: string): EmailOptions {
+  const verifyUrl = `${process.env.APP_URL || "http://localhost:3000"}/api/auth/verify-email?token=${verificationToken}`;
+  
+  return {
+    to: userEmail,
+    subject: "Verify your email - Holger Coaching Portal",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .button { display: inline-block; padding: 14px 28px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin: 20px 0; font-weight: bold; }
+            .note { font-size: 13px; color: #666; margin-top: 20px; }
+            .link-box { background-color: #e8f4f8; padding: 12px 16px; border-radius: 6px; font-family: monospace; font-size: 12px; word-break: break-all; margin: 10px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Verify Your Email</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${userName},</p>
+              <p>Thanks for signing up for Holger Coaching Portal! Please verify your email address by clicking the button below:</p>
+              <p style="text-align: center;">
+                <a href="${verifyUrl}" class="button">Verify Email Address</a>
+              </p>
+              <p>Or copy and paste this link into your browser:</p>
+              <div class="link-box">${verifyUrl}</div>
+              <p class="note">This link will expire in 24 hours. If you didn't create an account, you can safely ignore this email.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function intakeConfirmationEmail(clientEmail: string, clientName: string): EmailOptions {
+  return {
+    to: clientEmail,
+    subject: "We received your application - Holger Coaching",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .check-icon { font-size: 48px; text-align: center; margin: 20px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Application Received</h1>
+            </div>
+            <div class="content">
+              <div class="check-icon">✓</div>
+              <p>Hi ${clientName},</p>
+              <p>Thank you for submitting your coaching application! We've received your information and will review it shortly.</p>
+              <p><strong>What happens next?</strong></p>
+              <ul>
+                <li>Your coach will review your application</li>
+                <li>If accepted, you'll receive an email with instructions to set up your account</li>
+                <li>You'll then have access to your personal coaching portal</li>
+              </ul>
+              <p>We typically respond within 1-2 business days. If you have any questions in the meantime, please don't hesitate to reach out.</p>
+              <p>Looking forward to working with you!</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function passwordResetEmail(userEmail: string, userName: string, resetToken: string): EmailOptions {
+  const resetUrl = `${process.env.APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
+  
+  return {
+    to: userEmail,
+    subject: "Reset your password - Holger Coaching Portal",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .button { display: inline-block; padding: 14px 28px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin: 20px 0; font-weight: bold; }
+            .note { font-size: 13px; color: #666; margin-top: 20px; }
+            .link-box { background-color: #e8f4f8; padding: 12px 16px; border-radius: 6px; font-family: monospace; font-size: 12px; word-break: break-all; margin: 10px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Reset Your Password</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${userName},</p>
+              <p>We received a request to reset your password. Click the button below to create a new password:</p>
+              <p style="text-align: center;">
+                <a href="${resetUrl}" class="button">Reset Password</a>
+              </p>
+              <p>Or copy and paste this link into your browser:</p>
+              <div class="link-box">${resetUrl}</div>
+              <p class="note">This link will expire in 1 hour. If you didn't request a password reset, you can safely ignore this email - your password won't be changed.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}

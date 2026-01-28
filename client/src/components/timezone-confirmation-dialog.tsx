@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { format } from "date-fns";
 import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 import {
@@ -12,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Globe, Calendar, Clock, User, Users, Loader2, Check, X } from "lucide-react";
+import { Globe, Calendar, Clock, User, Users, Loader2, Check, X, Edit2 } from "lucide-react";
+import { TimezoneSelector } from "@/components/timezone-selector";
 
 interface TimezoneConfirmationDialogProps {
   open: boolean;
@@ -27,6 +29,7 @@ interface TimezoneConfirmationDialogProps {
   duration: number;
   clientTimezone: string;
   coachTimezone: string;
+  onCoachTimezoneChange?: (timezone: string) => void;
   requestedBy: "client" | "coach";
   clientName?: string;
   coachName?: string;
@@ -45,10 +48,12 @@ export function TimezoneConfirmationDialog({
   duration,
   clientTimezone,
   coachTimezone,
+  onCoachTimezoneChange,
   requestedBy,
   clientName = "Client",
   coachName = "Coach",
 }: TimezoneConfirmationDialogProps) {
+  const [isEditingTimezone, setIsEditingTimezone] = useState(false);
   const sessionDate = typeof scheduledAt === "string" ? new Date(scheduledAt) : scheduledAt;
 
   const clientDateTime = formatInTimeZone(sessionDate, clientTimezone, "EEEE, MMMM d, yyyy");
@@ -165,10 +170,37 @@ export function TimezoneConfirmationDialog({
                     <Badge variant="outline" className="text-xs">You</Badge>
                   )}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Globe className="h-3 w-3" />
-                  <span>{coachTimezone}</span>
-                </div>
+                {isEditingTimezone && onCoachTimezoneChange ? (
+                  <div className="space-y-2">
+                    <TimezoneSelector
+                      value={coachTimezone}
+                      onChange={(tz) => {
+                        onCoachTimezoneChange(tz);
+                        setIsEditingTimezone(false);
+                      }}
+                      showCurrentTime={false}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsEditingTimezone(false)}
+                      className="text-xs"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <div 
+                    className={`flex items-center gap-2 text-xs text-muted-foreground ${onCoachTimezoneChange ? 'cursor-pointer hover:text-foreground group' : ''}`}
+                    onClick={() => onCoachTimezoneChange && setIsEditingTimezone(true)}
+                  >
+                    <Globe className="h-3 w-3" />
+                    <span>{coachTimezone}</span>
+                    {onCoachTimezoneChange && (
+                      <Edit2 className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
+                  </div>
+                )}
                 <Separator className="my-2" />
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">

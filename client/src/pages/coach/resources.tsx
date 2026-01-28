@@ -80,6 +80,15 @@ export default function CoachResources() {
     queryKey: ["/api/coach/clients"],
   });
 
+  // Helper to get display name for a client
+  const getClientName = (client: any) => {
+    const user = client.user;
+    if (user?.firstName || user?.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    return user?.email || `Client #${client.id.slice(0, 8)}`;
+  };
+
   const form = useForm<ResourceFormValues>({
     resolver: zodResolver(resourceSchema),
     defaultValues: {
@@ -257,7 +266,7 @@ export default function CoachResources() {
                           <SelectItem value="">All clients</SelectItem>
                           {clients?.filter(c => c.status === "active").map((client) => (
                             <SelectItem key={client.id} value={client.id}>
-                              Client #{client.id.slice(0, 8)}
+                              {getClientName(client)}
                             </SelectItem>
                           ))}
                         </SelectContent>

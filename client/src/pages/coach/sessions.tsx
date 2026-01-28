@@ -93,8 +93,17 @@ export default function CoachSessions() {
     queryKey: ["/api/coach/clients"],
   });
 
-  const coachTimezone = user?.timezone || detectUserTimezone();
+  const defaultCoachTimezone = user?.timezone || detectUserTimezone();
+  const [coachTimezone, setCoachTimezone] = useState(defaultCoachTimezone);
   const clientTimezone = "America/Los_Angeles";
+  
+  // Reset timezone when dialog opens
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    if (open) {
+      setCoachTimezone(defaultCoachTimezone);
+    }
+  };
 
   const form = useForm<SessionFormValues>({
     resolver: zodResolver(sessionSchema),
@@ -194,7 +203,12 @@ export default function CoachSessions() {
 
   const getClientName = (clientId: string) => {
     const client = clients?.find(c => c.id === clientId);
-    return client ? `Client #${client.id.slice(0, 8)}` : "Unknown Client";
+    if (!client) return "Unknown Client";
+    const user = (client as any).user;
+    if (user?.firstName || user?.lastName) {
+      return `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    }
+    return user?.email || `Client #${client.id.slice(0, 8)}`;
   };
 
   const pendingSessions = sessions?.filter(
@@ -339,7 +353,7 @@ export default function CoachSessions() {
               <CalendarDays className="h-4 w-4" />
             </Button>
           </div>
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
             <DialogTrigger asChild>
               <Button data-testid="button-create-session">
                 <Plus className="mr-2 h-4 w-4" />
@@ -368,11 +382,17 @@ export default function CoachSessions() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {clients?.filter(c => c.status === "active").map((client) => (
-                              <SelectItem key={client.id} value={client.id}>
-                                Client #{client.id.slice(0, 8)}
-                              </SelectItem>
-                            ))}
+                            {clients?.filter(c => c.status === "active").map((client) => {
+                              const user = (client as any).user;
+                              const displayName = user?.firstName || user?.lastName
+                                ? `${user.firstName || ''} ${user.lastName || ''}`.trim()
+                                : user?.email || `Client #${client.id.slice(0, 8)}`;
+                              return (
+                                <SelectItem key={client.id} value={client.id}>
+                                  {displayName}
+                                </SelectItem>
+                              );
+                            })}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -445,10 +465,11 @@ export default function CoachSessions() {
                     name="meetingLink"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Meeting Link</FormLabel>
+                        <FormLabel>Meeting Link <span className="text-muted-foreground font-normal">(optional)</span></FormLabel>
                         <FormControl>
-                          <Input placeholder="https://zoom.us/j/..." {...field} data-testid="input-meeting-link" />
+                          <Input placeholder="https://zoom.us/j/... or leave empty for in-person" {...field} data-testid="input-meeting-link" />
                         </FormControl>
+                        <p className="text-xs text-muted-foreground">Leave blank for in-person meetings</p>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -585,7 +606,7 @@ export default function CoachSessions() {
           onConfirm={handleConfirmCreate}
           onCancel={() => {
             setTimezoneConfirmOpen(false);
-            setDialogOpen(true);
+            handleDialogOpenChange(true);
           }}
           isLoading={createSession.isPending}
           mode="request"
@@ -595,6 +616,7 @@ export default function CoachSessions() {
           duration={pendingFormData.duration}
           clientTimezone={clientTimezone}
           coachTimezone={coachTimezone}
+          onCoachTimezoneChange={setCoachTimezone}
           requestedBy="coach"
           clientName="Client"
           coachName="You"
@@ -615,6 +637,7 @@ export default function CoachSessions() {
           duration={selectedSession.duration || 60}
           clientTimezone={clientTimezone}
           coachTimezone={coachTimezone}
+          onCoachTimezoneChange={setCoachTimezone}
           requestedBy="client"
           clientName="Client"
           coachName="You"

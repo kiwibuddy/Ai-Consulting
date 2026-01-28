@@ -43,23 +43,23 @@ interface SidebarProps {
 }
 
 const clientNavItems = [
-  { title: "Dashboard", url: "/client", icon: LayoutDashboard },
-  { title: "Sessions", url: "/client/sessions", icon: Calendar },
-  { title: "Resources", url: "/client/resources", icon: FileText },
-  { title: "Action Items", url: "/client/actions", icon: Target },
-  { title: "Billing", url: "/client/billing", icon: CreditCard },
-  { title: "Profile", url: "/client/profile", icon: User },
+  { title: "Dashboard", url: "/client", icon: LayoutDashboard, tourId: "dashboard" },
+  { title: "Sessions", url: "/client/sessions", icon: Calendar, tourId: "sessions" },
+  { title: "Resources", url: "/client/resources", icon: FileText, tourId: "resources" },
+  { title: "Action Items", url: "/client/actions", icon: Target, tourId: "actions" },
+  { title: "Billing", url: "/client/billing", icon: CreditCard, tourId: "billing" },
+  { title: "Profile", url: "/client/profile", icon: User, tourId: "profile" },
 ];
 
 const coachNavItems = [
-  { title: "Dashboard", url: "/coach", icon: LayoutDashboard },
-  { title: "Clients", url: "/coach/clients", icon: Users },
-  { title: "Sessions", url: "/coach/sessions", icon: Calendar },
-  { title: "Resources", url: "/coach/resources", icon: FileText },
-  { title: "Intake Requests", url: "/coach/intake", icon: UserPlus },
-  { title: "Billing", url: "/coach/billing", icon: CreditCard },
-  { title: "Analytics", url: "/coach/analytics", icon: BarChart3 },
-  { title: "Pricing Calculator", url: "/coach/calculator", icon: Calculator },
+  { title: "Dashboard", url: "/coach", icon: LayoutDashboard, tourId: "dashboard" },
+  { title: "Clients", url: "/coach/clients", icon: Users, tourId: "clients" },
+  { title: "Sessions", url: "/coach/sessions", icon: Calendar, tourId: "sessions" },
+  { title: "Resources", url: "/coach/resources", icon: FileText, tourId: "resources" },
+  { title: "Intake Requests", url: "/coach/intake", icon: UserPlus, tourId: "intake" },
+  { title: "Billing", url: "/coach/billing", icon: CreditCard, tourId: "billing" },
+  { title: "Analytics", url: "/coach/analytics", icon: BarChart3, tourId: "analytics" },
+  { title: "Pricing Calculator", url: "/coach/calculator", icon: Calculator, tourId: "calculator" },
 ];
 
 export function AppSidebar({ role }: SidebarProps) {
@@ -95,6 +95,7 @@ export function AppSidebar({ role }: SidebarProps) {
                       asChild
                       isActive={isActive}
                       data-testid={`nav-${item.title.toLowerCase().replace(" ", "-")}`}
+                      data-tour={item.tourId}
                     >
                       <Link href={item.url}>
                         <item.icon className="h-4 w-4" />

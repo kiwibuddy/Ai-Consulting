@@ -158,6 +158,37 @@ The demo accounts (`coach@example.com`, `client@example.com`) will still work in
 
 ---
 
+## First coach onboarding & testing
+
+### GitHub vs live app
+
+- **GitHub** holds your code and history; it does **not** host a running website. Pushing to GitHub does not give you a link people can open in a browser.
+- To get a **web link** (e.g. `https://your-app.onrender.com`) that your first coach can log into, you must **deploy** the app to a hosting service (Render, Railway, Vercel, etc.). The repo stays on GitHub; the host builds and runs the app and gives you the URL.
+
+### No separate “admin” login
+
+The app has two roles only: **Coach** and **Client**. There is no “main admin” or “creator” role. As the creator you can:
+
+1. **Use it as a coach** – Sign up at your own deployed URL as a Coach (or use a demo coach account) to test and demo.
+2. **Let the first coach create their own account** – Send them the live link and have them Sign up → choose **Coach** → complete registration (email/password or Sign in with Google). That coach account is then the one they use for their clients.
+
+### Recommended flow for your first coach
+
+1. **Deploy** the app (e.g. [Render](https://render.com) or [Railway](https://railway.app)) and set `APP_URL` and all required env vars (see above). You get a URL like `https://holger-coaching.onrender.com`.
+2. **Optional – you test first:** Open the URL, click **Sign up**, register as **Coach** with your email. Use that account to add a test client (or use the intake flow), run through sessions and billing, then you can keep this as your “admin”/testing coach or stop using it once the real coach is set up.
+3. **Invite the coach:** Send the coach the link, e.g.  
+   *“Here’s your coaching portal: [https://your-app.onrender.com]. Open it, click ‘Sign up’, choose ‘Coach’, and create your account with your email and a password (or Sign in with Google). Once you’re in, you can share the same link with clients so they can sign up as Client or submit an intake from the landing page.”*
+4. **Coach usage:** The coach signs in → sees Coach dashboard → can create sessions, manage clients, use intake (clients submit from the public intake form), accept intakes (which creates client accounts and sends the “Sign in with Google” email), and run billing/sessions/actions as in the MVP.
+
+### If you want a coach account created for them
+
+There is no in-app “Create coach” button. To create a coach account without the coach using Sign up:
+
+- Run a **one-off script** (or SQL) that inserts a row into `users` with `role = 'coach'` and a bcrypt-hashed password, then send the coach their login email and a temporary password (they can change it later if you add a “change password” flow).
+- Or use the **seed script** only for staging: add a known coach user in `script/seed.ts`, run `npm run db:seed` on the production DB once, then send that coach the credentials. (Not ideal for production; normal flow is coach self-sign-up.)
+
+---
+
 ## Deployment Steps
 
 ### Option 1: Railway

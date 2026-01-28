@@ -24,17 +24,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ArrowLeft, Sparkles, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Sparkles, CheckCircle, Loader2, MapPin, Video, Users } from "lucide-react";
+
+const ASSESSMENT_OPTIONS = [
+  { id: "strengthsfinder", label: "StrengthsFinder / CliftonStrengths" },
+  { id: "disc", label: "DISC Assessment" },
+  { id: "mbti", label: "Myers-Briggs (MBTI)" },
+  { id: "enneagram", label: "Enneagram" },
+  { id: "eq", label: "Emotional Intelligence (EQ-i)" },
+  { id: "other", label: "Other" },
+];
 
 const intakeFormSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
+  location: z.string().optional(),
+  preferredMeetingFormat: z.string().optional(),
   goals: z.string().min(20, "Please describe your goals in at least 20 characters"),
-  experience: z.string().optional(),
+  previousCoachingExperience: z.string().optional(),
+  assessmentsTaken: z.array(z.string()).optional(),
+  assessmentResults: z.string().optional(),
   availability: z.string().optional(),
   howDidYouHear: z.string().optional(),
 });
@@ -51,8 +67,12 @@ export default function IntakePage() {
       lastName: "",
       email: "",
       phone: "",
+      location: "",
+      preferredMeetingFormat: "flexible",
       goals: "",
-      experience: "",
+      previousCoachingExperience: "",
+      assessmentsTaken: [],
+      assessmentResults: "",
       availability: "",
       howDidYouHear: "",
     },
@@ -200,6 +220,72 @@ export default function IntakePage() {
 
                 <FormField
                   control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        <MapPin className="inline h-4 w-4 mr-1" />
+                        Location
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="City, State, Country" {...field} data-testid="input-location" />
+                      </FormControl>
+                      <FormDescription>
+                        Where are you based?
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="preferredMeetingFormat"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Preferred Meeting Format</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-2"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="in_person" id="in_person" />
+                            <Label htmlFor="in_person" className="flex items-center cursor-pointer">
+                              <Users className="h-4 w-4 mr-2 text-muted-foreground" />
+                              In-person sessions
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="video_zoom" id="video_zoom" />
+                            <Label htmlFor="video_zoom" className="flex items-center cursor-pointer">
+                              <Video className="h-4 w-4 mr-2 text-muted-foreground" />
+                              Video (Zoom)
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="video_meet" id="video_meet" />
+                            <Label htmlFor="video_meet" className="flex items-center cursor-pointer">
+                              <Video className="h-4 w-4 mr-2 text-muted-foreground" />
+                              Video (Google Meet)
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="flexible" id="flexible" />
+                            <Label htmlFor="flexible" className="cursor-pointer">
+                              Flexible / No preference
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
                   name="goals"
                   render={({ field }) => (
                     <FormItem>
@@ -222,18 +308,88 @@ export default function IntakePage() {
 
                 <FormField
                   control={form.control}
-                  name="experience"
+                  name="previousCoachingExperience"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Previous coaching experience</FormLabel>
+                      <FormLabel>Previous Coaching Experience</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Have you worked with a coach before? What was your experience?"
+                          placeholder="Have you worked with a coach before? If so, describe your experience and what worked well or what you'd like to do differently."
                           className="min-h-[80px]"
                           {...field}
                           data-testid="textarea-experience"
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="assessmentsTaken"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel>Personality & Leadership Assessments</FormLabel>
+                        <FormDescription>
+                          Have you taken any of these assessments? (Select all that apply)
+                        </FormDescription>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {ASSESSMENT_OPTIONS.map((item) => (
+                          <FormField
+                            key={item.id}
+                            control={form.control}
+                            name="assessmentsTaken"
+                            render={({ field }) => (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={(checked) => {
+                                      const current = field.value || [];
+                                      if (checked) {
+                                        field.onChange([...current, item.id]);
+                                      } else {
+                                        field.onChange(current.filter((v) => v !== item.id));
+                                      }
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="text-sm font-normal cursor-pointer">
+                                  {item.label}
+                                </FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="assessmentResults"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Assessment Results (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="If you've taken any assessments, share your results here. For example: StrengthsFinder Top 5: Achiever, Learner, Input, Strategic, Ideation. DISC Type: D/I."
+                          className="min-h-[80px]"
+                          {...field}
+                          data-testid="textarea-assessment-results"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        You can also share these later during your onboarding.
+                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

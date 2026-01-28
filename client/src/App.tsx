@@ -1,6 +1,6 @@
 import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -15,9 +15,12 @@ import NotFound from "@/pages/not-found";
 // Public pages
 import LandingPage from "@/pages/landing";
 import IntakePage from "@/pages/intake";
+import ForgotPassword from "@/pages/forgot-password";
+import ResetPassword from "@/pages/reset-password";
 
 // Client pages
 import ClientDashboard from "@/pages/client/dashboard";
+import ClientCompleteProfile from "@/pages/client/complete-profile";
 import ClientSessions from "@/pages/client/sessions";
 import ClientSessionDetail from "@/pages/client/session-detail";
 import ClientActions from "@/pages/client/actions";
@@ -27,6 +30,7 @@ import ClientBilling from "@/pages/client/billing";
 
 // Coach pages
 import CoachDashboard from "@/pages/coach/dashboard";
+import CoachSetup from "@/pages/coach/setup";
 import CoachClients from "@/pages/coach/clients";
 import CoachClientDetail from "@/pages/coach/client-detail";
 import CoachSessions from "@/pages/coach/sessions";
@@ -35,6 +39,7 @@ import CoachResources from "@/pages/coach/resources";
 import CoachCalculator from "@/pages/coach/calculator";
 import CoachBilling from "@/pages/coach/billing";
 import CoachAnalytics from "@/pages/coach/analytics";
+import { OnboardingTour } from "@/components/onboarding-tour";
 
 function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: "coach" | "client" }) {
   const { user, isLoading, isAuthenticated } = useAuth();
@@ -66,11 +71,33 @@ function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: 
   return <>{children}</>;
 }
 
+interface ClientProfileData {
+  profileCompleted?: boolean;
+}
+
+interface UserData {
+  onboardingCompleted?: boolean;
+}
+
 function ClientLayout({ children }: { children: React.ReactNode }) {
+  const { data: profile, isLoading: profileLoading } = useQuery<ClientProfileData>({
+    queryKey: ["/api/client/profile"],
+    retry: false,
+  });
+  const { data: userData } = useQuery<UserData>({
+    queryKey: ["/api/auth/user"],
+  });
+  const [location] = useLocation();
+
   const sidebarStyle = {
     "--sidebar-width": "16rem",
     "--sidebar-width-icon": "3rem",
   };
+
+  // If profile not completed, redirect to setup (except if already on setup page)
+  if (!profileLoading && profile && !profile.profileCompleted && !location.includes("/client/complete-profile")) {
+    return <Redirect to="/client/complete-profile" />;
+  }
 
   return (
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
@@ -89,15 +116,34 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
+      <OnboardingTour role="client" tourCompleted={userData?.onboardingCompleted} />
     </SidebarProvider>
   );
 }
 
+interface CoachSettings {
+  onboardingCompleted?: boolean;
+}
+
 function CoachLayout({ children }: { children: React.ReactNode }) {
+  const { data: settings, isLoading: settingsLoading } = useQuery<CoachSettings>({
+    queryKey: ["/api/coach/settings"],
+    retry: false,
+  });
+  const { data: userData } = useQuery<UserData>({
+    queryKey: ["/api/auth/user"],
+  });
+  const [location] = useLocation();
+
   const sidebarStyle = {
     "--sidebar-width": "16rem",
     "--sidebar-width-icon": "3rem",
   };
+
+  // If onboarding not completed, redirect to setup (except if already on setup page)
+  if (!settingsLoading && settings && !settings.onboardingCompleted && !location.includes("/coach/setup")) {
+    return <Redirect to="/coach/setup" />;
+  }
 
   return (
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
@@ -116,6 +162,7 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </div>
+      <OnboardingTour role="coach" tourCompleted={userData?.onboardingCompleted} />
     </SidebarProvider>
   );
 }
@@ -145,8 +192,15 @@ function Router() {
       {/* Public routes */}
       <Route path="/" component={PublicHome} />
       <Route path="/intake" component={IntakePage} />
+      <Route path="/forgot-password" component={ForgotPassword} />
+      <Route path="/reset-password" component={ResetPassword} />
 
       {/* Client routes */}
+      <Route path="/client/complete-profile">
+        <ProtectedRoute role="client">
+          <ClientCompleteProfile />
+        </ProtectedRoute>
+      </Route>
       <Route path="/client">
         <ProtectedRoute role="client">
           <ClientLayout>
@@ -198,6 +252,11 @@ function Router() {
       </Route>
 
       {/* Coach routes */}
+      <Route path="/coach/setup">
+        <ProtectedRoute role="coach">
+          <CoachSetup />
+        </ProtectedRoute>
+      </Route>
       <Route path="/coach">
         <ProtectedRoute role="coach">
           <CoachLayout>

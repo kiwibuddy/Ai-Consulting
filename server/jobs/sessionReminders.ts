@@ -2,7 +2,8 @@ import { db } from "../db";
 import { coachingSessions, users, clientProfiles } from "@shared/schema";
 import { eq, and, isNull, gte, lte } from "drizzle-orm";
 import { sendEmail, sessionReminderEmail } from "../lib/email";
-import { format, addHours, subHours } from "date-fns";
+import { shouldSendEmailToClient } from "../lib/notifications";
+import { format, addHours } from "date-fns";
 
 /**
  * Session Reminder Job
@@ -59,6 +60,17 @@ export async function runSessionReminders(): Promise<{
         if (!clientUser || !clientUser.email) {
           console.warn(`[SessionReminders] No user/email found for session ${session.id}`);
           errors++;
+          continue;
+        }
+
+        // Check if client wants email reminders
+        const shouldSendEmail = await shouldSendEmailToClient(clientProfile.userId, "sessionReminders");
+        if (!shouldSendEmail) {
+          console.log(`[SessionReminders] Client ${clientProfile.userId} opted out of email reminders, skipping session ${session.id}`);
+          // Still mark as reminded so we don't keep checking
+          await db.update(coachingSessions)
+            .set({ reminderSentAt: new Date(), updatedAt: new Date() })
+            .where(eq(coachingSessions.id, session.id));
           continue;
         }
 

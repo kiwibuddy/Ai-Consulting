@@ -43,8 +43,28 @@ import { FormSkeleton } from "@/components/loading-skeleton";
 import { TimezoneSelector } from "@/components/timezone-selector";
 import type { ClientProfile } from "@shared/schema";
 import { User, Bell, Shield, Loader2, Trash2, Globe, Calendar, Check, X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useLocation } from "wouter";
+
+// Notification preferences type
+interface NotificationPreference {
+  inApp: boolean;
+  email: boolean;
+}
+
+interface NotificationPreferences {
+  sessionReminders: NotificationPreference;
+  newResources: NotificationPreference;
+  actionItemDue: NotificationPreference;
+  weeklyDigest: NotificationPreference;
+}
+
+const DEFAULT_NOTIF_PREFS: NotificationPreferences = {
+  sessionReminders: { inApp: true, email: true },
+  newResources: { inApp: true, email: true },
+  actionItemDue: { inApp: true, email: true },
+  weeklyDigest: { inApp: true, email: false },
+};
 
 const profileSchema = z.object({
   phone: z.string().optional(),
@@ -64,6 +84,7 @@ export default function ClientProfile() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [location] = useLocation();
+  const [notifPrefs, setNotifPrefs] = useState<NotificationPreferences>(DEFAULT_NOTIF_PREFS);
 
   const { data: profile, isLoading } = useQuery<ClientProfile>({
     queryKey: ["/api/client/profile"],
@@ -72,6 +93,50 @@ export default function ClientProfile() {
   const { data: calendarStatus } = useQuery<CalendarStatus>({
     queryKey: ["/api/calendar/status"],
   });
+
+  // Load notification preferences from profile
+  useEffect(() => {
+    if (profile?.notificationPreferences) {
+      try {
+        const prefs = JSON.parse(profile.notificationPreferences);
+        setNotifPrefs({ ...DEFAULT_NOTIF_PREFS, ...prefs });
+      } catch {
+        // Use defaults if parse fails
+      }
+    }
+  }, [profile]);
+
+  // Mutation to save notification preferences
+  const saveNotifPrefs = useMutation({
+    mutationFn: async (prefs: NotificationPreferences) => {
+      return apiRequest("PATCH", "/api/client/profile", {
+        notificationPreferences: JSON.stringify(prefs),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/client/profile"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to save notification preferences.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Handler to toggle a notification preference
+  const toggleNotifPref = useCallback((key: keyof NotificationPreferences) => {
+    setNotifPrefs((prev) => {
+      const newPrefs = {
+        ...prev,
+        [key]: { ...prev[key], email: !prev[key].email },
+      };
+      // Save to server
+      saveNotifPrefs.mutate(newPrefs);
+      return newPrefs;
+    });
+  }, [saveNotifPrefs]);
 
   const disconnectCalendar = useMutation({
     mutationFn: async () => {
@@ -445,37 +510,60 @@ export default function ClientProfile() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-5 w-5 text-primary" />
-                Notifications
+                Email Notifications
               </CardTitle>
+              <CardDescription>
+                All notifications appear in-app. Toggle which ones should also be sent to your email.
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Session Reminders</p>
-                  <p className="text-xs text-muted-foreground">Get notified before sessions</p>
+                  <p className="text-xs text-muted-foreground">Reminders before scheduled sessions</p>
                 </div>
-                <Switch defaultChecked data-testid="switch-session-reminders" />
+                <Switch
+                  checked={notifPrefs.sessionReminders.email}
+                  onCheckedChange={() => toggleNotifPref("sessionReminders")}
+                  disabled={saveNotifPrefs.isPending}
+                  data-testid="switch-session-reminders"
+                />
               </div>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">New Resources</p>
-                  <p className="text-xs text-muted-foreground">When new resources are shared</p>
+                  <p className="text-xs text-muted-foreground">When your coach shares new materials</p>
                 </div>
-                <Switch defaultChecked data-testid="switch-new-resources" />
+                <Switch
+                  checked={notifPrefs.newResources.email}
+                  onCheckedChange={() => toggleNotifPref("newResources")}
+                  disabled={saveNotifPrefs.isPending}
+                  data-testid="switch-new-resources"
+                />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">Action Item Due</p>
-                  <p className="text-xs text-muted-foreground">Before action items are due</p>
+                  <p className="text-sm font-medium">Action Item Due Dates</p>
+                  <p className="text-xs text-muted-foreground">Reminders when tasks are due</p>
                 </div>
-                <Switch defaultChecked data-testid="switch-action-due" />
+                <Switch
+                  checked={notifPrefs.actionItemDue.email}
+                  onCheckedChange={() => toggleNotifPref("actionItemDue")}
+                  disabled={saveNotifPrefs.isPending}
+                  data-testid="switch-action-due"
+                />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">Email Digest</p>
-                  <p className="text-xs text-muted-foreground">Weekly summary email</p>
+                  <p className="text-sm font-medium">Weekly Digest</p>
+                  <p className="text-xs text-muted-foreground">Weekly summary of your coaching journey</p>
                 </div>
-                <Switch data-testid="switch-email-digest" />
+                <Switch
+                  checked={notifPrefs.weeklyDigest.email}
+                  onCheckedChange={() => toggleNotifPref("weeklyDigest")}
+                  disabled={saveNotifPrefs.isPending}
+                  data-testid="switch-email-digest"
+                />
               </div>
             </CardContent>
           </Card>

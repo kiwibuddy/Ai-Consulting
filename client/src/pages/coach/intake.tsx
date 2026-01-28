@@ -13,7 +13,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { EmptyState } from "@/components/empty-state";
 import { TableSkeleton } from "@/components/loading-skeleton";
@@ -22,10 +21,13 @@ import type { IntakeForm } from "@shared/schema";
 import { UserPlus, Check, X, Mail, Phone, Calendar, Target, Loader2 } from "lucide-react";
 import { useState } from "react";
 
+type DialogMode = "accept" | "decline" | null;
+
 export default function CoachIntake() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedIntake, setSelectedIntake] = useState<IntakeForm | null>(null);
+  const [dialogMode, setDialogMode] = useState<DialogMode>(null);
   const [notes, setNotes] = useState("");
 
   const { data: intakes, isLoading } = useQuery<IntakeForm[]>({
@@ -47,6 +49,7 @@ export default function CoachIntake() {
             : "The intake request has been declined.",
       });
       setSelectedIntake(null);
+      setDialogMode(null);
       setNotes("");
     },
     onError: () => {
@@ -57,6 +60,12 @@ export default function CoachIntake() {
       });
     },
   });
+
+  const closeDialog = () => {
+    setDialogMode(null);
+    setSelectedIntake(null);
+    setNotes("");
+  };
 
   if (isLoading) {
     return (
@@ -139,114 +148,29 @@ export default function CoachIntake() {
 
             {showActions && (
               <div className="flex gap-2 pt-2">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      onClick={() => setSelectedIntake(intake)}
-                      data-testid={`button-accept-${intake.id}`}
-                    >
-                      <Check className="mr-2 h-4 w-4" />
-                      Accept
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Accept Intake Request</DialogTitle>
-                      <DialogDescription>
-                        This will create a new client profile for {intake.firstName} {intake.lastName}.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div>
-                        <label className="text-sm font-medium">Notes (optional)</label>
-                        <Textarea
-                          placeholder="Add any notes about this client..."
-                          value={notes}
-                          onChange={(e) => setNotes(e.target.value)}
-                          className="mt-2"
-                          data-testid="textarea-notes"
-                        />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button
-                        onClick={() =>
-                          updateIntake.mutate({
-                            id: intake.id,
-                            status: "accepted",
-                            coachNotes: notes,
-                          })
-                        }
-                        disabled={updateIntake.isPending}
-                        data-testid="button-confirm-accept"
-                      >
-                        {updateIntake.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Processing...
-                          </>
-                        ) : (
-                          "Confirm & Create Client"
-                        )}
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      onClick={() => setSelectedIntake(intake)}
-                      data-testid={`button-decline-${intake.id}`}
-                    >
-                      <X className="mr-2 h-4 w-4" />
-                      Decline
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Decline Intake Request</DialogTitle>
-                      <DialogDescription>
-                        Are you sure you want to decline this request from {intake.firstName} {intake.lastName}?
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div>
-                        <label className="text-sm font-medium">Reason (optional)</label>
-                        <Textarea
-                          placeholder="Add a reason for declining..."
-                          value={notes}
-                          onChange={(e) => setNotes(e.target.value)}
-                          className="mt-2"
-                          data-testid="textarea-decline-reason"
-                        />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button
-                        variant="destructive"
-                        onClick={() =>
-                          updateIntake.mutate({
-                            id: intake.id,
-                            status: "declined",
-                            coachNotes: notes,
-                          })
-                        }
-                        disabled={updateIntake.isPending}
-                        data-testid="button-confirm-decline"
-                      >
-                        {updateIntake.isPending ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Processing...
-                          </>
-                        ) : (
-                          "Confirm Decline"
-                        )}
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <Button
+                  onClick={() => {
+                    setSelectedIntake(intake);
+                    setDialogMode("accept");
+                    setNotes("");
+                  }}
+                  data-testid={`button-accept-${intake.id}`}
+                >
+                  <Check className="mr-2 h-4 w-4" />
+                  Accept
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedIntake(intake);
+                    setDialogMode("decline");
+                    setNotes("");
+                  }}
+                  data-testid={`button-decline-${intake.id}`}
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Decline
+                </Button>
               </div>
             )}
           </div>
@@ -308,6 +232,107 @@ export default function CoachIntake() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Controlled Accept dialog - stays open while typing notes */}
+      <Dialog open={dialogMode === "accept" && selectedIntake !== null} onOpenChange={(open) => !open && closeDialog()}>
+        <DialogContent>
+          {selectedIntake && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Accept Intake Request</DialogTitle>
+                <DialogDescription>
+                  This will create a new client profile for {selectedIntake.firstName} {selectedIntake.lastName}.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div>
+                  <label className="text-sm font-medium">Notes (optional)</label>
+                  <Textarea
+                    placeholder="Add any notes about this client..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="mt-2"
+                    data-testid="textarea-notes"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  onClick={() =>
+                    updateIntake.mutate({
+                      id: selectedIntake.id,
+                      status: "accepted",
+                      coachNotes: notes,
+                    })
+                  }
+                  disabled={updateIntake.isPending}
+                  data-testid="button-confirm-accept"
+                >
+                  {updateIntake.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Confirm & Create Client"
+                  )}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Controlled Decline dialog */}
+      <Dialog open={dialogMode === "decline" && selectedIntake !== null} onOpenChange={(open) => !open && closeDialog()}>
+        <DialogContent>
+          {selectedIntake && (
+            <>
+              <DialogHeader>
+                <DialogTitle>Decline Intake Request</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to decline this request from {selectedIntake.firstName} {selectedIntake.lastName}?
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div>
+                  <label className="text-sm font-medium">Reason (optional)</label>
+                  <Textarea
+                    placeholder="Add a reason for declining..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="mt-2"
+                    data-testid="textarea-decline-reason"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="destructive"
+                  onClick={() =>
+                    updateIntake.mutate({
+                      id: selectedIntake.id,
+                      status: "declined",
+                      coachNotes: notes,
+                    })
+                  }
+                  disabled={updateIntake.isPending}
+                  data-testid="button-confirm-decline"
+                >
+                  {updateIntake.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Confirm Decline"
+                  )}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

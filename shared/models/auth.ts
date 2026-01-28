@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, jsonb, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
+import { index, jsonb, pgTable, timestamp, varchar, boolean } from "drizzle-orm/pg-core";
 
 // Session storage table (express-session with connect-pg-simple).
 export const sessions = pgTable(
@@ -24,6 +24,12 @@ export const users = pgTable("users", {
   profileImageUrl: varchar("profile_image_url"),
   role: varchar("role").default("client"), // 'client' or 'coach'
   timezone: varchar("timezone").default("UTC"), // IANA timezone e.g. "America/New_York"
+  emailVerified: boolean("email_verified").default(false), // Email verification status
+  verificationToken: varchar("verification_token"), // Token for email verification
+  verificationTokenExpiry: timestamp("verification_token_expiry"), // Token expiry time
+  passwordResetToken: varchar("password_reset_token"), // Token for password reset
+  passwordResetExpiry: timestamp("password_reset_expiry"), // Token expiry time
+  onboardingCompleted: boolean("onboarding_completed").default(false), // Onboarding wizard completed
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
