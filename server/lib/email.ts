@@ -1,0 +1,281 @@
+import { Resend } from "resend";
+
+// Only create Resend client when API key is set (constructor throws otherwise)
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+if (!process.env.RESEND_API_KEY) {
+  console.warn("RESEND_API_KEY not set. Email functionality will be disabled.");
+}
+
+export interface EmailOptions {
+  to: string;
+  subject: string;
+  html: string;
+  from?: string;
+}
+
+export async function sendEmail(options: EmailOptions): Promise<boolean> {
+  if (!resend || !process.env.RESEND_API_KEY) {
+    console.warn("Email not sent - RESEND_API_KEY not configured:", options.subject);
+    return false;
+  }
+
+  try {
+    await resend.emails.send({
+      from: options.from || process.env.RESEND_FROM_EMAIL || "Holger Coaching <noreply@holgercoaching.com>",
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+    });
+    return true;
+  } catch (error) {
+    console.error("Failed to send email:", error);
+    return false;
+  }
+}
+
+// Email Templates
+
+export function intakeSubmittedEmail(coachEmail: string, intakeData: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  goals: string;
+}): EmailOptions {
+  return {
+    to: coachEmail,
+    subject: "New Coaching Intake Form Submitted",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .info-row { margin: 10px 0; }
+            .label { font-weight: bold; color: #3A5A6D; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>New Intake Form Submission</h1>
+            </div>
+            <div class="content">
+              <p>A new coaching intake form has been submitted:</p>
+              <div class="info-row"><span class="label">Name:</span> ${intakeData.firstName} ${intakeData.lastName}</div>
+              <div class="info-row"><span class="label">Email:</span> ${intakeData.email}</div>
+              <div class="info-row"><span class="label">Goals:</span> ${intakeData.goals}</div>
+              <p>Please review the intake form in your coaching dashboard.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function accountCreatedEmail(clientEmail: string, clientName: string): EmailOptions {
+  return {
+    to: clientEmail,
+    subject: "Welcome to Holger Coaching Portal",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Welcome to Holger Coaching!</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${clientName},</p>
+              <p>Great news! Your coaching application has been accepted. You now have access to your personal coaching portal.</p>
+              <p>You can:</p>
+              <ul>
+                <li>View and manage your coaching sessions</li>
+                <li>Access resources and materials</li>
+                <li>Track your action items and progress</li>
+                <li>Communicate with your coach</li>
+              </ul>
+              <p>Log in to get started on your coaching journey!</p>
+              <a href="${process.env.APP_URL || "https://your-app-url.com"}" class="button">Access Your Portal</a>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function sessionScheduledEmail(
+  recipientEmail: string,
+  recipientName: string,
+  sessionData: {
+    title: string;
+    scheduledAt: string;
+    duration: number;
+    meetingLink?: string;
+  },
+  isClient: boolean
+): EmailOptions {
+  const role = isClient ? "Your coach" : "Your client";
+  const action = isClient ? "confirm" : "review";
+  
+  return {
+    to: recipientEmail,
+    subject: isClient 
+      ? `New Session Scheduled: ${sessionData.title}`
+      : `Session Request: ${sessionData.title}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .session-info { background-color: white; padding: 15px; border-radius: 6px; margin: 15px 0; }
+            .info-row { margin: 8px 0; }
+            .label { font-weight: bold; color: #3A5A6D; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>${isClient ? "New Session Scheduled" : "Session Request"}</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${recipientName},</p>
+              <p>${role} has ${isClient ? "scheduled" : "requested"} a coaching session:</p>
+              <div class="session-info">
+                <div class="info-row"><span class="label">Title:</span> ${sessionData.title}</div>
+                <div class="info-row"><span class="label">Date & Time:</span> ${new Date(sessionData.scheduledAt).toLocaleString()}</div>
+                <div class="info-row"><span class="label">Duration:</span> ${sessionData.duration} minutes</div>
+                ${sessionData.meetingLink ? `<div class="info-row"><span class="label">Meeting Link:</span> <a href="${sessionData.meetingLink}">${sessionData.meetingLink}</a></div>` : ""}
+              </div>
+              <p>Please ${action} this session in your coaching portal.</p>
+              <a href="${process.env.APP_URL || "https://your-app-url.com"}" class="button">View Session</a>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function sessionReminderEmail(
+  recipientEmail: string,
+  recipientName: string,
+  sessionData: {
+    title: string;
+    scheduledAt: string;
+    duration: number;
+    meetingLink?: string;
+  }
+): EmailOptions {
+  return {
+    to: recipientEmail,
+    subject: `Reminder: Coaching Session Tomorrow - ${sessionData.title}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .session-info { background-color: white; padding: 15px; border-radius: 6px; margin: 15px 0; }
+            .info-row { margin: 8px 0; }
+            .label { font-weight: bold; color: #3A5A6D; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Session Reminder</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${recipientName},</p>
+              <p>This is a reminder that you have a coaching session scheduled for tomorrow:</p>
+              <div class="session-info">
+                <div class="info-row"><span class="label">Title:</span> ${sessionData.title}</div>
+                <div class="info-row"><span class="label">Date & Time:</span> ${new Date(sessionData.scheduledAt).toLocaleString()}</div>
+                <div class="info-row"><span class="label">Duration:</span> ${sessionData.duration} minutes</div>
+                ${sessionData.meetingLink ? `<div class="info-row"><span class="label">Meeting Link:</span> <a href="${sessionData.meetingLink}">${sessionData.meetingLink}</a></div>` : ""}
+              </div>
+              <p>We look forward to seeing you!</p>
+              <a href="${process.env.APP_URL || "https://your-app-url.com"}" class="button">View Session Details</a>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function resourceUploadedEmail(
+  clientEmail: string,
+  clientName: string,
+  resourceData: {
+    title: string;
+    description?: string;
+  }
+): EmailOptions {
+  return {
+    to: clientEmail,
+    subject: `New Resource Available: ${resourceData.title}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .resource-info { background-color: white; padding: 15px; border-radius: 6px; margin: 15px 0; }
+            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>New Resource Available</h1>
+            </div>
+            <div class="content">
+              <p>Hi ${clientName},</p>
+              <p>Your coach has shared a new resource with you:</p>
+              <div class="resource-info">
+                <h3>${resourceData.title}</h3>
+                ${resourceData.description ? `<p>${resourceData.description}</p>` : ""}
+              </div>
+              <p>You can access this resource in your coaching portal.</p>
+              <a href="${process.env.APP_URL || "https://your-app-url.com"}/client/resources" class="button">View Resources</a>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
