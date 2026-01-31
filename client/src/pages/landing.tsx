@@ -124,7 +124,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="container mx-auto max-w-6xl px-6 md:px-8 h-16 flex items-center justify-between gap-6">
+        <div className="container mx-auto max-w-7xl px-6 md:px-8 h-16 flex items-center justify-between gap-6">
           <a href="#" className="flex items-center gap-3 min-w-0">
             <img
               src="/logo.png"
@@ -166,7 +166,7 @@ export default function LandingPage() {
       {/* Hero – enough top padding so first line is visible below fixed header */}
       <section className="pt-36 pb-16 md:pt-40 md:pb-20 px-6 md:px-8 hero-gradient relative scroll-mt-20" id="hero">
         <div className="absolute inset-0 grain-subtle" />
-        <div className="container mx-auto max-w-5xl relative z-10">
+        <div className="container mx-auto max-w-6xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center pt-2">
             <div className="space-y-6">
               <motion.div
@@ -182,14 +182,14 @@ export default function LandingPage() {
                   StrengthsFinder Certified Coach • 35+ Years Experience
                 </motion.p>
                 <motion.h1
-                  className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
+                  className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
                   variants={heroTextVariants}
                   custom={0.1}
                 >
                   Holger Schein
                 </motion.h1>
                 <motion.p
-                  className="font-serif text-xl md:text-2xl text-muted-foreground"
+                  className="font-serif text-xl md:text-2xl lg:text-3xl text-muted-foreground"
                   variants={heroTextVariants}
                   custom={0.2}
                 >
@@ -197,7 +197,7 @@ export default function LandingPage() {
                   <span className="text-primary">Make it a Best Seller</span>
                 </motion.p>
                 <motion.p
-                  className="text-base text-muted-foreground max-w-md leading-relaxed [text-wrap:balance]"
+                  className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed [text-wrap:balance]"
                   variants={heroTextVariants}
                   custom={0.3}
                 >
@@ -232,11 +232,11 @@ export default function LandingPage() {
               >
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span className="text-xs text-muted-foreground">Free consultation</span>
+                  <span className="text-xs text-muted-foreground">Free Consultation</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 shrink-0" />
-                  <span className="text-xs text-muted-foreground">80% In-Person</span>
+                  <span className="text-xs text-muted-foreground">StrengthsFinder Certified</span>
                 </div>
               </motion.div>
             </div>
@@ -266,7 +266,7 @@ export default function LandingPage() {
 
       {/* How I Help Section */}
       <section id="how-i-help" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
@@ -310,7 +310,7 @@ export default function LandingPage() {
 
       {/* How Coaching Works Section */}
       <section id="how-it-works" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
@@ -361,7 +361,7 @@ export default function LandingPage() {
 
       {/* About Section */}
       <section id="about" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-stretch">
             <motion.div
               className="flex flex-col justify-center space-y-6"
@@ -400,27 +400,15 @@ export default function LandingPage() {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="badge-landing badge-landing-primary">
-                    <Globe className="h-3 w-3" /> International Coach
+                    <MapPin className="h-3 w-3" /> Based in Tauranga, NZ
                   </span>
                   <span className="badge-landing badge-landing-success">
-                    <Award className="h-3 w-3" /> StrengthsFinder Certified
+                    <Globe className="h-3 w-3" /> Serving Internationally
                   </span>
                   <span className="badge-landing badge-landing-secondary">
-                    <Star className="h-3 w-3" /> All 3 Levels
+                    <Coffee className="h-3 w-3" /> Loves Good Coffee
                   </span>
                 </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="badge-landing badge-landing-primary">
-                  <MapPin className="h-3 w-3" /> Based in Tauranga, NZ
-                </span>
-                <span className="badge-landing badge-landing-success">
-                  <Globe className="h-3 w-3" /> Serving Internationally
-                </span>
-                <span className="badge-landing badge-landing-secondary">
-                  <Coffee className="h-3 w-3" /> Loves Good Coffee
-                </span>
               </div>
             </motion.div>
 
@@ -450,7 +438,7 @@ export default function LandingPage() {
 
       {/* Testimonials Section */}
       <section id="testimonials" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
@@ -596,7 +584,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t py-10 px-6 md:px-8">
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">
               <img
