@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { format, isFuture, isToday, startOfToday, endOfWeek, subWeeks, startOfWeek, endOfWeek as endOfWeekFn, isWithinInterval } from "date-fns";
+import { format, isFuture, isToday, startOfToday, endOfWeek, subWeeks, startOfWeek, endOfWeek as endOfWeekFn, isWithinInterval, differenceInDays, addDays } from "date-fns";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -63,9 +63,18 @@ export default function CoachDashboard() {
   const upcomingSessions = sessions?.filter((s) => s.status === "scheduled" && isFuture(new Date(s.scheduledAt))) || [];
   const todaySessions = upcomingSessions.filter((s) => isToday(new Date(s.scheduledAt)));
   const completedSessions = sessions?.filter((s) => s.status === "completed") || [];
+  const nextSession = [...upcomingSessions].sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())[0];
 
   const weekEnd = endOfWeek(startOfToday());
   const thisWeekSessions = upcomingSessions.filter((s) => new Date(s.scheduledAt) <= weekEnd);
+  const next30Days = addDays(startOfToday(), 30);
+  const upcomingNext30Days = upcomingSessions.filter((s) => new Date(s.scheduledAt) <= next30Days);
+
+  // At-a-glance client stats for Active Clients card
+  const clientsWithUpcoming = activeClients.filter((c) => upcomingSessions.some((s) => s.clientId === c.id)).length;
+  const clientsWithRecentSession = activeClients.filter((c) =>
+    completedSessions.some((s) => s.clientId === c.id && differenceInDays(new Date(), new Date(s.scheduledAt)) <= 7)
+  ).length;
 
   // Generate sparkline data for the last 4 weeks of sessions
   const sessionsSparkline = (() => {
@@ -119,19 +128,51 @@ export default function CoachDashboard() {
         <StatCard
           title="Active Clients"
           value={activeClients.length}
+          description={
+            activeClients.length > 0
+              ? `${clientsWithUpcoming} with upcoming · ${clientsWithRecentSession} active in 7 days`
+              : undefined
+          }
           icon={Users}
           href="/coach/clients"
           sparklineData={clientsSparkline}
           index={0}
         />
-        <StatCard
-          title="Today's Sessions"
-          value={todaySessions.length}
-          description={`${thisWeekSessions.length} this week`}
-          icon={Calendar}
-          href="/coach/sessions"
-          index={1}
-        />
+        {nextSession ? (
+          <Link key="next-session" href={`/coach/sessions/${nextSession.id}`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              <Card className="hover-elevate hover-glow transition-all duration-300 cursor-pointer hover:border-primary/50 stat-card-premium h-full">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <p className="text-sm font-medium text-muted-foreground">Next Session</p>
+                      <p className="font-medium truncate">{nextSession.title}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {getClientName(activeClients.find((c) => c.id === nextSession.clientId) || ({} as any))} · {format(new Date(nextSession.scheduledAt), "EEE, MMM d 'at' h:mm a")}
+                      </p>
+                    </div>
+                    <div className="rounded-full bg-primary/10 p-3 shrink-0">
+                      <Calendar className="h-5 w-5 text-primary" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+        ) : (
+          <StatCard
+            title="Next Session"
+            value="—"
+            description="No upcoming sessions"
+            icon={Calendar}
+            href="/coach/sessions"
+            index={1}
+          />
+        )}
         <StatCard
           title="Total Sessions"
           value={sessions?.length || 0}
@@ -189,13 +230,29 @@ export default function CoachDashboard() {
       </AnimatedCard>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Today's Schedule */}
+        {/* Schedule: Today → This Week → Next 30 days so the card is always useful */}
         <AnimatedCard delay={0.5}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
             <div>
-              <CardTitle className="text-lg">Today's Schedule</CardTitle>
-              <CardDescription>{format(new Date(), "EEEE, MMMM d")}</CardDescription>
+              <CardTitle className="text-lg">
+                {todaySessions.length > 0
+                  ? "Today's Schedule"
+                  : thisWeekSessions.length > 0
+                  ? "This Week's Schedule"
+                  : upcomingNext30Days.length > 0
+                  ? "Upcoming (next 30 days)"
+                  : "Schedule"}
+              </CardTitle>
+              <CardDescription>
+                {todaySessions.length > 0
+                  ? format(new Date(), "EEEE, MMMM d")
+                  : thisWeekSessions.length > 0
+                  ? `${format(startOfWeek(new Date()), "MMM d")} – ${format(weekEnd, "MMM d")}`
+                  : upcomingNext30Days.length > 0
+                  ? "Your next sessions"
+                  : "No upcoming sessions"}
+              </CardDescription>
             </div>
             <Link href="/coach/sessions">
               <Button variant="ghost" size="sm" data-testid="button-view-all-sessions">
@@ -205,37 +262,49 @@ export default function CoachDashboard() {
             </Link>
           </CardHeader>
           <CardContent>
-            {todaySessions.length > 0 ? (
-              <div className="space-y-3">
-                {todaySessions.map((session) => (
-                  <Link key={session.id} href={`/coach/sessions/${session.id}`}>
-                    <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover-elevate cursor-pointer">
-                      <div className="rounded-full bg-primary/10 p-2">
-                        <CalendarDays className="h-4 w-4 text-primary" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{session.title}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {format(new Date(session.scheduledAt), "h:mm a")} · {session.duration} min
-                        </p>
-                      </div>
-                      <SessionCountdown 
-                        scheduledAt={session.scheduledAt}
-                        meetingLink={session.meetingLink}
-                        variant="badge"
-                        size="sm"
-                      />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <EmptyState
-                icon={Calendar}
-                title="No sessions today"
-                description="You don't have any sessions scheduled for today."
-              />
-            )}
+            {(() => {
+              const sessionsToShow = todaySessions.length > 0
+                ? todaySessions
+                : thisWeekSessions.length > 0
+                ? thisWeekSessions.sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime())
+                : upcomingNext30Days.length > 0
+                ? upcomingNext30Days.sort((a, b) => new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()).slice(0, 8)
+                : [];
+              if (sessionsToShow.length > 0) {
+                return (
+                  <div className="space-y-3">
+                    {sessionsToShow.map((session) => (
+                      <Link key={session.id} href={`/coach/sessions/${session.id}`}>
+                        <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover-elevate cursor-pointer">
+                          <div className="rounded-full bg-primary/10 p-2">
+                            <CalendarDays className="h-4 w-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">{session.title}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {format(new Date(session.scheduledAt), "EEE, MMM d 'at' h:mm a")} · {session.duration} min
+                            </p>
+                          </div>
+                          <SessionCountdown 
+                            scheduledAt={session.scheduledAt}
+                            meetingLink={session.meetingLink}
+                            variant="badge"
+                            size="sm"
+                          />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                );
+              }
+              return (
+                <EmptyState
+                  icon={Calendar}
+                  title="No upcoming sessions"
+                  description="Schedule a session from Sessions or Quick Actions."
+                />
+              );
+            })()}
           </CardContent>
         </Card>
         </AnimatedCard>

@@ -377,8 +377,8 @@ async function seed() {
       { profile: extraClients[1].profile, userId: (await authStorage.getUserByEmail("jordan@demo.com"))!.id, name: "Jordan Smith", sessionsCount: 8 },
       { profile: extraClients[2].profile, userId: (await authStorage.getUserByEmail("riley@demo.com"))!.id, name: "Riley Davis", sessionsCount: 11 },
       { profile: extraClients[3].profile, userId: (await authStorage.getUserByEmail("sam@demo.com"))!.id, name: "Sam Taylor", sessionsCount: 4 },
-      { profile: extraClients[4].profile, userId: (await authStorage.getUserByEmail("morgan@demo.com"))!.id, name: "Morgan Lee", sessionsCount: 2 },
-      { profile: extraClients[5].profile, userId: (await authStorage.getUserByEmail("casey@demo.com"))!.id, name: "Casey Brown", sessionsCount: 1 },
+      { profile: extraClients[4].profile, userId: (await authStorage.getUserByEmail("morgan@demo.com"))!.id, name: "Morgan Lee", sessionsCount: 3 },
+      { profile: extraClients[5].profile, userId: (await authStorage.getUserByEmail("casey@demo.com"))!.id, name: "Casey Brown", sessionsCount: 2 },
     ];
 
     const sessionTitles = [
@@ -504,6 +504,48 @@ async function seed() {
       createdBy: coach.id,
     });
     console.log("  ✓ Action: Daily journaling (pending)");
+
+    // ----- Action items for other clients (engagement variety for dashboard) -----
+    const actionTemplates = [
+      { title: "Complete StrengthsFinder reflection", status: "completed" as const, dueDaysAgo: 5 },
+      { title: "Send weekly progress update", status: "completed" as const, dueDaysAgo: 2 },
+      { title: "Practice boundary-setting script", status: "in_progress" as const, dueDaysAhead: 3 },
+      { title: "Review leadership 360 feedback", status: "completed" as const, dueDaysAgo: 10 },
+      { title: "Schedule 1:1 with direct report", status: "pending" as const, dueDaysAhead: 7 },
+      { title: "Draft 90-day goals", status: "in_progress" as const, dueDaysAhead: 5 },
+      { title: "Read assigned chapter", status: "completed" as const, dueDaysAgo: 1 },
+      { title: "Prepare agenda for next session", status: "pending" as const, dueDaysAhead: 4 },
+    ];
+    for (let i = 0; i < extraClients.length; i++) {
+      const prof = extraClients[i].profile;
+      const t = actionTemplates[i % actionTemplates.length];
+      const dueDate = t.status === "completed"
+        ? subDays(new Date(), t.dueDaysAgo ?? 5)
+        : addDays(new Date(), t.dueDaysAhead ?? 7);
+      await storage.createActionItem({
+        clientId: prof.id,
+        title: t.title,
+        description: "From coaching session.",
+        dueDate,
+        status: t.status,
+        createdBy: coach.id,
+      });
+    }
+    await storage.createActionItem({
+      clientId: devProfile.id,
+      title: "Update career roadmap draft",
+      status: "completed",
+      dueDate: subDays(new Date(), 3),
+      createdBy: coach.id,
+    });
+    await storage.createActionItem({
+      clientId: devProfile.id,
+      title: "Send follow-up email to sponsor",
+      status: "in_progress",
+      dueDate: addDays(new Date(), 2),
+      createdBy: coach.id,
+    });
+    console.log("  ✓ Action items for other clients (engagement variety)");
 
     // ----- Resources -----
     console.log("\nCreating resources...");

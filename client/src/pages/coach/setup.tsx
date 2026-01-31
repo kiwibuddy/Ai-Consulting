@@ -432,8 +432,8 @@ export default function CoachSetup() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
+    <div className="p-6 max-w-2xl mx-auto">
+      <div className="w-full">
         {/* Progress indicator */}
         <div className="flex items-center justify-center mb-8">
           {[1, 2, 3, 4].map((s) => (

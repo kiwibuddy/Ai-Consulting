@@ -280,7 +280,9 @@ function Router() {
       {/* Coach routes */}
       <Route path="/coach/setup">
         <ProtectedRoute role="coach">
-          <CoachSetup />
+          <CoachLayout>
+            <CoachSetup />
+          </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/coach">
