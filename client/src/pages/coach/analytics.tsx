@@ -113,7 +113,7 @@ export default function CoachAnalytics() {
       <div>
         <h1 className="font-serif text-3xl font-bold tracking-tight">Analytics</h1>
         <p className="text-muted-foreground">
-          Track your coaching practice performance and growth.
+          Track your consulting practice performance and growth.
         </p>
       </div>
 

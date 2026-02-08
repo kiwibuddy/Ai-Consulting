@@ -57,7 +57,7 @@ export default function ClientResources() {
       <div>
         <h1 className="font-serif text-3xl font-bold tracking-tight">Resources</h1>
         <p className="text-muted-foreground">
-          Access your coaching materials and documents.
+          Access your consulting materials and documents.
         </p>
       </div>
 
@@ -150,7 +150,7 @@ export default function ClientResources() {
               description={
                 search || filterType !== "all"
                   ? "Try adjusting your search or filters."
-                  : "Resources shared by your coach will appear here."
+                  : "Resources shared by your consultant will appear here."
               }
             />
           </CardContent>

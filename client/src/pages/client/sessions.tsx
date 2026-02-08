@@ -107,7 +107,7 @@ export default function ClientSessions() {
       queryClient.invalidateQueries({ queryKey: ["/api/client/sessions"] });
       toast({
         title: "Session Requested",
-        description: "Your session request has been sent to your coach for confirmation.",
+        description: "Your session request has been sent to your consultant for confirmation.",
       });
       form.reset();
       setDialogOpen(false);
@@ -234,7 +234,7 @@ export default function ClientSessions() {
                 className="text-xs"
               >
                 {session.status === "pending_confirmation" 
-                  ? (session.requestedBy === "coach" ? "Awaiting Your Confirmation" : "Pending Coach Approval")
+                  ? (session.requestedBy === "coach" ? "Awaiting Your Confirmation" : "Pending Consultant Approval")
                   : session.status
                 }
               </Badge>
@@ -302,7 +302,7 @@ export default function ClientSessions() {
         <div>
           <h1 className="font-serif text-3xl font-bold tracking-tight">Sessions</h1>
           <p className="text-muted-foreground flex items-center gap-2">
-            View and manage your coaching sessions.
+            View and manage your consulting sessions.
             <Badge variant="outline" className="text-xs">
               <Globe className="h-3 w-3 mr-1" />
               {userTimezone}
@@ -339,7 +339,7 @@ export default function ClientSessions() {
               <DialogHeader>
                 <DialogTitle>Request a Session</DialogTitle>
                 <DialogDescription>
-                  Submit a session request for your coach to confirm.
+                  Submit a session request for your consultant to confirm.
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
@@ -477,7 +477,7 @@ export default function ClientSessions() {
                     <EmptyState
                       icon={Calendar}
                       title="No upcoming sessions"
-                      description="Request a session to get started on your coaching journey."
+                      description="Request a session to get started on your consulting journey."
                       actionLabel="Request Session"
                       onAction={() => setDialogOpen(true)}
                     />
@@ -526,7 +526,7 @@ export default function ClientSessions() {
           coachTimezone={coachTimezone}
           requestedBy="client"
           clientName="You"
-          coachName="Coach"
+          coachName="Consultant"
         />
       )}
 
@@ -546,7 +546,7 @@ export default function ClientSessions() {
           coachTimezone={coachTimezone}
           requestedBy="coach"
           clientName="You"
-          coachName="Coach"
+          coachName="Consultant"
         />
       )}
     </div>

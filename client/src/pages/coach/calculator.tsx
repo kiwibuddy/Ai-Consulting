@@ -95,7 +95,7 @@ export default function CoachCalculator() {
                   data-testid="slider-hourly-rate"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Your base hourly coaching rate
+                  Your base hourly consulting rate
                 </p>
               </div>
 

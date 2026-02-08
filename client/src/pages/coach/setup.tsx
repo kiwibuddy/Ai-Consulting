@@ -163,7 +163,7 @@ export default function CoachSetup() {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({
         title: "Setup Complete!",
-        description: "Your profile is ready. Let's start coaching!",
+        description: "Your profile is ready. Let's start consulting!",
       });
       navigate("/coach");
     },
@@ -264,7 +264,7 @@ export default function CoachSetup() {
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     rows={4}
-                    placeholder="Tell clients about your coaching approach..."
+                    placeholder="Tell clients about your consulting approach..."
                   />
                   <p className="text-xs text-muted-foreground">This will be visible to clients on your profile.</p>
                 </div>
@@ -387,7 +387,7 @@ export default function CoachSetup() {
               Color theme
             </CardTitle>
             <CardDescription>
-              Choose how your portal looks. This applies to your coach view; clients can set their own theme in Profile.
+              Choose how your portal looks. This applies to your consultant view; clients can set their own theme in Profile.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -407,7 +407,7 @@ export default function CoachSetup() {
               Data & account
             </CardTitle>
             <CardDescription>
-              Client data and coaching journey export or removal
+              Client data and consulting journey export or removal
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -417,7 +417,7 @@ export default function CoachSetup() {
                 Client data
               </h4>
               <p className="text-sm text-muted-foreground">
-                To export a client&apos;s coaching journey or remove client information, go to <strong>Clients</strong> → select the client → open their profile. Use the options there to export their data or remove them from your practice. This keeps data actions in context and follows common practice for coach/client hubs.
+                To export a client&apos;s consulting journey or remove client information, go to <strong>Clients</strong> → select the client → open their profile. Use the options there to export their data or remove them from your practice. This keeps data actions in context and follows common practice for consultant/client hubs.
               </p>
             </div>
           </CardContent>
@@ -469,7 +469,7 @@ export default function CoachSetup() {
               {step === 4 && "You're all set!"}
             </CardTitle>
             <CardDescription>
-              {step === 1 && "Tell us about your coaching practice"}
+              {step === 1 && "Tell us about your consulting practice"}
               {step === 2 && "How can clients reach you?"}
               {step === 3 && "Set your timezone and default rates"}
               {step === 4 && "Review your setup and get started"}
@@ -495,7 +495,7 @@ export default function CoachSetup() {
                   <Label htmlFor="bio">About You / Your Practice</Label>
                   <Textarea
                     id="bio"
-                    placeholder="Tell clients about your coaching approach, experience, and what makes you unique..."
+                    placeholder="Tell clients about your consulting approach, experience, and what makes you unique..."
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     rows={5}
@@ -676,7 +676,7 @@ export default function CoachSetup() {
               Color theme
             </CardTitle>
             <CardDescription>
-              Choose how your portal looks. This applies to your coach view; clients can set their own theme in Profile.
+              Choose how your portal looks. This applies to your consultant view; clients can set their own theme in Profile.
             </CardDescription>
           </CardHeader>
           <CardContent>

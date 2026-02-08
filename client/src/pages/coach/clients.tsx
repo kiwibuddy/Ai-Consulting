@@ -80,7 +80,7 @@ export default function CoachClients() {
         <div>
           <h1 className="font-serif text-3xl font-bold tracking-tight">Clients</h1>
           <p className="text-muted-foreground">
-            Manage your coaching clients.
+            Manage your consulting clients.
           </p>
         </div>
         <Link href="/coach/intake">

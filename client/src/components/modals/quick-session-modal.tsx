@@ -112,7 +112,7 @@ export function QuickSessionModal({ open, onOpenChange }: QuickSessionModalProps
             Quick Schedule Session
           </DialogTitle>
           <DialogDescription>
-            Quickly schedule a new coaching session.
+            Quickly schedule a new consulting session.
           </DialogDescription>
         </DialogHeader>
 

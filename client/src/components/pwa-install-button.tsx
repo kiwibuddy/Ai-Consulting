@@ -22,7 +22,7 @@ export function PWAInstallButton({
     if (success) {
       toast({
         title: "App Installed",
-        description: "Holger Coaching has been added to your home screen.",
+        description: "Nathaniel Baldock AI Consulting has been added to your home screen.",
       });
     }
   };
@@ -75,7 +75,7 @@ export function PWAInstallBanner() {
     if (success) {
       toast({
         title: "App Installed",
-        description: "Holger Coaching has been added to your home screen.",
+        description: "Nathaniel Baldock AI Consulting has been added to your home screen.",
       });
     }
   };

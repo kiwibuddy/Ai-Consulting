@@ -37,9 +37,9 @@ const ASSESSMENT_OPTIONS = [
 
 const NOTIFICATION_TYPES = [
   { id: "sessionReminders", label: "Session Reminders", description: "Reminders before scheduled sessions" },
-  { id: "newResources", label: "New Resources", description: "When your coach shares new materials" },
+  { id: "newResources", label: "New Resources", description: "When your consultant shares new materials" },
   { id: "actionItemDue", label: "Action Item Due Dates", description: "Reminders when tasks are due" },
-  { id: "weeklyDigest", label: "Weekly Digest", description: "Weekly summary of your coaching journey" },
+  { id: "weeklyDigest", label: "Weekly Digest", description: "Weekly summary of your consulting journey" },
 ];
 
 interface ClientProfile {
@@ -190,7 +190,7 @@ export default function ClientCompleteProfile() {
       queryClient.invalidateQueries({ queryKey: ["/api/client/profile"] });
       toast({
         title: "Profile Complete!",
-        description: "Welcome to your coaching portal!",
+        description: "Welcome to your consulting portal!",
       });
       navigate("/client");
     },
@@ -310,7 +310,7 @@ export default function ClientCompleteProfile() {
             <CardDescription>
               {step === 1 && "Create a secure password for your account"}
               {step === 2 && "Tell us a bit about yourself"}
-              {step === 3 && "Share your coaching background (optional)"}
+              {step === 3 && "Share your background (optional)"}
               {step === 4 && "Choose how you'd like to be notified"}
             </CardDescription>
           </CardHeader>
@@ -408,7 +408,7 @@ export default function ClientCompleteProfile() {
                   <Label htmlFor="previousCoaching">Previous Coaching Experience</Label>
                   <Textarea
                     id="previousCoaching"
-                    placeholder="Have you worked with a coach before? What was helpful?"
+                    placeholder="Have you worked with a consultant before? What was helpful?"
                     value={previousCoaching}
                     onChange={(e) => setPreviousCoaching(e.target.value)}
                     rows={3}
@@ -447,7 +447,7 @@ export default function ClientCompleteProfile() {
                     <Label htmlFor="assessmentResults">Assessment Results</Label>
                     <Textarea
                       id="assessmentResults"
-                      placeholder="Share your results. For example: StrengthsFinder Top 5: Achiever, Learner, Input, Strategic, Ideation. DISC Type: D/I."
+                      placeholder="Share any relevant background—organisation type, sector, or prior AI/consulting experience."
                       value={assessmentResults}
                       onChange={(e) => setAssessmentResults(e.target.value)}
                       rows={3}

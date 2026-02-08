@@ -3,6 +3,16 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
+  safelist: [
+    // Card gradient backgrounds — keep in CSS so they never disappear
+    "bg-gradient-to-br",
+    "from-amber-100/80", "via-orange-50/50", "dark:from-amber-950/40", "dark:via-orange-950/20",
+    "from-sky-100/80", "via-blue-50/50", "dark:from-sky-950/40", "dark:via-blue-950/20",
+    "from-emerald-100/80", "via-teal-50/50", "dark:from-emerald-950/40", "dark:via-teal-950/20",
+    "from-violet-100/80", "via-purple-50/50", "dark:from-violet-950/40", "dark:via-purple-950/20",
+    "from-rose-100/80", "via-pink-50/50", "dark:from-rose-950/40", "dark:via-pink-950/20",
+    "from-cyan-100/80", "via-sky-50/50", "dark:from-cyan-950/40", "dark:via-sky-950/20",
+  ],
   theme: {
     extend: {
       borderRadius: {

@@ -1,161 +1,269 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DemoLoginDialog } from "@/components/demo-login-dialog";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
 import {
   fadeUpVariants,
   staggerContainerVariants,
   staggerItemVariants,
-  floatVariants,
   heroTextVariants,
-  scrollViewport,
 } from "@/lib/animations";
 import {
-  Target,
   ArrowRight,
   CheckCircle,
-  Users,
-  Star,
   Globe,
-  Award,
-  Coffee,
   MapPin,
-  Calendar,
   MessageCircle,
-  Compass,
-  TrendingUp,
+  Church,
+  GraduationCap,
+  Heart,
+  UserCheck,
+  FileText,
+  Image as ImageIcon,
+  Video,
+  Mail,
+  LayoutDashboard,
+  Smartphone,
+  Briefcase,
+  BookOpen,
+  Shield,
+  Rocket,
+  Handshake,
 } from "lucide-react";
 
-// How I Help services
-const services = [
+const landingViewport = { once: true, margin: "-80px", amount: 0.15 as const };
+
+// Who I Help (four categories)
+const whoIHelp = [
   {
-    icon: Target,
-    title: "StrengthsFinder Coaching",
-    description: "Discover your unique talents and learn how to leverage them for meaningful impact in work and life.",
+    icon: Church,
+    title: "Faith & Mission Organisations",
+    description:
+      "Churches, denominational networks, training schools, global missions. Scripture-safe AI, theological content, leadership development, donor communication.",
   },
   {
-    icon: Compass,
-    title: "Life Transitions",
-    description: "Navigate career changes, new seasons, and major decisions with clarity and confidence.",
+    icon: GraduationCap,
+    title: "Education",
+    description:
+      "Schools, training organisations, curriculum developers. Student engagement, teacher workload reduction, accessibility and multilingual education.",
   },
   {
-    icon: TrendingUp,
-    title: "Leadership Development",
-    description: "Grow in emotional awareness and maturity to lead with greater effectiveness and authenticity.",
+    icon: Heart,
+    title: "Nonprofits & NGOs",
+    description:
+      "Programme delivery teams, humanitarian orgs, social enterprises. Impact reporting, grant writing, beneficiary storytelling, donor engagement.",
+  },
+  {
+    icon: UserCheck,
+    title: "Individuals & Leaders",
+    description:
+      "Senior leaders, pastors, educators, founders. Personal AI systems for thinking and decision-making; strategic planning and research synthesis.",
   },
 ];
 
-// How Coaching Works steps
-const coachingSteps = [
+// Six AI Categories
+const coreAICategories = [
   {
-    number: 1,
-    title: "Initial Inquiry",
-    description: "Fill out the intake form. I'll review and reach out within 48 hours.",
+    icon: FileText,
+    title: "Text",
+    subtitle: "Knowledge, Writing, Decision Support",
+    whatItLooksLike: [
+      "Internal AI copilots trained on your documents",
+      "Policy, curriculum, sermon, and training assistants",
+      "Scripture-safe, theologically aware content systems",
+    ],
+    heroStatement: "Clear thinking at the speed of leadership.",
   },
   {
-    number: 2,
-    title: "Meet & Greet",
-    description: "A conversation to see if we're a good fit—about relationship, not sales.",
+    icon: ImageIcon,
+    title: "Image",
+    subtitle: "Visuals with Integrity",
+    whatItLooksLike: [
+      "Brand-safe image generation for education and comms",
+      "Curriculum and presentation visuals",
+      "Clear guardrails for ethical and cultural use",
+    ],
+    heroStatement: "Creativity without compromise.",
   },
   {
-    number: 3,
-    title: "In-Person Sessions",
-    description: "80% face-to-face in Tauranga or your location. Real connection.",
-    highlighted: true,
+    icon: Video,
+    title: "Video",
+    subtitle: "Training & Teaching at Scale",
+    whatItLooksLike: [
+      "AI-assisted teaching and training workflows",
+      "Course creation from existing talks",
+      "Multilingual and accessibility-aware systems",
+    ],
+    heroStatement: "Teach once. Multiply responsibly.",
   },
   {
-    number: 4,
-    title: "Reflect & Grow",
-    description: "Reflect on insights, set action items. Your portal tracks everything.",
+    icon: Mail,
+    title: "Marketing",
+    subtitle: "Messaging that Serves, Not Manipulates",
+    whatItLooksLike: [
+      "Values-aligned messaging systems",
+      "Newsletter, donor, and community comms",
+      "Website and campaign copy support",
+    ],
+    heroStatement: "Clarity builds credibility.",
+  },
+  {
+    icon: LayoutDashboard,
+    title: "Web",
+    subtitle: "Dashboards & Practical Tools",
+    whatItLooksLike: [
+      "Internal dashboards and trackers",
+      "Knowledge portals for staff or students",
+      "AI-assisted compliance and reporting tools",
+    ],
+    heroStatement: "Useful beats impressive.",
+  },
+  {
+    icon: Smartphone,
+    title: "App",
+    subtitle: "Purpose-Driven Products",
+    whatItLooksLike: [
+      "AI product strategy and PRDs",
+      "Feature prioritisation grounded in real users",
+      "Education and faith-based app consulting",
+    ],
+    heroStatement: "Build what matters. Leave the rest.",
   },
 ];
 
-// Testimonials
-const testimonials = [
+// Why work with me — 3 compelling reasons (from Landing-Page-Updated-Content.md)
+const whyWorkWithMe = {
+  values: [
+    "20+ years in global missions, biblical education, and cross-cultural program development—not corporate tech.",
+    "Theological and ethical guardrails are non-negotiable; safeguarding for vulnerable populations built in from day one.",
+    "Your data stays private; your context and values shape every system—no compromise on trust or doctrine.",
+  ],
+  delivery: [
+    "High relationship and personalisation: your unique roadblocks, bottlenecks, and needs drive the entire engagement.",
+    "Experience leading teams across 15+ countries and running flagship leadership courses (400+ graduates, University of the Nations).",
+    "Strategy to shipped product—from discovery to App Store; training and handoff so you own the capability.",
+  ],
+  access: [
+    "No static playbooks: solutions are completely adapted by the newest AI tools and your organisation's reality.",
+    "We design around your capacity, your constraints, and the tools that will serve you next year—not last year's template.",
+    "NZ + Global (Zoom); in-person where possible; nonprofit and faith-based discounts available.",
+  ],
+};
+
+const portfolioItems = [
   {
-    name: "James Mitchell",
-    role: "CEO, Tech Startup",
-    location: "Auckland",
-    content: "Holger helped me see my blind spots as a leader. His StrengthsFinder work revealed why I was burning out—I was leading from my weaknesses instead of my strengths. After 6 months, my team engagement scores are up 40%.",
-    category: "Corporate Leadership",
-    categoryColor: "primary",
+    title: "SourceView Together",
+    type: "Mobile Bible App · iOS & Android",
+    year: "2024",
+    impact:
+      "Full-stack React Native app with Bluetooth sync. Live on App Store & Google Play.",
+    icon: Smartphone,
   },
   {
-    name: "Pastor David Taufa",
-    role: "Senior Pastor",
-    location: "Tauranga",
-    content: "After 20 years in ministry, I was burning out. Holger's patient, relational approach helped me rediscover my purpose. His cross-cultural experience meant he truly understood Pacific Island church leadership.",
-    category: "Church Leadership",
-    categoryColor: "success",
+    title: "Kingdom Vocations Platform",
+    type: "Web Application · Course Delivery",
+    year: "2024",
+    impact: "8-module curriculum platform with student portal. Scalable for global delivery.",
+    icon: GraduationCap,
   },
   {
-    name: "Rachel Wong",
-    role: "Business Owner",
-    location: "Wellington",
-    content: "The StrengthsFinder work transformed how I build my team. I used to hire people just like me—now I understand complementary strengths. Holger doesn't just coach; he genuinely cares about your growth.",
-    category: "Small Business",
-    categoryColor: "secondary",
+    title: "Coaching Portal",
+    type: "Web Application · SaaS",
+    year: "2024",
+    impact: "Client/coach management with intake, sessions, resources. Mobile-first PWA.",
+    icon: LayoutDashboard,
   },
   {
-    name: "Mark Stevens",
-    role: "Career Transition",
-    location: "Christchurch",
-    content: "During my career transition at 45, Holger helped me see this wasn't a crisis—it was an opportunity. His emotional maturity framework gave me language for feelings I couldn't articulate.",
-    category: "Life Transition",
-    categoryColor: "primary",
+    title: "SourceView Bible",
+    type: "Mobile App · Research",
+    year: "2013–2016",
+    impact: "$500K+ digital transformation. 200+ contributors, presented to 4,000+.",
+    icon: BookOpen,
   },
 ];
 
-// Pricing tiers
-const pricingTiers = [
-  { label: "Corporate", amount: "$$$" },
-  { label: "Small Business", amount: "$$" },
-  { label: "Individual/Church", amount: "$" },
-];
+/* Tighter, industry-standard section spacing; wider content for better screen fill */
+const sectionPadding = "py-12 md:py-16 px-6 md:px-8";
+const sectionTitleMargin = "mb-6 md:mb-8";
+const contentMax = "max-w-7xl";
 
-/** Section spacing and scroll-margin so fixed header doesn’t cover section titles. */
-const sectionPadding = "py-16 md:py-20 px-6 md:px-8";
-const sectionTitleMargin = "mb-10";
+// Inline gradient backgrounds so card colors never disappear (not dependent on Tailwind purge)
+const cardGradientStyles: { background: string }[] = [
+  { background: "linear-gradient(to bottom right, rgba(254,243,199,0.8), rgba(255,247,237,0.5), transparent)" },
+  { background: "linear-gradient(to bottom right, rgba(224,242,254,0.8), rgba(239,246,255,0.5), transparent)" },
+  { background: "linear-gradient(to bottom right, rgba(209,250,229,0.8), rgba(240,253,250,0.5), transparent)" },
+  { background: "linear-gradient(to bottom right, rgba(237,233,254,0.8), rgba(250,245,255,0.5), transparent)" },
+  { background: "linear-gradient(to bottom right, rgba(255,228,230,0.8), rgba(253,242,248,0.5), transparent)" },
+  { background: "linear-gradient(to bottom right, rgba(207,250,254,0.8), rgba(240,249,255,0.5), transparent)" },
+];
+const getCardGradientStyle = (i: number) => cardGradientStyles[i % cardGradientStyles.length];
+
+// Why work with me: 3 cards to show by index (scroll-driven)
+const whyWorkCards = [
+  { key: "values", gradient: 0, icon: Shield, title: "Values & safeguarding", bullets: (whyWorkWithMe as { values: string[] }).values },
+  { key: "relationship", gradient: 1, icon: Handshake, title: "Relationship & personalisation", bullets: (whyWorkWithMe as { delivery: string[] }).delivery },
+  { key: "adaptive", gradient: 2, icon: Rocket, title: "Adaptive by design", bullets: (whyWorkWithMe as { access: string[] }).access },
+] as const;
 
 export default function LandingPage() {
+  const whySectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: whySectionRef,
+    offset: ["start start", "end start"],
+  });
+  const [activeWhyCard, setActiveWhyCard] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const index = Math.min(2, Math.floor(latest * 3));
+    setActiveWhyCard(index);
+  });
+
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      {/* Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="container mx-auto max-w-7xl px-6 md:px-8 h-16 flex items-center justify-between gap-6">
+    <div className="min-h-screen bg-background overflow-x-hidden text-foreground font-sans">
+      {/* Nav — API-style minimal */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background backdrop-blur-xl isolate">
+        <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
           <a href="#" className="flex items-center gap-3 min-w-0">
-            <img
-              src="/logo.png"
-              alt="Holger Schein Coaching"
-              className="h-14 w-auto flex-shrink-0"
-            />
+            <img src="/logo.png" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
             <div className="hidden sm:block min-w-0">
-              <span className="font-serif text-lg font-bold leading-tight block">Holger Schein</span>
-              <span className="text-[11px] text-muted-foreground block">Life Coaching & StrengthsFinder</span>
+              <span className="text-base font-semibold tracking-tight block">Nathaniel Baldock</span>
+              <span className="text-[11px] text-muted-foreground block">AI Consulting</span>
             </div>
           </a>
-          <nav className="hidden md:flex items-center gap-1 flex-shrink-0">
-            <a href="#how-i-help" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
-              How I Help
+          <nav className="hidden md:flex items-center gap-6 flex-shrink-0">
+            <a href="#who-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Who I help
             </a>
-            <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
-              About
+            <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Services
             </a>
-            <a href="#testimonials" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
-              Testimonials
+            <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Portfolio
             </a>
-            <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
-              Pricing
+            <a href="#get-started" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Get started
             </a>
           </nav>
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <ThemeToggle />
             <DemoLoginDialog />
             <Link href="/intake">
-              <Button size="sm" data-testid="button-get-started">
-                Get Started
+              <Button
+                size="sm"
+                variant="secondary"
+                className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+                data-testid="button-get-started"
+              >
+                Request a consultation
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </Button>
             </Link>
@@ -163,451 +271,427 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero – enough top padding so first line is visible below fixed header */}
-      <section className="pt-36 pb-16 md:pt-40 md:pb-20 px-6 md:px-8 hero-gradient relative scroll-mt-20" id="hero">
-        <div className="absolute inset-0 grain-subtle" />
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center pt-2">
-            <div className="space-y-6">
-              <motion.div
-                className="space-y-5"
-                initial="hidden"
-                animate="visible"
-              >
-                <motion.p
-                  className="text-primary font-semibold text-xs uppercase tracking-wider"
+      {/* Hero — API-style: one H1, one subline, two CTAs; subtle gradient */}
+      <section className={`pt-24 pb-16 md:pt-32 md:pb-20 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-amber-50/30 dark:via-amber-950/20 to-background overflow-hidden`} id="hero">
+        <div className={`container mx-auto ${contentMax} relative`}>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
+            <div className="space-y-8">
+              <motion.div className="space-y-6" initial="hidden" animate="visible">
+                <motion.h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.1] text-foreground"
                   variants={heroTextVariants}
                   custom={0}
                 >
-                  StrengthsFinder Certified Coach • 35+ Years Experience
-                </motion.p>
-                <motion.h1
-                  className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight"
+                  AI Consulting Grounded in 20+ Years of Global Mission Work
+                </motion.h1>
+                <motion.p
+                  className="text-xl md:text-2xl text-muted-foreground tracking-tight [text-wrap:balance] max-w-md"
                   variants={heroTextVariants}
                   custom={0.1}
                 >
-                  Holger Schein
-                </motion.h1>
-                <motion.p
-                  className="font-serif text-xl md:text-2xl lg:text-3xl text-muted-foreground"
-                  variants={heroTextVariants}
-                  custom={0.2}
-                >
-                  Life is Your Story:{" "}
-                  <span className="text-primary">Make it a Best Seller</span>
-                </motion.p>
-                <motion.p
-                  className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed [text-wrap:balance]"
-                  variants={heroTextVariants}
-                  custom={0.3}
-                >
-                  I help leaders and individuals grow in self-awareness and emotional maturity
-                  through internationally recognized coaching, specializing in StrengthsFinder,
-                  life transitions, and cross-cultural leadership development.
+                  Strategy, training, and advisory for faith, education, and impact. NZ + Global.
                 </motion.p>
               </motion.div>
               <motion.div
                 className="flex flex-col sm:flex-row gap-4"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
               >
-                <a href="#meet-greet">
-                  <Button className="w-full sm:w-auto" data-testid="button-hero-cta">
-                    Schedule a Meet & Greet
+                <Link href="/intake">
+                  <Button
+                    variant="secondary"
+                    className="w-full sm:w-auto rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+                    size="lg"
+                    data-testid="button-hero-cta"
+                  >
+                    Request a consultation
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </a>
-                <a href="#how-i-help">
-                  <Button variant="outline" className="w-full sm:w-auto" data-testid="button-learn-more">
-                    Learn More
+                </Link>
+                <a href="#who-i-help">
+                  <Button variant="ghost" className="w-full sm:w-auto text-muted-foreground" data-testid="button-learn-more">
+                    See how I help
                   </Button>
                 </a>
               </motion.div>
-              <motion.div
-                className="flex items-center gap-6 pt-1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
-              >
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span className="text-xs text-muted-foreground">Free Consultation</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 shrink-0" />
-                  <span className="text-xs text-muted-foreground">StrengthsFinder Certified</span>
-                </div>
-              </motion.div>
             </div>
             <motion.div
-              className="relative hidden lg:block lg:pl-4"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+              className="relative hidden lg:block z-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
             >
-              <div className="absolute -inset-3 bg-gradient-to-r from-primary/20 to-primary/5 rounded-2xl blur-2xl" />
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] isolate">
                 <img
-                  src="/hero-inspiration.jpg"
-                  alt="Person walking confidently through a city - living their best story"
-                  className="w-full h-[400px] object-cover"
+                  src="/hero.jpg?v=2"
+                  alt="Nathaniel Baldock — AI consulting for faith, education and impact"
+                  className="w-full h-full object-cover relative"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                  <p className="text-sm font-medium opacity-90 mb-1">Transformative Coaching</p>
-                  <p className="text-xs opacity-75">Helping leaders discover their strengths and unlock their potential</p>
-                </div>
               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* How I Help Section */}
-      <section id="how-i-help" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>
-        <div className="container mx-auto max-w-6xl">
+      {/* Who I help — 4 Cards with soft gradient backgrounds (OpenAI-style) */}
+      <section id="who-i-help" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
+        <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
             whileInView="visible"
-            viewport={scrollViewport}
+            viewport={landingViewport}
             variants={fadeUpVariants}
           >
-            <p className="text-primary font-medium text-xs uppercase tracking-wider mb-1">
-              Services
-            </p>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-              How I Help
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Who I help.
             </h2>
-            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Personalized coaching that meets you where you are
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Faith, education, nonprofit, and mission-driven teams.
             </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-3 gap-6 md:gap-8"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
             initial="hidden"
             whileInView="visible"
-            viewport={scrollViewport}
+            viewport={landingViewport}
             variants={staggerContainerVariants}
           >
-            {services.map((service, i) => (
-              <motion.div key={i} variants={staggerItemVariants}>
-                <Card className="h-full card-premium group">
-                  <CardContent className="p-5 md:p-6">
-                    <div className="rounded-lg bg-primary/10 p-2.5 w-fit mb-4 group-hover:bg-primary/20 transition-colors">
-                      <service.icon className="h-5 w-5 text-primary" />
+            {whoIHelp.map((item, i) => (
+              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
+                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
+                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                  <CardHeader>
+                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                      <item.icon className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <h3 className="font-semibold text-base mb-2">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-                  </CardContent>
+                    <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
+                    <CardDescription className="text-sm leading-relaxed">{item.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter className="mt-auto pt-0">
+                    <a href="#services" className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1">
+                      Learn more
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </CardFooter>
                 </Card>
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* How Coaching Works Section */}
-      <section id="how-it-works" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-6xl">
+      {/* Six AI categories — 6 Cards with pastel gradient backgrounds (OpenAI-style) */}
+      <section id="services" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-amber-50/20 dark:via-amber-950/10 to-background`}>
+        <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
             whileInView="visible"
-            viewport={scrollViewport}
+            viewport={landingViewport}
             variants={fadeUpVariants}
           >
-            <p className="text-primary font-medium text-xs uppercase tracking-wider mb-1">
-              The Process
-            </p>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-              How Coaching Works
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Six AI categories — designed for your context, grounded in your values.
             </h2>
-            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              A relational journey focused on your growth—80% of sessions happen in-person
-            </p>
           </motion.div>
           <motion.div
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
             initial="hidden"
             whileInView="visible"
-            viewport={scrollViewport}
+            viewport={landingViewport}
             variants={staggerContainerVariants}
           >
-            {coachingSteps.map((step, i) => (
-              <motion.div key={i} variants={staggerItemVariants}>
-                <Card className={`h-full text-center ${step.highlighted ? "border-primary border-2" : ""}`}>
-                  <CardContent className="p-4 md:p-5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground flex items-center justify-center text-lg font-bold mx-auto mb-3">
-                      {step.number}
+            {coreAICategories.map((cat, i) => (
+              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
+                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
+                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                  <CardHeader>
+                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                      <cat.icon className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <h4 className="font-semibold text-sm mb-1.5">{step.title}</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{step.description}</p>
-                    {step.highlighted && (
-                      <div className="mt-3">
-                        <span className="text-[10px] font-medium text-primary bg-primary/10 px-2 py-1 rounded">
-                          Primary Format
-                        </span>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-stretch">
-            <motion.div
-              className="flex flex-col justify-center space-y-6"
-              initial="hidden"
-              whileInView="visible"
-              viewport={scrollViewport}
-              variants={fadeUpVariants}
-            >
-              <div>
-                <p className="text-primary font-medium text-xs uppercase tracking-wider mb-2">About Me</p>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-                  Your Story Matters. Let's Make It Count.
-                </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                  I've spent over 35 years working across cultures—from Europe to the Pacific Islands—helping
-                  people discover who they truly are and who they're becoming.
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  <strong className="text-foreground">Change happens in relationship.</strong> That's why 80% of my coaching
-                  happens in-person. There's something about sitting across from someone, looking them in
-                  the eye, and walking alongside them that video calls simply can't replicate.
-                </p>
-              </div>
-
-              <div className="h-px bg-border" />
-
-              <div>
-                <h3 className="font-semibold text-base mb-3">
-                  35+ Years of International Experience
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                  I bring decades of multi-cultural experience working with individuals and teams
-                  within and outside NGO settings. As a fully trained StrengthsFinder coach
-                  (Individual Top 5, Couples/Team Coaching, and all 34 Talent Coaching), I help
-                  people understand themselves deeply and relate differently to others.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="badge-landing badge-landing-primary">
-                    <MapPin className="h-3 w-3" /> Based in Tauranga, NZ
-                  </span>
-                  <span className="badge-landing badge-landing-success">
-                    <Globe className="h-3 w-3" /> Serving Internationally
-                  </span>
-                  <span className="badge-landing badge-landing-secondary">
-                    <Coffee className="h-3 w-3" /> Loves Good Coffee
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative"
-              initial="hidden"
-              whileInView="visible"
-              viewport={scrollViewport}
-              variants={fadeUpVariants}
-            >
-              <div className="absolute -inset-3 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl blur-2xl" />
-              <div className="relative h-full min-h-[400px] lg:min-h-[500px] rounded-2xl overflow-hidden shadow-xl">
-                <img
-                  src="/holger.jpg"
-                  alt="Holger Schein - Life Coach & StrengthsFinder Specialist"
-                  className="w-full h-full object-cover object-top"
-                />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
-                  <p className="text-white font-semibold text-base">Holger Schein</p>
-                  <p className="text-white/80 text-xs">Life Coach & StrengthsFinder Specialist</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            className={`text-center ${sectionTitleMargin}`}
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollViewport}
-            variants={fadeUpVariants}
-          >
-            <p className="text-primary font-medium text-xs uppercase tracking-wider mb-1">
-              Testimonials
-            </p>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-              What Clients Say
-            </h2>
-            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Real stories from leaders who've experienced transformation
-            </p>
-          </motion.div>
-          <motion.div
-            className="grid md:grid-cols-2 gap-6 md:gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollViewport}
-            variants={staggerContainerVariants}
-          >
-            {testimonials.map((testimonial, i) => (
-              <motion.div key={i} variants={staggerItemVariants}>
-                <Card className="h-full">
-                  <CardContent className="p-4 md:p-5">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="rounded-full bg-primary/10 h-9 w-9 flex items-center justify-center flex-shrink-0">
-                        <Users className="h-4 w-4 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-sm">{testimonial.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {testimonial.role} • {testimonial.location}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed italic mb-3">
-                      "{testimonial.content}"
+                    <CardTitle className="text-base font-semibold tracking-tight">{cat.title}</CardTitle>
+                    <CardDescription className="text-xs">{cat.subtitle}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex-1 flex flex-col pt-0">
+                    <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside mb-4 flex-1">
+                      {cat.whatItLooksLike.map((bullet, j) => (
+                        <li key={j}>{bullet}</li>
+                      ))}
+                    </ul>
+                    <p className="text-sm font-medium text-foreground border-l-2 border-primary pl-3">
+                      {cat.heroStatement}
                     </p>
-                    <span className={`badge-landing badge-landing-${testimonial.categoryColor}`}>
-                      {testimonial.category}
-                    </span>
                   </CardContent>
                 </Card>
+                </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>
-        <div className="container mx-auto max-w-3xl">
+      {/* Why work with me — two columns: photo left (fixed height), single card right (same height) + 3 dots */}
+      <section
+        id="why-work-with-me"
+        ref={whySectionRef}
+        className={`${sectionPadding} scroll-mt-20 min-h-[85vh] md:min-h-[90vh] flex flex-col`}
+      >
+        <div className={`container mx-auto ${contentMax} flex-1 flex flex-col min-h-0`}>
           <motion.div
+            className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
             whileInView="visible"
-            viewport={scrollViewport}
+            viewport={landingViewport}
             variants={fadeUpVariants}
           >
-            <Card className="relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/10" />
-              <CardContent className="relative p-6 md:p-8">
-                <div className="text-center mb-8">
-                  <p className="text-primary font-medium text-xs uppercase tracking-wider mb-1">
-                    Investment
-                  </p>
-                  <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-                    Flexible, Fair Pricing
-                  </h2>
-                  <p className="text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
-                    Pricing reflects your context—corporate, small business, or individual—ensuring
-                    coaching is accessible while valuing the depth of experience I bring.
-                  </p>
-                </div>
-                <motion.div
-                  className="grid grid-cols-3 gap-4 max-w-sm mx-auto mb-6"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={scrollViewport}
-                  variants={staggerContainerVariants}
-                >
-                  {pricingTiers.map((tier, i) => (
-                    <motion.div
-                      key={i}
-                      className="text-center p-3 bg-background rounded-lg shadow-sm"
-                      variants={staggerItemVariants}
-                    >
-                      <p className="text-xs text-muted-foreground font-medium mb-1">{tier.label}</p>
-                      <p className="text-xl font-bold text-primary">{tier.amount}</p>
-                    </motion.div>
-                  ))}
-                </motion.div>
-                <p className="text-center text-xs text-muted-foreground">
-                  Specific pricing discussed during Meet & Greet
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Meet & Greet CTA Section */}
-      <section id="meet-greet" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-3xl">
-          <motion.div
-            className="text-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollViewport}
-            variants={fadeUpVariants}
-          >
-            <motion.div
-              className="inline-flex rounded-full bg-primary/10 p-3 mb-6"
-              variants={floatVariants}
-              animate="animate"
-            >
-              <Calendar className="h-6 w-6 text-primary" />
-            </motion.div>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">
-              Request a Meet & Greet
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Why work with me.
             </h2>
-            <p className="text-sm text-muted-foreground mb-6 max-w-lg mx-auto leading-relaxed">
-              Let's see if we're a good fit. I'll review your submission and reach out within 48 hours.
-              This isn't a sales pitch—it's a conversation about your story.
-            </p>
-            <Link href="/intake">
-              <Button data-testid="button-cta-intake">
-                <MessageCircle className="mr-2 h-4 w-4" />
-                Start the Conversation
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <p className="mt-4 text-xs text-muted-foreground">
-              <CheckCircle className="h-3.5 w-3.5 inline mr-1 text-green-600 dark:text-green-400" />
-              No commitment required • Response within 48 hours
-            </p>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t py-10 px-6 md:px-8">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
+          {/* Two columns: same height — left image defines row height, right column fills cell (card + dots) */}
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-stretch flex-1 content-start">
+            {/* Left: single element so grid row height = this element's height */}
+            <div className="rounded-2xl overflow-hidden border border-border bg-muted/30 w-full aspect-[4/5] max-h-[560px] md:sticky md:top-24">
               <img
-                src="/logo.png"
-                alt="Holger Schein Coaching"
-                className="h-6 w-auto"
+                src="/why-work-with-me.jpg"
+                alt="Nathaniel Baldock — Why work with me"
+                className="w-full h-full object-cover object-top block"
               />
-              <div>
-                <span className="font-serif font-bold text-sm leading-none block">Holger Schein</span>
-                <span className="text-[10px] text-muted-foreground">Life Coaching & StrengthsFinder</span>
+            </div>
+            {/* Right: flex column that fills grid cell so total height = left column height */}
+            <div className="flex flex-col h-full min-h-0 w-full">
+              <div className="relative flex-1 min-h-0 rounded-2xl overflow-hidden">
+                <AnimatePresence mode="wait" initial={false}>
+                  {whyWorkCards.map(
+                    (card, i) =>
+                      activeWhyCard === i && (
+                        <motion.div
+                          key={card.key}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
+                          className="absolute inset-0 rounded-xl border border-border/80 overflow-hidden"
+                          style={getCardGradientStyle(card.gradient)}
+                        >
+                          <Card className="h-full bg-transparent border-0 shadow-none rounded-xl flex flex-col">
+                            <CardHeader className="flex-shrink-0">
+                              <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                                <card.icon className="h-5 w-5 text-muted-foreground" />
+                              </div>
+                              <CardTitle className="text-lg font-semibold tracking-tight">{card.title}</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-0 flex-1 overflow-auto min-h-0">
+                              <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
+                                {card.bullets.map((bullet, j) => (
+                                  <li key={j}>{bullet}</li>
+                                ))}
+                              </ul>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      )
+                  )}
+                </AnimatePresence>
+              </div>
+              {/* 3-dot indicator — clearly visible, one per card */}
+              <div className="flex items-center justify-center gap-3 mt-6 flex-shrink-0 py-2" aria-label="Which card is shown (1 of 3)">
+                {[0, 1, 2].map((i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setActiveWhyCard(i)}
+                    className="flex-shrink-0 rounded-full p-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    aria-label={`Show card ${i + 1} of 3: ${whyWorkCards[i].title}`}
+                    aria-pressed={activeWhyCard === i}
+                  >
+                    <span
+                      className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
+                        activeWhyCard === i
+                          ? "h-3 w-3 bg-foreground"
+                          : "h-2.5 w-2.5 border-2 border-muted-foreground/60 bg-transparent hover:border-muted-foreground"
+                      }`}
+                    />
+                  </button>
+                ))}
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              © {new Date().getFullYear()} Holger Schein Coaching. All rights reserved.
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio — 4 Cards with gradient backgrounds */}
+      <section id="portfolio" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-emerald-50/20 dark:via-emerald-950/10 to-background`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.div
+            className={`text-center ${sectionTitleMargin}`}
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={fadeUpVariants}
+          >
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Portfolio.
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              From strategy to shipped product.
             </p>
+          </motion.div>
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={staggerContainerVariants}
+          >
+            {portfolioItems.map((item, i) => (
+              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
+                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
+                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                  <CardHeader>
+                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                      <item.icon className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <CardDescription className="text-xs">{item.type} · {item.year}</CardDescription>
+                    <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0 flex-1">
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.impact}</p>
+                  </CardContent>
+                </Card>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Get started — two-column API-style block with distinct gradient columns */}
+      <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-slate-50/30 dark:via-slate-950/20 to-background`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.div
+            className={`text-center ${sectionTitleMargin}`}
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={fadeUpVariants}
+          >
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Get started.
+            </h2>
+          </motion.div>
+          <motion.div
+            className="grid md:grid-cols-2 gap-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={staggerContainerVariants}
+          >
+            <motion.div variants={staggerItemVariants}>
+              <div className="rounded-xl border border-border/80 h-full overflow-hidden" style={getCardGradientStyle(0)}>
+              <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold tracking-tight">Partner with me</CardTitle>
+                  <CardDescription>
+                    Work with me on your AI strategy and implementation.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 pt-0">
+                  <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside mb-6">
+                    <li>AI strategy and hands-on deployment guidance</li>
+                    <li>Transparent pricing tailored to your context</li>
+                    <li>Response within 48 hours; no commitment required</li>
+                  </ul>
+                  <Link href="/intake">
+                    <Button
+                      variant="secondary"
+                      className="w-full sm:w-auto rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+                      size="lg"
+                      data-testid="button-cta-intake"
+                    >
+                      <MessageCircle className="mr-2 h-4 w-4" />
+                      Request a consultation
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              </div>
+            </motion.div>
+            <motion.div variants={staggerItemVariants}>
+              <div className="rounded-xl border border-border/80 h-full overflow-hidden" style={getCardGradientStyle(1)}>
+              <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                <CardHeader>
+                  <CardTitle className="text-lg font-semibold tracking-tight">Learn more</CardTitle>
+                  <CardDescription>
+                    Explore portfolio, services, and how we can work together.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 pt-0">
+                  <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside mb-6">
+                    <li>Portfolio: from strategy to shipped product</li>
+                    <li>Six AI categories and engagement models</li>
+                    <li>Contact: nathanielbaldock@gmail.com</li>
+                  </ul>
+                  <div className="flex flex-wrap gap-3">
+                    <a href="#portfolio">
+                      <Button variant="outline" className="rounded-lg">
+                        View portfolio
+                      </Button>
+                    </a>
+                    <a href="#services">
+                      <Button variant="outline" className="rounded-lg">
+                        See services
+                      </Button>
+                    </a>
+                  </div>
+                </CardContent>
+              </Card>
+              </div>
+            </motion.div>
+          </motion.div>
+          <motion.p
+            className="text-center text-sm text-muted-foreground mt-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={fadeUpVariants}
+          >
+            <CheckCircle className="h-4 w-4 inline mr-1 text-green-600 dark:text-green-400 align-middle" />
+            Response within 48 hours · Honest assessment of fit
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Footer — minimal API-style */}
+      <footer className="border-t border-border/60 py-12 px-6 md:px-10">
+        <div className={`container mx-auto ${contentMax}`}>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex items-center gap-3">
+              <img src="/logo.png" alt="Nathaniel Baldock — AI Consulting" className="h-6 w-auto" />
+              <div>
+                <span className="font-semibold text-sm tracking-tight block">Nathaniel Baldock</span>
+                <span className="text-xs text-muted-foreground">AI Consulting</span>
+              </div>
+            </div>
+            <div className="text-center md:text-right text-sm text-muted-foreground">
+              <p>Tauranga, NZ · NZ + Global (Zoom)</p>
+              <p className="mt-1">© 2026 Nathaniel Baldock</p>
+            </div>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Privacy
               </a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Terms
               </a>
-              <a href="mailto:holgerschein@me.com" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <a
+                href="mailto:nathanielbaldock@gmail.com"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+              >
                 Contact
               </a>
             </div>

@@ -51,7 +51,7 @@ export function TimezoneConfirmationDialog({
   onCoachTimezoneChange,
   requestedBy,
   clientName = "Client",
-  coachName = "Coach",
+  coachName = "Consultant",
 }: TimezoneConfirmationDialogProps) {
   const [isEditingTimezone, setIsEditingTimezone] = useState(false);
   const sessionDate = typeof scheduledAt === "string" ? new Date(scheduledAt) : scheduledAt;
@@ -83,7 +83,7 @@ export function TimezoneConfirmationDialog({
         : "Please review the session details. The client will need to confirm this session.";
     }
     return requestedBy === "client"
-      ? "Your coach has proposed this session. Please confirm the time works for you."
+      ? "Your consultant has proposed this session. Please confirm the time works for you."
       : "The client has requested this session. Please confirm to schedule it.";
   };
 

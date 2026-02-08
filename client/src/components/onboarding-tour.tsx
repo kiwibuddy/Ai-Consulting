@@ -11,7 +11,7 @@ interface OnboardingTourProps {
 const COACH_STEPS: Step[] = [
   {
     target: '[data-tour="dashboard"]',
-    content: "Welcome to your coaching dashboard! Here you'll see an overview of your practice - upcoming sessions, pending intakes, and client activity.",
+    content: "Welcome to your consulting dashboard! Here you'll see an overview of your practice - upcoming sessions, pending intakes, and client activity.",
     disableBeacon: true,
     placement: "center",
   },
@@ -22,12 +22,12 @@ const COACH_STEPS: Step[] = [
   },
   {
     target: '[data-tour="sessions"]',
-    content: "Schedule and manage coaching sessions. You can set up meeting links, add notes, and track session status.",
+    content: "Schedule and manage consulting sessions. You can set up meeting links, add notes, and track session status.",
     placement: "right",
   },
   {
     target: '[data-tour="intake"]',
-    content: "New client applications appear here. Review intake forms and accept or decline potential clients.",
+    content: "New consultation requests appear here. Review intake forms and accept or decline potential clients.",
     placement: "right",
   },
   {
@@ -42,7 +42,7 @@ const COACH_STEPS: Step[] = [
   },
   {
     target: '[data-tour="analytics"]',
-    content: "Get insights into your coaching practice with metrics on clients, sessions, revenue, and engagement.",
+    content: "Get insights into your consulting practice with metrics on clients, sessions, revenue, and engagement.",
     placement: "right",
   },
 ];
@@ -50,23 +50,23 @@ const COACH_STEPS: Step[] = [
 const CLIENT_STEPS: Step[] = [
   {
     target: '[data-tour="dashboard"]',
-    content: "Welcome to your coaching portal! Here's your personal dashboard showing upcoming sessions and action items.",
+    content: "Welcome to your consulting portal! Here's your personal dashboard showing upcoming sessions and action items.",
     disableBeacon: true,
     placement: "center",
   },
   {
     target: '[data-tour="sessions"]',
-    content: "View and manage your coaching sessions. You can see scheduled sessions, join meetings, and review past sessions.",
+    content: "View and manage your consulting sessions. You can see scheduled sessions, join meetings, and review past sessions.",
     placement: "right",
   },
   {
     target: '[data-tour="actions"]',
-    content: "Track your action items and goals. Mark items complete as you progress through your coaching journey.",
+    content: "Track your action items and goals. Mark items complete as you progress through your consulting journey.",
     placement: "right",
   },
   {
     target: '[data-tour="resources"]',
-    content: "Access resources shared by your coach - articles, worksheets, videos, and other materials.",
+    content: "Access resources shared by your consultant - articles, worksheets, videos, and other materials.",
     placement: "right",
   },
   {

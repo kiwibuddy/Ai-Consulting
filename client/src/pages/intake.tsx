@@ -112,8 +112,8 @@ export default function IntakePage() {
             </div>
             <h1 className="font-serif text-2xl font-bold mb-2">Application Received</h1>
             <p className="text-muted-foreground mb-6">
-              Thank you for your interest in coaching! We've received your application 
-              and will review it shortly. You'll hear from us within 1-2 business days.
+              Thank you for your interest in a consultation! We've received your request 
+              and will review it shortly. You'll hear from Nathaniel within 1-2 business days.
             </p>
             <Link href="/">
               <Button variant="outline" data-testid="button-back-home">
@@ -135,7 +135,7 @@ export default function IntakePage() {
           <Link href="/">
             <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Sparkles className="h-6 w-6 text-primary" />
-              <span className="font-serif text-xl font-bold">Holger Coaching</span>
+              <span className="font-serif text-xl font-bold">Nathaniel Baldock AI Consulting</span>
             </div>
           </Link>
           <ThemeToggle />
@@ -152,10 +152,10 @@ export default function IntakePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-serif text-2xl">Begin Your Journey</CardTitle>
+            <CardTitle className="font-serif text-2xl">Request a Consultation</CardTitle>
             <CardDescription>
-              Fill out this form to schedule a free consultation and learn how coaching can help you 
-              achieve your goals.
+              Fill out this form to request a consultation and learn how AI consulting can help 
+              your organisation.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -289,17 +289,17 @@ export default function IntakePage() {
                   name="goals"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>What are your coaching goals? *</FormLabel>
+                      <FormLabel>What are you hoping to achieve with AI? (Your context and goals) *</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Describe what you hope to achieve through coaching..."
+                          placeholder="Describe your organisation, your goals for AI adoption, and any constraints (e.g. faith, education, nonprofit, safeguarding)."
                           className="min-h-[120px]"
                           {...field}
                           data-testid="textarea-goals"
                         />
                       </FormControl>
                       <FormDescription>
-                        Share what you'd like to work on - career growth, leadership, work-life balance, etc.
+                        Share your context—sector, use cases, and what success would look like.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -311,10 +311,10 @@ export default function IntakePage() {
                   name="previousCoachingExperience"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Previous Coaching Experience</FormLabel>
+                      <FormLabel>Previous AI or consulting experience (optional)</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Have you worked with a coach before? If so, describe your experience and what worked well or what you'd like to do differently."
+                          placeholder="Have you used AI tools or worked with a consultant before? Any relevant experience or constraints to share."
                           className="min-h-[80px]"
                           {...field}
                           data-testid="textarea-experience"
@@ -331,9 +331,9 @@ export default function IntakePage() {
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel>Personality & Leadership Assessments</FormLabel>
+                        <FormLabel>Relevant background (optional)</FormLabel>
                         <FormDescription>
-                          Have you taken any of these assessments? (Select all that apply)
+                          Select any that apply to your context
                         </FormDescription>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -378,17 +378,17 @@ export default function IntakePage() {
                   name="assessmentResults"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Assessment Results (Optional)</FormLabel>
+                      <FormLabel>Any other context (optional)</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="If you've taken any assessments, share your results here. For example: StrengthsFinder Top 5: Achiever, Learner, Input, Strategic, Ideation. DISC Type: D/I."
+                          placeholder="Anything else that would help—team size, current tools, timeline, or specific concerns."
                           className="min-h-[80px]"
                           {...field}
                           data-testid="textarea-assessment-results"
                         />
                       </FormControl>
                       <FormDescription>
-                        You can also share these later during your onboarding.
+                        We can also discuss this during our first conversation.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

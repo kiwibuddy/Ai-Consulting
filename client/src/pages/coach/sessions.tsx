@@ -327,7 +327,7 @@ export default function CoachSessions() {
         <div>
           <h1 className="font-serif text-3xl font-bold tracking-tight">Sessions</h1>
           <p className="text-muted-foreground flex items-center gap-2">
-            Manage your coaching sessions.
+            Manage your consulting sessions.
             <Badge variant="outline" className="text-xs">
               <Globe className="h-3 w-3 mr-1" />
               {coachTimezone}

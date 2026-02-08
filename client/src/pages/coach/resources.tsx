@@ -182,7 +182,7 @@ export default function CoachResources() {
         <div>
           <h1 className="font-serif text-3xl font-bold tracking-tight">Resources</h1>
           <p className="text-muted-foreground">
-            Manage coaching materials and documents.
+            Manage consulting materials and documents.
           </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

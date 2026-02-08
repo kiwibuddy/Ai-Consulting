@@ -306,7 +306,7 @@ export default function SessionDetail() {
                   <FileText className="h-5 w-5 text-primary" />
                   Session Notes
                 </CardTitle>
-                <CardDescription>Notes from your coach</CardDescription>
+                <CardDescription>Notes from your consultant</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground whitespace-pre-wrap">
@@ -323,7 +323,7 @@ export default function SessionDetail() {
                 <MessageSquare className="h-5 w-5 text-primary" />
                 Messages
               </CardTitle>
-              <CardDescription>Communicate with your coach about this session</CardDescription>
+              <CardDescription>Communicate with your consultant about this session</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

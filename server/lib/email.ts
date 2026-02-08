@@ -22,7 +22,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
 
   try {
     await resend.emails.send({
-      from: options.from || process.env.RESEND_FROM_EMAIL || "Holger Coaching <noreply@holgercoaching.com>",
+      from: options.from || process.env.RESEND_FROM_EMAIL || "Nathaniel Baldock AI Consulting <noreply@nathanielbaldock.com>",
       to: options.to,
       subject: options.subject,
       html: options.html,
@@ -82,7 +82,7 @@ export function intakeSubmittedEmail(coachEmail: string, intakeData: {
 export function accountCreatedEmail(clientEmail: string, clientName: string): EmailOptions {
   return {
     to: clientEmail,
-    subject: "Welcome to Holger Coaching Portal - Your Account is Ready!",
+    subject: "Welcome to Nathaniel Baldock AI Consulting - Your Account is Ready!",
     html: `
       <!DOCTYPE html>
       <html>
@@ -102,7 +102,7 @@ export function accountCreatedEmail(clientEmail: string, clientName: string): Em
         <body>
           <div class="container">
             <div class="header">
-              <h1>Welcome to Holger Coaching!</h1>
+              <h1>Welcome to Nathaniel Baldock AI Consulting!</h1>
             </div>
             <div class="content">
               <p>Hi ${clientName},</p>
@@ -519,7 +519,7 @@ export function verificationEmail(userEmail: string, userName: string, verificat
   
   return {
     to: userEmail,
-    subject: "Verify your email - Holger Coaching Portal",
+    subject: "Verify your email - Nathaniel Baldock AI Consulting",
     html: `
       <!DOCTYPE html>
       <html>
@@ -542,7 +542,7 @@ export function verificationEmail(userEmail: string, userName: string, verificat
             </div>
             <div class="content">
               <p>Hi ${userName},</p>
-              <p>Thanks for signing up for Holger Coaching Portal! Please verify your email address by clicking the button below:</p>
+              <p>Thanks for signing up for Nathaniel Baldock AI Consulting! Please verify your email address by clicking the button below:</p>
               <p style="text-align: center;">
                 <a href="${verifyUrl}" class="button">Verify Email Address</a>
               </p>
@@ -560,7 +560,7 @@ export function verificationEmail(userEmail: string, userName: string, verificat
 export function intakeConfirmationEmail(clientEmail: string, clientName: string): EmailOptions {
   return {
     to: clientEmail,
-    subject: "We received your application - Holger Coaching",
+    subject: "We received your application - Nathaniel Baldock AI Consulting",
     html: `
       <!DOCTYPE html>
       <html>
@@ -604,7 +604,7 @@ export function passwordResetEmail(userEmail: string, userName: string, resetTok
   
   return {
     to: userEmail,
-    subject: "Reset your password - Holger Coaching Portal",
+    subject: "Reset your password - Nathaniel Baldock AI Consulting",
     html: `
       <!DOCTYPE html>
       <html>

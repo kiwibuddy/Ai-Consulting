@@ -392,7 +392,7 @@ export function DemoLoginDialog({ trigger }: LoginDialogProps) {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="client">Client</SelectItem>
-                        <SelectItem value="coach">Coach</SelectItem>
+                        <SelectItem value="coach">Consultant</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

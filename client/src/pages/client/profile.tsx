@@ -361,7 +361,7 @@ export default function ClientProfile() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Share your current goals to help your coach understand your focus.
+                          Share your current goals to help your consultant understand your focus.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -411,7 +411,7 @@ export default function ClientProfile() {
                   Calendar Integration
                 </CardTitle>
                 <CardDescription>
-                  Connect your Google Calendar to automatically sync your coaching sessions.
+                  Connect your Google Calendar to automatically sync your consulting sessions.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -429,7 +429,7 @@ export default function ClientProfile() {
                       <p className="text-sm text-muted-foreground">
                         {calendarStatus.connected
                           ? "Your calendar is connected. Sessions will be synced automatically."
-                          : "Connect to sync your coaching sessions to Google Calendar."}
+                          : "Connect to sync your consulting sessions to Google Calendar."}
                       </p>
                     </div>
                   </div>
@@ -567,7 +567,7 @@ export default function ClientProfile() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">New Resources</p>
-                  <p className="text-xs text-muted-foreground">When your coach shares new materials</p>
+                  <p className="text-xs text-muted-foreground">When your consultant shares new materials</p>
                 </div>
                 <Switch
                   checked={notifPrefs.newResources.email}
@@ -591,7 +591,7 @@ export default function ClientProfile() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium">Weekly Digest</p>
-                  <p className="text-xs text-muted-foreground">Weekly summary of your coaching journey</p>
+                  <p className="text-xs text-muted-foreground">Weekly summary of your consulting journey</p>
                 </div>
                 <Switch
                   checked={notifPrefs.weeklyDigest.email}

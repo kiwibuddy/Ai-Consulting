@@ -119,7 +119,7 @@ export default function CoachDashboard() {
           Welcome back, <span className="gradient-text">{user?.firstName || "Coach"}</span>
         </h1>
         <p className="text-muted-foreground">
-          Here's an overview of your coaching practice.
+          Here's an overview of your consulting practice.
         </p>
       </motion.div>
 
@@ -380,7 +380,7 @@ export default function CoachDashboard() {
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                   Sessions Trend
                 </CardTitle>
-                <CardDescription>Your coaching activity over the past 4 weeks</CardDescription>
+                <CardDescription>Your consulting activity over the past 4 weeks</CardDescription>
               </CardHeader>
               <CardContent>
                 <SessionsSparkline sessions={sessions} weeks={4} height={100} />

@@ -46,7 +46,7 @@ export default function ForgotPassword() {
           <Link href="/">
             <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <Sparkles className="h-6 w-6 text-primary" />
-              <span className="font-serif text-xl font-bold">Holger Coaching</span>
+              <span className="font-serif text-xl font-bold">Nathaniel Baldock AI Consulting</span>
             </div>
           </Link>
           <ThemeToggle />

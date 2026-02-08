@@ -366,7 +366,7 @@ function Router() {
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="holger-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="nathaniel-baldock-ui-theme">
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />

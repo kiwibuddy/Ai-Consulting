@@ -85,7 +85,7 @@ export default function ClientDashboard() {
           Welcome back, <span className="gradient-text">{user?.firstName || "there"}</span>
         </h1>
         <p className="text-muted-foreground">
-          Here's an overview of your coaching journey.
+          Here's an overview of your consulting journey.
         </p>
       </motion.div>
 
@@ -125,7 +125,7 @@ export default function ClientDashboard() {
         <StatCard
           title="Engagement Score"
           value={progressMetrics?.engagementScore || 0}
-          description="Your coaching engagement"
+          description="Your consulting engagement"
           icon={TrendingUp}
           index={4}
         />
@@ -138,7 +138,7 @@ export default function ClientDashboard() {
           <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
             <div>
               <CardTitle className="text-lg">Upcoming Session</CardTitle>
-              <CardDescription>Your next scheduled coaching session</CardDescription>
+              <CardDescription>Your next scheduled consulting session</CardDescription>
             </div>
             <Link href="/client/sessions">
               <Button variant="ghost" size="sm" data-testid="button-view-sessions">

@@ -55,7 +55,7 @@ const coachNavItems = [
   { title: "Clients", url: "/coach/clients", icon: Users, tourId: "clients" },
   { title: "Sessions", url: "/coach/sessions", icon: Calendar, tourId: "sessions" },
   { title: "Resources", url: "/coach/resources", icon: FileText, tourId: "resources" },
-  { title: "Intake Requests", url: "/coach/intake", icon: UserPlus, tourId: "intake" },
+  { title: "Consultation Requests", url: "/coach/intake", icon: UserPlus, tourId: "intake" },
   { title: "Billing", url: "/coach/billing", icon: CreditCard, tourId: "billing" },
   { title: "Analytics", url: "/coach/analytics", icon: BarChart3, tourId: "analytics" },
   { title: "Pricing Calculator", url: "/coach/calculator", icon: Calculator, tourId: "calculator" },
@@ -74,10 +74,10 @@ export function AppSidebar({ role }: SidebarProps) {
           <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <img
               src="/logo.png"
-              alt="Holger Coaching"
+              alt="Nathaniel Baldock AI Consulting"
               className="h-8 w-auto flex-shrink-0"
             />
-            <span className="font-serif text-lg font-bold">Holger Coaching</span>
+            <span className="font-serif text-lg font-bold">Nathaniel Baldock AI Consulting</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -85,7 +85,7 @@ export function AppSidebar({ role }: SidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="uppercase text-xs tracking-wider">
-            {role === "coach" ? "Coach Portal" : "Client Portal"}
+            {role === "coach" ? "Consultant Portal" : "Client Portal"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

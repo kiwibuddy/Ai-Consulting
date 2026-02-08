@@ -153,7 +153,7 @@ export default function ClientActions() {
       <div>
         <h1 className="font-serif text-3xl font-bold tracking-tight">Action Items</h1>
         <p className="text-muted-foreground">
-          Track and complete your coaching action items.
+          Track and complete your consulting action items.
         </p>
       </div>
 

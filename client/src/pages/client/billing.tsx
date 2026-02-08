@@ -179,7 +179,7 @@ export default function ClientBilling() {
             )}
             {!providers?.stripe && !providers?.paypal && (
               <p className="text-muted-foreground">
-                No payment methods are currently configured. Please contact your coach for payment options.
+                No payment methods are currently configured. Please contact your consultant for payment options.
               </p>
             )}
           </div>

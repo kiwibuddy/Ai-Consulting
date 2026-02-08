@@ -1125,7 +1125,7 @@ export async function registerRoutes(
         url: session.meetingLink || undefined,
         organizer: coach ? {
           name: `${coach.firstName || ""} ${coach.lastName || ""}`.trim() || "Coach",
-          email: coach.email || "coach@holgercoaching.com",
+          email: coach.email || "consultant@nathanielbaldock.com",
         } : undefined,
         attendees: clientUser ? [{
           name: `${clientUser.firstName || ""} ${clientUser.lastName || ""}`.trim() || "Client",
