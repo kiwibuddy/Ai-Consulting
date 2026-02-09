@@ -1,4 +1,14 @@
 import "dotenv/config";
+
+// Fail fast with clear errors if required env vars are missing (Railway/production)
+const required = ["DATABASE_URL", "SESSION_SECRET"] as const;
+const missing = required.filter((k) => !process.env[k]);
+if (missing.length > 0) {
+  console.error(`[startup] Missing required env vars: ${missing.join(", ")}`);
+  console.error("Set them in Railway → Variables, or in .env for local dev.");
+  process.exit(1);
+}
+
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
