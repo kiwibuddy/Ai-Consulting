@@ -28,10 +28,11 @@ import {
   GraduationCap,
   Heart,
   UserCheck,
-  FileText,
-  Image as ImageIcon,
-  Video,
-  Mail,
+  Sparkles,
+  Palette,
+  Clapperboard,
+  Megaphone,
+  LayoutGrid,
   LayoutDashboard,
   Smartphone,
   Briefcase,
@@ -71,10 +72,10 @@ const whoIHelp = [
   },
 ];
 
-// Six AI Categories
+// Six AI Categories — 2026-style icons
 const coreAICategories = [
   {
-    icon: FileText,
+    icon: Sparkles,
     title: "Text",
     subtitle: "Knowledge, Writing, Decision Support",
     whatItLooksLike: [
@@ -84,7 +85,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: ImageIcon,
+    icon: Palette,
     title: "Image",
     subtitle: "Visuals with Integrity",
     whatItLooksLike: [
@@ -94,7 +95,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: Video,
+    icon: Clapperboard,
     title: "Video",
     subtitle: "Training & Teaching at Scale",
     whatItLooksLike: [
@@ -104,7 +105,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: Mail,
+    icon: Megaphone,
     title: "Marketing",
     subtitle: "Messaging that Serves, Not Manipulates",
     whatItLooksLike: [
@@ -114,7 +115,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: LayoutDashboard,
+    icon: LayoutGrid,
     title: "Web",
     subtitle: "Dashboards & Practical Tools",
     whatItLooksLike: [
@@ -340,7 +341,7 @@ export default function LandingPage() {
       </section>
 
       {/* Who I help — 4 Cards with soft gradient backgrounds (OpenAI-style) */}
-      <section id="who-i-help" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
+      <section id="who-i-help" className={`pt-7 md:pt-11 pb-12 md:pb-16 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
@@ -414,8 +415,8 @@ export default function LandingPage() {
                 <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
                 <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
                   <CardHeader>
-                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <cat.icon className="h-5 w-5 text-muted-foreground" />
+                    <div className="rounded-xl bg-white/70 dark:bg-white/15 p-3 w-fit mb-2 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-sm">
+                      <cat.icon className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
                     </div>
                     <CardTitle className="text-base font-semibold tracking-tight">{cat.title}</CardTitle>
                     <CardDescription className="text-xs">{cat.subtitle}</CardDescription>
@@ -673,7 +674,7 @@ export default function LandingPage() {
         <div className={`container mx-auto ${contentMax}`}>
           <div className="flex flex-col gap-10">
             <div className="flex justify-center">
-              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-16 md:h-20 w-auto" />
+              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-20 md:h-24 w-auto" />
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-center md:text-left text-sm text-muted-foreground">
