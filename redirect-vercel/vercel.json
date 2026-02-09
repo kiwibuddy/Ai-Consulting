@@ -3,7 +3,7 @@
     {
       "source": "/:path*",
       "destination": "https://www.nathanielbaldock.com/:path*",
-      "permanent": 301
+      "permanent": true
     }
   ]
 }
