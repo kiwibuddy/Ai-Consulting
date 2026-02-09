@@ -282,7 +282,7 @@ export default function ClientDashboard() {
         </AnimatedCard>
       </div>
 
-      {/* Coaching Journey Timeline */}
+      {/* Consulting Journey Timeline */}
       {sessions && sessions.length > 0 && (
         <AnimatedCard delay={0.7}>
           <Card>
@@ -290,7 +290,7 @@ export default function ClientDashboard() {
               <div>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <History className="h-4 w-4 text-muted-foreground" />
-                  Your Coaching Journey
+                  Your Consulting Journey
                 </CardTitle>
                 <CardDescription>Timeline of your sessions</CardDescription>
               </div>

@@ -165,7 +165,7 @@ export default function CoachSetup() {
         title: "Setup Complete!",
         description: "Your profile is ready. Let's start consulting!",
       });
-      navigate("/coach");
+      navigate("/consultant");
     },
     onError: () => {
       toast({
@@ -254,7 +254,7 @@ export default function CoachSetup() {
                     id="summary-businessName"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
-                    placeholder="e.g., Mindful Leadership Coaching"
+                    placeholder="e.g., AI Strategy & Training"
                   />
                 </div>
                 <div className="space-y-2">
@@ -486,7 +486,7 @@ export default function CoachSetup() {
                   </Label>
                   <Input
                     id="businessName"
-                    placeholder="e.g., Mindful Leadership Coaching"
+                    placeholder="e.g., AI Strategy & Training"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                   />
@@ -661,7 +661,7 @@ export default function CoachSetup() {
             className="text-muted-foreground"
             onClick={() => {
               saveMutation.mutate({ onboardingCompleted: true });
-              navigate("/coach");
+              navigate("/consultant");
             }}
           >
             Skip for now

@@ -122,7 +122,6 @@ export async function registerRoutes(
   // Submit intake form (public)
   app.post("/api/intake", async (req, res) => {
     try {
-      // Handle assessmentsTaken array - convert to JSON string if provided
       const intakeData = { ...req.body };
       if (Array.isArray(intakeData.assessmentsTaken)) {
         intakeData.assessmentsTaken = JSON.stringify(intakeData.assessmentsTaken);
@@ -130,22 +129,23 @@ export async function registerRoutes(
 
       const data = insertIntakeFormSchema.parse(intakeData);
       const intake = await storage.createIntakeForm(data);
-      
-      // Send confirmation email to the client
+
       await sendEmail(intakeConfirmationEmail(
         data.email,
         data.firstName
       ));
-      
-      // Notify all coaches about the new intake
+
       const coaches = await storage.getUsersByRole("coach");
+      const summary = data.problemStatement || data.goals || "(No problem statement)";
       for (const coach of coaches) {
         if (coach.email) {
           await sendEmail(intakeSubmittedEmail(coach.email, {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
-            goals: data.goals,
+            problemStatement: summary,
+            organisation: data.organisation,
+            industry: data.industry,
           }));
         }
       }
@@ -618,7 +618,7 @@ export async function registerRoutes(
           await storage.createClientProfile({
             userId: newUser.id,
             phone: existingIntake.phone || null,
-            goals: existingIntake.goals,
+            goals: existingIntake.problemStatement || existingIntake.goals || null,
             status: "active",
           });
         }
@@ -691,7 +691,7 @@ export async function registerRoutes(
           userId: clientProfile.userId,
           type: "session_scheduled",
           title: "New Session Request",
-          message: `Your coach has proposed a session "${data.title}". Please confirm.`,
+          message: `Your consultant has proposed a session "${data.title}". Please confirm.`,
           relatedId: session.id,
         });
         
@@ -749,7 +749,7 @@ export async function registerRoutes(
           userId: clientProfile.userId,
           type: "session_scheduled",
           title: "Session Confirmed",
-          message: `Your session "${session.title}" has been confirmed by your coach.`,
+          message: `Your session "${session.title}" has been confirmed by your consultant.`,
           relatedId: session.id,
         });
         
@@ -837,6 +837,7 @@ export async function registerRoutes(
         sessionId: z.string().optional(),
         clientId: z.string().optional(),
         isGlobal: z.boolean().optional(),
+        contentType: z.enum(["draft", "demo", "document", "video"]).optional(),
       });
       const data = resourceSchema.parse(req.body);
       
@@ -845,8 +846,8 @@ export async function registerRoutes(
         uploadedBy: req.user!.id,
       });
       
-      // If assigned to a client, notify them
-      if (data.clientId) {
+      // If assigned to a client and not draft, notify them
+      if (data.clientId && data.contentType !== "draft") {
         const clientProfile = await storage.getClientProfileById(data.clientId);
         if (clientProfile) {
           const clientUser = await authStorage.getUser(clientProfile.userId);
@@ -879,6 +880,28 @@ export async function registerRoutes(
         res.status(400).json({ error: error.errors });
       } else {
         res.status(500).json({ error: "Failed to create resource" });
+      }
+    }
+  });
+
+  app.patch("/api/coach/resources/:id", requireCoach, async (req, res) => {
+    try {
+      const schema = z.object({
+        title: z.string().min(1).optional(),
+        description: z.string().optional(),
+        clientId: z.string().optional(),
+        isGlobal: z.boolean().optional(),
+        contentType: z.enum(["draft", "demo", "document", "video"]).optional(),
+      });
+      const data = schema.parse(req.body);
+      const resource = await storage.updateResource(paramId(req.params.id), data);
+      if (!resource) return res.status(404).json({ error: "Resource not found" });
+      res.json(resource);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to update resource" });
       }
     }
   });

@@ -182,7 +182,7 @@ export function EngagementHeatmap({
 
         {/* Client rows */}
         {clientEngagement.slice(0, maxClients).map(({ client, dailyActivity, status }, index) => (
-          <Link key={client.id} href={`/coach/clients/${client.id}`}>
+          <Link key={client.id} href={`/consultant/clients/${client.id}`}>
             <div 
               className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
               style={{ 

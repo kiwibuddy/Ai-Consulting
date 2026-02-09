@@ -71,7 +71,7 @@ export function QuickSessionModal({ open, onOpenChange }: QuickSessionModalProps
     resolver: zodResolver(quickSessionSchema),
     defaultValues: {
       clientId: "",
-      title: "Coaching Session",
+      title: "Consultation",
       scheduledAt: "",
       duration: 60,
     },
@@ -150,7 +150,7 @@ export function QuickSessionModal({ open, onOpenChange }: QuickSessionModalProps
                 <FormItem>
                   <FormLabel>Session Title *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Coaching Session" {...field} />
+                    <Input placeholder="Consultation" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

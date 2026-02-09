@@ -170,7 +170,7 @@ export default function CoachBilling() {
       return;
     }
 
-    const items = JSON.stringify([{ description: description || "Coaching Services", amount: amountCents }]);
+    const items = JSON.stringify([{ description: description || "Consulting Services", amount: amountCents }]);
 
     createInvoiceMutation.mutate({
       clientId: selectedClient,
@@ -275,7 +275,7 @@ export default function CoachBilling() {
               <div className="space-y-2">
                 <Label>Description</Label>
                 <Input
-                  placeholder="Coaching session"
+                  placeholder="Consultation"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />

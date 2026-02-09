@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Sparkles, ArrowLeft, Mail, Loader2, CheckCircle } from "lucide-react";
+import { ArrowLeft, Mail, Loader2, CheckCircle } from "lucide-react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -44,10 +44,11 @@ export default function ForgotPassword() {
       <header className="border-b">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link href="/">
-            <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Sparkles className="h-6 w-6 text-primary" />
-              <span className="font-serif text-xl font-bold">Nathaniel Baldock AI Consulting</span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Nathaniel Baldock AI Consulting"
+              className="h-8 w-auto hover:opacity-80 transition-opacity"
+            />
           </Link>
           <ThemeToggle />
         </div>

@@ -145,7 +145,7 @@ export default function CoachSessionDetail() {
     return (
       <div className="p-6 text-center">
         <p className="text-muted-foreground">Session not found.</p>
-        <Link href="/coach/sessions">
+        <Link href="/consultant/sessions">
           <Button variant="link" data-testid="button-back-sessions">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Sessions
@@ -163,7 +163,7 @@ export default function CoachSessionDetail() {
   return (
     <div className="space-y-6 p-6">
       <div className="flex items-center gap-4">
-        <Link href="/coach/sessions">
+        <Link href="/consultant/sessions">
           <Button variant="ghost" size="icon" data-testid="button-back">
             <ArrowLeft className="h-4 w-4" />
           </Button>

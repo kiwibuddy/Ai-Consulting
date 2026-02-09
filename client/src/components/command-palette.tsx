@@ -70,7 +70,7 @@ export function CommandPalette({ onScheduleSession, onAddNote }: CommandPaletteP
       // Cmd+D for dashboard
       if (e.key === "d" && (e.metaKey || e.ctrlKey) && !e.shiftKey) {
         e.preventDefault();
-        setLocation(isCoach ? "/coach/dashboard" : "/client/dashboard");
+        setLocation(isCoach ? "/consultant" : "/client");
       }
 
       // Cmd+Shift+S for schedule session (coach only)
@@ -104,12 +104,12 @@ export function CommandPalette({ onScheduleSession, onAddNote }: CommandPaletteP
 
   // Navigation items based on role
   const coachNavigation = [
-    { name: "Dashboard", href: "/coach/dashboard", icon: LayoutDashboard, shortcut: "⌘D" },
-    { name: "Clients", href: "/coach/clients", icon: Users, shortcut: "⌘1" },
-    { name: "Sessions", href: "/coach/sessions", icon: Calendar, shortcut: "⌘2" },
-    { name: "Billing", href: "/coach/billing", icon: DollarSign, shortcut: "⌘3" },
-    { name: "Resources", href: "/coach/resources", icon: BookOpen, shortcut: "⌘4" },
-    { name: "Settings", href: "/coach/setup", icon: Settings },
+    { name: "Dashboard", href: "/consultant", icon: LayoutDashboard, shortcut: "⌘D" },
+    { name: "Clients", href: "/consultant/clients", icon: Users, shortcut: "⌘1" },
+    { name: "Sessions", href: "/consultant/sessions", icon: Calendar, shortcut: "⌘2" },
+    { name: "Billing", href: "/consultant/billing", icon: DollarSign, shortcut: "⌘3" },
+    { name: "Resources", href: "/consultant/resources", icon: BookOpen, shortcut: "⌘4" },
+    { name: "Settings", href: "/consultant/setup", icon: Settings },
   ];
 
   const clientNavigation = [
@@ -140,7 +140,7 @@ export function CommandPalette({ onScheduleSession, onAddNote }: CommandPaletteP
       name: "Upload Resource", 
       icon: Upload, 
       shortcut: "⌘⇧U",
-      action: () => setLocation("/coach/resources"),
+      action: () => setLocation("/consultant/resources"),
     },
   ];
 
@@ -190,7 +190,7 @@ export function CommandPalette({ onScheduleSession, onAddNote }: CommandPaletteP
               {clients.slice(0, 5).map((client) => (
                 <CommandItem
                   key={client.id}
-                  onSelect={() => runCommand(() => setLocation(`/coach/clients/${client.id}`))}
+                  onSelect={() => runCommand(() => setLocation(`/consultant/clients/${client.id}`))}
                 >
                   <Users className="mr-2 h-4 w-4" />
                   <span>{getClientName(client)}</span>
@@ -210,7 +210,7 @@ export function CommandPalette({ onScheduleSession, onAddNote }: CommandPaletteP
                   key={session.id}
                   onSelect={() => runCommand(() => 
                     setLocation(isCoach 
-                      ? `/coach/sessions/${session.id}` 
+                      ? `/consultant/sessions/${session.id}` 
                       : `/client/sessions/${session.id}`
                     )
                   )}

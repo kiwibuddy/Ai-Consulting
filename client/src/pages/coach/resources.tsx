@@ -42,11 +42,19 @@ import type { Resource, ClientProfile } from "@shared/schema";
 import { FileText, Upload, Plus, Search, Download, Trash2, Loader2 } from "lucide-react";
 import { useState } from "react";
 
+const CONTENT_TYPES = [
+  { value: "document", label: "Document" },
+  { value: "video", label: "Video" },
+  { value: "demo", label: "Demo" },
+  { value: "draft", label: "Draft (consultant only)" },
+] as const;
+
 const resourceSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   clientId: z.string().optional(),
   isGlobal: z.boolean().default(false),
+  contentType: z.enum(["draft", "demo", "document", "video"]).optional(),
 });
 
 type ResourceFormValues = z.infer<typeof resourceSchema>;
@@ -95,6 +103,7 @@ export default function CoachResources() {
       description: "",
       clientId: "",
       isGlobal: false,
+      contentType: "document",
     },
   });
 
@@ -253,6 +262,31 @@ export default function CoachResources() {
                 </div>
                 <FormField
                   control={form.control}
+                  name="contentType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Content type</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value || "document"}>
+                        <FormControl>
+                          <SelectTrigger data-testid="select-content-type">
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {CONTENT_TYPES.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Drafts are visible only to you until published.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="clientId"
                   render={({ field }) => (
                     <FormItem>
@@ -352,7 +386,17 @@ export default function CoachResources() {
                         {resource.description}
                       </p>
                     )}
-                    <div className="flex items-center gap-2 pt-2">
+                    <div className="flex items-center gap-2 pt-2 flex-wrap">
+                      {resource.contentType === "draft" && (
+                        <Badge variant="outline" className="text-xs border-amber-500 text-amber-700 dark:text-amber-400">
+                          Draft
+                        </Badge>
+                      )}
+                      {resource.contentType === "demo" && (
+                        <Badge variant="secondary" className="text-xs">
+                          Demo
+                        </Badge>
+                      )}
                       {resource.isGlobal && (
                         <Badge variant="secondary" className="text-xs">
                           Global

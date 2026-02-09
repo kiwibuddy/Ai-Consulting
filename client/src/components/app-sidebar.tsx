@@ -43,41 +43,40 @@ interface SidebarProps {
 
 const clientNavItems = [
   { title: "Dashboard", url: "/client", icon: LayoutDashboard, tourId: "dashboard" },
-  { title: "Sessions", url: "/client/sessions", icon: Calendar, tourId: "sessions" },
+  { title: "Consultations", url: "/client/sessions", icon: Calendar, tourId: "sessions" },
   { title: "Resources", url: "/client/resources", icon: FileText, tourId: "resources" },
   { title: "Action Items", url: "/client/actions", icon: Target, tourId: "actions" },
   { title: "Billing", url: "/client/billing", icon: CreditCard, tourId: "billing" },
   { title: "Profile", url: "/client/profile", icon: User, tourId: "profile" },
 ];
 
-const coachNavItems = [
-  { title: "Dashboard", url: "/coach", icon: LayoutDashboard, tourId: "dashboard" },
-  { title: "Clients", url: "/coach/clients", icon: Users, tourId: "clients" },
-  { title: "Sessions", url: "/coach/sessions", icon: Calendar, tourId: "sessions" },
-  { title: "Resources", url: "/coach/resources", icon: FileText, tourId: "resources" },
-  { title: "Consultation Requests", url: "/coach/intake", icon: UserPlus, tourId: "intake" },
-  { title: "Billing", url: "/coach/billing", icon: CreditCard, tourId: "billing" },
-  { title: "Analytics", url: "/coach/analytics", icon: BarChart3, tourId: "analytics" },
-  { title: "Pricing Calculator", url: "/coach/calculator", icon: Calculator, tourId: "calculator" },
+const consultantNavItems = [
+  { title: "Dashboard", url: "/consultant", icon: LayoutDashboard, tourId: "dashboard" },
+  { title: "Clients", url: "/consultant/clients", icon: Users, tourId: "clients" },
+  { title: "Consultations", url: "/consultant/sessions", icon: Calendar, tourId: "sessions" },
+  { title: "Resources", url: "/consultant/resources", icon: FileText, tourId: "resources" },
+  { title: "Consultation Requests", url: "/consultant/intake", icon: UserPlus, tourId: "intake" },
+  { title: "Billing", url: "/consultant/billing", icon: CreditCard, tourId: "billing" },
+  { title: "Analytics", url: "/consultant/analytics", icon: BarChart3, tourId: "analytics" },
+  { title: "Pricing Calculator", url: "/consultant/calculator", icon: Calculator, tourId: "calculator" },
 ];
 
 export function AppSidebar({ role }: SidebarProps) {
   const [location] = useLocation();
   const { user, logout } = useAuth();
 
-  const navItems = role === "coach" ? coachNavItems : clientNavItems;
+  const navItems = role === "coach" ? consultantNavItems : clientNavItems;
 
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <Link href={role === "coach" ? "/coach" : "/client"}>
-          <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link href={role === "coach" ? "/consultant" : "/client"}>
+          <div className="flex items-center hover:opacity-80 transition-opacity min-w-0">
             <img
               src="/logo.png"
               alt="Nathaniel Baldock AI Consulting"
-              className="h-8 w-auto flex-shrink-0"
+              className="h-8 w-auto max-w-full object-contain flex-shrink-0"
             />
-            <span className="font-serif text-lg font-bold">Nathaniel Baldock AI Consulting</span>
           </div>
         </Link>
       </SidebarHeader>
@@ -131,7 +130,7 @@ export function AppSidebar({ role }: SidebarProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem asChild>
-              <Link href={role === "coach" ? "/coach/setup" : "/client/profile"}>
+              <Link href={role === "coach" ? "/consultant/setup" : "/client/profile"}>
                 <User className="mr-2 h-4 w-4" />
                 {role === "coach" ? "Settings" : "Profile"}
               </Link>

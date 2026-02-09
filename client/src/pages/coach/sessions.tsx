@@ -310,7 +310,7 @@ export default function CoachSessions() {
                 Confirm
               </Button>
             )}
-            <Link href={`/coach/sessions/${session.id}`}>
+            <Link href={`/consultant/sessions/${session.id}`}>
               <Button size="icon" variant="ghost">
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -406,7 +406,7 @@ export default function CoachSessions() {
                       <FormItem>
                         <FormLabel>Title *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Weekly Coaching Session" {...field} data-testid="input-title" />
+                          <Input placeholder="Weekly Consultation" {...field} data-testid="input-title" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -67,8 +67,8 @@ function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: 
     }
     
     if (role === "client" && userRole === "coach") {
-      // Coaches cannot access client routes
-      return <Redirect to="/coach" />;
+      // Consultants cannot access client routes
+      return <Redirect to="/consultant" />;
     }
     // For client routes: allow undefined/null roles (new users default to client)
   }
@@ -155,8 +155,8 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
   };
 
   // If onboarding not completed, redirect to setup (except if already on setup page)
-  if (!settingsLoading && settings && !settings.onboardingCompleted && !location.includes("/coach/setup")) {
-    return <Redirect to="/coach/setup" />;
+  if (!settingsLoading && settings && !settings.onboardingCompleted && !location.includes("/consultant/setup")) {
+    return <Redirect to="/consultant/setup" />;
   }
 
   // Import quick modals lazily
@@ -203,7 +203,7 @@ function PublicHome() {
   if (isAuthenticated && user) {
     // Redirect based on user role
     if (user.role === "coach") {
-      return <Redirect to="/coach" />;
+      return <Redirect to="/consultant" />;
     } else {
       return <Redirect to="/client" />;
     }
@@ -277,80 +277,80 @@ function Router() {
         </ProtectedRoute>
       </Route>
 
-      {/* Coach routes */}
-      <Route path="/coach/setup">
+      {/* Consultant routes */}
+      <Route path="/consultant/setup">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachSetup />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach">
+      <Route path="/consultant">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <DashboardErrorBoundary fallbackTitle="Coach dashboard error">
+            <DashboardErrorBoundary fallbackTitle="Consultant dashboard error">
               <CoachDashboard />
             </DashboardErrorBoundary>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/clients">
+      <Route path="/consultant/clients">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachClients />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/clients/:id">
+      <Route path="/consultant/clients/:id">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachClientDetail />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/sessions/:id">
+      <Route path="/consultant/sessions/:id">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachSessionDetail />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/sessions">
+      <Route path="/consultant/sessions">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachSessions />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/intake">
+      <Route path="/consultant/intake">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachIntake />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/resources">
+      <Route path="/consultant/resources">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachResources />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/calculator">
+      <Route path="/consultant/calculator">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachCalculator />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/billing">
+      <Route path="/consultant/billing">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachBilling />
           </CoachLayout>
         </ProtectedRoute>
       </Route>
-      <Route path="/coach/analytics">
+      <Route path="/consultant/analytics">
         <ProtectedRoute role="coach">
           <CoachLayout>
             <CoachAnalytics />

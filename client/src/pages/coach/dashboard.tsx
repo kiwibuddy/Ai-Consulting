@@ -32,15 +32,15 @@ export default function CoachDashboard() {
   const { user } = useAuth();
 
   const { data: clients, isLoading: clientsLoading } = useQuery<ClientProfile[]>({
-    queryKey: ["/api/coach/clients"],
+    queryKey: ["/api/consultant/clients"],
   });
 
   const { data: sessions, isLoading: sessionsLoading } = useQuery<Session[]>({
-    queryKey: ["/api/coach/sessions"],
+    queryKey: ["/api/consultant/sessions"],
   });
 
   const { data: intakes, isLoading: intakesLoading } = useQuery<IntakeForm[]>({
-    queryKey: ["/api/coach/intake"],
+    queryKey: ["/api/consultant/intake"],
   });
 
   const isLoading = clientsLoading || sessionsLoading || intakesLoading;
@@ -116,7 +116,7 @@ export default function CoachDashboard() {
         transition={{ duration: 0.5 }}
       >
         <h1 className="font-serif text-3xl font-bold tracking-tight">
-          Welcome back, <span className="gradient-text">{user?.firstName || "Coach"}</span>
+          Welcome back, <span className="gradient-text">{user?.firstName || "Consultant"}</span>
         </h1>
         <p className="text-muted-foreground">
           Here's an overview of your consulting practice.
@@ -134,12 +134,12 @@ export default function CoachDashboard() {
               : undefined
           }
           icon={Users}
-          href="/coach/clients"
+          href="/consultant/clients"
           sparklineData={clientsSparkline}
           index={0}
         />
         {nextSession ? (
-          <Link key="next-session" href={`/coach/sessions/${nextSession.id}`}>
+          <Link key="next-session" href={`/consultant/sessions/${nextSession.id}`}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,7 +169,7 @@ export default function CoachDashboard() {
             value="—"
             description="No upcoming sessions"
             icon={Calendar}
-            href="/coach/sessions"
+            href="/consultant/sessions"
             index={1}
           />
         )}
@@ -178,7 +178,7 @@ export default function CoachDashboard() {
           value={sessions?.length || 0}
           description={`${completedSessions.length} completed`}
           icon={CheckCircle2}
-          href="/coach/sessions"
+          href="/consultant/sessions"
           sparklineData={sessionsSparkline}
           index={2}
         />
@@ -186,7 +186,7 @@ export default function CoachDashboard() {
           title="Pending Intakes"
           value={pendingIntakes.length}
           icon={UserPlus}
-          href="/coach/intake"
+          href="/consultant/intake"
           index={3}
         />
       </div>
@@ -212,7 +212,7 @@ export default function CoachDashboard() {
                     New prospective clients are waiting for your response.
                   </p>
                 </div>
-                <Link href="/coach/intake">
+                <Link href="/consultant/intake">
                   <Button data-testid="button-review-intakes">
                     Review Now
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -254,7 +254,7 @@ export default function CoachDashboard() {
                   : "No upcoming sessions"}
               </CardDescription>
             </div>
-            <Link href="/coach/sessions">
+            <Link href="/consultant/sessions">
               <Button variant="ghost" size="sm" data-testid="button-view-all-sessions">
                 View All
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -274,7 +274,7 @@ export default function CoachDashboard() {
                 return (
                   <div className="space-y-3">
                     {sessionsToShow.map((session) => (
-                      <Link key={session.id} href={`/coach/sessions/${session.id}`}>
+                      <Link key={session.id} href={`/consultant/sessions/${session.id}`}>
                         <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover-elevate cursor-pointer">
                           <div className="rounded-full bg-primary/10 p-2">
                             <CalendarDays className="h-4 w-4 text-primary" />
@@ -320,7 +320,7 @@ export default function CoachDashboard() {
               </CardTitle>
               <CardDescription>Engagement overview for your clients</CardDescription>
             </div>
-            <Link href="/coach/clients">
+            <Link href="/consultant/clients">
               <Button variant="ghost" size="sm" data-testid="button-view-all-clients">
                 View All
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -401,7 +401,7 @@ export default function CoachDashboard() {
             <CardContent>
               <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {thisWeekSessions.slice(0, 6).map((session, idx) => (
-                  <Link key={session.id} href={`/coach/sessions/${session.id}`}>
+                  <Link key={session.id} href={`/consultant/sessions/${session.id}`}>
                     <motion.div 
                       className="p-4 rounded-lg border bg-card hover-elevate cursor-pointer"
                       initial={{ opacity: 0, scale: 0.95 }}

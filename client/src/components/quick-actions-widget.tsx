@@ -52,14 +52,14 @@ export function QuickActionsWidget({ className }: QuickActionsWidgetProps) {
       label: "Create Invoice",
       icon: DollarSign,
       shortcut: "⌘⇧I",
-      href: "/coach/billing",
+      href: "/consultant/billing",
     },
     {
       id: "resource",
       label: "Upload Resource",
       icon: Upload,
       shortcut: "⌘⇧U",
-      href: "/coach/resources",
+      href: "/consultant/resources",
     },
   ];
 

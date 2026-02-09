@@ -102,7 +102,7 @@ export function ClientActivity({ clients, sessions, maxClients = 5 }: ClientActi
   return (
     <div className="space-y-3">
       {clientActivityData.slice(0, maxClients).map(({ client, lastSession, sessionCount, activityLevel }, index) => (
-        <Link key={client.id} href={`/coach/clients/${client.id}`}>
+        <Link key={client.id} href={`/consultant/clients/${client.id}`}>
           <div 
             className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group"
             style={{ 

@@ -118,12 +118,36 @@ export default function CoachIntake() {
             </div>
 
             <div className="space-y-2">
-              <div>
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                  Goals
-                </p>
-                <p className="text-sm">{intake.goals}</p>
-              </div>
+              {(intake.problemStatement || intake.goals) && (
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Problem Statement
+                  </p>
+                  <p className="text-sm">{intake.problemStatement || intake.goals}</p>
+                </div>
+              )}
+              {(intake.organisation || intake.industry) && (
+                <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                  {intake.organisation && <span>Org: {intake.organisation}</span>}
+                  {intake.industry && <span>Industry: {intake.industry}</span>}
+                </div>
+              )}
+              {intake.currentSituation && (
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Current Situation
+                  </p>
+                  <p className="text-sm text-muted-foreground">{intake.currentSituation}</p>
+                </div>
+              )}
+              {intake.shortTermGoals && (
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    Short-term Goals
+                  </p>
+                  <p className="text-sm text-muted-foreground">{intake.shortTermGoals}</p>
+                </div>
+              )}
               {intake.experience && (
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">

@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Sparkles, ArrowLeft, Lock, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowLeft, Lock, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -78,10 +78,11 @@ export default function ResetPassword() {
         <header className="border-b">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
             <Link href="/">
-              <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <Sparkles className="h-6 w-6 text-primary" />
-                <span className="font-serif text-xl font-bold">Nathaniel Baldock AI Consulting</span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="Nathaniel Baldock AI Consulting"
+                className="h-8 w-auto hover:opacity-80 transition-opacity"
+              />
             </Link>
             <ThemeToggle />
           </div>
@@ -113,10 +114,11 @@ export default function ResetPassword() {
       <header className="border-b">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link href="/">
-            <div className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <Sparkles className="h-6 w-6 text-primary" />
-              <span className="font-serif text-xl font-bold">Nathaniel Baldock AI Consulting</span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Nathaniel Baldock AI Consulting"
+              className="h-8 w-auto hover:opacity-80 transition-opacity"
+            />
           </Link>
           <ThemeToggle />
         </div>

@@ -40,11 +40,15 @@ export function intakeSubmittedEmail(coachEmail: string, intakeData: {
   firstName: string;
   lastName: string;
   email: string;
-  goals: string;
+  problemStatement: string;
+  organisation?: string;
+  industry?: string;
 }): EmailOptions {
+  const orgLine = intakeData.organisation ? `<div class="info-row"><span class="label">Organisation:</span> ${intakeData.organisation}</div>` : "";
+  const industryLine = intakeData.industry ? `<div class="info-row"><span class="label">Industry:</span> ${intakeData.industry}</div>` : "";
   return {
     to: coachEmail,
-    subject: "New Coaching Intake Form Submitted",
+    subject: "New AI Consulting Intake Form Submitted",
     html: `
       <!DOCTYPE html>
       <html>
@@ -66,11 +70,13 @@ export function intakeSubmittedEmail(coachEmail: string, intakeData: {
               <h1>New Intake Form Submission</h1>
             </div>
             <div class="content">
-              <p>A new coaching intake form has been submitted:</p>
+              <p>A new AI consulting intake form has been submitted:</p>
               <div class="info-row"><span class="label">Name:</span> ${intakeData.firstName} ${intakeData.lastName}</div>
               <div class="info-row"><span class="label">Email:</span> ${intakeData.email}</div>
-              <div class="info-row"><span class="label">Goals:</span> ${intakeData.goals}</div>
-              <p>Please review the intake form in your coaching dashboard.</p>
+              ${orgLine}
+              ${industryLine}
+              <div class="info-row"><span class="label">Problem Statement:</span> ${intakeData.problemStatement}</div>
+              <p>Please review the intake form in your consultant dashboard.</p>
             </div>
           </div>
         </body>
@@ -106,7 +112,7 @@ export function accountCreatedEmail(clientEmail: string, clientName: string): Em
             </div>
             <div class="content">
               <p>Hi ${clientName},</p>
-              <p>Great news! Your coaching application has been accepted. Your account is now ready.</p>
+              <p>Great news! Your consulting application has been accepted. Your account is now ready.</p>
               
               <h3>How to Access Your Portal:</h3>
               <div class="step">
@@ -125,17 +131,17 @@ export function accountCreatedEmail(clientEmail: string, clientName: string): Em
               
               <p>Once signed in, you can:</p>
               <ul>
-                <li>View and manage your coaching sessions</li>
+                <li>View and manage your consultations</li>
                 <li>Access resources and materials</li>
                 <li>Track your action items and progress</li>
-                <li>Communicate with your coach</li>
+                <li>Communicate with your consultant</li>
               </ul>
               
               <a href="${process.env.APP_URL || "https://your-app-url.com"}" class="button">Access Your Portal</a>
               
               <p style="margin-top: 20px; font-size: 13px; color: #666;">
                 <strong>Note:</strong> Make sure to sign in with your Google account that uses ${clientEmail}. 
-                If you don't have a Google account with this email, please contact your coach.
+                If you don't have a Google account with this email, please contact your consultant.
               </p>
             </div>
           </div>
@@ -156,7 +162,7 @@ export function sessionScheduledEmail(
   },
   isClient: boolean
 ): EmailOptions {
-  const role = isClient ? "Your coach" : "Your client";
+  const role = isClient ? "Your consultant" : "Your client";
   const action = isClient ? "confirm" : "review";
   
   return {
@@ -187,14 +193,14 @@ export function sessionScheduledEmail(
             </div>
             <div class="content">
               <p>Hi ${recipientName},</p>
-              <p>${role} has ${isClient ? "scheduled" : "requested"} a coaching session:</p>
+              <p>${role} has ${isClient ? "scheduled" : "requested"} a consultation:</p>
               <div class="session-info">
                 <div class="info-row"><span class="label">Title:</span> ${sessionData.title}</div>
                 <div class="info-row"><span class="label">Date & Time:</span> ${new Date(sessionData.scheduledAt).toLocaleString()}</div>
                 <div class="info-row"><span class="label">Duration:</span> ${sessionData.duration} minutes</div>
                 ${sessionData.meetingLink ? `<div class="info-row"><span class="label">Meeting Link:</span> <a href="${sessionData.meetingLink}">${sessionData.meetingLink}</a></div>` : ""}
               </div>
-              <p>Please ${action} this session in your coaching portal.</p>
+              <p>Please ${action} this session in your consulting portal.</p>
               <a href="${process.env.APP_URL || "https://your-app-url.com"}" class="button">View Session</a>
             </div>
           </div>
@@ -216,7 +222,7 @@ export function sessionReminderEmail(
 ): EmailOptions {
   return {
     to: recipientEmail,
-    subject: `Reminder: Coaching Session Tomorrow - ${sessionData.title}`,
+    subject: `Reminder: Consultation Tomorrow - ${sessionData.title}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -240,7 +246,7 @@ export function sessionReminderEmail(
             </div>
             <div class="content">
               <p>Hi ${recipientName},</p>
-              <p>This is a reminder that you have a coaching session scheduled for tomorrow:</p>
+              <p>This is a reminder that you have a consultation scheduled for tomorrow:</p>
               <div class="session-info">
                 <div class="info-row"><span class="label">Title:</span> ${sessionData.title}</div>
                 <div class="info-row"><span class="label">Date & Time:</span> ${new Date(sessionData.scheduledAt).toLocaleString()}</div>
@@ -289,12 +295,12 @@ export function resourceUploadedEmail(
             </div>
             <div class="content">
               <p>Hi ${clientName},</p>
-              <p>Your coach has shared a new resource with you:</p>
+              <p>Your consultant has shared a new resource with you:</p>
               <div class="resource-info">
                 <h3>${resourceData.title}</h3>
                 ${resourceData.description ? `<p>${resourceData.description}</p>` : ""}
               </div>
-              <p>You can access this resource in your coaching portal.</p>
+              <p>You can access this resource in your consulting portal.</p>
               <a href="${process.env.APP_URL || "https://your-app-url.com"}/client/resources" class="button">View Resources</a>
             </div>
           </div>
@@ -339,7 +345,7 @@ export function actionItemAssignedEmail(
             </div>
             <div class="content">
               <p>Hi ${clientName},</p>
-              <p>Your coach has assigned you a new action item:</p>
+              <p>Your consultant has assigned you a new action item:</p>
               <div class="action-info">
                 <div class="info-row"><span class="label">Task:</span> ${actionData.title}</div>
                 ${actionData.description ? `<div class="info-row"><span class="label">Details:</span> ${actionData.description}</div>` : ""}
@@ -437,7 +443,7 @@ export function sessionCancelledEmail(
             </div>
             <div class="content">
               <p>Hi ${recipientName},</p>
-              <p>The following coaching session has been cancelled:</p>
+              <p>The following consultation has been cancelled:</p>
               <div class="session-info">
                 <div class="info-row"><span class="label">Title:</span> ${sessionData.title}</div>
                 <div class="info-row"><span class="label">Scheduled for:</span> ${new Date(sessionData.scheduledAt).toLocaleString()}</div>
@@ -505,7 +511,7 @@ export function paymentReceivedEmail(
                 <div class="info-row"><span class="label">Date:</span> ${paymentData.date}</div>
               </div>
               <p>${isCoach ? "The payment has been processed and will be deposited to your account." : "Thank you for your business!"}</p>
-              <a href="${process.env.APP_URL || "https://your-app-url.com"}/${isCoach ? "coach" : "client"}/billing" class="button">View Billing</a>
+              <a href="${process.env.APP_URL || "https://your-app-url.com"}/${isCoach ? "consultant" : "client"}/billing" class="button">View Billing</a>
             </div>
           </div>
         </body>
@@ -582,12 +588,12 @@ export function intakeConfirmationEmail(clientEmail: string, clientName: string)
             <div class="content">
               <div class="check-icon">✓</div>
               <p>Hi ${clientName},</p>
-              <p>Thank you for submitting your coaching application! We've received your information and will review it shortly.</p>
+              <p>Thank you for submitting your consulting application! We've received your information and will review it shortly.</p>
               <p><strong>What happens next?</strong></p>
               <ul>
-                <li>Your coach will review your application</li>
+                <li>Your consultant will review your application</li>
                 <li>If accepted, you'll receive an email with instructions to set up your account</li>
-                <li>You'll then have access to your personal coaching portal</li>
+                <li>You'll then have access to your personal consulting portal</li>
               </ul>
               <p>We typically respond within 1-2 business days. If you have any questions in the meantime, please don't hesitate to reach out.</p>
               <p>Looking forward to working with you!</p>

@@ -1,11 +1,11 @@
 /**
- * Seed script: creates demo coach and 8 clients with robust demo data (~6 months
+ * Seed script: creates demo consultant and 8 clients with robust demo data (~6 months
  * of operation: varied tenure, 1 pending intake, sessions, action items, resources).
  *
  * Run: npm run db:seed
  *
  * Demo credentials (password for all): demo123
- * - Coach: coach@example.com
+ * - Consultant: coach@example.com
  * - Clients: client@example.com, nathanielbaldock@gmail.com, alex@demo.com, jordan@demo.com,
  *   sam@demo.com, morgan@demo.com, casey@demo.com, riley@demo.com
  * - 1 pending intake: Jamie Rivera
@@ -69,6 +69,8 @@ async function ensureClient(
       goals: def.goals,
       preferredContactMethod: "email",
     });
+  } else {
+    profile = await storage.updateClientProfile(profile.id, { goals: def.goals }) ?? profile;
   }
   return { user: user!, profile };
 }
@@ -78,7 +80,7 @@ async function seed() {
   
   const hashedPassword = await bcrypt.hash(DEMO_PASSWORD, 10);
 
-  // ----- Coach -----
+  // ----- Consultant -----
   let coach = await authStorage.getUserByEmail(COACH_EMAIL);
   if (!coach) {
     coach = await authStorage.upsertUser({
@@ -86,23 +88,23 @@ async function seed() {
       username: COACH_EMAIL,
       password: hashedPassword,
       firstName: "Demo",
-      lastName: "Coach",
+      lastName: "Consultant",
       role: "coach",
       emailVerified: true, // Demo account – skip verification for local/testing
     });
-    console.log("✓ Created coach:", COACH_EMAIL);
+    console.log("✓ Created consultant:", COACH_EMAIL);
   } else {
     await authStorage.upsertUser({
       id: coach.id,
       email: coach.email,
       username: coach.username,
       password: hashedPassword,
-      firstName: coach.firstName ?? "Demo",
-      lastName: coach.lastName ?? "Coach",
+      firstName: "Demo",
+      lastName: "Consultant",
       role: "coach",
       emailVerified: true, // Demo account – skip verification for local/testing
     });
-    console.log("✓ Updated coach password:", COACH_EMAIL);
+    console.log("✓ Updated consultant password:", COACH_EMAIL);
   }
 
   // ----- Client -----
@@ -139,10 +141,14 @@ async function seed() {
       userId: client.id,
       status: "active",
       phone: "+1 (555) 123-4567",
-      goals: "Build leadership skills, improve work-life balance, and develop a strategic career roadmap for the next 5 years.",
+      goals: "Exploring AI adoption for donor engagement and content creation. Want to automate routine communications while preserving mission voice.",
       preferredContactMethod: "email",
     });
     console.log("✓ Created client profile");
+  } else {
+    await storage.updateClientProfile(clientProfile.id, {
+      goals: "Exploring AI adoption for donor engagement and content creation. Want to automate routine communications while preserving mission voice.",
+    });
   }
 
   // ----- Dev login (nathanielbaldock@gmail.com) so you can log in at localhost:3001 -----
@@ -177,10 +183,12 @@ async function seed() {
     devProfile = await storage.createClientProfile({
       userId: devUser!.id,
       status: "active",
-      goals: "Dev account for testing the portal.",
+      goals: "Dev account for testing the AI consulting portal.",
       preferredContactMethod: "email",
     });
     console.log("✓ Created client profile for", DEV_EMAIL);
+  } else {
+    await storage.updateClientProfile(devProfile.id, { goals: "Dev account for testing the AI consulting portal." });
   }
 
   // ----- 6 additional demo clients (8 total with Demo Client + dev) -----
@@ -189,42 +197,42 @@ async function seed() {
       email: "alex@demo.com",
       firstName: "Alex",
       lastName: "Chen",
-      goals: "Career transition and leadership development. StrengthsFinder integration and executive presence.",
+      goals: "AI strategy for mission organisation. Exploring LLMs for donor communications, content creation, and program reporting automation.",
       tenure: "6months",
     },
     {
       email: "jordan@demo.com",
       firstName: "Jordan",
       lastName: "Smith",
-      goals: "Work-life balance and boundary setting. Time management and delegation.",
+      goals: "Curriculum team wants to pilot AI-assisted lesson planning and assessment. Need guidance on safe deployment and guardrails.",
       tenure: "4months",
     },
     {
       email: "riley@demo.com",
       firstName: "Riley",
       lastName: "Davis",
-      goals: "Executive presence and board-level communication. Preparing for C-suite transition.",
+      goals: "Nonprofit leadership exploring AI for grant writing, impact reporting, and volunteer coordination. Faith-sector sensitivity required.",
       tenure: "6months",
     },
     {
       email: "sam@demo.com",
       firstName: "Sam",
       lastName: "Taylor",
-      goals: "StrengthsFinder integration and team leadership. Building high-performing teams.",
+      goals: "Education sector: AI tools for student support and administrative workflows. Focus on ethical use and data privacy.",
       tenure: "2months",
     },
     {
       email: "morgan@demo.com",
       firstName: "Morgan",
       lastName: "Lee",
-      goals: "Confidence and assertiveness. Navigating difficult conversations.",
+      goals: "First-time AI adoption. Small team needs practical tools for outreach, social media, and internal operations.",
       tenure: "1month",
     },
     {
       email: "casey@demo.com",
       firstName: "Casey",
       lastName: "Brown",
-      goals: "First-time people leader. Transitioning from IC to manager.",
+      goals: "Church communications lead. Exploring AI for newsletters, sermon prep support, and pastoral care workflows.",
       tenure: "new",
     },
   ];
@@ -244,10 +252,14 @@ async function seed() {
       lastName: "Rivera",
       email: "jamie.rivera@example.com",
       phone: "+1 (555) 987-6543",
-      goals: "I'm exploring executive coaching to prepare for a C-suite role in the next 18 months. I want to work on strategic vision, board communication, and leading through change.",
-      experience: "10+ years in operations and strategy. Led two major M&A integrations.",
-      availability: "Tuesday and Thursday afternoons, or Wednesday mornings.",
-      howDidYouHear: "LinkedIn",
+      problemStatement: "Our mission organisation needs to scale donor communications and impact reporting without adding headcount. We're manually writing newsletters, grant reports, and program updates. We're exploring AI but need guidance on strategy, tool selection, and maintaining our mission voice. We have theological and safeguarding considerations.",
+      organisation: "Rivera Foundation",
+      industry: "faith_mission",
+      role: "Director of Communications",
+      currentSituation: "Using Mailchimp, Google Workspace, and spreadsheets. Grant reporting is a major bottleneck.",
+      shortTermGoals: "Pilot AI for newsletter drafts and one grant report within 3 months.",
+      availability: "afternoons",
+      howDidYouHear: "linkedin",
       location: "San Francisco, CA",
       preferredMeetingFormat: "video_zoom",
       status: "pending",
@@ -276,69 +288,69 @@ async function seed() {
     // Session 1: Completed session from 3 weeks ago
     const session1 = await storage.createSession({
       clientId: clientProfile.id,
-      title: "Discovery Session",
-      description: "Initial coaching session to understand goals, challenges, and establish coaching agreement.",
+      title: "Discovery & Scoping",
+      description: "Initial consultation to understand AI goals, current tools, and constraints.",
       scheduledAt: subWeeks(new Date(), 3),
       duration: 90,
       status: "completed",
       requestedBy: "coach",
       meetingLink: "https://meet.google.com/abc-defg-hij",
-      prepNotes: "Review intake form responses. Prepare discovery questions.",
-      sessionNotes: "Great initial session. Client is motivated and has clear vision. Key focus areas identified: leadership presence, delegation skills, and strategic thinking.",
+      prepNotes: "Review intake form. Prepare AI use-case discovery questions.",
+      sessionNotes: "Strong initial session. Client wants to automate donor comms and impact reporting. Key focus: tool selection, mission voice, and data privacy.",
       notesVisibleToClient: true,
-      clientReflection: "Really insightful session! I feel much clearer about what I want to work on. The exercise around values was particularly helpful.",
+      clientReflection: "Very helpful! I have a clearer picture of where AI can help and what to avoid.",
     });
-    console.log("  ✓ Session 1: Discovery Session (completed)");
+    console.log("  ✓ Session 1: Discovery & Scoping (completed)");
 
     // Session 2: Completed session from 2 weeks ago
     const session2 = await storage.createSession({
       clientId: clientProfile.id,
-      title: "Leadership Presence Workshop",
-      description: "Deep dive into leadership presence and executive communication.",
+      title: "AI Tool Evaluation",
+      description: "Evaluating ChatGPT, Claude, and other tools for mission use cases.",
       scheduledAt: subWeeks(new Date(), 2),
       duration: 60,
       status: "completed",
       requestedBy: "client",
       meetingLink: "https://meet.google.com/abc-defg-hij",
-      prepNotes: "Prepare leadership presence framework. Review 360 feedback.",
-      sessionNotes: "Explored leadership presence model. Client practiced elevator pitch and received feedback. Assigned stakeholder mapping exercise.",
+      prepNotes: "Prepare tool comparison matrix. Review client's use cases.",
+      sessionNotes: "Walked through tool options. Client leaning toward Claude for drafting. Assigned prompt-engineering exercises.",
       notesVisibleToClient: true,
-      clientReflection: "The practice exercises were challenging but valuable. I need to work on my opening presence in meetings.",
+      clientReflection: "The tool comparison was really useful. I'll try the prompt exercises this week.",
     });
-    console.log("  ✓ Session 2: Leadership Presence (completed)");
+    console.log("  ✓ Session 2: AI Tool Evaluation (completed)");
 
     // Session 3: Completed session from 1 week ago
     const session3 = await storage.createSession({
       clientId: clientProfile.id,
-      title: "Delegation & Empowerment",
-      description: "Building effective delegation skills and empowering team members.",
+      title: "Prompt Engineering & Guardrails",
+      description: "Building effective prompts and safety guardrails for mission-sensitive content.",
       scheduledAt: subWeeks(new Date(), 1),
       duration: 60,
       status: "completed",
       requestedBy: "coach",
       meetingLink: "https://meet.google.com/abc-defg-hij",
-      prepNotes: "Review delegation matrix template. Prepare case studies.",
-      sessionNotes: "Reviewed current delegation patterns. Identified tasks for delegation. Created action plan for empowering two direct reports.",
+      prepNotes: "Review prompt templates. Prepare theological guardrail examples.",
+      sessionNotes: "Reviewed prompt patterns. Created custom system prompts for donor comms. Discussed review workflows.",
       notesVisibleToClient: true,
     });
-    console.log("  ✓ Session 3: Delegation (completed)");
+    console.log("  ✓ Session 3: Prompt Engineering (completed)");
 
     // Session 4: Upcoming session tomorrow
     const tomorrow = addDays(new Date(), 1);
     tomorrow.setHours(14, 0, 0, 0);
     const session4 = await storage.createSession({
       clientId: clientProfile.id,
-      title: "Strategic Thinking Deep Dive",
-      description: "Developing strategic thinking capabilities and long-term planning skills.",
+      title: "Pilot Implementation Review",
+      description: "Review first AI-assisted newsletter and grant report drafts.",
       scheduledAt: tomorrow,
       duration: 60,
       status: "scheduled",
       requestedBy: "coach",
       meetingLink: "https://meet.google.com/abc-defg-hij",
-      prepNotes: "Prepare strategic frameworks. Review client's current projects for strategic opportunities.",
+      prepNotes: "Review client's draft outputs. Prepare feedback framework.",
       notesVisibleToClient: false,
     });
-    console.log("  ✓ Session 4: Strategic Thinking (tomorrow)");
+    console.log("  ✓ Session 4: Pilot Implementation Review (tomorrow)");
 
     // Session 5: Upcoming session next week
     const nextWeek = addDays(new Date(), 8);
@@ -346,7 +358,7 @@ async function seed() {
     const session5 = await storage.createSession({
       clientId: clientProfile.id,
       title: "Mid-Program Review",
-      description: "Review progress, celebrate wins, and adjust goals as needed.",
+      description: "Review progress, celebrate wins, and adjust roadmap.",
       scheduledAt: nextWeek,
       duration: 60,
       status: "scheduled",
@@ -359,15 +371,15 @@ async function seed() {
     // Session 6: Cancelled session (for variety)
     const session6 = await storage.createSession({
       clientId: clientProfile.id,
-      title: "Conflict Resolution Skills",
-      description: "Addressing workplace conflicts constructively.",
+      title: "Advanced Integrations",
+      description: "Exploring API integrations and custom workflows.",
       scheduledAt: subDays(new Date(), 5),
       duration: 60,
       status: "cancelled",
       requestedBy: "client",
       notesVisibleToClient: false,
     });
-    console.log("  ✓ Session 6: Conflict Resolution (cancelled)");
+    console.log("  ✓ Session 6: Advanced Integrations (cancelled)");
 
     // ----- Sessions across the other 7 clients (~6 months of operation) -----
     // 6-month clients: ~11 sessions; 4-month: ~8; 3-month: ~5; 2-month: ~4; 1-month: ~2; new: ~1
@@ -382,13 +394,13 @@ async function seed() {
     ];
 
     const sessionTitles = [
-      "Discovery & Goals",
-      "Values & Priorities",
-      "Progress Review",
-      "Skill Deep Dive",
+      "Discovery & Scoping",
+      "Tool Evaluation",
+      "Prompt Engineering",
+      "Pilot Review",
       "Action Planning",
       "Mid-Program Check-in",
-      "Accountability Session",
+      "Implementation Support",
       "Next Steps",
       "Wrap-up",
     ];
@@ -409,7 +421,7 @@ async function seed() {
         await storage.createSession({
           clientId: prof.id,
           title: i === 0 ? `Discovery Session – ${name}` : title,
-          description: "Coaching session.",
+          description: "Consultation.",
           scheduledAt,
           duration: 60,
           status,
@@ -430,90 +442,90 @@ async function seed() {
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session1.id,
-      title: "Complete values clarification exercise",
-      description: "Use the provided worksheet to identify your top 5 core values and how they show up in your work.",
+      title: "Complete AI use-case inventory",
+      description: "Document 5–10 tasks or workflows where AI could help, with priority and constraints.",
       dueDate: subWeeks(new Date(), 2),
       status: "completed",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Values exercise (completed)");
+    console.log("  ✓ Action: Use-case inventory (completed)");
 
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session2.id,
-      title: "Practice 60-second leadership introduction",
-      description: "Record yourself giving your leadership introduction 3 times and note improvements.",
+      title: "Test 3 prompt templates for donor comms",
+      description: "Use the provided templates to draft donor thank-you notes and update excerpts.",
       dueDate: subWeeks(new Date(), 1),
       status: "completed",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Leadership intro practice (completed)");
+    console.log("  ✓ Action: Prompt templates test (completed)");
 
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session2.id,
-      title: "Complete stakeholder mapping",
-      description: "Map your key stakeholders using the influence/interest matrix.",
+      title: "Document tool evaluation results",
+      description: "Compare ChatGPT vs Claude for your use cases and note pros/cons.",
       dueDate: subDays(new Date(), 10),
       status: "completed",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Stakeholder mapping (completed)");
+    console.log("  ✓ Action: Tool evaluation (completed)");
 
     // In-progress actions
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session3.id,
-      title: "Delegate one project to team member",
-      description: "Choose one project from your list and use the RACI model to delegate it effectively.",
+      title: "Draft first AI-assisted newsletter",
+      description: "Use the system prompts we built to generate a draft newsletter. Share for review.",
       dueDate: addDays(new Date(), 3),
       status: "in_progress",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Delegate project (in progress)");
+    console.log("  ✓ Action: Newsletter draft (in progress)");
 
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session3.id,
-      title: "Schedule empowerment conversation",
-      description: "Have an empowerment conversation with your direct report using the framework we discussed.",
+      title: "Set up review workflow",
+      description: "Define who approved AI-generated content before it goes out. Document the process.",
       dueDate: addDays(new Date(), 5),
       status: "in_progress",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Empowerment conversation (in progress)");
+    console.log("  ✓ Action: Review workflow (in progress)");
 
     // Pending actions
     await storage.createActionItem({
       clientId: clientProfile.id,
       sessionId: session4.id,
-      title: "Read strategic thinking article",
-      description: "Read the Harvard Business Review article on strategic thinking and note 3 key takeaways.",
+      title: "Read AI prompt best practices guide",
+      description: "Review the shared resource and note 3 improvements for your prompts.",
       dueDate: addDays(new Date(), 7),
       status: "pending",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Read HBR article (pending)");
+    console.log("  ✓ Action: Prompt best practices (pending)");
 
     await storage.createActionItem({
       clientId: clientProfile.id,
-      title: "Journal daily wins for one week",
-      description: "Each evening, write down 3 wins from the day, no matter how small.",
+      title: "Pilot one grant report section with AI",
+      description: "Draft the methodology section of your next grant report using AI. Bring to next session.",
       dueDate: addDays(new Date(), 14),
       status: "pending",
       createdBy: coach.id,
     });
-    console.log("  ✓ Action: Daily journaling (pending)");
+    console.log("  ✓ Action: Grant report pilot (pending)");
 
     // ----- Action items for other clients (engagement variety for dashboard) -----
     const actionTemplates = [
-      { title: "Complete StrengthsFinder reflection", status: "completed" as const, dueDaysAgo: 5 },
-      { title: "Send weekly progress update", status: "completed" as const, dueDaysAgo: 2 },
-      { title: "Practice boundary-setting script", status: "in_progress" as const, dueDaysAhead: 3 },
-      { title: "Review leadership 360 feedback", status: "completed" as const, dueDaysAgo: 10 },
-      { title: "Schedule 1:1 with direct report", status: "pending" as const, dueDaysAhead: 7 },
-      { title: "Draft 90-day goals", status: "in_progress" as const, dueDaysAhead: 5 },
-      { title: "Read assigned chapter", status: "completed" as const, dueDaysAgo: 1 },
+      { title: "Complete AI use-case inventory", status: "completed" as const, dueDaysAgo: 5 },
+      { title: "Send pilot results update", status: "completed" as const, dueDaysAgo: 2 },
+      { title: "Test prompt templates", status: "in_progress" as const, dueDaysAhead: 3 },
+      { title: "Review tool comparison", status: "completed" as const, dueDaysAgo: 10 },
+      { title: "Schedule team AI training", status: "pending" as const, dueDaysAhead: 7 },
+      { title: "Draft AI roadmap", status: "in_progress" as const, dueDaysAhead: 5 },
+      { title: "Read prompt best practices", status: "completed" as const, dueDaysAgo: 1 },
       { title: "Prepare agenda for next session", status: "pending" as const, dueDaysAhead: 4 },
     ];
     for (let i = 0; i < extraClients.length; i++) {
@@ -525,7 +537,7 @@ async function seed() {
       await storage.createActionItem({
         clientId: prof.id,
         title: t.title,
-        description: "From coaching session.",
+        description: "From consultation.",
         dueDate,
         status: t.status,
         createdBy: coach.id,
@@ -551,49 +563,49 @@ async function seed() {
     console.log("\nCreating resources...");
 
     await storage.createResource({
-      title: "Leadership Presence Framework",
-      description: "A comprehensive guide to developing executive presence and commanding attention in any room.",
+      title: "AI Prompt Best Practices",
+      description: "Guide to writing effective prompts for mission and nonprofit use cases.",
       fileType: "pdf",
-      fileName: "leadership-presence-guide.pdf",
+      fileName: "ai-prompt-best-practices.pdf",
       clientId: clientProfile.id,
       sessionId: session2.id,
       isGlobal: false,
       uploadedBy: coach.id,
     });
-    console.log("  ✓ Resource: Leadership Presence Framework");
+    console.log("  ✓ Resource: AI Prompt Best Practices");
 
     await storage.createResource({
-      title: "Delegation Matrix Template",
-      description: "Excel template for categorizing tasks and identifying delegation opportunities.",
+      title: "Tool Comparison Matrix",
+      description: "Spreadsheet comparing ChatGPT, Claude, and other tools for mission orgs.",
       fileType: "spreadsheet",
-      fileName: "delegation-matrix.xlsx",
+      fileName: "tool-comparison.xlsx",
       clientId: clientProfile.id,
       sessionId: session3.id,
       isGlobal: false,
       uploadedBy: coach.id,
     });
-    console.log("  ✓ Resource: Delegation Matrix");
+    console.log("  ✓ Resource: Tool Comparison Matrix");
 
     await storage.createResource({
-      title: "Strategic Thinking Workbook",
-      description: "Interactive workbook with exercises for developing strategic thinking capabilities.",
+      title: "AI Roadmap Workbook",
+      description: "Interactive workbook for planning your AI adoption journey.",
       fileType: "pdf",
-      fileName: "strategic-thinking-workbook.pdf",
+      fileName: "ai-roadmap-workbook.pdf",
       clientId: clientProfile.id,
       isGlobal: false,
       uploadedBy: coach.id,
     });
-    console.log("  ✓ Resource: Strategic Thinking Workbook");
+    console.log("  ✓ Resource: AI Roadmap Workbook");
 
     await storage.createResource({
-      title: "Values Clarification Exercise",
-      description: "Worksheet to help identify and prioritize your core values.",
+      title: "Sample Prompt Templates",
+      description: "Ready-to-use prompts for donor comms, newsletters, and grant reports.",
       fileType: "pdf",
-      fileName: "values-exercise.pdf",
+      fileName: "prompt-templates.pdf",
       isGlobal: true,
       uploadedBy: coach.id,
     });
-    console.log("  ✓ Resource: Values Exercise (global)");
+    console.log("  ✓ Resource: Sample Prompt Templates (global)");
 
     // ----- Session Messages -----
     console.log("\nCreating session messages...");
@@ -601,17 +613,17 @@ async function seed() {
     await storage.createMessage({
       sessionId: session4.id,
       senderId: coach.id,
-      content: "Looking forward to our session tomorrow! Please review the strategic thinking frameworks I sent earlier.",
+      content: "Looking forward to our session tomorrow! Please review the AI prompt best practices guide I shared.",
     });
     await storage.createMessage({
       sessionId: session4.id,
       senderId: client.id,
-      content: "Thanks! I've reviewed them and have some questions about applying the SWOT analysis to my department.",
+      content: "Thanks! I've tried the templates and have a few questions about adjusting them for our donor voice.",
     });
     await storage.createMessage({
       sessionId: session4.id,
       senderId: coach.id,
-      content: "Great question - we'll definitely cover that. Come prepared with a current challenge you'd like to analyze strategically.",
+      content: "Great - we'll go through that. Bring your draft newsletter so we can refine the prompts together.",
     });
     console.log("  ✓ Session messages created");
 
@@ -628,7 +640,7 @@ async function seed() {
       dueDate: subWeeks(new Date(), 4),
       paidAt: subWeeks(new Date(), 4),
       items: JSON.stringify([
-        { description: "Executive Coaching Package - 3 Sessions", amount: 52500 }
+        { description: "AI Consulting Package - 3 Sessions", amount: 52500 }
       ]),
       notes: "Initial coaching package",
     }).returning();
@@ -643,7 +655,7 @@ async function seed() {
       status: "completed",
       provider: "stripe",
       providerPaymentId: "pi_demo_" + Math.random().toString(36).substring(7),
-      description: "Executive Coaching Package - 3 Sessions",
+      description: "AI Consulting Package - 3 Sessions",
       paidAt: subWeeks(new Date(), 4),
     });
     console.log("  ✓ Payment 1: $525.00 via Stripe");
@@ -658,7 +670,7 @@ async function seed() {
       dueDate: subWeeks(new Date(), 1),
       paidAt: subDays(new Date(), 5),
       items: JSON.stringify([
-        { description: "Individual Coaching Session", amount: 17500 }
+        { description: "Individual Consultation", amount: 17500 }
       ]),
     }).returning();
     console.log("  ✓ Invoice 2: $175.00 (paid)");
@@ -672,7 +684,7 @@ async function seed() {
       status: "completed",
       provider: "paypal",
       providerPaymentId: "PAY-demo-" + Math.random().toString(36).substring(7),
-      description: "Individual Coaching Session",
+      description: "Individual Consultation",
       paidAt: subDays(new Date(), 5),
     });
     console.log("  ✓ Payment 2: $175.00 via PayPal");
@@ -686,7 +698,7 @@ async function seed() {
       status: "sent",
       dueDate: addDays(new Date(), 14),
       items: JSON.stringify([
-        { description: "Coaching Sessions - 2 Sessions", amount: 35000 }
+        { description: "Consultations - 2 Sessions", amount: 35000 }
       ]),
       notes: "Payment due within 14 days",
     });
@@ -704,13 +716,13 @@ async function seed() {
       userId: coach.id,
       type: "session_scheduled",
       title: "Session Tomorrow",
-      message: "You have a session with Demo Client tomorrow at 2:00 PM.",
+      message: "You have a consultation with Demo Client tomorrow at 2:00 PM.",
     });
     await storage.createNotification({
       userId: coach.id,
       type: "payment_received",
       title: "Payment Received",
-      message: "Demo Client paid $175.00 for Individual Coaching Session.",
+      message: "Demo Client paid $175.00 for Individual Consultation.",
     });
     await storage.createNotification({
       userId: coach.id,
@@ -727,19 +739,19 @@ async function seed() {
       userId: client.id,
       type: "session_scheduled",
       title: "Session Tomorrow",
-      message: "Your coaching session is tomorrow at 2:00 PM. Don't forget to prepare!",
+      message: "Your consultation is tomorrow at 2:00 PM. Don't forget to prepare!",
     });
     await storage.createNotification({
       userId: client.id,
       type: "action_assigned",
       title: "New Action Item",
-      message: "You have a new action item: Read strategic thinking article.",
+      message: "You have a new action item: Read AI prompt best practices guide.",
     });
     await storage.createNotification({
       userId: client.id,
       type: "resource_uploaded",
       title: "New Resource Available",
-      message: "Your coach shared a new resource: Strategic Thinking Workbook.",
+      message: "Your consultant shared a new resource: AI Roadmap Workbook.",
     });
     console.log("  ✓ Client notifications created");
   }
@@ -748,12 +760,12 @@ async function seed() {
   console.log("✓ DEMO ACCOUNTS READY");
   console.log("=".repeat(50));
   console.log("\nCredentials (password for both): demo123");
-  console.log("┌─────────┬─────────────────────┬──────────────────┐");
-  console.log("│ Role    │ Email               │ Dashboard        │");
-  console.log("├─────────┼─────────────────────┼──────────────────┤");
-  console.log("│ Coach   │ coach@example.com   │ /coach           │");
-  console.log("│ Client  │ client@example.com  │ /client          │");
-  console.log("└─────────┴─────────────────────┴──────────────────┘");
+  console.log("┌─────────────┬─────────────────────┬──────────────────┐");
+  console.log("│ Role        │ Email               │ Dashboard        │");
+  console.log("├─────────────┼─────────────────────┼──────────────────┤");
+  console.log("│ Consultant  │ coach@example.com   │ /consultant      │");
+  console.log("│ Client      │ client@example.com  │ /client          │");
+  console.log("└─────────────┴─────────────────────┴──────────────────┘");
   console.log("\nDemo data includes:");
   console.log("  • 8 clients (varied tenure: 6 months to new), 1 pending intake");
   console.log("  • Sessions across all clients (~6 months of operation)");

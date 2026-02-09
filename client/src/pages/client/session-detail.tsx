@@ -298,7 +298,7 @@ export default function SessionDetail() {
             </CardContent>
           </Card>
 
-          {/* Coach Notes */}
+          {/* Consultant Notes */}
           {session.sessionNotes && session.notesVisibleToClient && (
             <Card>
               <CardHeader>

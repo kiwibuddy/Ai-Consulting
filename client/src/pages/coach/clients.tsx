@@ -41,7 +41,7 @@ export default function CoachClients() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
 
   const { data: clients, isLoading } = useQuery<ClientProfileWithUser[]>({
-    queryKey: ["/api/coach/clients"],
+    queryKey: ["/api/consultant/clients"],
   });
 
   if (isLoading) {
@@ -83,7 +83,7 @@ export default function CoachClients() {
             Manage your consulting clients.
           </p>
         </div>
-        <Link href="/coach/intake">
+        <Link href="/consultant/intake">
           <Button data-testid="button-view-intake">
             View Intake Requests
           </Button>
@@ -172,7 +172,7 @@ export default function CoachClients() {
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Link href={`/coach/clients/${client.id}`}>
+                    <Link href={`/consultant/clients/${client.id}`}>
                       <Button variant="ghost" size="sm" data-testid={`button-view-client-${client.id}`}>
                         View
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -196,7 +196,7 @@ export default function CoachClients() {
                   : "Accept intake requests to add new clients."
               }
               actionLabel="View Intake Requests"
-              onAction={() => (window.location.href = "/coach/intake")}
+              onAction={() => (window.location.href = "/consultant/intake")}
             />
           </CardContent>
         </Card>

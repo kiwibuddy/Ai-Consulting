@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { eq, and, or, desc, inArray } from "drizzle-orm";
+import { eq, and, or, ne, isNull, desc, inArray } from "drizzle-orm";
 import {
   users,
   clientProfiles,
@@ -60,6 +60,7 @@ export interface IStorage {
   // Resources
   getResource(id: string): Promise<Resource | undefined>;
   createResource(resource: InsertResource): Promise<Resource>;
+  updateResource(id: string, data: Partial<Resource>): Promise<Resource | undefined>;
   deleteResource(id: string): Promise<boolean>;
   getResourcesByClient(clientId: string): Promise<Resource[]>;
   getResourcesBySession(sessionId: string): Promise<Resource[]>;
@@ -215,6 +216,11 @@ export class DatabaseStorage implements IStorage {
     return created;
   }
 
+  async updateResource(id: string, data: Partial<Resource>): Promise<Resource | undefined> {
+    const [updated] = await db.update(resources).set(data).where(eq(resources.id, id)).returning();
+    return updated;
+  }
+
   async deleteResource(id: string): Promise<boolean> {
     const result = await db.delete(resources).where(eq(resources.id, id));
     return true;
@@ -222,12 +228,24 @@ export class DatabaseStorage implements IStorage {
 
   async getResourcesByClient(clientId: string): Promise<Resource[]> {
     return db.select().from(resources).where(
-      or(eq(resources.clientId, clientId), eq(resources.isGlobal, true))
+      and(
+        or(eq(resources.clientId, clientId), eq(resources.isGlobal, true)),
+        or(isNull(resources.contentType), ne(resources.contentType, "draft")) // Drafts visible only to consultant
+      )
     ).orderBy(desc(resources.createdAt));
   }
 
   async getResourcesBySession(sessionId: string): Promise<Resource[]> {
-    return db.select().from(resources).where(eq(resources.sessionId, sessionId)).orderBy(desc(resources.createdAt));
+    return db
+      .select()
+      .from(resources)
+      .where(
+        and(
+          eq(resources.sessionId, sessionId),
+          or(isNull(resources.contentType), ne(resources.contentType, "draft"))
+        )
+      )
+      .orderBy(desc(resources.createdAt));
   }
 
   async getAllResources(): Promise<Resource[]> {

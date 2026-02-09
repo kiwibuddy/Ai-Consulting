@@ -57,7 +57,7 @@ export function DemoLoginDialog({ trigger }: LoginDialogProps) {
         });
         setOpen(false);
         if (data.user.role === "coach") {
-          navigate("/coach");
+          navigate("/consultant");
         } else {
           navigate("/client");
         }

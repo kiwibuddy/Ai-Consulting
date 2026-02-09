@@ -95,12 +95,12 @@ export default function CoachClientDetail() {
   const [actionReviewId, setActionReviewId] = useState<string | null>(null);
 
   const { data: client, isLoading: clientLoading } = useQuery<ClientProfileWithUser>({
-    queryKey: [`/api/coach/clients/${clientId}`],
+    queryKey: [`/api/consultant/clients/${clientId}`],
     enabled: !!clientId,
   });
 
   const { data: sessions } = useQuery<Session[]>({
-    queryKey: ["/api/coach/sessions"],
+    queryKey: ["/api/consultant/sessions"],
   });
 
   const { data: actions } = useQuery<ActionItem[]>({
@@ -216,7 +216,7 @@ export default function CoachClientDetail() {
     completedActionItems: number;
     engagementScore: number;
   }>({
-    queryKey: [`/api/coach/clients/${clientId}/analytics`],
+    queryKey: [`/api/consultant/clients/${clientId}/analytics`],
     enabled: !!clientId,
   });
 
@@ -232,7 +232,7 @@ export default function CoachClientDetail() {
           title="Client not found"
           description="This client profile does not exist or has been removed."
           actionLabel="Back to Clients"
-          onAction={() => (window.location.href = "/coach/clients")}
+          onAction={() => (window.location.href = "/consultant/clients")}
         />
       </div>
     );
@@ -263,7 +263,7 @@ export default function CoachClientDetail() {
     <div className="space-y-6 p-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/coach/clients">
+        <Link href="/consultant/clients">
           <Button variant="ghost" size="icon">
             <ArrowLeft className="h-5 w-5" />
           </Button>
@@ -452,7 +452,7 @@ export default function CoachClientDetail() {
                         </TableCell>
                         <TableCell>{session.duration} min</TableCell>
                         <TableCell className="text-right">
-                          <Link href={`/coach/sessions/${session.id}`}>
+                          <Link href={`/consultant/sessions/${session.id}`}>
                             <Button variant="ghost" size="sm">
                               View
                             </Button>

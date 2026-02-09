@@ -26,9 +26,9 @@ export function registerAuthRoutes(app: Express): void {
     (req, res) => {
       const user = req.user as { role?: string };
       if (user?.role === "coach") {
-        res.redirect("/coach/dashboard");
+        res.redirect("/consultant");
       } else {
-        res.redirect("/client/dashboard");
+        res.redirect("/client");
       }
     }
   );

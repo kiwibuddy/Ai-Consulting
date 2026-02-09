@@ -37,23 +37,41 @@ export const clientProfiles = pgTable("client_profiles", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// Intake Forms
+// Intake Forms (AI Consulting)
 export const intakeForms = pgTable("intake_forms", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   firstName: varchar("first_name").notNull(),
   lastName: varchar("last_name").notNull(),
   email: varchar("email").notNull(),
   phone: varchar("phone"),
-  goals: text("goals").notNull(),
-  experience: text("experience"),
-  availability: text("availability"),
+  location: varchar("location"),
+  // Section A: Organization
+  organisation: varchar("organisation"),
+  industry: varchar("industry"), // Faith & Mission, Education, Nonprofit, Other
+  role: varchar("role"),
+  // Section B: Problem statement
+  problemStatement: text("problem_statement"), // What problems are you hoping AI can help solve? (100+ chars)
+  currentSituation: text("current_situation"), // Tools in use, bottlenecks, struggling KPIs
+  painPoints: text("pain_points"), // Top 3 operational pain points (JSON or text)
+  // Section C: Goals & outcomes
+  shortTermGoals: text("short_term_goals"), // 3–6 months
+  longTermGoals: text("long_term_goals"), // 12–24 months
+  successMetrics: text("success_metrics"),
+  // Section D: Technical & constraints
+  currentAiUsage: varchar("current_ai_usage"), // None / experimenting / in production
+  dataSecurityNotes: text("data_security_notes"), // GDPR, theological guardrails, etc.
+  budgetRange: varchar("budget_range"),
+  timeline: varchar("timeline"), // When do you want to start?
+  // Section E: Logistics
+  preferredMeetingFormat: varchar("preferred_meeting_format"),
+  availability: varchar("availability"),
   howDidYouHear: varchar("how_did_you_hear"),
-  // New onboarding fields
-  location: varchar("location"), // City, Country
-  preferredMeetingFormat: varchar("preferred_meeting_format"), // in_person, video_zoom, video_meet, flexible
-  previousCoachingExperience: text("previous_coaching_experience"), // Description of prior coaching
-  assessmentsTaken: text("assessments_taken"), // JSON array: ["strengthsfinder", "disc", etc.]
-  assessmentResults: text("assessment_results"), // Free text for results (e.g., "Top 5: Achiever, Learner, Input...")
+  // Legacy fields (kept for backward compatibility)
+  goals: text("goals"),
+  experience: text("experience"),
+  previousCoachingExperience: text("previous_coaching_experience"),
+  assessmentsTaken: text("assessments_taken"),
+  assessmentResults: text("assessment_results"),
   status: intakeStatusEnum("status").default("pending"),
   coachNotes: text("coach_notes"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -83,6 +101,9 @@ export const coachingSessions = pgTable("coaching_sessions", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Content type for resources
+export const resourceContentTypeEnum = pgEnum("resource_content_type", ["draft", "demo", "document", "video"]);
+
 // Resources
 export const resources = pgTable("resources", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -94,6 +115,7 @@ export const resources = pgTable("resources", {
   sessionId: varchar("session_id"),
   clientId: varchar("client_id"),
   isGlobal: boolean("is_global").default(false),
+  contentType: resourceContentTypeEnum("content_type").default("document"), // draft: consultant-only; demo: highlight in client view
   uploadedBy: varchar("uploaded_by").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });

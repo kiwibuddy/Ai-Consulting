@@ -177,10 +177,10 @@ const portfolioItems = [
     icon: GraduationCap,
   },
   {
-    title: "Coaching Portal",
+    title: "Consulting Hub",
     type: "Web Application · SaaS",
     year: "2024",
-    impact: "Client/coach management with intake, sessions, resources. Mobile-first PWA.",
+    impact: "Client/consultant portal with intake, consultations, resources. Mobile-first PWA.",
     icon: LayoutDashboard,
   },
   {
@@ -232,12 +232,8 @@ export default function LandingPage() {
       {/* Nav — API-style minimal */}
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background backdrop-blur-xl isolate">
         <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
-          <a href="#" className="flex items-center gap-3 min-w-0">
+          <a href="#" className="flex items-center min-w-0">
             <img src="/logo.png" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
-            <div className="hidden sm:block min-w-0">
-              <span className="text-base font-semibold tracking-tight block">Nathaniel Baldock</span>
-              <span className="text-[11px] text-muted-foreground block">AI Consulting</span>
-            </div>
           </a>
           <nav className="hidden md:flex items-center gap-6 flex-shrink-0">
             <a href="#who-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
@@ -670,12 +666,8 @@ export default function LandingPage() {
       <footer className="border-t border-border/60 py-12 px-6 md:px-10">
         <div className={`container mx-auto ${contentMax}`}>
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Nathaniel Baldock — AI Consulting" className="h-6 w-auto" />
-              <div>
-                <span className="font-semibold text-sm tracking-tight block">Nathaniel Baldock</span>
-                <span className="text-xs text-muted-foreground">AI Consulting</span>
-              </div>
+            <div className="flex items-center">
+              <img src="/logo-full.png" alt="Nathaniel Baldock — AI Consulting" className="h-10 w-auto" />
             </div>
             <div className="text-center md:text-right text-sm text-muted-foreground">
               <p>Tauranga, NZ · NZ + Global (Zoom)</p>

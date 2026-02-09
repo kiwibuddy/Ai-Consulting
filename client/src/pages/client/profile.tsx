@@ -351,7 +351,7 @@ export default function ClientProfile() {
                     name="goals"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Coaching Goals</FormLabel>
+                        <FormLabel>Consulting Goals</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="What are you working towards?"

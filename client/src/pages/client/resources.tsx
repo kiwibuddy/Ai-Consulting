@@ -98,7 +98,7 @@ export default function ClientResources() {
           {filteredResources.map((resource) => {
             const Icon = getFileIcon(resource.fileType);
             return (
-              <Card key={resource.id} className="hover-elevate">
+              <Card key={resource.id} className={`hover-elevate ${resource.contentType === "demo" ? "ring-2 ring-primary/50 border-primary/30" : ""}`}>
                 <CardContent className="p-5">
                   <div className="flex items-start gap-4">
                     <div className="rounded-lg bg-primary/10 p-3">
@@ -111,7 +111,10 @@ export default function ClientResources() {
                           {resource.description}
                         </p>
                       )}
-                      <div className="flex items-center gap-2 pt-2">
+                      <div className="flex items-center gap-2 pt-2 flex-wrap">
+                        {resource.contentType === "demo" && (
+                          <Badge className="text-xs bg-primary/20 text-primary">Demo</Badge>
+                        )}
                         {resource.fileType && (
                           <Badge variant="secondary" className="text-xs uppercase">
                             {resource.fileType}

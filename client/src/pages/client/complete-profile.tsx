@@ -405,7 +405,7 @@ export default function ClientCompleteProfile() {
             {step === 3 && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="previousCoaching">Previous Coaching Experience</Label>
+                  <Label htmlFor="previousCoaching">Previous AI or consulting experience</Label>
                   <Textarea
                     id="previousCoaching"
                     placeholder="Have you worked with a consultant before? What was helpful?"
