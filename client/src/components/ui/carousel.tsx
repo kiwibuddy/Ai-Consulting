@@ -250,6 +250,58 @@ const CarouselNext = React.forwardRef<
 })
 CarouselNext.displayName = "CarouselNext"
 
+type CarouselDotsProps = {
+  count: number
+  className?: string
+}
+
+const CarouselDots = React.forwardRef<
+  HTMLDivElement,
+  CarouselDotsProps & React.HTMLAttributes<HTMLDivElement>
+>(({ count, className, ...props }, ref) => {
+  const { api } = useCarousel()
+  const [selectedIndex, setSelectedIndex] = React.useState(0)
+
+  React.useEffect(() => {
+    if (!api) return
+    setSelectedIndex(api.selectedScrollSnap())
+    api.on("select", () => setSelectedIndex(api.selectedScrollSnap()))
+    return () => api.off("select")
+  }, [api])
+
+  return (
+    <div
+      ref={ref}
+      role="tablist"
+      aria-label="Carousel navigation"
+      className={cn("flex items-center justify-center gap-2 py-4", className)}
+      {...props}
+    >
+      {Array.from({ length: count }).map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          role="tab"
+          aria-selected={selectedIndex === i}
+          aria-label={`Go to slide ${i + 1}`}
+          onClick={() => api?.scrollTo(i)}
+          className="group flex items-center justify-center p-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-full"
+        >
+          <span
+            className={cn(
+              "block rounded-full transition-all duration-300 ease-out",
+              selectedIndex === i
+                ? "h-2.5 w-8 bg-foreground scale-100"
+                : "h-2.5 w-2.5 bg-muted-foreground/40 hover:bg-muted-foreground/60 group-hover:scale-110"
+            )}
+          />
+        </button>
+      ))}
+    </div>
+  )
+})
+CarouselDots.displayName = "CarouselDots"
+
 export {
   type CarouselApi,
   Carousel,
@@ -257,4 +309,5 @@ export {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  CarouselDots,
 }

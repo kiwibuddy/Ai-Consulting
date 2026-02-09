@@ -8,10 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselDots } from "@/components/ui/carousel";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DemoLoginDialog } from "@/components/demo-login-dialog";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
 import {
   fadeUpVariants,
   staggerContainerVariants,
@@ -149,7 +149,7 @@ const whyWorkWithMe = {
   ],
   access: [
     "No static playbooks: solutions are completely adapted by the newest AI tools and your organisation's reality.",
-    "We design around your capacity, your constraints, and the tools that will serve you next year—not last year's template.",
+    "I design around your capacity, your constraints, and the tools that will serve you next year—not last year's template.",
     "NZ + Global (Zoom); in-person where possible; nonprofit and faith-based discounts available.",
   ],
 };
@@ -202,25 +202,14 @@ const cardGradientStyles: { background: string }[] = [
 ];
 const getCardGradientStyle = (i: number) => cardGradientStyles[i % cardGradientStyles.length];
 
-// Why work with me: 3 cards to show by index (scroll-driven)
+// Why work with me: 3 full-width cards (carousel) — image + text each
 const whyWorkCards = [
-  { key: "values", gradient: 0, icon: Shield, title: "Values & safeguarding", bullets: (whyWorkWithMe as { values: string[] }).values },
-  { key: "relationship", gradient: 1, icon: Handshake, title: "Relationship & personalisation", bullets: (whyWorkWithMe as { delivery: string[] }).delivery },
-  { key: "adaptive", gradient: 2, icon: Rocket, title: "Adaptive by design", bullets: (whyWorkWithMe as { access: string[] }).access },
+  { key: "values", gradient: 0, icon: Shield, title: "Values & safeguarding", bullets: (whyWorkWithMe as { values: string[] }).values, imageSrc: "/why-work-with-me.jpg", imageAlt: "Nathaniel Baldock — Why work with me" },
+  { key: "relationship", gradient: 1, icon: Handshake, title: "Relationship & personalisation", bullets: (whyWorkWithMe as { delivery: string[] }).delivery, imageSrc: "/why-work-2.png", imageAlt: "Workshop and teaching — Relationship & personalisation" },
+  { key: "adaptive", gradient: 2, icon: Rocket, title: "Adaptive by design", bullets: (whyWorkWithMe as { access: string[] }).access, imageSrc: "/why-work-3.png?v=2", imageAlt: "AI and software development — adaptive tools and custom solutions" },
 ] as const;
 
 export default function LandingPage() {
-  const whySectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: whySectionRef,
-    offset: ["start start", "end start"],
-  });
-  const [activeWhyCard, setActiveWhyCard] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const index = Math.min(2, Math.floor(latest * 3));
-    setActiveWhyCard(index);
-  });
-
   return (
     <div className="min-h-screen bg-background overflow-x-hidden text-foreground font-sans">
       {/* Nav — API-style minimal */}
@@ -420,13 +409,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Why work with me — two columns: photo left (fixed height), single card right (same height) + 3 dots */}
-      <section
-        id="why-work-with-me"
-        ref={whySectionRef}
-        className={`${sectionPadding} scroll-mt-20 min-h-[85vh] md:min-h-[90vh] flex flex-col`}
-      >
-        <div className={`container mx-auto ${contentMax} flex-1 flex flex-col min-h-0`}>
+      {/* Why work with me — 3 full-width cards, horizontal carousel, image + text each */}
+      <section id="why-work-with-me" className={`${sectionPadding} scroll-mt-20 overflow-hidden`}>
+        <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
             initial="hidden"
@@ -438,75 +423,40 @@ export default function LandingPage() {
               Why work with me.
             </h2>
           </motion.div>
-          {/* Two columns: same height — left image defines row height, right column fills cell (card + dots) */}
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-stretch flex-1 content-start">
-            {/* Left: single element so grid row height = this element's height */}
-            <div className="rounded-2xl overflow-hidden border border-border bg-muted/30 w-full aspect-[4/5] max-h-[560px] md:sticky md:top-24">
-              <img
-                src="/why-work-with-me.jpg"
-                alt="Nathaniel Baldock — Why work with me"
-                className="w-full h-full object-cover object-top block"
-              />
-            </div>
-            {/* Right: flex column that fills grid cell so total height = left column height */}
-            <div className="flex flex-col h-full min-h-0 w-full">
-              <div className="relative flex-1 min-h-0 rounded-2xl overflow-hidden">
-                <AnimatePresence mode="wait" initial={false}>
-                  {whyWorkCards.map(
-                    (card, i) =>
-                      activeWhyCard === i && (
-                        <motion.div
-                          key={card.key}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
-                          className="absolute inset-0 rounded-xl border border-border/80 overflow-hidden"
-                          style={getCardGradientStyle(card.gradient)}
-                        >
-                          <Card className="h-full bg-transparent border-0 shadow-none rounded-xl flex flex-col">
-                            <CardHeader className="flex-shrink-0">
-                              <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                                <card.icon className="h-5 w-5 text-muted-foreground" />
-                              </div>
-                              <CardTitle className="text-lg font-semibold tracking-tight">{card.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="pt-0 flex-1 overflow-auto min-h-0">
-                              <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
-                                {card.bullets.map((bullet, j) => (
-                                  <li key={j}>{bullet}</li>
-                                ))}
-                              </ul>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      )
-                  )}
-                </AnimatePresence>
-              </div>
-              {/* 3-dot indicator — clearly visible, one per card */}
-              <div className="flex items-center justify-center gap-3 mt-6 flex-shrink-0 py-2" aria-label="Which card is shown (1 of 3)">
-                {[0, 1, 2].map((i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setActiveWhyCard(i)}
-                    className="flex-shrink-0 rounded-full p-1.5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    aria-label={`Show card ${i + 1} of 3: ${whyWorkCards[i].title}`}
-                    aria-pressed={activeWhyCard === i}
+          <Carousel opts={{ align: "start", loop: true }} className="w-full relative overflow-hidden">
+            <CarouselContent className="-ml-0 w-full">
+              {whyWorkCards.map((card, i) => (
+                <CarouselItem key={card.key} className="pl-0 basis-full min-w-full">
+                  <div
+                    className="rounded-2xl overflow-hidden border border-border bg-background/95 shadow-sm flex flex-col md:flex-row min-h-[360px] md:min-h-[420px] w-full"
+                    style={getCardGradientStyle(card.gradient)}
                   >
-                    <span
-                      className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
-                        activeWhyCard === i
-                          ? "h-3 w-3 bg-foreground"
-                          : "h-2.5 w-2.5 border-2 border-muted-foreground/60 bg-transparent hover:border-muted-foreground"
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+                    {/* Image — left on desktop, top on mobile */}
+                    <div className="w-full md:w-[45%] min-w-0 flex-shrink-0 overflow-hidden">
+                      <img
+                        src={card.imageSrc}
+                        alt={card.imageAlt}
+                        className="w-full h-56 md:h-full min-h-[224px] md:min-h-[420px] object-cover object-center"
+                      />
+                    </div>
+                    {/* Text — right on desktop, below image on mobile */}
+                    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-10 justify-center min-w-0">
+                      <div className="rounded-lg bg-white/70 dark:bg-white/15 p-2.5 w-fit mb-4 backdrop-blur-sm">
+                        <card.icon className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground mb-4">{card.title}</h3>
+                      <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
+                        {card.bullets.map((bullet, j) => (
+                          <li key={j}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselDots count={3} className="mt-6" />
+          </Carousel>
         </div>
       </section>
 
