@@ -79,7 +79,7 @@ export default function ResetPassword() {
           <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
             <Link href="/">
               <img
-                src="/logo.png"
+                src="/logo.png?v=2"
                 alt="Nathaniel Baldock AI Consulting"
                 className="h-8 w-auto hover:opacity-80 transition-opacity"
               />
@@ -115,7 +115,7 @@ export default function ResetPassword() {
         <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
           <Link href="/">
             <img
-              src="/logo.png"
+              src="/logo.png?v=2"
               alt="Nathaniel Baldock AI Consulting"
               className="h-8 w-auto hover:opacity-80 transition-opacity"
             />

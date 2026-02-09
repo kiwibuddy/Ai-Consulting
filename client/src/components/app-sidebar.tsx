@@ -73,7 +73,7 @@ export function AppSidebar({ role }: SidebarProps) {
         <Link href={role === "coach" ? "/consultant" : "/client"}>
           <div className="flex items-center hover:opacity-80 transition-opacity min-w-0">
             <img
-              src="/logo.png"
+              src="/logo.png?v=2"
               alt="Nathaniel Baldock AI Consulting"
               className="h-8 w-auto max-w-full object-contain flex-shrink-0"
             />

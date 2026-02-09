@@ -233,7 +233,7 @@ export default function LandingPage() {
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background backdrop-blur-xl isolate">
         <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
           <a href="#" className="flex items-center min-w-0">
-            <img src="/logo.png" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
+            <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
           </a>
           <nav className="hidden md:flex items-center gap-6 flex-shrink-0">
             <a href="#who-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
@@ -667,7 +667,7 @@ export default function LandingPage() {
         <div className={`container mx-auto ${contentMax}`}>
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center">
-              <img src="/logo-full.png" alt="Nathaniel Baldock — AI Consulting" className="h-10 w-auto" />
+              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 w-auto" />
             </div>
             <div className="text-center md:text-right text-sm text-muted-foreground">
               <p>Tauranga, NZ · NZ + Global (Zoom)</p>
