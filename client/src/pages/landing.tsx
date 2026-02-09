@@ -426,26 +426,26 @@ export default function LandingPage() {
           <Carousel opts={{ align: "start", loop: true }} className="w-full relative overflow-hidden">
             <CarouselContent className="-ml-0 w-full">
               {whyWorkCards.map((card, i) => (
-                <CarouselItem key={card.key} className="pl-0 basis-full min-w-full">
+                <CarouselItem key={card.key} className="pl-0 basis-full min-w-full overflow-hidden">
                   <div
-                    className="rounded-2xl overflow-hidden border border-border bg-background/95 shadow-sm flex flex-col md:flex-row min-h-[360px] md:min-h-[420px] w-full"
+                    className="rounded-2xl overflow-hidden border border-border bg-background/95 shadow-sm flex flex-col md:flex-row min-h-[300px] md:min-h-[420px] w-full"
                     style={getCardGradientStyle(card.gradient)}
                   >
                     {/* Image — left on desktop, top on mobile */}
-                    <div className="w-full md:w-[45%] min-w-0 flex-shrink-0 overflow-hidden">
+                    <div className="w-full md:w-[45%] min-w-0 flex-shrink-0 overflow-hidden aspect-[4/3] md:aspect-auto md:h-full">
                       <img
                         src={card.imageSrc}
                         alt={card.imageAlt}
-                        className="w-full h-56 md:h-full min-h-[224px] md:min-h-[420px] object-cover object-center"
+                        className="w-full h-full object-cover object-center"
                       />
                     </div>
                     {/* Text — right on desktop, below image on mobile */}
-                    <div className="flex-1 flex flex-col p-6 md:p-8 lg:p-10 justify-center min-w-0">
+                    <div className="flex-1 flex flex-col p-5 md:p-8 lg:p-10 justify-center min-w-0 min-h-0 overflow-hidden">
                       <div className="rounded-lg bg-white/70 dark:bg-white/15 p-2.5 w-fit mb-4 backdrop-blur-sm">
                         <card.icon className="h-5 w-5 text-muted-foreground" />
                       </div>
                       <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground mb-4">{card.title}</h3>
-                      <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
+                      <ul className="text-sm text-muted-foreground space-y-1.5 md:space-y-2 list-disc list-inside">
                         {card.bullets.map((bullet, j) => (
                           <li key={j}>{bullet}</li>
                         ))}
