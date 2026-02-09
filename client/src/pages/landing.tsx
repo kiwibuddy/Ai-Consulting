@@ -82,7 +82,6 @@ const coreAICategories = [
       "Policy, curriculum, sermon, and training assistants",
       "Scripture-safe, theologically aware content systems",
     ],
-    heroStatement: "Clear thinking at the speed of leadership.",
   },
   {
     icon: ImageIcon,
@@ -93,7 +92,6 @@ const coreAICategories = [
       "Curriculum and presentation visuals",
       "Clear guardrails for ethical and cultural use",
     ],
-    heroStatement: "Creativity without compromise.",
   },
   {
     icon: Video,
@@ -104,7 +102,6 @@ const coreAICategories = [
       "Course creation from existing talks",
       "Multilingual and accessibility-aware systems",
     ],
-    heroStatement: "Teach once. Multiply responsibly.",
   },
   {
     icon: Mail,
@@ -115,7 +112,6 @@ const coreAICategories = [
       "Newsletter, donor, and community comms",
       "Website and campaign copy support",
     ],
-    heroStatement: "Clarity builds credibility.",
   },
   {
     icon: LayoutDashboard,
@@ -126,7 +122,6 @@ const coreAICategories = [
       "Knowledge portals for staff or students",
       "AI-assisted compliance and reporting tools",
     ],
-    heroStatement: "Useful beats impressive.",
   },
   {
     icon: Smartphone,
@@ -137,7 +132,6 @@ const coreAICategories = [
       "Feature prioritisation grounded in real users",
       "Education and faith-based app consulting",
     ],
-    heroStatement: "Build what matters. Leave the rest.",
   },
 ];
 
@@ -288,6 +282,21 @@ export default function LandingPage() {
                   Strategy, training, and advisory for faith, education, and impact. NZ + Global.
                 </motion.p>
               </motion.div>
+              {/* Hero image — visible on mobile only, shown under subtitle */}
+              <motion.div
+                className="lg:hidden relative z-0 w-full max-w-sm mx-auto"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.35, duration: 0.5 }}
+              >
+                <div className="relative rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] isolate">
+                  <img
+                    src="/hero.jpg?v=2"
+                    alt="Nathaniel Baldock — AI consulting for faith, education and impact"
+                    className="w-full h-full object-cover relative"
+                  />
+                </div>
+              </motion.div>
               <motion.div
                 className="flex flex-col sm:flex-row gap-4"
                 initial={{ opacity: 0, y: 16 }}
@@ -412,14 +421,11 @@ export default function LandingPage() {
                     <CardDescription className="text-xs">{cat.subtitle}</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col pt-0">
-                    <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside mb-4 flex-1">
+                    <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside flex-1">
                       {cat.whatItLooksLike.map((bullet, j) => (
                         <li key={j}>{bullet}</li>
                       ))}
                     </ul>
-                    <p className="text-sm font-medium text-foreground border-l-2 border-primary pl-3">
-                      {cat.heroStatement}
-                    </p>
                   </CardContent>
                 </Card>
                 </div>
@@ -665,15 +671,16 @@ export default function LandingPage() {
       {/* Footer — minimal API-style */}
       <footer className="border-t border-border/60 py-12 px-6 md:px-10">
         <div className={`container mx-auto ${contentMax}`}>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-center">
-              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 w-auto" />
+          <div className="flex flex-col gap-10">
+            <div className="flex justify-center">
+              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-16 md:h-20 w-auto" />
             </div>
-            <div className="text-center md:text-right text-sm text-muted-foreground">
-              <p>Tauranga, NZ · NZ + Global (Zoom)</p>
-              <p className="mt-1">© 2026 Nathaniel Baldock</p>
-            </div>
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left text-sm text-muted-foreground">
+                <p>Tauranga, NZ · NZ + Global (Zoom)</p>
+                <p className="mt-1">© 2026 Nathaniel Baldock</p>
+              </div>
+              <div className="flex items-center gap-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
                 Privacy
               </a>
@@ -686,6 +693,7 @@ export default function LandingPage() {
               >
                 Contact
               </a>
+              </div>
             </div>
           </div>
         </div>
