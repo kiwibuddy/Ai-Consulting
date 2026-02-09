@@ -29,10 +29,9 @@ import {
   Heart,
   UserCheck,
   Sparkles,
-  Palette,
+  Camera,
   Clapperboard,
   Megaphone,
-  LayoutGrid,
   LayoutDashboard,
   Smartphone,
   Briefcase,
@@ -85,7 +84,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: Palette,
+    icon: Camera,
     title: "Image",
     subtitle: "Visuals with Integrity",
     whatItLooksLike: [
@@ -115,7 +114,7 @@ const coreAICategories = [
     ],
   },
   {
-    icon: LayoutGrid,
+    icon: Globe,
     title: "Web",
     subtitle: "Dashboards & Practical Tools",
     whatItLooksLike: [
@@ -283,21 +282,6 @@ export default function LandingPage() {
                   Strategy, training, and advisory for faith, education, and impact. NZ + Global.
                 </motion.p>
               </motion.div>
-              {/* Hero image — visible on mobile only, shown under subtitle */}
-              <motion.div
-                className="lg:hidden relative z-0 w-full max-w-sm mx-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35, duration: 0.5 }}
-              >
-                <div className="relative rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] isolate">
-                  <img
-                    src="/hero.jpg?v=2"
-                    alt="Nathaniel Baldock — AI consulting for faith, education and impact"
-                    className="w-full h-full object-cover relative"
-                  />
-                </div>
-              </motion.div>
               <motion.div
                 className="flex flex-col sm:flex-row gap-4"
                 initial={{ opacity: 0, y: 16 }}
@@ -323,7 +307,7 @@ export default function LandingPage() {
               </motion.div>
             </div>
             <motion.div
-              className="relative hidden lg:block z-0"
+              className="relative z-0 shrink-0 w-full max-w-sm mx-auto lg:max-w-none lg:mx-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
