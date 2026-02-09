@@ -41,7 +41,7 @@ import {
   Handshake,
 } from "lucide-react";
 
-const landingViewport = { once: true, margin: "-80px", amount: 0.15 as const };
+const landingViewport = { once: true, margin: "-40px", amount: 0.15 as const };
 
 // Who I Help (four categories)
 const whoIHelp = [
