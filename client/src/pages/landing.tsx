@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,168 +20,115 @@ import {
 import {
   ArrowRight,
   CheckCircle,
-  Globe,
-  MapPin,
-  MessageCircle,
   Church,
   GraduationCap,
   Heart,
-  UserCheck,
-  Sparkles,
-  Camera,
-  Clapperboard,
-  Megaphone,
   LayoutDashboard,
-  Smartphone,
-  Briefcase,
+  MessageCircle,
   BookOpen,
   Shield,
-  Rocket,
-  Handshake,
+  Users,
+  AlertTriangle,
 } from "lucide-react";
 
 const landingViewport = { once: true, margin: "-40px", amount: 0.15 as const };
 
-// Who I Help (four categories)
-const whoIHelp = [
+// Problems I solve — the real AI challenge leaders face
+const problemsContent = {
+  heading: "The real AI challenge leaders are facing",
+  intro: "AI is already being used inside your organisation — usually without clarity, policy, or shared understanding.",
+  subheading: "Leaders I work with are dealing with:",
+  bullets: [
+    "Staff experimenting with AI tools inconsistently and unsafely",
+    "Uncertainty about what to allow, restrict, or guide",
+    "Concerns about theology, trust, and data privacy",
+    'Pressure to "keep up" without compromising values',
+    "Lots of noise, very little wisdom",
+  ],
+  closing: "The risk isn't AI adoption. The risk is accidental adoption without discernment.",
+};
+
+// How I help — 3 outcomes
+const howIHelp = [
+  {
+    icon: Shield,
+    title: "Clarity & guardrails",
+    bullets: [
+      "AI strategy grounded in your mission and values",
+      "Clear policies and guardrails for staff and leaders",
+      "Discernment around what not to use",
+    ],
+  },
+  {
+    icon: LayoutDashboard,
+    title: "Practical systems",
+    bullets: [
+      "Internal AI tools that work with your own documents and knowledge",
+      "Workflow improvements that save real time",
+      "Tools designed for your context, not Silicon Valley defaults",
+    ],
+  },
+  {
+    icon: Users,
+    title: "Training & adoption",
+    bullets: [
+      "Leadership briefings and staff training",
+      "Family- and student-safe guidance where relevant",
+      "Practical examples people can actually use",
+    ],
+  },
+];
+const howIHelpClosing = "Everything is designed to respect the authority of Scripture, preserve human discernment, and protect trust.";
+
+// Who this is for — 3 audiences
+const whoThisIsFor = [
   {
     icon: Church,
-    title: "Faith & Mission Organisations",
-    description:
-      "Churches, denominational networks, training schools, global missions. Scripture-safe AI, theological content, leadership development, donor communication.",
+    title: "Churches & mission organisations",
+    description: "Navigating AI responsibly.",
   },
   {
     icon: GraduationCap,
-    title: "Education",
-    description:
-      "Schools, training organisations, curriculum developers. Student engagement, teacher workload reduction, accessibility and multilingual education.",
+    title: "Schools and training organisations",
+    description: "Facing workload pressure and change.",
   },
   {
     icon: Heart,
-    title: "Nonprofits & NGOs",
-    description:
-      "Programme delivery teams, humanitarian orgs, social enterprises. Impact reporting, grant writing, beneficiary storytelling, donor engagement.",
-  },
-  {
-    icon: UserCheck,
-    title: "Individuals & Leaders",
-    description:
-      "Senior leaders, pastors, educators, founders. Personal AI systems for thinking and decision-making; strategic planning and research synthesis.",
+    title: "Nonprofits and NGOs",
+    description: "Needing clarity, capacity, and better systems.",
   },
 ];
 
-// Six AI Categories — 2026-style icons
-const coreAICategories = [
-  {
-    icon: Sparkles,
-    title: "Text",
-    subtitle: "Knowledge, Writing, Decision Support",
-    whatItLooksLike: [
-      "Internal AI copilots trained on your documents",
-      "Policy, curriculum, sermon, and training assistants",
-      "Scripture-safe, theologically aware content systems",
-    ],
-  },
-  {
-    icon: Camera,
-    title: "Image",
-    subtitle: "Visuals with Integrity",
-    whatItLooksLike: [
-      "Brand-safe image generation for education and comms",
-      "Curriculum and presentation visuals",
-      "Clear guardrails for ethical and cultural use",
-    ],
-  },
-  {
-    icon: Clapperboard,
-    title: "Video",
-    subtitle: "Training & Teaching at Scale",
-    whatItLooksLike: [
-      "AI-assisted teaching and training workflows",
-      "Course creation from existing talks",
-      "Multilingual and accessibility-aware systems",
-    ],
-  },
-  {
-    icon: Megaphone,
-    title: "Marketing",
-    subtitle: "Messaging that Serves, Not Manipulates",
-    whatItLooksLike: [
-      "Values-aligned messaging systems",
-      "Newsletter, donor, and community comms",
-      "Website and campaign copy support",
-    ],
-  },
-  {
-    icon: Globe,
-    title: "Web",
-    subtitle: "Dashboards & Practical Tools",
-    whatItLooksLike: [
-      "Internal dashboards and trackers",
-      "Knowledge portals for staff or students",
-      "AI-assisted compliance and reporting tools",
-    ],
-  },
-  {
-    icon: Smartphone,
-    title: "App",
-    subtitle: "Purpose-Driven Products",
-    whatItLooksLike: [
-      "AI product strategy and PRDs",
-      "Feature prioritisation grounded in real users",
-      "Education and faith-based app consulting",
-    ],
-  },
+// Why work with me — all bullets for combined card
+const whyWorkWithMeBullets = [
+  "20+ years in global missions, biblical education, and cross-cultural program development",
+  "Experience building and shipping real digital products",
+  "Strong theological, ethical, and safeguarding foundations",
+  "I don't sell or reuse your data; I explain clearly where and how AI is used.",
+  "AI should serve people and mission — not replace wisdom, responsibility, or relationship.",
 ];
-
-// Why work with me — 3 compelling reasons (from Landing-Page-Updated-Content.md)
-const whyWorkWithMe = {
-  values: [
-    "20+ years in global missions, biblical education, and cross-cultural program development—not corporate tech.",
-    "Theological and ethical guardrails are non-negotiable; safeguarding for vulnerable populations built in from day one.",
-    "Your data stays private; your context and values shape every system—no compromise on trust or doctrine.",
-  ],
-  delivery: [
-    "High relationship and personalisation: your unique roadblocks, bottlenecks, and needs drive the entire engagement.",
-    "Experience leading teams across 15+ countries and running flagship leadership courses (400+ graduates, University of the Nations).",
-    "Strategy to shipped product—from discovery to App Store; training and handoff so you own the capability.",
-  ],
-  access: [
-    "No static playbooks: solutions are completely adapted by the newest AI tools and your organisation's reality.",
-    "I design around your capacity, your constraints, and the tools that will serve you next year—not last year's template.",
-    "NZ + Global (Zoom); in-person where possible; nonprofit and faith-based discounts available.",
-  ],
-};
 
 const portfolioItems = [
   {
-    title: "SourceView Together",
-    type: "Mobile Bible App · iOS & Android",
-    year: "2024",
+    title: "Global Bible Platform",
+    type: "Biblical research & digital platform",
     impact:
-      "Full-stack React Native app with Bluetooth sync. Live on App Store & Google Play.",
-    icon: Smartphone,
+      "Co-founded a large-scale international biblical research initiative with 200 contributors from 50 nations, leading to a new digital Bible platform and a solo-built app designed to help schools, families, and groups engage Scripture as a shared narrative.",
+    icon: BookOpen,
   },
   {
-    title: "Kingdom Vocations Platform",
-    type: "Web Application · Course Delivery",
-    year: "2024",
-    impact: "8-module curriculum platform with student portal. Scalable for global delivery.",
+    title: "Education & Training Platforms",
+    type: "Curriculum & delivery",
+    impact:
+      "Designed and delivered curriculum and training platforms used across multiple countries and cultural contexts, supporting scalable education, engagement, and access.",
     icon: GraduationCap,
   },
   {
-    title: "Consulting Hub",
-    type: "Web Application · SaaS",
-    year: "2024",
-    impact: "Client/consultant portal with intake, consultations, resources. Mobile-first PWA.",
+    title: "AI-Enabled Tools & Workflows",
+    type: "Practical systems",
+    impact:
+      "Designed practical AI-supported systems that reduce administrative load, improve communication, and support better leadership decision-making in real-world contexts.",
     icon: LayoutDashboard,
-  },
-  {
-    title: "SourceView Bible",
-    type: "Mobile App · Research",
-    year: "2013–2016",
-    impact: "$500K+ digital transformation. 200+ contributors, presented to 4,000+.",
-    icon: BookOpen,
   },
 ];
 
@@ -202,13 +148,6 @@ const cardGradientStyles: { background: string }[] = [
 ];
 const getCardGradientStyle = (i: number) => cardGradientStyles[i % cardGradientStyles.length];
 
-// Why work with me: 3 full-width cards (carousel) — image + text each
-const whyWorkCards = [
-  { key: "values", gradient: 0, icon: Shield, title: "Values & safeguarding", bullets: (whyWorkWithMe as { values: string[] }).values, imageSrc: "/why-work-with-me.jpg", imageAlt: "Nathaniel Baldock — Why work with me" },
-  { key: "relationship", gradient: 1, icon: Handshake, title: "Relationship & personalisation", bullets: (whyWorkWithMe as { delivery: string[] }).delivery, imageSrc: "/why-work-2.png", imageAlt: "Workshop and teaching — Relationship & personalisation" },
-  { key: "adaptive", gradient: 2, icon: Rocket, title: "Adaptive by design", bullets: (whyWorkWithMe as { access: string[] }).access, imageSrc: "/why-work-3.png?v=2", imageAlt: "AI and software development — adaptive tools and custom solutions" },
-] as const;
-
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden text-foreground font-sans">
@@ -219,11 +158,17 @@ export default function LandingPage() {
             <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
           </a>
           <nav className="hidden md:flex items-center gap-6 flex-shrink-0">
-            <a href="#who-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Who I help
+            <a href="#problems" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Problems I solve
             </a>
-            <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Services
+            <a href="#how-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              How I help
+            </a>
+            <a href="#who-and-why" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Who this is for
+            </a>
+            <a href="#who-and-why" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+              Why work with me
             </a>
             <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
               Portfolio
@@ -235,64 +180,69 @@ export default function LandingPage() {
           <div className="flex items-center gap-3 flex-shrink-0">
             <ThemeToggle />
             <DemoLoginDialog />
-            <Link href="/intake">
-              <Button
-                size="sm"
-                variant="secondary"
-                className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
-                data-testid="button-get-started"
-              >
-                Request a consultation
+            <Button
+              size="sm"
+              variant="secondary"
+              className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+              data-testid="button-get-started"
+              asChild
+            >
+              <Link href="/intake">
+                Free AI Clarity Call
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Hero — API-style: one H1, one subline, two CTAs; subtle gradient */}
-      <section className={`pt-24 pb-16 md:pt-32 md:pb-20 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-amber-50/30 dark:via-amber-950/20 to-background overflow-hidden`} id="hero">
-        <div className={`container mx-auto ${contentMax} relative`}>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative">
-            <div className="space-y-8">
-              <motion.div className="space-y-6" initial="hidden" animate="visible">
+      <section className={`pt-24 pb-16 md:pt-32 md:pb-20 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-amber-50/30 dark:via-amber-950/20 to-background`} id="hero">
+        <div className={`container mx-auto ${contentMax} relative overflow-visible`}>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative min-h-0">
+            <div className="space-y-8 min-w-0">
+              <motion.div className="space-y-6 min-w-0" initial="hidden" animate="visible">
                 <motion.h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.1] text-foreground"
+                  className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.15] text-foreground [text-wrap:balance] max-w-xl"
                   variants={heroTextVariants}
                   custom={0}
                 >
-                  AI Consulting Grounded in 20+ Years of Global Mission Work
+                  Practical AI for Faith, Education & Mission-Driven Leaders
                 </motion.h1>
                 <motion.p
                   className="text-xl md:text-2xl text-muted-foreground tracking-tight [text-wrap:balance] max-w-md"
                   variants={heroTextVariants}
                   custom={0.1}
                 >
-                  Strategy, training, and advisory for faith, education, and impact. NZ + Global.
+                  I help churches, schools, and nonprofit leaders adopt AI wisely, safely, and usefully — without hype, fear, or over-saturation.
                 </motion.p>
               </motion.div>
               <motion.div
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                <Link href="/intake">
+                <div className="flex flex-col gap-2 w-full sm:w-auto">
                   <Button
                     variant="secondary"
                     className="w-full sm:w-auto rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
                     size="lg"
                     data-testid="button-hero-cta"
+                    asChild
                   >
-                    Request a consultation
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <Link href="/intake">
+                      Free 30-minute AI Clarity Call
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
-                </Link>
-                <a href="#who-i-help">
-                  <Button variant="ghost" className="w-full sm:w-auto text-muted-foreground" data-testid="button-learn-more">
-                    See how I help
-                  </Button>
-                </a>
+                  <p className="text-sm text-muted-foreground max-w-sm">
+                    You'll walk away knowing what to use, what to avoid, and what matters next.
+                  </p>
+                </div>
+                <Button variant="ghost" className="w-full sm:w-auto text-muted-foreground shrink-0" data-testid="button-learn-more" asChild>
+                  <a href="#problems">See the challenge</a>
+                </Button>
               </motion.div>
             </div>
             <motion.div
@@ -313,8 +263,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Who I help — 4 Cards with soft gradient backgrounds (OpenAI-style) */}
-      <section id="who-i-help" className={`pt-7 md:pt-11 pb-12 md:pb-16 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
+      {/* Problems I solve — 2-col: text card left, image right (full section width) */}
+      <section id="problems" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
@@ -324,46 +274,67 @@ export default function LandingPage() {
             variants={fadeUpVariants}
           >
             <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              Who I help.
+              {problemsContent.heading}
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Faith, education, nonprofit, and mission-driven teams.
-            </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+            className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewport}
             variants={staggerContainerVariants}
           >
-            {whoIHelp.map((item, i) => (
-              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
-                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
+            <motion.div variants={staggerItemVariants} className="min-w-0 flex flex-col">
+              <div
+                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
+                style={getCardGradientStyle(0)}
+              >
                 <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
                   <CardHeader>
                     <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <item.icon className="h-5 w-5 text-muted-foreground" />
+                      <AlertTriangle className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
-                    <CardDescription className="text-sm leading-relaxed">{item.description}</CardDescription>
+                    <CardTitle className="text-base font-semibold tracking-tight">
+                      The challenge
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed mt-1.5">
+                      {problemsContent.intro}
+                    </CardDescription>
                   </CardHeader>
-                  <CardFooter className="mt-auto pt-0">
-                    <a href="#services" className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1">
-                      Learn more
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </a>
-                  </CardFooter>
+                  <CardContent className="space-y-4 pt-0 flex-1">
+                    <p className="text-foreground font-medium">
+                      {problemsContent.subheading}
+                    </p>
+                    <ul className="space-y-2 text-muted-foreground list-disc list-outside pl-6 text-sm md:text-base leading-relaxed break-words">
+                      {problemsContent.bullets.map((bullet, i) => (
+                        <li key={i}>{bullet}</li>
+                      ))}
+                    </ul>
+                    <p className="text-foreground font-medium pt-2 border-t border-border/60">
+                      {problemsContent.closing}
+                    </p>
+                  </CardContent>
                 </Card>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
+            <motion.div variants={staggerItemVariants} className="min-w-0 relative shrink-0">
+              <div className="rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] lg:aspect-auto lg:min-h-[320px] w-full h-full">
+                <img
+                  src="https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=1200&q=80"
+                  alt="People working together in a modern open office — the real AI challenge leaders face"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+              <p className="sr-only">
+                Photo by <a href="https://unsplash.com/@jasongoodman_youxventures?utm_source=ai-consulting&utm_medium=referral">Jason Goodman</a> on <a href="https://unsplash.com/?utm_source=ai-consulting&utm_medium=referral">Unsplash</a>
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Six AI categories — 6 Cards with pastel gradient backgrounds (OpenAI-style) */}
-      <section id="services" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-amber-50/20 dark:via-amber-950/10 to-background`}>
+      {/* How I help — 3 outcomes */}
+      <section id="how-i-help" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-amber-50/20 dark:via-amber-950/10 to-background`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className={`text-center ${sectionTitleMargin}`}
@@ -373,90 +344,202 @@ export default function LandingPage() {
             variants={fadeUpVariants}
           >
             <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              Six AI categories — designed for your context, grounded in your values.
+              How I help
             </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+              I work with leaders to move from confusion to clarity, and from experimentation to responsible practice.
+            </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+            className="grid md:grid-cols-3 gap-6 items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewport}
             variants={staggerContainerVariants}
           >
-            {coreAICategories.map((cat, i) => (
+            {howIHelp.map((item, i) => (
               <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
                 <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
+                  <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                    <CardHeader>
+                      <div className="rounded-xl bg-white/70 dark:bg-white/15 p-3 w-fit mb-2 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-sm">
+                        <item.icon className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+                      </div>
+                      <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex-1 flex flex-col pt-0">
+                      <ul className="text-sm text-muted-foreground space-y-1.5 list-disc list-inside flex-1">
+                        {item.bullets.map((bullet, j) => (
+                          <li key={j}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          <motion.p
+            className="text-center text-muted-foreground max-w-2xl mx-auto mt-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={fadeUpVariants}
+          >
+            {howIHelpClosing}
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Who this is for + Why work with me — combined: carousel on mobile, 2-col grid on desktop */}
+      <section id="who-and-why" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background overflow-hidden`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          {/* Mobile: carousel with vertical cards (one card per slide, swipe/scroll) */}
+          <motion.div
+            className="md:hidden w-full"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={fadeUpVariants}
+          >
+            <Carousel
+              opts={{ align: "start", loop: true, dragFree: false, containScroll: "trimSnaps" }}
+              className="w-full relative -mx-2 snap-x snap-mandatory"
+            >
+              <CarouselContent className="-ml-2 md:-ml-0 flex snap-x snap-mandatory">
+                <CarouselItem className="pl-2 md:pl-0 basis-full min-w-full shrink-0 snap-center">
+                  <div
+                    className="rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border min-h-[320px] flex flex-col"
+                    style={getCardGradientStyle(0)}
+                  >
+                    <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                      <CardHeader>
+                        <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                          <Users className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                        <CardTitle className="text-xl font-semibold tracking-tight">
+                          Who this is for
+                        </CardTitle>
+                        <CardDescription className="text-sm leading-relaxed mt-1.5">
+                          This work is a strong fit if you lead or serve in:
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4 pt-0 flex-1">
+                        {whoThisIsFor.map((item, i) => (
+                          <div key={i} className="flex gap-3">
+                            <div className="rounded-lg bg-white/50 dark:bg-white/10 p-2 h-fit shrink-0">
+                              <item.icon className="h-4 w-4 text-muted-foreground" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-foreground text-sm">{item.title}</p>
+                              <p className="text-muted-foreground text-sm">{item.description}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+                <CarouselItem className="pl-2 md:pl-0 basis-full min-w-full shrink-0 snap-center">
+                  <div
+                    className="rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border min-h-[320px] flex flex-col"
+                    style={getCardGradientStyle(1)}
+                  >
+                    <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                      <CardHeader>
+                        <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                          <Shield className="h-5 w-5 text-muted-foreground" />
+                        </div>
+                        <CardTitle className="text-xl font-semibold tracking-tight">
+                          Why work with me
+                        </CardTitle>
+                        <CardDescription className="text-sm leading-relaxed mt-1.5">
+                          I bring together deep faith context and real technology experience.
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="pt-0 flex-1">
+                        <ul className="text-sm text-muted-foreground space-y-2 list-disc list-outside pl-5 leading-relaxed">
+                          {whyWorkWithMeBullets.map((bullet, j) => (
+                            <li key={j}>{bullet}</li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselDots count={2} className="mt-6" />
+            </Carousel>
+          </motion.div>
+          {/* Desktop: 2-column grid, both cards visible */}
+          <motion.div
+            className="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8 items-stretch"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewport}
+            variants={staggerContainerVariants}
+          >
+            <motion.div variants={staggerItemVariants} className="min-h-0 flex flex-col">
+              <div
+                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
+                style={getCardGradientStyle(0)}
+              >
                 <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
                   <CardHeader>
-                    <div className="rounded-xl bg-white/70 dark:bg-white/15 p-3 w-fit mb-2 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-sm">
-                      <cat.icon className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
+                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                      <Users className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <CardTitle className="text-base font-semibold tracking-tight">{cat.title}</CardTitle>
-                    <CardDescription className="text-xs">{cat.subtitle}</CardDescription>
+                    <CardTitle className="text-xl font-semibold tracking-tight">
+                      Who this is for
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed mt-1.5">
+                      This work is a strong fit if you lead or serve in:
+                    </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex-1 flex flex-col pt-0">
-                    <ul className="text-xs text-muted-foreground space-y-1.5 list-disc list-inside flex-1">
-                      {cat.whatItLooksLike.map((bullet, j) => (
+                  <CardContent className="space-y-4 pt-0 flex-1">
+                    {whoThisIsFor.map((item, i) => (
+                      <div key={i} className="flex gap-3">
+                        <div className="rounded-lg bg-white/50 dark:bg-white/10 p-2 h-fit shrink-0">
+                          <item.icon className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-foreground text-sm">{item.title}</p>
+                          <p className="text-muted-foreground text-sm">{item.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </motion.div>
+            <motion.div variants={staggerItemVariants} className="min-h-0 flex flex-col">
+              <div
+                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
+                style={getCardGradientStyle(1)}
+              >
+                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                  <CardHeader>
+                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                      <Shield className="h-5 w-5 text-muted-foreground" />
+                    </div>
+                    <CardTitle className="text-xl font-semibold tracking-tight">
+                      Why work with me
+                    </CardTitle>
+                    <CardDescription className="text-sm leading-relaxed mt-1.5">
+                      I bring together deep faith context and real technology experience.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0 flex-1">
+                    <ul className="text-sm text-muted-foreground space-y-2 list-disc list-outside pl-5 leading-relaxed">
+                      {whyWorkWithMeBullets.map((bullet, j) => (
                         <li key={j}>{bullet}</li>
                       ))}
                     </ul>
                   </CardContent>
                 </Card>
-                </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Why work with me — 3 full-width cards, horizontal carousel, image + text each */}
-      <section id="why-work-with-me" className={`${sectionPadding} scroll-mt-20 overflow-hidden`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <motion.div
-            className={`text-center ${sectionTitleMargin}`}
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
-          >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              Why work with me.
-            </h2>
-          </motion.div>
-          <Carousel opts={{ align: "start", loop: true }} className="w-full relative overflow-hidden">
-            <CarouselContent className="-ml-0 w-full">
-              {whyWorkCards.map((card, i) => (
-                <CarouselItem key={card.key} className="pl-0 basis-full min-w-full overflow-hidden">
-                  <div
-                    className="rounded-2xl overflow-hidden border border-border bg-background/95 shadow-sm flex flex-col md:flex-row min-h-[300px] md:min-h-[420px] w-full"
-                    style={getCardGradientStyle(card.gradient)}
-                  >
-                    {/* Image — left on desktop, top on mobile */}
-                    <div className="w-full md:w-[45%] min-w-0 flex-shrink-0 overflow-hidden aspect-[4/3] md:aspect-auto md:h-full">
-                      <img
-                        src={card.imageSrc}
-                        alt={card.imageAlt}
-                        className="w-full h-full object-cover object-center"
-                      />
-                    </div>
-                    {/* Text — right on desktop, below image on mobile */}
-                    <div className="flex-1 flex flex-col p-5 md:p-8 lg:p-10 justify-center min-w-0 min-h-0 overflow-hidden">
-                      <div className="rounded-lg bg-white/70 dark:bg-white/15 p-2.5 w-fit mb-4 backdrop-blur-sm">
-                        <card.icon className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground mb-4">{card.title}</h3>
-                      <ul className="text-sm text-muted-foreground space-y-1.5 md:space-y-2 list-disc list-inside">
-                        {card.bullets.map((bullet, j) => (
-                          <li key={j}>{bullet}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselDots count={3} className="mt-6" />
-          </Carousel>
         </div>
       </section>
 
@@ -478,7 +561,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch"
+            className="grid md:grid-cols-3 gap-6 items-stretch"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewport}
@@ -487,18 +570,18 @@ export default function LandingPage() {
             {portfolioItems.map((item, i) => (
               <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
                 <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
-                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                  <CardHeader>
-                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <item.icon className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <CardDescription className="text-xs">{item.type} · {item.year}</CardDescription>
-                    <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="pt-0 flex-1">
-                    <p className="text-sm text-muted-foreground leading-relaxed">{item.impact}</p>
-                  </CardContent>
-                </Card>
+                  <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
+                    <CardHeader>
+                      <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
+                        <item.icon className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <CardDescription className="text-xs">{item.type}</CardDescription>
+                      <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0 flex-1">
+                      <p className="text-sm text-muted-foreground leading-relaxed">{item.impact}</p>
+                    </CardContent>
+                  </Card>
                 </div>
               </motion.div>
             ))}
@@ -506,100 +589,48 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Get started — two-column API-style block with distinct gradient columns */}
+      {/* Get started — single CTA */}
       <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-slate-50/30 dark:via-slate-950/20 to-background`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
-            className={`text-center ${sectionTitleMargin}`}
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
-          >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              Get started.
-            </h2>
-          </motion.div>
-          <motion.div
-            className="grid md:grid-cols-2 gap-8"
+            className="text-center max-w-2xl mx-auto"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewport}
             variants={staggerContainerVariants}
           >
-            <motion.div variants={staggerItemVariants}>
-              <div className="rounded-xl border border-border/80 h-full overflow-hidden" style={getCardGradientStyle(0)}>
-              <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold tracking-tight">Partner with me</CardTitle>
-                  <CardDescription>
-                    Work with me on your AI strategy and implementation.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 pt-0">
-                  <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside mb-6">
-                    <li>AI strategy and hands-on deployment guidance</li>
-                    <li>Transparent pricing tailored to your context</li>
-                    <li>Response within 48 hours; no commitment required</li>
-                  </ul>
-                  <Link href="/intake">
-                    <Button
-                      variant="secondary"
-                      className="w-full sm:w-auto rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
-                      size="lg"
-                      data-testid="button-cta-intake"
-                    >
-                      <MessageCircle className="mr-2 h-4 w-4" />
-                      Request a consultation
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-              </div>
+            <h2 className={`text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3 ${sectionTitleMargin}`}>
+              Get started
+            </h2>
+            <motion.p className="text-muted-foreground mb-6" variants={staggerItemVariants}>
+              If you're unsure where AI fits — or doesn't — start with a conversation.
+            </motion.p>
+            <motion.div className="flex flex-col items-center gap-3" variants={staggerItemVariants}>
+              <Button
+                variant="secondary"
+                className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+                size="lg"
+                data-testid="button-cta-intake"
+                asChild
+              >
+                <Link href="/intake">
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  Book a Free 30-minute AI Clarity Call
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                No obligation. Honest assessment of fit. Response within 48 hours.
+              </p>
             </motion.div>
-            <motion.div variants={staggerItemVariants}>
-              <div className="rounded-xl border border-border/80 h-full overflow-hidden" style={getCardGradientStyle(1)}>
-              <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                <CardHeader>
-                  <CardTitle className="text-lg font-semibold tracking-tight">Learn more</CardTitle>
-                  <CardDescription>
-                    Explore portfolio, services, and how we can work together.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 pt-0">
-                  <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside mb-6">
-                    <li>Portfolio: from strategy to shipped product</li>
-                    <li>Six AI categories and engagement models</li>
-                    <li>Contact: nathanielbaldock@gmail.com</li>
-                  </ul>
-                  <div className="flex flex-wrap gap-3">
-                    <a href="#portfolio">
-                      <Button variant="outline" className="rounded-lg">
-                        View portfolio
-                      </Button>
-                    </a>
-                    <a href="#services">
-                      <Button variant="outline" className="rounded-lg">
-                        See services
-                      </Button>
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-              </div>
-            </motion.div>
+            <motion.p
+              className="text-center text-sm text-muted-foreground mt-8"
+              variants={fadeUpVariants}
+            >
+              <CheckCircle className="h-4 w-4 inline mr-1 text-green-600 dark:text-green-400 align-middle" />
+              Response within 48 hours · Honest assessment of fit
+            </motion.p>
           </motion.div>
-          <motion.p
-            className="text-center text-sm text-muted-foreground mt-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
-          >
-            <CheckCircle className="h-4 w-4 inline mr-1 text-green-600 dark:text-green-400 align-middle" />
-            Response within 48 hours · Honest assessment of fit
-          </motion.p>
         </div>
       </section>
 
@@ -612,7 +643,13 @@ export default function LandingPage() {
             </div>
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="text-center md:text-left text-sm text-muted-foreground">
-                <p>Tauranga, NZ · NZ + Global (Zoom)</p>
+                <p>Tauranga, NZ · Working NZ + Global (Zoom)</p>
+                <p className="mt-1">
+                  Contact:{" "}
+                  <a href="mailto:nathanielbaldock@gmail.com" className="hover:text-foreground transition-colors duration-200">
+                    nathanielbaldock@gmail.com
+                  </a>
+                </p>
                 <p className="mt-1">© 2026 Nathaniel Baldock</p>
               </div>
               <div className="flex items-center gap-6">
