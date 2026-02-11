@@ -151,3 +151,80 @@ export const smoothTransition = {
   duration: 0.5,
   ease: [0.25, 0.4, 0.25, 1],
 };
+
+// ——— Tesoro-style: smoother eases and reveal animations ———
+
+/** Easing curve similar to Tesoro/Webflow: smooth deceleration at end */
+export const tesoroEase = [0.22, 1, 0.36, 1] as const;
+export const tesoroTransition = { duration: 0.6, ease: tesoroEase };
+export const tesoroTransitionLong = { duration: 0.85, ease: tesoroEase };
+
+/** Section headline / big text: fade up with more travel and longer duration */
+export const fadeUpRevealVariants: Variants = {
+  hidden: { opacity: 0, y: 48 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: tesoroEase },
+  },
+};
+
+/** Stagger with longer delays for cards (Tesoro card entrances) */
+export const staggerRevealContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+/** Card/item that slides up and fades in (for grids) */
+export const staggerRevealItemVariants: Variants = {
+  hidden: { opacity: 0, y: 36 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: tesoroEase },
+  },
+};
+
+/** Tesoro-style: cards slide up into place on scroll (larger y, clear stagger) */
+export const cardSlideUpContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+export const cardSlideUpItemVariants: Variants = {
+  hidden: { opacity: 0, y: 56 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: tesoroEase },
+  },
+};
+
+/** Line or block of text that reveals with slight delay (for multi-line copy) */
+export const lineRevealVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.5, ease: tesoroEase },
+  }),
+};
+
+/** In-viewport trigger: fire when element enters; reverse when scrolling back up (premium feel) */
+export const landingViewportReveal = {
+  once: false,
+  margin: "0px 0px -80px 0px",
+  amount: 0.05,
+};

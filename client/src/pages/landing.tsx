@@ -1,54 +1,42 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselDots } from "@/components/ui/carousel";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { DemoLoginDialog } from "@/components/demo-login-dialog";
 import { motion } from "framer-motion";
 import {
-  fadeUpVariants,
   staggerContainerVariants,
-  staggerItemVariants,
   heroTextVariants,
+  fadeUpRevealVariants,
+  staggerRevealContainerVariants,
+  staggerRevealItemVariants,
+  cardSlideUpContainerVariants,
+  cardSlideUpItemVariants,
+  landingViewportReveal,
+  tesoroEase,
 } from "@/lib/animations";
 import {
   ArrowRight,
-  CheckCircle,
-  Church,
+  ChevronDown,
   GraduationCap,
-  Heart,
   LayoutDashboard,
   MessageCircle,
   BookOpen,
   Shield,
   Users,
-  AlertTriangle,
 } from "lucide-react";
-
-const landingViewport = { once: true, margin: "-40px", amount: 0.15 as const };
 
 // Problems I solve — the real AI challenge leaders face
 const problemsContent = {
-  heading: "The real AI challenge leaders are facing",
   intro: "AI is already being used inside your organisation — usually without clarity, policy, or shared understanding.",
-  subheading: "Leaders I work with are dealing with:",
-  bullets: [
-    "Staff experimenting with AI tools inconsistently and unsafely",
-    "Uncertainty about what to allow, restrict, or guide",
-    "Concerns about theology, trust, and data privacy",
-    'Pressure to "keep up" without compromising values',
-    "Lots of noise, very little wisdom",
-  ],
   closing: "The risk isn't AI adoption. The risk is accidental adoption without discernment.",
 };
 
-// How I help — 3 outcomes
+// How I help — 3 outcomes (Tesoro-style: vibrant card colors like Connect/Activate/Spend/Reward)
+const howIHelpCardColors = [
+  "bg-[#FF6B4C]",   // red-orange (Connect-style)
+  "bg-[#FFC93C]",   // yellow/amber (Activate-style)
+  "bg-[#4CAF50]",   // green (Spend/Reward-style)
+];
 const howIHelp = [
   {
     icon: Shield,
@@ -80,22 +68,31 @@ const howIHelp = [
 ];
 const howIHelpClosing = "Everything is designed to respect the authority of Scripture, preserve human discernment, and protect trust.";
 
-// Who this is for — 3 audiences
+// Primary CTA label used site-wide
+const ctaLabel = "Book a free 30-min consultation";
+
+// Who this is for — 3 audiences with section label, title, description, and image
 const whoThisIsFor = [
   {
-    icon: Church,
+    label: "FOR CHURCHES & MISSION ORGANISATIONS",
     title: "Churches & mission organisations",
     description: "Navigating AI responsibly.",
+    image: "/Teaching-2.png",
+    imageAlt: "Teaching and ministry context",
   },
   {
-    icon: GraduationCap,
+    label: "FOR SCHOOLS AND TRAINING ORGANISATIONS",
     title: "Schools and training organisations",
     description: "Facing workload pressure and change.",
+    image: "/School_Profile.png",
+    imageAlt: "School and training context",
   },
   {
-    icon: Heart,
+    label: "FOR NONPROFITS AND NGOS",
     title: "Nonprofits and NGOs",
     description: "Needing clarity, capacity, and better systems.",
+    image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
+    imageAlt: "Team collaboration",
   },
 ];
 
@@ -132,48 +129,33 @@ const portfolioItems = [
   },
 ];
 
-/* Tighter, industry-standard section spacing; wider content for better screen fill */
-const sectionPadding = "py-12 md:py-16 px-6 md:px-8";
-const sectionTitleMargin = "mb-6 md:mb-8";
-const contentMax = "max-w-7xl";
-
-// Inline gradient backgrounds so card colors never disappear (not dependent on Tailwind purge)
-const cardGradientStyles: { background: string }[] = [
-  { background: "linear-gradient(to bottom right, rgba(254,243,199,0.8), rgba(255,247,237,0.5), transparent)" },
-  { background: "linear-gradient(to bottom right, rgba(224,242,254,0.8), rgba(239,246,255,0.5), transparent)" },
-  { background: "linear-gradient(to bottom right, rgba(209,250,229,0.8), rgba(240,253,250,0.5), transparent)" },
-  { background: "linear-gradient(to bottom right, rgba(237,233,254,0.8), rgba(250,245,255,0.5), transparent)" },
-  { background: "linear-gradient(to bottom right, rgba(255,228,230,0.8), rgba(253,242,248,0.5), transparent)" },
-  { background: "linear-gradient(to bottom right, rgba(207,250,254,0.8), rgba(240,249,255,0.5), transparent)" },
-];
-const getCardGradientStyle = (i: number) => cardGradientStyles[i % cardGradientStyles.length];
+/* Tesoro-style: generous section spacing, single content width */
+const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+const contentMax = "max-w-6xl";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden text-foreground font-sans">
-      {/* Nav — API-style minimal */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/60 bg-background backdrop-blur-xl isolate">
+    <div data-theme="tesoro" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+      {/* Nav — Tesoro-style: light header, dark text, minimal */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl isolate">
         <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
           <a href="#" className="flex items-center min-w-0">
             <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
           </a>
-          <nav className="hidden md:flex items-center gap-6 flex-shrink-0">
-            <a href="#problems" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Problems I solve
+          <nav className="hidden md:flex items-center gap-8 flex-shrink-0">
+            <a href="#problems" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+              The challenge
             </a>
-            <a href="#how-i-help" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+            <a href="#how-i-help" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
               How I help
             </a>
-            <a href="#who-and-why" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Who this is for
+            <a href="#who-and-why" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+              Who it's for
             </a>
-            <a href="#who-and-why" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Why work with me
+            <a href="#proof" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+              Proof
             </a>
-            <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-              Portfolio
-            </a>
-            <a href="#get-started" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
+            <a href="#get-started" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
               Get started
             </a>
           </nav>
@@ -182,13 +164,13 @@ export default function LandingPage() {
             <DemoLoginDialog />
             <Button
               size="sm"
-              variant="secondary"
-              className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+              variant="default"
+              className="tesoro-cta-gradient rounded-lg font-medium"
               data-testid="button-get-started"
               asChild
             >
               <Link href="/intake">
-                Free AI Clarity Call
+                {ctaLabel}
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
               </Link>
             </Button>
@@ -196,475 +178,427 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero — API-style: one H1, one subline, two CTAs; subtle gradient */}
-      <section className={`pt-24 pb-16 md:pt-32 md:pb-20 px-6 md:px-8 scroll-mt-20 bg-gradient-to-b from-background via-amber-50/30 dark:via-amber-950/20 to-background`} id="hero">
-        <div className={`container mx-auto ${contentMax} relative overflow-visible`}>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative min-h-0">
-            <div className="space-y-8 min-w-0">
-              <motion.div className="space-y-6 min-w-0" initial="hidden" animate="visible">
-                <motion.h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.15] text-foreground [text-wrap:balance] max-w-xl"
-                  variants={heroTextVariants}
-                  custom={0}
-                >
-                  Practical AI for Faith, Education & Mission-Driven Leaders
-                </motion.h1>
-                <motion.p
-                  className="text-xl md:text-2xl text-muted-foreground tracking-tight [text-wrap:balance] max-w-md"
-                  variants={heroTextVariants}
-                  custom={0.1}
-                >
-                  I help churches, schools, and nonprofit leaders adopt AI wisely, safely, and usefully — without hype, fear, or over-saturation.
-                </motion.p>
-              </motion.div>
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <div className="flex flex-col gap-2 w-full sm:w-auto">
-                  <Button
-                    variant="secondary"
-                    className="w-full sm:w-auto rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
-                    size="lg"
-                    data-testid="button-hero-cta"
-                    asChild
-                  >
-                    <Link href="/intake">
-                      Free 30-minute AI Clarity Call
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <p className="text-sm text-muted-foreground max-w-sm">
-                    You'll walk away knowing what to use, what to avoid, and what matters next.
-                  </p>
-                </div>
-                <Button variant="ghost" className="w-full sm:w-auto text-muted-foreground shrink-0" data-testid="button-learn-more" asChild>
-                  <a href="#problems">See the challenge</a>
-                </Button>
-              </motion.div>
-            </div>
-            <motion.div
-              className="relative z-0 shrink-0 w-full max-w-sm mx-auto lg:max-w-none lg:mx-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-            >
-              <div className="relative rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] isolate">
-                <img
-                  src="/hero.jpg?v=2"
-                  alt="Nathaniel Baldock — AI consulting for faith, education and impact"
-                  className="w-full h-full object-cover relative"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problems I solve — 2-col: text card left, image right (full section width) */}
-      <section id="problems" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      {/* Hero — portrait visible on right; text in left column so it doesn't cover the image */}
+      <section className="relative min-h-[85vh] flex items-center pt-28 pb-20 md:pt-36 md:pb-28 px-6 md:px-8 scroll-mt-20 overflow-hidden" id="hero">
+        {/* Background image: position so subject stays on the right */}
+        <motion.div
+          className="absolute inset-0 z-0"
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
+        >
+          <img
+            src="/hero-portrait.png"
+            alt=""
+            className="w-full h-full object-cover object-[20%_center] md:object-[15%_center]"
+          />
+        </motion.div>
+        {/* Gradient overlay: stronger on left so text reads well, lighter on right so portrait shows */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/75 via-black/45 to-black/25" aria-hidden />
+        <div className={`container mx-auto ${contentMax} relative z-[2]`}>
           <motion.div
-            className={`text-center ${sectionTitleMargin}`}
+            className="max-w-xl md:max-w-2xl md:text-left text-center space-y-8 md:mr-auto"
             initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
-          >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              {problemsContent.heading}
-            </h2>
-          </motion.div>
-          <motion.div
-            className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-stretch"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
+            animate="visible"
             variants={staggerContainerVariants}
           >
-            <motion.div variants={staggerItemVariants} className="min-w-0 flex flex-col">
-              <div
-                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
-                style={getCardGradientStyle(0)}
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-white [text-wrap:balance] drop-shadow-sm"
+              variants={heroTextVariants}
+              custom={0}
+            >
+              Practical AI for Faith, Education & Mission-Driven Leaders
+            </motion.h1>
+            <motion.p
+              className="text-xl md:text-2xl text-white/90 tracking-tight [text-wrap:balance]"
+              variants={heroTextVariants}
+              custom={0.05}
+            >
+              I help churches, schools, and nonprofit leaders adopt AI wisely, safely, and usefully — without hype, fear, or over-saturation.
+            </motion.p>
+            <motion.p
+              className="text-lg md:text-xl font-semibold text-white"
+              variants={heroTextVariants}
+              custom={0.1}
+            >
+              You'll know what to use, what to avoid, and{" "}
+              <span className="hero-accent-phrase">what matters next.</span>
+            </motion.p>
+            <motion.div
+              className="flex flex-col items-center md:items-start gap-3"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              <Button
+                variant="default"
+                size="lg"
+                className="tesoro-cta-gradient rounded-xl font-semibold px-8 shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
+                data-testid="button-hero-cta"
+                asChild
               >
-                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                  <CardHeader>
-                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <CardTitle className="text-base font-semibold tracking-tight">
-                      The challenge
-                    </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed mt-1.5">
-                      {problemsContent.intro}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4 pt-0 flex-1">
-                    <p className="text-foreground font-medium">
-                      {problemsContent.subheading}
-                    </p>
-                    <ul className="space-y-2 text-muted-foreground list-disc list-outside pl-6 text-sm md:text-base leading-relaxed break-words">
-                      {problemsContent.bullets.map((bullet, i) => (
-                        <li key={i}>{bullet}</li>
-                      ))}
-                    </ul>
-                    <p className="text-foreground font-medium pt-2 border-t border-border/60">
-                      {problemsContent.closing}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
+                <Link href="/intake">
+                  {ctaLabel}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </motion.div>
-            <motion.div variants={staggerItemVariants} className="min-w-0 relative shrink-0">
-              <div className="rounded-2xl overflow-hidden border border-border bg-muted/30 aspect-[4/3] lg:aspect-auto lg:min-h-[320px] w-full h-full">
-                <img
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=1200&q=80"
-                  alt="People working together in a modern open office — the real AI challenge leaders face"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-              <p className="sr-only">
-                Photo by <a href="https://unsplash.com/@jasongoodman_youxventures?utm_source=ai-consulting&utm_medium=referral">Jason Goodman</a> on <a href="https://unsplash.com/?utm_source=ai-consulting&utm_medium=referral">Unsplash</a>
-              </p>
-            </motion.div>
+            <motion.a
+              href="#problems"
+              className="inline-flex flex-col items-center gap-1 text-white/80 hover:text-white transition-colors text-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+            >
+              <span>Scroll</span>
+              <ChevronDown className="h-5 w-5 animate-bounce" />
+            </motion.a>
           </motion.div>
         </div>
       </section>
 
-      {/* How I help — 3 outcomes */}
-      <section id="how-i-help" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-amber-50/20 dark:via-amber-950/10 to-background`}>
+      {/* Problems — Tesoro-style: white strip, line-by-line reveal */}
+      <section id="problems" className={`${sectionPadding} scroll-mt-20 bg-white border-y border-neutral-200/80`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
-            className={`text-center ${sectionTitleMargin}`}
+            className="max-w-3xl mx-auto text-center space-y-4"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
           >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 flex flex-wrap justify-center gap-x-2 gap-y-1 items-baseline">
+              <motion.span
+                className="inline-block"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView="visible"
+                viewport={landingViewportReveal}
+                variants={{
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+                }}
+              >
+                The real AI challenge
+              </motion.span>
+              <motion.span
+                className="inline-block problems-accent-phrase"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView="visible"
+                viewport={landingViewportReveal}
+                variants={{
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, delay: 0.2, ease: [0.22, 1, 0.36, 1] } },
+                }}
+              >
+                leaders are facing.
+              </motion.span>
+            </h2>
+            <motion.p
+              className="text-neutral-600 text-sm md:text-base"
+              variants={staggerRevealItemVariants}
+            >
+              {problemsContent.intro}
+            </motion.p>
+            <motion.p
+              className="text-lg md:text-xl font-semibold text-neutral-900 pt-2"
+              variants={staggerRevealItemVariants}
+            >
+              {problemsContent.closing}
+            </motion.p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* How I help — Tesoro-style: white section, vibrant cards, staggered card reveal, hover lift */}
+      <section id="how-i-help" className={`${sectionPadding} scroll-mt-20 bg-white`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.div
+            className="text-center mb-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
               How I help
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
+            <p className="text-neutral-600 max-w-2xl mx-auto">
               I work with leaders to move from confusion to clarity, and from experimentation to responsible practice.
             </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-3 gap-6 items-stretch"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 items-stretch"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={staggerContainerVariants}
+            viewport={landingViewportReveal}
+            variants={cardSlideUpContainerVariants}
           >
             {howIHelp.map((item, i) => (
-              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
-                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
-                  <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                    <CardHeader>
-                      <div className="rounded-xl bg-white/70 dark:bg-white/15 p-3 w-fit mb-2 backdrop-blur-sm border border-white/40 dark:border-white/10 shadow-sm">
-                        <item.icon className="h-6 w-6 text-foreground/80" strokeWidth={1.5} />
-                      </div>
-                      <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex-1 flex flex-col pt-0">
-                      <ul className="text-sm text-muted-foreground space-y-1.5 list-disc list-inside flex-1">
-                        {item.bullets.map((bullet, j) => (
-                          <li key={j}>{bullet}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
+              <motion.div
+                key={i}
+                variants={cardSlideUpItemVariants}
+                whileHover={{ y: -10, scale: 1.03, transition: { duration: 0.3, ease: tesoroEase } }}
+                className={`flex flex-col rounded-[22px] p-6 md:p-8 shadow-lg shadow-black/8 hover:shadow-xl hover:shadow-black/12 transition-shadow duration-500 ${howIHelpCardColors[i]} min-h-[220px]`}
+              >
+                <div className="flex justify-center md:justify-start mb-4">
+                  <div className="rounded-xl bg-black/10 p-3 inline-flex">
+                    <item.icon className="h-7 w-7 text-black" strokeWidth={2} />
+                  </div>
                 </div>
+                <h3 className="font-bold text-black text-lg mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-black/90 text-sm md:text-base leading-relaxed flex-1">
+                  {item.bullets[0]}
+                </p>
               </motion.div>
             ))}
           </motion.div>
           <motion.p
-            className="text-center text-muted-foreground max-w-2xl mx-auto mt-8"
+            className="text-center text-neutral-600 max-w-2xl mx-auto mt-12"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
           >
             {howIHelpClosing}
           </motion.p>
         </div>
       </section>
 
-      {/* Who this is for + Why work with me — combined: carousel on mobile, 2-col grid on desktop */}
-      <section id="who-and-why" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-sky-50/25 dark:via-sky-950/15 to-background overflow-hidden`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          {/* Mobile: carousel with vertical cards (one card per slide, swipe/scroll) */}
-          <motion.div
-            className="md:hidden w-full"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
-          >
-            <Carousel
-              opts={{ align: "start", loop: true, dragFree: false, containScroll: "trimSnaps" }}
-              className="w-full relative -mx-2 snap-x snap-mandatory"
-            >
-              <CarouselContent className="-ml-2 md:-ml-0 flex snap-x snap-mandatory">
-                <CarouselItem className="pl-2 md:pl-0 basis-full min-w-full shrink-0 snap-center">
-                  <div
-                    className="rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border min-h-[320px] flex flex-col"
-                    style={getCardGradientStyle(0)}
-                  >
-                    <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                      <CardHeader>
-                        <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                          <Users className="h-5 w-5 text-muted-foreground" />
-                        </div>
-                        <CardTitle className="text-xl font-semibold tracking-tight">
-                          Who this is for
-                        </CardTitle>
-                        <CardDescription className="text-sm leading-relaxed mt-1.5">
-                          This work is a strong fit if you lead or serve in:
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4 pt-0 flex-1">
-                        {whoThisIsFor.map((item, i) => (
-                          <div key={i} className="flex gap-3">
-                            <div className="rounded-lg bg-white/50 dark:bg-white/10 p-2 h-fit shrink-0">
-                              <item.icon className="h-4 w-4 text-muted-foreground" />
-                            </div>
-                            <div>
-                              <p className="font-medium text-foreground text-sm">{item.title}</p>
-                              <p className="text-muted-foreground text-sm">{item.description}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem className="pl-2 md:pl-0 basis-full min-w-full shrink-0 snap-center">
-                  <div
-                    className="rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border min-h-[320px] flex flex-col"
-                    style={getCardGradientStyle(1)}
-                  >
-                    <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                      <CardHeader>
-                        <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                          <Shield className="h-5 w-5 text-muted-foreground" />
-                        </div>
-                        <CardTitle className="text-xl font-semibold tracking-tight">
-                          Why work with me
-                        </CardTitle>
-                        <CardDescription className="text-sm leading-relaxed mt-1.5">
-                          I bring together deep faith context and real technology experience.
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="pt-0 flex-1">
-                        <ul className="text-sm text-muted-foreground space-y-2 list-disc list-outside pl-5 leading-relaxed">
-                          {whyWorkWithMeBullets.map((bullet, j) => (
-                            <li key={j}>{bullet}</li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              </CarouselContent>
-              <CarouselDots count={2} className="mt-6" />
-            </Carousel>
-          </motion.div>
-          {/* Desktop: 2-column grid, both cards visible */}
-          <motion.div
-            className="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8 items-stretch"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewport}
-            variants={staggerContainerVariants}
-          >
-            <motion.div variants={staggerItemVariants} className="min-h-0 flex flex-col">
-              <div
-                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
-                style={getCardGradientStyle(0)}
+      {/* Who this is for — 3 audience blocks; title + subtitle only on first block */}
+      {whoThisIsFor.map((item, i) => (
+        <motion.section
+          key={item.title}
+          id={i === 0 ? "who-and-why" : undefined}
+          className={`${sectionPadding} scroll-mt-20 ${i % 2 === 0 ? "bg-white" : "bg-neutral-50"}`}
+          initial="hidden"
+          whileInView="visible"
+          viewport={landingViewportReveal}
+          variants={staggerRevealContainerVariants}
+        >
+          <div className={`container mx-auto ${contentMax}`}>
+            {i === 0 && (
+              <motion.div
+                className="text-center max-w-3xl mx-auto mb-10"
+                initial="hidden"
+                whileInView="visible"
+                viewport={landingViewportReveal}
+                variants={fadeUpRevealVariants}
               >
-                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                  <CardHeader>
-                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <Users className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <CardTitle className="text-xl font-semibold tracking-tight">
-                      Who this is for
-                    </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed mt-1.5">
-                      This work is a strong fit if you lead or serve in:
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4 pt-0 flex-1">
-                    {whoThisIsFor.map((item, i) => (
-                      <div key={i} className="flex gap-3">
-                        <div className="rounded-lg bg-white/50 dark:bg-white/10 p-2 h-fit shrink-0">
-                          <item.icon className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-foreground text-sm">{item.title}</p>
-                          <p className="text-muted-foreground text-sm">{item.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-2">
+                  Who this is for
+                </h2>
+                <p className="text-neutral-600 text-lg">
+                  This work is a strong fit if you lead or serve in:
+                </p>
+              </motion.div>
+            )}
+            <div className={`grid md:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
+              <div className={`space-y-4 ${i % 2 === 1 ? "md:order-2" : ""}`}>
+                <motion.p className="text-sm font-medium uppercase tracking-wider text-[hsl(142,76%,42%)] mb-2" variants={staggerRevealItemVariants}>
+                  {item.label}
+                </motion.p>
+                <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-4" variants={staggerRevealItemVariants}>
+                  {item.title}
+                </motion.h2>
+                <motion.p className="text-neutral-600 leading-relaxed mb-6" variants={staggerRevealItemVariants}>
+                  {item.description}
+                </motion.p>
+                <motion.div variants={staggerRevealItemVariants}>
+                  <Button variant="default" size="default" className="tesoro-cta-gradient rounded-lg font-medium" asChild>
+                    <Link href="/intake">
+                      {ctaLabel}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </motion.div>
               </div>
-            </motion.div>
-            <motion.div variants={staggerItemVariants} className="min-h-0 flex flex-col">
-              <div
-                className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border flex flex-col"
-                style={getCardGradientStyle(1)}
+              <motion.div
+                className={`relative rounded-2xl overflow-hidden border border-neutral-200 aspect-[4/3] bg-neutral-100 ${i % 2 === 1 ? "md:order-1" : ""}`}
+                variants={staggerRevealItemVariants}
               >
-                <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                  <CardHeader>
-                    <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                      <Shield className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <CardTitle className="text-xl font-semibold tracking-tight">
-                      Why work with me
-                    </CardTitle>
-                    <CardDescription className="text-sm leading-relaxed mt-1.5">
-                      I bring together deep faith context and real technology experience.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-0 flex-1">
-                    <ul className="text-sm text-muted-foreground space-y-2 list-disc list-outside pl-5 leading-relaxed">
-                      {whyWorkWithMeBullets.map((bullet, j) => (
-                        <li key={j}>{bullet}</li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+                <img
+                  src={item.image}
+                  alt={item.imageAlt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </motion.div>
+            </div>
+          </div>
+        </motion.section>
+      ))}
 
-      {/* Portfolio — 4 Cards with gradient backgrounds */}
-      <section id="portfolio" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-emerald-50/20 dark:via-emerald-950/10 to-background`}>
+      {/* Why work with me — Tesoro-style: white section, staggered list reveal */}
+      <motion.section
+        className={`${sectionPadding} scroll-mt-20 bg-white border-t border-neutral-200/80`}
+        initial="hidden"
+        whileInView="visible"
+        viewport={landingViewportReveal}
+        variants={staggerRevealContainerVariants}
+      >
+        <div className={`container mx-auto ${contentMax}`}>
+          <div className="max-w-3xl mx-auto text-center">
+            <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3" variants={staggerRevealItemVariants}>
+              Why work with me
+            </motion.h2>
+            <motion.p className="text-neutral-600 mb-6" variants={staggerRevealItemVariants}>
+              I bring together deep faith context and real technology experience.
+            </motion.p>
+            <motion.ul
+              className="text-neutral-600 space-y-3 list-disc list-inside leading-relaxed mb-8 text-left inline-block"
+              variants={staggerRevealContainerVariants}
+            >
+              {whyWorkWithMeBullets.map((bullet, j) => (
+                <motion.li key={j} variants={staggerRevealItemVariants}>
+                  {bullet}
+                </motion.li>
+              ))}
+            </motion.ul>
+            <motion.div className="flex justify-center" variants={staggerRevealItemVariants}>
+              <Button variant="default" size="lg" className="tesoro-cta-gradient rounded-xl font-semibold shadow-lg shadow-primary/20" asChild>
+                <Link href="/intake">
+                  {ctaLabel}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Proof — Tesoro-style: light section, staggered card reveal, hover shadow */}
+      <section id="proof" className={`${sectionPadding} scroll-mt-20 bg-neutral-50`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
-            className={`text-center ${sectionTitleMargin}`}
+            className="text-center mb-12"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={fadeUpVariants}
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
           >
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3">
-              Portfolio.
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
+              Built for mission
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
+            <p className="text-neutral-600 max-w-xl mx-auto">
               From strategy to shipped product.
             </p>
           </motion.div>
           <motion.div
-            className="grid md:grid-cols-3 gap-6 items-stretch"
+            className="grid md:grid-cols-3 gap-8 md:gap-10"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={staggerContainerVariants}
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
           >
             {portfolioItems.map((item, i) => (
-              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
-                <div className="h-full rounded-xl border border-border/80 overflow-hidden transition-colors hover:border-border" style={getCardGradientStyle(i)}>
-                  <Card className="h-full flex flex-col bg-transparent border-0 shadow-none rounded-xl">
-                    <CardHeader>
-                      <div className="rounded-lg bg-white/60 dark:bg-white/10 p-2.5 w-fit mb-2 backdrop-blur-sm">
-                        <item.icon className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <CardDescription className="text-xs">{item.type}</CardDescription>
-                      <CardTitle className="text-base font-semibold tracking-tight">{item.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-0 flex-1">
-                      <p className="text-sm text-muted-foreground leading-relaxed">{item.impact}</p>
-                    </CardContent>
-                  </Card>
+              <motion.div
+                key={i}
+                variants={staggerRevealItemVariants}
+                className="flex flex-col rounded-2xl p-6 bg-white border border-neutral-200/80 shadow-sm hover:shadow-lg hover:shadow-neutral-200/60 transition-all duration-500"
+              >
+                <div className="rounded-xl bg-[hsl(142,76%,42%)]/10 p-3 w-fit mb-4">
+                  <item.icon className="h-5 w-5 text-[hsl(142,76%,42%)]" />
                 </div>
+                <h3 className="font-semibold text-neutral-900 text-lg mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-neutral-600 leading-relaxed">
+                  {item.impact}
+                </p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Get started — single CTA */}
-      <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-gradient-to-b from-background via-slate-50/30 dark:via-slate-950/20 to-background`}>
+      {/* Get started — Tesoro-style: white CTA block, reveal animation */}
+      <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-white border-t border-neutral-200/80`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
             className="text-center max-w-2xl mx-auto"
             initial="hidden"
             whileInView="visible"
-            viewport={landingViewport}
-            variants={staggerContainerVariants}
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
           >
-            <h2 className={`text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-3 ${sectionTitleMargin}`}>
+            <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3" variants={staggerRevealItemVariants}>
               Get started
-            </h2>
-            <motion.p className="text-muted-foreground mb-6" variants={staggerItemVariants}>
+            </motion.h2>
+            <motion.p className="text-neutral-600 mb-6" variants={staggerRevealItemVariants}>
               If you're unsure where AI fits — or doesn't — start with a conversation.
             </motion.p>
-            <motion.div className="flex flex-col items-center gap-3" variants={staggerItemVariants}>
+            <motion.div variants={staggerRevealItemVariants}>
               <Button
-                variant="secondary"
-                className="rounded-lg font-medium bg-slate-800 text-white border-slate-700 hover:bg-slate-700 hover:text-white dark:bg-slate-700 dark:border-slate-600 dark:hover:bg-slate-600"
+                variant="default"
                 size="lg"
+                className="tesoro-cta-gradient rounded-xl font-semibold px-8 shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
                 data-testid="button-cta-intake"
                 asChild
               >
                 <Link href="/intake">
                   <MessageCircle className="mr-2 h-4 w-4" />
-                  Book a Free 30-minute AI Clarity Call
+                  {ctaLabel}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <p className="text-sm text-muted-foreground">
-                No obligation. Honest assessment of fit. Response within 48 hours.
-              </p>
             </motion.div>
-            <motion.p
-              className="text-center text-sm text-muted-foreground mt-8"
-              variants={fadeUpVariants}
-            >
-              <CheckCircle className="h-4 w-4 inline mr-1 text-green-600 dark:text-green-400 align-middle" />
-              Response within 48 hours · Honest assessment of fit
+            <motion.p className="text-sm text-neutral-500 mt-4" variants={staggerRevealItemVariants}>
+              No obligation. Honest assessment of fit. Response within 48 hours.
             </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer — minimal API-style */}
-      <footer className="border-t border-border/60 py-12 px-6 md:px-10">
+      {/* Footer — Tesoro-style: newsletter + minimal links */}
+      <footer className="border-t border-neutral-200 py-16 px-6 md:px-10 bg-neutral-100">
         <div className={`container mx-auto ${contentMax}`}>
-          <div className="flex flex-col gap-10">
-            <div className="flex justify-center">
-              <img src="/logo-full.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-20 md:h-24 w-auto" />
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="text-center md:text-left text-sm text-muted-foreground">
+          <div className="flex flex-col gap-12">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+              <div>
+                <p className="text-sm font-medium text-neutral-900 mb-2">Sign up for updates</p>
+                <form
+                  className="flex gap-2 max-w-md"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const form = e.currentTarget;
+                    const input = form.querySelector<HTMLInputElement>('input[type="email"]');
+                    if (input?.value) {
+                      // Placeholder: could wire to API later
+                      input.value = "";
+                    }
+                  }}
+                >
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    className="flex-1 min-w-0 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]"
+                  />
+                  <Button type="submit" variant="default" size="default" className="tesoro-cta-gradient rounded-lg shrink-0">
+                    Submit
+                  </Button>
+                </form>
+              </div>
+              <div className="text-sm text-neutral-600">
                 <p>Tauranga, NZ · Working NZ + Global (Zoom)</p>
                 <p className="mt-1">
                   Contact:{" "}
-                  <a href="mailto:nathanielbaldock@gmail.com" className="hover:text-foreground transition-colors duration-200">
+                  <a href="mailto:nathanielbaldock@gmail.com" className="hover:text-neutral-900 transition-colors duration-300">
                     nathanielbaldock@gmail.com
                   </a>
                 </p>
-                <p className="mt-1">© 2026 Nathaniel Baldock</p>
               </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-neutral-200">
+              <p className="text-sm text-neutral-600">© 2026 Nathaniel Baldock</p>
               <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-                Privacy
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200">
-                Terms
-              </a>
-              <a
-                href="mailto:nathanielbaldock@gmail.com"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
-              >
-                Contact
-              </a>
+                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+                  Credits
+                </a>
+                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+                  Terms
+                </a>
+                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+                  Privacy
+                </a>
               </div>
             </div>
           </div>
