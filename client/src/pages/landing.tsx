@@ -23,7 +23,10 @@ import {
   BookOpen,
   Shield,
   Users,
+  Play,
+  FileText,
 } from "lucide-react";
+import { latestFromNathaniel } from "@/content/latest";
 
 // Problems I solve — the real AI challenge leaders face
 const problemsContent = {
@@ -136,36 +139,42 @@ const contentMax = "max-w-6xl";
 export default function LandingPage() {
   return (
     <div data-theme="tesoro" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
-      {/* Nav — Tesoro-style: light header, dark text, minimal */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-200/80 bg-white/95 backdrop-blur-xl isolate">
+      {/* Nav — original design: dark header, white text */}
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-neutral-900/98 backdrop-blur-xl isolate">
         <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
           <a href="#" className="flex items-center min-w-0">
-            <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0" />
+            <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0 dark-header-logo" />
           </a>
           <nav className="hidden md:flex items-center gap-8 flex-shrink-0">
-            <a href="#problems" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+            <a href="#problems" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
               The challenge
             </a>
-            <a href="#how-i-help" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+            <a href="#how-i-help" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
               How I help
             </a>
-            <a href="#who-and-why" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+            <a href="#who-and-why" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
               Who it's for
             </a>
-            <a href="#proof" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+            <a href="#proof" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
               Proof
             </a>
-            <a href="#get-started" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+            <a href="#get-started" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
               Get started
             </a>
+            <Link href="/speaking" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
+              Speaking
+            </Link>
+            <Link href="/resources" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
+              Resources
+            </Link>
           </nav>
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-shrink-0 text-white/90 [&_button]:text-white/90 [&_button:hover]:text-white [&_a]:text-white/90 [&_a:hover]:text-white">
             <ThemeToggle />
             <DemoLoginDialog />
             <Button
               size="sm"
               variant="default"
-              className="tesoro-cta-gradient rounded-lg font-medium"
+              className="tesoro-cta-gradient rounded-lg font-medium text-white"
               data-testid="button-get-started"
               asChild
             >
@@ -548,6 +557,70 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Latest from Nathaniel — above footer */}
+      <section className={`${sectionPadding} scroll-mt-20 bg-neutral-50 border-t border-neutral-200/80`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.h2
+            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8 text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
+          >
+            Latest from Nathaniel
+          </motion.h2>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={cardSlideUpContainerVariants}
+          >
+            {latestFromNathaniel.slice(0, 2).map((item) => (
+              <motion.div
+                key={`${item.type}-${item.date}-${item.title}`}
+                variants={cardSlideUpItemVariants}
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
+                  {item.thumbnail ? (
+                    <img src={item.thumbnail} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-neutral-400">
+                      {item.type === "video" ? (
+                        <Play className="h-12 w-12" />
+                      ) : (
+                        <FileText className="h-12 w-12" />
+                      )}
+                      {item.duration && (
+                        <span className="text-xs font-medium">{item.duration}</span>
+                      )}
+                      {item.readTime && (
+                        <span className="text-xs font-medium">{item.readTime} read</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="font-semibold text-neutral-900 text-lg mb-2">{item.title}</h3>
+                  <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                    {item.excerpt}
+                  </p>
+                  <Link
+                    href={item.url}
+                    className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
+                  >
+                    {item.type === "video" ? "Watch" : "Read more"}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Footer — Tesoro-style: newsletter + minimal links */}
       <footer className="border-t border-neutral-200 py-16 px-6 md:px-10 bg-neutral-100">
         <div className={`container mx-auto ${contentMax}`}>
@@ -590,6 +663,12 @@ export default function LandingPage() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-neutral-200">
               <p className="text-sm text-neutral-600">© 2026 Nathaniel Baldock</p>
               <div className="flex items-center gap-6">
+                <Link href="/speaking" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+                  Speaking
+                </Link>
+                <Link href="/resources" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
+                  Resources
+                </Link>
                 <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
                   Credits
                 </a>

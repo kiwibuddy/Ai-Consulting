@@ -16,6 +16,8 @@ import NotFound from "@/pages/not-found";
 // Public pages
 import LandingPage from "@/pages/landing";
 import IntakePage from "@/pages/intake";
+import SpeakingPage from "@/pages/speaking";
+import ResourcesPage from "@/pages/resources";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
 
@@ -218,6 +220,8 @@ function Router() {
       {/* Public routes */}
       <Route path="/" component={PublicHome} />
       <Route path="/intake" component={IntakePage} />
+      <Route path="/speaking" component={SpeakingPage} />
+      <Route path="/resources" component={ResourcesPage} />
       <Route path="/forgot-password" component={ForgotPassword} />
       <Route path="/reset-password" component={ResetPassword} />
 

@@ -337,6 +337,12 @@
   animation: problems-accent-shimmer 3s ease-in-out infinite;
 }
 
+/* Optional: if your logo is dark and invisible on the dark header, uncomment to show it white:
+[data-theme="tesoro"] .dark-header-logo {
+  filter: brightness(0) invert(1);
+}
+*/
+
 @layer base {
   * {
     @apply border-border;
