@@ -1,33 +1,38 @@
 # Save and restore: landing page
 
-Use these when you want to try a new theme (e.g. Tesoro-style) and be able to return to the current design.
+Use these when you want to try changes and be able to return to a known good state.
 
-## Current save point (committed)
+## Current save point (Tesoro landing — use before making further site changes)
 
-- **Branch:** `landing-pre-tesoro-theme`  
-  Same commit as current `main` (all latest landing content + carousel/grid).
-- **Tag:** `landing-content-v2`  
-  Points at the same commit.
+- **Tag:** `landing-tesoro-savepoint`  
+  Tesoro-style landing: hero portrait, Problems title + shimmer, How I help colored cards with scroll animation, Who this is for (3 sections with images), Why work with me (centered), Proof, Get started. All assets included.
 
-## How to restore to this state
+## How to restore to this save point
 
-If you change the landing page (e.g. apply a new theme) and want to go back:
+If you change the site and want to return to this version:
 
 ```bash
-# Option A: Restore entire repo to this commit
-git checkout landing-content-v2
+# Option A: Restore entire repo to this commit (detached HEAD)
+git checkout landing-tesoro-savepoint
 
-# Option B: Restore only the landing file from this commit
-git checkout landing-content-v2 -- client/src/pages/landing.tsx
+# Option B: Restore only landing-related files from this tag
+git checkout landing-tesoro-savepoint -- client/src/pages/landing.tsx client/src/index.css client/src/lib/animations.ts
 ```
 
-To continue working on `main` again after restoring:
+To get back to `main` and keep working:
 
 ```bash
 git checkout main
 ```
 
-## Other references
+To create a new branch from the save point and work there:
 
-- **Tag `landing-v1`** – State before the first content alignment (original “Who I help” / “Services” / “Why work with me” layout).
-- **Branch `landing-pre-content-update`** – Same as `landing-v1` (pre–content alignment).
+```bash
+git checkout -b my-experiment landing-tesoro-savepoint
+```
+
+## Older references
+
+- **Tag `landing-content-v2`** / **Branch `landing-pre-tesoro-theme`** – Pre–Tesoro theme (earlier landing content + carousel/grid).
+- **Tag `landing-v1`** – Before first content alignment (original “Who I help” / “Services” / “Why work with me” layout).
+- **Branch `landing-pre-content-update`** – Same as `landing-v1`.
