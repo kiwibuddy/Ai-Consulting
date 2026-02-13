@@ -1,6 +1,44 @@
 # Production Deployment Guide
 
-This guide covers everything needed to deploy Holger Coaching Portal to production.
+This guide covers everything needed to deploy the site to production and receive real consultations.
+
+## Pre-launch: ready for real consultations
+
+Before going live, complete these so you receive intake submissions and can log in as the only consultant.
+
+### 1. Environment (required for intake emails)
+
+- **`RESEND_API_KEY`** – From [Resend](https://resend.com). Without it, intake form submissions are saved but no email is sent to you.
+- **`RESEND_FROM_EMAIL`** – Use a verified domain in Resend (e.g. `Nathaniel Baldock AI Consulting <noreply@nathanielbaldock.com>`).
+- **`APP_URL`** – Your live URL with HTTPS (e.g. `https://nathanielbaldock.com`).
+- **`PUBLIC_SITE_URL`** – Same as `APP_URL` or your marketing domain (used in email links and logo).
+- **`DATABASE_URL`** – Production Postgres (with `?sslmode=require` if required by host).
+- **`SESSION_SECRET`** – Generate with `openssl rand -hex 32`; keep it secret.
+
+Intake notifications go to **nathanielbaldock@gmail.com** (set in `shared/constants.ts` as `SITE_CONTACT_EMAIL`).
+
+### 2. Single consultant (production database)
+
+The app is configured for one consultant only. After the first deploy and `db:push`:
+
+1. Run the one-off script **once** against the production database (e.g. from your machine with `DATABASE_URL` pointing at production):
+   ```bash
+   CONSULTANT_INITIAL_PASSWORD=YourSecurePassword npx tsx script/single-consultant-setup.ts
+   ```
+2. This removes any other coach accounts and ensures **nathanielbaldock@gmail.com** is the only consultant login. Unset the env var after running.
+3. Do **not** run `npm run db:seed` in production (it is blocked unless `ALLOW_SEED_IN_PRODUCTION=1`); seed is for local/demo data only.
+
+### 3. Optional: site traffic analytics
+
+- **Plausible:** set `VITE_PLAUSIBLE_DOMAIN=nathanielbaldock.com` (or your domain), then rebuild and deploy. View stats at [plausible.io](https://plausible.io).
+- **Google Analytics 4:** set `VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX`, rebuild and deploy. View at [analytics.google.com](https://analytics.google.com).
+
+### 4. After deploy
+
+- Submit a test intake form and confirm you receive the notification at nathanielbaldock@gmail.com and the submitter receives the confirmation email.
+- Log in at `/login` with nathanielbaldock@gmail.com and your consultant password; you should be redirected to `/consultant`.
+
+---
 
 ## Prerequisites
 
@@ -149,12 +187,9 @@ GCS_BUCKET_NAME=your-bucket-name
 - [ ] Test email delivery (check spam folders)
 - [ ] Review email templates for correct APP_URL
 
-### Demo Accounts
+### Consultant account
 
-The demo accounts (`coach@example.com`, `client@example.com`) will still work in production for demonstration purposes. If you want to disable them:
-
-1. Remove their entries from the database
-2. Or change their passwords to something secure
+The app is single-consultant. Only **nathanielbaldock@gmail.com** should have the coach role. Use `script/single-consultant-setup.ts` once on the production DB (see Pre-launch above). New users can only register as clients; consultant registration is disabled.
 
 ---
 

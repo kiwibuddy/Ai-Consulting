@@ -65,6 +65,9 @@ export function registerAuthRoutes(app: Express): void {
       if (!email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
       }
+      if (role === "coach") {
+        return res.status(400).json({ message: "Consultant registration is not available. Sign up as a client to get started." });
+      }
       email = typeof email === "string" ? email.trim().toLowerCase() : email;
       const existing = await authStorage.getUserByEmail(email);
       if (existing) {
@@ -77,7 +80,7 @@ export function registerAuthRoutes(app: Express): void {
         password: hashed,
         firstName: firstName ?? null,
         lastName: lastName ?? null,
-        role: role === "coach" ? "coach" : "client",
+        role: "client",
         emailVerified: false,
       });
 

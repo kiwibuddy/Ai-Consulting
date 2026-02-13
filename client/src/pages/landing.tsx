@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { DemoLoginDialog } from "@/components/demo-login-dialog";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import {
   staggerContainerVariants,
@@ -12,15 +12,14 @@ import {
   cardSlideUpContainerVariants,
   cardSlideUpItemVariants,
   landingViewportReveal,
+  earlyViewportReveal,
   tesoroEase,
 } from "@/lib/animations";
 import {
   ArrowRight,
   ChevronDown,
-  GraduationCap,
   LayoutDashboard,
   MessageCircle,
-  BookOpen,
   Shield,
   Users,
   Play,
@@ -34,11 +33,11 @@ const problemsContent = {
   closing: "The risk isn't AI adoption. The risk is accidental adoption without discernment.",
 };
 
-// How I help — 3 outcomes (Tesoro-style: vibrant card colors like Connect/Activate/Spend/Reward)
+// How I help — 3 outcomes (original vibrant card colors)
 const howIHelpCardColors = [
-  "bg-[#FF6B4C]",   // red-orange (Connect-style)
-  "bg-[#FFC93C]",   // yellow/amber (Activate-style)
-  "bg-[#4CAF50]",   // green (Spend/Reward-style)
+  "bg-[#FF6B4C]",   // red-orange
+  "bg-[#FFC93C]",   // yellow/amber
+  "bg-[#4CAF50]",   // green
 ];
 const howIHelp = [
   {
@@ -108,90 +107,20 @@ const whyWorkWithMeBullets = [
   "AI should serve people and mission — not replace wisdom, responsibility, or relationship.",
 ];
 
-const portfolioItems = [
-  {
-    title: "Global Bible Platform",
-    type: "Biblical research & digital platform",
-    impact:
-      "Co-founded a large-scale international biblical research initiative with 200 contributors from 50 nations, leading to a new digital Bible platform and a solo-built app designed to help schools, families, and groups engage Scripture as a shared narrative.",
-    icon: BookOpen,
-  },
-  {
-    title: "Education & Training Platforms",
-    type: "Curriculum & delivery",
-    impact:
-      "Designed and delivered curriculum and training platforms used across multiple countries and cultural contexts, supporting scalable education, engagement, and access.",
-    icon: GraduationCap,
-  },
-  {
-    title: "AI-Enabled Tools & Workflows",
-    type: "Practical systems",
-    impact:
-      "Designed practical AI-supported systems that reduce administrative load, improve communication, and support better leadership decision-making in real-world contexts.",
-    icon: LayoutDashboard,
-  },
-];
-
-/* Tesoro-style: generous section spacing, single content width */
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+/* Tesoro-style: consistent section spacing (tighter so no large gaps between sections) */
+const sectionPadding = "py-12 md:py-16 px-6 md:px-8";
 const contentMax = "max-w-6xl";
 
 export default function LandingPage() {
   return (
-    <div data-theme="tesoro" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
-      {/* Nav — original design: dark header, white text */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-neutral-900/98 backdrop-blur-xl isolate">
-        <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
-          <a href="#" className="flex items-center min-w-0">
-            <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0 dark-header-logo" />
-          </a>
-          <nav className="hidden md:flex items-center gap-8 flex-shrink-0">
-            <a href="#problems" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              The challenge
-            </a>
-            <a href="#how-i-help" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              How I help
-            </a>
-            <a href="#who-and-why" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Who it's for
-            </a>
-            <a href="#proof" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Proof
-            </a>
-            <a href="#get-started" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Get started
-            </a>
-            <Link href="/speaking" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Speaking
-            </Link>
-            <Link href="/resources" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Resources
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3 flex-shrink-0 text-white/90 [&_button]:text-white/90 [&_button:hover]:text-white [&_a]:text-white/90 [&_a:hover]:text-white">
-            <ThemeToggle />
-            <DemoLoginDialog />
-            <Button
-              size="sm"
-              variant="default"
-              className="tesoro-cta-gradient rounded-lg font-medium text-white"
-              data-testid="button-get-started"
-              asChild
-            >
-              <Link href="/intake">
-                {ctaLabel}
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero — portrait visible on right; text in left column so it doesn't cover the image */}
-      <section className="relative min-h-[85vh] flex items-center pt-28 pb-20 md:pt-36 md:pb-28 px-6 md:px-8 scroll-mt-20 overflow-hidden" id="hero">
-        {/* Background image: position so subject stays on the right */}
+    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <SiteHeader currentPage="landing" />
+      <div className="overflow-x-hidden">
+      {/* Hero — portrait visible on right; text in left column so it doesn't cover the image. pt-* clears fixed header so logo never overlaps. No overflow-hidden on section so headline text is not clipped. */}
+      <section className="relative min-h-[85vh] flex items-center pt-32 pb-20 md:pt-40 md:pb-28 px-6 md:px-8 scroll-mt-20" id="hero">
+        {/* Background image: position so subject stays on the right; overflow-hidden only here so scale animation doesn't spill */}
         <motion.div
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 overflow-hidden"
           initial={{ scale: 1.08 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
@@ -320,7 +249,7 @@ export default function LandingPage() {
       <section id="how-i-help" className={`${sectionPadding} scroll-mt-20 bg-white`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-8"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -362,7 +291,7 @@ export default function LandingPage() {
             ))}
           </motion.div>
           <motion.p
-            className="text-center text-neutral-600 max-w-2xl mx-auto mt-12"
+            className="text-center text-neutral-600 max-w-2xl mx-auto mt-8"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -381,16 +310,16 @@ export default function LandingPage() {
           className={`${sectionPadding} scroll-mt-20 ${i % 2 === 0 ? "bg-white" : "bg-neutral-50"}`}
           initial="hidden"
           whileInView="visible"
-          viewport={landingViewportReveal}
+          viewport={earlyViewportReveal}
           variants={staggerRevealContainerVariants}
         >
           <div className={`container mx-auto ${contentMax}`}>
             {i === 0 && (
               <motion.div
-                className="text-center max-w-3xl mx-auto mb-10"
+                className="text-center max-w-3xl mx-auto mb-8"
                 initial="hidden"
                 whileInView="visible"
-                viewport={landingViewportReveal}
+                viewport={earlyViewportReveal}
                 variants={fadeUpRevealVariants}
               >
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-2">
@@ -401,7 +330,7 @@ export default function LandingPage() {
                 </p>
               </motion.div>
             )}
-            <div className={`grid md:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
+            <div className={`grid md:grid-cols-2 gap-8 md:gap-10 items-center ${i % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
               <div className={`space-y-4 ${i % 2 === 1 ? "md:order-2" : ""}`}>
                 <motion.p className="text-sm font-medium uppercase tracking-wider text-[hsl(142,76%,42%)] mb-2" variants={staggerRevealItemVariants}>
                   {item.label}
@@ -474,90 +403,7 @@ export default function LandingPage() {
         </div>
       </motion.section>
 
-      {/* Proof — Tesoro-style: light section, staggered card reveal, hover shadow */}
-      <section id="proof" className={`${sectionPadding} scroll-mt-20 bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <motion.div
-            className="text-center mb-12"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={fadeUpRevealVariants}
-          >
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
-              Built for mission
-            </h2>
-            <p className="text-neutral-600 max-w-xl mx-auto">
-              From strategy to shipped product.
-            </p>
-          </motion.div>
-          <motion.div
-            className="grid md:grid-cols-3 gap-8 md:gap-10"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={staggerRevealContainerVariants}
-          >
-            {portfolioItems.map((item, i) => (
-              <motion.div
-                key={i}
-                variants={staggerRevealItemVariants}
-                className="flex flex-col rounded-2xl p-6 bg-white border border-neutral-200/80 shadow-sm hover:shadow-lg hover:shadow-neutral-200/60 transition-all duration-500"
-              >
-                <div className="rounded-xl bg-[hsl(142,76%,42%)]/10 p-3 w-fit mb-4">
-                  <item.icon className="h-5 w-5 text-[hsl(142,76%,42%)]" />
-                </div>
-                <h3 className="font-semibold text-neutral-900 text-lg mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
-                  {item.impact}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Get started — Tesoro-style: white CTA block, reveal animation */}
-      <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-white border-t border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <motion.div
-            className="text-center max-w-2xl mx-auto"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={staggerRevealContainerVariants}
-          >
-            <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3" variants={staggerRevealItemVariants}>
-              Get started
-            </motion.h2>
-            <motion.p className="text-neutral-600 mb-6" variants={staggerRevealItemVariants}>
-              If you're unsure where AI fits — or doesn't — start with a conversation.
-            </motion.p>
-            <motion.div variants={staggerRevealItemVariants}>
-              <Button
-                variant="default"
-                size="lg"
-                className="tesoro-cta-gradient rounded-xl font-semibold px-8 shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
-                data-testid="button-cta-intake"
-                asChild
-              >
-                <Link href="/intake">
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  {ctaLabel}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </motion.div>
-            <motion.p className="text-sm text-neutral-500 mt-4" variants={staggerRevealItemVariants}>
-              No obligation. Honest assessment of fit. Response within 48 hours.
-            </motion.p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Latest from Nathaniel — above footer */}
+      {/* Latest from Nathaniel — below Why work with me */}
       <section className={`${sectionPadding} scroll-mt-20 bg-neutral-50 border-t border-neutral-200/80`}>
         <div className={`container mx-auto ${contentMax}`}>
           <motion.h2
@@ -621,68 +467,46 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer — Tesoro-style: newsletter + minimal links */}
-      <footer className="border-t border-neutral-200 py-16 px-6 md:px-10 bg-neutral-100">
+      {/* Get started — Tesoro-style: white CTA block, reveal animation */}
+      <section id="get-started" className={`${sectionPadding} scroll-mt-20 bg-white border-t border-neutral-200/80`}>
         <div className={`container mx-auto ${contentMax}`}>
-          <div className="flex flex-col gap-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-              <div>
-                <p className="text-sm font-medium text-neutral-900 mb-2">Sign up for updates</p>
-                <form
-                  className="flex gap-2 max-w-md"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const form = e.currentTarget;
-                    const input = form.querySelector<HTMLInputElement>('input[type="email"]');
-                    if (input?.value) {
-                      // Placeholder: could wire to API later
-                      input.value = "";
-                    }
-                  }}
-                >
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="flex-1 min-w-0 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]"
-                  />
-                  <Button type="submit" variant="default" size="default" className="tesoro-cta-gradient rounded-lg shrink-0">
-                    Submit
-                  </Button>
-                </form>
-              </div>
-              <div className="text-sm text-neutral-600">
-                <p>Tauranga, NZ · Working NZ + Global (Zoom)</p>
-                <p className="mt-1">
-                  Contact:{" "}
-                  <a href="mailto:nathanielbaldock@gmail.com" className="hover:text-neutral-900 transition-colors duration-300">
-                    nathanielbaldock@gmail.com
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-neutral-200">
-              <p className="text-sm text-neutral-600">© 2026 Nathaniel Baldock</p>
-              <div className="flex items-center gap-6">
-                <Link href="/speaking" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Speaking
+          <motion.div
+            className="text-center max-w-2xl mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
+          >
+            <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3" variants={staggerRevealItemVariants}>
+              Get started
+            </motion.h2>
+            <motion.p className="text-neutral-600 mb-6" variants={staggerRevealItemVariants}>
+              If you're unsure where AI fits — or doesn't — start with a conversation.
+            </motion.p>
+            <motion.div variants={staggerRevealItemVariants}>
+              <Button
+                variant="default"
+                size="lg"
+                className="tesoro-cta-gradient rounded-xl font-semibold px-8 shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30"
+                data-testid="button-cta-intake"
+                asChild
+              >
+                <Link href="/intake">
+                  <MessageCircle className="mr-2 h-4 w-4" />
+                  {ctaLabel}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-                <Link href="/resources" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Resources
-                </Link>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Credits
-                </a>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Terms
-                </a>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Privacy
-                </a>
-              </div>
-            </div>
-          </div>
+              </Button>
+            </motion.div>
+            <motion.p className="text-sm text-neutral-500 mt-4" variants={staggerRevealItemVariants}>
+              No obligation. Honest assessment of fit. Response within 48 hours.
+            </motion.p>
+          </motion.div>
         </div>
-      </footer>
+      </section>
+
+      <SiteFooter />
+      </div>
     </div>
   );
 }

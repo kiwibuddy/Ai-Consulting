@@ -15,7 +15,7 @@ export function configurePassport(app: Express) {
         {
           clientID: process.env.GOOGLE_CLIENT_ID,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-          callbackURL: `${process.env.APP_URL || "http://localhost:5000"}/api/auth/google/callback`,
+          callbackURL: `${process.env.APP_URL || "http://localhost:3000"}/api/auth/google/callback`,
         },
         async (_accessToken, _refreshToken, profile, done) => {
           try {

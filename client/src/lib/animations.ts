@@ -228,3 +228,10 @@ export const landingViewportReveal = {
   margin: "0px 0px -80px 0px",
   amount: 0.05,
 };
+
+/** Trigger earlier (e.g. for "Who this is for" blocks so images don’t feel late) */
+export const earlyViewportReveal = {
+  once: false,
+  margin: "0px 0px 180px 0px",
+  amount: 0.02,
+};

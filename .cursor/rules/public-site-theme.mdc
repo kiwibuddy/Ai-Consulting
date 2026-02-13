@@ -1,0 +1,54 @@
+---
+description: Default theme is the site look (green CTA, dark header). Dashboard uses data-theme="app" for orange. Do not change :root back to orange.
+globs: 
+  - client/src/pages/landing.tsx
+  - client/src/pages/about.tsx
+  - client/src/pages/speaking.tsx
+  - client/src/pages/resources.tsx
+  - client/src/pages/pricing.tsx
+  - client/src/pages/login.tsx
+  - client/src/pages/intake.tsx
+  - client/src/components/site-header.tsx
+  - client/src/components/site-footer.tsx
+  - client/src/components/public-site-layout.tsx
+  - client/src/index.css
+  - client/src/App.tsx
+---
+
+# Public site theme — do not break
+
+The marketing site (landing, about, speaking, resources, pricing, login, intake, privacy, terms) uses a **separate theme** from the app’s default (Ember/orange). Edits to these areas must preserve it.
+
+## Why it keeps “reverting”
+
+- The correct look depends on **`data-theme="site"`** being on an ancestor of the header and all CTAs. If that wrapper is removed or a page is rendered outside it, CSS falls back to the default theme (orange buttons, wrong colors).
+- The theme is defined in **`client/src/index.css`** under `[data-theme="site"]`. CTA buttons use class **`tesoro-cta-gradient`** (green→yellow). The header uses **`bg-neutral-900`** and **`dark-header-logo`** for the logo.
+
+## What to preserve
+
+1. **PublicSiteLayout**  
+   All public routes are wrapped in `PublicSiteLayout` in `App.tsx`, which renders a div with **`data-theme="site"`**. Do not remove this wrapper from public routes; do not add public pages without wrapping them in `PublicSiteLayout`.
+
+2. **CTA buttons**  
+   Any “Book a free 30-min consultation” or primary CTA on the public site must use class **`tesoro-cta-gradient`** (in addition to any Button variant). Do not remove this class or replace it with only `variant="default"` (which would use the default orange).
+
+3. **Header**  
+   - `SiteHeader` uses **dark background** (`bg-neutral-900`), **white text**, and logo class **`dark-header-logo`** (inverted for visibility).
+   - Nav items: **Home**, About Me, Speaking, Resources, Pricing, Sign In, and the CTA button. Keep “Home” in the nav; keep desktop nav visible from **`md`** up and hamburger **`md:hidden`**.
+   - Logo in the header must be **size-constrained** (e.g. fixed width) so it does not overlap the hero text and the nav has room for all links.
+
+4. **Hero (landing)**  
+   The hero section must have **enough top padding** (e.g. `pt-32 md:pt-40`) so the first line of text does not sit under the fixed header/logo.
+
+5. **CSS in index.css**  
+   Do not remove or weaken `[data-theme="site"]` rules, especially:
+   - `.tesoro-cta-gradient` (green→yellow gradient; uses `!important` so it wins over Tailwind).
+   - `.dark-header-logo` (logo invert on dark header).
+   - `.hero-accent-phrase` (gold accent text).
+
+## When adding or changing public pages
+
+- Wrap the route in **`PublicSiteLayout`** in `App.tsx`.
+- Keep **`data-theme="site"`** on the page root and/or rely on the layout wrapper.
+- Use **`tesoro-cta-gradient`** on primary CTAs.
+- Use **`SiteHeader`** and **`SiteFooter`** with the same pattern as existing public pages.

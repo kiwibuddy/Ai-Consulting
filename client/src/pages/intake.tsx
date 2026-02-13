@@ -1,15 +1,15 @@
-import { Link } from "wouter";
-import { useForm } from "react-hook-form";
+import { Link, useLocation } from "wouter";
+import { useForm, Controller } from "react-hook-form";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,68 +24,90 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { ArrowLeft, CheckCircle, Loader2, MapPin, Video, Users, Building2, Target, Cpu, Calendar } from "lucide-react";
+import { SiteHeader } from "@/components/site-header";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import {
+  ArrowRight,
+  CheckCircle,
+  Loader2,
+  Clock,
+  MessageCircle,
+  Shield,
+  Mic2,
+} from "lucide-react";
+import { SpeakingFormContent } from "@/pages/speaking-invite";
 
-const INDUSTRY_OPTIONS = [
-  { value: "faith_mission", label: "Faith & Mission" },
-  { value: "education", label: "Education" },
-  { value: "nonprofit", label: "Nonprofit" },
+const SECTOR_OPTIONS = [
+  { value: "church", label: "Church / Ministry" },
+  { value: "mission_org", label: "Mission Organisation" },
+  { value: "school", label: "School / Training Organisation" },
+  { value: "nonprofit", label: "Nonprofit / NGO" },
+  { value: "family", label: "Family / Parenting" },
   { value: "other", label: "Other" },
 ];
 
-const AI_USAGE_OPTIONS = [
-  { value: "none", label: "None" },
-  { value: "experimenting", label: "Experimenting" },
-  { value: "in_production", label: "In production" },
+const AI_EXPERIENCE_OPTIONS = [
+  { value: "none", label: "Not using AI yet" },
+  { value: "exploring", label: "Exploring / experimenting" },
+  { value: "some_use", label: "Using it in a few areas" },
+  { value: "regular", label: "Using it regularly" },
 ];
 
 const BUDGET_OPTIONS = [
-  { value: "not_sure", label: "Not sure" },
-  { value: "under_5k", label: "Under $5,000" },
-  { value: "5k_15k", label: "$5,000 – $15,000" },
-  { value: "15k_50k", label: "$15,000 – $50,000" },
-  { value: "50k_plus", label: "$50,000+" },
-  { value: "custom", label: "Custom / Discuss" },
+  { value: "exploring", label: "Just exploring options" },
+  { value: "under_1k", label: "Under $1,000 NZD" },
+  { value: "1k_3k", label: "$1,000 – $3,000 NZD" },
+  { value: "3k_5k", label: "$3,000 – $5,000 NZD" },
+  { value: "5k_plus", label: "$5,000+ NZD" },
+  { value: "discuss", label: "Let's discuss on the call" },
+];
+
+const HOW_HEARD_OPTIONS = [
+  { value: "friend", label: "Friend or colleague" },
+  { value: "church", label: "Through my church" },
+  { value: "social", label: "Social media" },
+  { value: "search", label: "Web search" },
+  { value: "event", label: "Heard me speak" },
+  { value: "other", label: "Other" },
 ];
 
 const intakeFormSchema = z.object({
-  // Section A: Contact & Organization
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
+  firstName: z.string().min(2, "First name is required"),
+  lastName: z.string().min(2, "Last name is required"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
-  location: z.string().optional(),
   organisation: z.string().optional(),
-  industry: z.string().optional(),
   role: z.string().optional(),
-  // Section B: Problem statement
-  problemStatement: z.string().min(100, "Please describe your problems in at least 100 characters"),
-  currentSituation: z.string().optional(),
-  painPoints: z.string().optional(),
-  // Section C: Goals & outcomes
-  shortTermGoals: z.string().optional(),
-  longTermGoals: z.string().optional(),
-  successMetrics: z.string().optional(),
-  // Section D: Technical & constraints
+  industry: z.string().optional(),
+  problemStatement: z
+    .string()
+    .min(20, "A brief description helps me prepare for our call")
+    .max(1000)
+    .optional()
+    .or(z.literal("")),
   currentAiUsage: z.string().optional(),
-  dataSecurityNotes: z.string().optional(),
   budgetRange: z.string().optional(),
-  timeline: z.string().optional(),
-  // Section E: Logistics
-  preferredMeetingFormat: z.string().optional(),
-  availability: z.string().optional(),
   howDidYouHear: z.string().optional(),
 });
 
 type IntakeFormValues = z.infer<typeof intakeFormSchema>;
 
+type FormType = "consultation" | "speaking";
+
+function getInitialFormType(): FormType {
+  if (typeof window === "undefined") return "consultation";
+  const params = new URLSearchParams(window.location.search);
+  return params.get("form") === "speaking" ? "speaking" : "consultation";
+}
+
 export default function IntakePage() {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
+  const [formType, setFormType] = useState<FormType>(getInitialFormType);
+  const [submittedForm, setSubmittedForm] = useState<FormType | null>(null);
 
   const form = useForm<IntakeFormValues>({
     resolver: zodResolver(intakeFormSchema),
@@ -94,22 +116,12 @@ export default function IntakePage() {
       lastName: "",
       email: "",
       phone: "",
-      location: "",
       organisation: "",
-      industry: "",
       role: "",
+      industry: "",
       problemStatement: "",
-      currentSituation: "",
-      painPoints: "",
-      shortTermGoals: "",
-      longTermGoals: "",
-      successMetrics: "",
       currentAiUsage: "",
-      dataSecurityNotes: "",
       budgetRange: "",
-      timeline: "",
-      preferredMeetingFormat: "flexible",
-      availability: "",
       howDidYouHear: "",
     },
   });
@@ -121,555 +133,474 @@ export default function IntakePage() {
     onSuccess: () => {
       trackEvent("form_submit", { form_name: "intake" });
       toast({
-        title: "Application Submitted",
-        description: "Thank you! We'll review your application and get back to you soon.",
+        title: "Request received!",
+        description: "I'll be in touch within 1–2 business days.",
       });
       form.reset();
+      setSubmittedForm("consultation");
     },
     onError: () => {
       toast({
-        title: "Submission Failed",
-        description: "There was an error submitting your application. Please try again.",
+        title: "Something went wrong",
+        description: "Please try again, or email me directly.",
         variant: "destructive",
       });
     },
   });
 
-  const onSubmit = (data: IntakeFormValues) => {
-    submitMutation.mutate(data);
-  };
-
-  if (submitMutation.isSuccess) {
+  // Success state: show the card for whichever form was submitted
+  if (submittedForm === "consultation") {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="p-8 text-center">
-            <div className="rounded-full bg-green-100 dark:bg-green-900/30 p-4 w-fit mx-auto mb-6">
-              <CheckCircle className="h-10 w-10 text-green-600 dark:text-green-400" />
-            </div>
-            <h1 className="font-serif text-2xl font-bold mb-2">Application Received</h1>
-            <p className="text-muted-foreground mb-6">
-              Thank you for your interest in a consultation! We've received your request
-              and will review it shortly. You'll hear from Nathaniel within 1-2 business days.
-            </p>
-            <Link href="/">
-              <Button variant="outline" data-testid="button-back-home">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+        <SiteHeader />
+        <div className="pt-28 min-h-screen flex items-center justify-center p-4">
+          <Card className="max-w-md w-full border-0 shadow-lg bg-white">
+            <CardContent className="p-8 text-center">
+              <div className="rounded-full bg-green-50 p-4 w-fit mx-auto mb-6">
+                <CheckCircle className="h-10 w-10 text-green-600" />
+              </div>
+              <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+                Thanks — I've got your details!
+              </h1>
+              <p className="text-neutral-600 mb-4">
+                I'll review your request and be in touch within 1–2 business days
+                to find a time that works for our call.
+              </p>
+              <p className="text-sm text-neutral-500 mb-6">
+                In the meantime, feel free to look around:
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/">Back to home</Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/speaking">Speaking topics</Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/intake?form=speaking">Invite me to speak</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (submittedForm === "speaking") {
+    return (
+      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+        <SiteHeader />
+        <div className="pt-28 min-h-screen flex items-center justify-center p-4">
+          <Card className="max-w-md w-full border-0 shadow-lg bg-white">
+            <CardContent className="p-8 text-center">
+              <div className="rounded-full bg-green-50 p-4 w-fit mx-auto mb-6">
+                <CheckCircle className="h-10 w-10 text-green-600" />
+              </div>
+              <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+                Thanks for the invitation!
+              </h1>
+              <p className="text-neutral-600 mb-4">
+                I'm excited to hear about your event. I'll review the details and
+                be in touch within 1–2 business days to discuss next steps.
+              </p>
+              <p className="text-sm text-neutral-500 mb-6">
+                In the meantime, feel free to explore:
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/speaking">Speaking topics</Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/">Back to home</Link>
+                </Button>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/intake">Request a discovery call</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
-          <Link href="/">
-            <img
-              src="/logo.png?v=2"
-              alt="Nathaniel Baldock AI Consulting"
-              className="h-8 w-auto hover:opacity-80 transition-opacity"
+    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <SiteHeader />
+      <main className="public-form-light max-w-3xl mx-auto px-6 pt-28 pb-12 md:pb-16">
+        {/* Sliding switcher: same green as CTA, other option plain text; pill slides on click */}
+        <div className="mb-8">
+          <div className="relative flex rounded-xl border border-neutral-200 bg-neutral-100 p-1.5">
+            <div
+              className="absolute top-1.5 bottom-1.5 w-[calc(50%-3px)] rounded-lg tesoro-cta-gradient transition-all duration-300 ease-out"
+              style={{ left: formType === "consultation" ? 6 : "calc(50% + 3px)" }}
             />
-          </Link>
-          <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => {
+                setFormType("consultation");
+                setLocation("/intake");
+              }}
+              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
+            >
+              <span className={formType === "consultation" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
+                Request a free discovery call
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFormType("speaking");
+                setLocation("/intake?form=speaking");
+              }}
+              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
+            >
+              <span className={formType === "speaking" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
+                Invite me to speak
+              </span>
+            </button>
+          </div>
         </div>
-      </header>
 
-      <main className="container mx-auto px-4 py-12 max-w-2xl">
-        <Link href="/">
-          <Button variant="ghost" className="mb-6" data-testid="button-back">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-        </Link>
+        {formType === "speaking" ? (
+          <SpeakingFormContent onSuccess={() => setSubmittedForm("speaking")} />
+        ) : (
+          <>
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
+            Request a free discovery call
+          </h1>
+          <p className="text-lg text-neutral-600 max-w-2xl">
+            Tell me a little about your situation and I'll be in touch to
+            arrange a 30-minute conversation — no obligation, no sales pitch.
+            We'll explore whether I can help and what that might look like.
+          </p>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-serif text-2xl">Request a Consultation</CardTitle>
-            <CardDescription>
-              Fill out this form to request a consultation and learn how AI consulting can help
-              your organisation.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                {/* Section A: Contact & Organization */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Building2 className="h-4 w-4" />
-                    Contact & Organization
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="firstName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>First Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John" {...field} data-testid="input-firstname" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="lastName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Last Name *</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Doe" {...field} data-testid="input-lastname" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+        <div className="flex flex-wrap gap-6 mb-10 text-sm text-neutral-500">
+          <span className="flex items-center gap-1.5">
+            <Clock className="h-4 w-4 text-neutral-400" />
+            30 min · free · no obligation
+          </span>
+          <span className="flex items-center gap-1.5">
+            <MessageCircle className="h-4 w-4 text-neutral-400" />
+            Zoom or phone — your choice
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Shield className="h-4 w-4 text-neutral-400" />
+            Your details stay private
+          </span>
+        </div>
 
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
+            className="space-y-8"
+          >
+            <Card className="border-0 shadow-sm bg-white">
+              <CardContent className="p-6 md:p-8 space-y-5">
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  About you
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email *</FormLabel>
+                        <FormLabel>First name *</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="john@example.com" {...field} data-testid="input-email" />
+                          <Input placeholder="Jane" {...field} data-testid="input-firstname" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
                   <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Last name *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Smith" {...field} data-testid="input-lastname" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="jane@example.com"
+                          {...field}
+                          data-testid="input-email"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <Controller
                     control={form.control}
                     name="phone"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone</FormLabel>
-                        <FormControl>
-                          <Input type="tel" placeholder="+64 21 123 4567" {...field} data-testid="input-phone" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <PhoneInput
+                        international
+                        defaultCountry="NZ"
+                        countryCallingCodeEditable={false}
+                        value={field.value}
+                        onChange={(val) => field.onChange(val || "")}
+                        className="flex h-10 w-full rounded-md border border-input bg-background text-sm ring-offset-background [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:px-3 [&_.PhoneInputInput]:py-2 [&_.PhoneInputCountry]:px-3 [&_.PhoneInputCountry]:border-r [&_.PhoneInputCountry]:border-input"
+                      />
                     )}
                   />
+                </FormItem>
 
-                  <FormField
-                    control={form.control}
-                    name="location"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          <MapPin className="inline h-4 w-4 mr-1" />
-                          Location
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="City, Country" {...field} data-testid="input-location" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="organisation"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Organization / Company name</FormLabel>
+                        <FormLabel>Organisation</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g. Mission Foundation" {...field} data-testid="input-organisation" />
+                          <Input
+                            placeholder="Church, school, NGO…"
+                            {...field}
+                            data-testid="input-organisation"
+                          />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="industry"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Industry / sector</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger data-testid="select-industry">
-                                <SelectValue placeholder="Select" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {INDUSTRY_OPTIONS.map((opt) => (
-                                <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your role</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Executive Director" {...field} data-testid="input-role" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                {/* Section B: Problem Statement */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Target className="h-4 w-4" />
-                    Problem Statement
-                  </h3>
                   <FormField
                     control={form.control}
-                    name="problemStatement"
+                    name="role"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>What problems are you hoping AI can help solve? *</FormLabel>
+                        <FormLabel>Your role</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Describe the key challenges you're facing—operational bottlenecks, scaling issues, content creation, data analysis, outreach, etc. (At least 100 characters)"
-                            className="min-h-[120px]"
-                            {...field}
-                            data-testid="textarea-problem"
-                          />
+                          <Input placeholder="e.g. Pastor, Director" {...field} data-testid="input-role" />
                         </FormControl>
-                        <FormDescription>
-                          Minimum 100 characters. Be as specific as you can.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="currentSituation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Describe your current situation</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="What tools are you using? Any bottlenecks or struggling KPIs?"
-                            className="min-h-[80px]"
-                            {...field}
-                            data-testid="textarea-situation"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="painPoints"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Top 3 operational pain points</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="List your main pain points (one per line)"
-                            className="min-h-[60px]"
-                            {...field}
-                            data-testid="textarea-painpoints"
-                          />
-                        </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
 
-                {/* Section C: Goals & Outcomes */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Target className="h-4 w-4" />
-                    Goals & Outcomes
-                  </h3>
-                  <FormField
-                    control={form.control}
-                    name="shortTermGoals"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Short-term goals (3–6 months)</FormLabel>
+                <FormField
+                  control={form.control}
+                  name="industry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sector</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
-                          <Textarea
-                            placeholder="What does success look like in the next few months?"
-                            className="min-h-[80px]"
-                            {...field}
-                            data-testid="textarea-shortterm"
-                          />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your sector" />
+                          </SelectTrigger>
                         </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="longTermGoals"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Long-term vision (12–24 months)</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Strategic AI objectives"
-                            className="min-h-[80px]"
-                            {...field}
-                            data-testid="textarea-longterm"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="successMetrics"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Success metrics</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Cost savings, time saved, reach, engagement, etc."
-                            className="min-h-[60px]"
-                            {...field}
-                            data-testid="textarea-metrics"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Section D: Technical & Constraints */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Cpu className="h-4 w-4" />
-                    Technical & Constraints
-                  </h3>
-                  <FormField
-                    control={form.control}
-                    name="currentAiUsage"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current AI usage</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger data-testid="select-ai-usage">
-                              <SelectValue placeholder="Select" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {AI_USAGE_OPTIONS.map((opt) => (
-                              <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="dataSecurityNotes"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Data security or compliance requirements</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="e.g. GDPR, theological guardrails, safeguarding, data residency"
-                            className="min-h-[60px]"
-                            {...field}
-                            data-testid="textarea-security"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="budgetRange"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Budget range</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger data-testid="select-budget">
-                                <SelectValue placeholder="Select" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {BUDGET_OPTIONS.map((opt) => (
-                                <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="timeline"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Timeline</FormLabel>
-                          <FormControl>
-                            <Input placeholder="When to start?" {...field} data-testid="input-timeline" />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                {/* Section E: Logistics */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    Logistics
-                  </h3>
-                  <FormField
-                    control={form.control}
-                    name="preferredMeetingFormat"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormLabel>Preferred meeting format</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col space-y-2"
-                          >
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="in_person" id="in_person" />
-                              <Label htmlFor="in_person" className="flex items-center cursor-pointer">
-                                <Users className="h-4 w-4 mr-2 text-muted-foreground" />
-                                In-person
-                              </Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="video_zoom" id="video_zoom" />
-                              <Label htmlFor="video_zoom" className="flex items-center cursor-pointer">
-                                <Video className="h-4 w-4 mr-2 text-muted-foreground" />
-                                Video (Zoom)
-                              </Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="video_meet" id="video_meet" />
-                              <Label htmlFor="video_meet" className="flex items-center cursor-pointer">
-                                <Video className="h-4 w-4 mr-2 text-muted-foreground" />
-                                Video (Google Meet)
-                              </Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <RadioGroupItem value="flexible" id="flexible" />
-                              <Label htmlFor="flexible" className="cursor-pointer">
-                                Flexible / No preference
-                              </Label>
-                            </div>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="availability"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Preferred availability</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger data-testid="select-availability">
-                              <SelectValue placeholder="Select time slots" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="mornings">Mornings (8am - 12pm)</SelectItem>
-                            <SelectItem value="afternoons">Afternoons (12pm - 5pm)</SelectItem>
-                            <SelectItem value="evenings">Evenings (5pm - 8pm)</SelectItem>
-                            <SelectItem value="flexible">Flexible</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="howDidYouHear"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>How did you hear about us?</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger data-testid="select-referral">
-                              <SelectValue placeholder="Select" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="google">Google Search</SelectItem>
-                            <SelectItem value="linkedin">LinkedIn</SelectItem>
-                            <SelectItem value="referral">Referral</SelectItem>
-                            <SelectItem value="social">Social Media</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={submitMutation.isPending}
-                  data-testid="button-submit"
-                >
-                  {submitMutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit Application"
+                        <SelectContent>
+                          {SECTOR_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
                   )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                />
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-sm bg-white">
+              <CardContent className="p-6 md:p-8 space-y-5">
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  Your situation
+                </h2>
+                <p className="text-sm text-neutral-500 -mt-2">
+                  Just enough for me to prepare — we'll explore the details
+                  together on the call.
+                </p>
+
+                <FormField
+                  control={form.control}
+                  name="problemStatement"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        What are you hoping to get help with?
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="e.g. We're a church of ~200 people and our admin team is overwhelmed. We'd like to explore how AI could help with communications, sermon prep support, or volunteer coordination — but we don't know where to start."
+                          className="min-h-[100px]"
+                          {...field}
+                          data-testid="textarea-problem"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="currentAiUsage"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Where are you at with AI currently?
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {AI_EXPERIENCE_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-sm bg-white">
+              <CardContent className="p-6 md:p-8 space-y-5">
+                <h2 className="text-lg font-semibold text-neutral-900">
+                  Practical details
+                </h2>
+
+                <FormField
+                  control={form.control}
+                  name="budgetRange"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Do you have a budget range in mind?
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select (optional)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {BUDGET_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="text-xs text-neutral-400 mt-1">
+                        No pressure — this just helps me suggest the right
+                        starting point. Community pricing is available.
+                      </p>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="howDidYouHear"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>How did you hear about me?</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select (optional)" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {HOW_HEARD_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+              <p className="text-xs text-neutral-400 max-w-sm">
+                I'll respond within 1–2 business days. Your information is only
+                used to arrange and prepare for our conversation.
+              </p>
+              <Button
+                type="submit"
+                size="lg"
+                disabled={submitMutation.isPending}
+                className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
+                data-testid="button-submit"
+              >
+                {submitMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending…
+                  </>
+                ) : (
+                  <>
+                    Request a call
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
+
+        <footer className="border-t border-neutral-200 py-8 mt-12 text-center text-sm text-neutral-400">
+          <p>
+            Prefer to email directly?{" "}
+            <a
+              href="mailto:nathanielbaldock@gmail.com"
+              className="text-neutral-600 hover:text-neutral-900 transition-colors underline"
+            >
+              nathanielbaldock@gmail.com
+            </a>
+          </p>
+        </footer>
+          </>
+        )}
       </main>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { DemoLoginDialog } from "@/components/demo-login-dialog";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import {
   fadeUpRevealVariants,
@@ -26,46 +26,8 @@ function isExternalUrl(url: string) {
 
 export default function ResourcesPage() {
   return (
-    <div data-theme="tesoro" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
-      {/* Header — dark header, white text (match landing) */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-neutral-900/98 backdrop-blur-xl isolate">
-        <div className={`container mx-auto ${contentMax} px-6 md:px-10 h-14 md:h-16 flex items-center justify-between gap-6`}>
-          <Link href="/" className="flex items-center min-w-0">
-            <img src="/logo.png?v=2" alt="Nathaniel Baldock — AI Consulting" className="h-10 md:h-12 w-auto flex-shrink-0 dark-header-logo" />
-          </Link>
-          <nav className="hidden md:flex items-center gap-8 flex-shrink-0">
-            <Link href="/#problems" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              The challenge
-            </Link>
-            <Link href="/#how-i-help" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              How I help
-            </Link>
-            <Link href="/#who-and-why" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Who it's for
-            </Link>
-            <Link href="/#proof" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Proof
-            </Link>
-            <Link href="/#get-started" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Get started
-            </Link>
-            <Link href="/speaking" className="text-sm text-white/90 hover:text-white transition-colors duration-300">
-              Speaking
-            </Link>
-            <span className="text-sm font-medium text-white">Resources</span>
-          </nav>
-          <div className="flex items-center gap-3 flex-shrink-0 text-white/90 [&_button]:text-white/90 [&_button:hover]:text-white [&_a]:text-white/90 [&_a:hover]:text-white">
-            <ThemeToggle />
-            <DemoLoginDialog />
-            <Button size="sm" variant="default" className="tesoro-cta-gradient rounded-lg font-medium text-white" asChild>
-              <Link href="/intake">
-                {ctaLabel}
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+      <SiteHeader currentPage="resources" />
 
       {/* Hero */}
       <section className={`pt-28 pb-16 md:pt-36 md:pb-24 px-6 md:px-8 ${contentMax} mx-auto`}>
@@ -246,65 +208,7 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      {/* Footer — match landing */}
-      <footer className="border-t border-neutral-200 py-16 px-6 md:px-10 bg-neutral-100">
-        <div className={`container mx-auto ${contentMax}`}>
-          <div className="flex flex-col gap-12">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-              <div>
-                <p className="text-sm font-medium text-neutral-900 mb-2">Sign up for updates</p>
-                <form
-                  className="flex gap-2 max-w-md"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    const form = e.currentTarget;
-                    const input = form.querySelector<HTMLInputElement>('input[type="email"]');
-                    if (input?.value) input.value = "";
-                  }}
-                >
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="flex-1 min-w-0 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]"
-                  />
-                  <Button type="submit" variant="default" size="default" className="tesoro-cta-gradient rounded-lg shrink-0">
-                    Submit
-                  </Button>
-                </form>
-              </div>
-              <div className="text-sm text-neutral-600">
-                <p>Tauranga, NZ · Working NZ + Global (Zoom)</p>
-                <p className="mt-1">
-                  Contact:{" "}
-                  <a href="mailto:nathanielbaldock@gmail.com" className="hover:text-neutral-900 transition-colors duration-300">
-                    nathanielbaldock@gmail.com
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-neutral-200">
-              <p className="text-sm text-neutral-600">© 2026 Nathaniel Baldock</p>
-              <div className="flex items-center gap-6">
-                <Link href="/speaking" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Speaking
-                </Link>
-                <Link href="/resources" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Resources
-                </Link>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Credits
-                </a>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Terms
-                </a>
-                <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                  Privacy
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

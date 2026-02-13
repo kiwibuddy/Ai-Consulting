@@ -2,15 +2,20 @@
  * Seed script: creates demo consultant and 8 clients with robust demo data (~6 months
  * of operation: varied tenure, 1 pending intake, sessions, action items, resources).
  *
- * Run: npm run db:seed
+ * Run: npm run db:seed (development only)
  *
- * Demo credentials (password for all): demo123
- * - Consultant: coach@example.com
- * - Clients: client@example.com, nathanielbaldock@gmail.com, alex@demo.com, jordan@demo.com,
+ * Consultant: nathanielbaldock@gmail.com (password from SEED_CONSULTANT_PASSWORD, default demo123)
+ * Clients (password for all: demo123): client@example.com, alex@demo.com, jordan@demo.com,
  *   sam@demo.com, morgan@demo.com, casey@demo.com, riley@demo.com
  * - 1 pending intake: Jamie Rivera
  */
 import "dotenv/config";
+
+if (process.env.NODE_ENV === "production" && process.env.ALLOW_SEED_IN_PRODUCTION !== "1") {
+  console.error("Seed script is not allowed in production. Set ALLOW_SEED_IN_PRODUCTION=1 to override.");
+  process.exit(1);
+}
+
 import bcrypt from "bcryptjs";
 import { authStorage } from "../server/auth/storage";
 import { storage } from "../server/storage";
@@ -20,7 +25,8 @@ import type { ClientProfile } from "@shared/schema";
 import { subDays, addDays, subWeeks, subMonths, addHours } from "date-fns";
 
 const DEMO_PASSWORD = "demo123";
-const COACH_EMAIL = "coach@example.com";
+const COACH_EMAIL = "nathanielbaldock@gmail.com";
+const SEED_CONSULTANT_PASSWORD = process.env.SEED_CONSULTANT_PASSWORD ?? DEMO_PASSWORD;
 const CLIENT_EMAIL = "client@example.com";
 
 type ClientSeed = {
@@ -77,20 +83,21 @@ async function ensureClient(
 
 async function seed() {
   console.log("Starting comprehensive seed...\n");
-  
-  const hashedPassword = await bcrypt.hash(DEMO_PASSWORD, 10);
 
-  // ----- Consultant -----
+  const hashedDemoPassword = await bcrypt.hash(DEMO_PASSWORD, 10);
+  const hashedCoachPassword = await bcrypt.hash(SEED_CONSULTANT_PASSWORD, 10);
+
+  // ----- Consultant (single consultant: nathanielbaldock@gmail.com) -----
   let coach = await authStorage.getUserByEmail(COACH_EMAIL);
   if (!coach) {
     coach = await authStorage.upsertUser({
       email: COACH_EMAIL,
       username: COACH_EMAIL,
-      password: hashedPassword,
-      firstName: "Demo",
-      lastName: "Consultant",
+      password: hashedCoachPassword,
+      firstName: "Nathaniel",
+      lastName: "Baldock",
       role: "coach",
-      emailVerified: true, // Demo account – skip verification for local/testing
+      emailVerified: true,
     });
     console.log("✓ Created consultant:", COACH_EMAIL);
   } else {
@@ -98,11 +105,11 @@ async function seed() {
       id: coach.id,
       email: coach.email,
       username: coach.username,
-      password: hashedPassword,
-      firstName: "Demo",
-      lastName: "Consultant",
+      password: hashedCoachPassword,
+      firstName: coach.firstName ?? "Nathaniel",
+      lastName: coach.lastName ?? "Baldock",
       role: "coach",
-      emailVerified: true, // Demo account – skip verification for local/testing
+      emailVerified: true,
     });
     console.log("✓ Updated consultant password:", COACH_EMAIL);
   }
@@ -113,7 +120,7 @@ async function seed() {
     client = await authStorage.upsertUser({
       email: CLIENT_EMAIL,
       username: CLIENT_EMAIL,
-      password: hashedPassword,
+      password: hashedDemoPassword,
       firstName: "Demo",
       lastName: "Client",
       role: "client",
@@ -125,11 +132,11 @@ async function seed() {
       id: client.id,
       email: client.email,
       username: client.username,
-      password: hashedPassword,
+      password: hashedDemoPassword,
       firstName: client.firstName ?? "Demo",
       lastName: client.lastName ?? "Client",
       role: "client",
-      emailVerified: true, // Demo account – skip verification for local/testing
+      emailVerified: true,
     });
     console.log("✓ Updated client password:", CLIENT_EMAIL);
   }
@@ -151,14 +158,14 @@ async function seed() {
     });
   }
 
-  // ----- Dev login (nathanielbaldock@gmail.com) so you can log in at localhost:3001 -----
-  const DEV_EMAIL = "nathanielbaldock@gmail.com";
+  // ----- Dev client (for testing client portal at localhost; consultant is nathanielbaldock@gmail.com) -----
+  const DEV_EMAIL = "devclient@example.com";
   let devUser = await authStorage.getUserByEmail(DEV_EMAIL);
   if (!devUser) {
     devUser = await authStorage.upsertUser({
       email: DEV_EMAIL,
       username: DEV_EMAIL,
-      password: hashedPassword,
+      password: hashedDemoPassword,
       firstName: "Nathaniel",
       lastName: "Baldock",
       role: "client",
@@ -170,7 +177,7 @@ async function seed() {
       id: devUser.id,
       email: devUser.email,
       username: devUser.username,
-      password: hashedPassword,
+      password: hashedDemoPassword,
       firstName: devUser.firstName ?? "Nathaniel",
       lastName: devUser.lastName ?? "Baldock",
       role: devUser.role ?? "client",
@@ -239,7 +246,7 @@ async function seed() {
 
   const extraClients: { user: { id: string }; profile: ClientProfile }[] = [];
   for (const def of extraClientDefs) {
-    const c = await ensureClient(hashedPassword, coach.id, def);
+    const c = await ensureClient(hashedDemoPassword, coach.id, def);
     extraClients.push(c);
     console.log("✓ Client:", def.firstName, def.lastName, `(${def.email})`);
   }
@@ -759,13 +766,14 @@ async function seed() {
   console.log("\n" + "=".repeat(50));
   console.log("✓ DEMO ACCOUNTS READY");
   console.log("=".repeat(50));
-  console.log("\nCredentials (password for both): demo123");
-  console.log("┌─────────────┬─────────────────────┬──────────────────┐");
-  console.log("│ Role        │ Email               │ Dashboard        │");
-  console.log("├─────────────┼─────────────────────┼──────────────────┤");
-  console.log("│ Consultant  │ coach@example.com   │ /consultant      │");
-  console.log("│ Client      │ client@example.com  │ /client          │");
-  console.log("└─────────────┴─────────────────────┴──────────────────┘");
+  console.log("\nConsultant:", COACH_EMAIL, "(password: SEED_CONSULTANT_PASSWORD or demo123)");
+  console.log("Client (demo): client@example.com (password: demo123)");
+  console.log("┌─────────────┬───────────────────────────────┬──────────────────┐");
+  console.log("│ Role        │ Email                         │ Dashboard        │");
+  console.log("├─────────────┼───────────────────────────────┼──────────────────┤");
+  console.log("│ Consultant  │ nathanielbaldock@gmail.com    │ /consultant      │");
+  console.log("│ Client      │ client@example.com             │ /client          │");
+  console.log("└─────────────┴───────────────────────────────┴──────────────────┘");
   console.log("\nDemo data includes:");
   console.log("  • 8 clients (varied tenure: 6 months to new), 1 pending intake");
   console.log("  • Sessions across all clients (~6 months of operation)");

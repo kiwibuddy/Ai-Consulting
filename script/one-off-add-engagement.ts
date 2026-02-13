@@ -15,7 +15,7 @@ import { authStorage } from "../server/auth/storage";
 import { storage } from "../server/storage";
 import { subDays, addDays } from "date-fns";
 
-const COACH_EMAIL = "coach@example.com";
+const COACH_EMAIL = "nathanielbaldock@gmail.com";
 
 const CLIENT_EMAILS = [
   "alex@demo.com",
@@ -24,7 +24,7 @@ const CLIENT_EMAILS = [
   "sam@demo.com",
   "morgan@demo.com",
   "casey@demo.com",
-  "nathanielbaldock@gmail.com",
+  "devclient@example.com",
 ];
 
 const ACTION_TEMPLATES = [

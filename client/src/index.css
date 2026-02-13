@@ -30,7 +30,7 @@
 
   --sidebar-border: 35 15% 88%;
 
-  --sidebar-primary: 25 75% 47%;
+  --sidebar-primary: 142 76% 42%;
 
   --sidebar-primary-foreground: 0 0% 100%;
 
@@ -38,7 +38,7 @@
 
   --sidebar-accent-foreground: 30 10% 25%;
 
-  --sidebar-ring: 25 75% 47%;
+  --sidebar-ring: 142 76% 42%;
 
   --popover: 0 0% 100%;
 
@@ -46,7 +46,7 @@
 
   --popover-border: 35 15% 88%;
 
-  --primary: 25 75% 47%;
+  --primary: 142 76% 42%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -67,8 +67,8 @@
   --destructive-foreground: 0 0% 100%;
 
   --input: 35 15% 82%;
-  --ring: 25 75% 47%;
-  --chart-1: 25 75% 47%;
+  --ring: 142 76% 42%;
+  --chart-1: 142 76% 42%;
   --chart-2: 165 60% 40%;
   --chart-3: 210 65% 50%;
   --chart-4: 280 55% 55%;
@@ -280,8 +280,9 @@
 
 /* EMBER is the default (no data-theme attribute needed) */
 
-/* Tesoro-style landing: dark, high-contrast, vibrant accents */
-[data-theme="tesoro"] {
+/* Site theme: original Tesoro visuals (green accent, green CTA). Must win over .dark / ThemeProvider. */
+[data-theme="site"],
+html[data-theme="site"] {
   --background: 220 15% 8%;
   --foreground: 0 0% 98%;
   --border: 220 12% 18%;
@@ -302,26 +303,26 @@
   --elevate-2: rgba(255, 255, 255, 0.08);
   --button-outline: rgba(255, 255, 255, 0.1);
   --badge-outline: rgba(255, 255, 255, 0.08);
-  /* Vibrant accents for sections and CTAs */
   --tesoro-gold: 38 96% 50%;
   --tesoro-green: 142 76% 42%;
-  --tesoro-mint: 160 60% 94%;
   --tesoro-green-bright: 92 82% 45%;
 }
 
-/* Tesoro CTA gradient (green to yellow) */
-[data-theme="tesoro"] .tesoro-cta-gradient {
-  background: linear-gradient(135deg, hsl(142 76% 42%), hsl(92 82% 45%));
-  color: white;
-  border: none;
+/* CTA gradient: green → yellow (Tesoro). !important so theme never reverts to orange. */
+[data-theme="site"] .tesoro-cta-gradient,
+.tesoro-cta-gradient {
+  background: linear-gradient(135deg, hsl(142 76% 42%), hsl(92 82% 45%)) !important;
+  color: white !important;
+  border: none !important;
 }
-[data-theme="tesoro"] .tesoro-cta-gradient:hover {
+[data-theme="site"] .tesoro-cta-gradient:hover,
+.tesoro-cta-gradient:hover {
   opacity: 0.95;
   filter: brightness(1.05);
 }
 
 /* Tesoro hero accent text (gold/orange) */
-[data-theme="tesoro"] .hero-accent-phrase {
+.hero-accent-phrase {
   color: hsl(38 96% 50%);
 }
 
@@ -333,15 +334,44 @@
 }
 
 /* Tesoro-style accent phrase in Problems section — shimmering gold/orange/amber */
-[data-theme="tesoro"] .problems-accent-phrase {
+.problems-accent-phrase {
   animation: problems-accent-shimmer 3s ease-in-out infinite;
 }
 
-/* Optional: if your logo is dark and invisible on the dark header, uncomment to show it white:
-[data-theme="tesoro"] .dark-header-logo {
+/* Logo on dark header: show white so it’s visible */
+.dark-header-logo {
   filter: brightness(0) invert(1);
 }
-*/
+
+/* Public site: force dark header so theme never reverts (e.g. after visiting dashboard) */
+[data-theme="site"] header.fixed.top-0,
+html[data-theme="site"] header.fixed.top-0,
+[data-public-site] header.fixed.top-0 {
+  background-color: #171717 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Public site form pages: light inputs with dark text (intake, speaking-invite) */
+[data-theme="site"] .public-form-light {
+  --background: 0 0% 100%;
+  --foreground: 30 10% 15%;
+  --input: 35 15% 92%;
+  --border: 35 15% 88%;
+  --muted-foreground: 30 8% 45%;
+  --card: 0 0% 100%;
+  --card-foreground: 30 10% 15%;
+  --ring: 142 76% 42%;
+}
+
+/* Dashboard (client/consultant) keeps orange/ember when wrapped with data-theme="app" */
+[data-theme="app"] {
+  --primary: 25 75% 47%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 25 75% 47%;
+  --sidebar-primary: 25 75% 47%;
+  --sidebar-ring: 25 75% 47%;
+  --chart-1: 25 75% 47%;
+}
 
 @layer base {
   * {

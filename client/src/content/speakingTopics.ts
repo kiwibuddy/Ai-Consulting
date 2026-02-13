@@ -15,7 +15,8 @@ export const speakingTopics: SpeakingTopic[] = [
       "The flagship 4-module course for the AI age. In an era where AI promises abundance without purpose, this series offers a biblical framework for identity, work, and calling. Four modules: The Great Deception; Identity, Purpose & Work; Raising Co-Creators; The Church's Response.",
     formats: ["4-week course", "Weekend intensive", "2-hour seminar", "60-min keynote"],
     forAudience: "Church leadership teams, parents, educators, ministry staff, faith-based organizations",
-    outlineUrl: undefined,
+    // Add PDF to client/public/outlines/being-fully-human.pdf to enable "View outline" link
+    outlineUrl: "/outlines/being-fully-human.pdf",
   },
   {
     id: "spheres-worldview",

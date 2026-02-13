@@ -1,3 +1,5 @@
+import { SITE_CONTACT_EMAIL } from "@shared/constants";
+
 export const speakingHero = {
   title: "Equipping the Church for the AI Age",
   intro:
@@ -43,7 +45,9 @@ export const speakingBooking = {
     "Transparent pricing and logistics discussion",
     "No obligation—just exploring if it's a good fit",
   ],
-  email: "speaking@nathanielbaldock.com",
+  email: SITE_CONTACT_EMAIL,
+  /** Subject for mailto: links so you can filter/label these in Gmail */
+  mailtoSubject: "Speaking / Consulting inquiry - nathanielbaldock.com",
 };
 
 export const speakingAbout = {

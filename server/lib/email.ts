@@ -36,7 +36,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
 
 // Email Templates
 
-export function intakeSubmittedEmail(coachEmail: string, intakeData: {
+export function intakeSubmittedEmail(ownerOrCoachEmail: string, intakeData: {
   firstName: string;
   lastName: string;
   email: string;
@@ -44,39 +44,49 @@ export function intakeSubmittedEmail(coachEmail: string, intakeData: {
   organisation?: string;
   industry?: string;
 }): EmailOptions {
-  const orgLine = intakeData.organisation ? `<div class="info-row"><span class="label">Organisation:</span> ${intakeData.organisation}</div>` : "";
-  const industryLine = intakeData.industry ? `<div class="info-row"><span class="label">Industry:</span> ${intakeData.industry}</div>` : "";
+  const orgLine = intakeData.organisation ? `<tr><td class="label">Organisation</td><td>${intakeData.organisation}</td></tr>` : "";
+  const industryLine = intakeData.industry ? `<tr><td class="label">Industry</td><td>${intakeData.industry}</td></tr>` : "";
+  const siteUrl = process.env.PUBLIC_SITE_URL || "https://nathanielbaldock.com";
+  const dashboardUrl = `${process.env.APP_URL || siteUrl}/consultant/intake`;
   return {
-    to: coachEmail,
-    subject: "New AI Consulting Intake Form Submitted",
+    to: ownerOrCoachEmail,
+    subject: "New consultation application received - Nathaniel Baldock AI Consulting",
     html: `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-            .info-row { margin: 10px 0; }
-            .label { font-weight: bold; color: #3A5A6D; }
-            .button { display: inline-block; padding: 12px 24px; background-color: #3A5A6D; color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: #171717; color: #fff; padding: 20px 24px; }
+            .header h1 { margin: 0; font-size: 1.25rem; font-weight: 700; }
+            .content { padding: 24px; }
+            table.info { width: 100%; border-collapse: collapse; }
+            table.info td { padding: 8px 0; vertical-align: top; border-bottom: 1px solid #f0f0f0; }
+            table.info td.label { font-weight: 600; color: #16a34a; width: 140px; }
+            .btn { display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, #22c55e, #84cc16); color: #fff !important; text-decoration: none; border-radius: 8px; font-weight: 600; margin-top: 16px; }
           </style>
         </head>
         <body>
-          <div class="container">
-            <div class="header">
-              <h1>New Intake Form Submission</h1>
-            </div>
-            <div class="content">
-              <p>A new AI consulting intake form has been submitted:</p>
-              <div class="info-row"><span class="label">Name:</span> ${intakeData.firstName} ${intakeData.lastName}</div>
-              <div class="info-row"><span class="label">Email:</span> ${intakeData.email}</div>
-              ${orgLine}
-              ${industryLine}
-              <div class="info-row"><span class="label">Problem Statement:</span> ${intakeData.problemStatement}</div>
-              <p>Please review the intake form in your consultant dashboard.</p>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <h1>New consultation application</h1>
+              </div>
+              <div class="content">
+                <p>A new AI consulting intake form has been submitted:</p>
+                <table class="info">
+                  <tr><td class="label">Name</td><td>${intakeData.firstName} ${intakeData.lastName}</td></tr>
+                  <tr><td class="label">Email</td><td>${intakeData.email}</td></tr>
+                  ${orgLine}
+                  ${industryLine}
+                  <tr><td class="label">Problem statement</td><td>${intakeData.problemStatement}</td></tr>
+                </table>
+                <p><a href="${dashboardUrl}" class="btn">Review in dashboard</a></p>
+              </div>
             </div>
           </div>
         </body>
@@ -563,40 +573,68 @@ export function verificationEmail(userEmail: string, userName: string, verificat
   };
 }
 
+/** Base URL for the public site (used for logo and links in emails). Set PUBLIC_SITE_URL in env or defaults to production. */
+const publicSiteUrl = process.env.PUBLIC_SITE_URL || "https://nathanielbaldock.com";
+/** Optional: use a light/white logo for dark header in emails (e.g. EMAIL_LOGO_URL=https://nathanielbaldock.com/logo-white.png). */
+const emailLogoUrl = process.env.EMAIL_LOGO_URL || `${publicSiteUrl}/logo.png`;
+
+/** Site theme: dark header (neutral-900), green primary (Tesoro). Keep intake confirmation email in sync. */
+const emailHeaderBg = "#171717";
+const emailPrimaryGreen = "#22a846"; /* hsl(142 76% 42%) */
+const emailPrimaryGreenLime = "#7cb71a"; /* hsl(92 82% 45%) - tesoro-cta-gradient end */
+
 export function intakeConfirmationEmail(clientEmail: string, clientName: string): EmailOptions {
+  const logoUrl = emailLogoUrl;
   return {
     to: clientEmail,
-    subject: "We received your application - Nathaniel Baldock AI Consulting",
+    subject: "Request received — we'll be in touch soon - Nathaniel Baldock AI Consulting",
     html: `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background-color: #3A5A6D; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-            .check-icon { font-size: 48px; text-align: center; margin: 20px 0; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
+            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
+            .header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+            .content { padding: 28px 24px; }
+            .content p { margin: 0 0 1em; }
+            .content p:last-of-type { margin-bottom: 0; }
+            .check { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; background-color: ${emailPrimaryGreen}; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); border-radius: 50%; color: #fff; font-size: 28px; font-weight: bold; margin-bottom: 20px; }
+            .accent { color: ${emailPrimaryGreen}; font-weight: 600; }
+            .list { margin: 1em 0; padding-left: 1.25em; }
+            .list li { margin-bottom: 0.5em; }
+            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
+            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
           </style>
         </head>
         <body>
-          <div class="container">
-            <div class="header">
-              <h1>Application Received</h1>
-            </div>
-            <div class="content">
-              <div class="check-icon">✓</div>
-              <p>Hi ${clientName},</p>
-              <p>Thank you for submitting your consulting application! We've received your information and will review it shortly.</p>
-              <p><strong>What happens next?</strong></p>
-              <ul>
-                <li>Your consultant will review your application</li>
-                <li>If accepted, you'll receive an email with instructions to set up your account</li>
-                <li>You'll then have access to your personal consulting portal</li>
-              </ul>
-              <p>We typically respond within 1-2 business days. If you have any questions in the meantime, please don't hesitate to reach out.</p>
-              <p>Looking forward to working with you!</p>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" style="max-height:40px;height:40px;width:auto;max-width:180px;" />
+                <h1>Request received</h1>
+              </div>
+              <div class="content">
+                <div class="check">✓</div>
+                <p>Hi ${clientName},</p>
+                <p>Thanks for requesting a free discovery call. I've got your details and will be in touch within 1–2 business days to find a time that works.</p>
+                <p><strong>What happens next?</strong></p>
+                <ul class="list">
+                  <li>I'll review your message and reply by email</li>
+                  <li>We'll arrange a 30-minute call — no obligation, no sales pitch</li>
+                  <li>We'll explore whether I can help and what that might look like</li>
+                </ul>
+                <p>If you have any questions in the meantime, just reply to this email.</p>
+                <p>Looking forward to connecting!</p>
+              </div>
+              <div class="footer">
+                <a href="${publicSiteUrl}">Nathaniel Baldock AI Consulting</a> · Practical AI for Faith, Education & Mission-Driven Leaders
+              </div>
             </div>
           </div>
         </body>

@@ -1,4 +1,5 @@
 import type { Express, Request, Response, NextFunction } from "express";
+import rateLimit from "express-rate-limit";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
@@ -10,6 +11,7 @@ import {
   insertNotificationSchema,
   insertMessageSchema,
 } from "@shared/schema";
+import { SITE_CONTACT_EMAIL } from "@shared/constants";
 import { isAuthenticated, authStorage } from "./auth";
 import type { EventAttributes } from "ics";
 import {
@@ -119,8 +121,16 @@ export async function registerRoutes(
   // ============================================================
   // PUBLIC ROUTES
   // ============================================================
+  const publicFormLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // 10 requests per window per IP
+    message: { error: "Too many submissions. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   // Submit intake form (public)
-  app.post("/api/intake", async (req, res) => {
+  app.post("/api/intake", publicFormLimiter, async (req, res) => {
     try {
       const intakeData = { ...req.body };
       if (Array.isArray(intakeData.assessmentsTaken)) {
@@ -135,21 +145,33 @@ export async function registerRoutes(
         data.firstName
       ));
 
-      const coaches = await storage.getUsersByRole("coach");
       const summary = data.problemStatement || data.goals || "(No problem statement)";
-      for (const coach of coaches) {
-        if (coach.email) {
-          await sendEmail(intakeSubmittedEmail(coach.email, {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            problemStatement: summary,
-            organisation: data.organisation,
-            industry: data.industry,
-          }));
+      const intakeNotificationPayload = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        problemStatement: summary,
+        organisation: data.organisation ?? undefined,
+        industry: data.industry ?? undefined,
+      };
+
+      const coaches = await storage.getUsersByRole("coach");
+      const notifiedEmails = new Set<string>();
+
+      if (SITE_CONTACT_EMAIL) {
+        const sent = await sendEmail(intakeSubmittedEmail(SITE_CONTACT_EMAIL, intakeNotificationPayload));
+        notifiedEmails.add(SITE_CONTACT_EMAIL.toLowerCase());
+        if (process.env.NODE_ENV !== "production" && !sent) {
+          console.warn("Intake notification not sent (RESEND_API_KEY missing or send failed). Recipient:", SITE_CONTACT_EMAIL);
         }
       }
-      
+      for (const coach of coaches) {
+        if (coach.email && !notifiedEmails.has(coach.email.toLowerCase())) {
+          await sendEmail(intakeSubmittedEmail(coach.email, intakeNotificationPayload));
+          notifiedEmails.add(coach.email.toLowerCase());
+        }
+      }
+
       res.status(201).json(intake);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -157,6 +179,22 @@ export async function registerRoutes(
       } else {
         console.error("Intake form error:", error);
         res.status(500).json({ error: "Failed to submit intake form" });
+      }
+    }
+  });
+
+  // Newsletter signup (public). Wire to ConvertKit/Mailchimp via env or add DB table later.
+  app.post("/api/newsletter", publicFormLimiter, async (req, res) => {
+    try {
+      const schema = z.object({ email: z.string().email() });
+      const { email } = schema.parse(req.body);
+      // TODO: store in DB or forward to ConvertKit/Mailchimp when configured
+      res.status(200).json({ ok: true, message: "Thanks for signing up." });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid email address" });
+      } else {
+        res.status(500).json({ error: "Something went wrong. Please try again." });
       }
     }
   });

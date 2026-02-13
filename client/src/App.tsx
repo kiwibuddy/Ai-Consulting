@@ -17,7 +17,13 @@ import NotFound from "@/pages/not-found";
 import LandingPage from "@/pages/landing";
 import IntakePage from "@/pages/intake";
 import SpeakingPage from "@/pages/speaking";
+import SpeakingInvitePage from "@/pages/speaking-invite";
 import ResourcesPage from "@/pages/resources";
+import AboutPage from "@/pages/about";
+import PricingPage from "@/pages/pricing";
+import LoginPage from "@/pages/login";
+import PrivacyPage from "@/pages/privacy";
+import TermsPage from "@/pages/terms";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
 
@@ -47,6 +53,8 @@ import { OnboardingTour } from "@/components/onboarding-tour";
 import { CommandPalette } from "@/components/command-palette";
 import { useColorTheme } from "@/hooks/use-color-theme";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
+import { Analytics } from "@/components/analytics";
+import { PublicSiteLayout } from "@/components/public-site-layout";
 
 function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: "coach" | "client" }) {
   const { user, isLoading, isAuthenticated } = useAuth();
@@ -110,6 +118,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
+    <div data-theme="app">
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
       <div className="flex h-screen w-full">
         <AppSidebar role="client" />
@@ -129,6 +138,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
       <CommandPalette />
       <OnboardingTour role="client" tourCompleted={userData?.onboardingCompleted} />
     </SidebarProvider>
+    </div>
   );
 }
 
@@ -166,6 +176,7 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
   const QuickNoteModal = React.lazy(() => import("@/components/modals/quick-note-modal").then(m => ({ default: m.QuickNoteModal })));
 
   return (
+    <div data-theme="app">
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
       <div className="flex h-screen w-full">
         <AppSidebar role="coach" />
@@ -192,6 +203,7 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
       </React.Suspense>
       <OnboardingTour role="coach" tourCompleted={userData?.onboardingCompleted} />
     </SidebarProvider>
+    </div>
   );
 }
 
@@ -211,19 +223,29 @@ function PublicHome() {
     }
   }
 
-  return <LandingPage />;
+  return (
+    <PublicSiteLayout>
+      <LandingPage />
+    </PublicSiteLayout>
+  );
 }
 
 function Router() {
   return (
     <Switch>
-      {/* Public routes */}
+      {/* Public routes — always wrapped in PublicSiteLayout so data-theme="site" is never lost */}
       <Route path="/" component={PublicHome} />
-      <Route path="/intake" component={IntakePage} />
-      <Route path="/speaking" component={SpeakingPage} />
-      <Route path="/resources" component={ResourcesPage} />
-      <Route path="/forgot-password" component={ForgotPassword} />
-      <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/intake" component={() => <PublicSiteLayout><IntakePage /></PublicSiteLayout>} />
+      <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
+      <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
+      <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
+      <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
+      <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
+      <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />
+      <Route path="/privacy" component={() => <PublicSiteLayout><PrivacyPage /></PublicSiteLayout>} />
+      <Route path="/terms" component={() => <PublicSiteLayout><TermsPage /></PublicSiteLayout>} />
+      <Route path="/forgot-password" component={() => <PublicSiteLayout><ForgotPassword /></PublicSiteLayout>} />
+      <Route path="/reset-password" component={() => <PublicSiteLayout><ResetPassword /></PublicSiteLayout>} />
 
       {/* Client routes */}
       <Route path="/client/complete-profile">
@@ -374,6 +396,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
+          <Analytics />
           <Router />
         </TooltipProvider>
       </QueryClientProvider>
