@@ -531,7 +531,11 @@ export function paymentReceivedEmail(
 }
 
 export function verificationEmail(userEmail: string, userName: string, verificationToken: string): EmailOptions {
-  const verifyUrl = `${process.env.APP_URL || "http://localhost:3000"}/api/auth/verify-email?token=${verificationToken}`;
+  const baseUrl =
+    process.env.APP_URL ||
+    process.env.PUBLIC_SITE_URL ||
+    (process.env.NODE_ENV === "production" ? "https://nathanielbaldock.com" : "http://localhost:3000");
+  const verifyUrl = `${baseUrl}/api/auth/verify-email?token=${verificationToken}`;
   
   return {
     to: userEmail,
@@ -644,7 +648,11 @@ export function intakeConfirmationEmail(clientEmail: string, clientName: string)
 }
 
 export function passwordResetEmail(userEmail: string, userName: string, resetToken: string): EmailOptions {
-  const resetUrl = `${process.env.APP_URL || "http://localhost:3000"}/reset-password?token=${resetToken}`;
+  const baseUrl =
+    process.env.APP_URL ||
+    process.env.PUBLIC_SITE_URL ||
+    (process.env.NODE_ENV === "production" ? "https://nathanielbaldock.com" : "http://localhost:3000");
+  const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`;
   
   return {
     to: userEmail,
