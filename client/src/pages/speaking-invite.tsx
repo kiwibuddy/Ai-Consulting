@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, ApiError } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -183,10 +183,13 @@ export function SpeakingFormContent({ onSuccess }: { onSuccess: () => void }) {
       form.reset();
       onSuccess();
     },
-    onError: () => {
+    onError: (err: unknown) => {
+      if (import.meta.env.DEV) console.error("Speaking invite form error:", err);
+      const serverMsg = err instanceof ApiError ? err.body?.message ?? err.body?.error : null;
+      const description = serverMsg ?? "Please try again, or email me directly.";
       toast({
         title: "Something went wrong",
-        description: "Please try again, or email me directly.",
+        description,
         variant: "destructive",
       });
     },

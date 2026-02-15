@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, ApiError } from "@/lib/queryClient";
 import { useLocation, Link } from "wouter";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -50,16 +50,18 @@ export default function LoginPage() {
         }
       }
     },
-    onError: (err: Error & { response?: { status?: number }; message?: string }) => {
-      if (err.message?.includes("verify your email")) {
+    onError: (err: unknown) => {
+      const serverMsg = err instanceof ApiError ? (err.body?.message ?? err.body?.error) : null;
+      const status = err instanceof ApiError ? err.status : undefined;
+      if (serverMsg?.toLowerCase().includes("verify your email") || (err instanceof Error && err.message?.includes("verify your email"))) {
         setUnverifiedEmail(email);
         toast({
           title: "Email Not Verified",
-          description: "Please check your email and click the verification link.",
+          description: serverMsg ?? "Please check your email and click the verification link.",
           variant: "destructive",
         });
       } else {
-        const message = err.response?.status === 401 ? "Invalid email or password." : "Login failed. Please try again.";
+        const message = status === 401 ? "Invalid email or password." : (serverMsg ?? "Login failed. Please try again.");
         toast({
           title: "Login Failed",
           description: message,

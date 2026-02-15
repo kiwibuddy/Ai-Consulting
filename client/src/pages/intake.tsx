@@ -4,7 +4,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, ApiError } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -139,10 +139,13 @@ export default function IntakePage() {
       form.reset();
       setSubmittedForm("consultation");
     },
-    onError: () => {
+    onError: (err: unknown) => {
+      if (import.meta.env.DEV) console.error("Intake form error:", err);
+      const serverMsg = err instanceof ApiError ? err.body?.message ?? err.body?.error : null;
+      const description = serverMsg ?? "Please try again, or email me directly.";
       toast({
         title: "Something went wrong",
-        description: "Please try again, or email me directly.",
+        description,
         variant: "destructive",
       });
     },

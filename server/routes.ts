@@ -140,36 +140,41 @@ export async function registerRoutes(
       const data = insertIntakeFormSchema.parse(intakeData);
       const intake = await storage.createIntakeForm(data);
 
-      await sendEmail(intakeConfirmationEmail(
-        data.email,
-        data.firstName
-      ));
+      // Send confirmation and notifications; do not fail the request if email fails
+      try {
+        await sendEmail(intakeConfirmationEmail(
+          data.email,
+          data.firstName
+        ));
 
-      const summary = data.problemStatement || data.goals || "(No problem statement)";
-      const intakeNotificationPayload = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        problemStatement: summary,
-        organisation: data.organisation ?? undefined,
-        industry: data.industry ?? undefined,
-      };
+        const summary = data.problemStatement || data.goals || "(No problem statement)";
+        const intakeNotificationPayload = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          problemStatement: summary,
+          organisation: data.organisation ?? undefined,
+          industry: data.industry ?? undefined,
+        };
 
-      const coaches = await storage.getUsersByRole("coach");
-      const notifiedEmails = new Set<string>();
+        const coaches = await storage.getUsersByRole("coach");
+        const notifiedEmails = new Set<string>();
 
-      if (SITE_CONTACT_EMAIL) {
-        const sent = await sendEmail(intakeSubmittedEmail(SITE_CONTACT_EMAIL, intakeNotificationPayload));
-        notifiedEmails.add(SITE_CONTACT_EMAIL.toLowerCase());
-        if (process.env.NODE_ENV !== "production" && !sent) {
-          console.warn("Intake notification not sent (RESEND_API_KEY missing or send failed). Recipient:", SITE_CONTACT_EMAIL);
+        if (SITE_CONTACT_EMAIL) {
+          const sent = await sendEmail(intakeSubmittedEmail(SITE_CONTACT_EMAIL, intakeNotificationPayload));
+          notifiedEmails.add(SITE_CONTACT_EMAIL.toLowerCase());
+          if (process.env.NODE_ENV !== "production" && !sent) {
+            console.warn("Intake notification not sent (RESEND_API_KEY missing or send failed). Recipient:", SITE_CONTACT_EMAIL);
+          }
         }
-      }
-      for (const coach of coaches) {
-        if (coach.email && !notifiedEmails.has(coach.email.toLowerCase())) {
-          await sendEmail(intakeSubmittedEmail(coach.email, intakeNotificationPayload));
-          notifiedEmails.add(coach.email.toLowerCase());
+        for (const coach of coaches) {
+          if (coach.email && !notifiedEmails.has(coach.email.toLowerCase())) {
+            await sendEmail(intakeSubmittedEmail(coach.email, intakeNotificationPayload));
+            notifiedEmails.add(coach.email.toLowerCase());
+          }
         }
+      } catch (emailErr) {
+        console.error("Intake emails failed (form was saved):", emailErr);
       }
 
       res.status(201).json(intake);

@@ -1,10 +1,29 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
-async function throwIfResNotOk(res: Response) {
-  if (!res.ok) {
-    const text = (await res.text()) || res.statusText;
-    throw new Error(`${res.status}: ${text}`);
+/** Error with optional parsed JSON body for 4xx/5xx responses */
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public status: number,
+    public body?: { message?: string; error?: string }
+  ) {
+    super(message);
+    this.name = "ApiError";
   }
+}
+
+async function throwIfResNotOk(res: Response): Promise<never> {
+  if (res.ok) return undefined as never;
+  const text = (await res.text()) || res.statusText;
+  let body: { message?: string; error?: string } | undefined;
+  try {
+    body = text ? (JSON.parse(text) as { message?: string; error?: string }) : undefined;
+  } catch {
+    body = undefined;
+  }
+  const serverMessage = body?.message ?? body?.error;
+  const displayMessage = typeof serverMessage === "string" ? serverMessage : text;
+  throw new ApiError(`${res.status}: ${displayMessage}`, res.status, body);
 }
 
 export async function apiRequest<T = unknown>(
