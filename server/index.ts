@@ -16,6 +16,7 @@ import { createServer } from "http";
 import { setupAuth, registerAuthRoutes } from "./auth";
 import { registerObjectStorageRoutes } from "./object_storage";
 import { startSessionReminderScheduler } from "./jobs/sessionReminders";
+import { checkDatabaseHealth } from "./dbHealth";
 
 const app = express();
 const httpServer = createServer(app);
@@ -96,10 +97,9 @@ app.use((req, res, next) => {
     return res.status(status).json({ message });
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // Production: verify DB connection and schema before accepting traffic
   if (process.env.NODE_ENV === "production") {
+    await checkDatabaseHealth();
     serveStatic(app);
   } else {
     const { setupVite } = await import("./vite");
