@@ -182,7 +182,9 @@ export async function registerRoutes(
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: error.errors });
       } else {
-        console.error("Intake form error:", error);
+        const errMessage = error instanceof Error ? error.message : String(error);
+        const errStack = error instanceof Error ? error.stack : undefined;
+        console.error("Intake form error:", errMessage, errStack ?? "");
         res.status(500).json({ error: "Failed to submit intake form" });
       }
     }
