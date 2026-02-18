@@ -19,6 +19,7 @@ import IntakePage from "@/pages/intake";
 import SpeakingPage from "@/pages/speaking";
 import SpeakingInvitePage from "@/pages/speaking-invite";
 import ResourcesPage from "@/pages/resources";
+import ArticleRaisingHumans from "@/pages/article-raising-humans";
 import AboutPage from "@/pages/about";
 import PricingPage from "@/pages/pricing";
 import LoginPage from "@/pages/login";
@@ -239,6 +240,7 @@ function Router() {
       <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
       <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
       <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
+      <Route path="/resources/raising-humans-in-the-age-of-the-digital-god" component={() => <PublicSiteLayout><ArticleRaisingHumans /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
       <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
       <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />

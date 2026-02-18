@@ -1,3 +1,6 @@
+import { articles } from "@/content/articles";
+import { videos } from "@/content/videos";
+
 export type LatestItemType = "article" | "video";
 
 export interface LatestItem {
@@ -11,25 +14,48 @@ export interface LatestItem {
   readTime?: string;
 }
 
+function byDateDesc<T extends { date: string }>(a: T, b: T) {
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+}
+
+/** Only include items that have a real URL (not placeholders). */
+function isRealContent(url: string) {
+  return url && url !== "#" && !url.startsWith("#");
+}
+
 /**
- * Most recent 1–2 items for "Latest from Nathaniel" on the landing page.
- * Update when you publish new content; keep sorted by date descending.
+ * Derived from articles and videos content. Most recent article and most recent
+ * video are shown on the landing page "Latest from Nathaniel" section.
+ * Add new entries to articles.ts or videos.ts and they will appear here automatically.
+ * Placeholders (url "#") are excluded so only published content is shown.
  */
 export const latestFromNathaniel: LatestItem[] = [
-  {
-    type: "article",
-    title: "Coming soon: Latest article",
-    excerpt: "Your most recent article or essay will appear here. Update this entry when you publish.",
-    url: "/resources",
-    date: "2026-02-01",
-    readTime: "5 min",
-  },
-  {
-    type: "video",
-    title: "Coming soon: Latest video",
-    excerpt: "Your most recent video or talk will appear here. Update this entry when you publish.",
-    url: "/resources",
-    date: "2026-01-15",
-    duration: "12 min",
-  },
-];
+  ...articles
+    .filter((a) => isRealContent(a.url))
+    .slice()
+    .sort(byDateDesc)
+    .slice(0, 1)
+    .map((a) => ({
+      type: "article" as const,
+      title: a.title,
+      excerpt: a.excerpt,
+      url: a.url,
+      date: a.date,
+      thumbnail: a.image,
+      readTime: a.readTime,
+    })),
+  ...videos
+    .filter((v) => isRealContent(v.url))
+    .slice()
+    .sort(byDateDesc)
+    .slice(0, 1)
+    .map((v) => ({
+      type: "video" as const,
+      title: v.title,
+      excerpt: v.description,
+      url: v.url,
+      date: v.date,
+      thumbnail: v.thumbnail,
+      duration: v.duration,
+    })),
+].sort((a, b) => byDateDesc(a, b)); // So the newest of the two is first
