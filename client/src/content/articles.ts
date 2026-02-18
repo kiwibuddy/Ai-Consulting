@@ -21,6 +21,16 @@ export const articles: ArticleItem[] = [
     image: "/images/raising-humans-header.png",
   },
   {
+    id: "discipleship-missions-ai",
+    title: "Discipleship and Missions in an AI Age",
+    excerpt: "A strategic briefing for pastors, mission leaders, and Christian educators: the intelligence explosion, the broken ladder, the intimacy economy, and the Great Commission.",
+    url: "/resources/discipleship-and-missions-in-an-ai-age",
+    date: "2026-02-19",
+    readTime: "16 min",
+    category: "AI & Faith",
+    image: "/images/discipleship-missions-ai-header.png",
+  },
+  {
     id: "placeholder-2",
     title: "Coming soon: Practical implementation",
     excerpt: "Practical guidance for churches and organizations.",
