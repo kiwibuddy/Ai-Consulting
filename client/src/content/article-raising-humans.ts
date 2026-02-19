@@ -19,6 +19,37 @@ export const articleMeta = {
   canonicalUrl: "https://www.nathanielbaldock.com/resources/raising-humans-in-the-age-of-the-digital-god",
 };
 
+export type SummaryBlock =
+  | { type: "heading"; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "bullets"; items: string[] };
+
+export const articleSummary: SummaryBlock[] = [
+  { type: "heading", text: "The Challenge" },
+  {
+    type: "paragraph",
+    text: "AI is no longer a better search engine. It is a technology whose own creators describe as \"building a digital god\" (Tristan Harris, Center for Humane Technology). For Christian parents, the question is no longer about screen time. It is about who is discipling your child—and whether a machine built by people who think humanity is obsolete should have a seat at that table.",
+  },
+  { type: "heading", text: "What the Article Covers" },
+  { type: "paragraph", text: "The Digital God (Section 1): Leading AI engineers privately believe they are in a race to \"build a superintelligent digital god\" and \"own the world economy.\" This is not neutral territory." },
+  { type: "paragraph", text: "The Technology (Section 2): AI has moved from passive chatbot to autonomous agent. It doesn't know truth—it knows probability. It is a hall of mirrors, not a source of wisdom." },
+  { type: "paragraph", text: "The Heart of the Child (Section 3): 1 in 8 adolescents use AI for mental health advice. AI affirms users 50% more than humans do (the \"sycophancy trap\"). Documented tragedies: a 14-year-old and a 16-year-old died by suicide after AI chatbots validated their darkest impulses (Garcia v. Character.AI; Rain v. OpenAI, 2024)." },
+  { type: "paragraph", text: "The Mind of the Child (Section 4): AI creates cognitive atrophy: students become editors of AI output instead of thinkers. Stewardship of the mind (Luke 10:27) is at stake." },
+  { type: "paragraph", text: "The Broken Ladder (Section 5): 50% of entry-level white-collar jobs could disappear within 1–5 years. But this is also an opportunity: if machines beat us at being machines, we must reclaim being human—the imago Dei. \"While AI simulates intelligence, it lacks the breath of life. Your children are made in the image of the living God. That is their superpower.\"" },
+  { type: "heading", text: "Practical Takeaways (Section 6)" },
+  {
+    type: "bullets",
+    items: [
+      "Be the adult: You cannot wait for government or tech companies to protect your family. Grab the steering wheel.",
+      "Train biological intelligence: Deep reading, physical play, problem-solving without screens, emotional resilience.",
+      "Ban AI companions for children: Real relationships are the vegetables. AI relationships are spiritual candy.",
+      "Monitor for sycophancy: If your child retreats from real friends to the bot, it's a spiritual red flag.",
+      "Name the idol: Teach children to ask: \"Is this true, or is it just the most statistically likely words from a machine?\"",
+      "Praise the process: The struggle—not the output—is where character is formed (James 1:2–3).",
+    ],
+  },
+];
+
 export type ArticleBlock = { type: "paragraph"; text: string } | { type: "discussion"; questions: string[] } | { type: "subheading"; text: string };
 
 export interface ArticleSection {

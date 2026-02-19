@@ -1,25 +1,32 @@
 "use client";
 
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useEffect } from "react";
+
+const SITE_THEME = "site";
 
 /**
  * Wraps all public marketing pages so the "site" theme (green CTA, dark header styling,
  * Tesoro look) is always applied. Do not remove this wrapper from public routes.
  * See .cursor/rules/public-site-theme.mdc for the theme contract.
  *
- * We set data-theme="site" on the document root so the theme cannot be overridden
- * by ThemeProvider (light/dark) or by theme-selector (ember/ocean/etc.) when
- * the user has previously visited the dashboard. useLayoutEffect ensures it runs
- * before paint so the correct theme shows immediately (no orange flash).
+ * We set data-theme="site" on the document root. We do NOT remove it on unmount so that
+ * when navigating between two public pages (e.g. / → /resources) there is no flash of
+ * wrong theme. Dashboard layouts set data-theme="app" on document when they mount.
  */
 export function PublicSiteLayout({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute("data-theme", "site");
-    return () => {
-      root.removeAttribute("data-theme");
-    };
+    document.documentElement.setAttribute("data-theme", SITE_THEME);
+    // Intentionally no cleanup: avoids flash when switching between public pages (and in dev Strict Mode)
   }, []);
 
-  return <div data-theme="site" data-public-site>{children}</div>;
+  // Re-apply after paint so we override theme-selector or other effects that might clear it
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", SITE_THEME);
+  }, []);
+
+  return (
+    <div data-theme="site" data-public-site className="min-h-screen">
+      {children}
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
@@ -21,6 +21,7 @@ import SpeakingInvitePage from "@/pages/speaking-invite";
 import ResourcesPage from "@/pages/resources";
 import ArticleRaisingHumans from "@/pages/article-raising-humans";
 import ArticleDiscipleshipMissionsAi from "@/pages/article-discipleship-missions-ai";
+import ArticleOutsourcingHolySpirit from "@/pages/article-outsourcing-holy-spirit";
 import AboutPage from "@/pages/about";
 import PricingPage from "@/pages/pricing";
 import LoginPage from "@/pages/login";
@@ -96,7 +97,14 @@ interface UserData {
   onboardingCompleted?: boolean;
 }
 
+const APP_THEME = "app";
+
 function ClientLayout({ children }: { children: React.ReactNode }) {
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute("data-theme", APP_THEME);
+    // Do not remove data-theme on unmount: PublicSiteLayout will set "site" when navigating to public pages.
+    // Removing it here would run after the public layout mounts and would wipe the site theme.
+  }, []);
   const { data: profile, isLoading: profileLoading } = useQuery<ClientProfileData>({
     queryKey: ["/api/client/profile"],
     retry: false,
@@ -149,6 +157,10 @@ interface CoachSettings {
 }
 
 function CoachLayout({ children }: { children: React.ReactNode }) {
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute("data-theme", APP_THEME);
+    // Do not remove data-theme on unmount: PublicSiteLayout will set "site" when navigating to public pages.
+  }, []);
   const { data: settings, isLoading: settingsLoading } = useQuery<CoachSettings>({
     queryKey: ["/api/coach/settings"],
     retry: false,
@@ -243,6 +255,7 @@ function Router() {
       <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
       <Route path="/resources/raising-humans-in-the-age-of-the-digital-god" component={() => <PublicSiteLayout><ArticleRaisingHumans /></PublicSiteLayout>} />
       <Route path="/resources/discipleship-and-missions-in-an-ai-age" component={() => <PublicSiteLayout><ArticleDiscipleshipMissionsAi /></PublicSiteLayout>} />
+      <Route path="/resources/outsourcing-the-holy-spirit-to-ai" component={() => <PublicSiteLayout><ArticleOutsourcingHolySpirit /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
       <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
       <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />

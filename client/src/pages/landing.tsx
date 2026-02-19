@@ -416,13 +416,13 @@ export default function LandingPage() {
             Latest from Nathaniel
           </motion.h2>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
             variants={cardSlideUpContainerVariants}
           >
-            {latestFromNathaniel.slice(0, 2).map((item) => (
+            {latestFromNathaniel.map((item) => (
               <motion.div
                 key={`${item.type}-${item.date}-${item.title}`}
                 variants={cardSlideUpItemVariants}
@@ -463,6 +463,20 @@ export default function LandingPage() {
                 </div>
               </motion.div>
             ))}
+          </motion.div>
+          <motion.div
+            className="mt-8 text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
+          >
+            <Link href="/resources">
+              <Button variant="outline" size="lg" className="gap-2">
+                See more
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>

@@ -19,6 +19,58 @@ export const articleMeta = {
   canonicalUrl: "https://www.nathanielbaldock.com/resources/discipleship-and-missions-in-an-ai-age",
 };
 
+export type SummaryBlock =
+  | { type: "heading"; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "bullets"; items: string[] };
+
+export const articleSummary: SummaryBlock[] = [
+  { type: "heading", text: "The Challenge" },
+  {
+    type: "paragraph",
+    text: "February 2026 marks a structural shift in how work, truth, intimacy, and authority function in the world. AI systems are no longer tools that assist—they are autonomous agents that replace large categories of entry-level cognitive labour. For Christian leaders responsible for discipleship, training, and mission, the central question is no longer whether AI will affect your work, but how fundamentally it already has.",
+  },
+  { type: "heading", text: "What the Article Covers" },
+  {
+    type: "paragraph",
+    text: "The Intelligence Explosion: AI autonomy is doubling every 4–7 months. GPT-5.3 Codex was \"instrumental in creating itself.\" AI has moved from reactive chatbot to autonomous agent that can independently execute complex, multi-day workflows.",
+  },
+  {
+    type: "paragraph",
+    text: "The Broken Ladder: Entry-level employment for 22–25-year-olds in AI-exposed sectors has dropped 16–20% (Stanford/ADP data). Codified knowledge is now free and abundant. Tacit knowledge (wisdom, discernment, spiritual sensitivity) cannot be automated and is becoming the scarce resource.",
+  },
+  {
+    type: "paragraph",
+    text: "The Intimacy Economy: 1 in 5 high school students has had a romantic relationship with an AI chatbot. Documented tragedies: teenagers guided toward suicide by AI systems that simulated empathy without moral agency (Garcia v. Character.AI; Rain v. OpenAI).",
+  },
+  {
+    type: "paragraph",
+    text: "The Erosion of Shared Truth: AI personalisation fragments shared reality. Discipleship presupposes common truth—AI dissolves it. \"If an AI can preach a better sermon, write a better strategy, and organise a better outreach than your most gifted student, what is the unique contribution of the human disciple?\"",
+  },
+  { type: "heading", text: "The Pivot: Key Takeaways" },
+  {
+    type: "bullets",
+    items: [
+      "From doing to being. Competence is now cheap. Character is scarce. Shift from skills acquisition to spiritual formation, resilience, and moral agency.",
+      "Embodiment as advantage. In a synthetic world, the physical becomes sacred. Incarnational presence is what AI cannot replicate.",
+      "Relationship as firewall. Deepfakes and voice cloning have made digital trust unreliable. Deep relational knowledge and spiritual discernment become essential.",
+      "Restraint as wisdom. Teach believers to wrestle with Scripture rather than asking AI to summarise it, and to pray for wisdom rather than prompting for an answer.",
+    ],
+  },
+  { type: "heading", text: "Practical Next Steps" },
+  {
+    type: "bullets",
+    items: [
+      "The 1-hour challenge: Spend one hour daily engaging frontier AI systems. You cannot lead through what you do not understand.",
+      "Audit your training: Is your curriculum optimising for codified knowledge (now free) or tacit wisdom (now scarce)?",
+      "Protect the young: Implement policies on AI companion apps. Monitor for sycophancy and synthetic attachment.",
+      "Double down on embodied community: Your unique offering is physical, relational, incarnational presence.",
+      "Name the idol: Teach discernment between AI-generated probability and God-revealed truth.",
+    ],
+  },
+  { type: "paragraph", text: "\"In a synthetic world, holiness becomes the ultimate disruption.\"" },
+];
+
 export type ArticleBlock =
   | { type: "paragraph"; text: string }
   | { type: "discussion"; questions: string[] }

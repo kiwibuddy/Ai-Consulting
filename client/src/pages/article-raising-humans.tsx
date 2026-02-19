@@ -6,13 +6,15 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import {
   articleMeta,
   articleSections,
+  articleSummary,
   sourcesList,
   type ArticleBlock,
 } from "@/content/article-raising-humans";
+import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import {
   fadeUpRevealVariants,
   staggerRevealContainerVariants,
@@ -239,6 +241,7 @@ function ArticleSection({ section, index }: { section: (typeof articleSections)[
 }
 
 export default function ArticleRaisingHumans() {
+  const [summaryOpen, setSummaryOpen] = useState(false);
   return (
     <div
       data-theme="site"
@@ -246,10 +249,31 @@ export default function ArticleRaisingHumans() {
     >
       <ArticleSEO />
       <ReadingProgress />
+      <ArticleSummaryModal
+        open={summaryOpen}
+        onOpenChange={setSummaryOpen}
+        title={articleMeta.title}
+        summary={articleSummary}
+      />
       <SiteHeader currentPage="resources" />
 
       <article>
         <ArticleHero />
+        <section className="bg-white border-b border-neutral-200 px-6 py-5">
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-3">
+            <p className="text-sm text-neutral-600">
+              Get a quick one page summary here
+            </p>
+            <button
+              type="button"
+              onClick={() => setSummaryOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-100 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+            >
+              <FileText className="h-4 w-4" />
+              Summary of Article
+            </button>
+          </div>
+        </section>
 
         {articleSections.map((section, index) => (
           <ArticleSection key={section.id} section={section} index={index} />

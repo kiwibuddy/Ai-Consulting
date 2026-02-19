@@ -31,6 +31,16 @@ export const articles: ArticleItem[] = [
     image: "/images/discipleship-missions-ai-header.png",
   },
   {
+    id: "outsourcing-holy-spirit",
+    title: "Outsourcing the Holy Spirit to AI",
+    excerpt: "The spiritual and ethical challenges facing the church during the intelligence explosion of 2026. How to harness AI for efficiency without losing your soul.",
+    url: "/resources/outsourcing-the-holy-spirit-to-ai",
+    date: "2026-02-19",
+    readTime: "22 min",
+    category: "AI & Faith",
+    image: "/images/outsourcing-holy-spirit-header.png",
+  },
+  {
     id: "placeholder-2",
     title: "Coming soon: Practical implementation",
     excerpt: "Practical guidance for churches and organizations.",

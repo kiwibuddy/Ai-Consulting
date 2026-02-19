@@ -13,7 +13,7 @@ import {
   articleSummary,
   sourcesList,
   type ArticleBlock,
-} from "@/content/article-discipleship-missions-ai";
+} from "@/content/article-outsourcing-holy-spirit";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import {
   staggerRevealContainerVariants,
@@ -187,6 +187,20 @@ function BlockContent({ block }: { block: ArticleBlock }) {
       </h3>
     );
   }
+  if (block.type === "quote") {
+    return (
+      <blockquote className="my-6 pl-5 border-l-4 border-[hsl(142,76%,42%)]/50 not-italic">
+        <p className="text-neutral-700 leading-relaxed text-lg [text-wrap:balance]">
+          &ldquo;{block.text}&rdquo;
+        </p>
+        {block.attribution && (
+          <cite className="mt-2 block text-sm text-neutral-500 not-italic">
+            — {block.attribution}
+          </cite>
+        )}
+      </blockquote>
+    );
+  }
   if (block.type === "discussion") {
     return (
       <div className="my-10 p-6 rounded-2xl bg-neutral-100 border border-neutral-200">
@@ -242,7 +256,7 @@ function ArticleSection({
   );
 }
 
-export default function ArticleDiscipleshipMissionsAi() {
+export default function ArticleOutsourcingHolySpirit() {
   const [summaryOpen, setSummaryOpen] = useState(false);
   return (
     <div
