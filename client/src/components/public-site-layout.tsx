@@ -1,28 +1,40 @@
 "use client";
 
-import React, { useLayoutEffect, useEffect } from "react";
+import React, { useLayoutEffect, useEffect, useRef } from "react";
 
 const SITE_THEME = "site";
 
 /**
- * Wraps all public marketing pages so the "site" theme (green CTA, dark header styling,
- * Tesoro look) is always applied. Do not remove this wrapper from public routes.
- * See .cursor/rules/public-site-theme.mdc for the theme contract.
- *
- * We set data-theme="site" on the document root. We do NOT remove it on unmount so that
- * when navigating between two public pages (e.g. / → /resources) there is no flash of
- * wrong theme. Dashboard layouts set data-theme="app" on document when they mount.
+ * Single theme for the public website: dark header, green CTA (Tesoro).
+ * We lock data-theme="site" so no other code can change it while public pages are visible.
  */
-export function PublicSiteLayout({ children }: { children: React.ReactNode }) {
+function useLockSiteTheme() {
   useLayoutEffect(() => {
     document.documentElement.setAttribute("data-theme", SITE_THEME);
-    // Intentionally no cleanup: avoids flash when switching between public pages (and in dev Strict Mode)
   }, []);
 
-  // Re-apply after paint so we override theme-selector or other effects that might clear it
+  const locked = useRef(false);
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", SITE_THEME);
+    if (locked.current) return;
+    locked.current = true;
+
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      if (root.getAttribute("data-theme") !== SITE_THEME) {
+        root.setAttribute("data-theme", SITE_THEME);
+      }
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+
+    return () => {
+      locked.current = false;
+      observer.disconnect();
+    };
   }, []);
+}
+
+export function PublicSiteLayout({ children }: { children: React.ReactNode }) {
+  useLockSiteTheme();
 
   return (
     <div data-theme="site" data-public-site className="min-h-screen">

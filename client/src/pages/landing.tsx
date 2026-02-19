@@ -126,7 +126,7 @@ export default function LandingPage() {
           transition={{ duration: 1.2, ease: [0.25, 0.4, 0.25, 1] }}
         >
           <img
-            src="/hero-portrait.png"
+            src="/hero-portrait-wide.jpg"
             alt=""
             className="w-full h-full object-cover object-[20%_center] md:object-[15%_center]"
           />

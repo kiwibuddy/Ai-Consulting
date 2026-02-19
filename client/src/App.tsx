@@ -98,12 +98,21 @@ interface UserData {
 }
 
 const APP_THEME = "app";
+const SITE_THEME = "site";
+
+/** Single source of truth: theme is driven only by the current path. Nothing else may change it. */
+function useThemeFromPath() {
+  const [path] = useLocation();
+  useLayoutEffect(() => {
+    const p = (path || "/").split("?")[0];
+    const isDashboard = p.startsWith("/client") || p.startsWith("/consultant");
+    document.documentElement.setAttribute("data-theme", isDashboard ? APP_THEME : SITE_THEME);
+  }, [path]);
+}
 
 function ClientLayout({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
     document.documentElement.setAttribute("data-theme", APP_THEME);
-    // Do not remove data-theme on unmount: PublicSiteLayout will set "site" when navigating to public pages.
-    // Removing it here would run after the public layout mounts and would wipe the site theme.
   }, []);
   const { data: profile, isLoading: profileLoading } = useQuery<ClientProfileData>({
     queryKey: ["/api/client/profile"],
@@ -244,9 +253,16 @@ function PublicHome() {
   );
 }
 
+function ThemeSync() {
+  useThemeFromPath();
+  return null;
+}
+
 function Router() {
   return (
-    <Switch>
+    <>
+      <ThemeSync />
+      <Switch>
       {/* Public routes — always wrapped in PublicSiteLayout so data-theme="site" is never lost */}
       <Route path="/" component={PublicHome} />
       <Route path="/intake" component={() => <PublicSiteLayout><IntakePage /></PublicSiteLayout>} />
@@ -404,6 +420,7 @@ function Router() {
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>
+    </>
   );
 }
 

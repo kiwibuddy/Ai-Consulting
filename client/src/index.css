@@ -280,9 +280,12 @@
 
 /* EMBER is the default (no data-theme attribute needed) */
 
-/* Site theme: original Tesoro visuals (green accent, green CTA). Must win over .dark / ThemeProvider. */
+/* Site theme: original Tesoro visuals (green accent, green CTA). Must win over .dark / ThemeProvider.
+   Repeat for .dark and .light so we win even if ThemeProvider has already added a class. */
 [data-theme="site"],
-html[data-theme="site"] {
+html[data-theme="site"],
+html[data-theme="site"].dark,
+html[data-theme="site"].light {
   --background: 220 15% 8%;
   --foreground: 0 0% 98%;
   --border: 220 12% 18%;
@@ -310,12 +313,14 @@ html[data-theme="site"] {
 
 /* CTA gradient: green → yellow (Tesoro). !important so theme never reverts to orange. */
 [data-theme="site"] .tesoro-cta-gradient,
+html[data-theme="site"] .tesoro-cta-gradient,
 .tesoro-cta-gradient {
   background: linear-gradient(135deg, hsl(142 76% 42%), hsl(92 82% 45%)) !important;
   color: white !important;
   border: none !important;
 }
 [data-theme="site"] .tesoro-cta-gradient:hover,
+html[data-theme="site"] .tesoro-cta-gradient:hover,
 .tesoro-cta-gradient:hover {
   opacity: 0.95;
   filter: brightness(1.05);
@@ -346,6 +351,8 @@ html[data-theme="site"] {
 /* Public site: force dark header so theme never reverts (e.g. after visiting dashboard) */
 [data-theme="site"] header.fixed.top-0,
 html[data-theme="site"] header.fixed.top-0,
+html[data-theme="site"].dark header.fixed.top-0,
+html[data-theme="site"].light header.fixed.top-0,
 [data-public-site] header.fixed.top-0 {
   background-color: #171717 !important;
   border-bottom-color: rgba(255, 255, 255, 0.1) !important;

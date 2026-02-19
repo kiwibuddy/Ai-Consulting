@@ -32,6 +32,14 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
+    const siteTheme = root.getAttribute("data-theme");
+
+    // Public site uses a single locked theme (dark header, green CTA). Do not add .dark/.light
+    // or they override the site CSS variables (e.g. orange primary from .dark).
+    if (siteTheme === "site") {
+      root.classList.remove("light", "dark");
+      return;
+    }
 
     root.classList.remove("light", "dark");
 

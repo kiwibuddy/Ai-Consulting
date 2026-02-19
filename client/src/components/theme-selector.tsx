@@ -117,14 +117,16 @@ export function ThemeSelector({ value, onChange, disabled, className }: ThemeSel
 }
 
 /**
- * Apply a color theme to the document.
- * Call this when user selects a theme or on initial load.
+ * Apply a color theme to the document (dashboard only).
+ * No-op when the public site is visible — public site has a single locked theme (dark header, green CTA).
  */
 export function applyColorTheme(theme: ColorTheme | null | undefined) {
+  const isPublicSite =
+    typeof document !== "undefined" && document.querySelector("[data-public-site]");
+  if (isPublicSite) return;
+
   const themeToApply = theme || "ember";
-  
   if (themeToApply === "ember") {
-    // Remove data-theme attribute for default theme
     document.documentElement.removeAttribute("data-theme");
   } else {
     document.documentElement.setAttribute("data-theme", themeToApply);
