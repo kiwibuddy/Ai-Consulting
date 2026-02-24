@@ -32,11 +32,17 @@ export default function AboutPage() {
             variants={staggerRevealContainerVariants}
           >
             <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-6"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-2 [text-wrap:balance]"
               variants={staggerRevealItemVariants}
             >
               About Me
             </motion.h1>
+            <motion.p
+              className="text-lg text-neutral-600 mb-6"
+              variants={staggerRevealItemVariants}
+            >
+              AI consultant in Tauranga, New Zealand — strategy, training, and advisory for faith, education, and mission-driven organisations.
+            </motion.p>
           </motion.div>
 
           <motion.div

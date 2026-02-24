@@ -48,7 +48,7 @@ export default function ResourcesPage() {
             className="text-lg md:text-xl text-neutral-600 leading-relaxed [text-wrap:balance]"
             variants={staggerRevealItemVariants}
           >
-            Practical wisdom for navigating AI from a Christian worldview.
+            Articles and essays on AI, faith, and leadership — from an AI consultant perspective. New Zealand and global.
           </motion.p>
         </motion.div>
       </section>

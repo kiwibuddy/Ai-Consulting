@@ -26,6 +26,7 @@ import {
   FileText,
 } from "lucide-react";
 import { latestFromNathaniel } from "@/content/latest";
+import { HomepageJsonLd } from "@/components/json-ld";
 
 // Problems I solve — the real AI challenge leaders face
 const problemsContent = {
@@ -114,6 +115,7 @@ const contentMax = "max-w-6xl";
 export default function LandingPage() {
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <HomepageJsonLd />
       <SiteHeader currentPage="landing" />
       <div className="overflow-x-hidden">
       {/* Hero — portrait visible on right; text in left column so it doesn't cover the image. pt-* clears fixed header so logo never overlaps. No overflow-hidden on section so headline text is not clipped. */}
@@ -161,6 +163,13 @@ export default function LandingPage() {
             >
               You'll know what to use, what to avoid, and{" "}
               <span className="hero-accent-phrase">what matters next.</span>
+            </motion.p>
+            <motion.p
+              className="text-base md:text-lg text-white/85"
+              variants={heroTextVariants}
+              custom={0.12}
+            >
+              Based in Tauranga, New Zealand — working with organisations across NZ and globally.
             </motion.p>
             <motion.div
               className="flex flex-col items-center md:items-start gap-3"

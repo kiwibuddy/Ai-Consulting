@@ -25,6 +25,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.nathanielbaldock.com/about</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/pricing</loc>
+    <lastmod>2026-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.nathanielbaldock.com/resources/raising-humans-in-the-age-of-the-digital-god</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>

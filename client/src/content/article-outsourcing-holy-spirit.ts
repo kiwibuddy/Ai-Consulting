@@ -8,7 +8,7 @@ export const articleMeta = {
   title: "Outsourcing the Holy Spirit to AI",
   subtitle: "The Spiritual and Ethical Challenges Facing the Church During the \"Intelligence Explosion\" of 2026",
   description:
-    "How church leaders can harness AI for efficiency without losing their soul. Deepfakes, digital idolatry, the intimacy economy, and why relationship is the new firewall.",
+    "How church leaders can harness AI for efficiency without losing their soul. Deepfakes, digital idolatry, the intimacy economy, and why relationship is the new firewall. By Nathaniel Baldock, AI consultant New Zealand.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-19",
