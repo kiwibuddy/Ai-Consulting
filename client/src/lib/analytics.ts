@@ -1,7 +1,7 @@
 /**
  * Google Analytics 4 integration.
- * Set VITE_GA_MEASUREMENT_ID in .env to enable tracking.
- * Won't load in dev if not set.
+ * The GA tag is in index.html so it loads immediately (required for "Data collection active" in GA4).
+ * This module skips script injection when the tag is already present and handles SPA page_view on route change.
  */
 
 declare global {
@@ -18,6 +18,11 @@ function isEnabled(): boolean {
   return !!GA_ID && GA_ID !== PLACEHOLDER && import.meta.env.PROD;
 }
 
+/** True when gtag is on the page (from index.html) so we can send events. */
+function hasGtag(): boolean {
+  return typeof window !== "undefined" && typeof window.gtag === "function";
+}
+
 // Debug: in browser console type __GA_MEASUREMENT_ID__ and __GA_ENABLED__ to verify build
 if (typeof window !== "undefined") {
   const w = window as unknown as { __GA_MEASUREMENT_ID__?: string; __GA_ENABLED__?: boolean };
@@ -26,6 +31,8 @@ if (typeof window !== "undefined") {
 }
 
 export function initAnalytics(): void {
+  // Tag is already in index.html; don't inject a second script.
+  if (document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) return;
   if (!isEnabled()) return;
 
   const script = document.createElement("script");
@@ -42,7 +49,17 @@ export function initAnalytics(): void {
 }
 
 export function trackEvent(name: string, params?: Record<string, unknown>): void {
-  if (isEnabled() && typeof window.gtag === "function") {
-    window.gtag("event", name, params);
+  if (import.meta.env.PROD && hasGtag()) {
+    window.gtag!("event", name, params);
+  }
+}
+
+/** Send a page_view to GA4 (use on SPA route changes so each page gets counted). */
+export function trackPageView(path: string, title?: string): void {
+  if (import.meta.env.PROD && hasGtag()) {
+    window.gtag!("event", "page_view", {
+      page_path: path,
+      page_title: title ?? document.title,
+    });
   }
 }

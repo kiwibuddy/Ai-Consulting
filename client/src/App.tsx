@@ -58,6 +58,7 @@ import { useColorTheme } from "@/hooks/use-color-theme";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
 import { Analytics } from "@/components/analytics";
 import { PublicSiteLayout } from "@/components/public-site-layout";
+import { trackPageView } from "@/lib/analytics";
 
 function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: "coach" | "client" }) {
   const { user, isLoading, isAuthenticated } = useAuth();
@@ -258,10 +259,21 @@ function ThemeSync() {
   return null;
 }
 
+/** Sends a GA4 page_view on every SPA route change so Reports show per-page traffic. */
+function GAPageViewTracker() {
+  const [path] = useLocation();
+  React.useEffect(() => {
+    const p = (path || "/").split("?")[0];
+    trackPageView(p, document.title);
+  }, [path]);
+  return null;
+}
+
 function Router() {
   return (
     <>
       <ThemeSync />
+      <GAPageViewTracker />
       <Switch>
       {/* Public routes — always wrapped in PublicSiteLayout so data-theme="site" is never lost */}
       <Route path="/" component={PublicHome} />

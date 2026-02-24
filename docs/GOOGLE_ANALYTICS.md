@@ -70,12 +70,21 @@ Then trigger a new deployment so the build picks it up.
 
 1. Deploy with the variable set, then open **https://www.nathanielbaldock.com**.
 2. In Google Analytics: **Reports** → **Realtime**. You should see your own visit within a minute or two (with ad blockers off).
+3. For **page-level** numbers: **Reports** → **Engagement** → **Pages and screens**. Data can take **24–48 hours** to appear there; Realtime is immediate.
+
+## Where to see page analytics
+
+- **Realtime** (Reports → Realtime): Live users and the page they’re on. Use this to confirm tracking works (visit the site with ad blocker off and check within 1–2 minutes).
+- **Pages and screens** (Reports → Engagement → Pages and screens): Page views by URL. Has a **24–48 hour delay**. If Realtime shows users but this is empty, wait a day or two.
+- The app sends a `page_view` to GA4 on initial load and on every in-app navigation (SPA), so each page visit is counted.
 
 ## How it’s implemented
 
-- **`client/src/lib/analytics.ts`** — loads the gtag script and configures GA4 when `VITE_GA_MEASUREMENT_ID` is set and the app is built for production.
+- **`client/index.html`** — Contains the Google tag (gtag.js) script and `gtag('config', 'G-T13W0W8XCT')` immediately after `<head>`, so data collection starts on first load and GA4 shows "Data collection active". No build-time env var is required for the tag to load.
+- **`client/src/lib/analytics.ts`** — If the tag is already in the page (from index.html), skips injecting a second script. Otherwise, when `VITE_GA_MEASUREMENT_ID` is set at build time, injects the script (e.g. for other deployments). Sends `page_view` on SPA route changes.
 - **`client/src/main.tsx`** — calls `initAnalytics()` on load.
-- **`trackEvent()`** — used on intake and speaking-invite pages for custom events; optional for basic page views.
+- **`trackEvent()`** — used on intake and speaking-invite pages for custom events.
+- **`trackPageView()`** — called on every route change (SPA) so GA4 gets a page_view per page; see **Reports** → **Engagement** → **Pages and screens** (24–48h delay).
 
 Analytics runs only in production builds (`import.meta.env.PROD`). In development it does nothing.
 
@@ -85,15 +94,17 @@ If you use GA, mention it in your privacy policy (e.g. in **client/src/pages/pri
 
 ---
 
-## Troubleshooting: still seeing 0 in Realtime
+## Troubleshooting: still seeing 0 or no page data
 
-### 1. Confirm the variable in Railway
+### 0 users in Realtime
+
+**1. Confirm the variable in Railway**
 
 - Railway → your **Ai-Consulting** service → **Variables**.
 - Find **VITE_GA_MEASUREMENT_ID**. Click the **⋯** (or edit) and check the **value**.
 - It must be exactly: `G-T13W0W8XCT` — no spaces before/after, no quotes, correct letters and numbers. Fix if needed, then **redeploy**.
 
-### 2. Confirm the script is loading on the site
+**2. Confirm the script is loading on the site**
 
 After a deploy that has the variable set:
 
@@ -106,7 +117,7 @@ After a deploy that has the variable set:
 - **If you see that request with 200:** The script is loading. Data should reach GA (allow 1–2 minutes, then check Realtime again). If it still shows 0, try another browser/device or check for blockers.
 - **If you don't see that request:** The Measurement ID wasn't in the build. Confirm the variable in Railway (step 1), redeploy, and test again.
 
-### 3. Console check (after deploying the latest code)
+**3. Console check**
 
 The code sets two globals so you can verify what was baked in at build time:
 
@@ -114,4 +125,8 @@ The code sets two globals so you can verify what was baked in at build time:
 2. Type: `__GA_MEASUREMENT_ID__` and press Enter. You should see `"G-T13W0W8XCT"` if the variable was set at build time, or `undefined` if not.
 3. Type: `__GA_ENABLED__` and press Enter. You should see `true` when GA is active (correct ID + production build), or `false` otherwise.
 
-If `__GA_MEASUREMENT_ID__` is `undefined` or wrong, the build didn't get the variable — fix it in Railway and redeploy. “analytics where configured.”
+If `__GA_MEASUREMENT_ID__` is `undefined` or wrong, the build didn't get the variable — fix it in Railway and redeploy.
+
+### Realtime works but "Pages and screens" is empty
+
+**Reports** in GA4 have a **24–48 hour** processing delay. Check again the next day. Realtime is the place to verify tracking immediately.
