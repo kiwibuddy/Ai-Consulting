@@ -34,6 +34,9 @@
       document.documentElement.setAttribute("data-theme", "site");
     </script>
     <div id="root"></div>
+    <!-- Vercel Web Analytics: load in HTML so it runs even if React loads late -->
+    <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
