@@ -269,6 +269,19 @@ function Router() {
       <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
       <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
       <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
+      {/* Redirect old /articles/... URLs to canonical /resources/... */}
+      <Route path="/articles/raising-humans-in-the-age-of-ai">
+        <Redirect to="/resources/raising-humans-in-the-age-of-the-digital-god" />
+      </Route>
+      <Route path="/articles/raising-humans-in-the-age-of-the-digital-god">
+        <Redirect to="/resources/raising-humans-in-the-age-of-the-digital-god" />
+      </Route>
+      <Route path="/articles/discipleship-and-missions-in-an-ai-age">
+        <Redirect to="/resources/discipleship-and-missions-in-an-ai-age" />
+      </Route>
+      <Route path="/articles/outsourcing-the-holy-spirit-to-ai">
+        <Redirect to="/resources/outsourcing-the-holy-spirit-to-ai" />
+      </Route>
       <Route path="/resources/raising-humans-in-the-age-of-the-digital-god" component={() => <PublicSiteLayout><ArticleRaisingHumans /></PublicSiteLayout>} />
       <Route path="/resources/discipleship-and-missions-in-an-ai-age" component={() => <PublicSiteLayout><ArticleDiscipleshipMissionsAi /></PublicSiteLayout>} />
       <Route path="/resources/outsourcing-the-holy-spirit-to-ai" component={() => <PublicSiteLayout><ArticleOutsourcingHolySpirit /></PublicSiteLayout>} />

@@ -25,6 +25,7 @@ The site includes `robots.txt` and `sitemap.xml` in the client public folder so 
 
 3. **Request indexing for key URLs (optional but recommended)**
    - In the left sidebar, click **URL Inspection** (under "Indexing").
+   - **Use the exact URLs below** — the site uses `/resources/...` for articles, not `/articles/...`. Wrong paths (e.g. `/articles/raising-humans-in-the-age-of-ai`) are redirected but will show as "Soft 404" if inspected before the redirect is followed; always inspect the canonical URL.
    - In the bar at the top, paste or type each URL below, then press Enter. For each one:
      1. Wait for Google to "test" the URL (retrieve the page).
      2. If it says "URL is not on Google", click **Request indexing**. If it says "URL is on Google", you're done for that URL; no need to request again.
@@ -39,6 +40,8 @@ The site includes `robots.txt` and `sitemap.xml` in the client public folder so 
      - `https://www.nathanielbaldock.com/intake`
      - `https://www.nathanielbaldock.com/pricing`
    - Requesting indexing does not guarantee immediate inclusion; it asks Google to prioritise crawling. Results can appear in a few days or longer.
+
+**If URL Inspection shows "Soft 404"**: Make sure you are using the **canonical** URL. Article URLs are under `/resources/...` (e.g. `.../resources/raising-humans-in-the-age-of-the-digital-god`). If you used `/articles/...` or a different slug, the app may show a 404-like page and Google will report Soft 404. After deploying the redirects from `/articles/...` to `/resources/...`, those old URLs will redirect; for indexing, prefer requesting the canonical URL from the list above.
 
 ## Checking if your site (and articles) are in Google
 
