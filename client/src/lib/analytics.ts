@@ -18,6 +18,13 @@ function isEnabled(): boolean {
   return !!GA_ID && GA_ID !== PLACEHOLDER && import.meta.env.PROD;
 }
 
+// Debug: in browser console type __GA_MEASUREMENT_ID__ and __GA_ENABLED__ to verify build
+if (typeof window !== "undefined") {
+  const w = window as unknown as { __GA_MEASUREMENT_ID__?: string; __GA_ENABLED__?: boolean };
+  w.__GA_MEASUREMENT_ID__ = GA_ID;
+  w.__GA_ENABLED__ = isEnabled();
+}
+
 export function initAnalytics(): void {
   if (!isEnabled()) return;
 
