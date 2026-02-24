@@ -57,7 +57,6 @@ import { CommandPalette } from "@/components/command-palette";
 import { useColorTheme } from "@/hooks/use-color-theme";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
 import { Analytics } from "@/components/analytics";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { PublicSiteLayout } from "@/components/public-site-layout";
 
 function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: "coach" | "client" }) {
@@ -432,7 +431,6 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Analytics />
-          <VercelAnalytics />
           <Router />
         </TooltipProvider>
       </QueryClientProvider>
