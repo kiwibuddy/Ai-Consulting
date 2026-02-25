@@ -261,20 +261,22 @@ export default function ArticleRaisingHumans() {
       <article>
         <ArticleHero />
         <section className="bg-white border-b border-neutral-200 px-6 py-5">
-          <div className="max-w-3xl mx-auto flex flex-col sm:flex-row flex-wrap items-center justify-center gap-6">
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <p className="text-sm text-neutral-600">
-                Get a quick one page summary here
-              </p>
-              <button
-                type="button"
-                onClick={() => setSummaryOpen(true)}
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-100 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
-              >
-                <FileText className="h-4 w-4" />
-                Summary of Article
-              </button>
-            </div>
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-3">
+            <p className="text-sm text-neutral-600">
+              Get a quick one page summary here
+            </p>
+            <button
+              type="button"
+              onClick={() => setSummaryOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-100 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+            >
+              <FileText className="h-4 w-4" />
+              Summary of Article
+            </button>
+          </div>
+        </section>
+        <section className="bg-white border-b border-neutral-200 px-6 py-4">
+          <div className="max-w-3xl mx-auto">
             <ArticleShare url={articleMeta.canonicalUrl} title={articleMeta.title} description={articleMeta.description} />
           </div>
         </section>

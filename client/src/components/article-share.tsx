@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 
 export interface ArticleShareProps {
   url: string;
@@ -19,8 +19,18 @@ function openSharePopup(href: string, w = 550, h = 420) {
   );
 }
 
-export function ArticleShare({ url, title, description }: ArticleShareProps) {
+/** Use the current page URL when on client so we always share this article, not a stale or wrong URL. */
+function useShareUrl(canonicalUrl: string): string {
+  return useMemo(() => {
+    if (typeof window === "undefined") return canonicalUrl;
+    const { origin, pathname, search, hash } = window.location;
+    return `${origin}${pathname}${search}${hash}`;
+  }, [canonicalUrl]);
+}
+
+export function ArticleShare({ url: canonicalUrl, title, description }: ArticleShareProps) {
   const [copied, setCopied] = useState(false);
+  const url = useShareUrl(canonicalUrl);
 
   const shareText = description ? `${title} — ${description}` : title;
 
@@ -61,7 +71,7 @@ export function ArticleShare({ url, title, description }: ArticleShareProps) {
   }, [url]);
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4">
+    <div className="flex flex-wrap items-center justify-center gap-4 w-full min-w-0">
       <span className="text-sm font-medium text-neutral-600">Share this article</span>
       <div className="flex items-center gap-2">
         <button
