@@ -20,6 +20,7 @@ import {
   ChevronDown,
   LayoutDashboard,
   MessageCircle,
+  Mic2,
   Shield,
   Users,
   Play,
@@ -78,22 +79,31 @@ const ctaLabel = "Book a free 30-min consultation";
 const whoThisIsFor = [
   {
     label: "FOR CHURCHES & MISSION ORGANISATIONS",
-    title: "Churches & mission organisations",
-    description: "Navigating AI responsibly.",
+    title: "Equip Your Church for AI",
+    bullets: [
+      "Discover how AI can strengthen discipleship, deepen engagement, and create ministry tools — while understanding the real dangers to guard against.",
+      "Equip your leaders and parents through keynotes, seminars, or courses on what AI means for the church, for families, and for faith.",
+    ],
     image: "/Teaching-2.png",
     imageAlt: "Teaching and ministry context",
   },
   {
     label: "FOR SCHOOLS AND TRAINING ORGANISATIONS",
-    title: "Schools and training organisations",
-    description: "Facing workload pressure and change.",
+    title: "Prepare Students for What's Next",
+    bullets: [
+      "Learn what teachers should actually use AI for, how to manage student use wisely, and where it can free up real time in the classroom.",
+      "Give your staff, parents, and students practical clarity through training days or assemblies that replace fear and confusion with confidence.",
+    ],
     image: "/School_Profile.png",
     imageAlt: "School and training context",
   },
   {
     label: "FOR NONPROFITS AND NGOS",
-    title: "Nonprofits and NGOs",
-    description: "Needing clarity, capacity, and better systems.",
+    title: "Multiply Impact, Not Complexity",
+    bullets: [
+      "Streamline your operations, strengthen marketing and engagement, and use AI to amplify the mission you're already doing well.",
+      "Get your whole team aligned and confident through workshops or briefings that turn AI from a buzzword into a practical advantage.",
+    ],
     image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
     imageAlt: "Team collaboration",
   },
@@ -347,14 +357,25 @@ export default function LandingPage() {
                 <motion.h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-4" variants={staggerRevealItemVariants}>
                   {item.title}
                 </motion.h2>
-                <motion.p className="text-neutral-600 leading-relaxed mb-6" variants={staggerRevealItemVariants}>
-                  {item.description}
-                </motion.p>
-                <motion.div variants={staggerRevealItemVariants}>
+                <motion.ul className="text-neutral-600 leading-relaxed mb-6 space-y-2.5" variants={staggerRevealItemVariants}>
+                  {item.bullets.map((bullet, j) => (
+                    <li key={j} className="flex gap-2.5">
+                      <span className="text-[hsl(142,76%,42%)] mt-1 shrink-0 text-lg leading-none">•</span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </motion.ul>
+                <motion.div className="flex flex-col sm:flex-row gap-3" variants={staggerRevealItemVariants}>
                   <Button variant="default" size="default" className="tesoro-cta-gradient rounded-lg font-medium" asChild>
                     <Link href="/intake">
                       {ctaLabel}
                       <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="default" className="rounded-lg font-medium border-neutral-300" asChild>
+                    <Link href="/speaking/invite">
+                      <Mic2 className="mr-2 h-4 w-4" />
+                      Invite to speak
                     </Link>
                   </Button>
                 </motion.div>
