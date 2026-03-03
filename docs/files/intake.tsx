@@ -1,10 +1,9 @@
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest, ApiError } from "@/lib/queryClient";
+import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -26,19 +25,21 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
-import { SiteHeader } from "@/components/site-header";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import {
+  ArrowLeft,
   ArrowRight,
   CheckCircle,
   Loader2,
   Clock,
   MessageCircle,
   Shield,
-  Mic2,
 } from "lucide-react";
-import { SpeakingFormContent } from "@/pages/speaking-invite";
+
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
 
 const SECTOR_OPTIONS = [
   { value: "church", label: "Church / Ministry" },
@@ -65,9 +66,6 @@ const BUDGET_OPTIONS = [
   { value: "discuss", label: "Let's discuss on the call" },
 ];
 
-/** When set (e.g. Google Calendar booking link), intake shows "Book a 30-min call" CTA that opens this URL. */
-const BOOKING_URL = import.meta.env.VITE_BOOKING_URL as string | undefined;
-
 const HOW_HEARD_OPTIONS = [
   { value: "friend", label: "Friend or colleague" },
   { value: "church", label: "Through my church" },
@@ -77,6 +75,10 @@ const HOW_HEARD_OPTIONS = [
   { value: "other", label: "Other" },
 ];
 
+// ---------------------------------------------------------------------------
+// Schema — only name + email are truly required
+// ---------------------------------------------------------------------------
+
 const intakeFormSchema = z.object({
   firstName: z.string().min(2, "First name is required"),
   lastName: z.string().min(2, "Last name is required"),
@@ -84,7 +86,7 @@ const intakeFormSchema = z.object({
   phone: z.string().optional(),
   organisation: z.string().optional(),
   role: z.string().optional(),
-  industry: z.string().optional(),
+  industry: z.string().optional(), // maps to sector
   problemStatement: z
     .string()
     .min(20, "A brief description helps me prepare for our call")
@@ -98,19 +100,12 @@ const intakeFormSchema = z.object({
 
 type IntakeFormValues = z.infer<typeof intakeFormSchema>;
 
-type FormType = "consultation" | "speaking";
-
-function getInitialFormType(): FormType {
-  if (typeof window === "undefined") return "consultation";
-  const params = new URLSearchParams(window.location.search);
-  return params.get("form") === "speaking" ? "speaking" : "consultation";
-}
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 export default function IntakePage() {
   const { toast } = useToast();
-  const [, setLocation] = useLocation();
-  const [formType, setFormType] = useState<FormType>(getInitialFormType);
-  const [submittedForm, setSubmittedForm] = useState<FormType | null>(null);
 
   const form = useForm<IntakeFormValues>({
     resolver: zodResolver(intakeFormSchema),
@@ -140,139 +135,77 @@ export default function IntakePage() {
         description: "I'll be in touch within 1–2 business days.",
       });
       form.reset();
-      setSubmittedForm("consultation");
     },
-    onError: (err: unknown) => {
-      if (import.meta.env.DEV) console.error("Intake form error:", err);
-      const serverMsg = err instanceof ApiError ? err.body?.message ?? err.body?.error : null;
-      const description = serverMsg ?? "Please try again, or email me directly.";
+    onError: () => {
       toast({
         title: "Something went wrong",
-        description,
+        description: "Please try again, or email me directly.",
         variant: "destructive",
       });
     },
   });
 
-  // Success state: show the card for whichever form was submitted
-  if (submittedForm === "consultation") {
+  // ---- Success state ----
+  if (submitMutation.isSuccess) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
-        <SiteHeader />
-        <div className="pt-28 min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-md w-full border-0 shadow-lg bg-white">
-            <CardContent className="p-8 text-center">
-              <div className="rounded-full bg-green-50 p-4 w-fit mx-auto mb-6">
-                <CheckCircle className="h-10 w-10 text-green-600" />
-              </div>
-              <h1 className="text-2xl font-bold text-neutral-900 mb-2">
-                Thanks — I've got your details!
-              </h1>
-              <p className="text-neutral-600 mb-4">
-                I'll review your request and be in touch within 1–2 business days
-                to find a time that works for our call.
-              </p>
-              <p className="text-sm text-neutral-500 mb-6">
-                In the meantime, feel free to look around:
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/">Back to home</Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/speaking">Speaking topics</Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/intake?form=speaking">Invite me to speak</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full border-0 shadow-lg">
+          <CardContent className="p-8 text-center">
+            <div className="rounded-full bg-green-50 p-4 w-fit mx-auto mb-6">
+              <CheckCircle className="h-10 w-10 text-green-600" />
+            </div>
+            <h1 className="text-2xl font-bold text-neutral-900 mb-2">
+              Thanks — I've got your details!
+            </h1>
+            <p className="text-neutral-600 mb-4">
+              I'll review your request and be in touch within 1–2 business days
+              to find a time that works for our call.
+            </p>
+            <p className="text-sm text-neutral-500 mb-6">
+              In the meantime, feel free to look around:
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/">Back to home</Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/speaking">Speaking topics</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
-  if (submittedForm === "speaking") {
-    return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
-        <SiteHeader />
-        <div className="pt-28 min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-md w-full border-0 shadow-lg bg-white">
-            <CardContent className="p-8 text-center">
-              <div className="rounded-full bg-green-50 p-4 w-fit mx-auto mb-6">
-                <CheckCircle className="h-10 w-10 text-green-600" />
-              </div>
-              <h1 className="text-2xl font-bold text-neutral-900 mb-2">
-                Thanks for the invitation!
-              </h1>
-              <p className="text-neutral-600 mb-4">
-                I'm excited to hear about your event. I'll review the details and
-                be in touch within 1–2 business days to discuss next steps.
-              </p>
-              <p className="text-sm text-neutral-500 mb-6">
-                In the meantime, feel free to explore:
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center flex-wrap">
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/speaking">Speaking topics</Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/">Back to home</Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/intake">Request a discovery call</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
+  // ---- Form ----
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
-      <SiteHeader />
-      <main className="public-form-light max-w-3xl mx-auto px-6 pt-28 pb-12 md:pb-16">
-        {/* Sliding switcher: same green as CTA, other option plain text; pill slides on click */}
-        <div className="mb-8">
-          <div className="relative flex rounded-xl border border-neutral-200 bg-neutral-100 p-1.5">
-            <div
-              className="absolute top-1.5 bottom-1.5 w-[calc(50%-3px)] rounded-lg tesoro-cta-gradient transition-all duration-300 ease-out"
-              style={{ left: formType === "consultation" ? 6 : "calc(50% + 3px)" }}
+    <div
+      data-theme="tesoro"
+      className="min-h-screen bg-neutral-50 text-neutral-900 font-sans"
+    >
+      {/* Minimal header */}
+      <header className="border-b border-neutral-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to site
+          </Link>
+          <Link href="/" className="flex items-center">
+            <img
+              src="/logo.png?v=2"
+              alt="Nathaniel Baldock"
+              className="h-8 w-auto"
             />
-            <button
-              type="button"
-              onClick={() => {
-                setFormType("consultation");
-                setLocation("/intake");
-              }}
-              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
-            >
-              <span className={formType === "consultation" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
-                Request a free discovery call
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setFormType("speaking");
-                setLocation("/intake?form=speaking");
-              }}
-              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
-            >
-              <span className={formType === "speaking" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
-                Invite me to speak
-              </span>
-            </button>
-          </div>
+          </Link>
         </div>
+      </header>
 
-        {formType === "speaking" ? (
-          <SpeakingFormContent onSuccess={() => setSubmittedForm("speaking")} />
-        ) : (
-          <>
+      <main className="max-w-3xl mx-auto px-6 py-12 md:py-16">
+        {/* Page intro */}
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
             Request a free discovery call
@@ -284,6 +217,7 @@ export default function IntakePage() {
           </p>
         </div>
 
+        {/* Trust badges */}
         <div className="flex flex-wrap gap-6 mb-10 text-sm text-neutral-500">
           <span className="flex items-center gap-1.5">
             <Clock className="h-4 w-4 text-neutral-400" />
@@ -299,34 +233,13 @@ export default function IntakePage() {
           </span>
         </div>
 
-        {BOOKING_URL && (
-          <Card className="border-0 shadow-sm bg-white mb-8">
-            <CardContent className="p-6 md:p-8 text-center">
-              <p className="text-neutral-600 mb-4">
-                Pick a time that works for you — you'll get a confirmation and calendar invite right away.
-              </p>
-              <Button
-                size="lg"
-                className="tesoro-cta-gradient rounded-xl font-semibold px-8"
-                asChild
-              >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Book a 30-min call
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-              <p className="text-sm text-neutral-500 mt-4">
-                Or describe your situation below and I'll be in touch to arrange a time.
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
+        {/* The form */}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
             className="space-y-8"
           >
+            {/* ---- Section 1: About you ---- */}
             <Card className="border-0 shadow-sm bg-white">
               <CardContent className="p-6 md:p-8 space-y-5">
                 <h2 className="text-lg font-semibold text-neutral-900">
@@ -341,7 +254,7 @@ export default function IntakePage() {
                       <FormItem>
                         <FormLabel>First name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Jane" {...field} data-testid="input-firstname" />
+                          <Input placeholder="Jane" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -354,7 +267,7 @@ export default function IntakePage() {
                       <FormItem>
                         <FormLabel>Last name *</FormLabel>
                         <FormControl>
-                          <Input placeholder="Smith" {...field} data-testid="input-lastname" />
+                          <Input placeholder="Smith" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -373,7 +286,6 @@ export default function IntakePage() {
                           type="email"
                           placeholder="jane@example.com"
                           {...field}
-                          data-testid="input-email"
                         />
                       </FormControl>
                       <FormMessage />
@@ -381,6 +293,7 @@ export default function IntakePage() {
                   )}
                 />
 
+                {/* International phone input */}
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <Controller
@@ -410,7 +323,6 @@ export default function IntakePage() {
                           <Input
                             placeholder="Church, school, NGO…"
                             {...field}
-                            data-testid="input-organisation"
                           />
                         </FormControl>
                       </FormItem>
@@ -423,7 +335,7 @@ export default function IntakePage() {
                       <FormItem>
                         <FormLabel>Your role</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g. Pastor, Director" {...field} data-testid="input-role" />
+                          <Input placeholder="e.g. Pastor, Director" {...field} />
                         </FormControl>
                       </FormItem>
                     )}
@@ -438,7 +350,7 @@ export default function IntakePage() {
                       <FormLabel>Sector</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -459,6 +371,7 @@ export default function IntakePage() {
               </CardContent>
             </Card>
 
+            {/* ---- Section 2: Your situation ---- */}
             <Card className="border-0 shadow-sm bg-white">
               <CardContent className="p-6 md:p-8 space-y-5">
                 <h2 className="text-lg font-semibold text-neutral-900">
@@ -482,7 +395,6 @@ export default function IntakePage() {
                           placeholder="e.g. We're a church of ~200 people and our admin team is overwhelmed. We'd like to explore how AI could help with communications, sermon prep support, or volunteer coordination — but we don't know where to start."
                           className="min-h-[100px]"
                           {...field}
-                          data-testid="textarea-problem"
                         />
                       </FormControl>
                       <FormMessage />
@@ -500,7 +412,7 @@ export default function IntakePage() {
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -521,6 +433,7 @@ export default function IntakePage() {
               </CardContent>
             </Card>
 
+            {/* ---- Section 3: Practical details ---- */}
             <Card className="border-0 shadow-sm bg-white">
               <CardContent className="p-6 md:p-8 space-y-5">
                 <h2 className="text-lg font-semibold text-neutral-900">
@@ -537,7 +450,7 @@ export default function IntakePage() {
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -568,7 +481,7 @@ export default function IntakePage() {
                       <FormLabel>How did you hear about me?</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -589,6 +502,7 @@ export default function IntakePage() {
               </CardContent>
             </Card>
 
+            {/* ---- Submit ---- */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
               <p className="text-xs text-neutral-400 max-w-sm">
                 I'll respond within 1–2 business days. Your information is only
@@ -599,7 +513,6 @@ export default function IntakePage() {
                 size="lg"
                 disabled={submitMutation.isPending}
                 className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
-                data-testid="button-submit"
               >
                 {submitMutation.isPending ? (
                   <>
@@ -616,21 +529,20 @@ export default function IntakePage() {
             </div>
           </form>
         </Form>
-
-        <footer className="border-t border-neutral-200 py-8 mt-12 text-center text-sm text-neutral-400">
-          <p>
-            Prefer to email directly?{" "}
-            <a
-              href="mailto:nathanielbaldock@gmail.com"
-              className="text-neutral-600 hover:text-neutral-900 transition-colors underline"
-            >
-              nathanielbaldock@gmail.com
-            </a>
-          </p>
-        </footer>
-          </>
-        )}
       </main>
+
+      {/* Minimal footer */}
+      <footer className="border-t border-neutral-200 py-8 px-6 text-center text-sm text-neutral-400">
+        <p>
+          Prefer to email directly?{" "}
+          <a
+            href="mailto:nathanielbaldock@gmail.com"
+            className="text-neutral-600 hover:text-neutral-900 transition-colors underline"
+          >
+            nathanielbaldock@gmail.com
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }

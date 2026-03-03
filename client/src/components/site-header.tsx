@@ -8,6 +8,9 @@ import { MobileNav } from "@/components/mobile-nav";
 const contentMax = "max-w-6xl";
 const ctaLabel = "Book a free 30-min consultation";
 
+/** When true (e.g. Vercel marketing-only), hide Sign In so app stays dormant. */
+const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
+
 export type PublicPage = "landing" | "about" | "speaking" | "resources" | "pricing" | "login";
 
 interface SiteHeaderProps {
@@ -44,9 +47,11 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
         </nav>
         <div className="flex items-center gap-3 flex-shrink-0 text-white/90 [&_button]:text-white/90 [&_button:hover]:text-white [&_a]:text-white/90 [&_a:hover]:text-white">
           <MobileNav />
-          <Link href="/login" className={`text-sm transition-colors duration-300 ${currentPage === "login" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            Sign In
-          </Link>
+          {!MARKETING_MODE && (
+            <Link href="/login" className={`text-sm transition-colors duration-300 ${currentPage === "login" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
+              Sign In
+            </Link>
+          )}
           <Button
             size="sm"
             variant="default"

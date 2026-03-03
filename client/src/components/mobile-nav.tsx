@@ -14,13 +14,16 @@ import {
 
 const ctaLabel = "Book a free 30-min consultation";
 
+/** When true (e.g. Vercel marketing-only), hide Sign In so app stays dormant. */
+const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
+
 const navLinks: { href: string; label: string }[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Me" },
   { href: "/speaking", label: "Speaking" },
   { href: "/resources", label: "Resources" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/login", label: "Sign In" },
+  ...(MARKETING_MODE ? [] : [{ href: "/login", label: "Sign In" }]),
 ];
 
 export function MobileNav() {

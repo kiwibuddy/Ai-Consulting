@@ -328,13 +328,23 @@ export default function ArticleOutsourcingHolySpirit() {
 
         <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
           <div className={`${contentMax} mx-auto flex flex-col sm:flex-row items-center justify-between gap-4`}>
-            <Link
-              href="/resources"
-              className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Resources
-            </Link>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/resources"
+                className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Resources
+              </Link>
+              <a
+                href="https://github.com/kiwibuddy/Ai-Consulting/edit/main/client/src/content/article-outsourcing-holy-spirit.ts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-neutral-500 hover:text-neutral-700 underline"
+              >
+                Edit this article
+              </a>
+            </div>
             <Button asChild>
               <a href="https://www.nathanielbaldock.com/#contact" className="tesoro-cta-gradient">
                 Book a free 30-min consultation

@@ -60,6 +60,8 @@ import { Analytics } from "@/components/analytics";
 import { PublicSiteLayout } from "@/components/public-site-layout";
 import { trackPageView } from "@/lib/analytics";
 
+// Route ownership: see client/src/config/routes.ts (PUBLIC_ROUTES vs APP_ROUTES for Marketing vs Full App mode).
+
 function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: "coach" | "client" }) {
   const { user, isLoading, isAuthenticated } = useAuth();
 
