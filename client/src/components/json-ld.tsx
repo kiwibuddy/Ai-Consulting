@@ -26,7 +26,7 @@ export function HomepageJsonLd() {
       { "@type": "City", name: "Tauranga" },
     ],
     serviceType: "AI Consulting",
-    image: `${SITE_URL}/hero.jpg`,
+    image: `${SITE_URL}/Nathaniel_Portrait.png`,
   };
 
   const personSchema = {
