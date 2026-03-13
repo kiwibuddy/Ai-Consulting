@@ -1,6 +1,7 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
+import { injectOgMeta } from "./og-meta";
 
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
@@ -12,8 +13,13 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("/{*path}", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+  const indexPath = path.resolve(distPath, "index.html");
+  const rawHtml = fs.readFileSync(indexPath, "utf-8");
+
+  // fall through to index.html if the file doesn't exist;
+  // inject per-route OG tags so social-media crawlers see the right preview
+  app.use("/{*path}", (req, res) => {
+    const html = injectOgMeta(rawHtml, req.path);
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
   });
 }
