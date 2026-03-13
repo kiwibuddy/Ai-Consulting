@@ -135,7 +135,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Separate research found that {{count:81}} percent of children aged 11 to 16 report using AI chatbots, and two out of three describe them as a friend (Constitutional Discourse, 2026). Two out of three. A Common Sense Media survey in 2025 found that one in three teenagers had used AI companions specifically for romantic interaction, emotional support, or relationship practice.",
+        text: "Separate research found that {{stat:81: percent}} of children aged 11 to 16 report using AI chatbots, and two out of three describe them as a friend (Constitutional Discourse, 2026). Two out of three. A Common Sense Media survey in 2025 found that one in three teenagers had used AI companions specifically for romantic interaction, emotional support, or relationship practice.",
       },
       {
         type: "paragraph",
@@ -185,11 +185,11 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "The National Center for Missing and Exploited Children reported that AI-generated child sexual abuse images went from {{count:4700}} reports to their tipline in 2023 to over {{count:440000}} in just the first six months of 2025 — a rise of more than {{count:6000}} percent in two years (NCMEC, 2025). \"Nudify\" apps — which transform ordinary photos into explicit images — require no technical skill and are freely available. A photo from a school trip, a sports game, a birthday party — any image a teenager has posted online can become source material.",
+        text: "The National Center for Missing and Exploited Children reported that AI-generated child sexual abuse images went from {{stat:4700: reports}} to their tipline in 2023 to over {{stat:440000:}} in just the first six months of 2025 — a rise of more than {{stat:6000: percent}} in two years (NCMEC, 2025). \"Nudify\" apps — which transform ordinary photos into explicit images — require no technical skill and are freely available. A photo from a school trip, a sports game, a birthday party — any image a teenager has posted online can become source material.",
       },
       {
         type: "paragraph",
-        text: "In 2025 alone, at least {{count:1.2}} million young people reported that their images had been manipulated in this way. The girls in one Iowa high school who discovered AI-generated nude images of {{count:44}} of their classmates circulating online issued a public statement: \"We are teenage girls who should have been enjoying our last few months of school. Instead, we've been forced to take matters into our own hands.\"",
+        text: "In 2025 alone, at least {{stat:1.2: million}} young people reported that their images had been manipulated in this way. The girls in one Iowa high school who discovered AI-generated nude images of {{stat:44:}} of their classmates circulating online issued a public statement: \"We are teenage girls who should have been enjoying our last few months of school. Instead, we've been forced to take matters into our own hands.\"",
       },
       {
         type: "paragraph",

@@ -80,7 +80,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "What I didn't notice until much later was what was happening underneath. The fatigue had become structural. It wasn't the tiredness of a hard week — it was a deeper, bone-level exhaustion that didn't lift on weekends. Research from a Harvard Business Review study of nearly {{count:1500}} full-time workers has confirmed what I was experiencing in my own body: cognitive exhaustion from AI use is, in their words, \"both real and significant.\" A separate eight-month study inside a US technology company found something even more sobering — AI tools don't actually reduce work. They consistently intensify it. One developer in that study put it plainly: he had shipped more code that quarter than any quarter in his career. He had also felt more drained than any quarter in his career.",
+        text: "What I didn't notice until much later was what was happening underneath. The fatigue had become structural. It wasn't the tiredness of a hard week — it was a deeper, bone-level exhaustion that didn't lift on weekends. Research from a Harvard Business Review study of nearly {{stat:1500: full-time workers}} has confirmed what I was experiencing in my own body: cognitive exhaustion from AI use is, in their words, \"both real and significant.\" A separate eight-month study inside a US technology company found something even more sobering — AI tools don't actually reduce work. They consistently intensify it. One developer in that study put it plainly: he had shipped more code that quarter than any quarter in his career. He had also felt more drained than any quarter in his career.",
       },
       {
         type: "punchline",

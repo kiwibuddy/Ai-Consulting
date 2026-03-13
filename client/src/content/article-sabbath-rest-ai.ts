@@ -93,7 +93,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "By 2026, we know what actually happened. The autonomous AI systems we've built don't sleep. They run 24/7. And because our digital counterparts never stop, the implicit expectation has become that we shouldn't either. A Harvard Business Review study of {{count:1488}} full-time workers found that cognitive exhaustion from AI is \"both real and significant\" — AI reduces the cost of production but consistently increases the cost of coordination, review, and decision-making. We are not doing less. We are doing different work — managing a relentless stream of synthetic output — and it is grinding people down in ways that feel new but are spiritually very old.",
+        text: "By 2026, we know what actually happened. The autonomous AI systems we've built don't sleep. They run 24/7. And because our digital counterparts never stop, the implicit expectation has become that we shouldn't either. A Harvard Business Review study of {{stat:1488: full-time workers}} found that cognitive exhaustion from AI is \"both real and significant\" — AI reduces the cost of production but consistently increases the cost of coordination, review, and decision-making. We are not doing less. We are doing different work — managing a relentless stream of synthetic output — and it is grinding people down in ways that feel new but are spiritually very old.",
       },
       {
         type: "paragraph",

@@ -10,9 +10,10 @@ import {
   animate as fmAnimate,
 } from "framer-motion";
 
-/* ================================================================
-   Shared block type used across all article content files.
-   ================================================================ */
+const COLOR_STAT = "hsl(142, 76%, 42%)";
+const COLOR_QUOTE = "hsl(38, 80%, 50%)";
+const COLOR_PUNCHLINE = "hsl(215, 40%, 50%)";
+
 export type AnimatedArticleBlock =
   | { type: "paragraph"; text: string }
   | { type: "punchline"; text: string }
@@ -21,8 +22,9 @@ export type AnimatedArticleBlock =
   | { type: "subheading"; text: string };
 
 /* ================================================================
-   A — WORD REVEAL  (punchline sentences)
-   Words slide up from behind a mask with staggered timing.
+   A — WORD REVEAL + COLOR FADE  (punchline sentences)
+   Words slide up with stagger, text fades to slate blue.
+   Same font size as body text.
    ================================================================ */
 export function WordReveal({
   text,
@@ -36,13 +38,23 @@ export function WordReveal({
   const reducedMotion = useReducedMotion();
 
   if (reducedMotion) {
-    return <p className={className}>{text}</p>;
+    return (
+      <p className={className} style={{ color: COLOR_PUNCHLINE }}>
+        {text}
+      </p>
+    );
   }
 
   const words = text.split(/\s+/);
 
   return (
-    <p ref={ref} className={className}>
+    <motion.p
+      ref={ref}
+      className={className}
+      initial={{ color: "#404040" }}
+      animate={inView ? { color: COLOR_PUNCHLINE } : {}}
+      transition={{ duration: 1.2, delay: words.length * 0.035 * 0.5, ease: "easeOut" }}
+    >
       {words.map((word, i) => (
         <React.Fragment key={i}>
           <span className="inline-block overflow-hidden align-bottom pb-[3px]">
@@ -66,23 +78,23 @@ export function WordReveal({
           {i < words.length - 1 && " "}
         </React.Fragment>
       ))}
-    </p>
+    </motion.p>
   );
 }
 
 /* ================================================================
    B — ANIMATED COUNTER  (statistics)
-   Parses {{count:NUMBER}} markers in text and animates numbers.
+   Parses {{stat:NUMBER:suffix}} markers.
+   The number + suffix are styled together in green.
+   All numbers count up regardless of size.
    ================================================================ */
-function parseStatSegments(
-  text: string,
-): Array<
-  { type: "text"; value: string } | { type: "count"; value: number }
-> {
-  const regex = /\{\{count:(\d+(?:\.\d+)?)\}\}/g;
-  const segments: Array<
-    { type: "text"; value: string } | { type: "count"; value: number }
-  > = [];
+type StatSegment =
+  | { type: "text"; value: string }
+  | { type: "stat"; number: number; suffix: string };
+
+function parseStatSegments(text: string): StatSegment[] {
+  const regex = /\{\{stat:(\d+(?:\.\d+)?):([^}]*)\}\}/g;
+  const segments: StatSegment[] = [];
   let lastIndex = 0;
   let match;
 
@@ -90,7 +102,11 @@ function parseStatSegments(
     if (match.index > lastIndex) {
       segments.push({ type: "text", value: text.slice(lastIndex, match.index) });
     }
-    segments.push({ type: "count", value: parseFloat(match[1]) });
+    segments.push({
+      type: "stat",
+      number: parseFloat(match[1]),
+      suffix: match[2],
+    });
     lastIndex = match.index + match[0].length;
   }
 
@@ -128,16 +144,21 @@ function AnimatedCount({ value }: { value: number }) {
         : Number.isInteger(value)
           ? value.toString()
           : value.toFixed(1);
-    return <span className="font-semibold text-[hsl(142,76%,42%)] tabular-nums">{formatted}</span>;
+    return <span>{formatted}</span>;
   }
 
+  return <motion.span ref={ref}>{display}</motion.span>;
+}
+
+function StatPhrase({ number, suffix }: { number: number; suffix: string }) {
   return (
-    <motion.span
-      ref={ref}
-      className="font-semibold text-[hsl(142,76%,42%)] tabular-nums"
+    <span
+      className="font-semibold tabular-nums"
+      style={{ color: COLOR_STAT }}
     >
-      {display}
-    </motion.span>
+      <AnimatedCount value={number} />
+      {suffix}
+    </span>
   );
 }
 
@@ -156,7 +177,7 @@ export function StatParagraph({
         seg.type === "text" ? (
           <React.Fragment key={i}>{seg.value}</React.Fragment>
         ) : (
-          <AnimatedCount key={i} value={seg.value} />
+          <StatPhrase key={i} number={seg.number} suffix={seg.suffix} />
         ),
       )}
     </p>
@@ -164,8 +185,9 @@ export function StatParagraph({
 }
 
 /* ================================================================
-   C — HIGHLIGHT QUOTE  (attributed quotes)
-   Background highlight sweeps left-to-right on scroll.
+   C — QUOTE COLOR FADE  (attributed quotes)
+   Text fades from neutral to warm amber on scroll.
+   Border uses amber. No larger font.
    ================================================================ */
 export function HighlightQuote({
   text,
@@ -181,14 +203,15 @@ export function HighlightQuote({
   return (
     <blockquote
       ref={ref}
-      className="my-8 pl-6 border-l-4 border-[hsl(142,76%,42%)]/60 relative overflow-hidden rounded-r-lg"
+      className="my-8 pl-6 relative overflow-hidden rounded-r-lg"
+      style={{ borderLeft: `4px solid ${COLOR_QUOTE}60` }}
     >
       <div className="relative">
         <motion.div
-          className="absolute inset-0 bg-[hsl(142,76%,42%)]/[0.06]"
+          className="absolute inset-0 rounded-r-lg"
           initial={reducedMotion ? { scaleX: 1 } : { scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
-          style={{ transformOrigin: "left" }}
+          style={{ transformOrigin: "left", backgroundColor: `${COLOR_QUOTE}0F` }}
           transition={{
             duration: 0.8,
             ease: [0.25, 0.4, 0.25, 1],
@@ -196,10 +219,10 @@ export function HighlightQuote({
           }}
         />
         <motion.p
-          className="relative text-neutral-800 text-lg italic leading-relaxed py-3 pr-4 [text-wrap:balance]"
-          initial={reducedMotion ? {} : { opacity: 0.4 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          className="relative text-lg italic leading-relaxed py-3 pr-4 [text-wrap:balance]"
+          initial={reducedMotion ? { color: COLOR_QUOTE } : { color: "#525252" }}
+          animate={inView ? { color: COLOR_QUOTE } : {}}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
         >
           &ldquo;{text}&rdquo;
         </motion.p>
@@ -219,8 +242,61 @@ export function HighlightQuote({
 }
 
 /* ================================================================
+   INLINE QUOTE DETECTION  (for quotes within paragraphs)
+   Detects "quoted text" within paragraphs and applies amber fade.
+   ================================================================ */
+function InlineQuoteSpan({ text }: { text: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reducedMotion = useReducedMotion();
+
+  return (
+    <motion.span
+      ref={ref}
+      className="italic"
+      initial={reducedMotion ? { color: COLOR_QUOTE } : { color: "#525252" }}
+      animate={inView ? { color: COLOR_QUOTE } : {}}
+      transition={{ duration: 1.0, ease: "easeOut" }}
+    >
+      &ldquo;{text}&rdquo;
+    </motion.span>
+  );
+}
+
+function parseInlineQuotes(text: string): React.ReactNode[] {
+  const regex = /["\u201C]([^"\u201D]+)["\u201D]/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match;
+  let key = 0;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(
+        <React.Fragment key={key++}>
+          {text.slice(lastIndex, match.index)}
+        </React.Fragment>,
+      );
+    }
+    parts.push(<InlineQuoteSpan key={key++} text={match[1]} />);
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(
+      <React.Fragment key={key++}>{text.slice(lastIndex)}</React.Fragment>,
+    );
+  }
+
+  return parts;
+}
+
+function hasInlineQuotes(text: string): boolean {
+  return /["\u201C][^"\u201D]+["\u201D]/.test(text);
+}
+
+/* ================================================================
    D — STAGGER DISCUSSION  (discussion questions)
-   Each question slides in with staggered delay.
    ================================================================ */
 export function StaggerDiscussion({
   questions,
@@ -237,7 +313,8 @@ export function StaggerDiscussion({
       className="my-10 p-6 rounded-2xl bg-neutral-100 border border-neutral-200"
     >
       <motion.h4
-        className="text-sm font-semibold uppercase tracking-wider text-[hsl(142,76%,42%)] mb-4"
+        className="text-sm font-semibold uppercase tracking-wider mb-4"
+        style={{ color: COLOR_STAT }}
         initial={reducedMotion ? {} : { opacity: 0, y: 8 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.4 }}
@@ -267,7 +344,6 @@ export function StaggerDiscussion({
 
 /* ================================================================
    E — SHIMMER HEADING  (section headings)
-   Green gradient sweeps across text once on scroll-in.
    ================================================================ */
 export function ShimmerHeading({
   children,
@@ -302,7 +378,6 @@ export function ShimmerHeading({
 
 /* ================================================================
    SHARED BLOCK RENDERER
-   Drop-in replacement for per-page BlockContent functions.
    ================================================================ */
 const PARAGRAPH_CLS =
   "text-neutral-700 leading-relaxed text-lg mb-8 [text-wrap:balance]";
@@ -314,8 +389,13 @@ export function AnimatedBlockContent({
 }) {
   switch (block.type) {
     case "paragraph":
-      if (/\{\{count:\d/.test(block.text)) {
+      if (/\{\{stat:\d/.test(block.text)) {
         return <StatParagraph text={block.text} className={PARAGRAPH_CLS} />;
+      }
+      if (hasInlineQuotes(block.text)) {
+        return (
+          <p className={PARAGRAPH_CLS}>{parseInlineQuotes(block.text)}</p>
+        );
       }
       return <p className={PARAGRAPH_CLS}>{block.text}</p>;
 
@@ -323,7 +403,7 @@ export function AnimatedBlockContent({
       return (
         <WordReveal
           text={block.text}
-          className={`${PARAGRAPH_CLS} font-medium text-neutral-900 text-xl`}
+          className={`${PARAGRAPH_CLS} font-medium`}
         />
       );
 

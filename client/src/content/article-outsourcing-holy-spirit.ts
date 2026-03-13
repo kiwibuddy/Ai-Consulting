@@ -95,7 +95,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "A massive tension is playing out right now. On one hand, Barna Group research shows that {{count:77}}% of pastors believe God can work through AI. At the same time, there is a surge in Bible reading among Gen Z and Millennials—nearly 50% are engaging with Scripture weekly, the highest rate seen in over a decade. That sounds like extraordinary news.",
+        text: "A massive tension is playing out right now. On one hand, Barna Group research shows that {{stat:77:% of pastors}} believe God can work through AI. At the same time, there is a surge in Bible reading among Gen Z and Millennials—nearly 50% are engaging with Scripture weekly, the highest rate seen in over a decade. That sounds like extraordinary news.",
       },
       {
         type: "paragraph",
@@ -121,7 +121,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "The adoption numbers have gone vertical. Data from David Scotford's research for the London School of Economics tells the story clearly. In 2023, only about {{count:19}}% of church leaders were using AI on a daily or weekly basis. By 2024, that number jumped to {{count:43}}%. By 2025, it reached {{count:61}}%.",
+        text: "The adoption numbers have gone vertical. Data from David Scotford's research for the London School of Economics tells the story clearly. In 2023, only about {{stat:19:%}} of church leaders were using AI on a daily or weekly basis. By 2024, that number jumped to {{stat:43:%}}. By 2025, it reached {{stat:61:%}}.",
       },
       {
         type: "quote",
@@ -130,7 +130,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "That adoption is not just for scheduling the pot luck. Barna research shows that while {{count:88}}% of pastors are comfortable using AI for graphic design and marketing—which makes total sense, save time on the bulletin—there is a sharp divide when it comes to spiritual tasks.",
+        text: "That adoption is not just for scheduling the pot luck. Barna research shows that while {{stat:88:% of pastors}} are comfortable using AI for graphic design and marketing—which makes total sense, save time on the bulletin—there is a sharp divide when it comes to spiritual tasks.",
       },
       {
         type: "quote",
@@ -355,7 +355,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Loneliness is the fuel for that engine. Barna research shows loneliness is skyrocketing among Gen Z. So they turn to this synthetic cure. WifiTalents data found that {{count:50}}% of Gen Z Christian music fans prefer AI-personalised devotional experiences. They want the faith experience tailored exactly to their preferences. It is the Spotify-fication of God.",
+        text: "Loneliness is the fuel for that engine. Barna research shows loneliness is skyrocketing among Gen Z. So they turn to this synthetic cure. WifiTalents data found that {{stat:50:%}} of Gen Z Christian music fans prefer AI-personalised devotional experiences. They want the faith experience tailored exactly to their preferences. It is the Spotify-fication of God.",
       },
       {
         type: "paragraph",
@@ -367,7 +367,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "And here is a paradox. Barna/Gloo data from the State of the Church 2025 initiative shows that weekly Bible reading has surged by {{count:12}} points, largely driven by young men—Gen Z men now read weekly at {{count:54}}%, Millennial men at {{count:57}}%. But—and this is a significant \"but\"—belief in the Bible's accuracy has dropped to just {{count:36}}%. They are reading it, but they do not trust it. Or more precisely: are they reading the Bible, or are they reading AI summaries of the Bible? \"ChatGPT, summarise Romans 8 for me and make it encouraging.\" If that is what is happening, the reading statistic is misleading.",
+        text: "And here is a paradox. Barna/Gloo data from the State of the Church 2025 initiative shows that weekly Bible reading has surged by {{stat:12: points}}, largely driven by young men—Gen Z men now read weekly at {{stat:54:%}}, Millennial men at {{stat:57:%}}. But—and this is a significant \"but\"—belief in the Bible's accuracy has dropped to just {{stat:36:%}}. They are reading it, but they do not trust it. Or more precisely: are they reading the Bible, or are they reading AI summaries of the Bible? \"ChatGPT, summarise Romans 8 for me and make it encouraging.\" If that is what is happening, the reading statistic is misleading.",
       },
       {
         type: "paragraph",

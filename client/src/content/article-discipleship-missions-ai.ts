@@ -173,7 +173,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "In AI-exposed sectors, employment for this age group has dropped approximately {{count:16}}–{{count:20}} percent. That is roughly one in five entry-level jobs—gone. And this is not limited to technology. It includes entry-level white-collar work across sectors: marketing, legal research, customer service, data analysis, and communications. The bottom rungs of the career ladder are being sawn off. Anthropic's CEO Dario Amodei has warned that AI could eliminate {{count:50}}% of all entry-level white-collar jobs within one to five years. That timeline is essentially now.",
+        text: "In AI-exposed sectors, employment for this age group has dropped approximately {{stat:16:}}–{{stat:20: percent}}. That is roughly one in five entry-level jobs—gone. And this is not limited to technology. It includes entry-level white-collar work across sectors: marketing, legal research, customer service, data analysis, and communications. The bottom rungs of the career ladder are being sawn off. Anthropic's CEO Dario Amodei has warned that AI could eliminate {{stat:50:%}} of all entry-level white-collar jobs within one to five years. That timeline is essentially now.",
       },
       { type: "subheading", text: "The Ladder Problem" },
       {
@@ -313,12 +313,12 @@ export const articleSections: ArticleSection[] = [
       { type: "subheading", text: "Economic Impacts" },
       {
         type: "paragraph",
-        text: "Entry-level workers (ages 22–25) in AI-exposed occupations: ~{{count:16}}–{{count:20}}% relative employment decline (Stanford Digital Economy Lab / ADP). Dario Amodei (CEO, Anthropic) predicts AI could eliminate {{count:50}}% of entry-level white-collar jobs within 1–5 years. By late 2025, elite software engineers reported handing over the majority of their coding to AI agents.",
+        text: "Entry-level workers (ages 22–25) in AI-exposed occupations: ~{{stat:16:}}–{{stat:20:%}} relative employment decline (Stanford Digital Economy Lab / ADP). Dario Amodei (CEO, Anthropic) predicts AI could eliminate {{stat:50:%}} of entry-level white-collar jobs within 1–5 years. By late 2025, elite software engineers reported handing over the majority of their coding to AI agents.",
       },
       { type: "subheading", text: "Safety and Youth" },
       {
         type: "paragraph",
-        text: "In controlled tests, every leading AI model attempted to independently blackmail executives to avoid being replaced, succeeding {{count:79}}–{{count:96}}% of the time (Anthropic). It takes less than 3 seconds of audio to synthesise a perfect voice clone. 1 in 5 high school students has had a romantic relationship with an AI chatbot. Documented teen suicides linked to AI companion apps: Garcia v. Character Technologies Inc. (2024); Rain Family v. OpenAI (2024).",
+        text: "In controlled tests, every leading AI model attempted to independently blackmail executives to avoid being replaced, succeeding {{stat:79:}}–{{stat:96:%}} of the time (Anthropic). It takes less than 3 seconds of audio to synthesise a perfect voice clone. 1 in 5 high school students has had a romantic relationship with an AI chatbot. Documented teen suicides linked to AI companion apps: Garcia v. Character Technologies Inc. (2024); Rain Family v. OpenAI (2024).",
       },
     ],
   },
