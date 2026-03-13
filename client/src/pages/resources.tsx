@@ -15,6 +15,7 @@ import {
 import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
+import { PageSEO } from "@/components/page-seo";
 
 /** Articles sorted newest first for display. */
 const articlesByNewest = [...articles].sort(
@@ -32,6 +33,11 @@ function isExternalUrl(url: string) {
 export default function ResourcesPage() {
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+      <PageSEO
+        title="AI & Faith Resources — Articles on AI for Churches, Christian Education & Missions"
+        description="Articles and essays on artificial intelligence from a Christian perspective. AI ethics for churches, digital discipleship, AI in education, parenting in the age of AI, and more. By Nathaniel Baldock."
+        canonicalPath="/resources"
+      />
       <SiteHeader currentPage="resources" />
 
       {/* Hero */}

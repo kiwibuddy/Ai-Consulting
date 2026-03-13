@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { latestFromNathaniel } from "@/content/latest";
 import { HomepageJsonLd } from "@/components/json-ld";
+import { PageSEO } from "@/components/page-seo";
 
 // Problems I solve — the real AI challenge leaders face
 const problemsContent = {
@@ -133,6 +134,11 @@ export default function LandingPage() {
 
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <PageSEO
+        title="AI Consultant Tauranga | AI Consulting for Churches, Schools & Nonprofits — New Zealand & Global"
+        description="Nathaniel Baldock helps churches, Christian schools, and mission organisations navigate AI with clarity. Strategy, training, and advisory rooted in faith. Based in Tauranga, NZ — serving globally."
+        canonicalPath="/"
+      />
       <HomepageJsonLd />
       <SiteHeader currentPage="landing" />
       <div className="overflow-x-hidden">

@@ -8,7 +8,7 @@ export const articleMeta = {
   title: "Why Your Soul Needs the Struggle: The Spiritual Danger of an AI Life",
   subtitle: "AI wasn't just removing friction from my work. It was offering me the chance to be like God.",
   description:
-    "Why your soul needs the struggle: the spiritual danger of a frictionless AI life. Grace is not opposed to effort. How to fight for your humanness in the age of optimisation. By Nathaniel Baldock, AI consultant New Zealand.",
+    "The spiritual danger of letting AI remove all friction from life. Why struggle, effort, and limitation are essential to Christian formation. A faith-based reflection on AI dependence, human identity, and what we lose when we optimise away the hard parts of being human.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-25",

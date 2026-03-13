@@ -26,6 +26,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
+import { PageSEO } from "@/components/page-seo";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { ArrowRight, Loader2, Mic2, CalendarDays, Users } from "lucide-react";
@@ -238,6 +239,11 @@ export function SpeakingFormContent({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <>
+      <PageSEO
+        title="Invite Nathaniel Baldock to Speak — AI, Faith & Technology Keynotes"
+        description="Book Nathaniel Baldock as a speaker for your church, conference, or Christian school. Keynotes and workshops on AI and faith, digital discipleship, technology ethics, and navigating AI as a Christian leader."
+        canonicalPath="/speaking"
+      />
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
             Invite me to speak

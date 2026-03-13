@@ -8,7 +8,7 @@ export const articleMeta = {
   title: "Raising Humans in the Age of the Digital God",
   subtitle: "What Every Christian Parent Needs to Know About AI",
   description:
-    "Understanding the Technology, Protecting Hearts, and Discipling the Next Generation. A Christian perspective on AI, parenting, and the spiritual stakes of the digital age. By Nathaniel Baldock, AI consultant New Zealand.",
+    "A Christian parent's guide to AI: how artificial intelligence is shaping childhood, what the Bible says about raising kids in a digital world, and practical steps to protect hearts while discipling the next generation. AI and faith perspectives for families.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-19",

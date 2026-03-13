@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
+import { PageSEO } from "@/components/page-seo";
 import {
   staggerRevealContainerVariants,
   staggerRevealItemVariants,
@@ -20,6 +21,11 @@ const aboutContent = [
 export default function AboutPage() {
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+      <PageSEO
+        title="About Nathaniel Baldock — AI Consultant for Faith-Based Organisations"
+        description="20+ years in global missions with YWAM, now helping churches, schools, and nonprofits navigate AI. Based in Tauranga, New Zealand — consulting globally on AI strategy, ethics, and discipleship."
+        canonicalPath="/about"
+      />
       <SiteHeader currentPage="about" />
 
       <main className={`pt-28 pb-20 ${sectionPadding}`}>

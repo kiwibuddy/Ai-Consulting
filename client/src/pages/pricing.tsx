@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { PageSEO } from "@/components/page-seo";
 import {
   fadeUpRevealVariants,
   staggerRevealContainerVariants,
@@ -18,6 +19,11 @@ const ctaLabel = "Book a free 30-min consultation";
 export default function PricingPage() {
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+      <PageSEO
+        title="AI Consulting Pricing — Workshops, Strategy Sessions & Speaking for Churches and Schools"
+        description="Transparent pricing for AI consulting, workshops, and keynote speaking. Tailored for churches, Christian schools, nonprofits, and mission organisations. Free 30-minute discovery call available."
+        canonicalPath="/pricing"
+      />
       <SiteHeader currentPage="pricing" />
 
       <main className={`pt-28 pb-20 ${sectionPadding}`}>

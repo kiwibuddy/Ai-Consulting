@@ -8,7 +8,7 @@ export const articleMeta = {
   title: "Discipleship and Missions in an AI Age",
   subtitle: "A Strategic Briefing for Pastors, Mission Leaders, and Christian Educators",
   description:
-    "Understanding the Intelligence Explosion, the Broken Ladder, the Intimacy Economy, and what it all means for the Great Commission. For pastors, mission leaders, and Christian educators. Nathaniel Baldock — AI consultant Tauranga, NZ.",
+    "How AI is transforming global missions and Christian discipleship. A strategic briefing for pastors, mission leaders, and Christian educators on the intelligence explosion, AI in ministry, and what it means for the Great Commission in 2026 and beyond.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-19",

@@ -27,6 +27,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
 import { SiteHeader } from "@/components/site-header";
+import { PageSEO } from "@/components/page-seo";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import {
@@ -233,6 +234,11 @@ export default function IntakePage() {
 
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <PageSEO
+        title="Book a Free AI Consultation — Nathaniel Baldock AI Consulting"
+        description="Book a free 30-minute AI consultation for your church, school, or nonprofit. Get practical guidance on AI strategy, policy, and implementation from a faith-based AI consultant."
+        canonicalPath="/intake"
+      />
       <SiteHeader />
       <main className="public-form-light max-w-3xl mx-auto px-6 pt-28 pb-12 md:pb-16">
         {/* Sliding switcher: same green as CTA, other option plain text; pill slides on click */}

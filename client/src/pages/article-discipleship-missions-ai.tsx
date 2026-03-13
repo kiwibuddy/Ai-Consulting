@@ -16,6 +16,7 @@ import {
 import { AnimatedBlockContent, ShimmerHeading } from "@/components/article-animations";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import { ArticleShare } from "@/components/article-share";
+import { PageSEO } from "@/components/page-seo";
 import {
   staggerRevealContainerVariants,
   staggerRevealItemVariants,
@@ -25,67 +26,6 @@ import {
 
 const contentMax = "max-w-3xl";
 const sectionPadding = "py-8 md:py-12 px-6 md:px-8";
-
-function ArticleSEO() {
-  const { title, description, author, publishedDate, image, canonicalUrl } = articleMeta;
-  const fullImageUrl = image.startsWith("http") ? image : `https://www.nathanielbaldock.com${image}`;
-
-  useEffect(() => {
-    document.title = `${title} — Nathaniel Baldock`;
-    const setMeta = (name: string, content: string, isProperty = false) => {
-      const attr = isProperty ? "property" : "name";
-      let el = document.querySelector(`meta[${attr}="${name}"]`) as HTMLMetaElement | null;
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta("description", description);
-    setMeta("og:title", title, true);
-    setMeta("og:description", description, true);
-    setMeta("og:image", fullImageUrl, true);
-    setMeta("og:url", canonicalUrl, true);
-    setMeta("og:type", "article", true);
-    setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", description);
-    setMeta("twitter:image", fullImageUrl);
-
-    const linkCanonical =
-      (document.querySelector('link[rel="canonical"]') as HTMLLinkElement) || document.createElement("link");
-    linkCanonical.rel = "canonical";
-    linkCanonical.href = canonicalUrl;
-    if (!document.querySelector('link[rel="canonical"]')) document.head.appendChild(linkCanonical);
-
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: title,
-      description,
-      author: { "@type": "Person", name: author, url: articleMeta.authorUrl },
-      datePublished: publishedDate,
-      dateModified: articleMeta.modifiedDate,
-      image: fullImageUrl,
-      publisher: { "@type": "Organization", name: "Nathaniel Baldock", url: "https://www.nathanielbaldock.com" },
-    };
-    let script = document.getElementById("article-jsonld") as HTMLScriptElement | null;
-    if (!script) {
-      script = document.createElement("script");
-      script.id = "article-jsonld";
-      script.type = "application/ld+json";
-      document.head.appendChild(script);
-    }
-    script.textContent = JSON.stringify(jsonLd);
-
-    return () => {
-      document.title = "Nathaniel Baldock — AI Consulting for Faith, Education & Impact";
-    };
-  }, [title, description, author, publishedDate, image, canonicalUrl, fullImageUrl]);
-
-  return null;
-}
 
 function ReadingProgress() {
   const [progress, setProgress] = useState(0);
@@ -216,7 +156,19 @@ export default function ArticleDiscipleshipMissionsAi() {
       data-theme="site"
       className="min-h-screen bg-neutral-50 text-neutral-900 font-sans overflow-x-hidden"
     >
-      <ArticleSEO />
+      <PageSEO
+        title={articleMeta.title}
+        description={articleMeta.description}
+        canonicalPath={`/resources/${articleMeta.slug}`}
+        image={articleMeta.image}
+        ogType="article"
+        article={{
+          author: articleMeta.author,
+          authorUrl: articleMeta.authorUrl,
+          publishedDate: articleMeta.publishedDate,
+          modifiedDate: articleMeta.modifiedDate,
+        }}
+      />
       <ReadingProgress />
       <ArticleSummaryModal
         open={summaryOpen}

@@ -8,7 +8,7 @@ export const articleMeta = {
   title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
   subtitle: "One in eight teens use AI for mental health advice. Two in three call it a friend. The 2am conversation is changing — and so must we.",
   description:
-    "When your teen's best friend is an algorithm: what parents and youth leaders need to know. AI companions, mental health risks, Character.AI, and how to out-human the algorithm. By Nathaniel Baldock, AI consultant New Zealand.",
+    "Teens and AI companions: what Christian parents and youth leaders need to know. How Character.AI and AI chatbots affect teen mental health, why kids prefer algorithms to adults, and practical ways to out-human the technology. AI safety for families.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-26",
