@@ -140,15 +140,17 @@ function injectMeta(html: string, routePath: string, meta: PageMeta): string {
 }
 
 // ── Main ───────────────────────────────────────────────────────────────
+// Generate .html files (not directory/index.html) so Vercel's cleanUrls
+// maps /foo → foo.html before the SPA rewrite catches it.
 
 const indexHtml = fs.readFileSync(path.join(DIST, "index.html"), "utf-8");
 let count = 0;
 
 for (const [route, meta] of Object.entries(pages)) {
-  const dir = path.join(DIST, route);
-  fs.mkdirSync(dir, { recursive: true });
+  const parentDir = path.join(DIST, path.dirname(route));
+  fs.mkdirSync(parentDir, { recursive: true });
 
-  const outPath = path.join(dir, "index.html");
+  const outPath = path.join(DIST, `${route}.html`);
   fs.writeFileSync(outPath, injectMeta(indexHtml, route, meta), "utf-8");
   count++;
 }

@@ -2,6 +2,7 @@
   "buildCommand": "npm run build:client",
   "outputDirectory": "dist/public",
   "framework": null,
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/((?!assets/|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|css|js|json|woff2?|manifest\\.json)).*)", "destination": "/index.html" }
   ],
