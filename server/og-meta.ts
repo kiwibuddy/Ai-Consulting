@@ -74,14 +74,14 @@ const articlePages: Record<string, PageMeta> = {
     ogType: "article",
   },
   "/resources/sabbath-rest-in-the-age-of-ai": {
-    title: "Sabbath Rest in the Age of AI: Why Christians Must Learn to Stop",
+    title: "Reclaiming the Sabbath in an Always-On World",
     description:
       "Why Sabbath rest matters more than ever in the age of AI. Explores AI fatigue, digital burnout, the biblical theology of human limits, and why Christians must reclaim rest as resistance in an always-on world. A Christian perspective on technology and rest.",
     image: `${SITE}/images/sabbath-rest-header.png`,
     ogType: "article",
   },
   "/resources/why-your-soul-needs-the-struggle": {
-    title: "Why Your Soul Needs the Struggle: The Spiritual Danger of an AI Life",
+    title: "The Danger of Frictionless Faith: Why the Soul Needs the Struggle",
     description:
       "The spiritual danger of letting AI remove all friction from life. Why struggle, effort, and limitation are essential to Christian formation. A faith-based reflection on AI dependence, human identity, and what we lose when we optimise away the hard parts of being human.",
     image: `${SITE}/images/beach-coal-fire.jpg`,

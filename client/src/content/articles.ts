@@ -22,8 +22,9 @@ export const articles: ArticleItem[] = [
   },
   {
     id: "sabbath-rest-ai",
-    title: "Sabbath Rest in the Age of AI: Why Christians Must Learn to Stop",
-    excerpt: "Why the always-on life is a spiritual problem. AI fatigue, the difference between a day off and real rest, and a theology of human limits.",
+    title: "Reclaiming the Sabbath in an Always-On World",
+    excerpt:
+      "AI hasn't just made us faster. It has trained us to live at a pace our souls cannot sustain. This article explores AI fatigue, a theology of human limits, and why practicing Sabbath is a radical act of trust in an always-on world.",
     url: "/resources/sabbath-rest-in-the-age-of-ai",
     date: "2026-02-25",
     readTime: "12 min",
@@ -32,8 +33,9 @@ export const articles: ArticleItem[] = [
   },
   {
     id: "soul-needs-struggle",
-    title: "Why Your Soul Needs the Struggle: The Spiritual Danger of an AI Life",
-    excerpt: "AI wasn't just removing friction from my work. It was offering me the chance to be like God. Grace is not opposed to effort — how to fight for your humanness.",
+    title: "The Danger of Frictionless Faith: Why the Soul Needs the Struggle",
+    excerpt:
+      "AI promises to smooth out every rough edge of life, but the friction it removes is the very space where God forms us. This article looks at hurry, effort, and why becoming \"post-human\" is a spiritual dead end.",
     url: "/resources/why-your-soul-needs-the-struggle",
     date: "2026-02-25",
     readTime: "14 min",

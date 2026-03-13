@@ -5,8 +5,8 @@
 
 export const articleMeta = {
   slug: "sabbath-rest-in-the-age-of-ai",
-  title: "Sabbath Rest in the Age of AI: Why Christians Must Learn to Stop",
-  subtitle: "Why the always-on life is a spiritual problem — and what to do about it",
+  title: "Reclaiming the Sabbath in an Always-On World",
+  subtitle: "Why the always-on life is a spiritual problem — and what to do about it in the age of AI",
   description:
     "Why Sabbath rest matters more than ever in the age of AI. Explores AI fatigue, digital burnout, the biblical theology of human limits, and why Christians must reclaim rest as resistance in an always-on world. A Christian perspective on technology and rest.",
   author: "Nathaniel Baldock",

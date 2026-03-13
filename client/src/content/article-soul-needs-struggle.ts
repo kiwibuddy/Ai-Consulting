@@ -5,7 +5,7 @@
 
 export const articleMeta = {
   slug: "why-your-soul-needs-the-struggle",
-  title: "Why Your Soul Needs the Struggle: The Spiritual Danger of an AI Life",
+  title: "The Danger of Frictionless Faith: Why the Soul Needs the Struggle",
   subtitle: "AI wasn't just removing friction from my work. It was offering me the chance to be like God.",
   description:
     "The spiritual danger of letting AI remove all friction from life. Why struggle, effort, and limitation are essential to Christian formation. A faith-based reflection on AI dependence, human identity, and what we lose when we optimise away the hard parts of being human.",
