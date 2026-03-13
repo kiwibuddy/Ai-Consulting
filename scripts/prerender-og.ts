@@ -68,27 +68,6 @@ const pages: Record<string, PageMeta> = {
   },
 
   // Articles
-  "/resources/raising-humans-in-the-age-of-the-digital-god": {
-    title: "Raising Humans in the Age of the Digital God",
-    description:
-      "A Christian parent's guide to AI: how artificial intelligence is shaping childhood, what the Bible says about raising kids in a digital world, and practical steps to protect hearts while discipling the next generation. AI and faith perspectives for families.",
-    image: `${SITE}/images/raising-humans-header.png`,
-    ogType: "article",
-  },
-  "/resources/outsourcing-the-holy-spirit-to-ai": {
-    title: "Outsourcing the Holy Spirit to AI",
-    description:
-      "Should churches use AI? How pastors and church leaders can embrace artificial intelligence for ministry efficiency without replacing the Holy Spirit. Explores AI ethics for churches, digital idolatry, deepfakes, and why human relationship is the new firewall.",
-    image: `${SITE}/images/outsourcing-holy-spirit-header.png`,
-    ogType: "article",
-  },
-  "/resources/discipleship-and-missions-in-an-ai-age": {
-    title: "Discipleship and Missions in an AI Age",
-    description:
-      "How AI is transforming global missions and Christian discipleship. A strategic briefing for pastors, mission leaders, and Christian educators on the intelligence explosion, AI in ministry, and what it means for the Great Commission in 2026 and beyond.",
-    image: `${SITE}/images/discipleship-missions-ai-header.png`,
-    ogType: "article",
-  },
   "/resources/when-your-teens-best-friend-is-an-algorithm": {
     title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
     description:

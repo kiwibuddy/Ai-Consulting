@@ -19,9 +19,6 @@ import IntakePage from "@/pages/intake";
 import SpeakingPage from "@/pages/speaking";
 import SpeakingInvitePage from "@/pages/speaking-invite";
 import ResourcesPage from "@/pages/resources";
-import ArticleRaisingHumans from "@/pages/article-raising-humans";
-import ArticleDiscipleshipMissionsAi from "@/pages/article-discipleship-missions-ai";
-import ArticleOutsourcingHolySpirit from "@/pages/article-outsourcing-holy-spirit";
 import ArticleSabbathRestAi from "@/pages/article-sabbath-rest-ai";
 import ArticleSoulNeedsStruggle from "@/pages/article-soul-needs-struggle";
 import ArticleTeensAlgorithmFriend from "@/pages/article-teens-algorithm-friend";
@@ -300,24 +297,9 @@ function Router() {
       <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">
         <Redirect to="/resources/when-your-teens-best-friend-is-an-algorithm" />
       </Route>
-      <Route path="/articles/raising-humans-in-the-age-of-ai">
-        <Redirect to="/resources/raising-humans-in-the-age-of-the-digital-god" />
-      </Route>
-      <Route path="/articles/raising-humans-in-the-age-of-the-digital-god">
-        <Redirect to="/resources/raising-humans-in-the-age-of-the-digital-god" />
-      </Route>
-      <Route path="/articles/discipleship-and-missions-in-an-ai-age">
-        <Redirect to="/resources/discipleship-and-missions-in-an-ai-age" />
-      </Route>
-      <Route path="/articles/outsourcing-the-holy-spirit-to-ai">
-        <Redirect to="/resources/outsourcing-the-holy-spirit-to-ai" />
-      </Route>
       <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><ArticleTeensAlgorithmFriend /></PublicSiteLayout>} />
       <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><ArticleSabbathRestAi /></PublicSiteLayout>} />
       <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><ArticleSoulNeedsStruggle /></PublicSiteLayout>} />
-      <Route path="/resources/raising-humans-in-the-age-of-the-digital-god" component={() => <PublicSiteLayout><ArticleRaisingHumans /></PublicSiteLayout>} />
-      <Route path="/resources/discipleship-and-missions-in-an-ai-age" component={() => <PublicSiteLayout><ArticleDiscipleshipMissionsAi /></PublicSiteLayout>} />
-      <Route path="/resources/outsourcing-the-holy-spirit-to-ai" component={() => <PublicSiteLayout><ArticleOutsourcingHolySpirit /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
       <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
       <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />
