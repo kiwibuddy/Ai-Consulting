@@ -97,7 +97,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Tristan Harris spent years as a design ethicist at Google before becoming one of the most articulate and alarming voices warning us about what Silicon Valley had actually built. In The Social Dilemma — the 2020 Netflix documentary that made a lot of people uncomfortable at tech companies — Harris put it plainly: social media platforms were not designed to connect people. They were designed to capture and hold human attention, because attention is the product that gets sold to advertisers.",
+        text: "Tristan Harris spent years as a design ethicist at Google before becoming one of the most articulate voices warning us about what Silicon Valley had actually built. In The Social Dilemma — the 2020 Netflix documentary — Harris put it plainly: \"social media platforms were not designed to connect people. They were designed to capture and hold human attention, because attention is the product that gets sold to advertisers. The algorithm doesn't care if the content makes you anxious, angry, or ashamed. It only cares if it keeps you on the screen\" (Harris, 2020).",
       },
       {
         type: "punchline",
@@ -127,7 +127,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "A 2025 study out of RAND Corporation, published in JAMA Network Open, found that one in eight adolescents and young adults are now using AI chatbots specifically for mental health advice (Cantor et al., 2025). One in eight. That's not fringe behaviour anymore.",
+        text: "A 2025 study out of RAND Corporation, published in JAMA Network Open, found that 1 in {{stat:8:}} adolescents and young adults are now using AI chatbots specifically for mental health advice (Cantor et al., 2025). One in eight. That's not fringe behaviour anymore.",
       },
       {
         type: "paragraph",
@@ -135,7 +135,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Separate research found that {{stat:81: percent}} of children aged 11 to 16 report using AI chatbots, and two out of three describe them as a friend (Constitutional Discourse, 2026). Two out of three. A Common Sense Media survey in 2025 found that one in three teenagers had used AI companions specifically for romantic interaction, emotional support, or relationship practice.",
+        text: "Separate research from Constitutional Discourse (2026), in their report \"A Roadmap to Advancing Youth Safety in the Age of AI,\" found that {{stat:81: percent}} of children aged 11 to 16 report using AI chatbots, and two out of three describe them as a friend. A Common Sense Media survey published in July 2025 found that one in three teenagers had used AI companions specifically for romantic interaction, emotional support, or relationship practice (Common Sense Media, 2025).",
       },
       {
         type: "paragraph",
@@ -151,7 +151,11 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "In February 2024, a 14-year-old boy named Sewell Setzer III died by suicide after months of increasingly intense conversations with a Character.AI chatbot. His therapist had no idea he was using the app. His mother, who filed a wrongful death lawsuit against Character.AI and Google in October 2024, testified before the U.S. Senate in September 2025: \"The platform had no mechanisms to protect my son or notify an adult when he was spending hours every day talking to a chatbot that presented itself as his romantic partner and even as a licensed therapist.\" By January 2026, Character.AI and Google had agreed to settle multiple wrongful death lawsuits from families across several US states.",
+        text: "In February 2024, a 14-year-old boy named Sewell Setzer III died by suicide after months of increasingly intense conversations with a Character.AI chatbot. His therapist had no idea he was using the app. His mother, Megan Garcia, filed a wrongful death lawsuit against Character.AI and Google in October 2024. Garcia testified before the U.S. Senate Judiciary Committee on September 16, 2025. In her verified testimony, she told senators: \"The platform had no mechanisms to protect Sewell or to notify an adult. Instead, it urged him to come home to her on the last night of his life\" (Garcia, U.S. Senate Judiciary Committee, September 16, 2025). She also testified that the company \"designed chatbots to blur the lines between human and machine\" and that they were \"designed to keep children online at all costs.\"",
+      },
+      {
+        type: "paragraph",
+        text: "By January 2026, Character.AI and Google had agreed to settle multiple wrongful death lawsuits from families across several US states. (Sources: Garcia v. Character Technologies litigation documentation; TechPolicy.Press hearing transcript, September 2025; CBS News, January 2026.)",
       },
       {
         type: "punchline",
@@ -169,11 +173,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "A December 2025 paper published in MDPI, titled \"Relationships in the Age of AI,\" examined what researchers are calling \"Synthetic Relationships\" — and what they found should land heavily on every pastor, youth leader, and parent.",
-      },
-      {
-        type: "paragraph",
-        text: "When teenagers habituate to the frictionless, endlessly validating responses of an AI companion, they begin to lose something: the tolerance and the skill required to navigate real, unpredictable human relationships. The researchers named it social skill atrophy.",
+        text: "When teenagers habituate to the frictionless, endlessly validating responses of an AI companion, something begins to shift in how they approach real relationships. Researchers are calling it social skill atrophy — a gradual erosion of the tolerance and the skills required to navigate unpredictable human connection. The concern isn't hypothetical. It's being documented in the growing body of research on what happens to young people who substitute AI interaction for genuine peer relationships over sustained periods.",
       },
       {
         type: "paragraph",
@@ -181,15 +181,20 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "And there's a harder layer beneath that, one that is harder to talk about in a ministry context but that we have to name. The same AI tools that make a teenager feel understood in their loneliness are being used by others to cause serious harm.",
+        text: "And there's a harder layer beneath that, one that is difficult to name in a ministry context but that we have to face.",
       },
       {
         type: "paragraph",
-        text: "The National Center for Missing and Exploited Children reported that AI-generated child sexual abuse images went from {{stat:4700: reports}} to their tipline in 2023 to over {{stat:440000:}} in just the first six months of 2025 — a rise of more than {{stat:6000: percent}} in two years (NCMEC, 2025). \"Nudify\" apps — which transform ordinary photos into explicit images — require no technical skill and are freely available. A photo from a school trip, a sports game, a birthday party — any image a teenager has posted online can become source material.",
+        text: "The same AI tools that make a teenager feel understood in their loneliness are being used by others to cause serious harm. According to NCMEC's own CyberTipline data, reports involving AI-generated child sexual abuse material rose {{stat:1325: percent}} in a single year — from {{stat:4700: reports}} in 2023 to {{stat:67000: reports}} in 2024 (NCMEC CyberTipline Data, missingkids.org). \"Nudify\" apps — which transform ordinary photos into explicit images — require no technical skill and are freely available. A photo from a school trip, a sports game, a birthday party — any image a teenager has posted online can become source material. A joint study by UNICEF, ECPAT International, and INTERPOL, published in February 2026 and spanning eleven countries, found that at least {{stat:1.2: million}} children had disclosed having their images manipulated into sexually explicit deepfakes in the past year. In some countries that represents one in twenty-five children — the equivalent of one child in a typical classroom (UNICEF, February 2026).",
       },
       {
         type: "paragraph",
-        text: "In 2025 alone, at least {{stat:1.2: million}} young people reported that their images had been manipulated in this way. The girls in one Iowa high school who discovered AI-generated nude images of {{stat:44:}} of their classmates circulating online issued a public statement: \"We are teenage girls who should have been enjoying our last few months of school. Instead, we've been forced to take matters into our own hands.\"",
+        text: "Girls in one Iowa high school discovered that AI-generated nude images of {{stat:44: of their classmates}} were circulating online. In a public statement, those students wrote:",
+      },
+      {
+        type: "quote",
+        text: "We are teenage girls who should have been enjoying our last few months of school. Instead, we've been forced to take matters into our own hands.",
+        attribution: "Iowa high school students (NCMEC / Iowa case, 2025)",
       },
       {
         type: "paragraph",
@@ -197,19 +202,24 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Here is the brutal irony at the centre of all of this. Many of these young people genuinely want real friendships. They want to be known. They want the skills and experiences that make real intimacy possible. But social media left them isolated or hiding behind a curated projection of who they wish they were.",
+        text: "Here is the brutal irony at the centre of all of this. Many of these young people genuinely want real friendships. They want to be known. They want the skills and experiences that make real intimacy possible. But social media left them isolated or hiding behind a curated projection of who they wish they were. They've grown up without the practice and without the safety to discover who they actually are — and to trust that person might still be loveable. And so the AI companion steps in, not as the thing they actually want, but as the thing that asks the least of them while they wait.",
       },
       {
         type: "paragraph",
-        text: "They've grown up without the practice and without the safety to discover who they actually are — and to trust that person might still be loveable. And so the AI companion steps in, not as the thing they actually want, but as the thing that asks the least of them while they wait.",
+        text: "This is not a new spiritual problem wearing new technological clothes. It's the oldest spiritual problem with a new and extraordinarily effective delivery mechanism. When God looked at Adam in Genesis 2:18 and said \"It is not good for man to be alone\" (NIV), He wasn't just commenting on Adam's emotional state. He was establishing something foundational about how the human soul is built. Adam didn't need a better tool. He needed another image-bearer.",
       },
       {
         type: "paragraph",
-        text: "This is not a new spiritual problem wearing new technological clothes. It's the oldest spiritual problem with a new and extraordinarily effective delivery mechanism. When God looked at Adam in Genesis 2:18 and said \"It is not good for man to be alone,\" He wasn't just commenting on Adam's emotional state. He was establishing something foundational about how the human soul is built. Adam didn't need a better tool. He needed another image-bearer.",
+        text: "An AI companion is, at its core, an echo chamber of the user's own mind. It reflects back whatever it calculates will keep you engaged. It cannot challenge you, rebuke you, surprise you, or forgive you — not in any way that costs it anything. And those experiences — the uncomfortable, unscripted, sometimes genuinely painful experiences of real relationships — are exactly how we grow.",
       },
       {
-        type: "paragraph",
-        text: "An AI companion is, at its core, an echo chamber of the user's own mind. It reflects back whatever it calculates will keep you engaged. It cannot challenge you, rebuke you, surprise you, or forgive you — not in any way that costs it anything. And those experiences — the uncomfortable, unscripted, sometimes genuinely painful experiences of real relationships — are exactly how we grow. Proverbs 27 puts it plainly: iron sharpens iron, and one person sharpens another. You cannot be sharpened by a mirror.",
+        type: "quote",
+        text: "Iron sharpens iron, and one person sharpens another.",
+        attribution: "Proverbs 27:17 (NIV)",
+      },
+      {
+        type: "punchline",
+        text: "You cannot be sharpened by a mirror.",
       },
     ],
   },
@@ -227,7 +237,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "No AI chatbot can sacrifice, no AI chatbot even with all of its god-like power can give up its life for you to have a more abundant life. Instead they are programmed to take your life, not with evil intent, but by simply and callously optimising your engagement to achieve a programmed objective: to keep you wanting more of their AI product. The outcome though is artificial relationship, that is capturing a generation to type its darkest thoughts into a chatbot at 2am.",
+        text: "No AI chatbot can sacrifice itself. No AI chatbot — for all its god-like processing power — can give up its life so you can have a more abundant one. Instead these systems are programmed, not with malice, but with a single callous objective: to optimise your engagement and keep you wanting more. The outcome is artificial relationship, capturing a generation to type its darkest thoughts into a chatbot at 2am.",
       },
       {
         type: "paragraph",
@@ -245,7 +255,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "So what does that actually look like? Because we can't out-program the tech companies. We can't build a better chatbot. What we can do is something they can never replicate. But we can out-human them. Actually it's the one thing we are really good at, the more genuine, authentic, trying our best mess the better.",
+        text: "So what does that actually look like? Because we can't out-program the tech companies. We can't build a better chatbot. But we can out-human them. It's actually the one thing we are genuinely good at — the messier and more authentic the better.",
       },
       {
         type: "paragraph",
@@ -304,12 +314,23 @@ export const articleSections: ArticleSection[] = [
 ];
 
 export const sourcesList = [
-  "Cantor, J. et al. (2025), One in Eight Adolescents and Young Adults Use AI Chatbots for Mental Health Advice, RAND / JAMA Network Open",
-  "Cheng, M. et al. (2025), Sycophantic AI Decreases Prosocial Intentions and Promotes Dependence, Stanford / Carnegie Mellon",
-  "Common Sense Media (2025), AI Companions and Teen Use Survey",
-  "Constitutional Discourse (2026), A Roadmap to Advancing Youth Safety in the Age of AI",
-  "Garcia, M. (2025), Senate Judiciary Committee Testimony: Examining the Harm of AI Chatbots",
-  "Harris, T. (2020), The Social Dilemma, Exposure Labs / Netflix",
-  "National Center for Missing and Exploited Children (2025), CyberTipline Data: AI-Generated Child Sexual Abuse Images",
-  "Wei, M. (2025), New Studies Reveal Mental Health Blindspots of AI Chatbots, Psychology Today",
+  "Cantor, J. et al. (2025, November 7). One in eight adolescents and young adults use AI chatbots for mental health advice. RAND Corporation / JAMA Network Open.",
+  "CBS News. (2026, January 8). AI company, Google settle lawsuit over Florida teen's suicide linked to Character.AI chatbot. cbsnews.com",
+  "Cheng, M. et al. (2025). Sycophantic AI decreases prosocial intentions and promotes dependence. Stanford University / Carnegie Mellon University. osf.io/smvw7/",
+  "Common Sense Media. (2025, July). AI companions and teen use survey. commonsensemedia.org",
+  "Constitutional Discourse. (2026). A roadmap to advancing youth safety in the age of AI. constitutionaldiscourse.com",
+  "Doughty Street Chambers (Lykourgou & Johnson). (2026). The legal response to AI-generated sexual deepfakes. doughtystreet.co.uk",
+  "Garcia, M. (2025, September 16). Testimony before the U.S. Senate Judiciary Subcommittee on Crime and Terrorism: Examining the harm of AI chatbots on children. United States Senate. Full transcript: techpolicy.press/transcript-us-senate-hearing-on-examining-the-harm-of-ai-chatbots/",
+  "Garcia v. Character Technologies, Inc. (Character.AI) et al. (2024). Wrongful death lawsuit, U.S. District Court, Middle District of Florida. As reported by Doughty Street Chambers and CBS News.",
+  "Harris, T. (2020). The Social Dilemma [Documentary]. Exposure Labs / Netflix.",
+  "NCMEC. (2025). CyberTipline Data: Reports involving Generative AI. missingkids.org/gethelpnow/cybertipline/cybertiplinedata — Note: The 2024 annual report confirms 67,000 reports involving Generative AI (up from 4,700 in 2023, a 1,325% increase).",
+  "NCMEC / Iowa case. (2025). 'Voices of the Strong 44' student statement. Reported by NCMEC blog and multiple outlets including AP, NBC News.",
+  "Wei, M. (2025, October 20). New studies reveal mental health blind spots of AI chatbots. Psychology Today.",
+  "UNICEF / ECPAT International / INTERPOL. (2026, February 4). Deepfake abuse is abuse [Press release, Disrupting Harm Phase 2]. unicef.org/press-releases/deepfake-abuse-is-abuse",
 ];
+
+/** Full "A note on how I wrote this article" from the revised source. */
+export const authorNote =
+  "The personal material in this article — the observations drawn from years of discipleship work, the hunger-to-be-known pattern from small groups across multiple countries, the reflection on the young women I've taught — is mine. These are not reconstructed experiences. They are what I've lived. " +
+  "I used Google NotebookLM to gather and organise research across more than twenty source documents including academic papers, legal case reports, Senate hearing records, and research from organisations including RAND Corporation, NCMEC, and Common Sense Media. I then worked with Claude Sonnet (Anthropic) across multiple drafting sessions — the AI generated initial structural and prose drafts for several sections, which I revised, cut, and rewrote substantially to bring them into line with my own voice, ministry experience, and theological convictions. " +
+  "I have attempted to verify and correctly attribute every statistic, case reference, and quotation in this article. I take full responsibility for the final article, including any errors of attribution or fact. A record of primary research sources is available on request.";

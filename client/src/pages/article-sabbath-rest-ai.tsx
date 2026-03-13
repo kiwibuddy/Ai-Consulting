@@ -12,6 +12,7 @@ import {
   articleSections,
   articleSummary,
   sourcesList,
+  authorNote,
 } from "@/content/article-sabbath-rest-ai";
 import { AnimatedBlockContent, ShimmerHeading } from "@/components/article-animations";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
@@ -26,9 +27,6 @@ import {
 
 const contentMax = "max-w-3xl";
 const sectionPadding = "py-8 md:py-12 px-6 md:px-8";
-
-const AI_TRANSPARENCY_NOTE =
-  "A note on how I wrote this article: I used Google NotebookLM to gather and organise research sources, and worked with Claude Sonnet (Anthropic's AI) to help structure and draft this article. I remained the author throughout — the stories, ministry experience, theological convictions, and editorial direction are mine. AI helped me get words on the page; it didn't replace my voice or my thinking.";
 
 function ReadingProgress() {
   const [progress, setProgress] = useState(0);
@@ -230,7 +228,7 @@ export default function ArticleSabbathRestAi() {
         <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
           <div className={`${contentMax} mx-auto`}>
             <p className="text-sm text-neutral-600 italic leading-relaxed [text-wrap:balance]">
-              {AI_TRANSPARENCY_NOTE}
+              {authorNote}
             </p>
           </div>
         </section>

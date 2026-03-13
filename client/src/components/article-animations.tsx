@@ -12,6 +12,8 @@ import {
 
 const COLOR_STAT = "hsl(142, 76%, 42%)";
 const COLOR_QUOTE = "hsl(38, 80%, 50%)";
+const COLOR_QUOTE_BG = "hsla(38, 80%, 50%, 0.08)";
+const COLOR_QUOTE_BORDER = "hsla(38, 80%, 50%, 0.5)";
 const COLOR_PUNCHLINE = "hsl(215, 40%, 50%)";
 
 export type AnimatedArticleBlock =
@@ -175,7 +177,11 @@ export function StatParagraph({
     <p className={className}>
       {segments.map((seg, i) =>
         seg.type === "text" ? (
-          <React.Fragment key={i}>{seg.value}</React.Fragment>
+          hasInlineQuotes(seg.value) ? (
+            <React.Fragment key={i}>{parseInlineQuotes(seg.value)}</React.Fragment>
+          ) : (
+            <React.Fragment key={i}>{seg.value}</React.Fragment>
+          )
         ) : (
           <StatPhrase key={i} number={seg.number} suffix={seg.suffix} />
         ),
@@ -204,14 +210,14 @@ export function HighlightQuote({
     <blockquote
       ref={ref}
       className="my-8 pl-6 relative overflow-hidden rounded-r-lg"
-      style={{ borderLeft: `4px solid ${COLOR_QUOTE}60` }}
+      style={{ borderLeft: `4px solid ${COLOR_QUOTE_BORDER}` }}
     >
       <div className="relative">
         <motion.div
           className="absolute inset-0 rounded-r-lg"
           initial={reducedMotion ? { scaleX: 1 } : { scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
-          style={{ transformOrigin: "left", backgroundColor: `${COLOR_QUOTE}0F` }}
+          style={{ transformOrigin: "left", backgroundColor: COLOR_QUOTE_BG }}
           transition={{
             duration: 0.8,
             ease: [0.25, 0.4, 0.25, 1],
@@ -219,10 +225,10 @@ export function HighlightQuote({
           }}
         />
         <motion.p
-          className="relative text-lg italic leading-relaxed py-3 pr-4 [text-wrap:balance]"
-          initial={reducedMotion ? { color: COLOR_QUOTE } : { color: "#525252" }}
-          animate={inView ? { color: COLOR_QUOTE } : {}}
-          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+          className="relative text-lg italic leading-relaxed py-3 pr-4 [text-wrap:balance] text-neutral-800 dark:text-neutral-200"
+          initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 1.0, ease: "easeOut", delay: 0.6 }}
         >
           &ldquo;{text}&rdquo;
         </motion.p>
@@ -232,7 +238,7 @@ export function HighlightQuote({
           className="block text-sm text-neutral-500 mt-1 mb-3 not-italic font-medium"
           initial={reducedMotion ? {} : { opacity: 0, x: -8 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 1.2 }}
         >
           — {attribution}
         </motion.cite>

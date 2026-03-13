@@ -83,62 +83,76 @@ export default function ResourcesPage() {
             viewport={landingViewportReveal}
             variants={cardSlideUpContainerVariants}
           >
-            {articlesByNewest.map((article) => (
-              <motion.div
-                key={article.id}
-                variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                {article.image ? (
-                  <img
-                    src={article.image}
-                    alt=""
-                    className="aspect-video w-full object-cover shrink-0"
-                  />
-                ) : (
-                  <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
-                    <FileText className="h-12 w-12 text-neutral-300" />
-                  </div>
-                )}
-                <div className="p-5 flex-1 flex flex-col">
-                  {article.category && (
-                    <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
-                      {article.category}
-                    </span>
+            {articlesByNewest.map((article) => {
+              const isExternal = isExternalUrl(article.url);
+              const cardContent = (
+                <>
+                  {article.image ? (
+                    <img
+                      src={article.image}
+                      alt=""
+                      className="aspect-video w-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
+                      <FileText className="h-12 w-12 text-neutral-300" />
+                    </div>
                   )}
-                  <h3 className="font-semibold text-neutral-900 text-lg mb-2">{article.title}</h3>
-                  <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                    {article.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-neutral-500">
-                      {article.readTime && `${article.readTime} · `}
-                      {article.date}
-                    </span>
-                    {isExternalUrl(article.url) ? (
-                      <a
-                        href={article.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
-                      >
-                        Read full article
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    ) : (
-                      <Link
-                        href={article.url}
-                        className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
-                      >
-                        Read full article
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      </Link>
+                  <div className="p-5 flex-1 flex flex-col">
+                    {article.category && (
+                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
+                        {article.category}
+                      </span>
                     )}
+                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{article.title}</h3>
+                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                      {article.excerpt}
+                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs text-neutral-500">
+                        {article.readTime && `${article.readTime} · `}
+                        {article.date}
+                      </span>
+                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+                        Read full article
+                        {isExternal ? (
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        ) : (
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        )}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </>
+              );
+
+              return (
+                <motion.div
+                  key={article.id}
+                  variants={cardSlideUpItemVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                  className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                >
+                  {isExternal ? (
+                    <a
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                    >
+                      {cardContent}
+                    </a>
+                  ) : (
+                    <Link
+                      href={article.url}
+                      className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                    >
+                      {cardContent}
+                    </Link>
+                  )}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>
