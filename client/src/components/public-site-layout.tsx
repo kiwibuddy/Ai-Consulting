@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useEffect, useRef } from "react";
+import React, { useLayoutEffect } from "react";
 
 const SITE_THEME = "site";
 
@@ -9,26 +9,28 @@ const SITE_THEME = "site";
  * We lock data-theme="site" so no other code can change it while public pages are visible.
  */
 function useLockSiteTheme() {
+  const root = document.documentElement;
+
   useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", SITE_THEME);
-  }, []);
+    const apply = () => root.setAttribute("data-theme", SITE_THEME);
+    apply();
 
-  const locked = useRef(false);
-  useEffect(() => {
-    if (locked.current) return;
-    locked.current = true;
-
-    const root = document.documentElement;
     const observer = new MutationObserver(() => {
       if (root.getAttribute("data-theme") !== SITE_THEME) {
-        root.setAttribute("data-theme", SITE_THEME);
+        apply();
       }
     });
     observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
 
+    // Re-apply after paint so we win any race with other effects (e.g. dashboard unmount)
+    const rafId = requestAnimationFrame(() => {
+      apply();
+      requestAnimationFrame(apply);
+    });
+
     return () => {
-      locked.current = false;
       observer.disconnect();
+      cancelAnimationFrame(rafId);
     };
   }, []);
 }

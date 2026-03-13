@@ -1,3 +1,4 @@
+import { useLayoutEffect } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
@@ -122,7 +123,14 @@ const whyWorkWithMeBullets = [
 const sectionPadding = "py-12 md:py-16 px-6 md:px-8";
 const contentMax = "max-w-6xl";
 
+const SITE_THEME = "site";
+
 export default function LandingPage() {
+  // Lock public site theme as soon as landing is visible so it never reverts to app/orange
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute("data-theme", SITE_THEME);
+  }, []);
+
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
       <HomepageJsonLd />

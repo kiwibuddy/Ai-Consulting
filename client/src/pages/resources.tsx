@@ -16,6 +16,11 @@ import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 
+/** Articles sorted newest first for display. */
+const articlesByNewest = [...articles].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 const ctaLabel = "Book a free 30-min consultation";
@@ -72,7 +77,7 @@ export default function ResourcesPage() {
             viewport={landingViewportReveal}
             variants={cardSlideUpContainerVariants}
           >
-            {articles.map((article) => (
+            {articlesByNewest.map((article) => (
               <motion.div
                 key={article.id}
                 variants={cardSlideUpItemVariants}

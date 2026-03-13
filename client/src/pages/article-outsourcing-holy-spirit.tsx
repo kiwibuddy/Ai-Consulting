@@ -12,8 +12,8 @@ import {
   articleSections,
   articleSummary,
   sourcesList,
-  type ArticleBlock,
 } from "@/content/article-outsourcing-holy-spirit";
+import { AnimatedBlockContent, ShimmerHeading } from "@/components/article-animations";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import { ArticleShare } from "@/components/article-share";
 import {
@@ -24,7 +24,7 @@ import {
 } from "@/lib/animations";
 
 const contentMax = "max-w-3xl";
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+const sectionPadding = "py-8 md:py-12 px-6 md:px-8";
 
 function ArticleSEO() {
   const { title, description, author, publishedDate, image, canonicalUrl } = articleMeta;
@@ -173,54 +173,6 @@ function ArticleHero() {
   );
 }
 
-function BlockContent({ block }: { block: ArticleBlock }) {
-  if (block.type === "paragraph") {
-    return (
-      <p className="text-neutral-700 leading-relaxed text-lg mb-6 [text-wrap:balance]">
-        {block.text}
-      </p>
-    );
-  }
-  if (block.type === "subheading") {
-    return (
-      <h3 className="text-xl font-semibold text-neutral-900 mt-8 mb-4">
-        {block.text}
-      </h3>
-    );
-  }
-  if (block.type === "quote") {
-    return (
-      <blockquote className="my-6 pl-5 border-l-4 border-[hsl(142,76%,42%)]/50 not-italic">
-        <p className="text-neutral-700 leading-relaxed text-lg [text-wrap:balance]">
-          &ldquo;{block.text}&rdquo;
-        </p>
-        {block.attribution && (
-          <cite className="mt-2 block text-sm text-neutral-500 not-italic">
-            — {block.attribution}
-          </cite>
-        )}
-      </blockquote>
-    );
-  }
-  if (block.type === "discussion") {
-    return (
-      <div className="my-10 p-6 rounded-2xl bg-neutral-100 border border-neutral-200">
-        <h4 className="text-sm font-semibold uppercase tracking-wider text-[hsl(142,76%,42%)] mb-4">
-          Discussion questions
-        </h4>
-        <ul className="space-y-3">
-          {block.questions.map((q, i) => (
-            <li key={i} className="text-neutral-700 leading-relaxed pl-4 border-l-2 border-neutral-300">
-              {q}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-  return null;
-}
-
 function ArticleSection({
   section,
   index,
@@ -244,12 +196,12 @@ function ArticleSection({
       }}
     >
       <div className={`${contentMax} mx-auto prose prose-neutral prose-lg max-w-none`}>
-        <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-8 tracking-tight not-prose">
+        <ShimmerHeading className="text-2xl md:text-3xl font-bold text-neutral-900 mb-8 tracking-tight not-prose">
           {section.title}
-        </h2>
+        </ShimmerHeading>
         <div className="space-y-0">
           {section.blocks.map((block, i) => (
-            <BlockContent key={i} block={block} />
+            <AnimatedBlockContent key={i} block={block} />
           ))}
         </div>
       </div>
@@ -325,6 +277,14 @@ export default function ArticleOutsourcingHolySpirit() {
             </motion.ul>
           </div>
         </motion.section>
+
+        <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
+          <div className={`${contentMax} mx-auto`}>
+            <p className="text-sm text-neutral-600 italic leading-relaxed [text-wrap:balance]">
+              A note on how I wrote this article: I used Google NotebookLM to gather and organise research sources, and worked with Claude Sonnet (Anthropic's AI) to help structure and draft this article. I remained the author throughout — the stories, ministry experience, theological convictions, and editorial direction are mine. AI helped me get words on the page; it didn't replace my voice or my thinking.
+            </p>
+          </div>
+        </section>
 
         <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
           <div className={`${contentMax} mx-auto flex flex-col sm:flex-row items-center justify-between gap-4`}>

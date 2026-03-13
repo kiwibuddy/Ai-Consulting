@@ -22,6 +22,9 @@ import ResourcesPage from "@/pages/resources";
 import ArticleRaisingHumans from "@/pages/article-raising-humans";
 import ArticleDiscipleshipMissionsAi from "@/pages/article-discipleship-missions-ai";
 import ArticleOutsourcingHolySpirit from "@/pages/article-outsourcing-holy-spirit";
+import ArticleSabbathRestAi from "@/pages/article-sabbath-rest-ai";
+import ArticleSoulNeedsStruggle from "@/pages/article-soul-needs-struggle";
+import ArticleTeensAlgorithmFriend from "@/pages/article-teens-algorithm-friend";
 import AboutPage from "@/pages/about";
 import PricingPage from "@/pages/pricing";
 import LoginPage from "@/pages/login";
@@ -109,7 +112,17 @@ function useThemeFromPath() {
   useLayoutEffect(() => {
     const p = (path || "/").split("?")[0];
     const isDashboard = p.startsWith("/client") || p.startsWith("/consultant");
-    document.documentElement.setAttribute("data-theme", isDashboard ? APP_THEME : SITE_THEME);
+    const theme = isDashboard ? APP_THEME : SITE_THEME;
+    const root = document.documentElement;
+
+    const apply = () => root.setAttribute("data-theme", theme);
+    apply();
+    // Re-apply after other layout effects and after paint so we win any race with dashboard theme
+    const rafId = requestAnimationFrame(() => {
+      apply();
+      requestAnimationFrame(apply);
+    });
+    return () => cancelAnimationFrame(rafId);
   }, [path]);
 }
 
@@ -284,6 +297,9 @@ function Router() {
       <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
       <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
       {/* Redirect old /articles/... URLs to canonical /resources/... */}
+      <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">
+        <Redirect to="/resources/when-your-teens-best-friend-is-an-algorithm" />
+      </Route>
       <Route path="/articles/raising-humans-in-the-age-of-ai">
         <Redirect to="/resources/raising-humans-in-the-age-of-the-digital-god" />
       </Route>
@@ -296,6 +312,9 @@ function Router() {
       <Route path="/articles/outsourcing-the-holy-spirit-to-ai">
         <Redirect to="/resources/outsourcing-the-holy-spirit-to-ai" />
       </Route>
+      <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><ArticleTeensAlgorithmFriend /></PublicSiteLayout>} />
+      <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><ArticleSabbathRestAi /></PublicSiteLayout>} />
+      <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><ArticleSoulNeedsStruggle /></PublicSiteLayout>} />
       <Route path="/resources/raising-humans-in-the-age-of-the-digital-god" component={() => <PublicSiteLayout><ArticleRaisingHumans /></PublicSiteLayout>} />
       <Route path="/resources/discipleship-and-missions-in-an-ai-age" component={() => <PublicSiteLayout><ArticleDiscipleshipMissionsAi /></PublicSiteLayout>} />
       <Route path="/resources/outsourcing-the-holy-spirit-to-ai" component={() => <PublicSiteLayout><ArticleOutsourcingHolySpirit /></PublicSiteLayout>} />

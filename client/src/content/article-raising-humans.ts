@@ -50,7 +50,7 @@ export const articleSummary: SummaryBlock[] = [
   },
 ];
 
-export type ArticleBlock = { type: "paragraph"; text: string } | { type: "discussion"; questions: string[] } | { type: "subheading"; text: string };
+export type ArticleBlock = { type: "paragraph"; text: string } | { type: "punchline"; text: string } | { type: "quote"; text: string; attribution?: string } | { type: "discussion"; questions: string[] } | { type: "subheading"; text: string };
 
 export interface ArticleSection {
   id: string;
@@ -160,7 +160,7 @@ export const articleSections: ArticleSection[] = [
         text: "Interpolation means predicting patterns within data already seen. Imagine a graph with a thousand dots. Interpolation draws a line connecting those dots. AI has read the entire internet, so it has billions of dots. It is extraordinarily good at guessing what comes next within that known world of text. But it fails at extrapolation — predicting where the line goes off the page into territory it has never encountered. True reasoning outside its training data. Genuine novelty.",
       },
       {
-        type: "paragraph",
+        type: "punchline",
         text: "It is not thinking. It is predicting. At every millisecond, it calculates the most statistically likely next word based on the terabytes of text it was trained on. It does not know the truth. It knows probability.",
       },
       {
@@ -332,7 +332,7 @@ export const articleSections: ArticleSection[] = [
         text: "The leaders of these AI companies are openly willing to light the fire and see what happens. The question is whether you are willing to let them run your household by default.",
       },
       {
-        type: "paragraph",
+        type: "punchline",
         text: "You don't have to. Grab the steering wheel.",
       },
       {
@@ -340,7 +340,7 @@ export const articleSections: ArticleSection[] = [
         text: "While AI simulates intelligence, it lacks the breath of life. It can only generate a reflection of a dataset. But your children — your children are made in the image of the living God. That is their superpower. That is what makes them human. That is what gives them eternal value.",
       },
       {
-        type: "paragraph",
+        type: "punchline",
         text: "And that is what we are here to protect.",
       },
     ],

@@ -73,6 +73,7 @@ export const articleSummary: SummaryBlock[] = [
 
 export type ArticleBlock =
   | { type: "paragraph"; text: string }
+  | { type: "punchline"; text: string }
   | { type: "discussion"; questions: string[] }
   | { type: "subheading"; text: string }
   | { type: "quote"; text: string; attribution?: string };
@@ -94,7 +95,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "A massive tension is playing out right now. On one hand, Barna Group research shows that 77% of pastors believe God can work through AI. At the same time, there is a surge in Bible reading among Gen Z and Millennials—nearly 50% are engaging with Scripture weekly, the highest rate seen in over a decade. That sounds like extraordinary news.",
+        text: "A massive tension is playing out right now. On one hand, Barna Group research shows that {{count:77}}% of pastors believe God can work through AI. At the same time, there is a surge in Bible reading among Gen Z and Millennials—nearly 50% are engaging with Scripture weekly, the highest rate seen in over a decade. That sounds like extraordinary news.",
       },
       {
         type: "paragraph",
@@ -120,7 +121,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "The adoption numbers have gone vertical. Data from David Scotford's research for the London School of Economics tells the story clearly. In 2023, only about 19% of church leaders were using AI on a daily or weekly basis. By 2024, that number jumped to 43%. By 2025, it reached 61%.",
+        text: "The adoption numbers have gone vertical. Data from David Scotford's research for the London School of Economics tells the story clearly. In 2023, only about {{count:19}}% of church leaders were using AI on a daily or weekly basis. By 2024, that number jumped to {{count:43}}%. By 2025, it reached {{count:61}}%.",
       },
       {
         type: "quote",
@@ -129,7 +130,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "That adoption is not just for scheduling the pot luck. Barna research shows that while 88% of pastors are comfortable using AI for graphic design and marketing—which makes total sense, save time on the bulletin—there is a sharp divide when it comes to spiritual tasks.",
+        text: "That adoption is not just for scheduling the pot luck. Barna research shows that while {{count:88}}% of pastors are comfortable using AI for graphic design and marketing—which makes total sense, save time on the bulletin—there is a sharp divide when it comes to spiritual tasks.",
       },
       {
         type: "quote",
@@ -210,7 +211,7 @@ export const articleSections: ArticleSection[] = [
         attribution: "David Scotford, \"Sermons in the Cloud,\" LSE Blogs, December 18, 2025",
       },
       {
-        type: "paragraph",
+        type: "punchline",
         text: "If you are not wrestling with the text, the text is not changing you. And if it has not changed you, how can you preach it with any authority? You cannot outsource the work of the Holy Spirit.",
       },
       {
@@ -354,7 +355,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "Loneliness is the fuel for that engine. Barna research shows loneliness is skyrocketing among Gen Z. So they turn to this synthetic cure. WifiTalents data found that 50% of Gen Z Christian music fans prefer AI-personalised devotional experiences. They want the faith experience tailored exactly to their preferences. It is the Spotify-fication of God.",
+        text: "Loneliness is the fuel for that engine. Barna research shows loneliness is skyrocketing among Gen Z. So they turn to this synthetic cure. WifiTalents data found that {{count:50}}% of Gen Z Christian music fans prefer AI-personalised devotional experiences. They want the faith experience tailored exactly to their preferences. It is the Spotify-fication of God.",
       },
       {
         type: "paragraph",
@@ -366,7 +367,7 @@ export const articleSections: ArticleSection[] = [
       },
       {
         type: "paragraph",
-        text: "And here is a paradox. Barna/Gloo data from the State of the Church 2025 initiative shows that weekly Bible reading has surged by 12 points, largely driven by young men—Gen Z men now read weekly at 54%, Millennial men at 57%. But—and this is a significant \"but\"—belief in the Bible's accuracy has dropped to just 36%. They are reading it, but they do not trust it. Or more precisely: are they reading the Bible, or are they reading AI summaries of the Bible? \"ChatGPT, summarise Romans 8 for me and make it encouraging.\" If that is what is happening, the reading statistic is misleading.",
+        text: "And here is a paradox. Barna/Gloo data from the State of the Church 2025 initiative shows that weekly Bible reading has surged by {{count:12}} points, largely driven by young men—Gen Z men now read weekly at {{count:54}}%, Millennial men at {{count:57}}%. But—and this is a significant \"but\"—belief in the Bible's accuracy has dropped to just {{count:36}}%. They are reading it, but they do not trust it. Or more precisely: are they reading the Bible, or are they reading AI summaries of the Bible? \"ChatGPT, summarise Romans 8 for me and make it encouraging.\" If that is what is happening, the reading statistic is misleading.",
       },
       {
         type: "paragraph",
@@ -712,7 +713,7 @@ export const articleSections: ArticleSection[] = [
         text: "As we move deeper into 2026 and toward the rest of this decade, the most countercultural thing a church leader can do is not to become more tech-savvy. It is not about learning to write the best prompts. It is to become more deeply, more unshakably human.",
       },
       {
-        type: "paragraph",
+        type: "punchline",
         text: "Because in a synthetic world, real, embodied presence is the most powerful apologetic we have. The church offers the one thing AI can never simulate: the presence of the living God in a living human body. Stay human out there.",
       },
     ],

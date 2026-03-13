@@ -12,7 +12,7 @@ import {
   articleSections,
   articleSummary,
   sourcesList,
-} from "@/content/article-discipleship-missions-ai";
+} from "@/content/article-sabbath-rest-ai";
 import { AnimatedBlockContent, ShimmerHeading } from "@/components/article-animations";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import { ArticleShare } from "@/components/article-share";
@@ -25,6 +25,9 @@ import {
 
 const contentMax = "max-w-3xl";
 const sectionPadding = "py-8 md:py-12 px-6 md:px-8";
+
+const AI_TRANSPARENCY_NOTE =
+  "A note on how I wrote this article: I used Google NotebookLM to gather and organise research sources, and worked with Claude Sonnet (Anthropic's AI) to help structure and draft this article. I remained the author throughout — the stories, ministry experience, theological convictions, and editorial direction are mine. AI helped me get words on the page; it didn't replace my voice or my thinking.";
 
 function ArticleSEO() {
   const { title, description, author, publishedDate, image, canonicalUrl } = articleMeta;
@@ -173,13 +176,7 @@ function ArticleHero() {
   );
 }
 
-function ArticleSection({
-  section,
-  index,
-}: {
-  section: (typeof articleSections)[0];
-  index: number;
-}) {
+function ArticleSection({ section, index }: { section: (typeof articleSections)[0]; index: number }) {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -209,7 +206,7 @@ function ArticleSection({
   );
 }
 
-export default function ArticleDiscipleshipMissionsAi() {
+export default function ArticleSabbathRestAi() {
   const [summaryOpen, setSummaryOpen] = useState(false);
   return (
     <div
@@ -281,7 +278,7 @@ export default function ArticleDiscipleshipMissionsAi() {
         <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
           <div className={`${contentMax} mx-auto`}>
             <p className="text-sm text-neutral-600 italic leading-relaxed [text-wrap:balance]">
-              A note on how I wrote this article: I used Google NotebookLM to gather and organise research sources, and worked with Claude Sonnet (Anthropic's AI) to help structure and draft this article. I remained the author throughout — the stories, ministry experience, theological convictions, and editorial direction are mine. AI helped me get words on the page; it didn't replace my voice or my thinking.
+              {AI_TRANSPARENCY_NOTE}
             </p>
           </div>
         </section>
@@ -297,7 +294,7 @@ export default function ArticleDiscipleshipMissionsAi() {
                 Back to Resources
               </Link>
               <a
-                href="https://github.com/kiwibuddy/Ai-Consulting/edit/main/client/src/content/article-discipleship-missions-ai.ts"
+                href="https://github.com/kiwibuddy/Ai-Consulting/edit/main/client/src/content/article-sabbath-rest-ai.ts"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-neutral-500 hover:text-neutral-700 underline"
@@ -306,7 +303,10 @@ export default function ArticleDiscipleshipMissionsAi() {
               </a>
             </div>
             <Button asChild>
-              <a href="https://www.nathanielbaldock.com/#contact" className="tesoro-cta-gradient">
+              <a
+                href="https://www.nathanielbaldock.com/#contact"
+                className="tesoro-cta-gradient"
+              >
                 Book a free 30-min consultation
               </a>
             </Button>

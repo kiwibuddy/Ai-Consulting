@@ -313,6 +313,7 @@ html[data-theme="site"].light {
 
 /* CTA gradient: green → yellow (Tesoro). !important so theme never reverts to orange. */
 [data-theme="site"] .tesoro-cta-gradient,
+[data-public-site] .tesoro-cta-gradient,
 html[data-theme="site"] .tesoro-cta-gradient,
 .tesoro-cta-gradient {
   background: linear-gradient(135deg, hsl(142 76% 42%), hsl(92 82% 45%)) !important;
@@ -320,6 +321,7 @@ html[data-theme="site"] .tesoro-cta-gradient,
   border: none !important;
 }
 [data-theme="site"] .tesoro-cta-gradient:hover,
+[data-public-site] .tesoro-cta-gradient:hover,
 html[data-theme="site"] .tesoro-cta-gradient:hover,
 .tesoro-cta-gradient:hover {
   opacity: 0.95;
@@ -604,6 +606,30 @@ html[data-theme="site"].light header.fixed.top-0,
     }
     100% {
       background-position: -200% 0;
+    }
+  }
+
+  /* Article heading shimmer — green gradient sweeps across text once */
+  .shimmer-text-active {
+    background: linear-gradient(
+      110deg,
+      #171717 35%,
+      hsl(142, 76%, 42%) 50%,
+      #171717 65%
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer-text-sweep 1.5s ease-in-out forwards;
+  }
+
+  @keyframes shimmer-text-sweep {
+    0% {
+      background-position: 100% center;
+    }
+    100% {
+      background-position: -100% center;
     }
   }
 
