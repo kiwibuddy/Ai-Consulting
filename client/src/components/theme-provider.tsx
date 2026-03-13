@@ -32,28 +32,45 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-    const siteTheme = root.getAttribute("data-theme");
 
-    // Public site uses a single locked theme (dark header, green CTA). Do not add .dark/.light
-    // or they override the site CSS variables (e.g. orange primary from .dark).
-    if (siteTheme === "site") {
+    function applyTheme() {
+      const siteTheme = root.getAttribute("data-theme");
+
+      if (siteTheme === "site") {
+        root.classList.remove("light", "dark");
+        return;
+      }
+
       root.classList.remove("light", "dark");
-      return;
+
+      if (theme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light";
+        root.classList.add(systemTheme);
+        return;
+      }
+
+      root.classList.add(theme);
     }
 
-    root.classList.remove("light", "dark");
+    applyTheme();
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === "data-theme") {
+          applyTheme();
+          return;
+        }
+      }
+    });
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
-      root.classList.add(systemTheme);
-      return;
-    }
-
-    root.classList.add(theme);
+    return () => observer.disconnect();
   }, [theme]);
 
   const value = {

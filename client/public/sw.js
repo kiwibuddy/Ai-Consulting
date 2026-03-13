@@ -1,7 +1,7 @@
 // Service Worker for PWA
 // Enhanced with better caching strategies and offline support
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE = `holger-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `holger-dynamic-${CACHE_VERSION}`;
 const API_CACHE = `holger-api-${CACHE_VERSION}`;
@@ -171,9 +171,9 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Static assets: cache-first
+  // Static assets: stale-while-revalidate (ensures fresh CSS/JS after deploys)
   if (isStaticAsset(request)) {
-    event.respondWith(cacheFirst(request, STATIC_CACHE));
+    event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
     return;
   }
   
