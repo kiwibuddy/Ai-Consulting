@@ -18,7 +18,7 @@ export const articles: ArticleItem[] = [
     date: "2026-02-26",
     readTime: "16 min",
     category: "AI & Faith",
-    image: "/images/article-default-header.png",
+    image: "/images/teens-algorithm-header.png",
   },
   {
     id: "sabbath-rest-ai",

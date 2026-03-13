@@ -15,7 +15,7 @@ export const articleMeta = {
   modifiedDate: "2026-02-26",
   readTime: "16 min",
   category: "AI & Faith",
-  image: "/images/article-default-header.png",
+  image: "/images/teens-algorithm-header.png",
   canonicalUrl: "https://www.nathanielbaldock.com/resources/when-your-teens-best-friend-is-an-algorithm",
 };
 
