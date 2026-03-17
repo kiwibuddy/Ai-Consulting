@@ -226,6 +226,20 @@ export const invoices = pgTable("invoices", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Survey responses (AI Knowledge Bank)
+export const surveyResponses = pgTable("survey_responses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
+  email: varchar("email").notNull(),
+  aiConcerns: text("ai_concerns").notNull(),
+  aiWishlist: text("ai_wishlist").notNull(),
+  learningPreferences: text("learning_preferences").notNull(), // JSON array string of selected learning modes
+  otherLearningMethod: text("other_learning_method"),
+  interestedInUpdates: boolean("interested_in_updates").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // OAuth tokens for calendar sync
 export const userOAuthTokens = pgTable("user_oauth_tokens", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -320,6 +334,11 @@ export const insertInvoiceSchema = createInsertSchema(invoices).omit({
   updatedAt: true,
 });
 
+export const insertSurveyResponseSchema = createInsertSchema(surveyResponses).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertUserOAuthTokenSchema = createInsertSchema(userOAuthTokens).omit({
   id: true,
   createdAt: true,
@@ -362,3 +381,6 @@ export type InsertInvoice = z.infer<typeof insertInvoiceSchema>;
 
 export type UserOAuthToken = typeof userOAuthTokens.$inferSelect;
 export type InsertUserOAuthToken = z.infer<typeof insertUserOAuthTokenSchema>;
+
+export type SurveyResponse = typeof surveyResponses.$inferSelect;
+export type InsertSurveyResponse = z.infer<typeof insertSurveyResponseSchema>;

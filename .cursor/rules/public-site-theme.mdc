@@ -52,3 +52,7 @@ The marketing site (landing, about, speaking, resources, pricing, login, intake,
 - Keep **`data-theme="site"`** on the page root and/or rely on the layout wrapper.
 - Use **`tesoro-cta-gradient`** on primary CTAs.
 - Use **`SiteHeader`** and **`SiteFooter`** with the same pattern as existing public pages.
+
+## After any updates to the code
+
+- **Verify the public theme**: Load the homepage (e.g. `http://localhost:3000`) and confirm the CTA is **green** (not orange) and the header is dark. If it reverts to orange, the theme logic in `App.tsx`, `public-site-layout.tsx`, and/or `main.tsx` may need to be rechecked.

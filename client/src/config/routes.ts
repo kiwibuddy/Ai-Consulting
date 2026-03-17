@@ -9,6 +9,7 @@ export const PUBLIC_ROUTES = [
   "/about",
   "/speaking",
   "/speaking/invite",
+  "/survey",
   "/resources",
   "/resources/raising-humans-in-the-age-of-the-digital-god",
   "/resources/discipleship-and-missions-in-an-ai-age",

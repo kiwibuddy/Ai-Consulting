@@ -23,6 +23,7 @@ import ArticleSabbathRestAi from "@/pages/article-sabbath-rest-ai";
 import ArticleSoulNeedsStruggle from "@/pages/article-soul-needs-struggle";
 import ArticleTeensAlgorithmFriend from "@/pages/article-teens-algorithm-friend";
 import AboutPage from "@/pages/about";
+import SurveyPage from "@/pages/survey";
 import PricingPage from "@/pages/pricing";
 import LoginPage from "@/pages/login";
 import PrivacyPage from "@/pages/privacy";
@@ -292,6 +293,7 @@ function Router() {
       <Route path="/intake" component={() => <PublicSiteLayout><IntakePage /></PublicSiteLayout>} />
       <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
       <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
+      <Route path="/survey" component={() => <PublicSiteLayout><SurveyPage /></PublicSiteLayout>} />
       <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
       {/* Redirect old /articles/... URLs to canonical /resources/... */}
       <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">

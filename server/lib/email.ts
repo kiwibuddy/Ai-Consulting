@@ -647,6 +647,153 @@ export function intakeConfirmationEmail(clientEmail: string, clientName: string)
   };
 }
 
+export function surveyNotificationEmail(options: {
+  ownerEmail?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  aiConcerns: string;
+  aiWishlist: string;
+  learningPreferences: string[];
+  otherLearningMethod?: string | null;
+  interestedInUpdates: boolean;
+}): EmailOptions {
+  const ownerEmail = options.ownerEmail || process.env.SITE_CONTACT_EMAIL || "nathanielbaldock@gmail.com";
+  const logoUrl = emailLogoUrl;
+  const learningList =
+    options.learningPreferences.length > 0
+      ? options.learningPreferences.map((item) => `<li>${item}</li>`).join("")
+      : "<li>(no specific formats selected)</li>";
+
+  const otherBlock = options.otherLearningMethod
+    ? `<tr><td class="label">Other ideas</td><td>${options.otherLearningMethod}</td></tr>`
+    : "";
+
+  return {
+    to: ownerEmail,
+    subject: `New AI survey response - ${options.firstName} ${options.lastName}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 24px; text-align: center; }
+            .header img { display: block; margin: 0 auto 12px; height: 36px; width: auto; max-width: 170px; object-fit: contain; }
+            .header h1 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; }
+            .content { padding: 24px; }
+            .content p { margin: 0 0 1em; }
+            table.info { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+            table.info td { padding: 8px 0; vertical-align: top; border-bottom: 1px solid #f0f0f0; }
+            table.info td.label { font-weight: 600; color: ${emailPrimaryGreen}; width: 140px; }
+            .question { margin-top: 16px; }
+            .question h3 { margin: 0 0 4px; font-size: 0.95rem; color: #171717; }
+            .question p { margin: 0; white-space: pre-wrap; }
+            ul { margin: 0.5em 0 0; padding-left: 1.25em; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="170" height="36" />
+                <h1>New AI knowledge survey response</h1>
+              </div>
+              <div class="content">
+                <p>Someone just completed your AI survey. Here's what they shared:</p>
+                <table class="info">
+                  <tr><td class="label">Name</td><td>${options.firstName} ${options.lastName}</td></tr>
+                  <tr><td class="label">Email</td><td>${options.email}</td></tr>
+                  <tr><td class="label">Wants updates?</td><td>${options.interestedInUpdates ? "Yes" : "No"}</td></tr>
+                </table>
+
+                <div class="question">
+                  <h3>Q1. What about AI worries them / they wish they understood?</h3>
+                  <p>${options.aiConcerns}</p>
+                </div>
+
+                <div class="question">
+                  <h3>Q2. Where they'd love AI to help (life/work/family/ministry)</h3>
+                  <p>${options.aiWishlist}</p>
+                </div>
+
+                <div class="question">
+                  <h3>Q3. How they'd like to learn</h3>
+                  <ul>${learningList}</ul>
+                </div>
+
+                ${otherBlock ? `<div class="question">${otherBlock}</div>` : ""}
+
+                <p style="margin-top: 16px; font-size: 13px; color: #737373;">
+                  You can reply directly to this email address to follow up personally.
+                </p>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function surveyThankYouEmail(clientEmail: string, clientName: string): EmailOptions {
+  const logoUrl = emailLogoUrl;
+  return {
+    to: clientEmail,
+    subject: "Thanks for sharing your thoughts on AI - Nathaniel Baldock",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
+            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
+            .header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+            .content { padding: 28px 24px; }
+            .content p { margin: 0 0 1em; }
+            .btn { display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 600; margin-top: 12px; }
+            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
+            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" />
+                <h1>Thank you for sharing</h1>
+              </div>
+              <div class="content">
+                <p>Hi ${clientName},</p>
+                <p>Thank you for taking a moment to share how you're feeling about AI and where you'd love help. I really appreciate your honesty and trust.</p>
+                <p>I'll personally read through what you wrote and use it to shape the next resources, trainings, and conversations I create.</p>
+                <p>If you're curious in the meantime, you can explore articles, talks, and tools I've already started putting together here:</p>
+                <p>
+                  <a href="${publicSiteUrl}/resources" class="btn">Browse AI resources</a>
+                </p>
+                <p>If you ever want to ask a question directly, you can also reply to this email.</p>
+                <p>Grace and peace,<br />Nathaniel</p>
+              </div>
+              <div class="footer">
+                <a href="${publicSiteUrl}">Nathaniel Baldock AI Consulting</a> · Practical AI for Faith, Education & Mission-Driven Leaders
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
 export function passwordResetEmail(userEmail: string, userName: string, resetToken: string): EmailOptions {
   const baseUrl =
     process.env.APP_URL ||

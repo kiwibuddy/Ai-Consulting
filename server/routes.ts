@@ -10,6 +10,7 @@ import {
   insertActionItemSchema,
   insertNotificationSchema,
   insertMessageSchema,
+  insertSurveyResponseSchema,
 } from "@shared/schema";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
 import { isAuthenticated, authStorage } from "./auth";
@@ -18,6 +19,8 @@ import {
   sendEmail,
   intakeSubmittedEmail,
   intakeConfirmationEmail,
+  surveyNotificationEmail,
+  surveyThankYouEmail,
   accountCreatedEmail,
   sessionScheduledEmail,
   sessionReminderEmail,
@@ -186,6 +189,65 @@ export async function registerRoutes(
         const errStack = error instanceof Error ? error.stack : undefined;
         console.error("Intake form error:", errMessage, errStack ?? "");
         res.status(500).json({ error: "Failed to submit intake form" });
+      }
+    }
+  });
+
+  // AI Knowledge Bank survey (public)
+  app.post("/api/survey", publicFormLimiter, async (req, res) => {
+    try {
+      const schema = insertSurveyResponseSchema.extend({
+        learningPreferences: z.array(z.string()).min(1, "Select at least one option"),
+        interestedInUpdates: z.boolean().optional(),
+      });
+
+      const parsed = schema.parse({
+        ...req.body,
+        interestedInUpdates: req.body.interestedInUpdates ?? false,
+      });
+
+      const dbPayload = insertSurveyResponseSchema.parse({
+        firstName: parsed.firstName,
+        lastName: parsed.lastName,
+        email: parsed.email,
+        aiConcerns: parsed.aiConcerns,
+        aiWishlist: parsed.aiWishlist,
+        learningPreferences: JSON.stringify(parsed.learningPreferences),
+        otherLearningMethod: parsed.otherLearningMethod ?? null,
+        interestedInUpdates: parsed.interestedInUpdates ?? false,
+      });
+
+      const saved = await storage.createSurveyResponse(dbPayload);
+
+      // Fire-and-forget emails; don't fail request if they error
+      try {
+        await sendEmail(
+          surveyNotificationEmail({
+            firstName: parsed.firstName,
+            lastName: parsed.lastName,
+            email: parsed.email,
+            aiConcerns: parsed.aiConcerns,
+            aiWishlist: parsed.aiWishlist,
+            learningPreferences: parsed.learningPreferences,
+            otherLearningMethod: parsed.otherLearningMethod ?? null,
+            interestedInUpdates: parsed.interestedInUpdates ?? false,
+          })
+        );
+
+        await sendEmail(surveyThankYouEmail(parsed.email, parsed.firstName));
+      } catch (emailErr) {
+        console.error("Survey emails failed (response was saved):", emailErr);
+      }
+
+      res.status(201).json({ ok: true, surveyId: saved.id });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        const errMessage = error instanceof Error ? error.message : String(error);
+        const errStack = error instanceof Error ? error.stack : undefined;
+        console.error("Survey submission error:", errMessage, errStack ?? "");
+        res.status(500).json({ error: "Failed to submit survey" });
       }
     }
   });
