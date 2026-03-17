@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rewiring Family Rhythms — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #ffffff;
+  --bg-warm:   hsl(40,33%,98%);
+  --bg-side:   hsl(35,20%,96%);
+  --bg-muted:  hsl(35,20%,94%);
+  --fg:        hsl(30,10%,15%);
+  --fg-med:    hsl(30,10%,28%);
+  --fg-muted:  hsl(30,8%,45%);
+  --border:    hsl(35,15%,88%);
+  --bcard:     hsl(35,15%,90%);
+  --green:     hsl(142,76%,42%);
+  --green-bg:  hsl(142,76%,42%,0.07);
+  --green-mid: hsl(142,65%,78%);
+  --gold:      hsl(38,96%,50%);
+  --gold-bg:   hsl(38,96%,50%,0.08);
+  --dark:      #171717;
+  --cta:       linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Per-week accent colours */
+  --w1:        hsl(210,65%,48%);   /* blue   — unplugged activity */
+  --w1-bg:     hsl(210,65%,48%,0.08);
+  --w1-light:  hsl(210,55%,84%);
+  --w2:        hsl(142,65%,38%);   /* green  — reading night */
+  --w2-bg:     hsl(142,65%,38%,0.08);
+  --w2-light:  hsl(142,55%,82%);
+  --w3:        hsl(280,52%,50%);   /* purple — phone basket */
+  --w3-bg:     hsl(280,52%,50%,0.08);
+  --w3-light:  hsl(280,45%,85%);
+  --w4:        hsl(38,90%,46%);    /* amber  — shared project */
+  --w4-bg:     hsl(38,90%,46%,0.08);
+  --w4-light:  hsl(38,85%,82%);
+  --font-sans: 'DM Sans',system-ui,sans-serif;
+  --font-serif:'Playfair Display',Georgia,serif;
+  --r:         14px;
+  --r-sm:      8px;
+}
+
+html{background:#f0efeb;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* SITE HEADER */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* HERO — green accent for this one (positive, action-oriented) */
+.hero{background:var(--dark);padding:40px 40px 44px;position:relative;overflow:hidden;border-bottom:3px solid var(--green);}
+.hero::before{content:'';position:absolute;top:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,hsl(142,76%,42%,.12) 0%,transparent 70%);pointer-events:none;}
+.hero-num{font-family:var(--font-serif);font-size:110px;font-weight:400;color:rgba(255,255,255,.04);position:absolute;top:8px;right:40px;line-height:1;user-select:none;letter-spacing:-4px;}
+.hero-series{font-size:9px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.s-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.22);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:18px;}
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.08;margin-bottom:12px;max-width:540px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.6);}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.65;max-width:500px;margin-bottom:30px;}
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.1);}
+
+/* BODY */
+.body{padding:38px 40px 36px;}
+
+/* shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:24px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:660px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+.scr{border-left:2.5px solid var(--green);padding:14px 0 12px 22px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:44px;line-height:.5;color:var(--bg-muted);position:absolute;top:14px;left:5px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15.5px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:7px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Smith quote block */
+.smith-block{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r);padding:22px 26px;margin-bottom:28px;position:relative;overflow:hidden;}
+.smith-block::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cta);}
+.smith-lbl{font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+.smith-text{font-family:var(--font-serif);font-size:18px;font-style:italic;line-height:1.55;color:var(--fg);margin-bottom:10px;}
+.smith-source{font-size:11px;color:var(--fg-muted);font-weight:300;}
+
+/* Why this works — 2-col */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.why-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.why-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:7px;}
+.why-text{font-size:13px;line-height:1.65;color:var(--fg-med);font-weight:300;}
+.why-text strong{color:var(--fg);font-weight:500;}
+
+/* ── WEEK PROGRESS BAR ── */
+.progress-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:24px 0 32px;}
+.prog-week{padding:12px 14px;border-radius:var(--r-sm);border:1px solid;cursor:pointer;transition:opacity .15s;}
+.prog-week:hover{opacity:.85;}
+.prog-num{font-family:var(--font-serif);font-size:22px;font-weight:400;line-height:1;margin-bottom:4px;}
+.prog-name{font-size:10px;font-weight:600;letter-spacing:.3px;}
+.prog-check{margin-top:8px;font-size:9px;font-weight:300;color:inherit;opacity:.6;}
+
+.pw1{background:var(--w1-bg);border-color:hsl(210,55%,72%);color:var(--w1);}
+.pw2{background:var(--w2-bg);border-color:hsl(142,55%,68%);color:var(--w2);}
+.pw3{background:var(--w3-bg);border-color:hsl(280,45%,70%);color:var(--w3);}
+.pw4{background:var(--w4-bg);border-color:hsl(38,80%,65%);color:var(--w4);}
+
+/* ── WEEK CARDS ── */
+.week-card{border-radius:var(--r);overflow:hidden;margin-bottom:20px;border:1px solid var(--border);}
+
+.week-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:20px 24px;}
+.wh-w1{background:var(--w1);}
+.wh-w2{background:var(--w2);}
+.wh-w3{background:var(--w3);}
+.wh-w4{background:var(--w4);}
+
+.week-icon{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.week-head-text{}
+.week-tag{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:4px;}
+.week-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:#fff;line-height:1.2;}
+.week-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.6);margin-top:3px;}
+.week-num{font-family:var(--font-serif);font-size:52px;font-weight:400;color:rgba(255,255,255,.12);line-height:1;user-select:none;}
+
+/* Week body */
+.week-body{padding:22px 24px;background:var(--bg);}
+
+.habit-row{display:grid;grid-template-columns:28px 1fr;gap:10px;margin-bottom:16px;align-items:flex-start;}
+.habit-icon-wrap{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.habit-content{}
+.habit-title{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:3px;}
+.habit-desc{font-size:12px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:8px;}
+
+/* Daily check grid */
+.day-checks{display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap;}
+.day-check{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.day-label{font-size:8px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--fg-muted);}
+.day-box{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border);background:var(--bg-warm);cursor:pointer;transition:all .15s;position:relative;}
+.day-box:hover{border-color:var(--green);}
+.day-box.checked{border-color:var(--green);background:var(--green);}
+.day-box.checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;}
+
+/* Week reflection */
+.week-reflect{background:var(--bg-warm);border-top:1px solid var(--bcard);padding:16px 24px;}
+.wr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.wr-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.wr-field{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:8px;}
+.wr-field:focus{border-bottom-color:var(--green);}
+.wr-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* Scripture verse for each week */
+.week-verse{padding:12px 24px 14px;border-top:1px solid var(--bcard);font-family:var(--font-serif);font-style:italic;font-size:12.5px;line-height:1.5;color:var(--fg-muted);background:var(--bg);}
+.week-verse span{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:4px;font-style:normal;}
+
+/* ── FAMILY COMMITMENT ── */
+.commit{background:var(--dark);border-radius:var(--r);padding:26px 28px;margin:32px 0 0;}
+.commit::before{display:none;}
+.commit-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.commit-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.commit-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:#fff;margin-bottom:8px;}
+.commit-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:22px;}
+.commit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px;}
+.commit-field-wrap{}
+.cf-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:7px;}
+.cf-input{border:none;border-bottom:1.5px solid rgba(255,255,255,.2);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:#fff;padding:3px 0 6px;outline:none;}
+.cf-input:focus{border-bottom-color:var(--green);}
+.cf-input::placeholder{color:rgba(255,255,255,.2);}
+.sig-row-dark{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,.1);padding-top:18px;}
+.sig-col-d{padding:0 18px 0 0;}
+.sig-col-d+.sig-col-d{padding:0 0 0 18px;border-left:1px solid rgba(255,255,255,.1);}
+.sig-lbl-d{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.sig-in-d{border:none;border-bottom:1px solid rgba(255,255,255,.2);width:100%;background:transparent;font-family:var(--font-serif);font-size:15px;color:#fff;padding:2px 0 5px;outline:none;font-style:italic;}
+.sig-in-d::placeholder{color:rgba(255,255,255,.15);}
+.sig-in-d:focus{border-bottom-color:var(--green);}
+
+/* Final reflection */
+.final-reflect{margin-top:28px;}
+.fq-block{margin-bottom:20px;}
+.fq-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;}
+.fq-num{font-family:var(--font-serif);font-size:24px;font-weight:400;color:var(--border);flex-shrink:0;min-width:20px;line-height:1;}
+.fq-text{font-size:13.5px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:2px;}
+.fq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:56px;background:var(--bg-warm);}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:26px 30px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.6);max-width:600px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.3);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-side);border-top:1px solid var(--border);padding:15px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.day-box{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Family &amp; Technology Series</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-num">4</div>
+  <div class="hero-series"><div class="s-dot"></div>Family &amp; Technology · Worksheet 4 of 5</div>
+  <div class="hero-pill">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1.5v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.2"/></svg>
+    4-week family challenge
+  </div>
+  <div class="hero-title">Rewiring Family<br><em>Rhythms</em></div>
+  <div class="hero-sub">You become what you repeatedly do — not just what you believe. Four weeks. Four habits. One family. This is how formation actually works.</div>
+  <div class="hero-meta">
+    <span class="mi">4 weeks</span><div class="msep"></div>
+    <span class="mi">Whole family</span><div class="msep"></div>
+    <span class="mi">One new habit per week</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Smith quote -->
+  <div class="smith-block">
+    <div class="smith-lbl">The idea behind this worksheet</div>
+    <div class="smith-text">"You are what you love — and you love what you habitually do. Liturgies — habits, routines, rituals — are the means by which our hearts are calibrated."</div>
+    <div class="smith-source">James K.A. Smith — <em>You Are What You Love</em> (2016) · Smith calls habits "calibration technologies" that shape our desires before we think about them</div>
+  </div>
+
+  <!-- Why cards -->
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-lbl">Why habits, not intentions</div>
+      <div class="why-text">Most families have good values but default habits. The algorithms are designed to <strong>fill every gap with a screen</strong>. The only thing that changes a default is replacing it with something else — deliberately, repeatedly, until it becomes the new default.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-lbl">Why four weeks</div>
+      <div class="why-text">Research suggests <strong>it takes around 66 days to form a new habit</strong> — not 21 as the old myth claimed. Four weeks won't wire it permanently, but it's enough to discover whether a habit is worth keeping. That discovery is the point.</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Fix these words of mine in your hearts and minds; tie them as symbols on your hands and bind them on your foreheads. Teach them to your children, talking about them when you sit at home and when you walk along the road, when you lie down and when you get up."</div>
+    <div class="scr-ref">Deuteronomy 11:18–19 · Formation isn't an event — it's woven into the ordinary texture of daily life</div>
+  </div>
+
+  <hr class="div">
+
+  <!-- Week progress overview -->
+  <div class="sec-lbl">The four-week overview</div>
+  <div class="sec-sub" style="margin-bottom:4px;">Each week builds on the last. Don't skip ahead — let each habit settle before adding the next.</div>
+
+  <div class="progress-strip">
+    <div class="prog-week pw1">
+      <div class="prog-num">1</div>
+      <div class="prog-name">Unplugged Activity</div>
+      <div class="prog-check">One screen-free family activity per week</div>
+    </div>
+    <div class="prog-week pw2">
+      <div class="prog-num">2</div>
+      <div class="prog-name">Reading Night</div>
+      <div class="prog-check">A weekly family reading time together</div>
+    </div>
+    <div class="prog-week pw3">
+      <div class="prog-num">3</div>
+      <div class="prog-name">Phone Basket</div>
+      <div class="prog-check">Phones in, presence on — at the door</div>
+    </div>
+    <div class="prog-week pw4">
+      <div class="prog-num">4</div>
+      <div class="prog-name">Shared Project</div>
+      <div class="prog-check">Something you build or make together</div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ── WEEK 1 ── -->
+  <div class="week-card">
+    <div class="week-head wh-w1">
+      <div class="week-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7.13 3 4 6.13 4 10c0 3.53 2.44 6.49 5.72 7.28V19h2.56v-1.72C15.56 16.49 18 13.53 18 10c0-3.87-3.13-7-7-7z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><line x1="11" y1="19" x2="11" y2="22" stroke="white" stroke-width="1.4" stroke-linecap="round"/><line x1="8.5" y1="21" x2="13.5" y2="21" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="week-head-text">
+        <div class="week-tag">Week 1 · Foundation habit</div>
+        <div class="week-title">The Unplugged Activity</div>
+        <div class="week-sub">One thing per week — no screens, full presence</div>
+      </div>
+      <div class="week-num">1</div>
+    </div>
+
+    <div class="week-body">
+      <div class="habit-row">
+        <div class="habit-icon-wrap" style="background:var(--w1-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 5v7h4V9h2v3h4V5L7 1z" stroke="hsl(210,65%,48%)" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="habit-content">
+          <div class="habit-title">What this looks like</div>
+          <div class="habit-desc">Pick ONE activity per week that everyone does together with no screens at all. A walk after dinner. A board game. Cooking a meal from scratch. Kicking a ball at the park. The activity isn't the point — <em>the undivided presence is</em>. Start small. Make it achievable.</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">Our activity this week:</div>
+          <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="Write it down — specifics make it real…">
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;">Track the week — did you do it?</div>
+        <div class="day-checks">
+          <div class="day-check"><div class="day-label">Mon</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Tue</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Wed</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Thu</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Fri</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Sat</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div class="day-check"><div class="day-label">Sun</div><div class="day-box" onclick="toggleCheck(this)"></div></div>
+          <div style="margin-left:8px;display:flex;align-items:center;font-size:11px;color:var(--fg-muted);font-weight:300;">← Tick the day you did your activity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-reflect">
+      <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;">End-of-week reflection</div>
+      <div class="wr-grid">
+        <div><div class="wr-lbl">What did we actually do?</div><input class="wr-field" type="text" placeholder="Describe the activity…"><input class="wr-field" type="text" placeholder="How did it go?…"></div>
+        <div><div class="wr-lbl">What did we notice?</div><input class="wr-field" type="text" placeholder="What surprised you?…"><input class="wr-field" type="text" placeholder="What do you want more of?…"></div>
+      </div>
+    </div>
+    <div class="week-verse" style="border-left:3px solid var(--w1);">
+      <span style="color:var(--w1);">Week 1 verse</span>
+      "Be still, and know that I am God." — Psalm 46:10 · Presence is a practice. It doesn't happen automatically.
+    </div>
+  </div>
+
+  <!-- ── WEEK 2 ── -->
+  <div class="week-card">
+    <div class="week-head wh-w2">
+      <div class="week-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 5h14v12a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" stroke="white" stroke-width="1.4" fill="none"/><path d="M4 5a2 2 0 012-2h10a2 2 0 012 2" stroke="white" stroke-width="1.4" fill="none"/><line x1="8" y1="10" x2="14" y2="10" stroke="white" stroke-width="1.4" stroke-linecap="round"/><line x1="8" y1="13" x2="12" y2="13" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="week-head-text">
+        <div class="week-tag">Week 2 · Add to Week 1</div>
+        <div class="week-title">Family Reading Night</div>
+        <div class="week-sub">Same time, same place, every week — reading together</div>
+      </div>
+      <div class="week-num">2</div>
+    </div>
+
+    <div class="week-body">
+      <div class="habit-row">
+        <div class="habit-icon-wrap" style="background:var(--w2-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h4a2 2 0 012 2v6a1 1 0 01-1 1H2V3z" stroke="hsl(142,65%,38%)" stroke-width="1.2" fill="none"/><path d="M12 3H8a2 2 0 00-2 2v6a1 1 0 001 1h4V3z" stroke="hsl(142,65%,38%)" stroke-width="1.2" fill="none"/></svg>
+        </div>
+        <div class="habit-content">
+          <div class="habit-title">What this looks like</div>
+          <div class="habit-desc">Pick one evening per week where everyone reads — together but not necessarily the same thing. 20–30 minutes. Phones in the basket. You can read aloud together, or each read your own book in the same room. The rhythm of being physically present and mentally engaged without screens is itself formative.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">Our night of the week:</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="e.g. Tuesday evenings…">
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">What we're reading:</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="Book titles or 'own choice'…">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-reflect">
+      <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;">End-of-week reflection</div>
+      <div class="wr-grid">
+        <div><div class="wr-lbl">Did reading night happen?</div><input class="wr-field" type="text" placeholder="Yes / almost / not quite — why?…"><input class="wr-field" type="text" placeholder="What helped or got in the way?…"></div>
+        <div><div class="wr-lbl">What did we read / discuss?</div><input class="wr-field" type="text" placeholder="Any surprising conversations?…"><input class="wr-field" type="text" placeholder="What do we want to keep?…"></div>
+      </div>
+    </div>
+    <div class="week-verse" style="border-left:3px solid var(--w2);">
+      <span style="color:var(--w2);">Week 2 verse</span>
+      "Your word is a lamp to my feet and a light to my path." — Psalm 119:105 · What we feed our minds shapes what we love.
+    </div>
+  </div>
+
+  <!-- ── WEEK 3 ── -->
+  <div class="week-card">
+    <div class="week-head wh-w3">
+      <div class="week-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="5" y="3" width="12" height="16" rx="2" stroke="white" stroke-width="1.4" fill="none"/><path d="M9 7h4M9 11h4M9 15h2" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="week-head-text">
+        <div class="week-tag">Week 3 · Add to Weeks 1 &amp; 2</div>
+        <div class="week-title">The Phone Basket</div>
+        <div class="week-sub">Phones off, presence on — a daily boundary at the door</div>
+      </div>
+      <div class="week-num">3</div>
+    </div>
+
+    <div class="week-body">
+      <div class="habit-row">
+        <div class="habit-icon-wrap" style="background:var(--w3-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L2 4v6l5 2.5L12 10V4L7 1.5z" stroke="hsl(280,52%,50%)" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="habit-content">
+          <div class="habit-title">What this looks like</div>
+          <div class="habit-desc">Put a basket at your front door — or in the kitchen, wherever works. When you arrive home, phones go in the basket. During dinner, phones go in the basket. This isn't about banning devices forever. It's about creating a <em>threshold</em> — a physical moment that signals: <strong>here, we are present to each other.</strong></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">Where our basket will live:</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="e.g. Kitchen counter by the door…">
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">When phones go in (times):</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="e.g. Dinner 6–7pm, bedtime 9pm…">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;background:var(--w3-bg);border-radius:var(--r-sm);padding:12px 14px;border:1px solid hsl(280,45%,74%);">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--w3);margin-bottom:6px;">A note on resistance</div>
+        <div style="font-size:12px;font-weight:300;color:var(--fg-med);line-height:1.5;">Your kids will resist this. So will you. That resistance is data — it tells you how deeply habituated the default has become. Name it honestly, but don't negotiate around it. The basket is the rule, not a suggestion.</div>
+      </div>
+    </div>
+
+    <div class="week-reflect">
+      <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;">End-of-week reflection</div>
+      <div class="wr-grid">
+        <div><div class="wr-lbl">How did the basket go?</div><input class="wr-field" type="text" placeholder="Consistent / patchy / abandoned?…"><input class="wr-field" type="text" placeholder="Who found it hardest?…"></div>
+        <div><div class="wr-lbl">What filled the space?</div><input class="wr-field" type="text" placeholder="What happened when phones were away?…"><input class="wr-field" type="text" placeholder="Conversations, silence, boredom?…"></div>
+      </div>
+    </div>
+    <div class="week-verse" style="border-left:3px solid var(--w3);">
+      <span style="color:var(--w3);">Week 3 verse</span>
+      "Let all that you do be done in love." — 1 Corinthians 16:14 · Presence is one of the most concrete forms love takes.
+    </div>
+  </div>
+
+  <!-- ── WEEK 4 ── -->
+  <div class="week-card">
+    <div class="week-head wh-w4">
+      <div class="week-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 18l4-8 4 4 3-5 3 9H4z" stroke="white" stroke-width="1.4" stroke-linejoin="round" fill="none"/><circle cx="16" cy="6" r="2.5" stroke="white" stroke-width="1.4" fill="none"/></svg>
+      </div>
+      <div class="week-head-text">
+        <div class="week-tag">Week 4 · All four habits active</div>
+        <div class="week-title">The Shared Project</div>
+        <div class="week-sub">Build something together — anything that takes more than one session</div>
+      </div>
+      <div class="week-num">4</div>
+    </div>
+
+    <div class="week-body">
+      <div class="habit-row">
+        <div class="habit-icon-wrap" style="background:var(--w4-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2l1.5 3h3l-2.5 2 1 3.5L7 9l-3 1.5 1-3.5L2.5 5h3L7 2z" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="habit-content">
+          <div class="habit-title">What this looks like</div>
+          <div class="habit-desc">Choose something that takes at least 3–4 sessions to complete. Cook through a recipe book. Build something from wood. Plant a garden bed. Write a family letter. Start a prayer journal together. Do a puzzle. The purpose is to create a shared endeavour that <em>keeps drawing you back to the same table</em> — not to produce a perfect result.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">Our project:</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="What we're building or making…">
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">When we'll work on it:</div>
+              <input style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;" type="text" placeholder="Time slots across the week…">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;background:var(--w4-bg);border-radius:var(--r-sm);padding:12px 14px;border:1px solid hsl(38,80%,66%);">
+        <div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--w4);margin-bottom:6px;">Project ideas by age</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div><div style="font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;">Young kids</div><div style="font-size:11px;font-weight:300;color:var(--fg-med);line-height:1.5;">Garden bed · LEGO city · Scrapbook · Cookie recipe series</div></div>
+          <div><div style="font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;">Teens</div><div style="font-size:11px;font-weight:300;color:var(--fg-med);line-height:1.5;">Podcast · Woodwork · Meal plan challenge · Photo journal</div></div>
+          <div><div style="font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;">Whole family</div><div style="font-size:11px;font-weight:300;color:var(--fg-med);line-height:1.5;">Serve someone together · Family history · Prayer board · Trip plan</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-reflect">
+      <div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;">End-of-week reflection</div>
+      <div class="wr-grid">
+        <div><div class="wr-lbl">How far did we get?</div><input class="wr-field" type="text" placeholder="Progress on the project…"><input class="wr-field" type="text" placeholder="What we built / made / created…"></div>
+        <div><div class="wr-lbl">What will we continue?</div><input class="wr-field" type="text" placeholder="Is this project worth keeping going?…"><input class="wr-field" type="text" placeholder="What felt genuinely good about it?…"></div>
+      </div>
+    </div>
+    <div class="week-verse" style="border-left:3px solid var(--w4);">
+      <span style="color:var(--w4);">Week 4 verse</span>
+      "Two are better than one, because they have a good return for their labour." — Ecclesiastes 4:9 · What we build together stays.
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- FAMILY COMMITMENT -->
+  <div class="commit">
+    <div class="commit-lbl"><div class="commit-dot"></div>Make it official</div>
+    <div class="commit-title">Our Family Rhythm Commitment</div>
+    <div class="commit-sub">Write down which habits you're keeping beyond these four weeks — and sign it together. The point isn't rigidity. It's intention.</div>
+    <div class="commit-grid">
+      <div class="commit-field-wrap">
+        <div class="cf-lbl">Habits we're keeping after Week 4:</div>
+        <input class="cf-input" type="text" placeholder="e.g. Phone basket at dinner, weekly reading night…">
+      </div>
+      <div class="commit-field-wrap">
+        <div class="cf-lbl">One habit we want to add next:</div>
+        <input class="cf-input" type="text" placeholder="e.g. Tech-free Sundays, family prayer time…">
+      </div>
+      <div class="commit-field-wrap">
+        <div class="cf-lbl">When we'll review this again:</div>
+        <input class="cf-input" type="text" placeholder="Set a specific date…">
+      </div>
+      <div class="commit-field-wrap">
+        <div class="cf-lbl">What God has been saying to us:</div>
+        <input class="cf-input" type="text" placeholder="One sentence, honestly…">
+      </div>
+    </div>
+    <div class="sig-row-dark">
+      <div class="sig-col-d"><div class="sig-lbl-d">Family name &amp; date</div><input class="sig-in-d" type="text" placeholder="The _______ family"></div>
+      <div class="sig-col-d"><div class="sig-lbl-d">All signatures</div><input class="sig-in-d" type="text" placeholder="Everyone who took part…"></div>
+      <div class="sig-col-d"><div class="sig-lbl-d">Next challenge starts</div><input class="sig-in-d" type="text" placeholder="Date…"></div>
+    </div>
+  </div>
+
+  <hr class="div" style="margin-top:32px;">
+
+  <!-- 4-week reflection -->
+  <div class="sec-lbl">Part 5</div>
+  <div class="sec-title">The 4-Week Reflection</div>
+  <div class="sec-sub">Sit with these at the end of the month — before you decide what to keep.</div>
+
+  <div class="final-reflect">
+    <div class="fq-block">
+      <div class="fq-row"><div class="fq-num">1</div><div class="fq-text">Which of the four habits felt most natural — and which felt most foreign? What does that tell you?</div></div>
+      <div class="fq-space"></div>
+    </div>
+    <div class="fq-block">
+      <div class="fq-row"><div class="fq-num">2</div><div class="fq-text">What filled the space when the screens weren't there? Did you like what you found?</div></div>
+      <div class="fq-space"></div>
+    </div>
+    <div class="fq-block">
+      <div class="fq-row"><div class="fq-num">3</div><div class="fq-text">Where did you notice the most resistance — in yourself, or in your family? What was underneath it?</div></div>
+      <div class="fq-space"></div>
+    </div>
+    <div class="fq-block">
+      <div class="fq-row"><div class="fq-num">4</div><div class="fq-text">James K.A. Smith says we are what we repeatedly do. What are you becoming? Is that who you want to be?</div></div>
+      <div class="fq-space"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPTURE -->
+  <div class="scr" style="margin-top:28px;">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind."</div>
+    <div class="scr-ref">Romans 12:2 · Transformation isn't passive — it requires the deliberate restructuring of what we repeatedly do</div>
+  </div>
+
+  <!-- ENCOURAGEMENT -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A word for families who made it through</div>
+    <div class="enc-text">
+      You are swimming against a very strong current. The entire attention economy is designed to fill your default moments — the commute, the wait, the gap between tasks — with a screen. The fact that you spent four weeks deliberately doing otherwise is genuinely countercultural.<br><br>
+      James K.A. Smith is right: <strong>you don't become what you believe; you become what you habitually do.</strong> The liturgies — the small, repeated practices — are where formation actually happens. Not in the big moments. In the ordinary texture of Tuesday evening.<br><br>
+      These four habits won't fix everything. But they create the conditions for something better to grow. And that is exactly what families in the image of God are called to do — <strong>tend the space where flourishing becomes possible.</strong>
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Family</span><span class="tag">Formation</span><span class="tag">Habits</span><span class="tag">Technology</span><span class="tag">Discipleship</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Worksheet 4 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function toggleCheck(el){
+  el.classList.toggle('checked');
+}
+</script>
+</body>
+</html>

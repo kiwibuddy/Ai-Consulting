@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is School Actually For? — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --green-dark: hsl(142,60%,28%);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.09);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(35,20%,93%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:840px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO — more contemplative, open feel than the skills worksheets ── */
+.hero{background:var(--dark);padding:48px 44px;position:relative;overflow:hidden;border-bottom:3px solid var(--gold);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 40%,hsl(38,96%,50%,.08) 0%,transparent 50%),
+             radial-gradient(circle at 15% 75%,hsl(142,76%,42%,.06) 0%,transparent 45%);
+  pointer-events:none;
+}
+/* Large ghost question mark */
+.hero-ghost{
+  font-family:var(--font-serif);font-size:260px;font-weight:700;
+  color:rgba(255,255,255,.03);
+  position:absolute;right:-20px;bottom:-40px;
+  line-height:1;user-select:none;pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:44px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.5px;margin-bottom:6px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:24px;}
+
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:540px;margin-bottom:28px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+
+/* Timing tags */
+.hero-timing{
+  display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;
+}
+.ht-tag{
+  font-size:10px;font-weight:500;padding:5px 12px;border-radius:4px;
+  border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.06);
+}
+.ht-tag-gold{border-color:hsl(38,96%,50%,.35);color:hsl(38,85%,65%);background:hsl(38,96%,50%,.08);}
+
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+
+/* Student info */
+.student-bar{display:grid;grid-template-columns:1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:30px;}
+.sb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.sb-cell:last-child{border-right:none;}
+.sb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.sb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.sb-input:focus{border-bottom-color:var(--green);}
+.sb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:620px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+/* Pullquotes — anchors for each section */
+.pullquote{border-left:2.5px solid var(--gold);padding:12px 0 10px 20px;margin-bottom:22px;position:relative;}
+.pq-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.pq-text{font-family:var(--font-serif);font-size:16px;font-style:italic;line-height:1.55;color:var(--fg);margin-bottom:6px;}
+.pq-src{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+.scr{border-left:2.5px solid var(--green);padding:12px 0 10px 20px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:14.5px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:5px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Body text */
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+/* ── AI CAN / CAN'T TABLE ── */
+/* The central diagnostic — what AI does vs what it can't do */
+.can-cant{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;margin:20px 0 28px;
+}
+.cc-head-ai{
+  background:var(--dark);padding:13px 20px;border-right:1px solid rgba(255,255,255,.08);
+}
+.cc-head-human{
+  background:var(--green);padding:13px 20px;
+}
+.cc-head-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:3px;}
+.cc-head-title{font-family:var(--font-serif);font-size:16px;font-weight:600;color:#fff;}
+.cc-head-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);margin-top:2px;}
+
+.cc-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.cc-col-ai{border-right:1px solid var(--border);}
+.cc-col-human{}
+
+.cc-item{
+  padding:12px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.cc-item:last-child{border-bottom:none;}
+.cc-icon{font-size:14px;flex-shrink:0;margin-top:1px;user-select:none;}
+.cc-text{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.45;}
+.cc-text strong{color:var(--fg);font-weight:500;}
+
+/* ── FIVE THINGS AI CAN'T TEACH ME ── */
+/* Big, generous writing space — the core of part 2 */
+.five-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;}
+.five-card{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  overflow:hidden;
+}
+.five-card-head{
+  padding:10px 16px;border-bottom:1px solid var(--bcard);
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-warm);
+}
+.fc-num{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;
+  color:var(--border);line-height:1;flex-shrink:0;
+}
+.fc-prompt{font-size:12px;font-weight:500;color:var(--fg-muted);line-height:1.4;font-style:italic;}
+.five-card-body{padding:12px 16px;background:var(--bg);}
+.fc-name-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.fc-name-input{
+  border:none;border-bottom:1.5px solid var(--fg);width:100%;
+  background:transparent;font-family:var(--font-serif);font-size:15px;
+  color:var(--fg);padding:2px 0 6px;outline:none;display:block;margin-bottom:10px;
+  font-weight:600;
+}
+.fc-name-input:focus{border-bottom-color:var(--green);}
+.fc-name-input::placeholder{color:var(--border);font-style:italic;font-weight:400;}
+.fc-why-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.fc-why-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;
+}
+.fc-why-input:focus{border-bottom-color:var(--green);}
+.fc-why-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Fifth card — full width */
+.five-card-full{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);overflow:hidden;
+  grid-column:1/-1;
+}
+
+/* ── FIVE THINGS I WANT TO KNOW HOW TO DO ── */
+/* As adults — practical wisdom not on a curriculum */
+.adult-skills{display:flex;flex-direction:column;gap:10px;margin:18px 0 28px;}
+.as-row{
+  display:grid;grid-template-columns:30px 1fr 1fr;
+  gap:12px;align-items:center;
+  padding:12px 16px;border:1px solid var(--bcard);
+  border-radius:var(--r-sm);background:var(--bg-warm);
+}
+.as-num{
+  font-family:var(--font-serif);font-size:20px;font-weight:400;
+  color:var(--border);text-align:center;
+}
+.as-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:13px;
+  color:var(--fg);padding:2px 0 5px;outline:none;
+}
+.as-input:focus{border-bottom-color:var(--green);}
+.as-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.as-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;}
+
+/* ── THE THREE HARD QUESTIONS ── */
+.hq-block{margin-bottom:20px;}
+.hq-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;}
+.hq-num{font-family:var(--font-serif);font-size:28px;font-weight:400;color:var(--border);flex-shrink:0;min-width:22px;line-height:1;}
+.hq-content{}
+.hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;margin-bottom:3px;}
+.hq-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;line-height:1.45;}
+.hq-space{
+  width:100%;min-height:70px;border:1px solid var(--bcard);
+  border-radius:var(--r-sm);background:var(--bg-warm);
+  font-family:var(--font-sans);font-size:13px;color:var(--fg);
+  padding:12px 14px;outline:none;resize:vertical;display:block;
+  line-height:1.6;
+}
+.hq-space:focus{border-color:var(--green);}
+.hq-space::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── THE LETTER ── */
+/* The centrepiece of the whole worksheet — deserves maximum presence */
+.letter-block{
+  border:2px solid var(--fg);border-radius:var(--r);
+  overflow:hidden;margin:28px 0;
+}
+.letter-head{
+  background:var(--fg);padding:22px 28px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+}
+.lh-left{}
+.lh-title{font-family:var(--font-serif);font-size:24px;font-weight:600;color:#fff;margin-bottom:4px;}
+.lh-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;max-width:420px;}
+.lh-right{
+  font-family:var(--font-serif);font-size:11px;font-style:italic;
+  color:rgba(255,255,255,.3);text-align:right;flex-shrink:0;
+  border-left:1px solid rgba(255,255,255,.1);padding-left:20px;
+  min-width:120px;
+}
+
+.letter-body{padding:26px 28px;background:var(--bg);}
+
+/* Date and greeting lines */
+.letter-meta{margin-bottom:20px;}
+.lm-row{display:flex;gap:12px;align-items:baseline;margin-bottom:8px;}
+.lm-lbl{font-size:11px;font-weight:600;color:var(--fg-muted);min-width:80px;flex-shrink:0;}
+.lm-input{
+  border:none;border-bottom:1px solid var(--border);flex:1;
+  background:transparent;font-family:var(--font-serif);font-size:14px;
+  color:var(--fg);padding:2px 0 4px;outline:none;
+}
+.lm-input:focus{border-bottom-color:var(--green);}
+.lm-input::placeholder{color:var(--border);font-style:italic;}
+
+/* Guided prompts inside the letter */
+.letter-guide{
+  background:var(--bg-warm);border-radius:var(--r-sm);
+  padding:14px 18px;margin-bottom:16px;
+}
+.lg-title{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
+.lg-prompts{display:flex;flex-direction:column;gap:6px;}
+.lg-prompt{
+  font-size:12px;font-weight:300;color:var(--fg-muted);font-style:italic;line-height:1.5;
+  padding-left:12px;border-left:1.5px solid var(--border);
+}
+.lg-prompt strong{color:var(--fg-med);font-weight:500;font-style:normal;}
+
+/* Main letter writing area */
+.letter-area{
+  width:100%;min-height:260px;
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  background:hsl(48,30%,99%);
+  font-family:var(--font-serif);font-size:15px;
+  color:var(--fg);padding:18px 20px;outline:none;resize:vertical;
+  line-height:1.85;display:block;
+  /* Subtle lined paper effect */
+  background-image:repeating-linear-gradient(transparent, transparent 31px, hsl(35,15%,92%) 31px, hsl(35,15%,92%) 32px);
+  background-attachment:local;
+}
+.letter-area:focus{border-color:var(--green);}
+.letter-area::placeholder{color:hsl(35,15%,80%);font-style:italic;}
+
+/* Sign-off */
+.letter-signoff{
+  margin-top:20px;
+  display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:baseline;
+}
+.ls-from{font-family:var(--font-serif);font-size:14px;font-style:italic;color:var(--fg-muted);}
+.ls-input{
+  border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-serif);font-size:15px;
+  color:var(--fg);padding:2px 0 4px;outline:none;
+}
+.ls-input:focus{border-bottom-color:var(--green);}
+.ls-input::placeholder{color:var(--border);font-style:italic;}
+
+.letter-seal{
+  background:var(--bg-page);border-top:1px solid var(--border);
+  padding:14px 28px;display:flex;align-items:center;gap:14px;
+  justify-content:space-between;
+}
+.seal-text{font-size:11px;font-weight:300;color:var(--fg-muted);font-style:italic;}
+.seal-tag{
+  font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  background:var(--cta);color:#fff;padding:5px 14px;border-radius:10px;
+  white-space:nowrap;
+}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.letter-area{background-image:repeating-linear-gradient(transparent,transparent 31px,#e8e6e0 31px,#e8e6e0 32px);print-color-adjust:exact;-webkit-print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Schools &amp; Education · Worksheet ED–03</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ghost">?</div>
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    AI Literacy Series &nbsp;·&nbsp; Student Reflection &nbsp;·&nbsp; Ages 12 and up
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">"What Is School<br><em>Actually For</em>?"</div>
+  <div class="hero-sub">A student reflection for the age of AI</div>
+  <div class="hero-desc">
+    If AI can already retrieve information, write essays, summarise textbooks, and generate code — the question isn't whether AI is useful. The question is: <strong>what does that leave for school to be?</strong> This worksheet asks you to think seriously about that — and write yourself a letter from the other side of the answer.
+  </div>
+  <div class="hero-timing">
+    <span class="ht-tag">Individual reflection</span>
+    <span class="ht-tag">~50 minutes</span>
+    <span class="ht-tag ht-tag-gold">Works as end-of-year or start-of-year activity</span>
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Not cynical — forward-looking</span><div class="msep"></div>
+    <span class="mi">Honest questions</span><div class="msep"></div>
+    <span class="mi">Ends with a letter to your future self</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Student info -->
+  <div class="student-bar">
+    <div class="sb-cell"><div class="sb-lbl">Your Name</div><input class="sb-input" type="text" placeholder="First and last name…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Year Level</div><input class="sb-input" type="text" placeholder="e.g. Year 10…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Date</div><input class="sb-input" type="text" placeholder="DD / MM / YYYY"></div>
+  </div>
+
+  <!-- Part 1: The question -->
+  <div class="sec-lbl">Part 1 — Start with the honest question</div>
+  <div class="sec-title">What is school for — if AI can do most of what school teaches?</div>
+
+  <div class="pullquote" style="margin-top:16px;">
+    <div class="pq-q">"</div>
+    <div class="pq-text">"It's no longer about information. AI now gives you all the information you need. What we need to learn are people skills. I think education that teaches people skills is going to be some of the most important education in the next 15, 20, 30 years — because AI can't teach us relational skills."</div>
+    <div class="pq-src">Nathaniel Baldock — Spheres Teaching, University of the Nations</div>
+  </div>
+
+  <p class="body-para">The word "education" comes from the Latin <em>educere</em> — which means "to draw out." Not "to put information in." <strong>To draw out what's already there.</strong> The idea is that every student has something inside them that school is supposed to surface and develop. That's a very different model from a data download — and it's the only model AI can't replicate.</p>
+  <p class="body-para">Before you answer any of the questions below, sit with this for a moment: if AI had existed when your parents were at school, what would they have stopped learning? And what would they have missed by not having to struggle through it themselves?</p>
+
+  <!-- The can / can't table -->
+  <div class="can-cant">
+    <div class="cc-head-ai" style="grid-column:1;">
+      <div class="cc-head-lbl">AI can already do this</div>
+      <div class="cc-head-title">Information retrieval &amp; production</div>
+      <div class="cc-head-sub">And it's getting better every six months</div>
+    </div>
+    <div class="cc-head-human" style="grid-column:2;">
+      <div class="cc-head-lbl">AI cannot do this</div>
+      <div class="cc-head-title">Human formation &amp; presence</div>
+      <div class="cc-head-sub">No amount of training data changes this</div>
+    </div>
+
+    <div class="cc-body" style="grid-column:1/-1;">
+      <div class="cc-col-ai">
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Summarise any textbook chapter in 30 seconds</div></div>
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Write a first draft of almost any essay</div></div>
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Explain a concept at any level, with examples</div></div>
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Generate code, debug errors, build apps</div></div>
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Translate between languages instantly</div></div>
+        <div class="cc-item"><div class="cc-icon">→</div><div class="cc-text">Search, compare, and synthesise research</div></div>
+        <div class="cc-item" style="border-bottom:none;"><div class="cc-icon">→</div><div class="cc-text">Pass most standardised tests — including many university exams</div></div>
+      </div>
+      <div class="cc-col-human">
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Stay in a hard conversation</strong> without shutting down or getting defensive</div></div>
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Read a room</strong> — know when someone needs space, help, or honesty</div></div>
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Build trust over time</strong> with people who are difficult or different from you</div></div>
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Take genuine responsibility</strong> when something is your fault</div></div>
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Develop a point of view</strong> that is actually yours, not assembled from other people's takes</div></div>
+        <div class="cc-item"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Sit with uncertainty</strong> without immediately reaching for a distraction</div></div>
+        <div class="cc-item" style="border-bottom:none;"><div class="cc-icon" style="color:var(--green);">✓</div><div class="cc-text"><strong>Be genuinely present</strong> with another person — not performing, not managing, actually there</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- Part 2: Five things AI can't teach me -->
+  <div class="sec-lbl">Part 2 — Your five</div>
+  <div class="sec-title">Five things AI can't teach you</div>
+  <div class="sec-sub" style="margin-bottom:18px;">George Washington Carver said "all learning is understanding relationships." James Comer said "no significant learning can occur without a significant relationship." With that in mind — what are five things that you could only genuinely learn from another person, from failure, from being somewhere, or from time? Name them and say why.</div>
+
+  <div class="five-grid">
+
+    <div class="five-card">
+      <div class="five-card-head">
+        <div class="fc-num">1</div>
+        <div class="fc-prompt">Something that requires presence or relationship to learn</div>
+      </div>
+      <div class="five-card-body">
+        <div class="fc-name-lbl">I can't learn this from AI:</div>
+        <input class="fc-name-input" type="text" placeholder="Name it…">
+        <div class="fc-why-lbl">Why it requires a human or real experience:</div>
+        <input class="fc-why-input" type="text" placeholder="What makes this irreducibly human?…">
+      </div>
+    </div>
+
+    <div class="five-card">
+      <div class="five-card-head">
+        <div class="fc-num">2</div>
+        <div class="fc-prompt">Something you could only learn by struggling through yourself</div>
+      </div>
+      <div class="five-card-body">
+        <div class="fc-name-lbl">I can't learn this from AI:</div>
+        <input class="fc-name-input" type="text" placeholder="Name it…">
+        <div class="fc-why-lbl">Why shortcuts don't work here:</div>
+        <input class="fc-why-input" type="text" placeholder="What does the struggle actually teach?…">
+      </div>
+    </div>
+
+    <div class="five-card">
+      <div class="five-card-head">
+        <div class="fc-num">3</div>
+        <div class="fc-prompt">Something about who you are — identity, values, purpose</div>
+      </div>
+      <div class="five-card-body">
+        <div class="fc-name-lbl">I can't learn this from AI:</div>
+        <input class="fc-name-input" type="text" placeholder="Name it…">
+        <div class="fc-why-lbl">Why AI can't tell you this about yourself:</div>
+        <input class="fc-why-input" type="text" placeholder="Who or what actually helps you figure this out?…">
+      </div>
+    </div>
+
+    <div class="five-card">
+      <div class="five-card-head">
+        <div class="fc-num">4</div>
+        <div class="fc-prompt">A skill that only gets better through repetition with real consequences</div>
+      </div>
+      <div class="five-card-body">
+        <div class="fc-name-lbl">I can't learn this from AI:</div>
+        <input class="fc-name-input" type="text" placeholder="Name it…">
+        <div class="fc-why-lbl">What does real practice — with stakes — teach you that simulation doesn't?</div>
+        <input class="fc-why-input" type="text" placeholder="What's different about doing it for real?…">
+      </div>
+    </div>
+
+    <!-- Fifth card — full width -->
+    <div class="five-card five-card-full">
+      <div class="five-card-head">
+        <div class="fc-num">5</div>
+        <div class="fc-prompt">Your own — something specific to your life, your context, your people</div>
+      </div>
+      <div class="five-card-body">
+        <div class="fc-name-lbl">I can't learn this from AI:</div>
+        <input class="fc-name-input" type="text" placeholder="Name it — something only your particular life and relationships can teach you…">
+        <div class="fc-why-lbl">Why it's specific to you:</div>
+        <input class="fc-why-input" type="text" placeholder="What makes this one personal rather than general?…">
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- Part 3: Five things I want to know as an adult -->
+  <div class="sec-lbl">Part 3 — Forward-looking</div>
+  <div class="sec-title">Five things you actually want to know how to do — as an adult</div>
+  <div class="sec-sub" style="margin-bottom:18px;">Not for an exam. Not because a teacher told you to. Things that would make you a better person, a better friend, a better worker, a better citizen. The viral "what school doesn't teach" list includes things like doing your taxes, managing money, and handling conflict. What's on yours?</div>
+
+  <div class="adult-skills">
+    <div style="display:grid;grid-template-columns:30px auto auto;gap:8px;padding:8px 16px;background:var(--bg-muted);border-radius:var(--r-sm) var(--r-sm) 0 0;border:1px solid var(--border);border-bottom:none;">
+      <div></div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);">What I actually want to know how to do</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);">Why this matters to me personally</div>
+    </div>
+    <div class="as-row" style="border-radius:0;border-top:none;margin-top:0;">
+      <div class="as-num">1</div>
+      <input class="as-input" type="text" placeholder="e.g. Have a hard conversation without shutting down…">
+      <input class="as-input" type="text" placeholder="Why this one?…">
+    </div>
+    <div class="as-row" style="border-top:none;border-radius:0;">
+      <div class="as-num">2</div>
+      <input class="as-input" type="text" placeholder="e.g. Manage money and not end up in debt…">
+      <input class="as-input" type="text" placeholder="What's the real situation behind this?…">
+    </div>
+    <div class="as-row" style="border-top:none;border-radius:0;">
+      <div class="as-num">3</div>
+      <input class="as-input" type="text" placeholder="e.g. Know when I'm being manipulated…">
+      <input class="as-input" type="text" placeholder="Why does this feel urgent to you?…">
+    </div>
+    <div class="as-row" style="border-top:none;border-radius:0;">
+      <div class="as-num">4</div>
+      <input class="as-input" type="text" placeholder="e.g. Disagree with someone and keep the relationship…">
+      <input class="as-input" type="text" placeholder="Where have you seen this go wrong?…">
+    </div>
+    <div class="as-row" style="border-top:none;border-radius:var(--r-sm);border-radius:0 0 var(--r-sm) var(--r-sm);">
+      <div class="as-num">5</div>
+      <input class="as-input" type="text" placeholder="Something uniquely important to your situation or culture…">
+      <input class="as-input" type="text" placeholder="What would change if you knew this?…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- Part 4: Hard questions -->
+  <div class="sec-lbl">Part 4 — The harder questions</div>
+  <div class="sec-title">Sit with these before answering</div>
+
+  <div style="margin-top:18px;">
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">1</div>
+        <div class="hq-content">
+          <div class="hq-text">If AI can pass the exam — what is the exam actually measuring?</div>
+          <div class="hq-note">And if it's not measuring something AI can't do, what's the point of the exam?</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Write your honest answer — not the 'right' answer…"></textarea>
+    </div>
+
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">2</div>
+        <div class="hq-content">
+          <div class="hq-text">Think of a teacher who changed the way you see something. What did they actually do — and could AI have done it?</div>
+          <div class="hq-note">What was it about that person — not just their knowledge — that made the difference?</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Name the teacher if you want, or just describe what they did…"></textarea>
+    </div>
+
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">3</div>
+        <div class="hq-content">
+          <div class="hq-text">Nathaniel's prediction: future schools may exist primarily to teach people how to have conversations, ask follow-up questions, and build relationships. Does that feel right to you — or does it feel like a loss?</div>
+          <div class="hq-note">What would you grieve about that future? What might you be relieved about?</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Both the loss and the possibility are worth naming…"></textarea>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- THE LETTER -->
+  <div class="sec-lbl">Part 5 — The letter</div>
+  <div class="sec-title">To your future self — five years from now</div>
+  <div class="sec-sub" style="margin-bottom:20px;">You're not the same person you'll be at 20, or 25. Write to that person. Tell them what you currently think school is for. Tell them what you hope you'll have figured out that school couldn't teach you. And ask them one honest question.</div>
+
+  <div class="letter-block">
+    <div class="letter-head">
+      <div class="lh-left">
+        <div class="lh-title">A Letter to My Future Self</div>
+        <div class="lh-sub">Write this like a real letter. It doesn't need to be polished. It needs to be honest. This is for you, five years from now, to read.</div>
+      </div>
+      <div class="lh-right">
+        Seal this page.<br>Open it in five years.<br><br>Or don't. Either way,<br>the writing matters.
+      </div>
+    </div>
+
+    <div class="letter-body">
+      <!-- Date and greeting -->
+      <div class="letter-meta">
+        <div class="lm-row">
+          <div class="lm-lbl">Date written:</div>
+          <input class="lm-input" type="text" placeholder="Today's date…">
+        </div>
+        <div class="lm-row">
+          <div class="lm-lbl">Dear</div>
+          <input class="lm-input" type="text" placeholder="Your name, five years from now — or a name you'd like to grow into…">
+        </div>
+      </div>
+
+      <!-- Guided prompts -->
+      <div class="letter-guide">
+        <div class="lg-title">You don't have to use these — but they might help you start:</div>
+        <div class="lg-prompts">
+          <div class="lg-prompt">Right now, I think school is mostly for <strong>_____</strong> — but I suspect the real point is <strong>_____</strong>.</div>
+          <div class="lg-prompt">The thing I wish someone had taught me that no curriculum covers is <strong>_____</strong>.</div>
+          <div class="lg-prompt">I'm currently worried about <strong>_____</strong> — and I hope by the time you read this, you've worked out that it was worth worrying about / not worth worrying about (circle when you read it).</div>
+          <div class="lg-prompt">One thing I want to be known for — that no AI could be known for — is <strong>_____</strong>.</div>
+          <div class="lg-prompt">Here's the question I'd actually like you to answer when you open this: <strong>_____</strong></div>
+        </div>
+      </div>
+
+      <!-- The actual letter -->
+      <textarea class="letter-area" placeholder="Start writing. Don't edit yourself. Just go."></textarea>
+
+      <!-- Sign off -->
+      <div class="letter-signoff" style="margin-top:16px;">
+        <div class="ls-from">From,</div>
+        <input class="ls-input" type="text" placeholder="Your name — as you are right now, today…">
+      </div>
+    </div>
+
+    <div class="letter-seal">
+      <div class="seal-text">This letter belongs to the person who wrote it. It is not for assessment — it is for them.</div>
+      <div class="seal-tag">Personal · Not for marking</div>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A word to close</div>
+    <div class="enc-text">
+      The goal of education — the real one, buried under the curriculum documents and assessment schedules — is to draw out what's already in you. <em>Educere.</em> To surface the person who is capable of building something, sustaining a friendship, telling the truth when it costs something, and showing up for people who need you.<br><br>
+      AI will keep getting better at the information part. That's not going away. But <strong>it cannot want things for you. It cannot be shaped by failure the way you can. It cannot love the people in your life, and it cannot be loved back.</strong> Those are the irreducibly human things. School at its best has always been about making space for them to grow.<br><br>
+      You get to decide what you do with the space.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/education</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Student Reflection</span><span class="tag">AI &amp; Education</span><span class="tag">Year 8–13</span><span class="tag">End of Year</span><span class="tag">Start of Year</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Schools &amp; Education · ED–03</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

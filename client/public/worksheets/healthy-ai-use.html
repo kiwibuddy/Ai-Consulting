@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Would You Ask a Person? — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.08);
+  --green-dark: hsl(142,76%,32%);
+  --gold:       hsl(38,96%,50%);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Five category colours */
+  --c1:         hsl(142,65%,36%);   /* excellent — green */
+  --c1-bg:      hsl(142,65%,36%,0.07);
+  --c1-light:   hsl(142,55%,88%);
+  --c2:         hsl(210,65%,44%);   /* useful but limited — blue */
+  --c2-bg:      hsl(210,65%,44%,0.07);
+  --c2-light:   hsl(210,55%,88%);
+  --c3:         hsl(280,52%,48%);   /* ask a pastor — purple */
+  --c3-bg:      hsl(280,52%,48%,0.07);
+  --c3-light:   hsl(280,45%,88%);
+  --c4:         hsl(30,85%,48%);    /* ask a friend — amber */
+  --c4-bg:      hsl(30,85%,48%,0.07);
+  --c4-light:   hsl(30,75%,88%);
+  --c5:         hsl(0,55%,50%);     /* sit with in prayer — red/rose */
+  --c5-bg:      hsl(0,55%,50%,0.07);
+  --c5-light:   hsl(0,50%,90%);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:#e0ddd8;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* SITE HEADER */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* HERO — confident, practical, not heavy */
+.hero{
+  background:var(--dark);padding:44px 44px 48px;
+  position:relative;overflow:hidden;
+  border-bottom:3px solid var(--green);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 90% 30%,hsl(142,76%,42%,.1) 0%,transparent 50%);
+  pointer-events:none;
+}
+/* Decorative question mark grid */
+.hero-qgrid{
+  position:absolute;right:44px;top:30px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  opacity:.05;user-select:none;
+}
+.hero-qgrid span{font-family:var(--font-serif);font-size:32px;color:#fff;}
+
+.hero-series{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.sr{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-title{font-family:var(--font-serif);font-size:40px;font-weight:700;color:#fff;line-height:1.08;margin-bottom:10px;letter-spacing:-.5px;max-width:560px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.6);}
+
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.65;max-width:540px;margin-bottom:28px;}
+.hero-sub strong{color:rgba(255,255,255,.75);font-weight:400;}
+
+/* Stat strip */
+.hero-stats{
+  display:flex;gap:0;margin-bottom:28px;
+  border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;
+}
+.hs{
+  padding:14px 20px;flex:1;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:var(--font-serif);font-size:24px;font-weight:700;color:var(--green);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.4;}
+
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* BODY */
+.body{padding:40px 44px 38px;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:640px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:30px 0;}
+
+/* Kenny Jahng quote */
+.jahng{
+  border-left:3px solid var(--green);padding:12px 0 10px 20px;margin-bottom:28px;
+  position:relative;
+}
+.jq{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.jahng-text{font-family:var(--font-serif);font-size:16px;font-style:italic;line-height:1.55;color:var(--fg);margin-bottom:6px;}
+.jahng-src{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* ── FIVE CATEGORY FRAMEWORK ── */
+/* The centrepiece — a visual decision matrix */
+.cat-intro{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin:18px 0 24px;max-width:660px;}
+.cat-intro strong{color:var(--fg);font-weight:500;}
+
+/* Category cards — each is a full-width panel */
+.cat-card{
+  border-radius:var(--r);overflow:hidden;
+  margin-bottom:14px;border:1px solid var(--border);
+}
+
+.cat-head{
+  display:grid;grid-template-columns:48px 1fr auto;
+  align-items:center;gap:14px;padding:16px 20px;
+}
+.ch-c1{background:var(--c1);}
+.ch-c2{background:var(--c2);}
+.ch-c3{background:var(--c3);}
+.ch-c4{background:var(--c4);}
+.ch-c5{background:var(--c5);}
+
+.cat-icon-wrap{
+  width:38px;height:38px;border-radius:9px;
+  background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+}
+
+.cat-head-text{}
+.cat-num{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:3px;}
+.cat-title{font-family:var(--font-serif);font-size:19px;font-weight:600;color:#fff;line-height:1.2;}
+.cat-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.55);margin-top:2px;}
+.cat-badge{
+  font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 12px;border-radius:12px;
+  background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);
+  white-space:nowrap;
+}
+
+/* Category body */
+.cat-body{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;background:var(--bg);
+}
+
+.cat-examples{
+  padding:16px 20px;
+  border-right:1px solid var(--bcard);
+}
+.cat-why{
+  padding:16px 20px;
+  background:var(--bg-warm);
+}
+
+.cb-lbl{
+  font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--fg-muted);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.cb-lbl::after{content:'';flex:1;height:1px;background:var(--bcard);}
+
+.example-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;padding:4px 10px;border-radius:4px;
+  margin:0 4px 5px 0;font-weight:400;
+}
+.ec-1{background:var(--c1-light);color:var(--c1);}
+.ec-2{background:var(--c2-light);color:var(--c2);}
+.ec-3{background:var(--c3-light);color:var(--c3);}
+.ec-4{background:var(--c4-light);color:var(--c4);}
+.ec-5{background:var(--c5-light);color:var(--c5);}
+
+.why-text{font-size:12px;font-weight:300;color:var(--fg-med);line-height:1.6;}
+.why-text strong{color:var(--fg);font-weight:500;}
+
+/* Warning strip for limited categories */
+.cat-warning{
+  padding:10px 20px;
+  border-top:1px solid var(--bcard);
+  background:var(--bg-warm);
+  display:flex;align-items:flex-start;gap:10px;
+}
+.warn-icon{flex-shrink:0;margin-top:1px;}
+.warn-text{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;font-style:italic;}
+.warn-text strong{color:var(--fg-med);font-weight:500;font-style:normal;}
+
+/* ── DECISION FLOWCHART ── */
+.decision-block{
+  background:var(--bg-warm);border:1px solid var(--bcard);
+  border-radius:var(--r);padding:22px 24px;margin:24px 0;
+}
+.db-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.db-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);margin-bottom:18px;}
+
+.flow-steps{display:grid;gap:10px;}
+.flow-step{
+  display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:flex-start;
+}
+.fs-num{
+  width:26px;height:26px;border-radius:7px;
+  background:var(--fg);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;flex-shrink:0;
+}
+.fs-text{font-size:13px;color:var(--fg-med);line-height:1.5;padding-top:4px;font-weight:300;}
+.fs-text strong{color:var(--fg);font-weight:500;}
+
+/* ── THE PERSONAL PROMPT GUIDE — page 2 feel ── */
+/* This is the keep-it card — visually distinct, printable */
+.prompt-guide{
+  border:2px solid var(--fg);border-radius:var(--r);
+  overflow:hidden;margin:28px 0 0;
+}
+
+.pg-header{
+  background:var(--fg);padding:20px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.pgh-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:#fff;}
+.pgh-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.5);margin-top:3px;}
+.pgh-tag{
+  font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 12px;border-radius:10px;
+  background:var(--cta);color:#fff;
+  white-space:nowrap;
+}
+
+.pg-body{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:0;
+}
+
+.pg-col{
+  padding:16px 16px 14px;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+}
+.pg-col:last-child{border-right:none;}
+
+.pg-col-head{
+  padding:8px 0 10px;
+  margin-bottom:10px;
+  border-bottom:2px solid;
+}
+
+.pgc-icon{
+  width:28px;height:28px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:7px;
+}
+.pgc-title{font-size:10.5px;font-weight:600;color:var(--fg);line-height:1.3;}
+.pgc-hint{font-size:9px;font-weight:300;color:var(--fg-muted);margin-top:2px;}
+
+.pg-prompts{display:flex;flex-direction:column;gap:6px;flex:1;}
+.pg-prompt{
+  font-size:10.5px;font-weight:300;color:var(--fg-med);
+  line-height:1.45;padding:5px 8px;
+  border-radius:4px;border:1px solid var(--bcard);
+  background:var(--bg-warm);
+  font-style:italic;
+}
+
+/* Per-column accent */
+.pg-col-1 .pg-col-head{border-color:var(--c1);}
+.pg-col-1 .pgc-icon{background:var(--c1-bg);}
+.pg-col-1 .pgc-title{color:var(--c1);}
+.pg-col-1 .pg-prompt{background:hsl(142,65%,36%,.04);}
+
+.pg-col-2 .pg-col-head{border-color:var(--c2);}
+.pg-col-2 .pgc-icon{background:var(--c2-bg);}
+.pg-col-2 .pgc-title{color:var(--c2);}
+.pg-col-2 .pg-prompt{background:hsl(210,65%,44%,.04);}
+
+.pg-col-3 .pg-col-head{border-color:var(--c3);}
+.pg-col-3 .pgc-icon{background:var(--c3-bg);}
+.pg-col-3 .pgc-title{color:var(--c3);}
+.pg-col-3 .pg-prompt{background:hsl(280,52%,48%,.04);}
+
+.pg-col-4 .pg-col-head{border-color:var(--c4);}
+.pg-col-4 .pgc-icon{background:var(--c4-bg);}
+.pg-col-4 .pgc-title{color:var(--c4);}
+.pg-col-4 .pg-prompt{background:hsl(30,85%,48%,.04);}
+
+.pg-col-5 .pg-col-head{border-color:var(--c5);}
+.pg-col-5 .pgc-icon{background:var(--c5-bg);}
+.pg-col-5 .pgc-title{color:var(--c5);}
+.pg-col-5 .pg-prompt{background:hsl(0,55%,50%,.04);}
+
+.pg-footer{
+  background:var(--bg-muted);border-top:1px solid var(--border);
+  padding:14px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+}
+.pgf-text{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;max-width:500px;line-height:1.5;}
+.pgf-text strong{color:var(--fg-med);font-weight:400;font-style:normal;}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:26px 30px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.6);max-width:600px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.3);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">The Average Christian · Series 4 of 5</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-qgrid">
+    <span>?</span><span>?</span><span>?</span>
+    <span>?</span><span>?</span><span>?</span>
+    <span>?</span><span>?</span><span>?</span>
+  </div>
+
+  <div class="hero-series">
+    <div class="sr"></div>
+    Practical Reference &nbsp;·&nbsp; Positive Guide &nbsp;·&nbsp; Keep &amp; Use
+    <div class="sr"></div>
+  </div>
+
+  <div class="hero-title">"What Would You<br>Ask <em>a Person</em>?"</div>
+  <div class="hero-sub">
+    A healthy AI use guide for Christians who are <strong>already using AI</strong> and want to use it well — not a list of warnings, but a practical framework for knowing when AI helps, when it limits, and when a real person is irreplaceable.
+  </div>
+
+  <!-- Barna stat strip -->
+  <div class="hero-stats">
+    <div class="hs">
+      <div class="hs-num">39%</div>
+      <div class="hs-text">of working Christians use AI at work "sometimes" — more than non-Christians (26%)</div>
+    </div>
+    <div class="hs">
+      <div class="hs-num">8%</div>
+      <div class="hs-text">of Christians are interested in using AI for spiritual questions — low, and for good reason</div>
+    </div>
+    <div class="hs">
+      <div class="hs-num">29%</div>
+      <div class="hs-text">of Christians would trust an AI answer about Christian teaching — compared to 23% of non-Christians</div>
+    </div>
+    <div class="hs">
+      <div class="hs-num">86%</div>
+      <div class="hs-text">of Christians say a human touch is better than AI for spiritual counselling</div>
+    </div>
+  </div>
+
+  <div class="hero-meta">
+    <span class="mi">Reference tool</span><div class="msep"></div>
+    <span class="mi">Keep at your desk</span><div class="msep"></div>
+    <span class="mi">Practical framework</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Kenny Jahng quote — the right frame -->
+  <div class="jahng">
+    <div class="jq">"</div>
+    <div class="jahng-text">"AI is like a hammer in the toolbox, not a doctrine in the pulpit."</div>
+    <div class="jahng-src">Kenny Jahng — Barna Group, "AI and the Church: How Pastors Can Lead with Wisdom in a Digital Age" (2025)</div>
+  </div>
+
+  <p class="cat-intro">
+    The problem isn't that Christians are using AI. <strong>Christians are already using it more than non-Christians for work</strong> — that's Barna's finding, not an assumption. The problem is that most people have no framework for knowing <em>what kind of question</em> belongs where. This guide gives you that framework in five categories. It ends with a prompt guide you can print and actually keep.
+  </p>
+
+  <hr class="div">
+
+  <div class="sec-lbl">The five-category framework</div>
+  <div class="sec-title">Know what to ask, and who to ask it to</div>
+
+  <!-- ── CATEGORY 1 ── -->
+  <div class="cat-card">
+    <div class="cat-head ch-c1">
+      <div class="cat-icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="white" stroke-width="1.4"/><path d="M6.5 10.5L9 13L13.5 7.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="cat-head-text">
+        <div class="cat-num">Category 1</div>
+        <div class="cat-title">AI is excellent for this</div>
+        <div class="cat-sub">Use it freely and confidently</div>
+      </div>
+      <div class="cat-badge">Use freely</div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-examples">
+        <div class="cb-lbl">Examples</div>
+        <span class="example-chip ec-1">Drafting emails &amp; letters</span>
+        <span class="example-chip ec-1">Research &amp; summarising articles</span>
+        <span class="example-chip ec-1">Planning &amp; scheduling</span>
+        <span class="example-chip ec-1">Sermon/talk outlines</span>
+        <span class="example-chip ec-1">Learning new concepts</span>
+        <span class="example-chip ec-1">Translating &amp; editing</span>
+        <span class="example-chip ec-1">Creating templates</span>
+        <span class="example-chip ec-1">Brainstorming ideas</span>
+        <span class="example-chip ec-1">Coding &amp; technical tasks</span>
+        <span class="example-chip ec-1">Historical background research</span>
+      </div>
+      <div class="cat-why">
+        <div class="cb-lbl">Why it works here</div>
+        <div class="why-text">These tasks are <strong>informational, functional, and verifiable</strong>. The quality of the output can be checked. They don't require wisdom, relationship, or spiritual discernment — just capable execution. AI is genuinely faster and often better at these tasks than working alone. Use it, and use it well.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY 2 ── -->
+  <div class="cat-card">
+    <div class="cat-head ch-c2">
+      <div class="cat-icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="white" stroke-width="1.4"/><path d="M10 6.5v5M10 14v.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cat-head-text">
+        <div class="cat-num">Category 2</div>
+        <div class="cat-title">AI is useful but limited here</div>
+        <div class="cat-sub">Use with caution — always verify, always think</div>
+      </div>
+      <div class="cat-badge">Use carefully</div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-examples">
+        <div class="cb-lbl">Examples</div>
+        <span class="example-chip ec-2">Bible commentary &amp; context</span>
+        <span class="example-chip ec-2">Theological background research</span>
+        <span class="example-chip ec-2">Sermon illustration ideas</span>
+        <span class="example-chip ec-2">Understanding different viewpoints</span>
+        <span class="example-chip ec-2">Devotional writing prompts</span>
+        <span class="example-chip ec-2">Initial Bible study notes</span>
+        <span class="example-chip ec-2">Exploring ethical questions (starting point only)</span>
+        <span class="example-chip ec-2">Summarising a theology book</span>
+      </div>
+      <div class="cat-why">
+        <div class="cb-lbl">Why to be careful here</div>
+        <div class="why-text">AI can <strong>hallucinate citations</strong>, misrepresent theological positions, and present a confident-sounding answer that is subtly wrong. The Revolution of Ordinaries team warns: <em>"AI also likes to hallucinate — it can make things up out of nowhere."</em> Use AI as a starting point, not a final authority. Always verify against actual sources.</div>
+      </div>
+    </div>
+    <div class="cat-warning">
+      <div class="warn-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12.5 11H1.5L7 1.5z" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linejoin="round" fill="hsl(38,90%,46%,.1)"/><path d="M7 6v2.5M7 10v.3" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+      <div class="warn-text">The higher trust Christians have in AI for faith questions (29% vs 23% of non-Christians) is a specific concern flagged by Barna — <strong>familiarity can lower appropriate scepticism.</strong> Always pray over theological content before using it.</div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY 3 ── -->
+  <div class="cat-card">
+    <div class="cat-head ch-c3">
+      <div class="cat-icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2C6.69 2 4 4.69 4 8c0 2.94 2 5.39 4.75 6.13V17h2.5v-2.87C14 13.39 16 10.94 16 8c0-3.31-2.69-6-6-6z" stroke="white" stroke-width="1.4" fill="none"/><line x1="10" y1="17" x2="10" y2="19" stroke="white" stroke-width="1.4" stroke-linecap="round"/><line x1="8" y1="19" x2="12" y2="19" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cat-head-text">
+        <div class="cat-num">Category 3</div>
+        <div class="cat-title">Ask a pastor instead</div>
+        <div class="cat-sub">This requires wisdom, relationship, and accountability</div>
+      </div>
+      <div class="cat-badge">Go to your pastor</div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-examples">
+        <div class="cb-lbl">Examples</div>
+        <span class="example-chip ec-3">Am I reading this Scripture correctly for my situation?</span>
+        <span class="example-chip ec-3">Is this decision in line with Scripture?</span>
+        <span class="example-chip ec-3">I'm struggling with this theological question personally</span>
+        <span class="example-chip ec-3">I need spiritual counsel on a major decision</span>
+        <span class="example-chip ec-3">Something in my church is troubling me</span>
+        <span class="example-chip ec-3">I want to explore a calling or ministry direction</span>
+        <span class="example-chip ec-3">I need accountability around something specific</span>
+      </div>
+      <div class="cat-why">
+        <div class="cb-lbl">Why a pastor, not AI</div>
+        <div class="why-text">These questions require someone who <strong>knows you, knows your context, and is accountable for what they say</strong>. AI cannot provide that. David Scotford's research found that "outsourcing spiritual responsibilities to AI risks replacing church leaders with artificial systems." Your pastor is not a search engine — and you shouldn't treat AI like a pastor.</div>
+      </div>
+    </div>
+    <div class="cat-warning" style="border-top:1px solid hsl(280,45%,86%);">
+      <div class="warn-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="hsl(280,52%,48%)" stroke-width="1.2"/><path d="M7 4v3.5M7 9.5v.4" stroke="hsl(280,52%,48%)" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+      <div class="warn-text">Ray Miller warns that <strong>"the interactivity AI brings will feel more like a personal deity that seems all-knowing."</strong> That feeling is precisely why these questions belong with a real person who can be wrong, who knows they can be wrong, and who bears responsibility for what they say.</div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY 4 ── -->
+  <div class="cat-card">
+    <div class="cat-head ch-c4">
+      <div class="cat-icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7.5" cy="7.5" r="5" stroke="white" stroke-width="1.4" fill="none"/><circle cx="12.5" cy="12.5" r="5" stroke="white" stroke-width="1.4" fill="none"/></svg>
+      </div>
+      <div class="cat-head-text">
+        <div class="cat-num">Category 4</div>
+        <div class="cat-title">Ask a friend instead</div>
+        <div class="cat-sub">This requires genuine relationship, not information</div>
+      </div>
+      <div class="cat-badge">Call a person</div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-examples">
+        <div class="cb-lbl">Examples</div>
+        <span class="example-chip ec-4">I'm feeling lonely or discouraged today</span>
+        <span class="example-chip ec-4">I need someone to listen to what I'm going through</span>
+        <span class="example-chip ec-4">I'm not sure what to do about this relationship</span>
+        <span class="example-chip ec-4">I need honest feedback about a decision I'm making</span>
+        <span class="example-chip ec-4">I want to celebrate something with someone</span>
+        <span class="example-chip ec-4">I need prayer — specifically, with someone present</span>
+        <span class="example-chip ec-4">Something happened and I just need to talk</span>
+      </div>
+      <div class="cat-why">
+        <div class="cb-lbl">Why a friend, not AI</div>
+        <div class="why-text">Jack Dodge writes: <em>"Real, authentic relationships cannot be formed in a healthy way with AI — it is not an actual human soul."</em> Comer's research found that <strong>54% of Americans have no intimate friendships</strong>. AI makes the loneliness crisis worse, not better — because it simulates connection without providing it. Real friendship requires cost, risk, and mutual vulnerability. AI offers none of those things.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORY 5 ── -->
+  <div class="cat-card">
+    <div class="cat-head ch-c5">
+      <div class="cat-icon-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3C6.69 3 4 5.69 4 9c0 3.31 2.69 6 6 6s6-2.69 6-6c0-3.31-2.69-6-6-6z" stroke="white" stroke-width="1.4" fill="none"/><path d="M10 7v2.5M10 13v.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cat-head-text">
+        <div class="cat-num">Category 5</div>
+        <div class="cat-title">Sit with it in prayer instead</div>
+        <div class="cat-sub">This is a God-sized question — not a Google-sized one</div>
+      </div>
+      <div class="cat-badge">Pray first</div>
+    </div>
+    <div class="cat-body">
+      <div class="cat-examples">
+        <div class="cb-lbl">Examples</div>
+        <span class="example-chip ec-5">What is God calling me to do next?</span>
+        <span class="example-chip ec-5">Should I take this opportunity or not?</span>
+        <span class="example-chip ec-5">How does God see me right now?</span>
+        <span class="example-chip ec-5">What does God want to say to me in this season?</span>
+        <span class="example-chip ec-5">Am I where I'm supposed to be?</span>
+        <span class="example-chip ec-5">I'm struggling to forgive — what should I do?</span>
+        <span class="example-chip ec-5">What is the Spirit prompting in me?</span>
+        <span class="example-chip ec-5">What does God think of this situation?</span>
+      </div>
+      <div class="cat-why">
+        <div class="cb-lbl">Why prayer, not AI</div>
+        <div class="why-text"><strong>"Artificial intelligence cannot replace revelation or generate truth from God."</strong> — Elder Gong. These questions are not answered by more information — they are answered by encounter with a Person. Dallas Willard said the disciplines cultivate "openness, willingness, and dependence on God." AI cannot make you dependent on God. Only choosing to go to God first does that.</div>
+      </div>
+    </div>
+    <div class="cat-warning" style="border-top:1px solid hsl(0,50%,88%);">
+      <div class="warn-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2L7 8" stroke="hsl(0,55%,50%)" stroke-width="1.4" stroke-linecap="round"/><path d="M7 10.5C7 10.5 7 11 7 11" stroke="hsl(0,55%,50%)" stroke-width="1.4" stroke-linecap="round"/><circle cx="7" cy="7" r="6" stroke="hsl(0,55%,50%)" stroke-width="1.2" fill="none"/></svg></div>
+      <div class="warn-text">The question to ask yourself: <strong>"Is this a question with an answer, or a question that wants to bring me into relationship?"</strong> If it's the second, stop. Put the phone down. And pray.</div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- DECISION FLOWCHART -->
+  <div class="decision-block">
+    <div class="db-title">Quick decision: which category is this?</div>
+    <div class="db-sub">Run through these three questions before you open ChatGPT</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="fs-num">1</div>
+        <div class="fs-text"><strong>Could this be checked against verifiable facts?</strong> If yes → Category 1 or 2. Use AI, then verify.</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">2</div>
+        <div class="fs-text"><strong>Does this require someone who knows me and is accountable for their answer?</strong> If yes → Category 3 or 4. Call a person.</div>
+      </div>
+      <div class="flow-step">
+        <div class="fs-num">3</div>
+        <div class="fs-text"><strong>Is what I'm really looking for encounter, not information?</strong> If yes → Category 5. Go to God. The answer isn't in a search box.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- THE PERSONAL PROMPT GUIDE -->
+  <div class="sec-lbl">Cut out and keep</div>
+  <div class="sec-title">Your Personal AI Prompt Guide</div>
+  <div class="sec-sub" style="margin-bottom:20px;">Print this section and keep it at your desk, in your Bible, or pinned above your workspace. These are ready-to-use prompts for each category — and clear reminders of when not to use AI at all.</div>
+
+  <div class="prompt-guide">
+    <div class="pg-header">
+      <div>
+        <div class="pgh-title">My AI Use Guide</div>
+        <div class="pgh-sub">Five categories · What goes where · nathanielbaldock.com</div>
+      </div>
+      <div class="pgh-tag">Print &amp; Keep</div>
+    </div>
+
+    <div class="pg-body">
+
+      <!-- Col 1: Excellent -->
+      <div class="pg-col pg-col-1">
+        <div class="pg-col-head">
+          <div class="pgc-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="hsl(142,65%,36%)" stroke-width="1.2"/><path d="M4.5 7.5L6.5 9.5L9.5 5.5" stroke="hsl(142,65%,36%)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pgc-title">Use freely</div>
+          <div class="pgc-hint">Information &amp; tasks</div>
+        </div>
+        <div class="pg-prompts">
+          <div class="pg-prompt">"Help me draft an email to…"</div>
+          <div class="pg-prompt">"Summarise this article for me"</div>
+          <div class="pg-prompt">"Give me 5 ideas for…"</div>
+          <div class="pg-prompt">"Create a schedule for…"</div>
+          <div class="pg-prompt">"Explain how [concept] works"</div>
+          <div class="pg-prompt">"Help me plan…"</div>
+        </div>
+      </div>
+
+      <!-- Col 2: Careful -->
+      <div class="pg-col pg-col-2">
+        <div class="pg-col-head">
+          <div class="pgc-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L12.5 11H1.5L7 1.5z" stroke="hsl(210,65%,44%)" stroke-width="1.2" stroke-linejoin="round" fill="none"/><path d="M7 6v2.5M7 10v.3" stroke="hsl(210,65%,44%)" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="pgc-title">Use carefully</div>
+          <div class="pgc-hint">Verify everything</div>
+        </div>
+        <div class="pg-prompts">
+          <div class="pg-prompt">"Give me background on this passage — I'll verify"</div>
+          <div class="pg-prompt">"What are different views on this theological question?"</div>
+          <div class="pg-prompt">"Suggest an illustration for this point"</div>
+          <div class="pg-prompt">"What does [tradition] say about this?"</div>
+          <div class="pg-prompt" style="color:hsl(0,55%,50%);font-style:normal;font-size:10px;font-weight:500;">⚠ Always cross-check AI Bible quotes with your actual Bible</div>
+        </div>
+      </div>
+
+      <!-- Col 3: Pastor -->
+      <div class="pg-col pg-col-3">
+        <div class="pg-col-head">
+          <div class="pgc-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="hsl(280,52%,48%)" stroke-width="1.2" fill="none"/><path d="M2 12c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="hsl(280,52%,48%)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="pgc-title">Ask your pastor</div>
+          <div class="pgc-hint">Wisdom &amp; accountability</div>
+        </div>
+        <div class="pg-prompts">
+          <div class="pg-prompt">"I'm wrestling with this passage — can we talk?"</div>
+          <div class="pg-prompt">"I need counsel on a major decision"</div>
+          <div class="pg-prompt">"Something's troubling me spiritually"</div>
+          <div class="pg-prompt">"I think I might be being called to…"</div>
+          <div class="pg-prompt" style="color:hsl(280,52%,48%);font-style:normal;font-size:10px;font-weight:500;">✝ AI cannot shepherd. Only people can.</div>
+        </div>
+      </div>
+
+      <!-- Col 4: Friend -->
+      <div class="pg-col pg-col-4">
+        <div class="pg-col-head">
+          <div class="pgc-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 7.5C5 8.88 6.12 10 7.5 10S10 8.88 10 7.5V5.5C10 4.12 8.88 3 7.5 3S5 4.12 5 5.5v2z" stroke="hsl(30,85%,48%)" stroke-width="1.2" fill="none"/><path d="M4 11c0-1.1.9-2 2-2h3a2 2 0 012 2" stroke="hsl(30,85%,48%)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
+          </div>
+          <div class="pgc-title">Call a friend</div>
+          <div class="pgc-hint">Relationship &amp; presence</div>
+        </div>
+        <div class="pg-prompts">
+          <div class="pg-prompt">"I need to talk — are you free?"</div>
+          <div class="pg-prompt">"Can you pray with me about something?"</div>
+          <div class="pg-prompt">"I just need someone to listen"</div>
+          <div class="pg-prompt">"Can you be honest with me about this?"</div>
+          <div class="pg-prompt" style="color:hsl(30,85%,48%);font-style:normal;font-size:10px;font-weight:500;">↗ AI connection is simulated. This is real.</div>
+        </div>
+      </div>
+
+      <!-- Col 5: Prayer -->
+      <div class="pg-col pg-col-5">
+        <div class="pg-col-head">
+          <div class="pgc-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v4M7 10v2M3 7H1M13 7h-2M4.22 4.22l-1.41-1.41M11.19 11.19l-1.41-1.41M4.22 9.78l-1.41 1.41M11.19 2.81l-1.41 1.41" stroke="hsl(0,55%,50%)" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="2" stroke="hsl(0,55%,50%)" stroke-width="1.2" fill="none"/></svg>
+          </div>
+          <div class="pgc-title">Pray instead</div>
+          <div class="pgc-hint">Encounter, not information</div>
+        </div>
+        <div class="pg-prompts">
+          <div class="pg-prompt">"Lord, what are you saying to me right now?"</div>
+          <div class="pg-prompt">"Father, what do you want me to do?"</div>
+          <div class="pg-prompt">"God, how do you see this situation?"</div>
+          <div class="pg-prompt">"Holy Spirit, what are you prompting in me?"</div>
+          <div class="pg-prompt" style="color:hsl(0,55%,50%);font-style:normal;font-size:10px;font-weight:500;">✕ AI cannot give you revelation. Go to the source.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-footer">
+      <div class="pgf-text"><strong>The test:</strong> "Is this question looking for an answer — or is it looking to bring me into relationship?" Information questions → AI may help. Relationship questions → AI cannot help. Wisdom, counsel, friendship, prayer, and encounter are irreducibly human and divine. Use AI for what it's for, and reserve the rest for who it's for.</div>
+      <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;color:var(--fg-muted);text-transform:uppercase;">nathanielbaldock.com</div>
+    </div>
+  </div>
+
+  <!-- ENCOURAGEMENT -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A word in closing</div>
+    <div class="enc-text">
+      The goal of this guide is not to make you suspicious of a tool that can genuinely serve you. <strong>AI is useful. For the right things, it is very useful.</strong> The fact that Christians are already using it more than non-Christians for work tells you that the early movers in the church are not the fearful or the naïve — they're the pragmatic and the curious, which is what you'd hope.<br><br>
+      But the second Barna finding matters too: only 8% of Christians want to use AI for spiritual questions. That instinct is right. Not because AI is evil, but because <strong>the questions that matter most — who am I, what am I called to, how does God see me, what should I do — are not information problems.</strong> They are encounter problems. And encounter requires a living relationship, not a language model.<br><br>
+      Use the hammer. Just don't preach with it.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Practical</span><span class="tag">AI Use</span><span class="tag">Discernment</span><span class="tag">Personal</span><span class="tag">Reference</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">The Average Christian · 4 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

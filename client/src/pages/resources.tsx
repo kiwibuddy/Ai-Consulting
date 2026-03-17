@@ -12,7 +12,7 @@ import {
   landingViewportReveal,
   tesoroEase,
 } from "@/lib/animations";
-import { ArrowRight, Play, FileText, ExternalLink, Headphones, ClipboardList, Download } from "lucide-react";
+import { ArrowRight, Play, FileText, ExternalLink, Headphones, ClipboardList } from "lucide-react";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
@@ -27,6 +27,7 @@ const articlesByNewest = [...articles].sort(
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 const ctaLabel = "Book a free 30-min consultation";
+const worksheetCategories = ["AI & Family", "Christian Growth", "Education"] as const;
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -329,7 +330,7 @@ export default function ResourcesPage() {
             whileInView="visible"
             viewport={landingViewportReveal}
             variants={staggerRevealContainerVariants}
-            className="mb-8"
+            className="mb-10"
           >
             <motion.h2
               className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
@@ -341,65 +342,77 @@ export default function ResourcesPage() {
               className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
               variants={staggerRevealItemVariants}
             >
-              Practical tools you can use in your family, workplace, and ministry. Download, print, and make them your own.
+              Practical tools you can use in your family, workplace, and ministry. Open them in your browser, fill them in, and print or save when you're done.
             </motion.p>
           </motion.div>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {worksheets.map((sheet) => (
-              <motion.div
-                key={sheet.id}
-                variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <a
-                  href={sheet.url}
-                  target={isExternalUrl(sheet.url) ? "_blank" : undefined}
-                  rel={isExternalUrl(sheet.url) ? "noopener noreferrer" : undefined}
-                  className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+
+          {worksheetCategories.map((cat) => {
+            const items = worksheets.filter((s) => s.category === cat);
+            if (items.length === 0) return null;
+            return (
+              <div key={cat} className="mb-14 last:mb-0">
+                <motion.h3
+                  className="text-lg md:text-xl font-semibold text-neutral-800 mb-5"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={landingViewportReveal}
+                  variants={fadeUpRevealVariants}
                 >
-                  {sheet.thumbnail ? (
-                    <img
-                      src={sheet.thumbnail}
-                      alt=""
-                      className="aspect-video w-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-                      <ClipboardList className="h-12 w-12 text-neutral-300" />
-                    </div>
-                  )}
-                  <div className="p-5 flex-1 flex flex-col">
-                    {sheet.category && (
-                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
-                        {sheet.category}
-                      </span>
-                    )}
-                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{sheet.title}</h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                      {sheet.description}
-                    </p>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-neutral-500">
-                        {sheet.format && `${sheet.format} · `}
-                        {sheet.date}
-                      </span>
-                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
-                        Download
-                        <Download className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
+                  {cat}
+                </motion.h3>
+                <motion.div
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={landingViewportReveal}
+                  variants={cardSlideUpContainerVariants}
+                >
+                  {items.map((sheet) => (
+                    <motion.div
+                      key={sheet.id}
+                      variants={cardSlideUpItemVariants}
+                      whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                      className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                    >
+                      <a
+                        href={sheet.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                      >
+                        {sheet.thumbnail ? (
+                          <img
+                            src={sheet.thumbnail}
+                            alt=""
+                            className="aspect-video w-full object-cover shrink-0"
+                          />
+                        ) : (
+                          <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
+                            <ClipboardList className="h-12 w-12 text-neutral-300" />
+                          </div>
+                        )}
+                        <div className="p-5 flex-1 flex flex-col">
+                          <h4 className="font-semibold text-neutral-900 text-lg mb-2">{sheet.title}</h4>
+                          <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                            {sheet.description}
+                          </p>
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-xs text-neutral-500">
+                              {sheet.format}
+                            </span>
+                            <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+                              Open worksheet
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

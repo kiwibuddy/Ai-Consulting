@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Did I Last Think Without Assistance? — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.08);
+  --red:        hsl(0,60%,50%);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:#e8e6e0;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:820px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* SITE HEADER */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* HERO — spare, unsettling, question-as-title */
+.hero{
+  background:var(--dark);
+  padding:0;position:relative;overflow:hidden;
+  border-bottom:3px solid var(--gold);
+}
+
+.hero-upper{padding:44px 44px 0;}
+.hero-lower{padding:0 44px 44px;}
+
+/* Big question as centrepiece */
+.hero-q-label{
+  font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,.25);margin-bottom:28px;
+  display:flex;align-items:center;gap:12px;
+}
+.ql-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-question{
+  font-family:var(--font-serif);
+  font-size:38px;font-weight:400;font-style:italic;
+  color:rgba(255,255,255,.95);
+  line-height:1.2;
+  margin-bottom:8px;
+  max-width:580px;
+}
+
+.hero-q-mark{
+  font-family:var(--font-serif);
+  font-size:120px;font-weight:400;
+  color:rgba(255,255,255,.06);
+  line-height:.8;
+  text-align:right;
+  margin-right:-10px;
+  user-select:none;
+}
+
+.hero-desc{
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.45);
+  line-height:1.7;max-width:520px;margin-bottom:30px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:22px;
+}
+.hero-desc strong{color:rgba(255,255,255,.7);font-weight:400;}
+
+.hero-meta{
+  display:flex;align-items:center;flex-wrap:wrap;gap:4px 0;
+  border-top:1px solid rgba(255,255,255,.06);padding-top:18px;
+}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* BODY */
+.body{padding:40px 44px 38px;}
+
+/* shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:620px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+.scr{border-left:2.5px solid var(--green);padding:12px 0 10px 20px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:6px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Context cards */
+.context-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.ctx-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;position:relative;overflow:hidden;}
+.ctx-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;}
+.ctx-card-green::before{background:var(--cta);}
+.ctx-card-gold::before{background:linear-gradient(90deg,var(--gold),hsl(38,80%,60%));}
+.ctx-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.ctx-stat{font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--fg);line-height:1;margin-bottom:4px;}
+.ctx-text{font-size:12px;line-height:1.55;color:var(--fg-med);font-weight:300;}
+.ctx-text strong{color:var(--fg);font-weight:500;}
+.ctx-source{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── THE WEEK LOG ── */
+/* This is the centrepiece — a 7-day tracking table */
+.week-intro{
+  font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);
+  margin:18px 0 24px;max-width:660px;
+}
+.week-intro strong{color:var(--fg);font-weight:500;}
+
+.log-table{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;}
+
+.log-head{
+  display:grid;
+  grid-template-columns:90px 1fr 140px 110px;
+  background:var(--fg);padding:10px 16px;gap:12px;align-items:center;
+}
+.log-th{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.log-th-day{color:rgba(255,255,255,.75);}
+
+.log-row{
+  display:grid;
+  grid-template-columns:90px 1fr 140px 110px;
+  padding:10px 16px;gap:12px;align-items:start;
+  border-top:1px solid var(--border);
+  transition:background .1s;
+}
+.log-row:nth-child(even){background:var(--bg-warm);}
+.log-row:hover{background:hsl(142,76%,42%,.04);}
+
+.log-day{
+  font-size:11px;font-weight:600;color:var(--fg);
+  padding-top:4px;
+}
+.log-day-note{font-size:9.5px;font-weight:300;color:var(--fg-muted);margin-top:1px;}
+
+.log-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:6px;
+}
+.log-input:focus{border-bottom-color:var(--green);}
+.log-input::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+.log-input:last-child{margin-bottom:0;}
+
+.log-select{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:11.5px;
+  color:var(--fg);padding:2px 0 4px;outline:none;cursor:pointer;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23888880' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 2px center;
+  padding-right:18px;
+}
+.log-select:focus{border-bottom-color:var(--green);}
+.log-select option{background:#fff;color:var(--fg);}
+
+.log-rating{display:flex;flex-direction:column;gap:6px;}
+.rating-lbl{font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);}
+.rating-dots{display:flex;gap:5px;}
+.rdot{
+  width:20px;height:20px;border-radius:5px;
+  border:1.5px solid var(--border);background:var(--bg-warm);
+  cursor:pointer;transition:all .15s;font-size:0;
+}
+.rdot:hover{border-color:var(--green);}
+.rdot.active{background:var(--green);border-color:var(--green);}
+.rdot.amber{background:var(--gold);border-color:var(--gold);}
+.rdot.red{background:hsl(0,60%,50%);border-color:hsl(0,60%,50%);}
+.rating-hint{font-size:9px;color:var(--fg-muted);font-weight:300;}
+
+/* Tally row */
+.tally-row{
+  background:var(--bg-muted);border-top:2px solid var(--fg);
+  display:grid;grid-template-columns:90px 1fr 140px 110px;
+  padding:12px 16px;gap:12px;align-items:center;
+}
+.tally-lbl{font-size:10px;font-weight:600;color:var(--fg);}
+.tally-field{
+  border:none;border-bottom:1.5px solid var(--fg);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 5px;outline:none;
+}
+.tally-field:focus{border-bottom-color:var(--green);}
+.tally-field::placeholder{color:var(--border);}
+
+/* ── PATTERN SECTION ── */
+.pattern-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:18px 0 28px;}
+.pat-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:14px 16px;}
+.pat-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;}
+.pat-title{font-size:11.5px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.pat-desc{font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:9px;}
+.pf{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:5px;}
+.pf:focus{border-bottom-color:var(--green);}
+.pf::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* ── THE HARD QUESTIONS ── */
+.hq-block{margin-bottom:24px;}
+.hq-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;}
+.hq-num{font-family:var(--font-serif);font-size:26px;font-weight:400;color:var(--border);flex-shrink:0;min-width:22px;line-height:1;}
+.hq-content{}
+.hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;margin-bottom:3px;}
+.hq-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;line-height:1.45;}
+.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:60px;background:var(--bg-warm);width:100%;}
+
+/* ── CLOSING QUESTION — the whole point ── */
+.closing-block{
+  background:var(--dark);border-radius:var(--r);
+  padding:36px 40px;margin:32px 0 0;
+  position:relative;overflow:hidden;
+}
+.closing-block::before{
+  content:'?';
+  font-family:var(--font-serif);font-size:280px;font-weight:700;
+  color:rgba(255,255,255,.03);
+  position:absolute;bottom:-40px;right:-10px;
+  line-height:1;user-select:none;pointer-events:none;
+}
+.closing-eyebrow{
+  font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.ce-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+
+.closing-question{
+  font-family:var(--font-serif);
+  font-size:26px;font-weight:400;font-style:italic;
+  color:#fff;line-height:1.4;
+  margin-bottom:18px;
+  max-width:580px;
+}
+
+.closing-context{
+  font-size:13px;font-weight:300;line-height:1.75;
+  color:rgba(255,255,255,.55);max-width:580px;
+  margin-bottom:28px;
+}
+.closing-context strong{color:rgba(255,255,255,.85);font-weight:400;}
+
+/* Large writing space for the closing question */
+.closing-write{
+  position:relative;
+}
+.cw-lbl{
+  font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:12px;
+}
+.cw-area{
+  border:1px solid rgba(255,255,255,.12);border-radius:var(--r-sm);
+  background:rgba(255,255,255,.04);
+  width:100%;min-height:120px;padding:16px;
+  font-family:var(--font-serif);font-size:15px;font-style:italic;
+  color:#fff;outline:none;resize:vertical;
+  line-height:1.7;
+}
+.cw-area:focus{border-color:rgba(34,197,94,.4);}
+.cw-area::placeholder{color:rgba(255,255,255,.15);}
+
+.cw-footer{
+  margin-top:20px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+  padding-top:18px;border-top:1px solid rgba(255,255,255,.08);
+}
+.cw-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">The Average Christian · Series 2 of 5</div>
+</div>
+
+<!-- HERO — the question IS the design -->
+<div class="hero">
+  <div class="hero-upper">
+    <div class="hero-q-label">
+      <div class="ql-rule"></div>
+      Personal Reflection &nbsp;·&nbsp; One Week &nbsp;·&nbsp; Cognitive &amp; Spiritual Independence
+      <div class="ql-rule"></div>
+    </div>
+    <div class="hero-question">"When did I last think through something difficult without immediately asking Google, AI, or social media?"</div>
+  </div>
+  <div style="text-align:right;padding:0 44px;">
+    <div class="hero-q-mark">?</div>
+  </div>
+  <div class="hero-lower">
+    <div class="hero-desc">
+      This worksheet tracks one week of your decisions, questions, and moments of uncertainty — and honestly maps how many of those you handed away <strong>before you had a chance to think, pray, or sit with them.</strong> The goal isn't guilt. The goal is clarity about what's actually happening to your mind.
+    </div>
+    <div class="hero-meta">
+      <span class="mi">One week log</span><div class="msep"></div>
+      <span class="mi">Personal use</span><div class="msep"></div>
+      <span class="mi">~10 min per day</span><div class="msep"></div>
+      <span class="mi">nathanielbaldock.com</span>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Context -->
+  <div class="context-pair">
+    <div class="ctx-card ctx-card-green">
+      <div class="ctx-lbl">The research finding</div>
+      <div class="ctx-stat">23 min</div>
+      <div class="ctx-text">It takes over <strong>23 minutes to fully regain focus</strong> after a digital interruption. Every time you reach for your phone to answer a question, you don't just find an answer — you lose nearly half an hour of deep thought.</div>
+      <div class="ctx-source">Fractal: The Attention War — cognitive sovereignty research</div>
+    </div>
+    <div class="ctx-card ctx-card-gold">
+      <div class="ctx-lbl">The spiritual warning</div>
+      <div class="ctx-stat">"Falling asleep at the wheel"</div>
+      <div class="ctx-text">Research on AI-assisted decision making found that <strong>people free-ride when AI quality is high</strong> — putting in less cognitive effort, not more. We are at risk of outsourcing the very thinking that makes us human.</div>
+      <div class="ctx-source">Fabrizio Dell'Acqua — "Falling Asleep at the Wheel," Harvard Business School</div>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you."</div>
+    <div class="scr-ref">James 1:5 · The first place wisdom is meant to come from is not a search engine</div>
+  </div>
+
+  <p style="font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:8px;">
+    Ray Miller, writing in <em>The Christian Post</em>, warns that <strong>"the interactivity AI brings will feel more like a personal deity that seems all-knowing."</strong> That's not a metaphor. It's a description of what happens when your instinct is to ask AI before you've asked God — or even before you've sat with the question long enough to know what you're actually asking.
+  </p>
+  <p style="font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:28px;">
+    This worksheet is not anti-technology. It's pro-wisdom. There is a difference between using AI as a tool and outsourcing your thinking, your discernment, and your capacity to hear from God.
+  </p>
+
+  <hr class="div">
+
+  <!-- THE WEEK LOG -->
+  <div class="sec-lbl">The One-Week Log</div>
+  <div class="sec-title">Track it honestly for seven days</div>
+  <div class="sec-sub">Each day, log one significant question, decision, or moment of uncertainty you faced. Then be honest about where you went first — and what happened.</div>
+
+  <div class="week-intro">
+    The <strong>"went to first"</strong> column is the one that matters most. Not what you eventually did — what your <em>first instinct</em> was before you had a chance to think or pray. That reflex is data.
+  </div>
+
+  <div class="log-table">
+    <div class="log-head">
+      <div class="log-th log-th-day">Day</div>
+      <div class="log-th">The question or decision I faced</div>
+      <div class="log-th">Where I went first</div>
+      <div class="log-th">Did I pray / think first?</div>
+    </div>
+
+    <!-- 7 days -->
+    <div class="log-row">
+      <div class="log-day">Monday<div class="log-day-note">Day 1</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div>
+        <select class="log-select">
+          <option value="">— went to first —</option>
+          <option>Prayed / sat with it</option>
+          <option>Google / search</option>
+          <option>AI (ChatGPT etc.)</option>
+          <option>Social media</option>
+          <option>Called someone</option>
+          <option>Scripture</option>
+          <option>Just acted</option>
+        </select>
+        <div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div>
+      </div>
+      <div>
+        <div class="log-rating">
+          <div class="rating-lbl">Thought first?</div>
+          <div class="rating-dots">
+            <div class="rdot" title="Yes" onclick="setRating(this, 'yes')"></div>
+            <div class="rdot amber" title="Partial" onclick="setRating(this,'part')" style="background:transparent;"></div>
+            <div class="rdot red" title="No" onclick="setRating(this,'no')" style="background:transparent;"></div>
+          </div>
+          <div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Tuesday<div class="log-day-note">Day 2</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Wednesday<div class="log-day-note">Day 3</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Thursday<div class="log-day-note">Day 4</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Friday<div class="log-day-note">Day 5</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Saturday<div class="log-day-note">Day 6</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <div class="log-row">
+      <div class="log-day">Sunday<div class="log-day-note">Day 7</div></div>
+      <div><input class="log-input" type="text" placeholder="What was the question or decision?…"><input class="log-input" type="text" placeholder="How important was it?…"></div>
+      <div><select class="log-select"><option value="">— went to first —</option><option>Prayed / sat with it</option><option>Google / search</option><option>AI (ChatGPT etc.)</option><option>Social media</option><option>Called someone</option><option>Scripture</option><option>Just acted</option></select><div style="margin-top:6px;"><input class="log-input" type="text" placeholder="Any notes…"></div></div>
+      <div><div class="log-rating"><div class="rating-lbl">Thought first?</div><div class="rating-dots"><div class="rdot" onclick="setRating(this,'yes')"></div><div class="rdot amber" onclick="setRating(this,'part')" style="background:transparent;"></div><div class="rdot red" onclick="setRating(this,'no')" style="background:transparent;"></div></div><div class="rating-hint">✓ Yes &nbsp;◑ Partial &nbsp;✗ No</div></div></div>
+    </div>
+
+    <!-- TALLY -->
+    <div class="tally-row">
+      <div class="tally-lbl">End-of-week tally</div>
+      <div><input class="tally-field" type="text" placeholder="Most common 'went to first' across the week?…"></div>
+      <div><input class="tally-field" type="text" placeholder="Times I prayed / thought first: ___"></div>
+      <div><input class="tally-field" type="text" placeholder="Times I outsourced immediately: ___"></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PATTERN RECOGNITION -->
+  <div class="sec-lbl">Part 2</div>
+  <div class="sec-title">What the Log Reveals</div>
+  <div class="sec-sub">Look at the week as a whole. Patterns are more honest than individual moments.</div>
+
+  <div class="pattern-grid">
+    <div class="pat-card">
+      <div class="pat-icon" style="background:var(--green-bg);">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 2v5l3 2" stroke="hsl(142,76%,42%)" stroke-width="1.3" stroke-linecap="round"/><circle cx="7.5" cy="7.5" r="6" stroke="hsl(142,76%,42%)" stroke-width="1.2" fill="none"/></svg>
+      </div>
+      <div class="pat-title">The reflex pattern</div>
+      <div class="pat-desc">What was your body reaching for before your mind had a chance to engage? That reflex has been trained into you over years.</div>
+      <input class="pf" type="text" placeholder="My first instinct was usually…">
+      <input class="pf" type="text" placeholder="What does that suggest about my trust?…">
+    </div>
+    <div class="pat-card">
+      <div class="pat-icon" style="background:var(--gold-bg);">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5L9.5 5.5H13.5L10.5 8L11.5 12L7.5 9.5L3.5 12L4.5 8L1.5 5.5H5.5L7.5 1.5z" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linejoin="round" fill="none"/></svg>
+      </div>
+      <div class="pat-title">The avoidance pattern</div>
+      <div class="pat-desc">Were there questions you outsourced not because you needed an answer, but because sitting with the uncertainty was uncomfortable?</div>
+      <input class="pf" type="text" placeholder="A question I avoided thinking through…">
+      <input class="pf" type="text" placeholder="What was I actually avoiding?…">
+    </div>
+    <div class="pat-card">
+      <div class="pat-icon" style="background:hsl(280,52%,48%,.08);">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="hsl(280,52%,48%)" stroke-width="1.2" fill="none"/><path d="M7.5 5v3M7.5 10v.5" stroke="hsl(280,52%,48%)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="pat-title">The prayer gap</div>
+      <div class="pat-desc">James 1:5 says to ask God for wisdom. How many times this week did you ask Him before you asked anything else?</div>
+      <input class="pf" type="text" placeholder="Times I went to God first: ___">
+      <input class="pf" type="text" placeholder="What stopped me the other times?…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- HARD QUESTIONS -->
+  <div class="sec-lbl">Part 3</div>
+  <div class="sec-title">The Harder Questions</div>
+
+  <div style="margin-top:20px;">
+    <div class="hq-block">
+      <div class="hq-row"><div class="hq-num">1</div><div class="hq-content"><div class="hq-text">Is there a question or decision this week where the AI or Google answer was faster — but not actually better?</div><div class="hq-note">Speed and wisdom are not the same thing. A quick answer can close off the very uncertainty that God was using to draw you closer.</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="hq-block">
+      <div class="hq-row"><div class="hq-num">2</div><div class="hq-content"><div class="hq-text">What would have happened if you had stayed with one of this week's questions long enough to actually think and pray about it — without assistance?</div><div class="hq-note">Not faster. Longer. What might you have discovered?</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="hq-block">
+      <div class="hq-row"><div class="hq-num">3</div><div class="hq-content"><div class="hq-text">Dallas Willard listed silence among the core spiritual disciplines. When was the last time you practised it? What makes silence harder than scrolling?</div><div class="hq-note">Silence is where God has historically spoken. We have systematically eliminated it.</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+  </div>
+
+  <!-- SCRIPTURE -->
+  <div class="scr" style="margin-top:28px;">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Be still before the Lord and wait patiently for him."</div>
+    <div class="scr-ref">Psalm 37:7 · Stillness is not the absence of activity — it is a deliberately chosen orientation toward God</div>
+  </div>
+
+  <!-- THE CLOSING QUESTION -->
+  <div class="closing-block">
+    <div class="closing-eyebrow"><div class="ce-dot"></div>The question this whole worksheet has been building toward</div>
+    <div class="closing-question">"What does it mean to sit with a question long enough to hear from God?"</div>
+    <div class="closing-context">
+      Not long enough to feel comfortable. Not long enough to manufacture an answer. Long enough that <strong>the noise settles</strong>, the urgency passes, and you are genuinely available to whatever God might say — even if it's silence, even if it's something you don't want to hear.<br><br>
+      Dallas Willard said that the disciplines cultivate a disposition of <strong>"openness, willingness, and dependence on God."</strong> You can't cultivate that disposition while simultaneously outsourcing every difficult question to an AI that responds in three seconds. The capability to think, wait, and listen is a spiritual muscle. Like any muscle, it atrophies when you stop using it.<br><br>
+      This is what's at stake. Not just your productivity or your critical thinking skills — though those matter too. <strong>What's at stake is your capacity to hear from the God who speaks in still small voices, who draws near in the waiting, who does some of his deepest work in the uncomfortable space of not-yet-knowing.</strong>
+    </div>
+    <div class="closing-write">
+      <div class="cw-lbl">Your honest response:</div>
+      <textarea class="cw-area" placeholder="Write whatever comes. There is no right answer. Only an honest one."></textarea>
+    </div>
+    <div class="cw-footer">
+      <div class="cw-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Personal</span><span class="tag">Wisdom</span><span class="tag">Prayer</span><span class="tag">Silence</span><span class="tag">Formation</span><span class="tag">Cognitive Independence</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">The Average Christian · 2 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function setRating(el, val){
+  const dots = el.parentElement.querySelectorAll('.rdot');
+  dots.forEach(d => {
+    d.classList.remove('active');
+    if(d.classList.contains('amber')) d.style.background = 'transparent';
+    else if(d.classList.contains('red')) d.style.background = 'transparent';
+    else d.style.background = '';
+  });
+  if(val === 'yes'){
+    el.style.background = 'hsl(142,76%,42%)';
+    el.style.borderColor = 'hsl(142,76%,42%)';
+  } else if(val === 'part'){
+    el.style.background = 'hsl(38,96%,50%)';
+    el.style.borderColor = 'hsl(38,96%,50%)';
+  } else {
+    el.style.background = 'hsl(0,60%,50%)';
+    el.style.borderColor = 'hsl(0,60%,50%)';
+  }
+}
+</script>
+</body>
+</html>

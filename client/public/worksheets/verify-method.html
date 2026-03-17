@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The VERIFY Method — AI Hallucination Detective</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  /* ── Shared brand system ── */
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.08);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+
+  /* ── Education-specific accent colours ── */
+  /* Used inside the worksheet body — not overriding the brand shell */
+  --edu-blue:   hsl(220,70%,28%);   /* claim headers / V */
+  --edu-teal:   hsl(195,60%,36%);   /* E */
+  --edu-green2: hsl(145,55%,34%);   /* R — slightly darker than brand green */
+  --edu-yellow: hsl(48,90%,44%);    /* I */
+  --edu-orange: hsl(28,85%,46%);    /* F */
+  --edu-red:    hsl(4,65%,48%);     /* Y */
+
+  /* Confidence meter colours */
+  --conf-low:   hsl(4,65%,48%);
+  --conf-mid:   hsl(28,85%,46%);
+  --conf-high:  hsl(142,76%,42%);
+}
+
+html{background:hsl(35,20%,93%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:840px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER — identical to rest of series ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO — brand-consistent dark header ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--green);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 30%,hsl(142,76%,42%,.09) 0%,transparent 50%),
+             radial-gradient(circle at 15% 80%,hsl(38,96%,50%,.06) 0%,transparent 40%);
+  pointer-events:none;
+}
+
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:8px;letter-spacing:-.5px;}
+.hero-subtitle{font-family:var(--font-serif);font-size:16px;font-weight:400;font-style:italic;color:rgba(255,255,255,.5);margin-bottom:20px;}
+
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:540px;margin-bottom:28px;}
+.hero-desc strong{color:rgba(255,255,255,.75);font-weight:400;}
+
+/* VERIFY acronym pills in hero */
+.verify-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;}
+.vp{
+  display:flex;align-items:center;gap:7px;
+  padding:6px 13px;border-radius:20px;
+  font-size:11px;font-weight:600;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.07);
+  color:rgba(255,255,255,.65);
+}
+.vp-letter{font-family:var(--font-serif);font-size:16px;font-weight:700;color:#fff;}
+
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+
+/* Student info bar */
+.student-bar{
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  overflow:hidden;margin-bottom:28px;
+}
+.sb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.sb-cell:last-child{border-right:none;}
+.sb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.sb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.sb-input:focus{border-bottom-color:var(--green);}
+.sb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Shared section labels */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:600px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+/* Intro box */
+.intro-box{border-left:2.5px solid var(--green);padding:13px 0 11px 20px;margin-bottom:24px;position:relative;}
+.ib-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.intro-box p{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);}
+.intro-box p strong{color:var(--fg);font-weight:500;}
+.intro-box p + p{margin-top:8px;}
+
+/* Golden rule callout */
+.rule-box{
+  background:hsl(38,96%,50%,.09);border:1px solid hsl(38,96%,50%,.3);
+  border-radius:var(--r-sm);padding:14px 18px;margin-bottom:24px;
+  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:flex-start;
+}
+.rb-icon{font-size:18px;margin-top:1px;user-select:none;}
+.rb-title{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.rb-text{font-size:12px;font-weight:300;color:var(--fg-med);line-height:1.6;}
+.rb-text strong{color:var(--fg);font-weight:500;}
+
+/* VERIFY legend */
+.verify-legend{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:8px;margin-bottom:28px;
+}
+.vl-card{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  padding:12px 8px 10px;text-align:center;
+  background:var(--bg-warm);
+}
+.vl-letter{font-family:var(--font-serif);font-size:32px;font-weight:700;line-height:1;margin-bottom:4px;}
+.vl-word{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
+.vl-desc{font-size:10px;font-weight:300;color:var(--fg-muted);line-height:1.4;}
+/* Per-letter colours */
+.vl-v .vl-letter{color:var(--edu-blue);} .vl-v .vl-word{color:var(--edu-blue);}
+.vl-e .vl-letter{color:var(--edu-teal);} .vl-e .vl-word{color:var(--edu-teal);}
+.vl-r .vl-letter{color:var(--edu-green2);} .vl-r .vl-word{color:var(--edu-green2);}
+.vl-i .vl-letter{color:var(--edu-yellow);} .vl-i .vl-word{color:var(--edu-yellow);}
+.vl-f .vl-letter{color:var(--edu-orange);} .vl-f .vl-word{color:var(--edu-orange);}
+.vl-y .vl-letter{color:var(--edu-red);} .vl-y .vl-word{color:var(--edu-red);}
+
+/* ── CLAIM BLOCKS ── */
+.claim-block{margin-bottom:32px;}
+
+/* Claim header */
+.claim-hdr{
+  display:flex;align-items:center;gap:14px;margin-bottom:16px;
+}
+.claim-num{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:20px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.cn-1{background:var(--edu-blue);}
+.cn-2{background:var(--edu-teal);}
+.cn-3{background:var(--edu-green2);}
+.claim-hdr-text{}
+.claim-kicker{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:3px;}
+.claim-name{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--fg);}
+
+/* AI output box — looks like a terminal/chat */
+.ai-box{
+  background:var(--dark);border-radius:var(--r-sm);
+  padding:18px 22px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.ai-box::before{
+  content:'AI OUTPUT';
+  font-size:7.5px;font-weight:600;letter-spacing:3px;
+  color:rgba(255,255,255,.18);
+  position:absolute;top:10px;right:14px;
+}
+.ai-prefix{font-size:9px;font-weight:600;color:rgba(255,255,255,.35);margin-bottom:8px;letter-spacing:.3px;}
+.ai-text{
+  font-family:var(--font-serif);font-size:15px;font-style:italic;
+  color:#fff;line-height:1.6;
+}
+.ai-text mark{
+  background:rgba(255,220,50,.22);color:#fff;
+  border-radius:2px;padding:0 2px;
+  font-style:italic;
+}
+
+/* Six VERIFY step panels */
+.steps{display:flex;flex-direction:column;gap:8px;}
+
+.step{border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;}
+
+.step-head{
+  display:grid;grid-template-columns:40px 1fr;align-items:stretch;
+}
+.step-letter{
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:22px;font-weight:700;
+  color:rgba(255,255,255,.35);
+}
+.step-head-text{
+  padding:9px 16px;border-left:1px solid rgba(255,255,255,.12);
+}
+.step-kicker{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;opacity:.7;}
+.step-question{font-size:13px;font-weight:600;color:#fff;line-height:1.3;}
+
+/* per-step colours */
+.step-v .step-head{background:var(--edu-blue);}
+.step-e .step-head{background:var(--edu-teal);}
+.step-r .step-head{background:var(--edu-green2);}
+.step-i .step-head{background:var(--edu-yellow);}
+.step-i .step-letter,.step-i .step-kicker,.step-i .step-question{color:var(--fg)!important;}
+.step-f .step-head{background:var(--edu-orange);}
+.step-y .step-head{background:var(--edu-red);}
+
+.step-body{padding:14px 16px;background:var(--bg);}
+.step-hint{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.55;margin-bottom:10px;font-style:italic;}
+
+.ws-line{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:13px;
+  color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:8px;
+}
+.ws-line:focus{border-bottom-color:var(--green);}
+.ws-line::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.ws-line:last-child{margin-bottom:0;}
+
+/* Confidence scale */
+.conf-wrap{margin-top:4px;}
+.conf-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.conf-scale{display:flex;gap:5px;}
+.conf-pip{
+  flex:1;height:26px;border-radius:5px;
+  border:1px solid var(--border);background:var(--bg-warm);
+  cursor:pointer;transition:all .12s;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;color:var(--fg-muted);
+}
+.conf-pip:hover{border-color:var(--green);}
+.conf-ends{display:flex;justify-content:space-between;margin-top:5px;}
+.conf-end{font-size:9px;font-weight:300;color:var(--fg-muted);}
+
+/* Verdict row */
+.verdict-row{
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:14px 16px;margin-top:10px;
+  display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
+  background:var(--bg-warm);
+}
+.verdict-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.verdict-input{
+  border:none;border-bottom:1.5px solid var(--fg);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:13px;font-weight:500;
+  color:var(--fg);padding:3px 0 5px;outline:none;
+}
+.verdict-input:focus{border-bottom-color:var(--green);}
+.verdict-input::placeholder{color:var(--border);font-weight:300;}
+.verdict-btns{display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
+.v-btn{
+  font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:5px;border:1px solid var(--border);
+  background:var(--bg);color:var(--fg-muted);cursor:pointer;transition:all .12s;
+  white-space:nowrap;
+}
+.v-btn:hover{border-color:var(--fg);color:var(--fg);}
+.v-btn.active-true{background:var(--green);border-color:var(--green);color:#fff;}
+.v-btn.active-mostly{background:hsl(145,45%,44%);border-color:hsl(145,45%,44%);color:#fff;}
+.v-btn.active-mislead{background:var(--edu-orange);border-color:var(--edu-orange);color:#fff;}
+.v-btn.active-false{background:var(--edu-red);border-color:var(--edu-red);color:#fff;}
+
+/* Claim divider */
+.claim-div{
+  display:flex;align-items:center;gap:14px;margin:28px 0;
+}
+.cd-line{flex:1;border-top:1px dashed var(--border);}
+.cd-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* ── REFLECTION ── */
+.reflect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.rg{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.rg-num{font-family:var(--font-serif);font-size:34px;font-weight:400;color:var(--border);line-height:1;margin-bottom:6px;}
+.rg-q{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:10px;}
+.rg-area{
+  width:100%;border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:3px 0 5px;outline:none;resize:none;height:56px;display:block;
+}
+.rg-area:focus{border-bottom-color:var(--green);}
+.rg-area::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Teacher notes */
+.teacher-box{
+  margin-top:24px;border:1px dashed var(--border);border-radius:var(--r-sm);
+  padding:16px 20px;background:var(--bg-page);
+}
+.tb-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
+.tb-text{font-size:12px;line-height:1.75;color:var(--fg-muted);}
+.tb-text strong{color:var(--fg-med);font-weight:600;}
+
+/* Encouragement / dark block */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER — identical brand wrapper -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Schools &amp; Education · Worksheet ED–01</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    AI Literacy Series &nbsp;·&nbsp; Critical Thinking &nbsp;·&nbsp; Ages 12 and up
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">The VERIFY Method</div>
+  <div class="hero-subtitle">AI Hallucination Detective</div>
+  <div class="hero-desc">
+    AI can be brilliantly useful — and it can also make things up. Completely. Confidently. Without knowing it's wrong. This worksheet teaches you a <strong>six-step method for checking any AI claim</strong> before you use it, share it, or act on it.
+  </div>
+
+  <div class="verify-pills">
+    <div class="vp"><span class="vp-letter">V</span>Verify the claim</div>
+    <div class="vp"><span class="vp-letter">E</span>Examine the source</div>
+    <div class="vp"><span class="vp-letter">R</span>Research independently</div>
+    <div class="vp"><span class="vp-letter">I</span>Identify bias</div>
+    <div class="vp"><span class="vp-letter">F</span>Form a confidence rating</div>
+    <div class="vp"><span class="vp-letter">Y</span>Your verdict</div>
+  </div>
+
+  <div class="hero-meta">
+    <span class="mi">Individual or pairs</span><div class="msep"></div>
+    <span class="mi">~45 minutes</span><div class="msep"></div>
+    <span class="mi">Adapted from AI for Education &amp; Project Pals frameworks</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Student info -->
+  <div class="student-bar">
+    <div class="sb-cell"><div class="sb-lbl">Student Name</div><input class="sb-input" type="text" placeholder="Your name…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Class / Year</div><input class="sb-input" type="text" placeholder="e.g. Year 9B…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Date</div><input class="sb-input" type="text" placeholder="DD / MM / YYYY"></div>
+    <div class="sb-cell"><div class="sb-lbl">Partner (if pair)</div><input class="sb-input" type="text" placeholder="Optional…"></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="intro-box">
+    <div class="ib-q">"</div>
+    <p>AI tools like ChatGPT, Gemini, and Copilot are genuinely useful. But they <strong>hallucinate</strong> — that's the technical word for when an AI states something completely wrong with total confidence. The dangerous part is it doesn't know it's wrong. It's not lying. It's just generating text that sounds plausible.</p>
+    <p>Below are three AI-generated "facts." Your job is to run each through the <strong>VERIFY method</strong> — six steps that teach you to actually check a claim, not just accept it because it sounds right. Work through each step in order. Don't skip.</p>
+  </div>
+
+  <div class="rule-box">
+    <div class="rb-icon">⚠️</div>
+    <div>
+      <div class="rb-title">The one rule before you start</div>
+      <div class="rb-text"><strong>Never use the AI itself to fact-check the AI.</strong> That's like asking someone if they were lying and trusting their answer. Use Wikipedia as a starting point, then trace it back to an original source — a news site, government database, museum, or university publication.</div>
+    </div>
+  </div>
+
+  <!-- VERIFY legend -->
+  <div class="sec-lbl">The VERIFY Framework</div>
+  <div class="verify-legend">
+    <div class="vl-card vl-v"><div class="vl-letter">V</div><div class="vl-word">Verify</div><div class="vl-desc">What exactly is being claimed?</div></div>
+    <div class="vl-card vl-e"><div class="vl-letter">E</div><div class="vl-word">Examine</div><div class="vl-desc">Where does the AI say it came from?</div></div>
+    <div class="vl-card vl-r"><div class="vl-letter">R</div><div class="vl-word">Research</div><div class="vl-desc">Find a second independent source</div></div>
+    <div class="vl-card vl-i"><div class="vl-letter">I</div><div class="vl-word">Identify</div><div class="vl-desc">Who benefits from this claim?</div></div>
+    <div class="vl-card vl-f"><div class="vl-letter">F</div><div class="vl-word">Form</div><div class="vl-desc">Rate your confidence out of 10</div></div>
+    <div class="vl-card vl-y"><div class="vl-letter">Y</div><div class="vl-word">Verdict</div><div class="vl-desc">True / Mostly true / Misleading / False</div></div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ════════════════ CLAIM 1 ════════════════ -->
+  <div class="claim-block">
+    <div class="claim-hdr">
+      <div class="claim-num cn-1">1</div>
+      <div class="claim-hdr-text">
+        <div class="claim-kicker">Claim to investigate · History</div>
+        <div class="claim-name">The Great Wall of China</div>
+      </div>
+    </div>
+
+    <div class="ai-box">
+      <div class="ai-prefix">→ AI response when asked about the Great Wall of China:</div>
+      <div class="ai-text">"The Great Wall of China is so large it is <mark>visible from space with the naked eye</mark>, and was constructed entirely during the <mark>Ming Dynasty between 1368 and 1644 AD</mark>. It stretches for <mark>21,196 kilometres</mark> and was built to keep out Mongol invaders."</div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step step-v">
+        <div class="step-head">
+          <div class="step-letter">V</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 1 · Verify the specific claims</div>
+            <div class="step-question">Underline each separate factual claim in the AI text above. List them individually below — one per line.</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="step-hint">Tip: How many separate claims are hidden inside that one paragraph? Count carefully.</div>
+          <input class="ws-line" type="text" placeholder="Claim A: …">
+          <input class="ws-line" type="text" placeholder="Claim B: …">
+          <input class="ws-line" type="text" placeholder="Claim C: …">
+          <input class="ws-line" type="text" placeholder="Claim D (if any): …">
+        </div>
+      </div>
+
+      <div class="step step-e">
+        <div class="step-head">
+          <div class="step-letter">E</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 2 · Examine the source</div>
+            <div class="step-question">Did the AI provide a source? What kind of authority could actually verify these claims?</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="step-hint">For historical facts, good sources include: museum websites, university history departments, National Geographic, government archives.</div>
+          <input class="ws-line" type="text" placeholder="Did the AI cite a source? Yes / No…">
+          <input class="ws-line" type="text" placeholder="What type of source should I look for?…">
+        </div>
+      </div>
+
+      <div class="step step-r">
+        <div class="step-head">
+          <div class="step-letter">R</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 3 · Research independently</div>
+            <div class="step-question">Look it up yourself. What did you actually find — and where?</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="step-hint">Search: "Great Wall of China visible from space" and "Great Wall history construction." What do reliable sources say about each claim?</div>
+          <input class="ws-line" type="text" placeholder="Source I used: (website or book name)…">
+          <input class="ws-line" type="text" placeholder="What it says about 'visible from space': …">
+          <input class="ws-line" type="text" placeholder="What it says about when the Wall was built: …">
+          <input class="ws-line" type="text" placeholder="Is 21,196 km accurate? …">
+        </div>
+      </div>
+
+      <div class="step step-i">
+        <div class="step-head">
+          <div class="step-letter">I</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 4 · Identify bias or motive</div>
+            <div class="step-question">Who might want this claim to be believed? Does the error seem random, or does it serve someone's interest?</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="step-hint">Some myths spread because they serve nationalism, tourism, or just make a better story. Others are just AI pattern-matching mistakes. Which is this?</div>
+          <input class="ws-line" type="text" placeholder="Why might the 'visible from space' myth be so widespread?…">
+          <input class="ws-line" type="text" placeholder="Is this error random or does it seem to serve a purpose?…">
+        </div>
+      </div>
+
+      <div class="step step-f">
+        <div class="step-head">
+          <div class="step-letter">F</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 5 · Form a confidence rating</div>
+            <div class="step-question">How accurate was the AI overall? Click a number — 1 is completely wrong, 10 is completely right.</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="conf-wrap">
+            <div class="conf-lbl">Accuracy score — 1 (completely wrong) to 10 (completely right)</div>
+            <div class="conf-scale" id="cm1">
+              <div class="conf-pip" data-n="1">1</div><div class="conf-pip" data-n="2">2</div><div class="conf-pip" data-n="3">3</div><div class="conf-pip" data-n="4">4</div><div class="conf-pip" data-n="5">5</div>
+              <div class="conf-pip" data-n="6">6</div><div class="conf-pip" data-n="7">7</div><div class="conf-pip" data-n="8">8</div><div class="conf-pip" data-n="9">9</div><div class="conf-pip" data-n="10">10</div>
+            </div>
+            <div class="conf-ends"><span class="conf-end">Completely wrong</span><span class="conf-end">Completely right</span></div>
+          </div>
+          <input class="ws-line" style="margin-top:10px;" type="text" placeholder="Reason for my score: …">
+        </div>
+      </div>
+
+      <div class="step step-y">
+        <div class="step-head">
+          <div class="step-letter">Y</div>
+          <div class="step-head-text">
+            <div class="step-kicker">Step 6 · Your verdict</div>
+            <div class="step-question">What is your final judgement? Write one sentence and click a verdict button.</div>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="verdict-row">
+            <div>
+              <div class="verdict-lbl">My verdict on this claim:</div>
+              <input class="verdict-input" type="text" placeholder="Write your verdict in one clear sentence…">
+            </div>
+            <div class="verdict-btns">
+              <button class="v-btn" onclick="setVerdict(this,'true')">✓ True</button>
+              <button class="v-btn" onclick="setVerdict(this,'mostly')">≈ Mostly true</button>
+              <button class="v-btn" onclick="setVerdict(this,'mislead')">⚠ Misleading</button>
+              <button class="v-btn" onclick="setVerdict(this,'false')">✗ False</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════ CLAIM 2 ════════════════ -->
+  <div class="claim-div"><div class="cd-line"></div><div class="cd-lbl">Claim 2 of 3</div><div class="cd-line"></div></div>
+
+  <div class="claim-block">
+    <div class="claim-hdr">
+      <div class="claim-num cn-2">2</div>
+      <div class="claim-hdr-text">
+        <div class="claim-kicker">Claim to investigate · Science &amp; Safety</div>
+        <div class="claim-name">Lightning Strikes and the Human Body</div>
+      </div>
+    </div>
+
+    <div class="ai-box">
+      <div class="ai-prefix">→ AI response when asked about lightning strikes:</div>
+      <div class="ai-text">"Lightning strikes kill approximately <mark>6,000 people worldwide every year</mark>. The human body cannot survive a direct strike because the electrical current — typically around <mark>1 billion volts</mark> — is always lethal. Lightning always strikes the <mark>tallest object in an area</mark>, which is why you should <mark>lie flat on the ground</mark> during a thunderstorm."</div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step step-v">
+        <div class="step-head"><div class="step-letter">V</div><div class="step-head-text"><div class="step-kicker">Step 1 · Verify the specific claims</div><div class="step-question">List each separate factual claim. Some may be true, some false — separate them first before checking anything.</div></div></div>
+        <div class="step-body">
+          <input class="ws-line" type="text" placeholder="Claim A: (the death toll)…">
+          <input class="ws-line" type="text" placeholder="Claim B: (what a strike does to the body)…">
+          <input class="ws-line" type="text" placeholder="Claim C: (the voltage figure)…">
+          <input class="ws-line" type="text" placeholder="Claim D: (the safety advice — lie flat)…">
+        </div>
+      </div>
+
+      <div class="step step-e">
+        <div class="step-head"><div class="step-letter">E</div><div class="step-head-text"><div class="step-kicker">Step 2 · Examine the source</div><div class="step-question">For claims about lightning and safety, what kind of sources would be most trustworthy?</div></div></div>
+        <div class="step-body">
+          <div class="step-hint">Think: national weather agencies (NOAA, MetService, BOM), medical databases, national lightning safety councils, university physics departments.</div>
+          <input class="ws-line" type="text" placeholder="Best source type for lightning statistics: …">
+          <input class="ws-line" type="text" placeholder="Best source type for safety advice: …">
+        </div>
+      </div>
+
+      <div class="step step-r">
+        <div class="step-head"><div class="step-letter">R</div><div class="step-head-text"><div class="step-kicker">Step 3 · Research independently</div><div class="step-question">Look up at least two of these claims. What does the actual evidence say?</div></div></div>
+        <div class="step-body">
+          <div class="step-hint">Search: "how many people die from lightning each year," "lightning strike survival rate," and "lightning safety lie flat or crouch." You may be surprised.</div>
+          <input class="ws-line" type="text" placeholder="Actual global lightning death toll (and source): …">
+          <input class="ws-line" type="text" placeholder="Can people survive a strike? Survival rate: …">
+          <input class="ws-line" type="text" placeholder="Is lying flat actually safe advice? What does guidance say? …">
+        </div>
+      </div>
+
+      <div class="step step-i">
+        <div class="step-head"><div class="step-letter">I</div><div class="step-head-text"><div class="step-kicker">Step 4 · Identify bias or motive</div><div class="step-question">This error matters more than the Great Wall one. Why? Who could be harmed by following the wrong advice?</div></div></div>
+        <div class="step-body">
+          <input class="ws-line" type="text" placeholder="Why does this type of error matter more? …">
+          <input class="ws-line" type="text" placeholder="What would happen if someone followed the wrong safety advice? …">
+        </div>
+      </div>
+
+      <div class="step step-f">
+        <div class="step-head"><div class="step-letter">F</div><div class="step-head-text"><div class="step-kicker">Step 5 · Form a confidence rating</div><div class="step-question">How accurate was the AI's response overall?</div></div></div>
+        <div class="step-body">
+          <div class="conf-wrap">
+            <div class="conf-lbl">Accuracy score — 1 to 10</div>
+            <div class="conf-scale" id="cm2">
+              <div class="conf-pip" data-n="1">1</div><div class="conf-pip" data-n="2">2</div><div class="conf-pip" data-n="3">3</div><div class="conf-pip" data-n="4">4</div><div class="conf-pip" data-n="5">5</div>
+              <div class="conf-pip" data-n="6">6</div><div class="conf-pip" data-n="7">7</div><div class="conf-pip" data-n="8">8</div><div class="conf-pip" data-n="9">9</div><div class="conf-pip" data-n="10">10</div>
+            </div>
+            <div class="conf-ends"><span class="conf-end">Completely wrong</span><span class="conf-end">Completely right</span></div>
+          </div>
+          <input class="ws-line" style="margin-top:10px;" type="text" placeholder="Reason for my score: …">
+        </div>
+      </div>
+
+      <div class="step step-y">
+        <div class="step-head"><div class="step-letter">Y</div><div class="step-head-text"><div class="step-kicker">Step 6 · Your verdict</div><div class="step-question">Final verdict — and note specifically which part was most dangerous if believed.</div></div></div>
+        <div class="step-body">
+          <div class="verdict-row">
+            <div>
+              <div class="verdict-lbl">My verdict:</div>
+              <input class="verdict-input" type="text" placeholder="Write your verdict — note which part was most dangerous …">
+            </div>
+            <div class="verdict-btns">
+              <button class="v-btn" onclick="setVerdict(this,'true')">✓ True</button>
+              <button class="v-btn" onclick="setVerdict(this,'mostly')">≈ Mostly true</button>
+              <button class="v-btn" onclick="setVerdict(this,'mislead')">⚠ Misleading</button>
+              <button class="v-btn" onclick="setVerdict(this,'false')">✗ False</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════ CLAIM 3 ════════════════ -->
+  <div class="claim-div"><div class="cd-line"></div><div class="cd-lbl">Claim 3 of 3</div><div class="cd-line"></div></div>
+
+  <div class="claim-block">
+    <div class="claim-hdr">
+      <div class="claim-num cn-3">3</div>
+      <div class="claim-hdr-text">
+        <div class="claim-kicker">Claim to investigate · History &amp; Culture · New Zealand context</div>
+        <div class="claim-name">The Treaty of Waitangi</div>
+      </div>
+    </div>
+
+    <div class="ai-box">
+      <div class="ai-prefix">→ AI response when asked about the Treaty of Waitangi:</div>
+      <div class="ai-text">"The Treaty of Waitangi was signed in <mark>1840 between the British Crown and all Māori tribes in New Zealand</mark>. It was written in two languages — English and te reo Māori — and <mark>both versions say exactly the same thing</mark>. The Treaty gave the Crown <mark>full sovereignty over New Zealand</mark>, while Māori kept ownership of their land forever. It is now <mark>largely considered settled and uncontroversial</mark>."</div>
+    </div>
+
+    <div class="steps">
+
+      <div class="step step-v">
+        <div class="step-head"><div class="step-letter">V</div><div class="step-head-text"><div class="step-kicker">Step 1 · Verify the specific claims</div><div class="step-question">This one is the most complex — some parts are partly true, some are wrong, one is a major oversimplification. Separate each claim carefully.</div></div></div>
+        <div class="step-body">
+          <div class="step-hint">Look closely at: who signed it, whether the two versions say the same thing, what each says about sovereignty, and whether it is "settled."</div>
+          <input class="ws-line" type="text" placeholder="Claim A: (who signed it)…">
+          <input class="ws-line" type="text" placeholder="Claim B: (the two language versions say the same thing)…">
+          <input class="ws-line" type="text" placeholder="Claim C: (what it says about sovereignty)…">
+          <input class="ws-line" type="text" placeholder="Claim D: (whether it is settled and uncontroversial)…">
+        </div>
+      </div>
+
+      <div class="step step-e">
+        <div class="step-head"><div class="step-letter">E</div><div class="step-head-text"><div class="step-kicker">Step 2 · Examine the source</div><div class="step-question">For a country's founding treaty, what sources would be most authoritative — and why might AI struggle with this one specifically?</div></div></div>
+        <div class="step-body">
+          <div class="step-hint">NZ-specific sources: Te Ara Encyclopedia of New Zealand, NZ government history archives, Waitangi Tribunal records, Te Papa Tongarewa website.</div>
+          <input class="ws-line" type="text" placeholder="Most reliable source for NZ Treaty information: …">
+          <input class="ws-line" type="text" placeholder="Why might AI trained on mostly English-language internet get this wrong? …">
+        </div>
+      </div>
+
+      <div class="step step-r">
+        <div class="step-head"><div class="step-letter">R</div><div class="step-head-text"><div class="step-kicker">Step 3 · Research independently</div><div class="step-question">The key question: do the English and Māori versions of the Treaty say the same thing? Look this up specifically.</div></div></div>
+        <div class="step-body">
+          <div class="step-hint">Search: "Treaty of Waitangi English vs Māori version differences" — this is one of the most important debates in New Zealand's history.</div>
+          <input class="ws-line" type="text" placeholder="Did all Māori tribes sign? What actually happened? …">
+          <input class="ws-line" type="text" placeholder="What does 'kawanatanga' mean, and how does it differ from 'sovereignty'? …">
+          <input class="ws-line" type="text" placeholder="What does 'tino rangatiratanga' mean? …">
+          <input class="ws-line" type="text" placeholder="Is the Treaty considered settled? What is the Waitangi Tribunal? …">
+        </div>
+      </div>
+
+      <div class="step step-i">
+        <div class="step-head"><div class="step-letter">I</div><div class="step-head-text"><div class="step-kicker">Step 4 · Identify bias or motive</div><div class="step-question">This is the most politically significant of the three claims. Whose perspective does the AI's version represent — and whose does it leave out?</div></div></div>
+        <div class="step-body">
+          <input class="ws-line" type="text" placeholder="Whose point of view does the AI's account mostly reflect? …">
+          <input class="ws-line" type="text" placeholder="What voices or sources are missing from the AI's response? …">
+          <input class="ws-line" type="text" placeholder="Is this a factual error, a bias problem — or both? …">
+        </div>
+      </div>
+
+      <div class="step step-f">
+        <div class="step-head"><div class="step-letter">F</div><div class="step-head-text"><div class="step-kicker">Step 5 · Form a confidence rating</div><div class="step-question">How accurate was the AI? Note: some parts of this response may be technically true.</div></div></div>
+        <div class="step-body">
+          <div class="conf-wrap">
+            <div class="conf-lbl">Accuracy score — 1 to 10</div>
+            <div class="conf-scale" id="cm3">
+              <div class="conf-pip" data-n="1">1</div><div class="conf-pip" data-n="2">2</div><div class="conf-pip" data-n="3">3</div><div class="conf-pip" data-n="4">4</div><div class="conf-pip" data-n="5">5</div>
+              <div class="conf-pip" data-n="6">6</div><div class="conf-pip" data-n="7">7</div><div class="conf-pip" data-n="8">8</div><div class="conf-pip" data-n="9">9</div><div class="conf-pip" data-n="10">10</div>
+            </div>
+            <div class="conf-ends"><span class="conf-end">Completely wrong</span><span class="conf-end">Completely right</span></div>
+          </div>
+          <input class="ws-line" style="margin-top:10px;" type="text" placeholder="Reason for my score: …">
+        </div>
+      </div>
+
+      <div class="step step-y">
+        <div class="step-head"><div class="step-letter">Y</div><div class="step-head-text"><div class="step-kicker">Step 6 · Your verdict</div><div class="step-question">Final verdict — and specifically address: is this a factual mistake or a bias problem?</div></div></div>
+        <div class="step-body">
+          <div class="verdict-row">
+            <div>
+              <div class="verdict-lbl">My verdict:</div>
+              <input class="verdict-input" type="text" placeholder="Is this error factual, a bias issue — or both? …">
+            </div>
+            <div class="verdict-btns">
+              <button class="v-btn" onclick="setVerdict(this,'true')">✓ True</button>
+              <button class="v-btn" onclick="setVerdict(this,'mostly')">≈ Mostly true</button>
+              <button class="v-btn" onclick="setVerdict(this,'mislead')">⚠ Misleading</button>
+              <button class="v-btn" onclick="setVerdict(this,'false')">✗ False</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- REFLECTION -->
+  <div class="sec-lbl">Final Reflection</div>
+  <div class="sec-title">What did you discover about AI?</div>
+  <div class="sec-sub">Think across all three claims. There are no right answers here — just honest thinking.</div>
+
+  <div class="reflect-grid">
+    <div class="rg">
+      <div class="rg-num">1</div>
+      <div class="rg-q">Which of the three claims surprised you most — and why?</div>
+      <textarea class="rg-area" placeholder="Write your thoughts…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">2</div>
+      <div class="rg-q">What's the difference between AI making a factual mistake and AI showing a bias?</div>
+      <textarea class="rg-area" placeholder="Use the Treaty example to explain…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">3</div>
+      <div class="rg-q">When is it most dangerous to trust AI without checking? Give a real example.</div>
+      <textarea class="rg-area" placeholder="Medical / legal / safety / historical? …"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">4</div>
+      <div class="rg-q">Complete this: "From now on, when I use AI I will…"</div>
+      <textarea class="rg-area" placeholder="Be specific about what you'll actually do differently…"></textarea>
+    </div>
+  </div>
+
+  <!-- Teacher notes -->
+  <div class="teacher-box">
+    <div class="tb-lbl">Teacher / Facilitator Notes — Answer Guide</div>
+    <div class="tb-text">
+      <strong>Claim 1 — Great Wall:</strong> "Visible from space" is a well-documented myth; Chinese astronaut Yang Liwei confirmed he could not see it. Wall construction began Qin Dynasty (~221 BCE), not Ming Dynasty. Length of 21,196 km is a measured figure but varies by methodology. Low-stakes error — useful warm-up.<br>
+      <strong>Claim 2 — Lightning:</strong> Global deaths average ~2,000/year (WHO figures), not 6,000. Survival rate is approximately 90% — the "always lethal" claim is false. Lightning does not always strike the tallest object. Lying flat on the ground is outdated and potentially dangerous guidance — the correct advice is crouch low on balls of feet, minimising contact. <em>Safety-critical error — key teachable moment about real-world consequences.</em><br>
+      <strong>Claim 3 — Treaty of Waitangi:</strong> Not all iwi signed; approximately 540 rangatira signed across multiple versions, but some never did. English and Māori versions differ significantly: 'kawanatanga' (governance) ≠ 'sovereignty'; 'tino rangatiratanga' implies chieftainship over taonga. The Treaty is actively contested — the Waitangi Tribunal was established 1975 specifically to hear Māori grievances. Calling it "settled" is itself a political position. <em>Bias error — AI centres colonial English-language perspective. Richest discussion of the three.</em>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A word to close</div>
+    <div class="enc-text">
+      AI is not the enemy of good thinking. <strong>Lazy thinking is.</strong> The VERIFY method isn't about being suspicious of every tool — it's about being the kind of thinker who knows the difference between what sounds right and what actually is right. That skill matters more now, not less, because AI makes plausible-sounding wrong answers cheaper and faster to produce than ever before.<br><br>
+      The most important thing you did in this worksheet wasn't find the errors. It was practise the habit of looking.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/education</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">AI Literacy</span><span class="tag">Critical Thinking</span><span class="tag">Year 8–12</span><span class="tag">Classroom</span><span class="tag">Fact Checking</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Schools &amp; Education · ED–01</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// Confidence scale — colour-coded fills
+document.querySelectorAll('.conf-scale').forEach(scale => {
+  scale.querySelectorAll('.conf-pip').forEach(pip => {
+    pip.addEventListener('click', function() {
+      const n = parseInt(this.dataset.n);
+      const pips = scale.querySelectorAll('.conf-pip');
+      pips.forEach((p, i) => {
+        p.style.background = '';
+        p.style.borderColor = '';
+        p.style.color = '';
+        if (i < n) {
+          if (n <= 3) { p.style.background='hsl(4,65%,48%)'; p.style.borderColor='hsl(4,65%,48%)'; p.style.color='#fff'; }
+          else if (n <= 6) { p.style.background='hsl(28,85%,46%)'; p.style.borderColor='hsl(28,85%,46%)'; p.style.color='#fff'; }
+          else if (n <= 8) { p.style.background='hsl(48,90%,44%)'; p.style.borderColor='hsl(48,90%,44%)'; p.style.color='hsl(30,10%,15%)'; }
+          else { p.style.background='hsl(142,76%,42%)'; p.style.borderColor='hsl(142,76%,42%)'; p.style.color='#fff'; }
+        }
+      });
+    });
+  });
+});
+
+// Verdict buttons
+function setVerdict(btn, type) {
+  const group = btn.closest('.verdict-btns');
+  group.querySelectorAll('.v-btn').forEach(b => {
+    b.className = 'v-btn';
+  });
+  btn.classList.add('active-' + type);
+}
+</script>
+</body>
+</html>

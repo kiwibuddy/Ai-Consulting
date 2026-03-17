@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Engineering Workshop — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --green-dark: hsl(142,60%,30%);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.09);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Education-specific — used inside worksheet body only */
+  --edu-bad:    hsl(4,65%,48%);
+  --edu-bad-bg: hsl(4,65%,48%,.07);
+  --edu-ok:     hsl(38,88%,46%);
+  --edu-ok-bg:  hsl(38,88%,46%,.08);
+  --edu-good:   hsl(142,65%,36%);
+  --edu-good-bg:hsl(142,65%,36%,.07);
+  /* CREF pillars */
+  --c-c: hsl(220,60%,38%);
+  --c-r: hsl(280,50%,46%);
+  --c-e: hsl(28,85%,46%);
+  --c-f: hsl(142,65%,34%);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(35,20%,93%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:840px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER — identical brand wrapper ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--green);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 88% 25%,hsl(142,76%,42%,.09) 0%,transparent 50%),
+             radial-gradient(circle at 12% 80%,hsl(38,96%,50%,.06) 0%,transparent 40%);
+  pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:40px;font-weight:700;color:#fff;line-height:1.06;margin-bottom:8px;letter-spacing:-.5px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:16px;font-weight:400;font-style:italic;color:rgba(255,255,255,.45);margin-bottom:20px;}
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:28px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+
+/* The thesis — big serif pull quote in hero */
+.hero-thesis{
+  border-left:3px solid var(--green);padding:12px 0 10px 20px;margin-bottom:28px;max-width:520px;
+}
+.ht-text{font-family:var(--font-serif);font-size:19px;font-style:italic;color:rgba(255,255,255,.9);line-height:1.45;}
+
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+
+/* Student info */
+.student-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;}
+.sb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.sb-cell:last-child{border-right:none;}
+.sb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.sb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.sb-input:focus{border-bottom-color:var(--green);}
+.sb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:620px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+/* Intro block */
+.intro-box{border-left:2.5px solid var(--green);padding:13px 0 11px 20px;margin-bottom:22px;position:relative;}
+.ib-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.intro-box p{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);}
+.intro-box p strong{color:var(--fg);font-weight:500;}
+.intro-box p+p{margin-top:8px;}
+
+/* ── THE BAD / OK / GOOD PROMPT EXAMPLE ── */
+/* Shows quality spectrum before students practise */
+.prompt-spectrum{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:20px 0 28px;}
+
+.ps-card{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border);}
+.ps-head{padding:10px 14px;}
+.ps-head-bad{background:var(--edu-bad);}
+.ps-head-ok{background:var(--edu-ok);}
+.ps-head-good{background:var(--edu-good);}
+.ps-badge{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:4px;}
+.ps-label{font-family:var(--font-serif);font-size:15px;font-weight:600;color:#fff;}
+.ps-label-dark{color:var(--fg)!important;}
+
+.ps-body{padding:12px 14px;background:var(--bg);}
+.ps-prompt{
+  font-family:var(--font-serif);font-size:13px;font-style:italic;
+  color:var(--fg-med);line-height:1.5;
+  background:var(--bg-warm);border-radius:5px;
+  padding:10px 12px;margin-bottom:10px;
+  border-left:2px solid var(--border);
+}
+.ps-prompt-bad{border-color:var(--edu-bad);}
+.ps-prompt-ok{border-color:var(--edu-ok);}
+.ps-prompt-good{border-color:var(--edu-good);}
+.ps-missing{font-size:10.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;}
+.ps-missing strong{font-weight:600;}
+
+/* ── CREF FRAMEWORK LEGEND ── */
+.cref-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0 24px;}
+.cref-card{
+  border-radius:var(--r-sm);padding:14px 12px 12px;border:1px solid var(--bcard);
+  text-align:center;background:var(--bg-warm);
+}
+.cref-letter{font-family:var(--font-serif);font-size:34px;font-weight:700;line-height:1;margin-bottom:5px;}
+.cref-word{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.cref-desc{font-size:10.5px;font-weight:300;color:var(--fg-muted);line-height:1.4;}
+.cref-example{font-size:10px;font-style:italic;color:var(--fg-muted);margin-top:5px;border-top:1px solid var(--bcard);padding-top:5px;}
+.cc .cref-letter{color:var(--c-c);} .cc .cref-word{color:var(--c-c);}
+.cr .cref-letter{color:var(--c-r);} .cr .cref-word{color:var(--c-r);}
+.ce .cref-letter{color:var(--c-e);} .ce .cref-word{color:var(--c-e);}
+.cf .cref-letter{color:var(--c-f);} .cf .cref-word{color:var(--c-f);}
+
+/* ── PRACTISE ROUNDS ── */
+/* Three upgrade rounds: Bad → OK → Good */
+.round{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px;}
+
+.round-head{
+  padding:16px 22px;background:var(--bg-warm);
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+  border-bottom:1px solid var(--border);
+}
+.rh-num{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--dark);color:#fff;
+  font-family:var(--font-serif);font-size:17px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.rh-title{font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--fg);}
+.rh-sub{font-size:12px;font-weight:300;color:var(--fg-muted);margin-top:2px;}
+.rh-badge{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:10px;white-space:nowrap;}
+.rh-badge-upgrade{background:var(--green-bg);color:var(--green-dark);border:1px solid hsl(142,50%,75%);}
+
+/* The bad prompt display */
+.bad-prompt-display{
+  background:var(--edu-bad-bg);border-bottom:1px solid hsl(4,50%,85%);
+  padding:14px 22px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:flex-start;
+}
+.bpd-label{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--edu-bad);flex-shrink:0;padding-top:2px;}
+.bpd-text{font-family:var(--font-serif);font-size:14px;font-style:italic;color:var(--fg-med);line-height:1.5;}
+
+/* Diagnosis */
+.diagnosis{
+  padding:12px 22px;background:var(--bg);
+  border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+}
+.diag-item{}
+.diag-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:4px;margin-bottom:5px;
+}
+.diag-pill-missing{background:hsl(4,65%,48%,.1);color:var(--edu-bad);border:1px solid hsl(4,50%,75%);}
+.diag-pill-present{background:var(--green-bg);color:var(--green-dark);border:1px solid hsl(142,50%,75%);}
+.diag-note{font-size:10.5px;font-weight:300;color:var(--fg-muted);line-height:1.4;}
+
+/* Rewrite workspace */
+.rewrite-space{padding:16px 22px;background:var(--bg);}
+.rs-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
+/* CREF builder grid */
+.cref-builder{display:grid;grid-template-columns:auto 1fr;gap:8px;margin-bottom:16px;}
+.cb-tag{
+  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:6px 12px;border-radius:5px;align-self:start;margin-top:6px;white-space:nowrap;
+}
+.cb-c{background:hsl(220,60%,38%,.1);color:var(--c-c);}
+.cb-r{background:hsl(280,50%,46%,.1);color:var(--c-r);}
+.cb-e{background:hsl(28,85%,46%,.1);color:var(--c-e);}
+.cb-f{background:hsl(142,65%,34%,.08);color:var(--c-f);}
+
+.ws-line{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:13px;
+  color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:4px;
+}
+.ws-line:focus{border-bottom-color:var(--green);}
+.ws-line::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Final assembled prompt area */
+.assembled{
+  background:var(--green-bg);border:1px solid hsl(142,50%,78%);
+  border-radius:var(--r-sm);padding:14px 16px;margin-top:14px;
+}
+.assembled-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px;}
+.assembled-area{
+  width:100%;min-height:72px;background:transparent;border:none;
+  font-family:var(--font-serif);font-size:14px;font-style:italic;
+  color:var(--fg);outline:none;resize:vertical;line-height:1.6;display:block;
+}
+.assembled-area:focus{outline:none;}
+.assembled-area::placeholder{color:hsl(142,30%,70%);font-weight:300;}
+
+/* Predict response quality */
+.predict-row{
+  border-top:1px solid var(--border);padding:12px 22px;
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  background:var(--bg-warm);
+}
+.pr-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.pr-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;}
+.pr-input:focus{border-bottom-color:var(--green);}
+.pr-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── PART 3: BUILD YOUR OWN ── */
+.build-card{
+  border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:20px;
+}
+.bc-head{
+  background:var(--dark);padding:18px 22px;
+  border-bottom:3px solid var(--green);
+}
+.bc-num{font-family:var(--font-serif);font-size:12px;font-weight:400;font-style:italic;color:rgba(255,255,255,.35);margin-bottom:4px;}
+.bc-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:#fff;}
+.bc-body{padding:18px 22px;}
+.bc-intro{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;}
+.bc-intro strong{color:var(--fg);font-weight:500;}
+
+/* Topic picker */
+.topic-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.topic-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);flex-shrink:0;}
+.topic-chip{
+  font-size:11px;padding:5px 12px;border-radius:4px;cursor:pointer;
+  border:1px solid var(--border);background:var(--bg-warm);color:var(--fg-med);
+  transition:all .12s;user-select:none;
+}
+.topic-chip:hover{border-color:var(--green);color:var(--fg);}
+.topic-chip.picked{background:var(--green);border-color:var(--green);color:#fff;font-weight:600;}
+
+/* CREF builder (reused) */
+.field-group{margin-bottom:14px;}
+.fg-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.fg-lbl::after{content:'';flex:1;height:1px;background:var(--bcard);}
+
+/* Quality self-rating */
+.self-rate{
+  display:flex;gap:6px;margin-top:6px;
+}
+.sr-pip{
+  flex:1;padding:8px 4px;border-radius:5px;
+  border:1px solid var(--border);background:var(--bg-warm);
+  cursor:pointer;transition:all .12s;
+  font-size:10px;text-align:center;color:var(--fg-muted);font-weight:500;
+}
+.sr-pip:hover{border-color:var(--fg);color:var(--fg);}
+.sr-pip.sr-1,.sr-pip.sr-2{} /* will be activated */
+
+/* ── REFLECTION ── */
+.reflect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.rg{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.rg-num{font-family:var(--font-serif);font-size:34px;font-weight:400;color:var(--border);line-height:1;margin-bottom:6px;}
+.rg-q{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:10px;}
+.rg-area{width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:3px 0 5px;outline:none;resize:none;height:56px;display:block;}
+.rg-area:focus{border-bottom-color:var(--green);}
+.rg-area::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Encouragement block */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Schools &amp; Education · Worksheet ED–02</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    AI Literacy Series &nbsp;·&nbsp; Critical Thinking &nbsp;·&nbsp; Ages 12 and up
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">The Prompt Engineering<br><em>Workshop</em></div>
+  <div class="hero-sub">Thinking Harder, Not Less</div>
+  <div class="hero-desc">
+    Most students think AI reduces the need to think. <strong>It's the opposite.</strong> The quality of what AI gives you is a direct reflection of the quality of thinking you put in. This workshop teaches you how to think on paper — before you type a single word.
+  </div>
+  <div class="hero-thesis">
+    <div class="ht-text">"AI is a mirror of your thinking quality. Sharp thinkers get sharp outputs. Lazy thinkers get mush."</div>
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Individual work</span><div class="msep"></div>
+    <span class="mi">~50 minutes</span><div class="msep"></div>
+    <span class="mi">Based on CREF framework</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Student info -->
+  <div class="student-bar">
+    <div class="sb-cell"><div class="sb-lbl">Student Name</div><input class="sb-input" type="text" placeholder="Your name…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Class / Year</div><input class="sb-input" type="text" placeholder="e.g. Year 10A…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Subject Area</div><input class="sb-input" type="text" placeholder="e.g. History, Science…"></div>
+    <div class="sb-cell"><div class="sb-lbl">Date</div><input class="sb-input" type="text" placeholder="DD / MM / YYYY"></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="intro-box">
+    <div class="ib-q">"</div>
+    <p>When you type a vague question into AI, you get a vague answer. This isn't a bug — it's a feature. AI is giving you exactly what you asked for. The problem is that most people ask badly. They type the first thing that comes to mind, skim the response, and assume it's good. It usually isn't.</p>
+    <p>A well-engineered prompt takes <strong>30 seconds more thought</strong> and gets you an answer that's five times more useful. This workshop shows you the difference — and makes you practise it until it becomes automatic.</p>
+  </div>
+
+  <hr class="div">
+
+  <!-- ── PART 1: THE SPECTRUM ── -->
+  <div class="sec-lbl">Part 1 — See the difference</div>
+  <div class="sec-title">Bad, OK, and Good — side by side</div>
+  <div class="sec-sub" style="margin-bottom:16px;">All three prompts are asking about the same topic: <em>the causes of World War One.</em> Look at what changes between them and why it matters.</div>
+
+  <div class="prompt-spectrum">
+
+    <div class="ps-card">
+      <div class="ps-head ps-head-bad">
+        <div class="ps-badge">Quality: Bad</div>
+        <div class="ps-label">Lazy prompt</div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-prompt ps-prompt-bad">"Tell me about World War One."</div>
+        <div class="ps-missing">
+          <strong>What's missing:</strong> No context about who's asking or why. No role defined. No format specified. No constraints. AI will generate something generic, possibly 800 words you don't need, starting from 1914, covering every country, with no connection to your actual question.
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-card">
+      <div class="ps-head ps-head-ok">
+        <div class="ps-badge">Quality: OK</div>
+        <div class="ps-label" style="color:var(--fg);">Getting closer</div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-prompt ps-prompt-ok">"What were the main causes of World War One? Give me a list."</div>
+        <div class="ps-missing">
+          <strong>Better because:</strong> Asks for a specific thing (causes) and a format (list). <strong>Still missing:</strong> No context — Year 10 student? University scholar? No role. No constraints on length or complexity. You'll get a list, but it may be too shallow or too academic for what you need.
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-card">
+      <div class="ps-head ps-head-good">
+        <div class="ps-badge">Quality: Good</div>
+        <div class="ps-label">Sharp prompt</div>
+      </div>
+      <div class="ps-body">
+        <div class="ps-prompt ps-prompt-good">"I'm a Year 10 student studying for a history exam. Act as a patient history teacher. Explain the four main causes of World War One in plain English using MAIN (Militarism, Alliances, Imperialism, Nationalism). Give me one clear paragraph per cause, under 80 words each. No jargon."</div>
+        <div class="ps-missing">
+          <strong>Why it works:</strong> Context (Year 10, exam prep). Role (patient teacher). Format (MAIN framework, one paragraph each). Constraints (under 80 words, plain English, no jargon). The AI now knows exactly what to produce — and it will.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- ── THE CREF FRAMEWORK ── -->
+  <div class="sec-lbl">Part 2 — The CREF Framework</div>
+  <div class="sec-title">Four ingredients every good prompt needs</div>
+  <div class="sec-sub" style="margin-bottom:16px;">You don't need all four in every prompt — but if your answer is bad, one of these is usually missing. Adapted from the Wellington prompt engineering framework.</div>
+
+  <div class="cref-grid">
+    <div class="cref-card cc">
+      <div class="cref-letter">C</div>
+      <div class="cref-word">Context</div>
+      <div class="cref-desc">Who are you? What's the situation? What's the purpose?</div>
+      <div class="cref-example">"I'm a Year 11 student writing a persuasive essay on…"</div>
+    </div>
+    <div class="cref-card cr">
+      <div class="cref-letter">R</div>
+      <div class="cref-word">Role</div>
+      <div class="cref-desc">Who should the AI act as? What expertise or voice do you need?</div>
+      <div class="cref-example">"Act as an experienced biology teacher explaining to a beginner…"</div>
+    </div>
+    <div class="cref-card ce">
+      <div class="cref-letter">E</div>
+      <div class="cref-word">Examples</div>
+      <div class="cref-desc">Show the AI what a good answer looks like. Give a sample or format.</div>
+      <div class="cref-example">"Use this structure: Claim — Evidence — Explanation — Link back."</div>
+    </div>
+    <div class="cref-card cf">
+      <div class="cref-letter">F</div>
+      <div class="cref-word">Format &amp; Constraints</div>
+      <div class="cref-desc">Length, tone, complexity level, what to include or avoid.</div>
+      <div class="cref-example">"Under 150 words. Plain English. No bullet points. Year 9 level."</div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ── PART 3: THE UPGRADE ROUNDS ── -->
+  <div class="sec-lbl">Part 3 — The Upgrade Rounds</div>
+  <div class="sec-title">Diagnose the problem. Then fix it.</div>
+  <div class="sec-sub" style="margin-bottom:20px;">Each round gives you a weak prompt. First diagnose which CREF elements are missing. Then rewrite it — using the builder below each one.</div>
+
+  <!-- ROUND 1 -->
+  <div class="round">
+    <div class="round-head">
+      <div class="rh-num">1</div>
+      <div>
+        <div class="rh-title">The History Essay Helper</div>
+        <div class="rh-sub">Subject: History or Social Studies</div>
+      </div>
+      <div class="rh-badge rh-badge-upgrade">Upgrade this →</div>
+    </div>
+
+    <div class="bad-prompt-display">
+      <div class="bpd-label">Weak prompt</div>
+      <div class="bpd-text">"Help me write an essay about the Treaty of Waitangi."</div>
+    </div>
+
+    <div class="diagnosis">
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Context</div>
+        <div class="diag-note">No year level, no essay type, no word count, no audience.</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Role</div>
+        <div class="diag-note">AI doesn't know if it should be a tutor, an editor, or a writer.</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Examples</div>
+        <div class="diag-note">No format, no structure, no essay type specified.</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Format</div>
+        <div class="diag-note">Length? Argument-based or descriptive? NZ curriculum standard?</div>
+      </div>
+    </div>
+
+    <div class="rewrite-space">
+      <div class="rs-lbl">Now rewrite it — use the CREF builder</div>
+      <div class="cref-builder">
+        <div class="cb-tag cb-c">C · Context</div>
+        <input class="ws-line" type="text" placeholder="Who are you? What year level? What's the task?…">
+        <div class="cb-tag cb-r">R · Role</div>
+        <input class="ws-line" type="text" placeholder="Should AI be a teacher, tutor, editor, co-writer?…">
+        <div class="cb-tag cb-e">E · Examples</div>
+        <input class="ws-line" type="text" placeholder="What structure or framework should the essay follow?…">
+        <div class="cb-tag cb-f">F · Format</div>
+        <input class="ws-line" type="text" placeholder="Word count? Tone? What to include or avoid?…">
+      </div>
+      <div class="assembled">
+        <div class="assembled-lbl">My upgraded prompt — write it all in one place:</div>
+        <textarea class="assembled-area" placeholder="Put it all together here as a single, complete prompt. Read it back — does it give AI everything it needs to give you what you actually want?…"></textarea>
+      </div>
+    </div>
+
+    <div class="predict-row">
+      <div>
+        <div class="pr-lbl">What will the weak prompt produce?</div>
+        <input class="pr-input" type="text" placeholder="Predict the AI's answer to the bad prompt — length, quality, usefulness…">
+      </div>
+      <div>
+        <div class="pr-lbl">What will your upgraded prompt produce?</div>
+        <input class="pr-input" type="text" placeholder="What difference do you expect? Be specific…">
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUND 2 -->
+  <div class="round">
+    <div class="round-head">
+      <div class="rh-num">2</div>
+      <div>
+        <div class="rh-title">The Science Explainer</div>
+        <div class="rh-sub">Subject: Biology, Chemistry, or Physics</div>
+      </div>
+      <div class="rh-badge rh-badge-upgrade">Upgrade this →</div>
+    </div>
+
+    <div class="bad-prompt-display">
+      <div class="bpd-label">Weak prompt</div>
+      <div class="bpd-text">"Explain photosynthesis."</div>
+    </div>
+
+    <div class="diagnosis">
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Context</div>
+        <div class="diag-note">Primary school or university level? For an exam or a presentation?</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-present">✓ Role</div>
+        <div class="diag-note">Technically implied (teacher), but not specified — so it may default to textbook mode.</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Examples</div>
+        <div class="diag-note">Diagram? Summary? Step-by-step? Analogy? No format given.</div>
+      </div>
+      <div class="diag-item">
+        <div class="diag-pill diag-pill-missing">✗ Format</div>
+        <div class="diag-note">No length limit, complexity level, or jargon guidance. Will probably be too long and too technical.</div>
+      </div>
+    </div>
+
+    <div class="rewrite-space">
+      <div class="rs-lbl">Your turn — build the upgrade</div>
+      <div class="cref-builder">
+        <div class="cb-tag cb-c">C · Context</div>
+        <input class="ws-line" type="text" placeholder="Year level, purpose, prior knowledge you have…">
+        <div class="cb-tag cb-r">R · Role</div>
+        <input class="ws-line" type="text" placeholder="What kind of teacher / explainer should AI be?…">
+        <div class="cb-tag cb-e">E · Examples</div>
+        <input class="ws-line" type="text" placeholder="An analogy? A specific format like light reaction → dark reaction?…">
+        <div class="cb-tag cb-f">F · Format</div>
+        <input class="ws-line" type="text" placeholder="Word count, vocabulary level, what to include or avoid?…">
+      </div>
+      <div class="assembled">
+        <div class="assembled-lbl">My upgraded prompt:</div>
+        <textarea class="assembled-area" placeholder="Write your complete upgraded prompt here…"></textarea>
+      </div>
+    </div>
+
+    <div class="predict-row">
+      <div>
+        <div class="pr-lbl">What does the weak prompt produce?</div>
+        <input class="pr-input" type="text" placeholder="Describe the likely output…">
+      </div>
+      <div>
+        <div class="pr-lbl">What will your version produce?</div>
+        <input class="pr-input" type="text" placeholder="What specific improvement do you expect?…">
+      </div>
+    </div>
+  </div>
+
+  <!-- ROUND 3 — student's own subject -->
+  <div class="round">
+    <div class="round-head">
+      <div class="rh-num">3</div>
+      <div>
+        <div class="rh-title">Your Own Subject</div>
+        <div class="rh-sub">Apply CREF to something you're actually studying right now</div>
+      </div>
+      <div class="rh-badge rh-badge-upgrade">Build from scratch →</div>
+    </div>
+
+    <div class="rewrite-space" style="border-top:none;">
+      <div style="font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;">Think of a real topic you're currently studying — something you actually need help understanding or writing about. Start by writing the lazy version first, then build the good one.</div>
+
+      <div style="margin-bottom:14px;">
+        <div class="rs-lbl">Step 1 — Write the lazy prompt (as you'd normally type it):</div>
+        <input class="ws-line" type="text" placeholder="The bad version — what you'd type if you weren't thinking carefully…">
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div class="rs-lbl">Step 2 — Diagnose what's missing:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;">What's missing from my lazy prompt:</div>
+            <input class="ws-line" type="text" placeholder="Context? Role? Examples? Format? (circle all that apply)…">
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;">What would a bad answer look like?</div>
+            <input class="ws-line" type="text" placeholder="Too generic, too long, wrong level, missing key details?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="rs-lbl">Step 3 — Build the good version using CREF:</div>
+      <div class="cref-builder">
+        <div class="cb-tag cb-c">C · Context</div>
+        <input class="ws-line" type="text" placeholder="Your year level, subject, specific task or assignment…">
+        <div class="cb-tag cb-r">R · Role</div>
+        <input class="ws-line" type="text" placeholder="What expert or teacher voice would be most useful here?…">
+        <div class="cb-tag cb-e">E · Examples</div>
+        <input class="ws-line" type="text" placeholder="A structure, framework, example output, or analogy to use?…">
+        <div class="cb-tag cb-f">F · Format</div>
+        <input class="ws-line" type="text" placeholder="Length, tone, vocabulary level, what to avoid?…">
+      </div>
+      <div class="assembled">
+        <div class="assembled-lbl">My complete, well-engineered prompt:</div>
+        <textarea class="assembled-area" style="min-height:90px;" placeholder="Write it all as one prompt — complete, specific, and ready to actually use. If you wouldn't be confident submitting this to a teacher as evidence of your thinking, rewrite it."></textarea>
+      </div>
+    </div>
+
+    <div class="predict-row">
+      <div>
+        <div class="pr-lbl">Rate your own prompt quality (1–5):</div>
+        <div class="self-rate" id="sr1">
+          <div class="sr-pip" onclick="rateSelf('sr1',1)">1<br><span style="font-size:8px;font-weight:300;">Mush</span></div>
+          <div class="sr-pip" onclick="rateSelf('sr1',2)">2<br><span style="font-size:8px;font-weight:300;">Weak</span></div>
+          <div class="sr-pip" onclick="rateSelf('sr1',3)">3<br><span style="font-size:8px;font-weight:300;">OK</span></div>
+          <div class="sr-pip" onclick="rateSelf('sr1',4)">4<br><span style="font-size:8px;font-weight:300;">Good</span></div>
+          <div class="sr-pip" onclick="rateSelf('sr1',5)">5<br><span style="font-size:8px;font-weight:300;">Sharp</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="pr-lbl">What would make it even stronger?</div>
+        <input class="pr-input" type="text" placeholder="One more thing you could add or tighten…">
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: THE REFLECTION -->
+  <div class="sec-lbl">Part 4 — Step back</div>
+  <div class="sec-title">What did you actually learn about your own thinking?</div>
+
+  <div class="reflect-grid">
+    <div class="rg">
+      <div class="rg-num">1</div>
+      <div class="rg-q">When you wrote the "lazy" prompts, what were you actually skipping? What thinking work were you trying to avoid?</div>
+      <textarea class="rg-area" placeholder="Be honest — what's the thought you skipped?…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">2</div>
+      <div class="rg-q">The claim is that AI is a mirror of your thinking quality. Do you agree — and why or why not?</div>
+      <textarea class="rg-area" placeholder="Use an example from this worksheet to support your answer…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">3</div>
+      <div class="rg-q">What does a bad AI answer actually tell you about the person who prompted it?</div>
+      <textarea class="rg-area" placeholder="What can you infer about their level of thinking?…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">4</div>
+      <div class="rg-q">Name one real situation in your schoolwork where a well-engineered prompt would have saved you time or got you a better result.</div>
+      <textarea class="rg-area" placeholder="Be specific — which assignment, which subject, what happened?…"></textarea>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>The real lesson</div>
+    <div class="enc-text">
+      The best prompts look like good thinking written down. That's not a coincidence — that's the point. When you engineer a prompt carefully, you're actually doing the cognitive work that most people skip: defining what you need, clarifying who you're talking to, specifying what you want the output to look like. <strong>That process makes you smarter, not more dependent.</strong><br><br>
+      AI doesn't replace thinking. It rewards it.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/education</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">AI Literacy</span><span class="tag">Critical Thinking</span><span class="tag">Prompt Engineering</span><span class="tag">Year 8–12</span><span class="tag">Classroom</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Schools &amp; Education · ED–02</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// Topic chip picker
+document.querySelectorAll('.topic-chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    this.closest('.topic-row').querySelectorAll('.topic-chip').forEach(c => c.classList.remove('picked'));
+    this.classList.add('picked');
+  });
+});
+
+// Self-rating pips
+function rateSelf(id, n) {
+  const container = document.getElementById(id);
+  container.querySelectorAll('.sr-pip').forEach((pip, i) => {
+    pip.style.background = '';
+    pip.style.borderColor = '';
+    pip.style.color = '';
+    if (i < n) {
+      const pct = (i + 1) / 5;
+      if (pct <= 0.4) { pip.style.background = 'hsl(4,65%,48%)'; pip.style.borderColor = 'hsl(4,65%,48%)'; pip.style.color = '#fff'; }
+      else if (pct <= 0.6) { pip.style.background = 'hsl(38,88%,46%)'; pip.style.borderColor = 'hsl(38,88%,46%)'; pip.style.color = '#fff'; }
+      else { pip.style.background = 'hsl(142,65%,36%)'; pip.style.borderColor = 'hsl(142,65%,36%)'; pip.style.color = '#fff'; }
+    }
+  });
+}
+</script>
+</body>
+</html>

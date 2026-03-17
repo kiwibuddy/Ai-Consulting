@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Attachment Audit — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:          #ffffff;
+  --bg-warm:     hsl(40,33%,98%);
+  --bg-sidebar:  hsl(35,20%,96%);
+  --bg-muted:    hsl(35,20%,94%);
+  --fg:          hsl(30,10%,15%);
+  --fg-med:      hsl(30,10%,28%);
+  --fg-muted:    hsl(30,8%,45%);
+  --border:      hsl(35,15%,88%);
+  --border-card: hsl(35,15%,90%);
+  --green:       hsl(142,76%,42%);
+  --green-bg:    hsl(142,76%,42%,0.07);
+  --gold:        hsl(38,96%,50%);
+  --gold-bg:     hsl(38,96%,50%,0.08);
+  --red:         hsl(0,62%,50%);
+  --red-bg:      hsl(0,62%,50%,0.07);
+  --dark-hdr:    #171717;
+  --cta-grad:    linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Relationship type colours */
+  --real:        hsl(142,65%,38%);
+  --real-bg:     hsl(142,65%,38%,0.08);
+  --real-chip:   hsl(142,55%,84%);
+  --digital:     hsl(220,60%,46%);
+  --digital-bg:  hsl(220,60%,46%,0.08);
+  --digital-chip:hsl(220,50%,84%);
+  --ai:          hsl(280,55%,50%);
+  --ai-bg:       hsl(280,55%,50%,0.08);
+  --ai-chip:     hsl(280,45%,86%);
+  --font-sans:   'DM Sans',system-ui,sans-serif;
+  --font-serif:  'Playfair Display',Georgia,serif;
+  --r:           14px;
+  --r-sm:        8px;
+}
+
+html{background:#f0efeb;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;min-height:100vh;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark-hdr);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta-grad);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;font-weight:400;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark-hdr);padding:40px 40px 44px;position:relative;overflow:hidden;border-bottom:3px solid var(--gold);}
+.hero::before{content:'';position:absolute;top:-100px;right:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,hsl(38,96%,50%,.1) 0%,transparent 70%);pointer-events:none;}
+.hero-num{font-family:var(--font-serif);font-size:110px;font-weight:400;color:rgba(255,255,255,.04);position:absolute;top:8px;right:40px;line-height:1;user-select:none;letter-spacing:-4px;}
+.hero-series{font-size:9px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.series-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:hsl(38,96%,50%,.12);border:1px solid hsl(38,96%,50%,.25);color:hsl(38,96%,60%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:18px;}
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.08;margin-bottom:12px;max-width:520px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.6);}
+.hero-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.65;max-width:500px;margin-bottom:30px;}
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.meta-item{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:0 16px;}
+.meta-item:first-child{padding-left:0;}
+.meta-sep{width:1px;height:11px;background:rgba(255,255,255,.1);}
+
+/* ── BODY ── */
+.body{padding:38px 40px 36px;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-lbl-gold{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:24px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:640px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.scripture{border-left:2.5px solid var(--green);padding:14px 0 12px 22px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:44px;line-height:.5;color:var(--bg-muted);position:absolute;top:14px;left:5px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15.5px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:7px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Harris quote callout — gold treatment */
+.harris-quote{
+  background:var(--dark-hdr);border-radius:var(--r);
+  padding:22px 26px;margin-bottom:28px;
+  position:relative;overflow:hidden;
+  border-left:3px solid var(--gold);
+}
+.harris-quote::before{
+  content:'"';font-family:var(--font-serif);font-size:120px;line-height:.6;
+  color:rgba(255,255,255,.05);position:absolute;top:12px;right:16px;user-select:none;
+}
+.hq-label{font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.hq-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.hq-text{font-family:var(--font-serif);font-size:17px;font-style:italic;font-weight:400;color:#fff;line-height:1.55;margin-bottom:10px;max-width:580px;}
+.hq-source{font-size:9.5px;font-weight:400;color:rgba(255,255,255,.35);letter-spacing:.5px;}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.stat-card{background:var(--bg-warm);border:1px solid var(--border-card);border-radius:var(--r-sm);padding:14px 16px;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;}
+.stat-card-green::before{background:var(--cta-grad);}
+.stat-card-gold::before{background:linear-gradient(90deg,var(--gold),hsl(38,90%,60%));}
+.stat-num{font-family:var(--font-serif);font-size:32px;font-weight:700;line-height:1;margin-bottom:4px;}
+.stat-num-green{color:var(--fg);}
+.stat-num-gold{color:var(--gold);}
+.stat-text{font-size:11.5px;line-height:1.55;color:var(--fg-med);font-weight:300;}
+.stat-text strong{color:var(--fg);font-weight:500;}
+.stat-source{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── PART 1: RELATIONSHIP MAP TABLE ── */
+.map-intro{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin:16px 0 20px;}
+.map-intro strong{color:var(--fg);font-weight:500;}
+
+/* Type legend */
+.type-legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+.type-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.5px;}
+.type-real{background:var(--real-bg);color:var(--real);border:1px solid hsl(142,55%,70%);}
+.type-digital{background:var(--digital-bg);color:var(--digital);border:1px solid hsl(220,50%,72%);}
+.type-ai{background:var(--ai-bg);color:var(--ai);border:1px solid hsl(280,45%,72%);}
+
+/* The relationship table */
+.rel-table{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px;}
+
+.rel-table-head{
+  display:grid;
+  grid-template-columns:28px 1fr 120px 90px 110px;
+  background:var(--fg);
+  padding:10px 14px;
+  gap:8px;
+  align-items:center;
+}
+.th{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.55);}
+.th-name{color:rgba(255,255,255,.8);}
+
+.rel-row{
+  display:grid;
+  grid-template-columns:28px 1fr 120px 90px 110px;
+  padding:10px 14px;
+  gap:8px;
+  align-items:center;
+  border-top:1px solid var(--border);
+}
+.rel-row:nth-child(even){background:var(--bg-warm);}
+
+.row-num{font-family:var(--font-serif);font-size:14px;font-weight:400;color:var(--border);text-align:center;}
+
+.name-input,.type-select,.freq-input,.when-input{
+  border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-sans);
+  font-size:12px;color:var(--fg);padding:2px 0 4px;
+  outline:none;width:100%;
+}
+.name-input:focus,.freq-input:focus,.when-input:focus{border-bottom-color:var(--green);}
+.name-input::placeholder,.freq-input::placeholder,.when-input::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+.type-select{cursor:pointer;font-size:11px;}
+.type-select:focus{border-bottom-color:var(--green);}
+.type-select option{background:#fff;color:var(--fg);}
+
+/* Type badge shown via JS */
+.type-badge{
+  display:inline-block;font-size:9.5px;font-weight:600;
+  padding:3px 9px;border-radius:12px;letter-spacing:.3px;
+}
+
+/* ── PART 2: ASSESSMENT ── */
+.assessment-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0 24px;}
+.assess-card{border-radius:var(--r-sm);padding:16px 16px 14px;border:1px solid;}
+.assess-card-real{background:var(--real-bg);border-color:hsl(142,55%,70%);}
+.assess-card-digital{background:var(--digital-bg);border-color:hsl(220,50%,72%);}
+.assess-card-ai{background:var(--ai-bg);border-color:hsl(280,45%,72%);}
+.assess-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.assess-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.assess-title{font-size:11px;font-weight:600;}
+.assess-title-real{color:var(--real);}
+.assess-title-digital{color:var(--digital);}
+.assess-title-ai{color:var(--ai);}
+.assess-lbl{font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.assess-field{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:10px;}
+.assess-field:focus{border-bottom-color:var(--green);}
+.assess-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* ── PART 3: HONEST QUESTIONS ── */
+.q-block{margin-bottom:22px;}
+.q-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
+.q-num{font-family:var(--font-serif);font-size:26px;font-weight:400;color:var(--border);line-height:1;flex-shrink:0;min-width:22px;}
+.q-text{font-size:13.5px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:3px;}
+.q-sub{font-size:11.5px;font-weight:300;color:var(--fg-muted);margin-top:2px;font-style:italic;}
+.q-space{border:1px solid var(--border-card);border-radius:var(--r-sm);height:64px;width:100%;background:var(--bg-warm);}
+
+/* ── SIGNAL RADAR — visual diagnostic ── */
+.radar-section{background:var(--bg-warm);border:1px solid var(--border-card);border-radius:var(--r);padding:22px 24px;margin:24px 0;}
+.radar-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.radar-sub{font-size:12px;font-weight:300;color:var(--fg-muted);margin-bottom:18px;}
+.signals{display:grid;gap:10px;}
+.signal-row{display:grid;grid-template-columns:220px 1fr 60px;align-items:center;gap:12px;}
+.signal-label{font-size:12px;color:var(--fg-med);font-weight:400;}
+.signal-bar-wrap{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.signal-input-wrap{display:flex;justify-content:flex-end;}
+.signal-score{
+  width:48px;border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-sans);font-size:11px;
+  color:var(--fg);padding:1px 0 2px;outline:none;text-align:right;
+}
+.signal-score:focus{border-bottom-color:var(--green);}
+.signal-hint{font-size:9.5px;color:var(--fg-muted);margin-top:2px;font-weight:300;font-style:italic;}
+.scale-labels{display:grid;grid-template-columns:220px 1fr;gap:12px;margin-top:8px;}
+.scale-text{display:flex;justify-content:space-between;font-size:9px;color:var(--fg-muted);}
+
+/* ── WHAT TO DO NEXT ── */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.action-card{background:var(--bg-warm);border:1px solid var(--border-card);border-radius:var(--r-sm);padding:14px 16px;}
+.action-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.action-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.action-title{font-size:11.5px;font-weight:600;color:var(--fg);}
+.action-field{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:7px;}
+.action-field:focus{border-bottom-color:var(--green);}
+.action-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* Encouragement */
+.enc{background:var(--dark-hdr);border-radius:var(--r);padding:28px 30px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.6);max-width:600px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.3);font-weight:300;}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta-grad);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s,filter .15s;}
+.cta-btn:hover{opacity:.92;filter:brightness(1.05);}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+/* Footer */
+.page-footer{background:var(--bg-sidebar);border-top:1px solid var(--border);padding:15px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);letter-spacing:.3px;}
+.footer-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;letter-spacing:.3px;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div>
+      <div class="logo-name">Nathaniel Baldock</div>
+      <div class="logo-sub">nathanielbaldock.com</div>
+    </div>
+  </div>
+  <div class="hdr-badge">Family &amp; Technology Series</div>
+</div>
+
+<!-- HERO — gold accent for this worksheet -->
+<div class="hero">
+  <div class="hero-num">3</div>
+  <div class="hero-series"><div class="series-dot"></div>Family &amp; Technology · Worksheet 3 of 5</div>
+  <div class="hero-pill">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1.5C3.07 1.5 1.5 3.07 1.5 5S3.07 8.5 5 8.5 8.5 6.93 8.5 5 6.93 1.5 5 1.5z" stroke="currentColor" stroke-width="1.2"/><path d="M5 3.5v2l1.5 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    For families with teens
+  </div>
+  <div class="hero-title">The <em>Attachment</em><br>Audit</div>
+  <div class="hero-sub">Real vs. digital relationships. Not all connection is the same — and some of what our kids call friendship isn't really friendship at all. This is about mapping honestly what's there.</div>
+  <div class="hero-meta">
+    <span class="meta-item">45 – 60 min</span>
+    <div class="meta-sep"></div>
+    <span class="meta-item">Teens &amp; parents together</span>
+    <div class="meta-sep"></div>
+    <span class="meta-item">Honest conversation</span>
+    <div class="meta-sep"></div>
+    <span class="meta-item">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Harris quote — gold treatment, anchors the whole worksheet -->
+  <div class="harris-quote">
+    <div class="hq-label"><div class="hq-dot"></div>The shift we need to understand</div>
+    <div class="hq-text">"What was the race for attention in social media becomes the race for attachment and intimacy in the case of AI companions."</div>
+    <div class="hq-source">Tristan Harris — AI Safety researcher, The Diary of a CEO, 2025</div>
+  </div>
+
+  <!-- Barna stats -->
+  <div class="stat-row">
+    <div class="stat-card stat-card-green">
+      <div class="stat-num stat-num-green">39%</div>
+      <div class="stat-text"><strong>of Gen Z report always feeling anxious about important decisions</strong> — and a similar proportion always feel uncertain about the future.</div>
+      <div class="stat-source">Barna Group, 2026 — Generation Anxious</div>
+    </div>
+    <div class="stat-card stat-card-gold">
+      <div class="stat-num stat-num-gold">72%</div>
+      <div class="stat-text"><strong>of U.S. parents are concerned about AI's impact on children and teens</strong> — yet most aren't actively seeking information about it.</div>
+      <div class="stat-source">Barna Group, 2026 — Parents &amp; AI</div>
+    </div>
+  </div>
+
+  <div class="scripture">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"A friend loves at all times, and a brother is born for a time of adversity."</div>
+    <div class="scr-ref">Proverbs 17:17 · Real friendship is tested and proven in hard moments — not optimised to make you feel good</div>
+  </div>
+
+  <div class="scripture">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Do not be misled: 'Bad company corrupts good character.'"</div>
+    <div class="scr-ref">1 Corinthians 15:33 · The company we keep — real or digital — shapes who we become</div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 1 -->
+  <div class="sec-lbl">Part 1</div>
+  <div class="sec-title">Map Your Relationships</div>
+  <div class="sec-sub">Do this exercise for each family member separately — or together as a family, each filling in their own. Start with who actually comes to mind, not who you think should be there.</div>
+
+  <div class="map-intro">
+    For each relationship, choose a <strong>type</strong>:
+  </div>
+
+  <div class="type-legend">
+    <span class="type-pill type-real">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 5.2L4.5 6.2L6.5 3.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Real — in-person or voice, genuine mutual relationship
+    </span>
+    <span class="type-pill type-digital">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="1.5" y="2" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M3.5 7.5h3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+      Digital — online/text, real person but mainly screen-mediated
+    </span>
+    <span class="type-pill type-ai">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.1"/><circle cx="5" cy="5" r="1" fill="currentColor"/></svg>
+      AI / Parasocial — chatbot, creator they follow but don't know
+    </span>
+  </div>
+
+  <div class="rel-table">
+    <div class="rel-table-head">
+      <div class="th">#</div>
+      <div class="th th-name">Name or description</div>
+      <div class="th">Type</div>
+      <div class="th">How often?</div>
+      <div class="th">Go to for…?</div>
+    </div>
+    <!-- 8 rows -->
+    <div class="rel-row"><div class="row-num">1</div><input class="name-input" type="text" placeholder="e.g. Mum, best friend's name…"><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder="Daily / weekly…"><input class="when-input" type="text" placeholder="Advice / fun…"></div>
+    <div class="rel-row"><div class="row-num">2</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">3</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">4</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">5</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">6</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">7</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+    <div class="rel-row"><div class="row-num">8</div><input class="name-input" type="text" placeholder=""><select class="type-select"><option value="">— type —</option><option value="real">✓ Real</option><option value="digital">⬜ Digital</option><option value="ai">◎ AI / Parasocial</option></select><input class="freq-input" type="text" placeholder=""><input class="when-input" type="text" placeholder=""></div>
+  </div>
+
+  <!-- Quick count -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
+    <div style="background:var(--real-bg);border:1px solid hsl(142,55%,70%);border-radius:var(--r-sm);padding:10px 14px;">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--real);margin-bottom:6px;">Real relationships total</div>
+      <input style="border:none;border-bottom:1px solid hsl(142,55%,70%);width:100%;background:transparent;font-family:var(--font-sans);font-size:14px;color:var(--fg);padding:2px 0 3px;outline:none;" type="text" placeholder="Count: ___">
+    </div>
+    <div style="background:var(--digital-bg);border:1px solid hsl(220,50%,72%);border-radius:var(--r-sm);padding:10px 14px;">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--digital);margin-bottom:6px;">Digital relationships total</div>
+      <input style="border:none;border-bottom:1px solid hsl(220,50%,72%);width:100%;background:transparent;font-family:var(--font-sans);font-size:14px;color:var(--fg);padding:2px 0 3px;outline:none;" type="text" placeholder="Count: ___">
+    </div>
+    <div style="background:var(--ai-bg);border:1px solid hsl(280,45%,72%);border-radius:var(--r-sm);padding:10px 14px;">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ai);margin-bottom:6px;">AI / Parasocial total</div>
+      <input style="border:none;border-bottom:1px solid hsl(280,45%,72%);width:100%;background:transparent;font-family:var(--font-sans);font-size:14px;color:var(--fg);padding:2px 0 3px;outline:none;" type="text" placeholder="Count: ___">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 2: ASSESS EACH TYPE -->
+  <div class="sec-lbl">Part 2</div>
+  <div class="sec-title">Assess What You're Actually Getting</div>
+  <div class="sec-sub">For each type of relationship on your list, answer honestly. Not what you wish were true — what is actually happening.</div>
+
+  <div class="assessment-grid" style="margin-top:18px;">
+    <div class="assess-card assess-card-real">
+      <div class="assess-head"><div class="assess-dot" style="background:var(--real)"></div><div class="assess-title assess-title-real">Real relationships</div></div>
+      <div class="assess-lbl">Are they growing or shrinking?</div>
+      <input class="assess-field" type="text" placeholder="Your honest observation…">
+      <div class="assess-lbl">When did you last initiate?</div>
+      <input class="assess-field" type="text" placeholder="Specific example…">
+      <div class="assess-lbl">What could be deeper?</div>
+      <input class="assess-field" type="text" placeholder="One relationship you want to invest in…">
+    </div>
+    <div class="assess-card assess-card-digital">
+      <div class="assess-head"><div class="assess-dot" style="background:var(--digital)"></div><div class="assess-title assess-title-digital">Digital relationships</div></div>
+      <div class="assess-lbl">Do these feel truly mutual?</div>
+      <input class="assess-field" type="text" placeholder="Your honest observation…">
+      <div class="assess-lbl">What do screens prevent?</div>
+      <input class="assess-field" type="text" placeholder="What can't happen over text?…">
+      <div class="assess-lbl">Who could move offline?</div>
+      <input class="assess-field" type="text" placeholder="A person worth more effort…">
+    </div>
+    <div class="assess-card assess-card-ai">
+      <div class="assess-head"><div class="assess-dot" style="background:var(--ai)"></div><div class="assess-title assess-title-ai">AI / Parasocial</div></div>
+      <div class="assess-lbl">What need is this meeting?</div>
+      <input class="assess-field" type="text" placeholder="Comfort? Entertainment? Advice?…">
+      <div class="assess-lbl">Does it know you back?</div>
+      <input class="assess-field" type="text" placeholder="Is this actually mutual?…">
+      <div class="assess-lbl">What real thing is it replacing?</div>
+      <input class="assess-field" type="text" placeholder="What real relationship could meet this need?…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: SIGNAL RADAR — self-diagnostic -->
+  <div class="sec-lbl-gold">Part 3</div>
+  <div class="sec-title">The Warning Signal Radar</div>
+  <div class="sec-sub">Rate each signal for your teen (or yourself) from 0–10. This isn't a score to fear — it's a map to use.</div>
+
+  <div class="radar-section">
+    <div class="radar-title">Attachment Warning Signals</div>
+    <div class="radar-sub">0 = not at all · 10 = this is happening a lot right now</div>
+    <div class="signals">
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Prefers talking to AI over people</div>
+          <div class="signal-bar-wrap"><div id="bar1" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score1" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score1','bar1',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Turns to chatbot first when lonely, sad, or bored</div>
+      </div>
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Distress when device is taken away</div>
+          <div class="signal-bar-wrap"><div id="bar2" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score2" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score2','bar2',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Reacts with anger, anxiety, or grief — not just inconvenience</div>
+      </div>
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Withdrawal from in-person friendships</div>
+          <div class="signal-bar-wrap"><div id="bar3" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score3" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score3','bar3',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Real friendships shrinking; digital ones growing</div>
+      </div>
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Talks about AI/creator as if they know them</div>
+          <div class="signal-bar-wrap"><div id="bar4" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score4" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score4','bar4',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Parasocial attachment — "my AI friend", "MrBeast would say…"</div>
+      </div>
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Difficulty tolerating boredom or silence</div>
+          <div class="signal-bar-wrap"><div id="bar5" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score5" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score5','bar5',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Reaches for a device the moment there's nothing happening</div>
+      </div>
+      <div>
+        <div class="signal-row">
+          <div class="signal-label">Emotional regulation depends on being online</div>
+          <div class="signal-bar-wrap"><div id="bar6" style="height:100%;width:0%;background:var(--gold);border-radius:4px;transition:width .3s;"></div></div>
+          <div class="signal-input-wrap"><input class="signal-score" id="score6" type="number" min="0" max="10" placeholder="0–10" oninput="updateBar('score6','bar6',getColor(this.value))"></div>
+        </div>
+        <div class="signal-hint" style="padding-left:232px;">Uses screen to calm down, avoid hard feelings, or escape</div>
+      </div>
+    </div>
+    <div class="scale-labels">
+      <div></div>
+      <div class="scale-text"><span>0 — not a concern</span><span>10 — needs urgent attention</span></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: HONEST QUESTIONS -->
+  <div class="sec-lbl">Part 4</div>
+  <div class="sec-title">The Honest Questions</div>
+  <div class="sec-sub">These are for a parent and teen conversation — ideally not right after filling in the radar. Let it breathe first.</div>
+
+  <div style="margin-top:20px;">
+    <div class="q-block">
+      <div class="q-row"><div class="q-num">1</div><div><div class="q-text">When you're feeling sad, anxious, or lonely — what do you reach for first? A person or a device?</div><div class="q-sub">No right answer. Just honest observation.</div></div></div>
+      <div class="q-space"></div>
+    </div>
+    <div class="q-block">
+      <div class="q-row"><div class="q-num">2</div><div><div class="q-text">Is there a relationship on your list that you know needs more attention than you're giving it?</div><div class="q-sub">Name the person. Name what's getting in the way.</div></div></div>
+      <div class="q-space"></div>
+    </div>
+    <div class="q-block">
+      <div class="q-row"><div class="q-num">3</div><div><div class="q-text">What would it feel like to go 24 hours without any AI conversation or parasocial content?</div><div class="q-sub">What does your reaction to that question tell you?</div></div></div>
+      <div class="q-space"></div>
+    </div>
+    <div class="q-block">
+      <div class="q-row"><div class="q-num">4</div><div><div class="q-text">Who in your life actually knows you — the real you, including the hard parts?</div><div class="q-sub">AI can be optimised to make you feel good. Real friends are the ones who stay when it costs them something.</div></div></div>
+      <div class="q-space"></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 5: WHAT TO DO -->
+  <div class="sec-lbl">Part 5</div>
+  <div class="sec-title">What to Do With What You Found</div>
+  <div class="sec-sub">Pick one action from each column. Small and specific beats big and vague every time.</div>
+
+  <div class="action-grid" style="margin-top:16px;">
+    <div class="action-card">
+      <div class="action-head">
+        <div class="action-icon" style="background:var(--real-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="hsl(142,65%,38%)" stroke-width="1.2"/><path d="M2 12c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="hsl(142,65%,38%)" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="action-title">One real relationship to invest in</div>
+      </div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">The person:</div>
+      <input class="action-field" type="text" placeholder="Name someone specific…">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">What I'll do &amp; when:</div>
+      <input class="action-field" type="text" placeholder="e.g. Call them Saturday morning…">
+    </div>
+    <div class="action-card">
+      <div class="action-head">
+        <div class="action-icon" style="background:var(--ai-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L8.5 5H12L9.5 7.5L10.5 11L7 9L3.5 11L4.5 7.5L2 5H5.5L7 1.5z" stroke="hsl(280,55%,50%)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="action-title">One digital habit to reduce</div>
+      </div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">The habit:</div>
+      <input class="action-field" type="text" placeholder="e.g. AI chatbot before bed…">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">What I'll replace it with:</div>
+      <input class="action-field" type="text" placeholder="e.g. Read for 10 min instead…">
+    </div>
+    <div class="action-card">
+      <div class="action-head">
+        <div class="action-icon" style="background:var(--green-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v3M7 9v3M2 7h3M9 7h3" stroke="hsl(142,76%,42%)" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="2" stroke="hsl(142,76%,42%)" stroke-width="1.2"/></svg>
+        </div>
+        <div class="action-title">One family conversation to have</div>
+      </div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">The topic:</div>
+      <input class="action-field" type="text" placeholder="e.g. How AI makes you feel…">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">When we'll have it:</div>
+      <input class="action-field" type="text" placeholder="e.g. Sunday dinner this week…">
+    </div>
+    <div class="action-card">
+      <div class="action-head">
+        <div class="action-icon" style="background:var(--gold-bg);">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2C4.24 2 2 4.24 2 7s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5z" stroke="hsl(38,96%,50%)" stroke-width="1.2"/><path d="M7 5v2.5L8.5 9" stroke="hsl(38,96%,50%)" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="action-title">One offline space to create</div>
+      </div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">What it looks like:</div>
+      <input class="action-field" type="text" placeholder="e.g. Phone-free dinners…">
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;">Starting when:</div>
+      <input class="action-field" type="text" placeholder="e.g. This Monday evening…">
+    </div>
+  </div>
+
+  <!-- ENCOURAGEMENT -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A word for parents navigating this</div>
+    <div class="enc-text">
+      The fact that your teenager has relationships with AI chatbots and parasocial creators is not a moral failure — it's the world they've grown up in. <strong>The question isn't whether to feel guilty about it. The question is what to do now.</strong><br><br>
+      Tristan Harris is right that the technology has moved from capturing attention to capturing attachment. That's a significant shift. But it doesn't mean real relationships are gone — it means they need to be protected and invested in with more intentionality than previous generations had to think about.<br><br>
+      The Christian vision of friendship — people who know you, who challenge you, who stay when it costs them something — is not only countercultural right now. <strong>It's one of the most profound things the church has to offer a generation that's settling for something far less.</strong>
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Family</span>
+    <span class="tag">Technology</span>
+    <span class="tag">Relationships</span>
+    <span class="tag">Teens</span>
+    <span class="tag">Discipleship</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Worksheet 3 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function getColor(val){
+  const v = parseInt(val) || 0;
+  if(v <= 3) return 'hsl(142,65%,50%)';
+  if(v <= 6) return 'hsl(38,96%,50%)';
+  return 'hsl(0,62%,52%)';
+}
+function updateBar(scoreId, barId, color){
+  const score = document.getElementById(scoreId);
+  const bar = document.getElementById(barId);
+  const val = Math.min(10, Math.max(0, parseInt(score.value) || 0));
+  bar.style.width = (val * 10) + '%';
+  bar.style.background = color;
+}
+</script>
+</body>
+</html>
