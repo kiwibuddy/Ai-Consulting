@@ -160,168 +160,6 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      {/* Deep-Dives (NotebookLM podcasts) */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={staggerRevealContainerVariants}
-            className="mb-8"
-          >
-            <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
-              variants={staggerRevealItemVariants}
-            >
-              Deep-Dives
-            </motion.h2>
-            <motion.p
-              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
-              variants={staggerRevealItemVariants}
-            >
-              AI-generated podcast conversations powered by NotebookLM. These are not authoritative sources — they are synthesised from carefully curated research, news, and content I have found valuable. I have found them to be thought-provoking companions to the topics I care about, and I hope you do too.
-            </motion.p>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {deepDives.map((dive) => (
-              <motion.div
-                key={dive.id}
-                variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <a
-                  href={dive.url}
-                  target={isExternalUrl(dive.url) ? "_blank" : undefined}
-                  rel={isExternalUrl(dive.url) ? "noopener noreferrer" : undefined}
-                  className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                >
-                  {dive.thumbnail ? (
-                    <img
-                      src={dive.thumbnail}
-                      alt=""
-                      className="aspect-video w-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-                      <Headphones className="h-12 w-12 text-neutral-300" />
-                    </div>
-                  )}
-                  <div className="p-5 flex-1 flex flex-col">
-                    {dive.category && (
-                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
-                        {dive.category}
-                      </span>
-                    )}
-                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{dive.title}</h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                      {dive.description}
-                    </p>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-neutral-500">
-                        {dive.duration && `${dive.duration} · `}
-                        {dive.date}
-                      </span>
-                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
-                        Listen
-                        {isExternalUrl(dive.url) ? (
-                          <ExternalLink className="h-3.5 w-3.5" />
-                        ) : (
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                </a>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Videos & talks */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={fadeUpRevealVariants}
-          >
-            Videos & talks
-          </motion.h2>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {videos.map((video) => (
-              <motion.div
-                key={video.id}
-                variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <a
-                  href={video.url}
-                  target={isExternalUrl(video.url) ? "_blank" : undefined}
-                  rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
-                  className="block aspect-video bg-neutral-200 flex items-center justify-center shrink-0 relative group"
-                >
-                  {video.thumbnail ? (
-                    <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-neutral-600 transition-colors">
-                      <Play className="h-12 w-12" />
-                      {video.duration && <span className="text-xs font-medium">{video.duration}</span>}
-                    </div>
-                  )}
-                </a>
-                <div className="p-5 flex-1 flex flex-col">
-                  {video.category && (
-                    <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
-                      {video.category}
-                    </span>
-                  )}
-                  <h3 className="font-semibold text-neutral-900 text-lg mb-2">{video.title}</h3>
-                  <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                    {video.description}
-                  </p>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-neutral-500">
-                      {video.source === "youtube" ? "YouTube" : video.date}
-                    </span>
-                    <a
-                      href={video.url}
-                      target={isExternalUrl(video.url) ? "_blank" : undefined}
-                      rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
-                      className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
-                    >
-                      Watch
-                      {isExternalUrl(video.url) ? (
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      ) : (
-                        <ArrowRight className="h-3.5 w-3.5" />
-                      )}
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* Worksheets */}
       <section className={`${sectionPadding} bg-neutral-50`}>
         <div className={`container mx-auto ${contentMax}`}>
@@ -413,6 +251,168 @@ export default function ResourcesPage() {
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Deep-Dives (NotebookLM podcasts) */}
+      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
+            className="mb-8"
+          >
+            <motion.h2
+              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
+              variants={staggerRevealItemVariants}
+            >
+              Deep-Dives
+            </motion.h2>
+            <motion.p
+              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
+              variants={staggerRevealItemVariants}
+            >
+              AI-generated podcast conversations powered by NotebookLM. These are not authoritative sources — they are synthesised from carefully curated research, news, and content I have found valuable. I have found them to be thought-provoking companions to the topics I care about, and I hope you do too.
+            </motion.p>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={cardSlideUpContainerVariants}
+          >
+            {deepDives.map((dive) => (
+              <motion.div
+                key={dive.id}
+                variants={cardSlideUpItemVariants}
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                <a
+                  href={dive.url}
+                  target={isExternalUrl(dive.url) ? "_blank" : undefined}
+                  rel={isExternalUrl(dive.url) ? "noopener noreferrer" : undefined}
+                  className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                >
+                  {dive.thumbnail ? (
+                    <img
+                      src={dive.thumbnail}
+                      alt=""
+                      className="aspect-video w-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
+                      <Headphones className="h-12 w-12 text-neutral-300" />
+                    </div>
+                  )}
+                  <div className="p-5 flex-1 flex flex-col">
+                    {dive.category && (
+                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
+                        {dive.category}
+                      </span>
+                    )}
+                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{dive.title}</h3>
+                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                      {dive.description}
+                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs text-neutral-500">
+                        {dive.duration && `${dive.duration} · `}
+                        {dive.date}
+                      </span>
+                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+                        Listen
+                        {isExternalUrl(dive.url) ? (
+                          <ExternalLink className="h-3.5 w-3.5" />
+                        ) : (
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Videos & talks */}
+      <section className={`${sectionPadding} bg-neutral-50`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.h2
+            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
+          >
+            Videos & talks
+          </motion.h2>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={cardSlideUpContainerVariants}
+          >
+            {videos.map((video) => (
+              <motion.div
+                key={video.id}
+                variants={cardSlideUpItemVariants}
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                <a
+                  href={video.url}
+                  target={isExternalUrl(video.url) ? "_blank" : undefined}
+                  rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
+                  className="block aspect-video bg-neutral-200 flex items-center justify-center shrink-0 relative group"
+                >
+                  {video.thumbnail ? (
+                    <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                      <Play className="h-12 w-12" />
+                      {video.duration && <span className="text-xs font-medium">{video.duration}</span>}
+                    </div>
+                  )}
+                </a>
+                <div className="p-5 flex-1 flex flex-col">
+                  {video.category && (
+                    <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
+                      {video.category}
+                    </span>
+                  )}
+                  <h3 className="font-semibold text-neutral-900 text-lg mb-2">{video.title}</h3>
+                  <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                    {video.description}
+                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-neutral-500">
+                      {video.source === "youtube" ? "YouTube" : video.date}
+                    </span>
+                    <a
+                      href={video.url}
+                      target={isExternalUrl(video.url) ? "_blank" : undefined}
+                      rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
+                      className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
+                    >
+                      Watch
+                      {isExternalUrl(video.url) ? (
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      ) : (
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      )}
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
