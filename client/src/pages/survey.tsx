@@ -168,7 +168,12 @@ export default function SurveyPage() {
                         <FormItem>
                           <FormLabel>First name</FormLabel>
                           <FormControl>
-                            <Input placeholder="First name" autoComplete="given-name" {...field} />
+                            <Input
+                              placeholder="First name"
+                              autoComplete="given-name"
+                              className="bg-white text-neutral-900 placeholder:text-neutral-500"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -181,7 +186,12 @@ export default function SurveyPage() {
                         <FormItem>
                           <FormLabel>Last name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Last name" autoComplete="family-name" {...field} />
+                            <Input
+                              placeholder="Last name"
+                              autoComplete="family-name"
+                              className="bg-white text-neutral-900 placeholder:text-neutral-500"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -200,6 +210,7 @@ export default function SurveyPage() {
                             type="email"
                             placeholder="you@example.com"
                             autoComplete="email"
+                            className="bg-white text-neutral-900 placeholder:text-neutral-500"
                             {...field}
                           />
                         </FormControl>
@@ -221,6 +232,7 @@ export default function SurveyPage() {
                           <Textarea
                             placeholder="It could be a fear, a confusion, or just something you keep wondering about..."
                             rows={4}
+                            className="bg-white text-neutral-900 placeholder:text-neutral-500"
                             {...field}
                           />
                         </FormControl>
@@ -242,6 +254,7 @@ export default function SurveyPage() {
                           <Textarea
                             placeholder="Think about a real burden, need, or task where wise use of AI would feel like a gift..."
                             rows={4}
+                            className="bg-white text-neutral-900 placeholder:text-neutral-500"
                             {...field}
                           />
                         </FormControl>
@@ -333,6 +346,7 @@ export default function SurveyPage() {
                             <Textarea
                               placeholder="Any other way you would love to learn or be supported..."
                               rows={3}
+                              className="bg-white text-neutral-900 placeholder:text-neutral-500"
                               {...field}
                             />
                           </FormControl>
