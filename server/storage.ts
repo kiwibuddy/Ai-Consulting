@@ -14,6 +14,7 @@ import {
   payments,
   invoices,
   userOAuthTokens,
+  surveyResponses,
   type User,
   type ClientProfile,
   type InsertClientProfile,
@@ -33,6 +34,8 @@ import {
   type InsertTestimonial,
   type CoachSettings,
   type InsertCoachSettings,
+  type SurveyResponse,
+  type InsertSurveyResponse,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -92,6 +95,9 @@ export interface IStorage {
   // Messages
   getMessagesBySession(sessionId: string): Promise<Message[]>;
   createMessage(message: InsertMessage): Promise<Message>;
+
+  // Survey Responses
+  createSurveyResponse(response: InsertSurveyResponse): Promise<SurveyResponse>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -348,6 +354,12 @@ export class DatabaseStorage implements IStorage {
 
   async createMessage(message: InsertMessage): Promise<Message> {
     const [created] = await db.insert(messages).values(message).returning();
+    return created;
+  }
+
+  // Survey Responses
+  async createSurveyResponse(response: InsertSurveyResponse): Promise<SurveyResponse> {
+    const [created] = await db.insert(surveyResponses).values(response).returning();
     return created;
   }
 
