@@ -283,7 +283,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
 .hq-num{font-family:var(--font-serif);font-size:26px;font-weight:400;color:var(--border);flex-shrink:0;min-width:22px;line-height:1;}
 .hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:2px;}
 .hq-prompt{font-size:11.5px;font-weight:300;color:var(--fg-muted);margin-top:2px;font-style:italic;}
-.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:64px;background:var(--bg-warm);width:100%;}
+.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);min-height:64px;background:var(--bg-warm);width:100%;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:10px 12px;outline:none;resize:vertical;}
+.hq-space:focus{border-color:var(--green);}
+.hq-space::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* ── PART 5: COUNTER-LITURGIES ── */
 .counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
@@ -643,23 +645,23 @@ hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
   <div style="margin-top:20px;">
     <div class="honest-block">
       <div class="hq-row"><div class="hq-num">1</div><div><div class="hq-text">If someone watched how you actually spent your attention over the past week, what would they conclude you love most?</div><div class="hq-prompt">Not what you say you love. What your time reveals.</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="honest-block">
       <div class="hq-row"><div class="hq-num">2</div><div><div class="hq-text">When did you last sit in silence with God for more than five minutes — without a phone nearby?</div><div class="hq-prompt">What did that feel like? What does your answer reveal?</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="honest-block">
       <div class="hq-row"><div class="hq-num">3</div><div><div class="hq-text">What do you believe about yourself after a heavy session of scrolling? Is that true?</div><div class="hq-prompt">The algorithm has an opinion about who you are. So does God. Which voice is louder right now?</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="honest-block">
       <div class="hq-row"><div class="hq-num">4</div><div><div class="hq-text">What spiritual practice has been quietly displaced by digital habits in the past year?</div><div class="hq-prompt">Prayer? Scripture? Sabbath? Silence? Be specific about what used to be there.</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="honest-block">
       <div class="hq-row"><div class="hq-num">5</div><div><div class="hq-text">If you genuinely believed that 23 minutes of focus are lost every time you check your phone, what would you do differently today?</div><div class="hq-prompt">Research finding, not anecdote. What would it mean for your prayer life, your Bible reading, your relationships?</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
   </div>
 

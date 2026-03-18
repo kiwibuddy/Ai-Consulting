@@ -226,7 +226,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
 .hq-content{}
 .hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;margin-bottom:3px;}
 .hq-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;line-height:1.45;}
-.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:60px;background:var(--bg-warm);width:100%;}
+.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);min-height:60px;background:var(--bg-warm);width:100%;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:10px 12px;outline:none;resize:vertical;}
+.hq-space:focus{border-color:var(--green);}
+.hq-space::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* ── CLOSING QUESTION — the whole point ── */
 .closing-block{
@@ -529,15 +531,15 @@ hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
   <div style="margin-top:20px;">
     <div class="hq-block">
       <div class="hq-row"><div class="hq-num">1</div><div class="hq-content"><div class="hq-text">Is there a question or decision this week where the AI or Google answer was faster — but not actually better?</div><div class="hq-note">Speed and wisdom are not the same thing. A quick answer can close off the very uncertainty that God was using to draw you closer.</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="hq-block">
       <div class="hq-row"><div class="hq-num">2</div><div class="hq-content"><div class="hq-text">What would have happened if you had stayed with one of this week's questions long enough to actually think and pray about it — without assistance?</div><div class="hq-note">Not faster. Longer. What might you have discovered?</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="hq-block">
       <div class="hq-row"><div class="hq-num">3</div><div class="hq-content"><div class="hq-text">Dallas Willard listed silence among the core spiritual disciplines. When was the last time you practised it? What makes silence harder than scrolling?</div><div class="hq-note">Silence is where God has historically spoken. We have systematically eliminated it.</div></div></div>
-      <div class="hq-space"></div>
+      <textarea class="hq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
   </div>
 

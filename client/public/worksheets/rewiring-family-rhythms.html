@@ -189,7 +189,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .fq-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;}
 .fq-num{font-family:var(--font-serif);font-size:24px;font-weight:400;color:var(--border);flex-shrink:0;min-width:20px;line-height:1;}
 .fq-text{font-size:13.5px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:2px;}
-.fq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:56px;background:var(--bg-warm);}
+.fq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);min-height:56px;background:var(--bg-warm);font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:10px 12px;outline:none;resize:vertical;width:100%;}
+.fq-space:focus{border-color:var(--green);}
+.fq-space::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* Encouragement */
 .enc{background:var(--dark);border-radius:var(--r);padding:26px 30px;margin-top:28px;position:relative;overflow:hidden;}
@@ -575,19 +577,19 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
   <div class="final-reflect">
     <div class="fq-block">
       <div class="fq-row"><div class="fq-num">1</div><div class="fq-text">Which of the four habits felt most natural — and which felt most foreign? What does that tell you?</div></div>
-      <div class="fq-space"></div>
+      <textarea class="fq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="fq-block">
       <div class="fq-row"><div class="fq-num">2</div><div class="fq-text">What filled the space when the screens weren't there? Did you like what you found?</div></div>
-      <div class="fq-space"></div>
+      <textarea class="fq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="fq-block">
       <div class="fq-row"><div class="fq-num">3</div><div class="fq-text">Where did you notice the most resistance — in yourself, or in your family? What was underneath it?</div></div>
-      <div class="fq-space"></div>
+      <textarea class="fq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="fq-block">
       <div class="fq-row"><div class="fq-num">4</div><div class="fq-text">James K.A. Smith says we are what we repeatedly do. What are you becoming? Is that who you want to be?</div></div>
-      <div class="fq-space"></div>
+      <textarea class="fq-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
   </div>
 

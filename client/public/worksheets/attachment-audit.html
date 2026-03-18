@@ -195,7 +195,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .q-num{font-family:var(--font-serif);font-size:26px;font-weight:400;color:var(--border);line-height:1;flex-shrink:0;min-width:22px;}
 .q-text{font-size:13.5px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:3px;}
 .q-sub{font-size:11.5px;font-weight:300;color:var(--fg-muted);margin-top:2px;font-style:italic;}
-.q-space{border:1px solid var(--border-card);border-radius:var(--r-sm);height:64px;width:100%;background:var(--bg-warm);}
+.q-space{border:1px solid var(--border-card);border-radius:var(--r-sm);min-height:64px;width:100%;background:var(--bg-warm);font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:10px 12px;outline:none;resize:vertical;}
+.q-space:focus{border-color:var(--green);}
+.q-space::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* ── SIGNAL RADAR — visual diagnostic ── */
 .radar-section{background:var(--bg-warm);border:1px solid var(--border-card);border-radius:var(--r);padding:22px 24px;margin:24px 0;}
@@ -509,19 +511,19 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
   <div style="margin-top:20px;">
     <div class="q-block">
       <div class="q-row"><div class="q-num">1</div><div><div class="q-text">When you're feeling sad, anxious, or lonely — what do you reach for first? A person or a device?</div><div class="q-sub">No right answer. Just honest observation.</div></div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">2</div><div><div class="q-text">Is there a relationship on your list that you know needs more attention than you're giving it?</div><div class="q-sub">Name the person. Name what's getting in the way.</div></div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">3</div><div><div class="q-text">What would it feel like to go 24 hours without any AI conversation or parasocial content?</div><div class="q-sub">What does your reaction to that question tell you?</div></div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">4</div><div><div class="q-text">Who in your life actually knows you — the real you, including the hard parts?</div><div class="q-sub">AI can be optimised to make you feel good. Real friends are the ones who stay when it costs them something.</div></div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
   </div>
 

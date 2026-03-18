@@ -157,7 +157,7 @@ export default function SurveyPage() {
           </div>
 
           <Card className="border-0 shadow-lg bg-white">
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-6 md:p-8 text-neutral-900">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -166,7 +166,7 @@ export default function SurveyPage() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>First name</FormLabel>
+                          <FormLabel className="text-neutral-800">First name</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="First name"
@@ -184,7 +184,7 @@ export default function SurveyPage() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Last name</FormLabel>
+                          <FormLabel className="text-neutral-800">Last name</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Last name"
@@ -204,7 +204,7 @@ export default function SurveyPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className="text-neutral-800">Email</FormLabel>
                         <FormControl>
                           <Input
                             type="email"
@@ -224,7 +224,7 @@ export default function SurveyPage() {
                     name="aiConcerns"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>
+                        <FormLabel className="text-neutral-800">
                           1. What&apos;s one thing about AI you wish you understood better — or that
                           honestly kind of worries you?
                         </FormLabel>
@@ -246,7 +246,7 @@ export default function SurveyPage() {
                     name="aiWishlist"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>
+                        <FormLabel className="text-neutral-800">
                           2. If you could magically use AI to help in your life, work, family, or
                           ministry, what would you most love it to do?
                         </FormLabel>
@@ -268,7 +268,7 @@ export default function SurveyPage() {
                     name="learningPreferences"
                     render={() => (
                       <FormItem>
-                        <FormLabel>
+                        <FormLabel className="text-neutral-800">
                           3. What would be the best way for you to learn this?
                         </FormLabel>
                         <div className="space-y-3">
@@ -296,7 +296,7 @@ export default function SurveyPage() {
                                         }}
                                       />
                                     </FormControl>
-                                    <FormLabel className="font-normal">
+                                    <FormLabel className="font-normal text-neutral-700">
                                       {option.label}
                                     </FormLabel>
                                   </FormItem>
@@ -323,7 +323,7 @@ export default function SurveyPage() {
                                     }}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal">
+                                <FormLabel className="font-normal text-neutral-700">
                                   Other (add your own idea below)
                                 </FormLabel>
                               </FormItem>
@@ -341,7 +341,7 @@ export default function SurveyPage() {
                       name="otherLearningMethod"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Other learning ideas</FormLabel>
+                          <FormLabel className="text-neutral-800">Other learning ideas</FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="Any other way you would love to learn or be supported..."
@@ -368,7 +368,7 @@ export default function SurveyPage() {
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel className="font-normal">
+                          <FormLabel className="font-normal text-neutral-700">
                             I&apos;d like to hear about future courses or resources if they could
                             help with what I shared.
                           </FormLabel>

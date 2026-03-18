@@ -105,9 +105,12 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 
 .map-wrap{
   border:1px solid var(--border-card);border-radius:var(--r);
-  overflow:hidden;background:var(--bg-warm);
-  padding:24px;
+  overflow:visible;background:var(--bg-warm);
+  padding:24px;position:relative;
 }
+.map-center-input{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:110px;text-align:center;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--font-serif);font-size:13px;font-style:italic;color:var(--fg);outline:none;padding:2px 4px;}
+.map-center-input:focus{border-bottom-color:var(--green);}
+.map-center-input::placeholder{color:hsl(35,15%,75%);}
 
 /* ── CATEGORY GRID ── */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
@@ -120,8 +123,12 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .cat-lbl{font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--fg);}
 .cat-hint{font-size:10.5px;font-weight:300;color:var(--fg-muted);margin-bottom:10px;line-height:1.4;font-style:italic;}
 .cat-lines{margin-bottom:8px;}
-.cat-line{border-bottom:1px solid var(--border);height:22px;margin-bottom:6px;}
-.cat-hrs{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);}
+.cat-line{border:none;border-bottom:1px solid var(--border);height:22px;margin-bottom:6px;width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:0 0 2px;outline:none;}
+.cat-line:focus{border-bottom-color:var(--green);}
+.cat-line::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+.cat-hrs{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.cat-hrs-input{width:60px;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:0 0 2px;outline:none;display:inline-block;}
+.cat-hrs-input:focus{border-bottom-color:var(--green);}
 
 /* ── REFLECTION ── */
 .q-block{margin-bottom:24px;}
@@ -130,8 +137,11 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .q-text{font-size:13.5px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:4px;}
 .q-space{
   border:1px solid var(--border-card);border-radius:var(--r-sm);
-  height:70px;width:100%;background:var(--bg-warm);
+  min-height:70px;width:100%;background:var(--bg-warm);
+  font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:10px 12px;outline:none;resize:vertical;
 }
+.q-space:focus{border-color:var(--green);}
+.q-space::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* ── COMMITMENT ── */
 .commit-box{border:2px solid var(--fg);border-radius:var(--r);padding:20px 22px;margin-bottom:24px;}
@@ -139,12 +149,17 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .commit-sub{font-size:12px;font-weight:300;color:var(--fg-muted);margin-bottom:18px;}
 .commit-fields{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 .commit-field-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
-.commit-line{border-bottom:1px solid var(--border);height:22px;}
+.commit-line{border:none;border-bottom:1px solid var(--border);height:22px;width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:0 0 2px;outline:none;display:block;margin-bottom:6px;}
+.commit-line:focus{border-bottom-color:var(--green);}
+.commit-line::placeholder{color:hsl(35,15%,80%);font-weight:300;}
 
 /* Conversation starters */
 .convo-grid{display:grid;gap:9px;margin-top:16px;}
 .convo-row{display:flex;align-items:flex-start;gap:10px;}
-.checkbox{width:15px;height:15px;border:1.5px solid var(--fg-muted);border-radius:3px;flex-shrink:0;margin-top:2px;}
+.checkbox{width:15px;height:15px;border:1.5px solid var(--fg-muted);border-radius:3px;flex-shrink:0;margin-top:2px;cursor:pointer;transition:all .15s;}
+.checkbox:hover{border-color:var(--green);}
+.checkbox.checked{border-color:var(--green);background:var(--green);position:relative;}
+.checkbox.checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:600;}
 .convo-text{font-size:13px;color:var(--fg-med);font-weight:300;line-height:1.5;font-style:italic;}
 
 /* Encouragement */
@@ -264,7 +279,8 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
     </div>
 
     <!-- SVG Map -->
-    <div class="map-wrap">
+    <div class="map-wrap" style="position:relative">
+      <input type="text" class="map-center-input" placeholder="Child's name" id="child-name" title="Enter your child's name">
       <svg width="100%" viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg">
         <!-- Outer ring -->
         <ellipse cx="360" cy="192" rx="310" ry="172" fill="none" stroke="hsl(35,10%,78%)" stroke-width="1" stroke-dasharray="6 4"/>
@@ -272,10 +288,8 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
         <ellipse cx="360" cy="192" rx="205" ry="114" fill="none" stroke="hsl(30,8%,55%)" stroke-width="1.2" stroke-dasharray="4 4"/>
         <!-- Inner ring -->
         <ellipse cx="360" cy="192" rx="112" ry="62" fill="none" stroke="hsl(30,10%,22%)" stroke-width="1.8"/>
-        <!-- Centre -->
+        <!-- Centre (input overlay covers this) -->
         <circle cx="360" cy="192" r="38" fill="hsl(35,20%,94%)" stroke="hsl(30,10%,15%)" stroke-width="2"/>
-        <text x="360" y="188" text-anchor="middle" font-family="'Playfair Display',serif" font-style="italic" font-size="11" fill="hsl(30,8%,45%)">child's</text>
-        <text x="360" y="202" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="10" fill="hsl(30,8%,55%)" font-weight="300">name here</text>
 
         <!-- Ring labels (minimal, just the ring name) -->
         <rect x="299" y="22" width="122" height="18" rx="4" fill="white" opacity="0.9"/>
@@ -317,38 +331,38 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:hsl(162,55%,42%)"></div><div class="cat-lbl">Screens &amp; Social Media</div></div>
       <div class="cat-hint">YouTube channels, TikTok, Instagram, Netflix, gaming streams…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:hsl(210,65%,50%)"></div><div class="cat-lbl">School &amp; Teachers</div></div>
       <div class="cat-hint">Key teachers, school culture, messages about identity and worth…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:hsl(38,96%,50%)"></div><div class="cat-lbl">Friends &amp; Peers</div></div>
       <div class="cat-hint">Close friends, group chats, the wider social circle…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:hsl(270,55%,55%)"></div><div class="cat-lbl">Church &amp; Faith Community</div></div>
       <div class="cat-hint">Youth group, Sunday school, Christian friends, worship…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:hsl(15,80%,50%)"></div><div class="cat-lbl">AI Tools &amp; Chatbots</div></div>
       <div class="cat-hint">ChatGPT, AI companions, Snapchat AI, voice assistants…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
     <div class="cat-card">
       <div class="cat-dot-row"><div class="cat-dot" style="background:var(--fg)"></div><div class="cat-lbl">You — Intentional Time</div></div>
       <div class="cat-hint">Meals together, real conversations, shared activities, prayer…</div>
-      <div class="cat-lines"><div class="cat-line"></div><div class="cat-line"></div></div>
-      <div class="cat-hrs">Approx. hrs/week: __________</div>
+      <div class="cat-lines"><input type="text" class="cat-line" placeholder="Add specific influences…"><input type="text" class="cat-line" placeholder=""></div>
+      <div class="cat-hrs">Approx. hrs/week: <input type="text" class="cat-hrs-input" placeholder="0" inputmode="numeric"></div>
     </div>
   </div>
 
@@ -362,19 +376,19 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
   <div style="margin-top:20px;">
     <div class="q-block">
       <div class="q-row"><div class="q-num">1</div><div class="q-text">When your child faces something hard — failure, loneliness, confusion, fear — what or who do they go to first?</div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">2</div><div class="q-text">What values is your child absorbing right now? Where are those values actually coming from?</div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">3</div><div class="q-text">Is there an influence on the map that surprised or unsettled you when you saw it written down? What is it, and why does it unsettle you?</div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
     <div class="q-block">
       <div class="q-row"><div class="q-num">4</div><div class="q-text">When you imagined raising your child, what did you picture? Is this what you intended?</div></div>
-      <div class="q-space"></div>
+      <textarea class="q-space" placeholder="Your reflection…" rows="3"></textarea>
     </div>
   </div>
 
@@ -395,23 +409,23 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
     <div class="commit-fields">
       <div>
         <div class="commit-field-lbl">One influence to reduce</div>
-        <div class="commit-line"></div>
-        <div class="commit-line" style="margin-top:7px;"></div>
+        <input type="text" class="commit-line" placeholder="">
+        <input type="text" class="commit-line" style="margin-top:7px;" placeholder="">
       </div>
       <div>
         <div class="commit-field-lbl">Replace it with</div>
-        <div class="commit-line"></div>
-        <div class="commit-line" style="margin-top:7px;"></div>
+        <input type="text" class="commit-line" placeholder="">
+        <input type="text" class="commit-line" style="margin-top:7px;" placeholder="">
       </div>
       <div>
         <div class="commit-field-lbl">When (day &amp; time)</div>
-        <div class="commit-line"></div>
-        <div class="commit-line" style="margin-top:7px;"></div>
+        <input type="text" class="commit-line" placeholder="">
+        <input type="text" class="commit-line" style="margin-top:7px;" placeholder="">
       </div>
       <div>
         <div class="commit-field-lbl">Who will hold me to it</div>
-        <div class="commit-line"></div>
-        <div class="commit-line" style="margin-top:7px;"></div>
+        <input type="text" class="commit-line" placeholder="">
+        <input type="text" class="commit-line" style="margin-top:7px;" placeholder="">
       </div>
     </div>
   </div>
@@ -420,11 +434,11 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
   <div class="sec-lbl" style="margin-top:28px;">Conversation starters for your kids</div>
   <div class="sec-sub" style="margin-bottom:4px;">Try one of these at dinner this week. No lecture. Just curiosity.</div>
   <div class="convo-grid">
-    <div class="convo-row"><div class="checkbox"></div><div class="convo-text">"Who do you think knows you best — us, your friends, or your phone?"</div></div>
-    <div class="convo-row"><div class="checkbox"></div><div class="convo-text">"When something goes wrong, what's the first thing you reach for?"</div></div>
-    <div class="convo-row"><div class="checkbox"></div><div class="convo-text">"If all the apps disappeared tomorrow, what would you miss most? Why?"</div></div>
-    <div class="convo-row"><div class="checkbox"></div><div class="convo-text">"What do you think those apps actually want from you?"</div></div>
-    <div class="convo-row"><div class="checkbox"></div><div class="convo-text">"Is there anything you'd rather talk to me about than Google it?"</div></div>
+    <div class="convo-row"><div class="checkbox" onclick="toggleCheck(this)" role="button" tabindex="0" aria-label="Check when used" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCheck(this)"></div><div class="convo-text">"Who do you think knows you best — us, your friends, or your phone?"</div></div>
+    <div class="convo-row"><div class="checkbox" onclick="toggleCheck(this)" role="button" tabindex="0" aria-label="Check when used" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCheck(this)"></div><div class="convo-text">"When something goes wrong, what's the first thing you reach for?"</div></div>
+    <div class="convo-row"><div class="checkbox" onclick="toggleCheck(this)" role="button" tabindex="0" aria-label="Check when used" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCheck(this)"></div><div class="convo-text">"If all the apps disappeared tomorrow, what would you miss most? Why?"</div></div>
+    <div class="convo-row"><div class="checkbox" onclick="toggleCheck(this)" role="button" tabindex="0" aria-label="Check when used" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCheck(this)"></div><div class="convo-text">"What do you think those apps actually want from you?"</div></div>
+    <div class="convo-row"><div class="checkbox" onclick="toggleCheck(this)" role="button" tabindex="0" aria-label="Check when used" onkeydown="if(event.key==='Enter'||event.key===' ')toggleCheck(this)"></div><div class="convo-text">"Is there anything you'd rather talk to me about than Google it?"</div></div>
   </div>
 
   <!-- ENCOURAGEMENT -->
@@ -461,5 +475,8 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 
 </div><!-- /page -->
 <div class="print-copyright" style="display:none">© 2026 Nathaniel Baldock · nathanielbaldock.com</div>
+<script>
+function toggleCheck(el){ el.classList.toggle('checked'); }
+</script>
 </body>
 </html>
