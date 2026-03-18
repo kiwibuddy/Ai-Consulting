@@ -171,10 +171,13 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .green-link:hover{text-decoration:underline;}
 
 @media print{
-  html{background:#fff;}
-  body{padding:0;}
-  .page{box-shadow:none;border-radius:0;}
-  .cta-btn{display:none;}
+  @page{size:A4;margin:1.5cm;}
+  html,body{background:#fff!important;padding:0!important;margin:0!important;}
+  .worksheet-top,.page{max-width:none!important;margin:0!important;padding:0!important;box-shadow:none!important;border-radius:0!important;}
+  .body{padding:24px 0!important;}
+  .cta-btn,.print-hide{display:none!important;}
+  .scripture,.stat-box,.cat-card,.map-section,.enc{page-break-inside:avoid;}
+  .print-copyright{display:block!important;position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:9px;color:#666;padding:6px 0;font-family:var(--font-sans);}
 }
 </style>
 </head>
@@ -457,5 +460,6 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 </div>
 
 </div><!-- /page -->
+<div class="print-copyright" style="display:none">© 2026 Nathaniel Baldock · nathanielbaldock.com</div>
 </body>
 </html>
