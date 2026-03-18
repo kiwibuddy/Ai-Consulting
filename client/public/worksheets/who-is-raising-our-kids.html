@@ -36,11 +36,13 @@
 }
 
 html{background:#f0efeb;}
-body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;min-height:100vh;}
+body{font-family:var(--font-sans);color:var(--fg);padding:0;min-height:100vh;}
 
-/* PAGE */
+/* Full-width header + hero (like articles) */
+.worksheet-top{width:100%;}
+/* PAGE — body content only */
 .page{
-  max-width:860px;margin:0 auto;
+  max-width:860px;margin:24px auto 48px;padding:0 16px;
   background:var(--bg);border-radius:20px;overflow:hidden;
   box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);
 }
@@ -177,8 +179,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 </style>
 </head>
 <body>
-<div class="page">
-
+<div class="worksheet-top">
 <!-- SITE HEADER -->
 <div class="site-hdr">
   <div class="logo-row">
@@ -213,7 +214,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
     <span class="meta-item">nathanielbaldock.com</span>
   </div>
 </div>
+</div><!-- /worksheet-top -->
 
+<div class="page">
 <!-- BODY -->
 <div class="body">
 
