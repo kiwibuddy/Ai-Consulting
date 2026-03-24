@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Will They Still Pay Me For? — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.09);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* WP series — slate blue, consistent */
+  --wp:         hsl(218,62%,36%);
+  --wp-mid:     hsl(218,55%,48%);
+  --wp-bg:      hsl(218,55%,48%,0.08);
+  --wp-light:   hsl(218,45%,88%);
+  /* WP-03 specific */
+  --paper:      hsl(218,62%,36%);   /* job description — formal blue */
+  --paper-bg:   hsl(218,62%,36%,.07);
+  --real:       hsl(142,65%,34%);   /* real value — green */
+  --real-bg:    hsl(142,65%,34%,.07);
+  --invisible:  hsl(38,88%,44%);    /* invisible value — amber */
+  --invisible-bg:hsl(38,88%,44%,.08);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(218,20%,88%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--wp-mid);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 82% 22%,hsl(218,62%,36%,.2) 0%,transparent 50%),
+    radial-gradient(circle at 14%,80%,hsl(142,76%,42%,.07) 0%,transparent 45%);
+  pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:22px;}
+
+/* Stat strip */
+.hero-stats{display:flex;gap:0;margin-bottom:22px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;}
+.hs{padding:13px 18px;flex:1;border-right:1px solid rgba(255,255,255,.08);}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:var(--font-serif);font-size:24px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.4;}
+.hs-src{font-size:8px;color:rgba(255,255,255,.2);margin-top:3px;font-style:italic;}
+
+.hero-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+.pro-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;}
+.pb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.pb-cell:last-child{border-right:none;}
+.pb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.pb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.pb-input:focus{border-bottom-color:var(--green);}
+.pb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:640px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:14px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+/* Research callout */
+.research-box{background:var(--wp-bg);border-left:3px solid var(--wp-mid);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin-bottom:22px;cursor:pointer;transition:background .12s;}
+.research-box:hover{background:hsl(218,55%,48%,.13);}
+.rb-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--wp-mid);margin-bottom:6px;}
+.rb-text{font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.rb-text strong{color:var(--fg);font-weight:500;}
+.rb-src{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── PART 1: THE COMPARISON — Job description vs. actual value ── */
+/* The core insight: most people have never made this gap explicit */
+.comparison-block{margin:20px 0 28px;}
+
+.cmp-intro{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;font-style:italic;max-width:640px;}
+
+.cmp-grid{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+
+.cmp-head-paper{background:var(--paper);padding:14px 20px;}
+.cmp-head-real{background:var(--real);padding:14px 20px;}
+.cmp-head-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:4px;}
+.cmp-head-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:#fff;}
+.cmp-head-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);margin-top:2px;line-height:1.4;}
+
+.cmp-divider{
+  background:var(--bg-muted);border-left:1px solid var(--border);border-right:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:12px;font-style:italic;color:var(--fg-muted);
+}
+
+.cmp-body{display:grid;grid-template-columns:1fr 40px 1fr;grid-column:1/-1;}
+
+.cmp-col{padding:0;}
+.cmp-row{
+  display:contents;
+}
+.cmp-cell-paper{
+  padding:12px 18px;border-top:1px solid var(--border);border-right:1px solid var(--border);
+  background:var(--bg);
+}
+.cmp-cell-mid{
+  background:var(--bg-muted);border-top:1px solid var(--border);border-right:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;font-weight:600;color:var(--fg-muted);writing-mode:vertical-lr;
+  padding:6px 4px;letter-spacing:1px;text-transform:uppercase;
+}
+.cmp-cell-real{
+  padding:12px 18px;border-top:1px solid var(--border);
+  background:var(--bg-warm);
+}
+.cmp-field-lbl{font-size:8px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.cmp-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;
+}
+.cmp-input:focus{border-bottom-color:var(--green);}
+.cmp-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.cmp-input:last-child{margin-bottom:0;}
+
+/* ── PART 2: THE RELATIONSHIP MAP ── */
+/* Five key relationships — what each person relies on them for */
+.rel-map{margin:20px 0 28px;}
+
+.rel-intro{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;font-style:italic;}
+
+.rel-table{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.rel-head{
+  display:grid;grid-template-columns:180px 1fr 1fr 140px;
+  background:var(--fg);padding:10px 18px;gap:10px;
+}
+.rel-th{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.rel-th:first-child{color:rgba(255,255,255,.7);}
+
+.rel-row{
+  display:grid;grid-template-columns:180px 1fr 1fr 140px;
+  padding:11px 18px;gap:10px;align-items:start;
+  border-top:1px solid var(--border);transition:background .1s;
+}
+.rel-row:nth-child(even){background:var(--bg-warm);}
+.rel-row:hover{background:var(--wp-bg);}
+
+.rel-who{font-size:11px;font-weight:600;color:var(--fg);}
+.rel-who-sub{font-size:9.5px;font-weight:300;color:var(--fg-muted);margin-top:2px;}
+.rel-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:5px;
+}
+.rel-input:focus{border-bottom-color:var(--green);}
+.rel-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.rel-input:last-child{margin-bottom:0;}
+
+/* AI replacement toggle */
+.rep-toggle{display:flex;flex-direction:column;gap:4px;}
+.rep-opt{
+  display:flex;align-items:center;gap:5px;cursor:pointer;
+  font-size:10px;font-weight:500;padding:3px 7px;border-radius:4px;
+  border:1px solid var(--border);background:var(--bg-warm);
+  transition:all .12s;user-select:none;color:var(--fg-muted);
+}
+.rep-opt:hover{border-color:var(--fg-muted);}
+.rep-opt.rep-no.active{background:var(--real);border-color:var(--real);color:#fff;}
+.rep-opt.rep-partly.active{background:var(--invisible);border-color:var(--invisible);color:#fff;}
+.rep-opt.rep-yes.active{background:hsl(4,65%,48%);border-color:hsl(4,65%,48%);color:#fff;}
+
+/* ── PART 3: FIND THE INVISIBLE VALUE ── */
+/* Things they do that add value but aren't in the job description and can't be automated */
+.invisible-block{
+  background:var(--invisible-bg);border:1.5px solid hsl(38,70%,72%);
+  border-radius:var(--r);padding:22px 24px;margin:20px 0 28px;
+}
+.ib-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--invisible);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.ib-dot{width:6px;height:6px;border-radius:50%;background:var(--invisible);}
+.ib-title{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.ib-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.55;margin-bottom:18px;}
+
+.inv-items{display:flex;flex-direction:column;gap:10px;}
+.inv-item{
+  display:grid;grid-template-columns:28px 1fr 1fr auto;
+  gap:10px;align-items:center;
+  background:var(--bg);border:1px solid var(--bcard);border-radius:var(--r-sm);
+  padding:10px 14px;
+}
+.inv-num{font-family:var(--font-serif);font-size:18px;font-weight:400;color:var(--border);text-align:center;}
+.inv-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 4px;outline:none;
+}
+.inv-input:focus{border-bottom-color:var(--green);}
+.inv-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.inv-visible{
+  display:flex;align-items:center;gap:5px;
+  font-size:9.5px;color:var(--fg-muted);cursor:pointer;
+  white-space:nowrap;
+}
+.inv-check{
+  width:16px;height:16px;border-radius:3px;border:1.5px solid var(--border);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:all .12s;
+}
+.inv-check.checked{background:var(--invisible);border-color:var(--invisible);}
+.inv-check.checked::after{content:'✓';font-size:9px;color:#fff;font-weight:700;}
+
+/* ── THE HVP — Human Value Proposition ── */
+/* The output that matters — a clear statement of irreplaceability */
+.hvp-block{
+  border:2px solid var(--fg);border-radius:var(--r);overflow:hidden;margin:24px 0;
+}
+.hvp-head{background:var(--fg);padding:20px 24px;}
+.hvp-title{font-family:var(--font-serif);font-size:21px;font-weight:600;color:#fff;margin-bottom:4px;}
+.hvp-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;max-width:480px;}
+.hvp-body{padding:22px 24px;background:var(--bg);}
+
+.hvp-template{
+  background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);
+  padding:14px 18px;margin-bottom:18px;
+}
+.hvp-t-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.hvp-t-text{
+  font-family:var(--font-serif);font-size:14px;font-style:italic;color:var(--fg-muted);
+  line-height:1.65;
+}
+.hvp-t-blank{
+  display:inline-block;border-bottom:1.5px solid var(--fg);
+  min-width:120px;margin:0 3px;padding:1px 4px;
+  font-family:var(--font-sans);font-size:13px;font-style:normal;
+  color:var(--fg);outline:none;
+}
+.hvp-t-blank:focus{border-bottom-color:var(--green);}
+
+/* Final HVP statement */
+.hvp-statement{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  overflow:hidden;
+}
+.hvp-st-head{
+  background:var(--wp);padding:10px 16px;
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);
+}
+.hvp-st-area{
+  width:100%;min-height:80px;background:var(--bg-warm);
+  border:none;font-family:var(--font-serif);font-size:15px;font-style:italic;
+  color:var(--fg);padding:16px 18px;outline:none;resize:vertical;line-height:1.7;display:block;
+}
+.hvp-st-area:focus{outline:1px solid var(--green);}
+.hvp-st-area::placeholder{color:hsl(35,15%,82%);}
+
+/* ── PART 5: MAKING IT VISIBLE ── */
+.visibility-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;}
+.vis-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.vc-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.vc-title{font-size:12.5px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.vc-desc{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:10px;}
+.vc-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:5px;
+}
+.vc-input:focus{border-bottom-color:var(--green);}
+.vc-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Reflection */
+.reflect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.rg{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.rg-num{font-family:var(--font-serif);font-size:34px;font-weight:400;color:var(--border);line-height:1;margin-bottom:6px;}
+.rg-q{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:10px;}
+.rg-area{width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:3px 0 5px;outline:none;resize:none;height:58px;display:block;}
+.rg-area:focus{border-bottom-color:var(--green);}
+.rg-area::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:hsl(218,65%,65%);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.stat-info-btn{display:none;}}
+
+/* ── STAT INFO BUTTONS & MODAL ── */
+.stat-info-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:6px;flex-shrink:0;transition:all .15s;line-height:1;font-style:normal;}
+.stat-info-btn:hover{background:rgba(255,255,255,.3);color:#fff;transform:scale(1.1);}
+.stat-info-btn-dark{background:var(--wp-bg);border:1px solid var(--wp-mid);color:var(--wp-mid);}
+.stat-info-btn-dark:hover{background:var(--wp);color:#fff;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px);}
+.modal-overlay.open{display:flex;}
+.modal-panel{background:#fff;border-radius:16px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.15);overflow:hidden;animation:modalIn .2s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:none;}}
+.modal-header{background:var(--dark);padding:20px 24px 18px;position:relative;}
+.modal-header-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,hsl(218,55%,48%),hsl(142,76%,42%));}
+.modal-stat-num{font-family:var(--font-serif);font-size:36px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:4px;}
+.modal-stat-label{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.4;max-width:380px;}
+.modal-close{position:absolute;top:14px;right:16px;width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.modal-close:hover{background:rgba(255,255,255,.2);color:#fff;}
+.modal-body{padding:20px 24px 24px;}
+.modal-source-label{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.modal-source-name{font-size:13px;font-weight:500;color:var(--fg);margin-bottom:10px;line-height:1.4;}
+.modal-context{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;margin-bottom:14px;}
+.modal-context strong{color:var(--fg);font-weight:500;}
+.modal-confidence{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid hsl(142,50%,78%);border-radius:4px;padding:4px 10px;margin-bottom:14px;font-size:10px;font-weight:600;color:hsl(142,60%,28%);}
+.modal-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--wp-mid);text-decoration:none;padding:8px 14px;border-radius:7px;border:1px solid var(--wp-light);background:var(--wp-bg);transition:all .12s;}
+.modal-link:hover{background:var(--wp);color:#fff;border-color:var(--wp);}
+
+/* ── FAITH LENS ── */
+.faith-verse{background:linear-gradient(135deg,hsl(142,60%,15%),hsl(142,55%,20%));border-radius:var(--r);padding:20px 24px;margin:20px 0 24px;border:1px solid hsl(142,50%,28%);position:relative;overflow:hidden;}
+.faith-verse::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 50%,hsl(142,70%,42%,.12) 0%,transparent 60%);pointer-events:none;}
+.fv-eyebrow{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(142,60%,55%);margin-bottom:8px;}
+.fv-verse{font-family:var(--font-serif);font-size:17px;font-weight:500;font-style:italic;color:#fff;line-height:1.5;margin-bottom:4px;}
+.fv-ref{font-size:10px;font-weight:600;color:hsl(142,55%,60%);letter-spacing:.5px;margin-bottom:10px;}
+.fv-note{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.6;}
+.fv-note strong{color:rgba(255,255,255,.8);font-weight:500;}
+.calling-prompt{background:var(--green-bg);border:1px solid hsl(142,55%,78%);border-radius:var(--r-sm);padding:14px 18px;margin:18px 0 0;}
+.cp-lbl{font-size:8px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.cp-prompt{font-size:12.5px;font-weight:500;color:var(--fg);margin-bottom:6px;}
+.cp-note{font-size:12px;font-weight:300;color:var(--fg-muted);line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Working Professionals · Series WP–03 of 4</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    Your Human Value Proposition &nbsp;·&nbsp; What Makes You Irreplaceable
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">"What Will They<br>Still Pay <em>Me</em> For?"</div>
+  <div class="hero-sub">Separating what's on your job description from what you're actually valued for</div>
+
+  <div class="hero-stats">
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-resume-now-29')">
+      <div class="hs-num">29% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-resume-now-29')">ⓘ</button></div>
+      <div class="hs-text">cite job loss as their biggest AI-driven fear — ahead of privacy and skills erosion</div>
+      <div class="hs-src">Resume Now AI Disruption Report, Oct 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-resume-now-57')">
+      <div class="hs-num">57% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-resume-now-57')">ⓘ</button></div>
+      <div class="hs-text">say AI reducing human skills is the biggest workforce issue in 2026 — above job displacement</div>
+      <div class="hs-src">Resume Now AI &amp; Workplace Humanity Report, 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-pew-52')">
+      <div class="hs-num">52% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-pew-52')">ⓘ</button></div>
+      <div class="hs-text">of workers are worried about the future impact of AI use in the workplace</div>
+      <div class="hs-src">Pew Research Center, February 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-resume-now-63')">
+      <div class="hs-num">63% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-resume-now-63')">ⓘ</button></div>
+      <div class="hs-text">believe AI will make the workplace feel less human in 2026</div>
+      <div class="hs-src">Resume Now, national survey of 1,003 US adults, 2025</div>
+    </div>
+  </div>
+
+  <div class="hero-desc">
+    The fear of job loss from AI is real. But the more interesting question — the one this worksheet addresses — is not "will AI take my job?" It's <strong>"what do the people around me actually value that I provide, and how much of that can an AI do?"</strong> Most people have never made this explicit. This worksheet does.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Individual use</span><div class="msep"></div>
+    <span class="mi">~50 minutes</span><div class="msep"></div>
+    <span class="mi">Honest self-assessment</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <div class="pro-bar">
+    <div class="pb-cell"><div class="pb-lbl">Your Name</div><input class="pb-input" type="text" placeholder="Name…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Role / Title</div><input class="pb-input" type="text" placeholder="Your current position…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Industry</div><input class="pb-input" type="text" placeholder="Sector or field…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Date</div><input class="pb-input" type="text" placeholder="DD / MM / YYYY"></div>
+  </div>
+
+  <!-- FRAMING VERSE -->
+  <div class="faith-verse">
+    <div class="fv-eyebrow">A Christian foundation for this exercise</div>
+    <div class="fv-verse">"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters... It is the Lord Christ you are serving."</div>
+    <div class="fv-ref">Colossians 3:23–24</div>
+    <div class="fv-note">Notice the scope: <strong>"whatever you do."</strong> Not "whatever ministry activities you do." This means the specific, ordinary, unremarkable things that make up your actual working week — the judgment calls, the difficult conversations, the institutional memory you carry, the care you bring to a colleague who's struggling. For a Christian, the question "what will they still pay me for?" runs deeper than market value. It connects to calling. The things that are most distinctly and irreducibly you at work may be exactly what you're <strong>meant to be doing — not just what you happen to be good at.</strong></div>
+  </div>
+
+  <!-- Framing research box -->
+  <div class="research-box" onclick="openModal('stat-stanford-augment-03')">
+    <div class="rb-lbl">The finding that reframes what job security actually means <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-stanford-augment-03')">ⓘ</button></div>
+    <div class="rb-text">Stanford researchers found that the workers most at risk are those doing tasks that AI automates. The workers who are <strong>growing</strong> are those where AI augments human judgement, relationships, and expertise. Job security in 2026 is not about your job title — it's about whether the specific things you do in that role require you to be human.</div>
+    <div class="rb-src">Erik Brynjolfsson et al., "Canaries in the Coal Mine," Stanford Digital Economy Lab, August 2025</div>
+  </div>
+
+  <p class="body-para">There is a gap between what your job description says and what the people around you actually depend on you for. <strong>That gap is where your real career security lives.</strong> Most people have never mapped it — because nobody asks them to. This worksheet does three things: it shows you the gap, it maps the specific relationships where your value is embedded, and it helps you write a Human Value Proposition — a clear statement of what makes you irreplaceable that you could actually say out loud to your manager or a future employer.</p>
+
+  <hr class="div">
+
+  <!-- PART 1: THE COMPARISON -->
+  <div class="sec-lbl">Part 1 — Two versions of your job</div>
+  <div class="sec-title">What your contract says vs. what you actually do that matters</div>
+
+  <div class="comparison-block">
+    <div class="cmp-intro">Be specific on the right column. "Good communicator" is not a real answer. "I'm the person our clients call when something has gone wrong and they're upset" is a real answer.</div>
+
+    <div class="cmp-grid">
+      <!-- Headers -->
+      <div class="cmp-head-paper">
+        <div class="cmp-head-lbl">On paper</div>
+        <div class="cmp-head-title">Your job description</div>
+        <div class="cmp-head-sub">What your contract, LinkedIn, or performance review says you do</div>
+      </div>
+      <div class="cmp-divider">vs</div>
+      <div class="cmp-head-real">
+        <div class="cmp-head-lbl">In reality</div>
+        <div class="cmp-head-title">What you're actually valued for</div>
+        <div class="cmp-head-sub">What specific people come to you for — beyond your formal responsibilities</div>
+      </div>
+
+      <!-- Row 1 -->
+      <div class="cmp-cell-paper">
+        <div class="cmp-field-lbl">What the role says you do:</div>
+        <input class="cmp-input" type="text" placeholder="Your primary listed responsibility…">
+        <input class="cmp-input" type="text" placeholder="A task from your job description…">
+      </div>
+      <div class="cmp-cell-mid">Responsibility 1</div>
+      <div class="cmp-cell-real">
+        <div class="cmp-field-lbl">What you're actually doing that matters here:</div>
+        <input class="cmp-input" type="text" placeholder="What do people actually rely on you for in this area?…">
+        <input class="cmp-input" type="text" placeholder="What would go wrong if you weren't there?…">
+      </div>
+
+      <!-- Row 2 -->
+      <div class="cmp-cell-paper">
+        <div class="cmp-field-lbl">What the role says you do:</div>
+        <input class="cmp-input" type="text" placeholder="Another listed responsibility…">
+        <input class="cmp-input" type="text" placeholder="A skill or output on the job description…">
+      </div>
+      <div class="cmp-cell-mid">Responsibility 2</div>
+      <div class="cmp-cell-real">
+        <div class="cmp-field-lbl">What you're actually doing that matters here:</div>
+        <input class="cmp-input" type="text" placeholder="The human layer beneath the formal task…">
+        <input class="cmp-input" type="text" placeholder="Could AI do this? What can't it do here?…">
+      </div>
+
+      <!-- Row 3 -->
+      <div class="cmp-cell-paper">
+        <div class="cmp-field-lbl">What the role says you do:</div>
+        <input class="cmp-input" type="text" placeholder="A third listed function or deliverable…">
+        <input class="cmp-input" type="text" placeholder="">
+      </div>
+      <div class="cmp-cell-mid">Responsibility 3</div>
+      <div class="cmp-cell-real">
+        <div class="cmp-field-lbl">What you're actually doing that matters here:</div>
+        <input class="cmp-input" type="text" placeholder="The specific human contribution…">
+        <input class="cmp-input" type="text" placeholder="What experience or relationship does this depend on?…">
+      </div>
+
+      <!-- Row 4: The gap row -->
+      <div class="cmp-cell-paper" style="background:var(--bg-muted);">
+        <div class="cmp-field-lbl" style="color:var(--wp-mid);">What's missing from the job description:</div>
+        <input class="cmp-input" type="text" placeholder="Value you add that nobody has officially recognised…">
+        <input class="cmp-input" type="text" placeholder="A contribution that happens informally…">
+      </div>
+      <div class="cmp-cell-mid" style="background:var(--bg-muted);">The gap</div>
+      <div class="cmp-cell-real" style="background:hsl(142,40%,97%);">
+        <div class="cmp-field-lbl" style="color:var(--real);">Why this gap matters for your security:</div>
+        <input class="cmp-input" type="text" placeholder="If this isn't visible, it doesn't protect you…">
+        <input class="cmp-input" type="text" placeholder="Who needs to know about this — and do they?…">
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 2: THE RELATIONSHIP MAP -->
+  <div class="sec-lbl">Part 2 — The relationship map</div>
+  <div class="sec-title">Who depends on you — and for what?</div>
+  <div class="sec-sub" style="margin-bottom:14px;">List five specific people who rely on you in your work — colleagues, clients, managers, direct reports. For each one, be precise about what they come to you for and whether that can be replicated by AI.</div>
+
+  <div class="rel-map">
+    <div class="rel-intro">The goal is to surface the relational value that is invisible on paper. If you can't name five people, that itself is important data about how visible your value currently is.</div>
+
+    <div class="rel-table">
+      <div class="rel-head">
+        <div class="rel-th">Who they are</div>
+        <div class="rel-th">What they rely on you for</div>
+        <div class="rel-th">What would they lose if you left</div>
+        <div class="rel-th">Could AI replace this?</div>
+      </div>
+
+      <div class="rel-row">
+        <div>
+          <input class="rel-input" type="text" placeholder="Name or role…">
+          <div class="rel-who-sub"><input class="rel-input" type="text" placeholder="Their relationship to you…" style="font-size:11px;"></div>
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="What specifically do they come to you for?…">
+          <input class="rel-input" type="text" placeholder="What problem do you solve for them?…">
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="Knowledge, trust, history, access?…">
+          <input class="rel-input" type="text" placeholder="Is this documented anywhere else?…">
+        </div>
+        <div class="rep-toggle">
+          <div class="rep-opt rep-no" onclick="toggleRep(this)">✗ No</div>
+          <div class="rep-opt rep-partly" onclick="toggleRep(this)">◑ Partly</div>
+          <div class="rep-opt rep-yes" onclick="toggleRep(this)">✓ Yes</div>
+        </div>
+      </div>
+
+      <div class="rel-row">
+        <div>
+          <input class="rel-input" type="text" placeholder="Name or role…">
+          <div class="rel-who-sub"><input class="rel-input" type="text" placeholder="Their relationship to you…" style="font-size:11px;"></div>
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="What specifically do they come to you for?…">
+          <input class="rel-input" type="text" placeholder="What problem do you solve for them?…">
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="Knowledge, trust, history, access?…">
+          <input class="rel-input" type="text" placeholder="Is this documented anywhere else?…">
+        </div>
+        <div class="rep-toggle">
+          <div class="rep-opt rep-no" onclick="toggleRep(this)">✗ No</div>
+          <div class="rep-opt rep-partly" onclick="toggleRep(this)">◑ Partly</div>
+          <div class="rep-opt rep-yes" onclick="toggleRep(this)">✓ Yes</div>
+        </div>
+      </div>
+
+      <div class="rel-row">
+        <div>
+          <input class="rel-input" type="text" placeholder="Name or role…">
+          <div class="rel-who-sub"><input class="rel-input" type="text" placeholder="Their relationship to you…" style="font-size:11px;"></div>
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="What specifically do they come to you for?…">
+          <input class="rel-input" type="text" placeholder="What problem do you solve for them?…">
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="Knowledge, trust, history, access?…">
+          <input class="rel-input" type="text" placeholder="Is this documented anywhere else?…">
+        </div>
+        <div class="rep-toggle">
+          <div class="rep-opt rep-no" onclick="toggleRep(this)">✗ No</div>
+          <div class="rep-opt rep-partly" onclick="toggleRep(this)">◑ Partly</div>
+          <div class="rep-opt rep-yes" onclick="toggleRep(this)">✓ Yes</div>
+        </div>
+      </div>
+
+      <div class="rel-row">
+        <div>
+          <input class="rel-input" type="text" placeholder="Name or role…">
+          <div class="rel-who-sub"><input class="rel-input" type="text" placeholder="Their relationship to you…" style="font-size:11px;"></div>
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="What specifically do they come to you for?…">
+          <input class="rel-input" type="text" placeholder="What problem do you solve for them?…">
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="Knowledge, trust, history, access?…">
+          <input class="rel-input" type="text" placeholder="Is this documented anywhere else?…">
+        </div>
+        <div class="rep-toggle">
+          <div class="rep-opt rep-no" onclick="toggleRep(this)">✗ No</div>
+          <div class="rep-opt rep-partly" onclick="toggleRep(this)">◑ Partly</div>
+          <div class="rep-opt rep-yes" onclick="toggleRep(this)">✓ Yes</div>
+        </div>
+      </div>
+
+      <div class="rel-row">
+        <div>
+          <input class="rel-input" type="text" placeholder="Name or role…">
+          <div class="rel-who-sub"><input class="rel-input" type="text" placeholder="Their relationship to you…" style="font-size:11px;"></div>
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="What specifically do they come to you for?…">
+          <input class="rel-input" type="text" placeholder="What problem do you solve for them?…">
+        </div>
+        <div>
+          <input class="rel-input" type="text" placeholder="Knowledge, trust, history, access?…">
+          <input class="rel-input" type="text" placeholder="Is this documented anywhere else?…">
+        </div>
+        <div class="rep-toggle">
+          <div class="rep-opt rep-no" onclick="toggleRep(this)">✗ No</div>
+          <div class="rep-opt rep-partly" onclick="toggleRep(this)">◑ Partly</div>
+          <div class="rep-opt rep-yes" onclick="toggleRep(this)">✓ Yes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: THE INVISIBLE VALUE -->
+  <div class="sec-lbl">Part 3 — Surface what's invisible</div>
+
+  <div class="invisible-block">
+    <div class="ib-lbl"><div class="ib-dot"></div>The value that doesn't show up on any document</div>
+    <div class="ib-title">Five things you do that add real value — but nobody has ever officially recognised</div>
+    <div class="ib-sub">The informal mentoring, the institutional memory, the judgment calls that stop problems before they start, the person who notices when a team member is struggling. Name five. Then mark whether each one is currently visible to the people who make decisions about your role.</div>
+
+    <div class="inv-items">
+      <div class="inv-item">
+        <div class="inv-num">1</div>
+        <input class="inv-input" type="text" placeholder="The invisible contribution…">
+        <input class="inv-input" type="text" placeholder="Who benefits from this and how often?…">
+        <div class="inv-visible" onclick="toggleCheck(this)">
+          <div class="inv-check"></div>
+          <span style="font-size:10px;">Visible to decision-makers</span>
+        </div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-num">2</div>
+        <input class="inv-input" type="text" placeholder="The invisible contribution…">
+        <input class="inv-input" type="text" placeholder="Who benefits from this and how often?…">
+        <div class="inv-visible" onclick="toggleCheck(this)">
+          <div class="inv-check"></div>
+          <span style="font-size:10px;">Visible to decision-makers</span>
+        </div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-num">3</div>
+        <input class="inv-input" type="text" placeholder="The invisible contribution…">
+        <input class="inv-input" type="text" placeholder="Who benefits from this and how often?…">
+        <div class="inv-visible" onclick="toggleCheck(this)">
+          <div class="inv-check"></div>
+          <span style="font-size:10px;">Visible to decision-makers</span>
+        </div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-num">4</div>
+        <input class="inv-input" type="text" placeholder="The invisible contribution…">
+        <input class="inv-input" type="text" placeholder="Who benefits from this and how often?…">
+        <div class="inv-visible" onclick="toggleCheck(this)">
+          <div class="inv-check"></div>
+          <span style="font-size:10px;">Visible to decision-makers</span>
+        </div>
+      </div>
+      <div class="inv-item">
+        <div class="inv-num">5</div>
+        <input class="inv-input" type="text" placeholder="The invisible contribution…">
+        <input class="inv-input" type="text" placeholder="Who benefits from this and how often?…">
+        <div class="inv-visible" onclick="toggleCheck(this)">
+          <div class="inv-check"></div>
+          <span style="font-size:10px;">Visible to decision-makers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: THE HVP -->
+  <div class="sec-lbl">Part 4 — Write it</div>
+  <div class="sec-title">Your Human Value Proposition</div>
+  <div class="sec-sub" style="margin-bottom:18px;">Not a LinkedIn bio. Not a performance review. A clear, specific, honest statement of what makes you irreplaceable — in your own words, specific to your real situation — that you could say out loud to your manager or use in a job interview.</div>
+
+  <div class="hvp-block">
+    <div class="hvp-head">
+      <div class="hvp-title">Build your statement — then write it in full</div>
+      <div class="hvp-sub">Use the template below to draft the components, then assemble them into one complete statement underneath.</div>
+    </div>
+    <div class="hvp-body">
+
+      <div class="hvp-template">
+        <div class="hvp-t-lbl">Template — fill in the blanks, then rewrite it in your own words below</div>
+        <div class="hvp-t-text">
+          "I'm the person in my organisation who <span class="hvp-t-blank" contenteditable="true" data-ph="what you uniquely do or know…"></span>.
+          The people who rely on me most are <span class="hvp-t-blank" contenteditable="true" data-ph="specific people or roles…"></span>, and what they depend on me for that no AI can replicate is <span class="hvp-t-blank" contenteditable="true" data-ph="the irreducibly human contribution…"></span>.
+          The value I add that doesn't appear on any document is <span class="hvp-t-blank" contenteditable="true" data-ph="your invisible contribution…"></span>."
+        </div>
+      </div>
+
+      <div class="hvp-statement">
+        <div class="hvp-st-head">My Human Value Proposition — in my own words:</div>
+        <textarea class="hvp-st-area" placeholder="Write it here. Not polished — honest. If you wouldn't be able to say this in a conversation, rewrite it until you would."></textarea>
+      </div>
+
+      <div class="calling-prompt">
+        <div class="cp-lbl">A second version — for those who want to go deeper</div>
+        <div class="cp-prompt">Now write it again — not as a pitch to an employer, but as a statement to God about how you're stewarding the specific capacities He gave you.</div>
+        <div class="cp-note">This isn't the same question. The career version asks "what is my market value?" The calling version asks "what was I made for?" Sometimes they overlap completely. Sometimes they reveal a gap worth paying attention to.</div>
+        <textarea class="hvp-st-area" style="margin-top:10px;" placeholder="What would you say to God about how you're spending the working hours of your life?…"></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 5: MAKING IT VISIBLE -->
+  <div class="sec-lbl">Part 5 — The visibility problem</div>
+  <div class="sec-title">Value that isn't visible doesn't protect you</div>
+  <div class="sec-sub" style="margin-bottom:16px;">The most dangerous situation in an AI-disrupted workplace is being genuinely valuable but invisible. The people who get protected are the people whose value is legible to decision-makers — before a restructure happens, not after.</div>
+
+  <div class="visibility-grid">
+    <div class="vis-card">
+      <div class="vc-icon" style="background:var(--wp-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="hsl(218,55%,48%)" stroke-width="1.2" fill="none"/><path d="M5.5 8.5l2 2 3-4" stroke="hsl(218,55%,48%)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="vc-title">The manager conversation</div>
+      <div class="vc-desc">Your manager should be able to articulate your Human Value Proposition before any restructure conversation. That means you need to have made it explicit in your regular 1:1s — not in a crisis.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="vc-input" type="text" placeholder="When I'll have this conversation, and what I'll say…">
+      <input class="vc-input" type="text" placeholder="The specific value I'll name that they may not currently see…">
+    </div>
+
+    <div class="vis-card">
+      <div class="vc-icon" style="background:var(--real-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="6" r="3.5" stroke="hsl(142,65%,34%)" stroke-width="1.2" fill="none"/><circle cx="10" cy="10" r="3.5" stroke="hsl(142,65%,34%)" stroke-width="1.2" fill="none"/></svg>
+      </div>
+      <div class="vc-title">The peer network</div>
+      <div class="vc-desc">The colleagues who benefit from your invisible contributions should know what you provide. Not self-promotion — deliberate relationship investment that makes your value mutual and acknowledged.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="vc-input" type="text" placeholder="Two colleagues I'll invest in more visibly in the next 30 days…">
+      <input class="vc-input" type="text" placeholder="A specific way to make the value mutual and acknowledged…">
+    </div>
+
+    <div class="vis-card">
+      <div class="vc-icon" style="background:var(--invisible-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8s2.5-5 6-5 6 5 6 5-2.5 5-6 5-6-5-6-5z" stroke="hsl(38,88%,44%)" stroke-width="1.2" fill="none"/><circle cx="8" cy="8" r="2" stroke="hsl(38,88%,44%)" stroke-width="1.2" fill="none"/></svg>
+      </div>
+      <div class="vc-title">External legibility</div>
+      <div class="vc-desc">If your role was eliminated tomorrow, could you articulate your HVP to a new employer? Your LinkedIn, portfolio, or professional reputation should reflect the real value — not just the job description version.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="vc-input" type="text" placeholder="One thing to update on LinkedIn or in my external presence…">
+      <input class="vc-input" type="text" placeholder="A concrete way to demonstrate this value publicly…">
+    </div>
+
+    <div class="vis-card">
+      <div class="vc-icon" style="background:var(--green-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 4.5" stroke="hsl(142,65%,34%)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="vc-title">The gap to close</div>
+      <div class="vc-desc">From Parts 1–3, which piece of your real value is most invisible to the people who matter most? This is the one action that would most improve your career resilience in the next 90 days.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My single most important action:</div>
+      <input class="vc-input" type="text" placeholder="The specific gap I'm closing, and how…">
+      <input class="vc-input" type="text" placeholder="By when, and who will see it…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- REFLECTION -->
+  <div class="sec-lbl">Final reflection</div>
+  <div class="sec-title">The harder questions</div>
+
+  <div class="reflect-grid">
+    <div class="rg">
+      <div class="rg-num">1</div>
+      <div class="rg-q">If your role was eliminated tomorrow, what would the people on your relationship map actually miss — and would they fight to keep you?</div>
+      <textarea class="rg-area" placeholder="Be honest. Not what you'd hope — what you actually think would happen…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">2</div>
+      <div class="rg-q">Looking at the "Could AI replace this?" column — what did you expect to say No to that you ended up saying Partly or Yes?</div>
+      <textarea class="rg-area" placeholder="What surprised you — and what does that mean for where you invest next?…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">3</div>
+      <div class="rg-q">What is the most important thing in your Human Value Proposition that your current manager or organisation does NOT know about?</div>
+      <textarea class="rg-area" placeholder="Name it specifically. Then ask yourself why it's still invisible…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">4</div>
+      <div class="rg-q">In five years, what do you want to be known for — that an AI couldn't be known for?</div>
+      <textarea class="rg-area" placeholder="Not a job title. A specific kind of contribution or relationship…"></textarea>
+    </div>
+    <div class="rg" style="grid-column:1/-1;">
+      <div class="rg-num">5</div>
+      <div class="rg-q" style="color:var(--green);">Looking at what you're actually valued for — does the way you work right now reflect "working as for the Lord"? Where is there a gap between the work you're called to and the work you're currently doing?</div>
+      <textarea class="rg-area" placeholder="This isn't a guilt question — it's an orientation question. What would need to change for your working life to feel like it belongs to something bigger than your career?…"></textarea>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A closing word</div>
+    <div class="enc-text">
+      The workplace anxiety most people feel about AI is real — but it's often pointed at the wrong thing. The threat isn't that AI will replace you. The threat is that <strong>your real value stays invisible until it's too late to make it legible.</strong><br><br>
+      AI can retrieve information, draft documents, and identify patterns. It cannot be shaped by the relationships in your organisation. It cannot carry the institutional memory of why a particular client is difficult, or know that a team member needs support this week, or own a mistake in the way that rebuilds trust. Those things are yours. They are not small. And the people who do them consciously — who make that value visible and irreplaceable — are the ones who will still be employed and thriving when the next wave of automation arrives.<br><br>
+      For those of us who follow Jesus: the Colossians instruction wasn't written for heroes doing spectacular things. It was written for ordinary workers in ordinary places. <strong>"Whatever you do" includes your spreadsheets, your difficult conversations, your Tuesday afternoon. Work it with all your heart — because that's the person God made you, and no model trained on data has ever been made in anyone's image.</strong>
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/working-professionals</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Working Professionals</span><span class="tag">Human Value</span><span class="tag">Career Resilience</span><span class="tag">Individual</span><span class="tag">50 min</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Working Professionals · WP–03 of 4</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- MODAL HTML -->
+<div class="modal-overlay" id="statModal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-accent"></div>
+      <div class="modal-stat-num" id="modalNum"></div>
+      <div class="modal-stat-label" id="modalLabel"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-source-label">Source</div>
+      <div class="modal-source-name" id="modalSource"></div>
+      <div class="modal-confidence" id="modalConfidence"></div>
+      <div class="modal-context" id="modalContext"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Read the original source
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MODAL DATA ──
+const STATS = {
+  'stat-resume-now-29': {
+    num: '29%',
+    label: 'cite job loss as their biggest AI-driven worry — ahead of data misuse (23%) and loss of creativity/critical thinking (20%)',
+    source: 'Resume Now — AI and Workplace Humanity Report, October 2025',
+    confidence: '✓ High confidence — national survey of 1,003 employed US adults using Pollfish',
+    context: 'Resume Now surveyed 1,003 employed US adults about the anticipated impact of AI on workplace culture, skill development, and job security. Job loss was the leading personal fear at 29%, followed by data misuse/privacy violations (23%) and loss of creativity/critical thinking at work (20%). The survey found 63% of workers expect AI to make the workplace feel less human — suggesting the anxiety is as much about the quality of work as about losing it altogether.',
+    url: 'https://hrtechcube.com/63-workers-say-ai-will-make-the-workplace-feel-less-human-in-2026/'
+  },
+  'stat-resume-now-57': {
+    num: '57%',
+    label: 'say AI reducing human skills will be the biggest workforce issue in 2026 — ranking above job displacement',
+    source: 'Resume Now — AI and Workplace Humanity Report, October 2025',
+    confidence: '✓ High confidence — 1,003 employed US adults',
+    context: 'In the same Resume Now survey, 57% of workers identified "AI reducing human skills" as the biggest workforce issue in 2026 — ranking higher than job displacement (which ranked second). This is a significant finding: workers are more worried about what AI does to their capability than about whether they keep their job. The concern is about cognitive atrophy, skill erosion, and the dehumanisation of work — not just headcount reduction. This worksheet directly addresses that concern by asking workers to map and articulate their irreducibly human contributions.',
+    url: 'https://hrtechcube.com/63-workers-say-ai-will-make-the-workplace-feel-less-human-in-2026/'
+  },
+  'stat-pew-52': {
+    num: '52%',
+    label: 'of workers are worried about the future impact of AI use in the workplace',
+    source: 'Pew Research Center — Workers and AI in the Workplace, February 2025',
+    confidence: '✓ Very high confidence — 5,273 employed US adults, probability-based panel, nationally representative',
+    context: 'Pew Research Center surveyed 5,273 employed US adults in October 2024 using their American Trends Panel — a nationally representative, probability-based sample. 52% said they are worried about the future impact of AI use in the workplace. 33% said they feel overwhelmed. Only 36% expressed hope. About 1 in 6 workers (16%) say at least some of their work is currently done with AI, and an additional 25% say their work could be done with AI even though they\'re not using it yet.',
+    url: 'https://www.pewresearch.org/social-trends/2025/02/25/u-s-workers-are-more-worried-than-hopeful-about-future-ai-use-in-the-workplace/'
+  },
+  'stat-resume-now-63': {
+    num: '63%',
+    label: 'of workers say AI will make the workplace feel less human in 2026',
+    source: 'Resume Now — AI and Workplace Humanity Report, national survey of 1,003 US adults, October 2025',
+    confidence: '✓ High confidence — 1,003 employed US adults',
+    context: 'Nearly two-thirds of workers expect AI to make the workplace feel less human. Keith Spencer, career expert at Resume Now, noted: "When most workers say AI will make the workplace feel less human, it signals anxiety about critical thinking, surveillance, and connection. Employees aren\'t rejecting AI. They\'re asking how it will be used and whether it strengthens or weakens the human side of work." The 42% who cited "dehumanisation of work" as a top concern ranked it above job loss — suggesting the threat workers feel is as much about dignity and meaning as about employment.',
+    url: 'https://hrtechcube.com/63-workers-say-ai-will-make-the-workplace-feel-less-human-in-2026/'
+  },
+  'stat-stanford-augment-03': {
+    num: 'Automation vs Augmentation',
+    label: 'Workers who use AI to augment human work see employment growth. Those who automate existing tasks are losing ground.',
+    source: 'Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025',
+    confidence: '✓ Very high confidence — ADP administrative payroll data, millions of US workers, published academic paper',
+    context: 'Using ADP payroll data covering millions of US workers across 285,000 firms, Stanford researchers Erik Brynjolfsson, Danielle Li, and Lindsey Raymond found that negative employment impacts concentrate in roles where AI automates routine intellectual tasks. In roles where workers use AI to augment their capabilities — learning, validating, enhancing quality — employment remains stable or grows. The implication for individual career strategy: building irreplaceable relational and judgement-based contributions is the primary defense against displacement, not technical AI skills alone.',
+    url: 'https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf'
+  }
+};
+
+function openModal(id) {
+  const s = STATS[id];
+  if (!s) return;
+  document.getElementById('modalNum').textContent = s.num;
+  document.getElementById('modalLabel').textContent = s.label;
+  document.getElementById('modalSource').textContent = s.source;
+  document.getElementById('modalConfidence').textContent = s.confidence;
+  document.getElementById('modalContext').innerHTML = s.context;
+  const link = document.getElementById('modalLink');
+  link.href = s.url;
+  link.style.display = s.url ? 'inline-flex' : 'none';
+  document.getElementById('statModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('statModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('statModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// Toggle functions
+function toggleRep(el) {
+  const group = el.closest('.rep-toggle');
+  group.querySelectorAll('.rep-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+function toggleCheck(el) {
+  const box = el.querySelector('.inv-check');
+  box.classList.toggle('checked');
+}
+
+// HVP template blanks placeholder behaviour
+document.querySelectorAll('.hvp-t-blank').forEach(el => {
+  const ph = el.getAttribute('data-ph');
+  if (!el.textContent.trim()) {
+    el.textContent = ph;
+    el.style.color = 'hsl(35,15%,78%)';
+    el.style.fontStyle = 'italic';
+  }
+  el.addEventListener('focus', function() {
+    if (el.textContent === ph) {
+      el.textContent = '';
+      el.style.color = 'var(--fg)';
+      el.style.fontStyle = 'normal';
+    }
+  });
+  el.addEventListener('blur', function() {
+    if (!el.textContent.trim()) {
+      el.textContent = ph;
+      el.style.color = 'hsl(35,15%,78%)';
+      el.style.fontStyle = 'italic';
+    }
+  });
+});
+</script>
+</body>
+</html>

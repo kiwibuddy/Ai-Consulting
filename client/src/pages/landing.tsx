@@ -501,7 +501,11 @@ export default function LandingPage() {
                     href={item.url}
                     className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
                   >
-                    {item.type === "video" ? "Watch" : "Read more"}
+                    {item.type === "video"
+                      ? "Watch"
+                      : item.type === "worksheet"
+                        ? "Open worksheet"
+                        : "Read more"}
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

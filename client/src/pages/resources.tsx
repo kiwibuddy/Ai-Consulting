@@ -27,7 +27,12 @@ const articlesByNewest = [...articles].sort(
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 const ctaLabel = "Book a free 30-min consultation";
-const worksheetCategories = ["AI & Family", "Christian Growth", "Education"] as const;
+const worksheetCategories = [
+  "AI & Family",
+  "Christian Growth",
+  "Education",
+  "Working Professionals",
+] as const;
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -205,19 +210,10 @@ export default function ResourcesPage() {
                   viewport={landingViewportReveal}
                   variants={cardSlideUpContainerVariants}
                 >
-                  {items.map((sheet) => (
-                    <motion.div
-                      key={sheet.id}
-                      variants={cardSlideUpItemVariants}
-                      whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                      className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-                    >
-                      <a
-                        href={sheet.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                      >
+                  {items.map((sheet) => {
+                    const sheetExternal = isExternalUrl(sheet.url);
+                    const sheetCard = (
+                      <>
                         {sheet.thumbnail ? (
                           <img
                             src={sheet.thumbnail}
@@ -244,9 +240,35 @@ export default function ResourcesPage() {
                             </span>
                           </div>
                         </div>
-                      </a>
-                    </motion.div>
-                  ))}
+                      </>
+                    );
+                    return (
+                      <motion.div
+                        key={sheet.id}
+                        variants={cardSlideUpItemVariants}
+                        whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                        className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                      >
+                        {sheetExternal ? (
+                          <a
+                            href={sheet.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                          >
+                            {sheetCard}
+                          </a>
+                        ) : (
+                          <Link
+                            href={sheet.url}
+                            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                          >
+                            {sheetCard}
+                          </Link>
+                        )}
+                      </motion.div>
+                    );
+                  })}
                 </motion.div>
               </div>
             );

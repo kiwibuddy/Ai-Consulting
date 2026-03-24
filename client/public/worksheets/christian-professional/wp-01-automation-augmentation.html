@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is My Job Automation or Augmentation? — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  /* ── Shared brand system ── */
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.08);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+
+  /* ── Working Professionals series accent — slate blue ── */
+  --wp:         hsl(218,62%,36%);
+  --wp-mid:     hsl(218,55%,48%);
+  --wp-bg:      hsl(218,55%,48%,0.08);
+  --wp-light:   hsl(218,45%,88%);
+
+  /* Heat map risk colours */
+  --risk-high:  hsl(4,68%,48%);
+  --risk-high-bg:hsl(4,68%,48%,.08);
+  --risk-med:   hsl(38,88%,46%);
+  --risk-med-bg:hsl(38,88%,46%,.08);
+  --risk-low:   hsl(142,65%,36%);
+  --risk-low-bg:hsl(142,65%,36%,.08);
+
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(218,20%,88%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--wp-mid);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 25%,hsl(218,62%,36%,.18) 0%,transparent 55%),
+             radial-gradient(circle at 12% 78%,hsl(142,76%,42%,.07) 0%,transparent 45%);
+  pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:22px;}
+
+/* Stat strip in hero */
+.hero-stats{display:flex;gap:0;margin-bottom:26px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;}
+.hs{padding:14px 20px;flex:1;border-right:1px solid rgba(255,255,255,.08);}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:var(--font-serif);font-size:26px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.4;}
+.hs-src{font-size:8.5px;color:rgba(255,255,255,.2);margin-top:3px;font-style:italic;}
+
+.hero-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+
+/* Professional info bar */
+.pro-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;}
+.pb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.pb-cell:last-child{border-right:none;}
+.pb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.pb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.pb-input:focus{border-bottom-color:var(--green);}
+.pb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:640px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:14px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+/* Stanford finding callout */
+.stanford-box{
+  background:var(--wp-bg);border-left:3px solid var(--wp-mid);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:14px 18px;margin-bottom:22px;
+}
+.sb-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--wp-mid);margin-bottom:6px;}
+.sb-text{font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.sb-text strong{color:var(--fg);font-weight:500;}
+.sb-src{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── THE CORE DISTINCTION BOX ── */
+.distinction{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:0;
+  border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;margin:20px 0 28px;
+}
+.dist-col-auto{background:var(--dark);padding:20px 22px;}
+.dist-col-aug{background:hsl(142,60%,28%);padding:20px 22px;}
+.dist-vs{
+  background:var(--bg-muted);
+  display:flex;align-items:center;justify-content:center;
+  padding:0 14px;
+  font-family:var(--font-serif);font-size:13px;font-style:italic;
+  color:var(--fg-muted);
+  border-left:1px solid var(--border);border-right:1px solid var(--border);
+}
+.dist-head-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.dist-head-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:#fff;margin-bottom:4px;}
+.dist-head-sub{font-size:11.5px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;}
+.dist-items{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:6px;}
+.dist-item{display:flex;align-items:flex-start;gap:8px;}
+.di-icon{font-size:11px;flex-shrink:0;margin-top:1px;user-select:none;}
+.di-text{font-size:11.5px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.4;}
+.di-text strong{color:rgba(255,255,255,.9);font-weight:500;}
+
+/* ── THE TASK MAP — Part 1 ── */
+/* The core diagnostic table */
+.task-intro{
+  font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;
+  margin:16px 0 20px;max-width:660px;
+  font-style:italic;
+}
+
+.task-table{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;}
+
+.tt-head{
+  display:grid;
+  grid-template-columns:200px 1fr 100px 110px 120px;
+  background:var(--fg);padding:10px 18px;gap:10px;align-items:center;
+}
+.tt-th{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.tt-th-main{color:rgba(255,255,255,.7);}
+
+.tt-row{
+  display:grid;
+  grid-template-columns:200px 1fr 100px 110px 120px;
+  padding:10px 18px;gap:10px;align-items:center;
+  border-top:1px solid var(--border);
+  transition:background .1s;
+}
+.tt-row:nth-child(even){background:var(--bg-warm);}
+.tt-row:hover{background:var(--wp-bg);}
+
+.tt-category{
+  font-size:11px;font-weight:600;color:var(--fg);
+}
+.tt-cat-sub{font-size:9.5px;font-weight:300;color:var(--fg-muted);margin-top:1px;line-height:1.3;}
+
+.tt-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:5px;
+}
+.tt-input:focus{border-bottom-color:var(--green);}
+.tt-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.tt-input:last-child{margin-bottom:0;}
+
+/* Risk selector */
+.risk-sel{
+  display:flex;flex-direction:column;gap:4px;
+}
+.rs-opt{
+  display:flex;align-items:center;gap:5px;cursor:pointer;
+  font-size:10px;font-weight:500;padding:3px 6px;border-radius:4px;
+  border:1px solid var(--border);background:var(--bg-warm);
+  transition:all .12s;user-select:none;color:var(--fg-muted);
+}
+.rs-opt:hover{border-color:var(--fg-muted);}
+.rs-opt.rs-high.active{background:var(--risk-high);border-color:var(--risk-high);color:#fff;}
+.rs-opt.rs-med.active{background:var(--risk-med);border-color:var(--risk-med);color:#fff;}
+.rs-opt.rs-low.active{background:var(--risk-low);border-color:var(--risk-low);color:#fff;}
+
+/* Value selector */
+.val-sel{
+  display:flex;flex-direction:column;gap:4px;
+}
+.vs-opt{
+  display:flex;align-items:center;gap:5px;cursor:pointer;
+  font-size:10px;font-weight:500;padding:3px 6px;border-radius:4px;
+  border:1px solid var(--border);background:var(--bg-warm);
+  transition:all .12s;user-select:none;color:var(--fg-muted);
+}
+.vs-opt:hover{border-color:var(--fg-muted);}
+.vs-opt.vs-high.active{background:var(--wp);border-color:var(--wp);color:#fff;}
+.vs-opt.vs-med.active{background:var(--wp-mid);border-color:var(--wp-mid);color:#fff;}
+.vs-opt.vs-low.active{background:hsl(218,30%,72%);border-color:hsl(218,30%,72%);color:var(--fg);}
+
+/* Priority flag */
+.pf-sel{display:flex;gap:4px;flex-wrap:wrap;}
+.pf-opt{
+  font-size:9px;font-weight:600;letter-spacing:.3px;
+  padding:4px 9px;border-radius:4px;cursor:pointer;
+  border:1px solid var(--border);background:var(--bg-warm);
+  color:var(--fg-muted);transition:all .12s;user-select:none;
+}
+.pf-opt:hover{border-color:var(--green);}
+.pf-opt.active{background:var(--green);border-color:var(--green);color:#fff;}
+
+/* ── THE HEAT MAP ── */
+.heatmap-section{margin:24px 0;}
+.hm-grid{
+  display:grid;grid-template-columns:auto 1fr 1fr 1fr;
+  gap:6px;margin-top:16px;
+}
+.hm-axis-label{
+  font-size:10px;font-weight:600;color:var(--fg-muted);
+  writing-mode:vertical-lr;text-align:center;padding:6px 4px;
+  transform:rotate(180deg);
+}
+.hm-col-head{
+  font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--fg-muted);text-align:center;padding:6px 4px;
+}
+.hm-row{display:contents;}
+.hm-row-label{
+  font-size:10.5px;font-weight:600;color:var(--fg);
+  display:flex;align-items:center;padding:0 10px 0 0;
+}
+.hm-cell{
+  min-height:72px;border-radius:var(--r-sm);
+  border:1.5px dashed var(--border);
+  padding:8px 10px;
+  font-size:10px;font-weight:300;color:var(--fg-muted);
+  line-height:1.4;position:relative;overflow:hidden;
+  transition:background .15s;
+}
+.hm-cell:focus-within{border-style:solid;border-color:var(--green);}
+
+/* Cell backgrounds by position */
+.hm-danger{background:hsl(4,68%,48%,.06);border-color:hsl(4,68%,48%,.25);}
+.hm-watch{background:hsl(38,88%,46%,.06);border-color:hsl(38,88%,46%,.25);}
+.hm-grow{background:hsl(142,65%,36%,.06);border-color:hsl(142,65%,36%,.25);}
+.hm-invest{background:hsl(218,55%,48%,.08);border-color:hsl(218,55%,48%,.25);}
+.hm-safe{background:hsl(142,55%,90%,.5);border-color:hsl(142,50%,75%);}
+.hm-question{background:hsl(38,80%,92%,.5);border-color:hsl(38,70%,70%);}
+
+.hm-cell-tag{
+  display:inline-block;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 7px;border-radius:3px;margin-bottom:5px;
+}
+.hm-tag-danger{background:var(--risk-high);color:#fff;}
+.hm-tag-watch{background:var(--risk-med);color:#fff;}
+.hm-tag-grow{background:var(--risk-low);color:#fff;}
+.hm-tag-invest{background:var(--wp);color:#fff;}
+.hm-tag-safe{background:hsl(142,50%,75%);color:hsl(142,60%,20%);}
+.hm-tag-question{background:hsl(38,70%,70%);color:hsl(38,60%,20%);}
+
+.hm-cell-desc{font-size:9.5px;color:var(--fg-muted);line-height:1.4;margin-bottom:6px;}
+
+.hm-tag-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:11px;
+  color:var(--fg);padding:1px 0 4px;outline:none;display:block;
+}
+.hm-tag-input:focus{border-bottom-color:var(--green);}
+.hm-tag-input::placeholder{color:hsl(35,15%,84%);font-weight:300;}
+
+/* ── THE 90-DAY PLAN ── */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:18px 0;}
+.plan-card{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border);}
+.plan-head{padding:12px 16px;}
+.ph-30{background:var(--risk-high);}
+.ph-60{background:var(--wp);}
+.ph-90{background:var(--risk-low);}
+.plan-head-lbl{font-size:8.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:4px;}
+.plan-head-title{font-family:var(--font-serif);font-size:16px;font-weight:600;color:#fff;}
+.plan-head-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);margin-top:2px;}
+.plan-body{padding:14px 16px;background:var(--bg);}
+.plan-field-lbl{font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;margin-top:10px;}
+.plan-field-lbl:first-child{margin-top:0;}
+.plan-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:3px;
+}
+.plan-input:focus{border-bottom-color:var(--green);}
+.plan-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── THE KEY QUESTION ── */
+.key-question{
+  background:var(--dark);border-radius:var(--r);padding:26px 30px;
+  margin:28px 0;position:relative;overflow:hidden;
+}
+.kq::before{
+  content:'?';font-family:var(--font-serif);font-size:200px;font-weight:700;
+  color:rgba(255,255,255,.04);position:absolute;right:-10px;bottom:-30px;
+  line-height:1;user-select:none;pointer-events:none;
+}
+.kq-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.kq-dot{width:5px;height:5px;border-radius:50%;background:hsl(218,65%,65%);}
+.kq-text{font-family:var(--font-serif);font-size:20px;font-style:italic;color:#fff;line-height:1.45;margin-bottom:18px;max-width:580px;}
+.kq-area{
+  width:100%;min-height:80px;background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.12);border-radius:var(--r-sm);
+  font-family:var(--font-serif);font-size:14px;font-style:italic;
+  color:#fff;padding:14px 16px;outline:none;resize:vertical;
+  line-height:1.7;display:block;
+}
+.kq-area:focus{border-color:rgba(34,197,94,.4);}
+.kq-area::placeholder{color:rgba(255,255,255,.2);}
+
+/* Reflection grid */
+.reflect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.rg{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.rg-num{font-family:var(--font-serif);font-size:34px;font-weight:400;color:var(--border);line-height:1;margin-bottom:6px;}
+.rg-q{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:10px;}
+.rg-area{
+  width:100%;border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:3px 0 5px;outline:none;resize:none;height:58px;display:block;
+}
+.rg-area:focus{border-bottom-color:var(--green);}
+.rg-area::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:hsl(218,65%,65%);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.stat-info-btn{display:none;}}
+
+/* ── STAT INFO BUTTONS & MODAL ── */
+.stat-info-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.7);font-size:9px;font-weight:700;
+  cursor:pointer;vertical-align:middle;margin-left:6px;
+  flex-shrink:0;transition:all .15s;line-height:1;
+  font-style:normal;
+}
+.stat-info-btn:hover{background:rgba(255,255,255,.3);color:#fff;transform:scale(1.1);}
+/* Dark-on-light version for body sections */
+.stat-info-btn-dark{
+  background:var(--wp-bg);border:1px solid var(--wp-mid);color:var(--wp-mid);
+}
+.stat-info-btn-dark:hover{background:var(--wp);color:#fff;}
+
+/* Modal overlay */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.65);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;
+  backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex;}
+
+/* Modal panel */
+.modal-panel{
+  background:#fff;border-radius:16px;max-width:520px;width:100%;
+  box-shadow:0 24px 80px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.15);
+  overflow:hidden;animation:modalIn .2s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:none;}}
+
+.modal-header{
+  background:var(--dark);padding:20px 24px 18px;
+  position:relative;
+}
+.modal-header-accent{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,hsl(218,55%,48%),hsl(142,76%,42%));
+}
+.modal-stat-num{
+  font-family:var(--font-serif);font-size:36px;font-weight:700;
+  color:hsl(218,65%,68%);line-height:1;margin-bottom:4px;
+}
+.modal-stat-label{
+  font-size:13px;font-weight:300;color:rgba(255,255,255,.7);
+  line-height:1.4;max-width:380px;
+}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  width:28px;height:28px;border-radius:7px;
+  background:rgba(255,255,255,.1);border:none;
+  color:rgba(255,255,255,.6);font-size:16px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .12s;
+}
+.modal-close:hover{background:rgba(255,255,255,.2);color:#fff;}
+
+.modal-body{padding:20px 24px 24px;}
+.modal-source-label{
+  font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--fg-muted);margin-bottom:6px;
+}
+.modal-source-name{
+  font-size:13px;font-weight:500;color:var(--fg);margin-bottom:10px;line-height:1.4;
+}
+.modal-context{
+  font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;
+  margin-bottom:14px;
+}
+.modal-context strong{color:var(--fg);font-weight:500;}
+.modal-confidence{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-bg);border:1px solid hsl(142,50%,78%);
+  border-radius:4px;padding:4px 10px;margin-bottom:14px;
+  font-size:10px;font-weight:600;color:hsl(142,60%,28%);
+}
+.modal-link{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:600;color:var(--wp-mid);
+  text-decoration:none;padding:8px 14px;border-radius:7px;
+  border:1px solid var(--wp-light);background:var(--wp-bg);
+  transition:all .12s;
+}
+.modal-link:hover{background:var(--wp);color:#fff;border-color:var(--wp);}
+.modal-link svg{flex-shrink:0;}
+
+/* ── FAITH LENS ── */
+.faith-verse{
+  background:linear-gradient(135deg,hsl(142,60%,15%),hsl(142,55%,20%));
+  border-radius:var(--r);padding:20px 24px;margin:20px 0 24px;
+  border:1px solid hsl(142,50%,28%);position:relative;overflow:hidden;
+}
+.faith-verse::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 90% 50%,hsl(142,70%,42%,.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.fv-eyebrow{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(142,60%,55%);margin-bottom:8px;}
+.fv-verse{font-family:var(--font-serif);font-size:17px;font-weight:500;font-style:italic;color:#fff;line-height:1.5;margin-bottom:4px;}
+.fv-ref{font-size:10px;font-weight:600;color:hsl(142,55%,60%);letter-spacing:.5px;margin-bottom:10px;}
+.fv-note{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.6;}
+.fv-note strong{color:rgba(255,255,255,.8);font-weight:500;}
+
+.faith-lens{
+  background:var(--green-bg);border:1px solid hsl(142,55%,78%);
+  border-radius:var(--r-sm);padding:14px 18px;margin:20px 0;
+}
+.fl-lbl{font-size:8px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.fl-text{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.fl-text strong{color:var(--fg);font-weight:500;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO (site nav lives on parent page) -->
+<div class="hero">
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    Your Personal Risk Audit &nbsp;·&nbsp; No Jargon &nbsp;·&nbsp; Practical Framework
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">Is My Job <em>Automation</em><br>or <em>Augmentation</em>?</div>
+  <div class="hero-sub">The question every employed person needs to answer — for themselves</div>
+
+  <!-- Stat strip -->
+  <div class="hero-stats">
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-ey-65')">
+      <div class="hs-num">65% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-ey-65')">ⓘ</button></div>
+      <div class="hs-text">of workers are anxious about AI replacing their job</div>
+      <div class="hs-src">EY AI Anxiety in Business Survey</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-edx-4')">
+      <div class="hs-num">4% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-edx-4')">ⓘ</button></div>
+      <div class="hs-text">are currently pursuing any AI-related training — despite 54% saying it matters</div>
+      <div class="hs-src">edX Worker Survey, 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-stanford-20')">
+      <div class="hs-num">20% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-stanford-20')">ⓘ</button></div>
+      <div class="hs-text">decline in entry-level software developer hiring, ages 22–25, since 2022 peak</div>
+      <div class="hs-src">Stanford "Canaries in the Coal Mine," Aug 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-wef-78m')">
+      <div class="hs-num">+78M <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-wef-78m')">ⓘ</button></div>
+      <div class="hs-text">net new jobs projected by 2030 — but concentrated in specific role types</div>
+      <div class="hs-src">WEF Future of Jobs Report, 2025</div>
+    </div>
+  </div>
+
+  <div class="hero-desc">
+    Every course wants to sell you AI skills. This worksheet asks a harder question first: <strong>which parts of your specific role is AI about to make worthless — and which parts is it about to make priceless?</strong> That answer is different for every person. It's time you worked yours out.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Individual use</span><div class="msep"></div>
+    <span class="mi">~45 minutes</span><div class="msep"></div>
+    <span class="mi">Grounded in Stanford &amp; WEF research</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- Professional info -->
+  <div class="pro-bar">
+    <div class="pb-cell"><div class="pb-lbl">Your Name</div><input class="pb-input" type="text" placeholder="Name…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Current Role / Title</div><input class="pb-input" type="text" placeholder="e.g. Marketing Manager, Teacher, Nurse…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Industry / Sector</div><input class="pb-input" type="text" placeholder="e.g. Healthcare, Finance, Education…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Years in this role</div><input class="pb-input" type="text" placeholder="e.g. 3 years…"></div>
+  </div>
+
+  <!-- The core distinction -->
+  <div class="sec-lbl">The Framework</div>
+  <div class="sec-title">Automation vs. Augmentation — why this is the only question that matters</div>
+
+  <div class="stanford-box" style="margin-top:16px;cursor:pointer;" onclick="openModal('stat-stanford-augment')">
+    <div class="sb-lbl">Stanford Digital Economy Lab — August 2025 <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-stanford-augment')" style="background:var(--wp-bg);border-color:var(--wp-mid);color:var(--wp-mid);">ⓘ</button></div>
+    <div class="sb-text">The negative employment impacts from AI are <strong>concentrated in roles where AI automates tasks</strong>. In occupations where AI augments human work, employment for workers remains stable or increases. Workers who use AI to learn new skills see employment growth. Those who use it only to automate existing tasks are losing ground.</div>
+    <div class="sb-src">Erik Brynjolfsson et al., "Canaries in the Coal Mine" — Stanford, ADP administrative payroll data, millions of workers</div>
+  </div>
+
+  <!-- FRAMING VERSE -->
+  <div class="faith-verse">
+    <div class="fv-eyebrow">A Christian foundation for this exercise</div>
+    <div class="fv-verse">"The Lord God took the man and put him in the Garden of Eden to work it and take care of it."</div>
+    <div class="fv-ref">Genesis 2:15</div>
+    <div class="fv-note">This was <strong>before the fall</strong> — work wasn't a consequence of sin, it was part of God's original design for human flourishing. When we ask which parts of our work AI can't replace, we're ultimately asking: what does it mean to be made in God's image? <strong>Presence, conscience, relationship, moral accountability</strong> — these aren't just career assets. They're expressions of the imago Dei that no model trained on data can replicate.</div>
+  </div>
+
+  <div class="distinction">
+    <div class="dist-col-auto">
+      <div class="dist-head-lbl">Automation risk</div>
+      <div class="dist-head-title">AI replaces the task</div>
+      <div class="dist-head-sub">You hand the work over entirely. AI does it adequately. Your role in that specific task shrinks or disappears.</div>
+      <div class="dist-items">
+        <div class="dist-item"><div class="di-icon">→</div><div class="di-text">Retrieving information you then present to others</div></div>
+        <div class="dist-item"><div class="di-icon">→</div><div class="di-text">Producing first drafts of routine documents</div></div>
+        <div class="dist-item"><div class="di-icon">→</div><div class="di-text">Scheduling, sorting, routing, categorising</div></div>
+        <div class="dist-item"><div class="di-icon">→</div><div class="di-text">Data entry, report generation, standard summaries</div></div>
+        <div class="dist-item"><div class="di-icon">→</div><div class="di-text">Answering known questions with known answers</div></div>
+      </div>
+    </div>
+    <div class="dist-vs">vs</div>
+    <div class="dist-col-aug">
+      <div class="dist-head-lbl">Augmentation opportunity</div>
+      <div class="dist-head-title">AI strengthens the task</div>
+      <div class="dist-head-sub">You use AI to do it faster or better — but the judgement, relationship, or expertise is still yours. Your value increases.</div>
+      <div class="dist-items">
+        <div class="dist-item"><div class="di-icon" style="color:hsl(142,70%,75%);">✓</div><div class="di-text"><strong>Judgement calls</strong> where context, ethics, or relationships matter</div></div>
+        <div class="dist-item"><div class="di-icon" style="color:hsl(142,70%,75%);">✓</div><div class="di-text"><strong>Trust-based relationships</strong> that depend on knowing and being known</div></div>
+        <div class="dist-item"><div class="di-icon" style="color:hsl(142,70%,75%);">✓</div><div class="di-text"><strong>Novel problems</strong> that don't match any existing template</div></div>
+        <div class="dist-item"><div class="di-icon" style="color:hsl(142,70%,75%);">✓</div><div class="di-text"><strong>Accountability</strong> — situations where someone must own the outcome</div></div>
+        <div class="dist-item"><div class="di-icon" style="color:hsl(142,70%,75%);">✓</div><div class="di-text"><strong>Physical presence</strong> or embodied skill AI cannot replicate</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 1: THE TASK MAP -->
+  <div class="sec-lbl">Part 1 — Map your actual job</div>
+  <div class="sec-title">What do you actually spend your time doing?</div>
+  <div class="sec-sub">Not your job description — your actual week. List your real, recurring tasks across the seven categories below. Then rate each: how replaceable is it by AI, and how central is it to your actual value?</div>
+
+  <div class="task-intro">Work through this honestly. The tasks that feel most at risk are often the ones that have always been filler — not the work that actually makes you good at your job.</div>
+
+  <div class="task-table">
+    <div class="tt-head">
+      <div class="tt-th tt-th-main">Task type</div>
+      <div class="tt-th">What you actually do in this category</div>
+      <div class="tt-th">AI replaceability</div>
+      <div class="tt-th">Your value here</div>
+      <div class="tt-th">Priority flag</div>
+    </div>
+
+    <!-- Row 1: Information -->
+    <div class="tt-row">
+      <div><div class="tt-category">Information &amp; Research</div><div class="tt-cat-sub">Finding, gathering, summarising, presenting data</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Weekly market research report…">
+        <input class="tt-input" type="text" placeholder="e.g. Briefing docs for leadership…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 2: Writing/Drafting -->
+    <div class="tt-row">
+      <div><div class="tt-category">Writing &amp; Drafting</div><div class="tt-cat-sub">Emails, reports, proposals, content, documentation</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Client proposals, meeting notes…">
+        <input class="tt-input" type="text" placeholder="e.g. Internal comms, policy docs…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 3: Analysis -->
+    <div class="tt-row">
+      <div><div class="tt-category">Analysis &amp; Decision Support</div><div class="tt-cat-sub">Pattern recognition, forecasting, options assessment</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Budget variance analysis…">
+        <input class="tt-input" type="text" placeholder="e.g. Risk assessment, reporting…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 4: Relationships -->
+    <div class="tt-row">
+      <div><div class="tt-category">Relationships &amp; Trust</div><div class="tt-cat-sub">Client management, team dynamics, stakeholder navigation</div><div class="tt-cat-sub" style="color:var(--green);font-style:italic;margin-top:3px;">This is where image-bearing shows up in your work</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Client check-ins, difficult conversations…">
+        <input class="tt-input" type="text" placeholder="e.g. Team mentoring, conflict resolution…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 5: Judgement -->
+    <div class="tt-row">
+      <div><div class="tt-category">Judgement &amp; Decision-Making</div><div class="tt-cat-sub">Calls where context, ethics, or consequence matter</div><div class="tt-cat-sub" style="color:var(--green);font-style:italic;margin-top:3px;">Moral accountability requires someone made in God's image</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Hiring decisions, strategic direction…">
+        <input class="tt-input" type="text" placeholder="e.g. Ethical edge cases, crisis response…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 6: Creative / Problem-solving -->
+    <div class="tt-row">
+      <div><div class="tt-category">Creative &amp; Problem-Solving</div><div class="tt-cat-sub">Novel challenges, original ideas, adaptive thinking</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Campaign strategy, product innovation…">
+        <input class="tt-input" type="text" placeholder="e.g. Troubleshooting complex situations…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+    <!-- Row 7: Operational/Admin -->
+    <div class="tt-row">
+      <div><div class="tt-category">Operations &amp; Administration</div><div class="tt-cat-sub">Scheduling, coordination, compliance, logistics</div></div>
+      <div>
+        <input class="tt-input" type="text" placeholder="e.g. Calendar management, expense processing…">
+        <input class="tt-input" type="text" placeholder="e.g. Compliance tracking, admin reporting…">
+      </div>
+      <div class="risk-sel">
+        <div class="rs-opt rs-high" onclick="toggleRisk(this)">● High</div>
+        <div class="rs-opt rs-med" onclick="toggleRisk(this)">◑ Medium</div>
+        <div class="rs-opt rs-low" onclick="toggleRisk(this)">○ Low</div>
+      </div>
+      <div class="val-sel">
+        <div class="vs-opt vs-high" onclick="toggleVal(this)">▲ High</div>
+        <div class="vs-opt vs-med" onclick="toggleVal(this)">– Medium</div>
+        <div class="vs-opt vs-low" onclick="toggleVal(this)">▽ Low</div>
+      </div>
+      <div class="pf-sel">
+        <div class="pf-opt" onclick="togglePF(this)">Automate</div>
+        <div class="pf-opt" onclick="togglePF(this)">Augment</div>
+        <div class="pf-opt" onclick="togglePF(this)">Protect</div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 2: THE HEAT MAP -->
+  <div class="sec-lbl">Part 2 — Your personal heat map</div>
+  <div class="sec-title">Place your tasks in the right cell</div>
+  <div class="sec-sub" style="margin-bottom:6px;">Using your ratings from Part 1, write the names of your tasks into the appropriate cell below. This gives you a visual map of where to focus your energy — and where to stop worrying.</div>
+
+  <div class="heatmap-section">
+    <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+      <span>How to read this</span>
+      <span style="background:var(--risk-high);color:#fff;padding:2px 8px;border-radius:3px;font-size:8px;">High AI replaceability</span>
+      <span style="background:var(--wp);color:#fff;padding:2px 8px;border-radius:3px;font-size:8px;">High value to role</span>
+      <span style="color:var(--fg-muted);">→ The intersection tells you your strategy</span>
+    </div>
+
+    <div class="hm-grid">
+      <!-- Axis label -->
+      <div style="display:flex;align-items:center;justify-content:flex-end;padding-right:6px;">
+        <div style="font-size:9px;font-weight:600;color:var(--fg-muted);text-align:center;line-height:1.3;max-width:50px;">Your value to role →</div>
+      </div>
+      <div class="hm-col-head">Low value to role</div>
+      <div class="hm-col-head">Medium value to role</div>
+      <div class="hm-col-head">High value to role</div>
+
+      <!-- Row: High AI replaceability -->
+      <div class="hm-row-label" style="justify-content:flex-end;text-align:right;font-size:9.5px;padding-right:8px;color:var(--fg-muted);">High AI replaceability</div>
+      <div class="hm-cell hm-danger">
+        <div class="hm-cell-tag hm-tag-danger">Automate now</div>
+        <div class="hm-cell-desc">These tasks are consuming time and adding little unique value. Hand them to AI and reclaim the hours.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell hm-watch">
+        <div class="hm-cell-tag hm-tag-watch">Watch closely</div>
+        <div class="hm-cell-desc">AI can do parts of this but you still add something. Consider how to reposition your contribution.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell hm-invest">
+        <div class="hm-cell-tag hm-tag-invest">Augment strategically</div>
+        <div class="hm-cell-desc">High value, AI-assisted. Use AI to do these faster and better — but own the judgement.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+
+      <!-- Row: Medium AI replaceability -->
+      <div class="hm-row-label" style="justify-content:flex-end;text-align:right;font-size:9.5px;padding-right:8px;color:var(--fg-muted);">Medium AI replaceability</div>
+      <div class="hm-cell hm-question">
+        <div class="hm-cell-tag hm-tag-question">Question this</div>
+        <div class="hm-cell-desc">Low value, medium automation risk. Why are you spending time here? Could this role exist in two years?</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell" style="background:var(--bg-warm);">
+        <div class="hm-cell-tag" style="background:var(--fg-muted);color:#fff;">Neutral</div>
+        <div class="hm-cell-desc">Not urgent — monitor how AI capability develops in this area over the next 12 months.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell hm-grow">
+        <div class="hm-cell-tag hm-tag-grow">Invest here</div>
+        <div class="hm-cell-desc">High value, partially assisted. This is where your expertise and AI together are most powerful.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+
+      <!-- Row: Low AI replaceability -->
+      <div class="hm-row-label" style="justify-content:flex-end;text-align:right;font-size:9.5px;padding-right:8px;color:var(--fg-muted);">Low AI replaceability</div>
+      <div class="hm-cell" style="background:var(--bg-warm);">
+        <div class="hm-cell-tag" style="background:var(--fg-muted);color:#fff;">Reassess</div>
+        <div class="hm-cell-desc">Low value, hard to automate. Could you stop doing this or delegate it to someone more junior?</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell hm-safe">
+        <div class="hm-cell-tag hm-tag-safe">Stable</div>
+        <div class="hm-cell-desc">Relatively safe from AI displacement. Keep doing this well — but don't use it as an excuse to ignore the map.</div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+      <div class="hm-cell hm-grow" style="border-width:2px;">
+        <div class="hm-cell-tag hm-tag-grow">Your core</div>
+        <div class="hm-cell-desc">High value, AI can't touch it. This is your professional irreplaceability. <strong>Protect, develop, and make visible.</strong></div>
+        <input class="hm-tag-input" type="text" placeholder="Tasks that belong here…">
+        <input class="hm-tag-input" type="text" placeholder="">
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: THE KEY QUESTION -->
+  <div class="key-question kq">
+    <div class="kq-lbl"><div class="kq-dot"></div>The question this whole audit has been building toward</div>
+    <div class="kq-text">"Which parts of my job am I over-investing in that AI is about to make worthless — and which parts am I under-investing in that AI is about to make priceless?"</div>
+    <textarea class="kq-area" rows="5" placeholder="Write your honest answer. Be specific — name the tasks and the trade-off you need to make…"></textarea>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: THE 90-DAY PLAN -->
+  <div class="sec-lbl">Part 4 — Three actions in 90 days</div>
+  <div class="sec-title">What are you going to do about it?</div>
+  <div class="sec-sub" style="margin-bottom:18px;">Insight without action is just anxiety. Based on your heat map, identify one concrete action for each time horizon. Be specific enough that you could tell your manager about it.</div>
+
+  <div class="plan-grid">
+
+    <div class="plan-card">
+      <div class="plan-head ph-30">
+        <div class="plan-head-lbl">First 30 days</div>
+        <div class="plan-head-title">Stop or automate</div>
+        <div class="plan-head-sub">One task to hand over to AI — immediately</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-field-lbl">The task I'm automating:</div>
+        <input class="plan-input" type="text" placeholder="Be specific — which task, which tool?…">
+        <div class="plan-field-lbl">How I'll do it:</div>
+        <input class="plan-input" type="text" placeholder="Which AI tool, what's the workflow?…">
+        <div class="plan-field-lbl">Time I'll reclaim per week:</div>
+        <input class="plan-input" type="text" placeholder="Estimate honestly…">
+        <div class="plan-field-lbl">What I'll use that time for instead:</div>
+        <input class="plan-input" type="text" placeholder="Name something in the green zone of your heat map…">
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-head ph-60">
+        <div class="plan-head-lbl">Days 30–60</div>
+        <div class="plan-head-title">Augment strategically</div>
+        <div class="plan-head-sub">One high-value task to do better with AI</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-field-lbl">The task I'm augmenting:</div>
+        <input class="plan-input" type="text" placeholder="A task where AI speeds you up but you own the quality…">
+        <div class="plan-field-lbl">What AI will handle:</div>
+        <input class="plan-input" type="text" placeholder="The part AI does well…">
+        <div class="plan-field-lbl">What I'll still own:</div>
+        <input class="plan-input" type="text" placeholder="The judgement, relationship, or expertise that stays mine…">
+        <div class="plan-field-lbl">How this increases my visible value:</div>
+        <input class="plan-input" type="text" placeholder="Who will notice, and what will they see?…">
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-head ph-90">
+        <div class="plan-head-lbl">Days 60–90</div>
+        <div class="plan-head-title">Protect and develop</div>
+        <div class="plan-head-sub">One irreplaceable skill to deepen</div>
+      </div>
+      <div class="plan-body">
+        <div class="plan-field-lbl">The irreplaceable skill I'm developing:</div>
+        <input class="plan-input" type="text" placeholder="Something in the 'Your Core' cell of the heat map…">
+        <div class="plan-field-lbl">How I'll practise it:</div>
+        <input class="plan-input" type="text" placeholder="A specific activity, commitment, or stretch assignment…">
+        <div class="plan-field-lbl">Who needs to know about this skill:</div>
+        <input class="plan-input" type="text" placeholder="Name a manager, client, or colleague…">
+        <div class="plan-field-lbl">How I'll make it visible to them:</div>
+        <input class="plan-input" type="text" placeholder="What action will show them this is where you're strong?…">
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- REFLECTION -->
+  <div class="sec-lbl">Final reflection</div>
+  <div class="sec-title">Step back from the detail</div>
+
+  <div class="reflect-grid">
+    <div class="rg">
+      <div class="rg-num">1</div>
+      <div class="rg-q">What surprised you most about where your tasks landed on the heat map?</div>
+      <textarea class="rg-area" placeholder="Was anything more replaceable than you expected? Or safer?…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">2</div>
+      <div class="rg-q">What is the single most important thing you should stop spending time on — and what should you be doing instead?</div>
+      <textarea class="rg-area" placeholder="The trade-off you've been avoiding…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">3</div>
+      <div class="rg-q">If your manager or a key client could see this heat map, what would you want them to understand about where you're most valuable?</div>
+      <textarea class="rg-area" placeholder="The thing that's hard to communicate but genuinely true…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">4</div>
+      <div class="rg-q">Who else in your organisation needs to do this exercise — and would you share it with them?</div>
+      <textarea class="rg-area" placeholder="Name someone, and whether you'll actually send this to them…"></textarea>
+    </div>
+    <div class="rg" style="grid-column:1/-1;">
+      <div class="rg-num">5</div>
+      <div class="rg-q" style="color:var(--green);">The tasks you've marked "Protect" — what does it tell you that these specific capacities require you to be made in the image of God, not just trained on data?</div>
+      <textarea class="rg-area" placeholder="Think about what presence, conscience, and accountability actually mean in your specific role…"></textarea>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A closing thought</div>
+    <div class="enc-text">
+      The anxiety most professionals feel about AI isn't irrational. <strong>It's just pointed at the wrong thing.</strong> The real risk isn't that AI is coming for your job — it's that you spend the next five years defending tasks that were never what made you good at your job in the first place, while neglecting the things that make you genuinely irreplaceable.<br><br>
+      The Stanford research is clear: workers who use AI to learn and grow see employment growth. Workers who use it only to automate existing tasks are losing ground. The question was never whether AI is useful. The question is whether <strong>you're using this moment of disruption to get clearer about where your real value lies — and whether the people around you can see it.</strong><br><br>
+      For those of us who follow Jesus, there's something deeper underneath all of this. Work was given to us before the fall — as an act of stewardship, of care, of creative engagement with the world God made. When you protect and develop the things that require presence, conscience, and genuine relationship, you're not just protecting your career. <strong>You're being faithful to the person God made you to be.</strong>
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/working-professionals</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Working Professionals</span><span class="tag">Career Strategy</span><span class="tag">AI Readiness</span><span class="tag">Individual</span><span class="tag">45 min</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Working Professionals · WP–01 of 4</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function toggleRisk(el) {
+  const group = el.closest('.risk-sel');
+  group.querySelectorAll('.rs-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+function toggleVal(el) {
+  const group = el.closest('.val-sel');
+  group.querySelectorAll('.vs-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+function togglePF(el) {
+  const group = el.closest('.pf-sel');
+  group.querySelectorAll('.pf-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Contenteditable placeholder
+document.querySelectorAll('[data-placeholder]').forEach(el => {
+  if (!el.textContent.trim()) el.classList.add('empty');
+  el.addEventListener('focus', () => el.classList.remove('empty'));
+  el.addEventListener('blur', () => {
+    if (!el.textContent.trim()) el.classList.add('empty');
+  });
+});
+
+// ── MODAL DATA & LOGIC ──
+const STATS = {
+  'stat-ey-65': {
+    num: '65%',
+    label: 'of workers are anxious about AI replacing their job',
+    source: 'EY — AI Anxiety in Business Survey',
+    confidence: '✓ High confidence — 1,000 employed US workers surveyed',
+    context: 'Ernst & Young surveyed 1,000 employed US workers at least somewhat familiar with AI. 65% reported anxiety about the technology replacing their job. Despite this, 4 in 5 see AI\'s value and believe it will make them more efficient (82%), more productive (81%), and able to focus on higher-value work (81%). The anxiety and the opportunity coexist — most workers feel both simultaneously.',
+    url: 'https://www.ey.com/en_us/newsroom/2023/12/ey-research-shows-most-us-employees-feel-ai-anxiety'
+  },
+  'stat-edx-4': {
+    num: '4%',
+    label: 'are currently pursuing AI-related training — despite 54% saying AI skills are very or extremely important',
+    source: 'edX — Worker Upskilling Survey, 2025',
+    confidence: '✓ High confidence — 929 employed adults surveyed',
+    context: 'In a survey of 929 employed adults, edX found 54% believe AI-related skills are very or extremely important for remaining competitive in their careers. Yet only 4% are currently pursuing AI-related education or training. Nearly half (47%) say AI advancements pose a threat to their jobs. The gap between recognising the problem and acting on it is the central challenge this worksheet addresses.',
+    url: 'https://www.edx.org/resources/workers-consider-upskilling-due-to-ai-anxiety'
+  },
+  'stat-stanford-20': {
+    num: '~20%',
+    label: 'decline in entry-level software developer hiring for workers aged 22–25, since their 2022 peak',
+    source: 'Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025',
+    confidence: '✓ Very high confidence — published academic paper, ADP payroll data covering millions of US workers',
+    context: 'Erik Brynjolfsson et al. published this study using ADP payroll data covering millions of workers across 285,000 firms. Entry-level workers aged 22–25 in AI-exposed fields saw a 13% relative employment decline from late 2022 to July 2025, while older workers in the same roles saw 6–9% growth. Software developers aged 22–25 declined by nearly 20% from their 2022 peak. Crucially, the negative effects concentrated in roles where AI automates tasks — roles where AI augments work saw stable or growing employment.',
+    url: 'https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf'
+  },
+  'stat-wef-78m': {
+    num: '+78 million',
+    label: 'net new jobs projected by 2030 — 92 million displaced, 170 million created',
+    source: 'World Economic Forum — Future of Jobs Report 2025',
+    confidence: '✓ Very high confidence — 1,000+ employers, 14 million workers, 55 economies',
+    context: 'The WEF\'s Future of Jobs Report 2025 projects 92 million jobs displaced and 170 million new roles created by 2030 — a net gain of 78 million. However, the growth concentrates in specific categories: AI and machine learning specialists, cybersecurity analysts, sustainability roles, and human-centred service professions. AI and information processing is expected to affect 86% of businesses by 2030. The distribution of gains matters as much as the headline number.',
+    url: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/'
+  },
+  'stat-stanford-augment': {
+    num: 'Automation vs Augmentation',
+    label: 'The finding that reframes the entire AI career conversation',
+    source: 'Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025',
+    confidence: '✓ Very high confidence — ADP administrative payroll data, millions of US workers',
+    context: 'Using large-scale payroll data, Stanford researchers found the negative employment impacts from AI are not uniform — they concentrate in occupations where AI automates routine tasks entirely. In occupations where workers use AI as an augmentation tool (to learn, to validate, to improve quality), employment for young workers remains stable or increases. The key implication: the question is not "will AI affect my job?" but "am I using AI to automate what I do — or to do more valuable things?"',
+    url: 'https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf'
+  }
+};
+
+function openModal(id) {
+  const s = STATS[id];
+  if (!s) return;
+  document.getElementById('modalNum').textContent = s.num;
+  document.getElementById('modalLabel').textContent = s.label;
+  document.getElementById('modalSource').textContent = s.source;
+  document.getElementById('modalConfidence').textContent = s.confidence;
+  document.getElementById('modalContext').innerHTML = s.context;
+  const link = document.getElementById('modalLink');
+  link.href = s.url;
+  link.style.display = s.url ? 'inline-flex' : 'none';
+  document.getElementById('statModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('statModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('statModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
+
+<!-- MODAL HTML -->
+<div class="modal-overlay" id="statModal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-accent"></div>
+      <div class="modal-stat-num" id="modalNum"></div>
+      <div class="modal-stat-label" id="modalLabel"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-source-label">Source</div>
+      <div class="modal-source-name" id="modalSource"></div>
+      <div class="modal-confidence" id="modalConfidence"></div>
+      <div class="modal-context" id="modalContext"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Read the original source
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+[data-placeholder].empty::before{
+  content:attr(data-placeholder);
+  color:rgba(255,255,255,.2);font-style:italic;pointer-events:none;
+}
+</style>
+</body>
+</html>

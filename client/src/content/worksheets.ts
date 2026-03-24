@@ -136,4 +136,46 @@ export const worksheets: WorksheetItem[] = [
     category: "Education",
     format: "Interactive",
   },
+
+  // ── Working Professionals (Christian series) ─────────────────
+  {
+    id: "wp-christian-automation-augmentation",
+    title: "Is My Job Automation or Augmentation?",
+    description:
+      "Map where your tasks sit on the automation vs augmentation spectrum, with research-backed stats and a 90-day plan — for people who follow Jesus.",
+    url: "/resources/christian-professional/automation-or-augmentation-christian",
+    date: "2026-03-24",
+    category: "Working Professionals",
+    format: "Interactive",
+  },
+  {
+    id: "wp-christian-52-minute",
+    title: "The 52-Minute Opportunity",
+    description:
+      "AI may return roughly an hour a day. Plan what you’ll do with that time before someone else claims it.",
+    url: "/resources/christian-professional/52-minute-opportunity-christian",
+    date: "2026-03-24",
+    category: "Working Professionals",
+    format: "Interactive",
+  },
+  {
+    id: "wp-christian-pay-me-for",
+    title: "What Will They Still Pay Me For?",
+    description:
+      "Separate your job description from what you’re actually valued for — and what AI can’t replace.",
+    url: "/resources/christian-professional/what-will-they-still-pay-me-for-christian",
+    date: "2026-03-24",
+    category: "Working Professionals",
+    format: "Interactive",
+  },
+  {
+    id: "wp-christian-five-year-map",
+    title: "The Five-Year Positioning Map",
+    description:
+      "Scenario planning for your career: moves that pay off whether change is slow, sharp, or radical.",
+    url: "/resources/christian-professional/five-year-positioning-map-christian",
+    date: "2026-03-24",
+    category: "Working Professionals",
+    format: "Interactive",
+  },
 ];

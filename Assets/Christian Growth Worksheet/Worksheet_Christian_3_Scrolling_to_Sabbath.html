@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Scrolling to Sabbath — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Week accent colours — chosen to feel like a journey from dim to light */
+  --w1:         hsl(220,18%,38%);    /* slate  — Week 1: avoidance, honest */
+  --w1-bg:      hsl(220,18%,38%,0.07);
+  --w1-light:   hsl(220,18%,82%);
+  --w2:         hsl(195,50%,40%);    /* teal   — Week 2: silence, deepening */
+  --w2-bg:      hsl(195,50%,40%,0.07);
+  --w2-light:   hsl(195,45%,82%);
+  --w3:         hsl(142,55%,36%);    /* green  — Week 3: conviction, clarity */
+  --w3-bg:      hsl(142,55%,36%,0.07);
+  --w3-light:   hsl(142,50%,82%);
+  --w4:         hsl(38,90%,44%);     /* gold   — Week 4: Sabbath, fullness */
+  --w4-bg:      hsl(38,90%,44%,0.08);
+  --w4-light:   hsl(38,80%,82%);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:#e4e2dc;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:820px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* SITE HEADER */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* HERO */
+.hero{background:var(--dark);padding:48px 44px;position:relative;overflow:hidden;border-bottom:3px solid var(--green);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 85% 20%,hsl(142,76%,42%,.1) 0%,transparent 45%),
+    radial-gradient(circle at 10% 85%,hsl(38,96%,50%,.06) 0%,transparent 40%);
+  pointer-events:none;
+}
+/* Journey arc — decorative path */
+.hero-arc{
+  position:absolute;bottom:-20px;left:0;right:0;
+  height:80px;
+  background:var(--bg);
+  clip-path:ellipse(55% 100% at 50% 100%);
+  z-index:1;
+}
+
+.hero-series{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.series-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-title{font-family:var(--font-serif);font-size:44px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:6px;letter-spacing:-.5px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.6);}
+.hero-sub-title{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.45);margin-bottom:22px;letter-spacing:.2px;}
+
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:520px;margin-bottom:32px;}
+.hero-desc strong{color:rgba(255,255,255,.75);font-weight:400;}
+
+/* 4-week journey pills */
+.journey-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;}
+.jp{
+  display:flex;align-items:center;gap:7px;
+  padding:7px 14px;border-radius:20px;
+  font-size:10px;font-weight:600;letter-spacing:.4px;
+  border:1px solid;
+}
+.jp1{background:hsl(220,18%,38%,.2);border-color:hsl(220,18%,50%,.4);color:hsl(220,18%,72%);}
+.jp2{background:hsl(195,50%,40%,.2);border-color:hsl(195,40%,50%,.4);color:hsl(195,45%,72%);}
+.jp3{background:hsl(142,55%,36%,.2);border-color:hsl(142,50%,45%,.4);color:hsl(142,60%,68%);}
+.jp4{background:hsl(38,90%,44%,.2);border-color:hsl(38,80%,55%,.4);color:hsl(38,85%,70%);}
+.jp-num{font-family:var(--font-serif);font-size:15px;font-weight:400;opacity:.6;}
+
+.hero-meta{display:flex;align-items:center;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* BODY */
+.body{padding:42px 44px 40px;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:600px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+.scr{border-left:2.5px solid var(--green);padding:12px 0 10px 20px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:6px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Intro */
+.intro-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:660px;}
+.intro-para strong{color:var(--fg);font-weight:500;}
+
+/* Source citation chip */
+.cite{
+  display:inline-block;font-size:9.5px;font-weight:500;
+  color:var(--fg-muted);background:var(--bg-muted);
+  border:1px solid var(--border);border-radius:4px;
+  padding:2px 8px;margin-left:4px;vertical-align:middle;
+  font-style:normal;
+}
+
+/* ── WEEK CARDS ── */
+.week{
+  border-radius:var(--r);overflow:hidden;
+  margin-bottom:32px;border:1px solid var(--border);
+}
+
+/* Week header — large, journalistic */
+.wk-header{
+  padding:28px 30px 26px;
+  position:relative;overflow:hidden;
+}
+.wk-h1{background:var(--w1);}
+.wk-h2{background:var(--w2);}
+.wk-h3{background:var(--w3);}
+.wk-h4{background:var(--w4);}
+
+.wk-num-bg{
+  font-family:var(--font-serif);font-size:120px;font-weight:700;
+  color:rgba(255,255,255,.08);
+  position:absolute;right:-4px;top:-20px;line-height:1;user-select:none;
+}
+.wk-tag{font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px;}
+.wk-week{font-family:var(--font-serif);font-size:13px;font-weight:400;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:6px;}
+.wk-question{
+  font-family:var(--font-serif);font-size:26px;font-weight:600;
+  color:#fff;line-height:1.2;margin-bottom:0;max-width:500px;
+}
+
+/* Practice badge */
+.practice-band{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 30px;
+  background:rgba(0,0,0,.25);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.prac-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);flex-shrink:0;}
+.prac-text{font-size:13px;font-weight:400;color:rgba(255,255,255,.75);font-style:italic;}
+
+/* Week body */
+.wk-body{padding:24px 30px;background:var(--bg);}
+
+.wk-context{
+  font-size:13px;font-weight:300;line-height:1.7;color:var(--fg-med);
+  margin-bottom:18px;padding-bottom:18px;
+  border-bottom:1px solid var(--bcard);
+}
+.wk-context strong{color:var(--fg);font-weight:500;}
+
+/* Scripture for this week */
+.wk-scr{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--bg-warm);border-radius:var(--r-sm);
+  padding:13px 16px;margin-bottom:18px;
+  border-left:3px solid;
+}
+.wk-scr-1{border-color:var(--w1);}
+.wk-scr-2{border-color:var(--w2);}
+.wk-scr-3{border-color:var(--w3);}
+.wk-scr-4{border-color:var(--w4);}
+.wk-scr-q{font-family:var(--font-serif);font-size:28px;line-height:.6;flex-shrink:0;margin-top:6px;color:var(--border);}
+.wk-scr-inner{}
+.wk-scr-text{font-family:var(--font-serif);font-size:14px;font-style:italic;line-height:1.5;color:var(--fg);margin-bottom:4px;}
+.wk-scr-ref{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* Practice guide */
+.practice-guide{
+  background:var(--bg-warm);border:1px solid var(--bcard);
+  border-radius:var(--r-sm);padding:16px 18px;margin-bottom:18px;
+}
+.pg-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.pg-steps{display:flex;flex-direction:column;gap:8px;}
+.pg-step{display:flex;gap:10px;align-items:flex-start;}
+.pg-step-num{
+  font-family:var(--font-serif);font-size:13px;font-weight:400;
+  color:var(--border);flex-shrink:0;min-width:16px;line-height:1.4;
+}
+.pg-step-text{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.5;}
+.pg-step-text strong{color:var(--fg);font-weight:500;}
+
+/* Daily check-in strip */
+.daily-strip{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  gap:6px;margin-bottom:16px;
+}
+.day-pip{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.dp-lbl{font-size:7.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--fg-muted);}
+.dp-box{
+  width:28px;height:28px;border-radius:7px;
+  border:1.5px solid var(--border);background:var(--bg-warm);
+  cursor:pointer;transition:all .15s;
+}
+.dp-box:hover{border-color:var(--green);}
+.dp-box.done::after{content:'';display:block;width:100%;height:100%;border-radius:5px;background:var(--green);}
+
+/* Journal space */
+.journal{margin-top:6px;}
+.journal-lbl{
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--fg-muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;
+}
+.journal-lbl::after{content:'';flex:1;height:1px;background:var(--bcard);}
+
+.j-prompt{
+  font-size:12px;font-style:italic;font-weight:300;
+  color:var(--fg-muted);margin-bottom:8px;line-height:1.5;
+  padding-left:12px;border-left:1.5px solid var(--bcard);
+}
+
+.j-area{
+  width:100%;border:none;border-bottom:1px solid var(--border);
+  background:transparent;font-family:var(--font-serif);font-size:14px;
+  font-style:italic;color:var(--fg);padding:4px 0 6px;outline:none;
+  display:block;margin-bottom:10px;line-height:1.6;
+}
+.j-area:focus{border-bottom-color:var(--green);}
+.j-area::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+.j-open{
+  width:100%;min-height:90px;
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  background:var(--bg-warm);
+  font-family:var(--font-serif);font-size:14px;font-style:italic;
+  color:var(--fg);padding:14px 16px;outline:none;resize:vertical;
+  line-height:1.7;display:block;
+}
+.j-open:focus{border-color:var(--green);}
+.j-open::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* Week end reflection strip */
+.wk-reflect{
+  background:var(--bg-muted);border-top:1px solid var(--border);
+  padding:16px 30px;
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.wr-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.wr-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:5px;
+}
+.wr-input:focus{border-bottom-color:var(--green);}
+.wr-input::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* ── FINAL REFLECTION ── */
+.final{background:var(--dark);border-radius:var(--r);padding:34px 36px;margin-top:8px;position:relative;overflow:hidden;}
+.final::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,hsl(142,76%,42%,.08) 0%,transparent 60%);pointer-events:none;}
+.final-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.fd{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+.final-title{font-family:var(--font-serif);font-size:22px;font-weight:400;font-style:italic;color:#fff;line-height:1.4;margin-bottom:16px;max-width:560px;}
+.final-body{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.55);max-width:580px;margin-bottom:24px;}
+.final-body strong{color:rgba(255,255,255,.85);font-weight:400;}
+
+.final-questions{display:grid;gap:16px;margin-bottom:24px;}
+.fq{display:flex;gap:10px;align-items:flex-start;}
+.fq-n{font-family:var(--font-serif);font-size:22px;font-weight:400;color:rgba(255,255,255,.15);flex-shrink:0;min-width:20px;line-height:1;}
+.fq-text{font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.55;padding-top:3px;}
+.fq-input{
+  margin-top:8px;border:none;border-bottom:1px solid rgba(255,255,255,.15);
+  width:100%;background:transparent;font-family:var(--font-serif);font-size:13px;
+  font-style:italic;color:#fff;padding:3px 0 5px;outline:none;display:block;
+}
+.fq-input:focus{border-bottom-color:var(--green);}
+.fq-input::placeholder{color:rgba(255,255,255,.18);}
+
+.final-foot{
+  padding-top:20px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.f-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.dp-box{print-color-adjust:exact;-webkit-print-color-adjust:exact;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">The Average Christian · Series 3 of 5</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-series">
+    <div class="series-rule"></div>
+    Personal Reset &nbsp;·&nbsp; Four Weeks &nbsp;·&nbsp; One Practice Per Week
+    <div class="series-rule"></div>
+  </div>
+  <div class="hero-title">From Scrolling<br>to <em>Sabbath</em></div>
+  <div class="hero-sub-title">A practical four-week reset guide</div>
+  <div class="hero-desc">
+    Not a fast. Not a detox. A <strong>gradual reorientation</strong> — one week, one question, one practice at a time. This is how formation actually happens: slowly, in the body, through repeated small acts of choosing differently.
+  </div>
+
+  <div class="journey-pills">
+    <div class="jp jp1"><span class="jp-num">1</span> What am I avoiding?</div>
+    <div class="jp jp2"><span class="jp-num">2</span> What does silence feel like?</div>
+    <div class="jp jp3"><span class="jp-num">3</span> What do I actually believe?</div>
+    <div class="jp jp4"><span class="jp-num">4</span> Holding it loosely</div>
+  </div>
+
+  <div class="hero-meta">
+    <span class="mi">4 weeks</span><div class="msep"></div>
+    <span class="mi">Personal use</span><div class="msep"></div>
+    <span class="mi">~10–15 min daily</span><div class="msep"></div>
+    <span class="mi">Journaling throughout</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- INTRO -->
+  <p class="intro-para">
+    John Mark Comer writes: <em>"Any serious effort toward spiritual formation starts not with effort — it starts with rest."</em> <cite class="cite">Relevant Magazine, 2024</cite> That's a strange place to begin a four-week challenge. But it's the right one. The goal of this guide is not to make you more disciplined. It's to help you discover <strong>what you actually want</strong> when the noise settles — and whether that aligns with who you say you are in Christ.
+  </p>
+  <p class="intro-para">
+    Scholars at Fractal: The Attention War note that algorithms are designed on <em>intermittent variable rewards</em> — the same mechanism that drives slot machine addiction. <cite class="cite">Fractal: The Attention War, 2024</cite> Every scroll, every notification, every refresh is a small pull of that lever. You are not weak for finding this hard. <strong>The system is engineered to make it hard.</strong> What follows is a counter-formation practice, one week at a time.
+  </p>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Remember the Sabbath day by keeping it holy... on it you shall not do any work."</div>
+    <div class="scr-ref">Exodus 20:8,10 · Sabbath is the only commandment that requires us to stop — it is counter-cultural by design</div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ── WEEK 1 ── -->
+  <div class="week">
+    <div class="wk-header wk-h1">
+      <div class="wk-num-bg">1</div>
+      <div class="wk-tag">Week 1 · The Honest Question</div>
+      <div class="wk-week">Beginning where you actually are</div>
+      <div class="wk-question">"What am I avoiding by staying online?"</div>
+    </div>
+    <div class="practice-band" style="background:hsl(220,18%,28%);">
+      <div class="prac-lbl">This week's practice</div>
+      <div class="prac-text">30-minute daily offline window — no phone, no screens, no podcast. Just you and whatever emerges.</div>
+    </div>
+    <div class="wk-body">
+
+      <div class="wk-context">
+        Most scrolling isn't really about what's on the screen. It's about what's under it. Loneliness, anxiety, boredom, grief, a conversation we're dreading — the online world provides <strong>an infinite supply of things to look at instead</strong>. The Fractal research team calls this "algorithmic collapse": we outsource our emotional regulation to feeds that have no interest in our health, only in our engagement. <cite class="cite">Fractal: The Attention War, 2024</cite> This week's practice isn't about willpower. It's about curiosity. What actually comes up when you stop filling the space?
+      </div>
+
+      <div class="wk-scr wk-scr-1">
+        <div class="wk-scr-q">"</div>
+        <div class="wk-scr-inner">
+          <div class="wk-scr-text">"Why, my soul, are you downcast? Why so disturbed within me? Put your hope in God, for I will yet praise him, my Saviour and my God."</div>
+          <div class="wk-scr-ref">Psalm 42:11 · The Psalmist names what's underneath — he doesn't scroll past it</div>
+        </div>
+      </div>
+
+      <div class="practice-guide">
+        <div class="pg-lbl" style="color:var(--w1);">How to do the 30-minute offline window</div>
+        <div class="pg-steps">
+          <div class="pg-step"><div class="pg-step-num">1.</div><div class="pg-step-text">Choose <strong>the same time each day</strong> — morning works well before the day has momentum. Put your phone in another room. Not face-down. Another room.</div></div>
+          <div class="pg-step"><div class="pg-step-num">2.</div><div class="pg-step-text"><strong>Don't fill it with something else.</strong> No podcast, no music, no book (yet). Sit. Walk outside. Make tea. Let the quiet be loud.</div></div>
+          <div class="pg-step"><div class="pg-step-num">3.</div><div class="pg-step-text">When something uncomfortable surfaces — a feeling, a worry, a question — <strong>write it down</strong> instead of reaching for your phone. That's the whole practice.</div></div>
+        </div>
+      </div>
+
+      <!-- Daily checks -->
+      <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;">Did I do my 30 min today?</div>
+      <div class="daily-strip">
+        <div class="day-pip"><div class="dp-lbl">Mon</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Tue</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Wed</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Thu</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Fri</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Sat</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Sun</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+      </div>
+
+      <div class="journal">
+        <div class="journal-lbl">Daily journal — write in the moment</div>
+        <div class="j-prompt">What came up when you stopped? What feeling was underneath the urge to scroll?</div>
+        <textarea class="j-open" placeholder="Write here each day — a sentence is enough, or as much as you need…" style="min-height:110px;"></textarea>
+      </div>
+    </div>
+    <div class="wk-reflect">
+      <div><div class="wr-lbl">What surprised me this week:</div><input class="wr-input" type="text" placeholder="Something you didn't expect to find…"><input class="wr-input" type="text" placeholder="A feeling that kept surfacing…"></div>
+      <div><div class="wr-lbl">What I was actually avoiding:</div><input class="wr-input" type="text" placeholder="Name it honestly if you can…"><input class="wr-input" type="text" placeholder="What does that tell you about your interior life?…"></div>
+    </div>
+  </div>
+
+  <!-- ── WEEK 2 ── -->
+  <div class="week">
+    <div class="wk-header wk-h2">
+      <div class="wk-num-bg">2</div>
+      <div class="wk-tag">Week 2 · Deepening</div>
+      <div class="wk-week">Keep Week 1's practice and add this</div>
+      <div class="wk-question">"What does silence feel like?"</div>
+    </div>
+    <div class="practice-band" style="background:hsl(195,45%,28%);">
+      <div class="prac-lbl">This week's practice</div>
+      <div class="prac-text">One full offline morning per week — from waking until noon. Phone off. Nothing digital.</div>
+    </div>
+    <div class="wk-body">
+
+      <div class="wk-context">
+        Dallas Willard named <em>silence</em> among the core spiritual disciplines — alongside prayer, fasting, and Scripture. <cite class="cite">Dallas Willard, The Spirit of the Disciplines</cite> It's on that list for a reason: silence is where we discover what's actually there when the external noise stops. John Mark Comer writes that the <em>"spirit of Joy and the spirit of Hurry cannot live in the same house."</em> <cite class="cite">John Mark Comer, Practicing the Way archives</cite> Most of us have not chosen hurry. We've simply never found out what happens when we stop.
+      </div>
+
+      <div class="wk-scr wk-scr-2">
+        <div class="wk-scr-q">"</div>
+        <div class="wk-scr-inner">
+          <div class="wk-scr-text">"The Lord is in his holy temple; let all the earth be silent before him."</div>
+          <div class="wk-scr-ref">Habakkuk 2:20 · Silence is not emptiness — it is orientation toward presence</div>
+        </div>
+      </div>
+
+      <div class="practice-guide">
+        <div class="pg-lbl" style="color:var(--w2);">How to do your offline morning</div>
+        <div class="pg-steps">
+          <div class="pg-step"><div class="pg-step-num">1.</div><div class="pg-step-text">Choose one morning — Saturday works for many. <strong>Don't turn your phone on until noon.</strong> Tell someone the night before so no one worries.</div></div>
+          <div class="pg-step"><div class="pg-step-num">2.</div><div class="pg-step-text">Do whatever you want — walk, cook, pray, read a physical book, sit in your garden. The rule is simple: <strong>nothing digital.</strong></div></div>
+          <div class="pg-step"><div class="pg-step-num">3.</div><div class="pg-step-text">Notice the urge to check. Don't fight it — just observe it. <strong>Where does the urge live in your body?</strong> What feeling is it covering?</div></div>
+          <div class="pg-step"><div class="pg-step-num">4.</div><div class="pg-step-text">Pray at some point during the morning. Not with a podcast. Not with notes. <strong>Just talk to God, and then stop talking and listen.</strong></div></div>
+        </div>
+      </div>
+
+      <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;">Did I do my offline morning?</div>
+      <div class="daily-strip">
+        <div class="day-pip"><div class="dp-lbl">Mon</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Tue</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Wed</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Thu</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Fri</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+        <div class="day-pip" style="position:relative;"><div class="dp-lbl">Sat</div><div class="dp-box" onclick="this.classList.toggle('done')" style="border-color:var(--w2);background:hsl(195,50%,40%,.08);"></div></div>
+        <div class="day-pip"><div class="dp-lbl">Sun</div><div class="dp-box" onclick="this.classList.toggle('done')"></div></div>
+      </div>
+      <div style="font-size:10px;color:var(--fg-muted);font-weight:300;margin-bottom:16px;font-style:italic;">Highlighted day = your suggested offline morning</div>
+
+      <div class="journal">
+        <div class="journal-lbl">During or after your silent morning</div>
+        <div class="j-prompt">What did silence actually feel like? Uncomfortable? Peaceful? Boring? What came up when the noise stopped?</div>
+        <textarea class="j-open" placeholder="Write here — stream of consciousness is fine. You don't need a polished answer." style="min-height:110px;"></textarea>
+      </div>
+    </div>
+    <div class="wk-reflect">
+      <div><div class="wr-lbl">What silence revealed:</div><input class="wr-input" type="text" placeholder="Something that surfaced without prompting…"><input class="wr-input" type="text" placeholder="A word, image, or sense from God?…"></div>
+      <div><div class="wr-lbl">How it felt compared to Week 1:</div><input class="wr-input" type="text" placeholder="Easier / harder / different?…"><input class="wr-input" type="text" placeholder="What do you want more of?…"></div>
+    </div>
+  </div>
+
+  <!-- ── WEEK 3 ── -->
+  <div class="week">
+    <div class="wk-header wk-h3">
+      <div class="wk-num-bg">3</div>
+      <div class="wk-tag">Week 3 · Conviction</div>
+      <div class="wk-week">Keep Weeks 1 &amp; 2 and add this</div>
+      <div class="wk-question">"What do I actually believe when no one is reinforcing it?"</div>
+    </div>
+    <div class="practice-band" style="background:hsl(142,50%,24%);">
+      <div class="prac-lbl">This week's practice</div>
+      <div class="prac-text">Scripture without commentary, podcast, or AI interpretation — just you and the text, in silence.</div>
+    </div>
+    <div class="wk-body">
+
+      <div class="wk-context">
+        Samuel James observes that the internet presents a profoundly liturgical environment that constantly reinforces a particular vision of reality. <cite class="cite">Samuel James, Digital Liturgies, 2023</cite> That reinforcement shapes what you believe — subtly, below the level of conscious choice. This week's question is a harder one: when you are not surrounded by your tribe, your podcast, your feed, your AI assistant — <strong>what do you actually hold to be true?</strong> The RSIS research found that many users begin to wonder whether they even know their own preferences anymore. <cite class="cite">RSIS International, 2025</cite> The same erosion can happen to faith.
+      </div>
+
+      <div class="wk-scr wk-scr-3">
+        <div class="wk-scr-q">"</div>
+        <div class="wk-scr-inner">
+          <div class="wk-scr-text">"Your word is a lamp for my feet, a light on my path."</div>
+          <div class="wk-scr-ref">Psalm 119:105 · The lamp illuminates what's in front of you — not what's trending on someone else's timeline</div>
+        </div>
+      </div>
+
+      <div class="practice-guide">
+        <div class="pg-lbl" style="color:var(--w3);">How to read Scripture without assistance</div>
+        <div class="pg-steps">
+          <div class="pg-step"><div class="pg-step-num">1.</div><div class="pg-step-text">Choose one short passage — a Psalm, a parable, a chapter of John. <strong>Read it slowly. Read it twice.</strong> No commentary app. No Bible Project video. No AI summary.</div></div>
+          <div class="pg-step"><div class="pg-step-num">2.</div><div class="pg-step-text">Ask one question: <strong>"What is God saying to me in this, today?"</strong> Not "what is the correct interpretation." What is God saying to you.</div></div>
+          <div class="pg-step"><div class="pg-step-num">3.</div><div class="pg-step-text">Write down whatever comes. Even if it feels thin. Even if you're not sure. <strong>The practice is learning to trust that God speaks to you directly</strong> — not only through mediated content.</div></div>
+        </div>
+      </div>
+
+      <div class="journal">
+        <div class="journal-lbl">Daily Scripture reading — your own engagement</div>
+        <div class="j-prompt">What passage did you read? What one thing struck you — not from a podcast or commentary, but from the text itself?</div>
+        <input type="text" style="border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:10px;" placeholder="Passage I read this week:…">
+        <textarea class="j-open" placeholder="What I actually noticed, without anyone else's interpretation…" style="min-height:100px;"></textarea>
+        <div style="margin-top:14px;">
+          <div class="j-prompt">And the harder question: what do you believe right now, in this week, without needing it to be endorsed by anyone?</div>
+          <textarea class="j-open" placeholder="Write it simply. One sentence is enough." style="min-height:70px;"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="wk-reflect">
+      <div><div class="wr-lbl">What I heard in the text:</div><input class="wr-input" type="text" placeholder="Something specific from this week's reading…"><input class="wr-input" type="text" placeholder="Did it feel like God was present?…"></div>
+      <div><div class="wr-lbl">What I discovered I believe:</div><input class="wr-input" type="text" placeholder="A conviction that doesn't need reinforcing…"><input class="wr-input" type="text" placeholder="Something that surprised you about your own faith?…"></div>
+    </div>
+  </div>
+
+  <!-- ── WEEK 4 ── -->
+  <div class="week">
+    <div class="wk-header wk-h4">
+      <div class="wk-num-bg">4</div>
+      <div class="wk-tag">Week 4 · The Full Practice</div>
+      <div class="wk-week">The destination all three weeks have been moving toward</div>
+      <div class="wk-question">"What would it look like to hold technology loosely?"</div>
+    </div>
+    <div class="practice-band" style="background:hsl(38,80%,32%);">
+      <div class="prac-lbl">This week's practice</div>
+      <div class="prac-text">One full Sabbath day — phone off, from waking to sleeping. Not reduced. Off.</div>
+    </div>
+    <div class="wk-body">
+
+      <div class="wk-context">
+        Eugene Peterson called the secular day off a <em>"bastard sabbath"</em> — a pale imitation that looks like rest but is really just recuperation for more productivity. <cite class="cite">Eugene Peterson, cited by John Mark Comer — Practicing the Way archives</cite> Biblical Sabbath is structurally different. It is not recuperation. <strong>It is defiance.</strong> It says: my value is not in my output. My identity is not in my productivity. God made the world and rested — and he invites us into that rest, not as a reward for finishing, but as a practice for beings made in his image. The Practicing the Way team writes: <em>"Sabbath is a practice to fight against the chronic restlessness of our condition."</em> <cite class="cite">Practicing the Way, practicingthewayarchives.org</cite> One day without technology is not the goal. It's the training ground for holding all of it loosely, every day.
+      </div>
+
+      <div class="wk-scr wk-scr-4">
+        <div class="wk-scr-q">"</div>
+        <div class="wk-scr-inner">
+          <div class="wk-scr-text">"Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls."</div>
+          <div class="wk-scr-ref">Matthew 11:28–29 · Rest as invitation, not reward — Jesus offers it freely, before anything is done</div>
+        </div>
+      </div>
+
+      <div class="practice-guide">
+        <div class="pg-lbl" style="color:var(--w4);">How to do a full Sabbath day — phone off</div>
+        <div class="pg-steps">
+          <div class="pg-step"><div class="pg-step-num">1.</div><div class="pg-step-text"><strong>Prepare the day before.</strong> Tell people you'll be offline. Set an out-of-office if needed. There is nothing so urgent it cannot wait 24 hours. (If there genuinely is — that's important data about your life.)</div></div>
+          <div class="pg-step"><div class="pg-step-num">2.</div><div class="pg-step-text"><strong>Turn the phone off.</strong> Not silent. Not face-down. Off. This is the practice. The anxiety you feel in the first hour is the whole point — observe it without feeding it.</div></div>
+          <div class="pg-step"><div class="pg-step-num">3.</div><div class="pg-step-text">Do things that are <strong>genuinely restorative, relational, and unhurried.</strong> Worship. Walk. Cook and eat slowly. Pray. Read. Be with people you love. Do nothing. Let the day be long.</div></div>
+          <div class="pg-step"><div class="pg-step-num">4.</div><div class="pg-step-text">At the end of the day — before you turn your phone back on — <strong>write down what you noticed.</strong> What emerged without the device? What would you like to carry into the week?</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--w4-bg);border:1px solid hsl(38,80%,66%);border-radius:var(--r-sm);padding:14px 18px;margin-bottom:18px;">
+        <div style="font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--w4);margin-bottom:6px;">A note on the anxiety</div>
+        <div style="font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.6;">The first time you do this, the anxiety may feel disproportionate to the situation. That anxiety is real data. It tells you something about how dependent your nervous system has become on the constant low-grade stimulation of the device. Don't judge it. Just observe it. Then, gently, choose the Sabbath anyway.</div>
+      </div>
+
+      <div class="journal">
+        <div class="journal-lbl">During or after your Sabbath</div>
+        <div class="j-prompt">What was the first hour like? What changed as the day went on?</div>
+        <textarea class="j-open" placeholder="Write freely — what you felt, what you noticed, what surprised you…" style="min-height:110px;"></textarea>
+        <div style="margin-top:14px;">
+          <div class="j-prompt">When you turned your phone back on — what was the first thing you felt? What does that tell you?</div>
+          <textarea class="j-open" placeholder="The first feeling when the phone came back on was…" style="min-height:70px;"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="wk-reflect">
+      <div><div class="wr-lbl">What the Sabbath gave me:</div><input class="wr-input" type="text" placeholder="A specific gift from the day…"><input class="wr-input" type="text" placeholder="What felt genuinely restful?…"></div>
+      <div><div class="wr-lbl">What I want to keep:</div><input class="wr-input" type="text" placeholder="One thing worth carrying forward every week…"><input class="wr-input" type="text" placeholder="Would I do this again?…"></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- FINAL REFLECTION -->
+  <div class="final">
+    <div class="final-lbl"><div class="fd"></div>The four-week reflection</div>
+    <div class="final-title">"What changed — and what do you want to do about it?"</div>
+    <div class="final-body">
+      These four weeks were not designed to make you a perfect practitioner of digital abstinence. They were designed to give you <strong>enough data about yourself to make intentional choices.</strong> What you do with what you've discovered is the real question. Dallas Willard wrote that disciplines are not merely rituals — they are <em>"vital means to transform character."</em> <cite class="cite" style="color:rgba(255,255,255,.35);">Dallas Willard, The Spirit of the Disciplines</cite> The practices only matter if they open you to grace. <strong>The Sabbath is not the destination. It is a door, practiced weekly, that keeps opening you toward the God who rested on the seventh day and said it was very good.</strong>
+    </div>
+
+    <div class="final-questions">
+      <div class="fq">
+        <div class="fq-n">1</div>
+        <div style="flex:1;">
+          <div class="fq-text">Which of the four weeks was hardest — and what does that tell you about where your greatest dependency lies?</div>
+          <input class="fq-input" type="text" placeholder="Write your honest answer…">
+        </div>
+      </div>
+      <div class="fq">
+        <div class="fq-n">2</div>
+        <div style="flex:1;">
+          <div class="fq-text">What did you discover you actually want — beneath the scrolling, beneath the noise?</div>
+          <input class="fq-input" type="text" placeholder="Name it simply…">
+        </div>
+      </div>
+      <div class="fq">
+        <div class="fq-n">3</div>
+        <div style="flex:1;">
+          <div class="fq-text">What one practice will you continue beyond these four weeks? Name it specifically — day, time, what it looks like.</div>
+          <input class="fq-input" type="text" placeholder="Specific practice, day, time…">
+        </div>
+      </div>
+      <div class="fq">
+        <div class="fq-n">4</div>
+        <div style="flex:1;">
+          <div class="fq-text">What do you want to say to God, having done this? Write it here as a simple prayer.</div>
+          <textarea style="margin-top:8px;border:none;border-bottom:1px solid rgba(255,255,255,.15);width:100%;background:transparent;font-family:var(--font-serif);font-size:14px;font-style:italic;color:#fff;padding:3px 0 5px;outline:none;display:block;resize:none;min-height:60px;line-height:1.6;" placeholder="A prayer in your own words…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-foot">
+      <div class="f-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Sabbath</span><span class="tag">Silence</span><span class="tag">Formation</span><span class="tag">Personal</span><span class="tag">Disciplines</span><span class="tag">Technology</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">The Average Christian · 3 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// Nothing needed — all interactions are CSS/onclick
+</script>
+</body>
+</html>

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Five-Year Positioning Map — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.09);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* WP series */
+  --wp:         hsl(218,62%,36%);
+  --wp-mid:     hsl(218,55%,48%);
+  --wp-bg:      hsl(218,55%,48%,0.08);
+  --wp-light:   hsl(218,45%,88%);
+  /* WP-04 scenario colours */
+  --s1:         hsl(218,55%,44%);   /* Scenario A — conservative / blue */
+  --s1-bg:      hsl(218,55%,44%,.08);
+  --s1-light:   hsl(218,45%,90%);
+  --s2:         hsl(280,48%,44%);   /* Scenario B — significant / purple */
+  --s2-bg:      hsl(280,48%,44%,.08);
+  --s2-light:   hsl(280,40%,90%);
+  --s3:         hsl(4,62%,46%);     /* Scenario C — radical / red */
+  --s3-bg:      hsl(4,62%,46%,.07);
+  --s3-light:   hsl(4,50%,90%);
+  /* Payoff colour for moves that work in all scenarios */
+  --payoff:     hsl(142,65%,34%);
+  --payoff-bg:  hsl(142,65%,34%,.08);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(218,20%,88%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:880px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--wp-mid);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 85% 20%,hsl(218,62%,36%,.22) 0%,transparent 55%),
+    radial-gradient(circle at 15% 75%,hsl(142,76%,42%,.07) 0%,transparent 45%);
+  pointer-events:none;
+}
+/* Ghost 5 */
+.hero-ghost{font-family:var(--font-serif);font-size:280px;font-weight:700;color:rgba(255,255,255,.03);position:absolute;right:-10px;bottom:-50px;line-height:1;user-select:none;pointer-events:none;}
+
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:40px;font-weight:700;color:#fff;line-height:1.06;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:22px;}
+
+/* Scenario preview pills in hero */
+.scenario-pills{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.sc-pill{padding:7px 16px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:.3px;border:1px solid;}
+.sc-pill-a{background:hsl(218,55%,44%,.25);border-color:hsl(218,45%,55%,.5);color:hsl(218,60%,75%);}
+.sc-pill-b{background:hsl(280,48%,44%,.25);border-color:hsl(280,40%,55%,.5);color:hsl(280,55%,75%);}
+.sc-pill-c{background:hsl(4,62%,46%,.25);border-color:hsl(4,50%,55%,.5);color:hsl(4,60%,72%);}
+.sc-pill-payoff{background:hsl(142,65%,34%,.2);border-color:hsl(142,55%,45%,.5);color:hsl(142,65%,68%);}
+
+/* Stat strip */
+.hero-stats{display:flex;gap:0;margin-bottom:22px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;}
+.hs{padding:13px 18px;flex:1;border-right:1px solid rgba(255,255,255,.08);}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:var(--font-serif);font-size:22px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.4;}
+.hs-src{font-size:8px;color:rgba(255,255,255,.2);margin-top:3px;font-style:italic;}
+
+.hero-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+.pro-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;}
+.pb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.pb-cell:last-child{border-right:none;}
+.pb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.pb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.pb-input:focus{border-bottom-color:var(--green);}
+.pb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:660px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:14px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+.research-box{background:var(--wp-bg);border-left:3px solid var(--wp-mid);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin-bottom:22px;cursor:pointer;transition:background .12s;}
+.research-box:hover{background:hsl(218,55%,48%,.14);}
+.rb-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--wp-mid);margin-bottom:6px;}
+.rb-text{font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.rb-text strong{color:var(--fg);font-weight:500;}
+.rb-src{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── PART 1: CURRENT STATE ── */
+.current-state{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  margin:18px 0 28px;
+}
+.cs-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.cs-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.cs-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:8px;}
+.cs-input:focus{border-bottom-color:var(--green);}
+.cs-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.cs-input:last-child{margin-bottom:0;}
+
+/* ── THE THREE SCENARIOS ── */
+.scenarios{display:flex;flex-direction:column;gap:16px;margin:20px 0 28px;}
+
+.scenario{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);}
+
+/* Scenario header */
+.sc-head{padding:18px 22px;position:relative;}
+.sc-head-a{background:var(--s1);}
+.sc-head-b{background:var(--s2);}
+.sc-head-c{background:var(--s3);}
+.sc-ghost{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-family:var(--font-serif);font-size:60px;font-weight:700;color:rgba(255,255,255,.08);line-height:1;user-select:none;}
+.sc-kicker{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:5px;}
+.sc-title{font-family:var(--font-serif);font-size:18px;font-weight:600;color:#fff;margin-bottom:3px;}
+.sc-desc{font-size:12px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.45;max-width:480px;}
+
+/* Scenario body — three columns */
+.sc-body{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--bg);border-top:none;
+}
+.sc-col{padding:14px 18px;border-right:1px solid var(--bcard);}
+.sc-col:last-child{border-right:none;}
+.sc-faith{
+  padding:12px 18px;
+  background:var(--green-bg);
+  border-top:1px dashed hsl(142,40%,82%);
+  display:flex;align-items:flex-start;gap:12px;
+}
+.sc-faith-icon{
+  width:20px;height:20px;border-radius:4px;flex-shrink:0;margin-top:1px;
+  background:hsl(142,55%,42%,.15);color:var(--green);
+  display:flex;align-items:center;justify-content:center;font-size:10px;
+}
+.sc-faith-body{flex:1;}
+.sc-faith-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.sc-faith-input{border:none;border-bottom:1px solid hsl(142,45%,80%);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;}
+.sc-faith-input:focus{border-bottom-color:var(--green);}
+.sc-faith-input::placeholder{color:hsl(142,20%,72%);font-weight:300;}
+.sc-col-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:7px;display:flex;align-items:center;gap:6px;}
+.sc-col-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;}
+.sc-ic-good{background:var(--green-bg);color:var(--payoff);}
+.sc-ic-bad{background:hsl(4,62%,46%,.1);color:hsl(4,62%,46%);}
+.sc-ic-move{background:var(--wp-bg);color:var(--wp-mid);}
+.sc-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;}
+.sc-input:focus{border-bottom-color:var(--green);}
+.sc-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.sc-input:last-child{margin-bottom:0;}
+
+/* Accent border per scenario */
+.sc-a .sc-col-lbl{color:var(--s1);}
+.sc-b .sc-col-lbl{color:var(--s2);}
+.sc-c .sc-col-lbl{color:var(--s3);}
+
+/* ── THE PAYOFF MATRIX ── */
+/* Moves that work across all scenarios — this is the gold */
+.payoff-section{
+  background:var(--payoff-bg);border:2px solid hsl(142,50%,72%);
+  border-radius:var(--r);padding:22px 24px;margin:24px 0;
+}
+.ps-lbl{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--payoff);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.ps-dot{width:6px;height:6px;border-radius:50%;background:var(--payoff);}
+.ps-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.ps-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.55;margin-bottom:18px;}
+
+.payoff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.po-card{background:var(--bg);border:1px solid hsl(142,45%,80%);border-radius:var(--r-sm);padding:12px 14px;}
+.po-label{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--payoff);margin-bottom:6px;}
+.po-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:5px;}
+.po-input:focus{border-bottom-color:var(--green);}
+.po-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.po-why-lbl{font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-top:6px;margin-bottom:4px;}
+
+/* Scenario check row */
+.sc-check-row{display:flex;gap:6px;margin-top:5px;}
+.scc{
+  font-size:9px;font-weight:600;padding:3px 8px;border-radius:3px;
+  cursor:pointer;user-select:none;transition:all .12s;
+  border:1px solid var(--border);color:var(--fg-muted);background:var(--bg-warm);
+}
+.scc.on-a.active{background:var(--s1);border-color:var(--s1);color:#fff;}
+.scc.on-b.active{background:var(--s2);border-color:var(--s2);color:#fff;}
+.scc.on-c.active{background:var(--s3);border-color:var(--s3);color:#fff;}
+
+/* ── THE 12-MONTH PLAN ── */
+.twelve-month{border:2px solid var(--fg);border-radius:var(--r);overflow:hidden;margin:24px 0;}
+.tm-head{background:var(--fg);padding:18px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.tm-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:#fff;margin-bottom:3px;}
+.tm-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;max-width:380px;}
+.tm-badge{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:10px;background:var(--cta);color:#fff;white-space:nowrap;flex-shrink:0;align-self:flex-start;}
+
+.tm-body{padding:22px 24px;background:var(--bg);}
+.tm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.tm-field-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.tm-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:6px;}
+.tm-input:focus{border-bottom-color:var(--green);}
+.tm-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* The two skills commitment */
+.skills-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.skill-card{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border);}
+.skill-head{padding:10px 14px;}
+.skill-head-tech{background:var(--wp);}
+.skill-head-human{background:var(--payoff);}
+.skill-head-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:3px;}
+.skill-head-title{font-family:var(--font-serif);font-size:15px;font-weight:600;color:#fff;}
+.skill-head-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.45);margin-top:2px;}
+.skill-body{padding:12px 14px;background:var(--bg);}
+.sk-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;}
+.sk-input:focus{border-bottom-color:var(--green);}
+.sk-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Stop doing */
+.stop-doing{
+  background:hsl(4,62%,46%,.06);border:1px solid hsl(4,50%,80%);
+  border-radius:var(--r-sm);padding:14px 16px;
+}
+.sd-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:hsl(4,62%,46%);margin-bottom:8px;}
+.sd-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;}
+.sd-input:focus{border-bottom-color:var(--green);}
+.sd-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── HONEST QUESTIONS ── */
+.hq-block{margin-bottom:22px;}
+.hq-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;}
+.hq-num{font-family:var(--font-serif);font-size:28px;font-weight:400;color:var(--border);flex-shrink:0;min-width:22px;line-height:1;}
+.hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;margin-bottom:3px;}
+.hq-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;line-height:1.45;}
+.hq-space{width:100%;min-height:62px;border:1px solid var(--bcard);border-radius:var(--r-sm);background:var(--bg-warm);font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:11px 13px;outline:none;resize:vertical;display:block;line-height:1.6;}
+.hq-space:focus{border-color:var(--green);}
+.hq-space::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:hsl(218,65%,65%);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.stat-info-btn{display:none;}}
+
+/* ── STAT INFO BUTTONS & MODAL ── */
+.stat-info-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:6px;flex-shrink:0;transition:all .15s;line-height:1;font-style:normal;}
+.stat-info-btn:hover{background:rgba(255,255,255,.3);color:#fff;transform:scale(1.1);}
+.stat-info-btn-dark{background:var(--wp-bg);border:1px solid var(--wp-mid);color:var(--wp-mid);}
+.stat-info-btn-dark:hover{background:var(--wp);color:#fff;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px);}
+.modal-overlay.open{display:flex;}
+.modal-panel{background:#fff;border-radius:16px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.15);overflow:hidden;animation:modalIn .2s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:none;}}
+.modal-header{background:var(--dark);padding:20px 24px 18px;position:relative;}
+.modal-header-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,hsl(218,55%,48%),hsl(142,76%,42%));}
+.modal-stat-num{font-family:var(--font-serif);font-size:36px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:4px;}
+.modal-stat-label{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.4;max-width:380px;}
+.modal-close{position:absolute;top:14px;right:16px;width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.modal-close:hover{background:rgba(255,255,255,.2);color:#fff;}
+.modal-body{padding:20px 24px 24px;}
+.modal-source-label{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.modal-source-name{font-size:13px;font-weight:500;color:var(--fg);margin-bottom:10px;line-height:1.4;}
+.modal-context{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;margin-bottom:14px;}
+.modal-context strong{color:var(--fg);font-weight:500;}
+.modal-confidence{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid hsl(142,50%,78%);border-radius:4px;padding:4px 10px;margin-bottom:14px;font-size:10px;font-weight:600;color:hsl(142,60%,28%);}
+.modal-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--wp-mid);text-decoration:none;padding:8px 14px;border-radius:7px;border:1px solid var(--wp-light);background:var(--wp-bg);transition:all .12s;}
+.modal-link:hover{background:var(--wp);color:#fff;border-color:var(--wp);}
+
+/* ── FAITH LENS ── */
+.faith-verse{background:linear-gradient(135deg,hsl(142,60%,15%),hsl(142,55%,20%));border-radius:var(--r);padding:20px 24px;margin:20px 0 24px;border:1px solid hsl(142,50%,28%);position:relative;overflow:hidden;}
+.faith-verse::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 50%,hsl(142,70%,42%,.12) 0%,transparent 60%);pointer-events:none;}
+.fv-eyebrow{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(142,60%,55%);margin-bottom:8px;}
+.fv-verse{font-family:var(--font-serif);font-size:17px;font-weight:500;font-style:italic;color:#fff;line-height:1.5;margin-bottom:4px;}
+.fv-ref{font-size:10px;font-weight:600;color:hsl(142,55%,60%);letter-spacing:.5px;margin-bottom:10px;}
+.fv-note{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.6;}
+.fv-note strong{color:rgba(255,255,255,.8);font-weight:500;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO (site nav lives on parent page) -->
+<div class="hero">
+  <div class="hero-ghost">5</div>
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    Career Strategy &nbsp;·&nbsp; Scenario Planning &nbsp;·&nbsp; The Moves That Pay Off in Any Future
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">The <em>Five-Year</em><br>Positioning Map</div>
+  <div class="hero-sub">A career strategy for people who don't know exactly what's coming — but need to act anyway</div>
+
+  <div class="scenario-pills">
+    <div class="sc-pill sc-pill-a">Scenario A — Conservative change</div>
+    <div class="sc-pill sc-pill-b">Scenario B — Significant disruption</div>
+    <div class="sc-pill sc-pill-c">Scenario C — Radical transformation</div>
+    <div class="sc-pill sc-pill-payoff">→ Moves that pay off in all three</div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-wef-jobs')">
+      <div class="hs-num">170M <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-wef-jobs')">ⓘ</button></div>
+      <div class="hs-text">new jobs created by 2030 — but concentrated in AI, cybersecurity, sustainability, and human services</div>
+      <div class="hs-src">WEF Future of Jobs Report 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-ibm-40')">
+      <div class="hs-num">40% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-ibm-40')">ⓘ</button></div>
+      <div class="hs-text">of the global workforce needs reskilling within three years, mainly at entry level</div>
+      <div class="hs-src">IBM Global Study, 2023</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-coursera-195')">
+      <div class="hs-num">195% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-coursera-195')">ⓘ</button></div>
+      <div class="hs-text">growth in GenAI course enrolments year-over-year — 8M+ learners by June 2025</div>
+      <div class="hs-src">Coursera / Vention State of AI 2026</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-edx-halfplan')">
+      <div class="hs-num">50% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-edx-halfplan')">ⓘ</button></div>
+      <div class="hs-text">of surveyed workers say AI will impact their immediate career goals — yet most have no plan</div>
+      <div class="hs-src">edX Worker Survey, 2025</div>
+    </div>
+  </div>
+
+  <div class="hero-desc">
+    Nobody knows exactly what AI will do to your industry in five years. The forecasters disagree. The scenarios range from modest to dramatic. <strong>The right strategy isn't to predict the future — it's to find the moves that are worth making regardless of which future arrives.</strong> That's what this worksheet is for.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Individual use</span><div class="msep"></div>
+    <span class="mi">~50 minutes</span><div class="msep"></div>
+    <span class="mi">Scenario-based — not a linear plan</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <div class="pro-bar">
+    <div class="pb-cell"><div class="pb-lbl">Your Name</div><input class="pb-input" type="text" placeholder="Name…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Role / Title</div><input class="pb-input" type="text" placeholder="Your current position…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Industry</div><input class="pb-input" type="text" placeholder="Sector or field…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Date</div><input class="pb-input" type="text" placeholder="DD / MM / YYYY"></div>
+  </div>
+
+  <!-- FRAMING VERSE -->
+  <div class="faith-verse">
+    <div class="fv-eyebrow">A Christian foundation for this exercise</div>
+    <div class="fv-verse">"Build houses and settle down; plant gardens and eat what they produce... seek the peace and prosperity of the city... because if it prospers, you too will prosper."</div>
+    <div class="fv-ref">Jeremiah 29:5–7</div>
+    <div class="fv-note">Jeremiah wrote this to exiles in Babylon — people in a foreign, uncertain, uncomfortable situation who had no idea what the next decade held. God's instruction wasn't "wait for things to stabilise." It was <strong>build, plant, invest, pray.</strong> Not because the future was secure, but because faithful people act in the present regardless. That's a different posture than either anxious paralysis or reckless optimism. It's long-horizon investment in uncertain conditions — which is exactly what this worksheet is about.</div>
+  </div>
+
+  <div class="research-box" onclick="openModal('stat-stanford-both')">
+    <div class="rb-lbl">Why linear planning fails in uncertain environments <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-stanford-both')">ⓘ</button></div>
+    <div class="rb-text">Stanford researchers found that the gap between workers whose employment grew and those whose employment declined wasn't about which industry they were in — it was about <strong>whether their specific contributions were augmentation-based or automation-based</strong>. That means the useful question isn't "what will my industry look like?" It's "what contributions can I build that hold value across multiple possible futures?"</div>
+    <div class="rb-src">Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025</div>
+  </div>
+
+  <p class="body-para">This worksheet does not ask you to predict what your industry will look like in 2031. It asks you to map <strong>three plausible scenarios</strong> — conservative, significant, and radical — and then identify the moves that pay off in all three. Those multi-scenario moves are your actual strategy. Everything else is a bet on a specific future that may or may not arrive.</p>
+
+  <hr class="div">
+
+  <!-- PART 1: CURRENT STATE -->
+  <div class="sec-lbl">Part 1 — Start here</div>
+  <div class="sec-title">Where you are now</div>
+  <div class="sec-sub" style="margin-bottom:16px;">Before you can plan a position, you need to be honest about where you're starting from. Answer these four questions specifically — not as you'd like them to be, but as they actually are.</div>
+
+  <div class="current-state">
+    <div class="cs-card">
+      <div class="cs-lbl">What makes you valuable right now:</div>
+      <input class="cs-input" type="text" placeholder="The specific skills, knowledge, or relationships that drive your current value…">
+      <input class="cs-input" type="text" placeholder="What would your organisation struggle to do without you?…">
+    </div>
+    <div class="cs-card">
+      <div class="cs-lbl">What makes you most vulnerable right now:</div>
+      <input class="cs-input" type="text" placeholder="The tasks you do that AI is already doing adequately elsewhere…">
+      <input class="cs-input" type="text" placeholder="Skills you haven't updated in the last 3 years…">
+    </div>
+    <div class="cs-card">
+      <div class="cs-lbl">How AI has already changed your role:</div>
+      <input class="cs-input" type="text" placeholder="What has already shifted in how you work since 2023?…">
+      <input class="cs-input" type="text" placeholder="What task or role is visibly shrinking in your organisation?…">
+    </div>
+    <div class="cs-card">
+      <div class="cs-lbl">The career move you haven't made yet:</div>
+      <input class="cs-input" type="text" placeholder="A skill to develop, a pivot you've been considering, a relationship to build…">
+      <input class="cs-input" type="text" placeholder="What has kept you from making it until now?…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 2: THREE SCENARIOS -->
+  <div class="sec-lbl">Part 2 — Map three futures</div>
+  <div class="sec-title">What does your industry look like in 2030 — in each scenario?</div>
+  <div class="sec-sub" style="margin-bottom:20px;">For each scenario, describe what your industry looks like, what your specific role looks like, and what moves would make you more or less valuable. Be concrete — this is your industry, your role, your specific situation.</div>
+
+  <div class="scenarios">
+
+    <!-- SCENARIO A -->
+    <div class="scenario sc-a">
+      <div class="sc-head sc-head-a">
+        <div class="sc-ghost">A</div>
+        <div class="sc-kicker">Scenario A · Conservative change</div>
+        <div class="sc-title">AI improves productivity — but roles are broadly similar</div>
+        <div class="sc-desc">AI handles more routine tasks, but human judgement, relationships, and expertise remain central. Your role exists in roughly the same form, just with different tools.</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-good">▲</div>What would make you more valuable:</div>
+          <input class="sc-input" type="text" placeholder="Skills and contributions that grow in importance…">
+          <input class="sc-input" type="text" placeholder="The role evolution that rewards you most…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-bad">▽</div>What would make you less valuable:</div>
+          <input class="sc-input" type="text" placeholder="Tasks and roles that shrink in this scenario…">
+          <input class="sc-input" type="text" placeholder="The risk to your current position…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-move">→</div>The move that positions you well:</div>
+          <input class="sc-input" type="text" placeholder="One specific action that would strengthen your position…">
+          <input class="sc-input" type="text" placeholder="Timeline to start this move…">
+        </div>
+      </div>
+      <div class="sc-faith">
+        <div class="sc-faith-icon">✦</div>
+        <div class="sc-faith-body">
+          <div class="sc-faith-lbl">What does faithfulness look like in this future?</div>
+          <input class="sc-faith-input" type="text" placeholder="How would you want to be described as a worker and person in this scenario?…">
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO B -->
+    <div class="scenario sc-b">
+      <div class="sc-head sc-head-b">
+        <div class="sc-ghost">B</div>
+        <div class="sc-kicker">Scenario B · Significant disruption</div>
+        <div class="sc-title">AI reshapes the role substantially — some functions disappear, new ones emerge</div>
+        <div class="sc-desc">Several current roles consolidate or change dramatically. AI handles most information processing and routine decisions. Human roles shift toward oversight, relationship management, and complex judgement.</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-good">▲</div>What would make you more valuable:</div>
+          <input class="sc-input" type="text" placeholder="Contributions that gain importance as AI takes the routine…">
+          <input class="sc-input" type="text" placeholder="The new role type that emerges in this scenario…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-bad">▽</div>What would make you less valuable:</div>
+          <input class="sc-input" type="text" placeholder="The current contributions that AI absorbs entirely…">
+          <input class="sc-input" type="text" placeholder="The skill set that becomes obsolete…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-move">→</div>The move that positions you well:</div>
+          <input class="sc-input" type="text" placeholder="The pivot or skill that navigates this disruption…">
+          <input class="sc-input" type="text" placeholder="Who would you need to become in this scenario?…">
+        </div>
+      </div>
+      <div class="sc-faith">
+        <div class="sc-faith-icon">✦</div>
+        <div class="sc-faith-body">
+          <div class="sc-faith-lbl">What does faithfulness look like in this future?</div>
+          <input class="sc-faith-input" type="text" placeholder="What would it mean to serve your community and God well in this disrupted landscape?…">
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENARIO C -->
+    <div class="scenario sc-c">
+      <div class="sc-head sc-head-c">
+        <div class="sc-ghost">C</div>
+        <div class="sc-kicker">Scenario C · Radical transformation</div>
+        <div class="sc-title">AI fundamentally transforms the economic model of your industry</div>
+        <div class="sc-desc">Current roles are substantially replaced. The industry's cost structure changes completely. Human employment in this area drops significantly and then stabilises around irreducibly human work and new role categories.</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-good">▲</div>What would make you more valuable:</div>
+          <input class="sc-input" type="text" placeholder="The irreducibly human contributions that survive radical disruption…">
+          <input class="sc-input" type="text" placeholder="The entirely new role type that emerges…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-bad">▽</div>What would make you less valuable:</div>
+          <input class="sc-input" type="text" placeholder="What disappears entirely in this scenario?…">
+          <input class="sc-input" type="text" placeholder="The skills with no transition pathway…">
+        </div>
+        <div class="sc-col">
+          <div class="sc-col-lbl"><div class="sc-col-icon sc-ic-move">→</div>The pivot that keeps you relevant:</div>
+          <input class="sc-input" type="text" placeholder="The biggest repositioning move needed…">
+          <input class="sc-input" type="text" placeholder="What would you do if your current role ceased to exist?…">
+        </div>
+      </div>
+      <div class="sc-faith">
+        <div class="sc-faith-icon">✦</div>
+        <div class="sc-faith-body">
+          <div class="sc-faith-lbl">What does faithfulness look like in this future?</div>
+          <input class="sc-faith-input" type="text" placeholder="Even in radical disruption, what would it look like to build, plant, and serve — rather than retreat?…">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: THE PAYOFF MATRIX -->
+  <div class="sec-lbl">Part 3 — The payoff matrix</div>
+
+  <div class="payoff-section">
+    <div class="ps-lbl"><div class="ps-dot"></div>The only moves that matter for a robust strategy</div>
+    <div class="ps-title">Investments that pay off across all three scenarios</div>
+    <div class="ps-sub">Look back at the moves you identified in Part 2. Which ones appear in multiple scenarios? The moves that show up in all three — or at least two of the three — are your actual strategy. These are the bets worth making regardless of which future arrives. Identify three and mark which scenarios they serve.</div>
+
+    <div class="payoff-grid">
+
+      <div class="po-card">
+        <div class="po-label">Multi-scenario move 1</div>
+        <input class="po-input" type="text" placeholder="The move or investment…">
+        <input class="po-input" type="text" placeholder="Why it holds value across futures…">
+        <div class="po-why-lbl">Pays off in:</div>
+        <div class="sc-check-row">
+          <div class="scc on-a" onclick="toggleSCC(this)">Scenario A</div>
+          <div class="scc on-b" onclick="toggleSCC(this)">Scenario B</div>
+          <div class="scc on-c" onclick="toggleSCC(this)">Scenario C</div>
+        </div>
+      </div>
+
+      <div class="po-card">
+        <div class="po-label">Multi-scenario move 2</div>
+        <input class="po-input" type="text" placeholder="The move or investment…">
+        <input class="po-input" type="text" placeholder="Why it holds value across futures…">
+        <div class="po-why-lbl">Pays off in:</div>
+        <div class="sc-check-row">
+          <div class="scc on-a" onclick="toggleSCC(this)">Scenario A</div>
+          <div class="scc on-b" onclick="toggleSCC(this)">Scenario B</div>
+          <div class="scc on-c" onclick="toggleSCC(this)">Scenario C</div>
+        </div>
+      </div>
+
+      <div class="po-card">
+        <div class="po-label">Multi-scenario move 3</div>
+        <input class="po-input" type="text" placeholder="The move or investment…">
+        <input class="po-input" type="text" placeholder="Why it holds value across futures…">
+        <div class="po-why-lbl">Pays off in:</div>
+        <div class="sc-check-row">
+          <div class="scc on-a" onclick="toggleSCC(this)">Scenario A</div>
+          <div class="scc on-b" onclick="toggleSCC(this)">Scenario B</div>
+          <div class="scc on-c" onclick="toggleSCC(this)">Scenario C</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="border-top:1px solid hsl(142,40%,80%);padding-top:14px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--payoff);margin-bottom:8px;">The single most valuable multi-scenario move I could make in the next 12 months:</div>
+      <input style="border:none;border-bottom:2px solid var(--payoff);width:100%;background:transparent;font-family:var(--font-serif);font-size:16px;font-style:italic;color:var(--fg);padding:4px 0 7px;outline:none;" type="text" placeholder="Name it precisely — what you'll do, learn, build, or stop doing…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: THE 12-MONTH CONCRETE PLAN -->
+  <div class="sec-lbl">Part 4 — Make it concrete</div>
+  <div class="sec-title">Four commitments for the next 12 months</div>
+  <div class="sec-sub" style="margin-bottom:18px;">Strategy without action is just analysis. Choose your commitments based on your payoff matrix — prioritise moves that serve multiple scenarios.</div>
+
+  <div class="twelve-month">
+    <div class="tm-head">
+      <div>
+        <div class="tm-title">My 12-Month Positioning Plan</div>
+        <div class="tm-sub">Two skills to build, one relationship to invest in, one thing to stop doing — specific enough that you could review these in 12 months and know whether you did them.</div>
+      </div>
+      <div class="tm-badge">12-Month Commitment</div>
+    </div>
+    <div class="tm-body">
+
+      <div class="skills-pair">
+        <div class="skill-card">
+          <div class="skill-head skill-head-tech">
+            <div class="skill-head-lbl">Technical skill</div>
+            <div class="skill-head-title">One AI-adjacent skill to develop</div>
+            <div class="skill-head-sub">Something that makes AI work better for you — not just passive use</div>
+          </div>
+          <div class="skill-body">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">The specific skill:</div>
+            <input class="sk-input" type="text" placeholder="e.g. Prompt engineering, AI workflow design, data analysis with AI tools…">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;margin-top:2px;">How I'll learn it:</div>
+            <input class="sk-input" type="text" placeholder="Course, project, practice regime — specific enough to start…">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;margin-top:2px;">Which scenarios this serves:</div>
+            <input class="sk-input" type="text" placeholder="A / B / C — why this skill holds value in multiple futures…">
+          </div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-head skill-head-human">
+            <div class="skill-head-lbl">Human skill</div>
+            <div class="skill-head-title">One irreducibly human skill to deepen</div>
+            <div class="skill-head-sub">A capability that grows more valuable as AI handles more — not less</div>
+          </div>
+          <div class="skill-body">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">The specific skill:</div>
+            <input class="sk-input" type="text" placeholder="e.g. Complex negotiation, senior leadership presence, building trust across difference…">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;margin-top:2px;">How I'll develop it:</div>
+            <input class="sk-input" type="text" placeholder="Mentoring, stretch assignment, practice context — specific…">
+            <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;margin-top:2px;">Why AI can't replicate this:</div>
+            <input class="sk-input" type="text" placeholder="What makes this irreducibly human in all three scenarios?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="tm-grid">
+        <div>
+          <div class="tm-field-lbl">One relationship to invest in — deliberately</div>
+          <input class="tm-input" type="text" placeholder="Name a specific person — mentor, collaborator, future employer, peer in adjacent field…">
+          <input class="tm-input" type="text" placeholder="Why this relationship matters for where you're positioning…">
+          <input class="tm-input" type="text" placeholder="One concrete action to deepen it in the next 30 days…">
+        </div>
+        <div>
+          <div class="tm-field-lbl">Scenario check-in — when and with whom</div>
+          <input class="tm-input" type="text" placeholder="Date I'll review my scenario assumptions (12 months from now)…">
+          <input class="tm-input" type="text" placeholder="One person I'll discuss my scenario map with in the next 60 days…">
+          <input class="tm-input" type="text" placeholder="What I'll watch in my industry as the leading indicator of which scenario is arriving…">
+        </div>
+      </div>
+
+      <div class="stop-doing">
+        <div class="sd-lbl">The one thing I'm going to stop doing — to make room for this</div>
+        <input class="sd-input" type="text" placeholder="Be specific about what you're deprioritising — a task, a commitment, a habit of mind…">
+        <input class="sd-input" type="text" placeholder="Why this has had more of your attention than it deserves…">
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 5: THE HARD QUESTIONS -->
+  <div class="sec-lbl">Part 5 — Sit with these</div>
+  <div class="sec-title">The questions no LinkedIn post will ask you</div>
+
+  <div style="margin-top:18px;">
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">1</div>
+        <div>
+          <div class="hq-text">Which scenario do you hope is true — and is that hope influencing your planning?</div>
+          <div class="hq-note">Most career plans are secretly bets on the scenario we prefer. Name yours — then check whether you're planning honestly or hopefully.</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Write honestly — what future are you unconsciously betting on, and is it the most likely one?…"></textarea>
+    </div>
+
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">2</div>
+        <div>
+          <div class="hq-text">If Scenario C arrived in two years — radical disruption to your industry — what would you actually do?</div>
+          <div class="hq-note">Not what you'd hope to do. What you'd realistically be positioned to do, based on where you are today.</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Be specific about your realistic options, not your aspirational ones…"></textarea>
+    </div>
+
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">3</div>
+        <div>
+          <div class="hq-text">What move have you been putting off for two years that, if you're honest, appears in your payoff matrix?</div>
+          <div class="hq-note">Most people already know what their best career move is. The question is why they haven't made it yet.</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Name it and name what has been stopping you…"></textarea>
+    </div>
+
+    <div class="hq-block">
+      <div class="hq-row">
+        <div class="hq-num">4</div>
+        <div>
+          <div class="hq-text">In five years, what do you want to be able to say you did during this moment of disruption — when it was uncertain and uncomfortable and most people were just hoping it would stabilise?</div>
+          <div class="hq-note">This is the question that separates people who use uncertainty as an excuse from those who use it as a catalyst.</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="Write this as if you're looking back from 2031…"></textarea>
+    </div>
+
+    <div class="hq-block" style="border-color:hsl(142,40%,80%);background:var(--green-bg);">
+      <div class="hq-row">
+        <div class="hq-num" style="background:var(--green);color:#fff;">5</div>
+        <div>
+          <div class="hq-text" style="color:var(--green);">What would it mean to pursue this five-year plan with your hands open rather than clenched — to build, plant, and work faithfully, while holding the outcomes loosely?</div>
+          <div class="hq-note">The Jeremiah exiles didn't know how long they'd be in Babylon. They built anyway. Faithful investment and surrendered outcomes aren't opposites — for a Christian, they belong together.</div>
+        </div>
+      </div>
+      <textarea class="hq-space" placeholder="What would it practically look like to pursue this plan from a posture of trust rather than anxiety?…" style="border-color:hsl(142,40%,80%);"></textarea>
+    </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A final word — and a challenge</div>
+    <div class="enc-text">
+      Nobody is going to hand you a map of what the next five years looks like. The forecasters disagree. The companies building this technology are genuinely uncertain. The economists are divided. You are operating in genuine uncertainty — and the honest response to genuine uncertainty is not a perfect plan. It's a robust one.<br><br>
+      A robust strategy is one built on moves that pay off in multiple futures. Skills that hold value whether AI disrupts modestly or radically. Relationships that survive restructures. Contributions so deeply relational and contextual that they remain valuable whatever automation arrives next.<br><br>
+      <strong>You have now done the analysis that most people avoid for years.</strong> The question is what you do with it in the next 30 days. Pick one move. Start it this week. Tell someone about it so the accountability is real. The uncertainty will not resolve before you act — which means the action comes first.<br><br>
+      For those who follow Jesus: Jeremiah told the exiles to build and plant in a place that felt temporary, hostile, and out of their control. Not because it was safe, but because <strong>faithfulness doesn't wait for certainty before it gets to work.</strong> Build something. Plant something. Seek the good of the place you're in. Hold the outcomes with open hands.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/working-professionals</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Working Professionals</span><span class="tag">Career Strategy</span><span class="tag">Scenario Planning</span><span class="tag">5-Year Map</span><span class="tag">Individual</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Working Professionals · WP–04 of 4</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="statModal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-accent"></div>
+      <div class="modal-stat-num" id="modalNum"></div>
+      <div class="modal-stat-label" id="modalLabel"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-source-label">Source</div>
+      <div class="modal-source-name" id="modalSource"></div>
+      <div class="modal-confidence" id="modalConfidence"></div>
+      <div class="modal-context" id="modalContext"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Read the original source
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+const STATS = {
+  'stat-wef-jobs': {
+    num: '170 million',
+    label: 'new jobs projected by 2030 — alongside 92 million displaced, a net gain of 78 million',
+    source: 'World Economic Forum — Future of Jobs Report 2025',
+    confidence: '✓ Very high confidence — 1,000+ employers, 14 million workers, 55 economies',
+    context: 'The WEF\'s Future of Jobs Report 2025 is among the most rigorous labour market forecasts available. The projected 170 million new roles are concentrated in specific categories: AI and machine learning specialists, cybersecurity analysts, renewable energy engineers, and human-centred service roles. The 92 million displaced roles concentrate in administrative, data entry, and routine information-processing positions. The net gain of 78 million is genuine — but the distribution is highly uneven by sector, skill level, and geography.',
+    url: 'https://www.weforum.org/publications/the-future-of-jobs-report-2025/'
+  },
+  'stat-ibm-40': {
+    num: '40%',
+    label: 'of the global workforce needs reskilling within three years, mainly at entry level',
+    source: 'IBM Global Study — "The Skills Gap and the Future of Work," 2023',
+    confidence: '✓ High confidence — IBM global study, widely cited in workforce research',
+    context: 'IBM\'s global study of the workforce projected that 40% of workers would need to reskill within three years, primarily because of AI and automation. The impact was found to concentrate at entry level — the roles that have traditionally served as on-ramps into professional careers. This finding aligns with the Stanford "Canaries" research showing the sharpest employment declines in the 22–25 age group. The implication for mid-career workers: the pressure is not just about your current role — it\'s about whether the pipeline of talent below you is being disrupted in ways that change how your organisation is structured.',
+    url: 'https://www.stjohns.edu/news-media/johnnies-blog/ai-impact-students-entering-job-market'
+  },
+  'stat-coursera-195': {
+    num: '195%',
+    label: 'year-over-year growth in GenAI course enrolments, surpassing 8 million learners by June 2025',
+    source: 'Coursera — cited in Vention State of AI Report 2026',
+    confidence: '⚠ Secondary citation — Coursera released figures; verify full report for methodology',
+    context: 'Coursera reported 195% year-over-year growth in generative AI course enrolments, surpassing 8 million total learners by June 2025. Latin America recorded the sharpest regional rise at 425%. This scale of upskilling activity is notable context for any career strategy: the workers who are investing in AI-adjacent skills now are not a niche group — they are a mass market. The differentiation question for this worksheet is not "should I learn AI skills?" but "which specific AI capabilities, combined with which irreducibly human skills, create a positioning that is genuinely difficult to replicate?"',
+    url: 'https://ventionteams.com/solutions/ai/report'
+  },
+  'stat-edx-halfplan': {
+    num: '50%',
+    label: 'of workers say AI advancements will impact their immediate career goals — yet most have no concrete plan',
+    source: 'edX — Worker Upskilling Survey, 2025 (929 employed adults)',
+    confidence: '✓ High confidence — 929 employed adults surveyed',
+    context: 'The edX survey found half of surveyed workers say AI will impact their immediate career goals. Yet only 4% are currently pursuing any AI-related education or training. The gap between recognising the challenge and acting on it is enormous — and it\'s the gap this worksheet series exists to close. Scenario planning is one practical bridge: it converts vague anxiety about an uncertain future into concrete decisions about what to do in the next 12 months.',
+    url: 'https://www.edx.org/resources/workers-consider-upskilling-due-to-ai-anxiety'
+  },
+  'stat-stanford-both': {
+    num: 'Augment vs Automate',
+    label: 'The distinction that predicts employment outcomes better than industry or role',
+    source: 'Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025',
+    confidence: '✓ Very high confidence — ADP administrative payroll data, millions of US workers',
+    context: 'Using ADP payroll data covering millions of workers across 285,000 US firms, Stanford researchers found that the key predictor of employment outcomes was not industry or role title — it was whether a worker\'s contributions were primarily augmentation-based or automation-based. Workers who used AI to learn, validate, and enhance their own judgement saw employment stability or growth. Workers whose primary value was in automatable information-processing tasks saw employment decline. This makes scenario planning particularly valuable: moves that build augmentation-based value hold across multiple future scenarios, while investments in automatable skills do not.',
+    url: 'https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf'
+  }
+};
+
+function openModal(id) {
+  const s = STATS[id];
+  if (!s) return;
+  document.getElementById('modalNum').textContent = s.num;
+  document.getElementById('modalLabel').textContent = s.label;
+  document.getElementById('modalSource').textContent = s.source;
+  document.getElementById('modalConfidence').textContent = s.confidence;
+  document.getElementById('modalContext').innerHTML = s.context;
+  const link = document.getElementById('modalLink');
+  link.href = s.url;
+  link.style.display = s.url ? 'inline-flex' : 'none';
+  document.getElementById('statModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('statModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('statModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+function toggleSCC(el) {
+  el.classList.toggle('active');
+}
+</script>
+</body>
+</html>

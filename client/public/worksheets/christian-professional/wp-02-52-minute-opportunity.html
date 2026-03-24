@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 52-Minute Opportunity — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.09);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+
+  /* WP series — slate blue, consistent with WP-01 */
+  --wp:         hsl(218,62%,36%);
+  --wp-mid:     hsl(218,55%,48%);
+  --wp-bg:      hsl(218,55%,48%,0.08);
+  --wp-light:   hsl(218,45%,88%);
+
+  /* WP-02 specific — time / opportunity colours */
+  --time-give:  hsl(4,65%,48%);    /* tasks to give to AI — red */
+  --time-give-bg: hsl(4,65%,48%,.07);
+  --time-take:  hsl(142,65%,34%);  /* tasks to take back — green */
+  --time-take-bg: hsl(142,65%,34%,.07);
+  --shame-amber:hsl(38,88%,44%);   /* AI shame section — gold/amber */
+  --shame-bg:   hsl(38,88%,44%,.08);
+
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(218,20%,88%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:860px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--wp-mid);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 88% 20%,hsl(218,62%,36%,.2) 0%,transparent 50%),
+    radial-gradient(circle at 10% 82%,hsl(142,76%,42%,.07) 0%,transparent 45%);
+  pointer-events:none;
+}
+/* Large clock ghost number */
+.hero-ghost{
+  font-family:var(--font-serif);font-size:240px;font-weight:700;
+  color:rgba(255,255,255,.03);
+  position:absolute;right:-10px;bottom:-40px;
+  line-height:1;user-select:none;pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-title{font-family:var(--font-serif);font-size:42px;font-weight:700;color:#fff;line-height:1.05;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:22px;}
+
+/* The central stat — large and prominent */
+.hero-central-stat{
+  display:flex;align-items:flex-end;gap:16px;
+  padding:20px 24px;margin-bottom:22px;
+  background:rgba(255,255,255,.05);border-radius:var(--r-sm);
+  border:1px solid rgba(255,255,255,.08);
+}
+.hcs-num{
+  font-family:var(--font-serif);font-size:64px;font-weight:700;
+  color:hsl(218,65%,68%);line-height:1;flex-shrink:0;
+}
+.hcs-text{
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.55);
+  line-height:1.6;padding-bottom:6px;
+}
+.hcs-text strong{color:rgba(255,255,255,.85);font-weight:400;}
+.hcs-src{font-size:9px;color:rgba(255,255,255,.25);margin-top:6px;font-style:italic;}
+
+/* Stat strip */
+.hero-stats{display:flex;gap:0;margin-bottom:22px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;}
+.hs{padding:12px 18px;flex:1;border-right:1px solid rgba(255,255,255,.08);}
+.hs:last-child{border-right:none;}
+.hs-num{font-family:var(--font-serif);font-size:22px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.4;}
+.hs-src{font-size:8px;color:rgba(255,255,255,.2);margin-top:3px;font-style:italic;}
+
+.hero-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:40px 44px 38px;}
+
+/* Pro bar */
+.pro-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:28px;}
+.pb-cell{padding:10px 14px;border-right:1px solid var(--border);}
+.pb-cell:last-child{border-right:none;}
+.pb-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.pb-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 4px;outline:none;}
+.pb-input:focus{border-bottom-color:var(--green);}
+.pb-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:640px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:14px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+/* Research callout */
+.research-box{
+  background:var(--wp-bg);border-left:3px solid var(--wp-mid);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:14px 18px;margin-bottom:22px;
+}
+.rb-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--wp-mid);margin-bottom:6px;}
+.rb-text{font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.rb-text strong{color:var(--fg);font-weight:500;}
+.rb-src{font-size:9px;color:var(--fg-muted);margin-top:5px;font-style:italic;}
+
+/* ── PART 1: THREE TASKS TO GIVE AWAY ── */
+/* The "give" section — red accent */
+.task-section{margin:20px 0 28px;}
+
+.ts-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:16px;
+}
+.ts-badge{
+  font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:4px;flex-shrink:0;
+}
+.ts-badge-give{background:var(--time-give);color:#fff;}
+.ts-badge-take{background:var(--time-take);color:#fff;}
+.ts-heading{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--fg);}
+.ts-sub{font-size:12px;font-weight:300;color:var(--fg-muted);margin-top:2px;line-height:1.4;}
+
+/* Task cards */
+.task-cards{display:flex;flex-direction:column;gap:10px;}
+.task-card{
+  border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;
+}
+.tc-head{
+  display:grid;grid-template-columns:36px 1fr auto;
+  align-items:center;gap:12px;padding:10px 16px;
+}
+.tc-head-give{background:var(--time-give-bg);border-bottom:1px solid hsl(4,50%,80%);}
+.tc-head-take{background:var(--time-take-bg);border-bottom:1px solid hsl(142,40%,80%);}
+.tc-num{
+  font-family:var(--font-serif);font-size:22px;font-weight:400;
+  flex-shrink:0;text-align:center;
+}
+.tc-num-give{color:var(--time-give);}
+.tc-num-take{color:var(--time-take);}
+.tc-head-title{font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--fg-muted);text-transform:uppercase;}
+.tc-est{
+  font-size:10px;font-weight:600;
+  padding:3px 10px;border-radius:4px;
+  color:var(--fg-muted);border:1px solid var(--border);
+  white-space:nowrap;font-style:italic;
+}
+
+.tc-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:var(--bg);}
+.tc-col{padding:12px 16px;border-right:1px solid var(--bcard);}
+.tc-col:last-child{border-right:none;}
+.tc-col-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.tc-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;
+}
+.tc-input:focus{border-bottom-color:var(--green);}
+.tc-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.tc-input:last-child{margin-bottom:0;}
+
+/* Time saved total */
+.time-tally{
+  display:flex;align-items:center;gap:16px;
+  background:var(--bg-muted);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:14px 18px;margin-top:10px;
+}
+.tt-lbl{font-size:12px;font-weight:500;color:var(--fg-muted);}
+.tt-calc{display:flex;align-items:center;gap:12px;margin-left:auto;}
+.tt-field{
+  border:none;border-bottom:2px solid var(--fg);
+  background:transparent;font-family:var(--font-serif);font-size:22px;font-weight:700;
+  color:var(--fg);width:70px;text-align:center;padding:2px 0 4px;outline:none;
+}
+.tt-field:focus{border-bottom-color:var(--green);}
+.tt-unit{font-size:13px;font-weight:300;color:var(--fg-muted);}
+
+/* The trade arrow */
+.trade-arrow{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  padding:14px 0;margin:8px 0;
+}
+.ta-line{flex:1;border-top:2px dashed var(--border);}
+.ta-content{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ta-icon{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--fg);
+  display:flex;align-items:center;justify-content:center;
+}
+.ta-text{font-size:11px;font-weight:600;color:var(--fg-muted);text-align:center;max-width:120px;line-height:1.3;}
+
+/* ── THE 30-DAY EXPERIMENT ── */
+.experiment-block{
+  border:2px solid var(--fg);border-radius:var(--r);
+  overflow:hidden;margin:24px 0;
+}
+.exp-head{
+  background:var(--fg);padding:18px 24px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+}
+.exp-head-left{}
+.exp-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:#fff;margin-bottom:4px;}
+.exp-sub{font-size:12px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.5;max-width:400px;}
+.exp-tag{
+  font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:10px;
+  background:var(--cta);color:#fff;white-space:nowrap;flex-shrink:0;
+  align-self:flex-start;
+}
+.exp-body{padding:22px 24px;background:var(--bg);}
+
+/* Week strip */
+.week-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-bottom:20px;
+}
+.week-card{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  padding:12px 14px;background:var(--bg-warm);
+}
+.wc-num{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.wc-focus{font-size:11.5px;font-weight:600;color:var(--fg);margin-bottom:8px;line-height:1.3;}
+.wc-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:5px;
+}
+.wc-input:focus{border-bottom-color:var(--green);}
+.wc-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Check-in commit */
+.checkin-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.ci-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.ci-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:13px;
+  color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:6px;
+}
+.ci-input:focus{border-bottom-color:var(--green);}
+.ci-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── THE AI SHAME SECTION ── */
+/* This is the section no course covers — needs its own presence */
+.shame-block{
+  border:1px solid hsl(38,70%,72%);border-radius:var(--r);
+  overflow:hidden;margin:24px 0;
+}
+.shame-head{
+  background:hsl(38,88%,44%);padding:16px 22px;
+  display:flex;align-items:center;gap:14px;
+}
+.sh-icon{font-size:20px;user-select:none;}
+.sh-text-wrap{}
+.sh-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,.5);margin-bottom:3px;}
+.sh-headline{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--dark);}
+.shame-body{padding:18px 22px;background:var(--bg);}
+.shame-stat{
+  background:var(--shame-bg);border-radius:var(--r-sm);
+  padding:12px 16px;margin-bottom:16px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.ss-num{
+  font-family:var(--font-serif);font-size:30px;font-weight:700;
+  color:var(--shame-amber);flex-shrink:0;line-height:1;
+}
+.ss-text{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.55;}
+.ss-text strong{color:var(--fg);font-weight:500;}
+.ss-src{font-size:9px;color:var(--fg-muted);margin-top:4px;font-style:italic;}
+
+.shame-questions{display:flex;flex-direction:column;gap:14px;}
+.sq-row{display:flex;gap:12px;align-items:flex-start;}
+.sq-letter{
+  width:28px;height:28px;border-radius:6px;
+  background:hsl(38,88%,44%,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:14px;font-weight:700;
+  color:var(--shame-amber);flex-shrink:0;
+}
+.sq-content{}
+.sq-q{font-size:13px;font-weight:500;color:var(--fg);margin-bottom:6px;line-height:1.4;}
+.sq-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);font-style:italic;margin-bottom:8px;line-height:1.45;}
+.sq-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:5px;
+}
+.sq-input:focus{border-bottom-color:var(--green);}
+.sq-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Visibility strategy */
+.vis-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.vis-card{
+  border:1px solid var(--bcard);border-radius:var(--r-sm);
+  padding:14px 16px;background:var(--bg-warm);
+}
+.vc-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.vc-title{font-size:12.5px;font-weight:600;color:var(--fg);margin-bottom:6px;line-height:1.3;}
+.vc-desc{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:10px;}
+.vc-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:5px;
+}
+.vc-input:focus{border-bottom-color:var(--green);}
+.vc-input::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* ── REFLECTION ── */
+.reflect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.rg{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.rg-num{font-family:var(--font-serif);font-size:34px;font-weight:400;color:var(--border);line-height:1;margin-bottom:6px;}
+.rg-q{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:10px;}
+.rg-area{width:100%;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:3px 0 5px;outline:none;resize:none;height:58px;display:block;}
+.rg-area:focus{border-bottom-color:var(--green);}
+.rg-area::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+
+/* Commitment block */
+.commit{border:2px solid var(--fg);border-radius:var(--r);padding:22px 24px;margin:28px 0 0;}
+.commit-title{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.commit-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);margin-bottom:16px;line-height:1.5;}
+.commit-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.cf-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.cf-input{border:none;border-bottom:1.5px solid var(--fg);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:3px 0 6px;outline:none;}
+.cf-input:focus{border-bottom-color:var(--green);}
+.cf-input::placeholder{color:var(--border);}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:hsl(218,65%,65%);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.stat-info-btn{display:none;}}
+
+/* ── STAT INFO BUTTONS & MODAL ── */
+.stat-info-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:16px;height:16px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.7);font-size:9px;font-weight:700;
+  cursor:pointer;vertical-align:middle;margin-left:6px;
+  flex-shrink:0;transition:all .15s;line-height:1;font-style:normal;
+}
+.stat-info-btn:hover{background:rgba(255,255,255,.3);color:#fff;transform:scale(1.1);}
+.stat-info-btn-dark{
+  background:var(--wp-bg);border:1px solid var(--wp-mid);color:var(--wp-mid);
+}
+.stat-info-btn-dark:hover{background:var(--wp);color:#fff;}
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;
+  align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex;}
+.modal-panel{
+  background:#fff;border-radius:16px;max-width:520px;width:100%;
+  box-shadow:0 24px 80px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.15);
+  overflow:hidden;animation:modalIn .2s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:none;}}
+.modal-header{background:var(--dark);padding:20px 24px 18px;position:relative;}
+.modal-header-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,hsl(218,55%,48%),hsl(142,76%,42%));}
+.modal-stat-num{font-family:var(--font-serif);font-size:36px;font-weight:700;color:hsl(218,65%,68%);line-height:1;margin-bottom:4px;}
+.modal-stat-label{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.4;max-width:380px;}
+.modal-close{position:absolute;top:14px;right:16px;width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.modal-close:hover{background:rgba(255,255,255,.2);color:#fff;}
+.modal-body{padding:20px 24px 24px;}
+.modal-source-label{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.modal-source-name{font-size:13px;font-weight:500;color:var(--fg);margin-bottom:10px;line-height:1.4;}
+.modal-context{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;margin-bottom:14px;}
+.modal-context strong{color:var(--fg);font-weight:500;}
+.modal-confidence{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid hsl(142,50%,78%);border-radius:4px;padding:4px 10px;margin-bottom:14px;font-size:10px;font-weight:600;color:hsl(142,60%,28%);}
+.modal-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--wp-mid);text-decoration:none;padding:8px 14px;border-radius:7px;border:1px solid var(--wp-light);background:var(--wp-bg);transition:all .12s;}
+.modal-link:hover{background:var(--wp);color:#fff;border-color:var(--wp);}
+
+/* ── FAITH LENS ── */
+.faith-verse{background:linear-gradient(135deg,hsl(142,60%,15%),hsl(142,55%,20%));border-radius:var(--r);padding:20px 24px;margin:20px 0 24px;border:1px solid hsl(142,50%,28%);position:relative;overflow:hidden;}
+.faith-verse::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 50%,hsl(142,70%,42%,.12) 0%,transparent 60%);pointer-events:none;}
+.fv-eyebrow{font-size:8px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(142,60%,55%);margin-bottom:8px;}
+.fv-verse{font-family:var(--font-serif);font-size:17px;font-weight:500;font-style:italic;color:#fff;line-height:1.5;margin-bottom:4px;}
+.fv-ref{font-size:10px;font-weight:600;color:hsl(142,55%,60%);letter-spacing:.5px;margin-bottom:10px;}
+.fv-note{font-size:12px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.6;}
+.fv-note strong{color:rgba(255,255,255,.8);font-weight:500;}
+.faith-integrity{background:var(--green-bg);border:1px solid hsl(142,55%,78%);border-radius:var(--r-sm);padding:14px 18px;margin:16px 0;}
+.fi-lbl{font-size:8px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.fi-text{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.65;}
+.fi-text strong{color:var(--fg);font-weight:500;}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO (site nav lives on parent page) -->
+<div class="hero">
+  <div class="hero-ghost">52</div>
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    Your Personal AI Integration Plan &nbsp;·&nbsp; The Trade You Need to Make
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">The <em>52-Minute</em><br>Opportunity</div>
+  <div class="hero-sub">What will you do with the time AI gives you back?</div>
+
+  <!-- Central stat — the whole worksheet is built on this -->
+  <div class="hero-central-stat" style="cursor:pointer;" onclick="openModal('stat-netguru-52')">
+    <div class="hcs-num">52 <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-netguru-52')" style="font-size:12px;width:20px;height:20px;">ⓘ</button></div>
+    <div>
+      <div class="hcs-text">AI tools save workers an average of <strong>52–60 minutes per day</strong> across industries. But 46% of workers believe that reclaimed time belongs to them — not their employer. And most have no plan for it either way.</div>
+      <div class="hcs-src">Netguru AI Adoption Statistics, December 2025</div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-walkme-48')">
+      <div class="hs-num">48.8% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-walkme-48')">ⓘ</button></div>
+      <div class="hs-text">of employees hide their AI use at work to avoid judgement — "AI shame"</div>
+      <div class="hs-src">WalkMe AI in the Workplace Survey, 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-walkme-53')">
+      <div class="hs-num">53% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-walkme-53')">ⓘ</button></div>
+      <div class="hs-text">of C-suite leaders admit concealing their AI habits — the highest rate of any group</div>
+      <div class="hs-src">WalkMe / Fortune, August 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-linkedin-57')">
+      <div class="hs-num">57% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-linkedin-57')">ⓘ</button></div>
+      <div class="hs-text">say learning AI feels like "a second job" — adding stress with little benefit to workflows</div>
+      <div class="hs-src">LinkedIn survey, cited in Fortune, 2025</div>
+    </div>
+    <div class="hs" style="cursor:pointer;" onclick="openModal('stat-ey-82')">
+      <div class="hs-num">82% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-ey-82')">ⓘ</button></div>
+      <div class="hs-text">believe AI will make them more efficient at work — but most have no concrete plan to use the gain</div>
+      <div class="hs-src">EY AI Anxiety in Business Survey, 2025</div>
+    </div>
+  </div>
+
+  <div class="hero-desc">
+    The problem isn't access to AI. <strong>It's that nobody has told you what to do with what it gives you.</strong> This worksheet is a decision tool, not a training plan. It helps you deliberately trade low-value tasks to AI — and reclaim that time for the high-value work that makes you irreplaceable. It also addresses the thing every other course ignores: AI shame, and how to navigate it honestly.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Individual use</span><div class="msep"></div>
+    <span class="mi">~40 minutes</span><div class="msep"></div>
+    <span class="mi">Do this with WP-01 or alone</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <div class="pro-bar">
+    <div class="pb-cell"><div class="pb-lbl">Your Name</div><input class="pb-input" type="text" placeholder="Name…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Role / Title</div><input class="pb-input" type="text" placeholder="Your current position…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Industry</div><input class="pb-input" type="text" placeholder="Sector or field…"></div>
+    <div class="pb-cell"><div class="pb-lbl">Date</div><input class="pb-input" type="text" placeholder="DD / MM / YYYY"></div>
+  </div>
+
+  <!-- FRAMING VERSE -->
+  <div class="faith-verse">
+    <div class="fv-eyebrow">A Christian foundation for this exercise</div>
+    <div class="fv-verse">"Teach us to number our days, that we may gain a heart of wisdom."</div>
+    <div class="fv-ref">Psalm 90:12</div>
+    <div class="fv-note">How we spend time is a spiritual question, not just an efficiency one. The Psalms understood that before productivity culture existed. When AI reclaims 52 minutes of your day, you're not just getting a scheduling win — <strong>you're being handed a stewardship question.</strong> What does God actually want you to do with the margin you've been given? That's a different question than what your employer wants.</div>
+  </div>
+
+  <!-- Framing -->
+  <div class="research-box" style="cursor:pointer;" onclick="openModal('stat-stanford-augment')">
+    <div class="rb-lbl">The critical distinction — Stanford Digital Economy Lab, August 2025 <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-stanford-augment')">ⓘ</button></div>
+    <div class="rb-text">Workers who use AI to <strong>automate existing tasks</strong> are losing ground. Workers who use AI to <strong>learn new skills and take on higher-value work</strong> are seeing employment growth. The 52 minutes isn't the prize. What you do with those 52 minutes is.</div>
+    <div class="rb-src">Erik Brynjolfsson et al., "Canaries in the Coal Mine" — ADP payroll data covering millions of US workers</div>
+  </div>
+
+  <p class="body-para">This worksheet asks you to make a deliberate trade: <strong>three tasks you'll hand to AI, and three high-value activities you'll use the reclaimed time for.</strong> Then it helps you design a 30-day experiment to test whether the trade actually works — and navigate your specific workplace context, whether that means being fully transparent about AI use or handling it more quietly.</p>
+
+  <hr class="div">
+
+  <!-- PART 1: THREE TASKS TO GIVE AWAY -->
+  <div class="sec-lbl">Part 1 — What you're giving to AI</div>
+  <div class="sec-title">Three recurring tasks to hand over — starting this week</div>
+  <div class="sec-sub" style="margin-bottom:20px;">Choose tasks that consume time and have a low human-value ceiling — work where the output matters more than the process of producing it. If you completed WP-01, these should come from your "Automate now" or "Watch closely" heat map cells.</div>
+
+  <div class="task-section">
+    <div class="ts-header">
+      <div class="ts-badge ts-badge-give">→ Give to AI</div>
+      <div>
+        <div class="ts-heading">Tasks you're handing over</div>
+        <div class="ts-sub">Be specific. "Email" isn't a task. "First draft of weekly client status updates" is.</div>
+      </div>
+    </div>
+
+    <div class="task-cards">
+
+      <div class="task-card">
+        <div class="tc-head tc-head-give">
+          <div class="tc-num tc-num-give">1</div>
+          <div class="tc-head-title">Task to give to AI</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The specific task</div>
+            <input class="tc-input" type="text" placeholder="Name it precisely…">
+            <input class="tc-input" type="text" placeholder="How often does it occur?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">AI tool &amp; how I'll use it</div>
+            <input class="tc-input" type="text" placeholder="Which tool? (ChatGPT, Copilot, Claude…)">
+            <input class="tc-input" type="text" placeholder="My basic prompt or workflow…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">My role in the output</div>
+            <input class="tc-input" type="text" placeholder="What will I still check or edit?…">
+            <input class="tc-input" type="text" placeholder="Who sees this, and does quality matter?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="tc-head tc-head-give">
+          <div class="tc-num tc-num-give">2</div>
+          <div class="tc-head-title">Task to give to AI</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The specific task</div>
+            <input class="tc-input" type="text" placeholder="Name it precisely…">
+            <input class="tc-input" type="text" placeholder="How often does it occur?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">AI tool &amp; how I'll use it</div>
+            <input class="tc-input" type="text" placeholder="Which tool?…">
+            <input class="tc-input" type="text" placeholder="My basic prompt or workflow…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">My role in the output</div>
+            <input class="tc-input" type="text" placeholder="What will I still check or edit?…">
+            <input class="tc-input" type="text" placeholder="Who sees this?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="tc-head tc-head-give">
+          <div class="tc-num tc-num-give">3</div>
+          <div class="tc-head-title">Task to give to AI</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The specific task</div>
+            <input class="tc-input" type="text" placeholder="Name it precisely…">
+            <input class="tc-input" type="text" placeholder="How often does it occur?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">AI tool &amp; how I'll use it</div>
+            <input class="tc-input" type="text" placeholder="Which tool?…">
+            <input class="tc-input" type="text" placeholder="My basic prompt or workflow…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">My role in the output</div>
+            <input class="tc-input" type="text" placeholder="What will I still check or edit?…">
+            <input class="tc-input" type="text" placeholder="Who sees this?…">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="time-tally">
+      <div class="tt-lbl">Estimated time reclaimed per week across all three tasks:</div>
+      <div class="tt-calc">
+        <input class="tt-field" type="text" placeholder="___">
+        <span class="tt-unit">minutes / week</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- The trade arrow -->
+  <div class="trade-arrow">
+    <div class="ta-line"></div>
+    <div class="ta-content">
+      <div class="ta-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M4 10l5 5 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="ta-text">That time goes here — deliberately</div>
+    </div>
+    <div class="ta-line"></div>
+  </div>
+
+  <!-- PART 2: THREE ACTIVITIES TO TAKE BACK -->
+  <div class="task-section">
+    <div class="ts-header">
+      <div class="ts-badge ts-badge-take">✓ Take back</div>
+      <div>
+        <div class="ts-heading">High-value activities you've been neglecting</div>
+        <div class="ts-sub">The relationship-building, strategic thinking, creative work, and skill development that keeps getting crowded out by busywork. Choose three that will genuinely increase your value — not just fill the time.</div>
+      </div>
+    </div>
+
+    <div class="task-cards">
+
+      <div class="task-card">
+        <div class="tc-head tc-head-take">
+          <div class="tc-num tc-num-take">1</div>
+          <div class="tc-head-title">Activity to take back</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The activity</div>
+            <input class="tc-input" type="text" placeholder="e.g. 1:1 mentoring time with my team…">
+            <input class="tc-input" type="text" placeholder="Why has this been getting skipped?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">Why this builds long-term value</div>
+            <input class="tc-input" type="text" placeholder="What skill, relationship, or outcome does this grow?…">
+            <input class="tc-input" type="text" placeholder="Who benefits, and how?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">When &amp; how I'll do it</div>
+            <input class="tc-input" type="text" placeholder="Which day/time of week?…">
+            <input class="tc-input" type="text" placeholder="How will I protect this slot?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="tc-head tc-head-take">
+          <div class="tc-num tc-num-take">2</div>
+          <div class="tc-head-title">Activity to take back</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The activity</div>
+            <input class="tc-input" type="text" placeholder="e.g. Deeper client conversations…">
+            <input class="tc-input" type="text" placeholder="Why has this been getting skipped?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">Why this builds long-term value</div>
+            <input class="tc-input" type="text" placeholder="What does this develop or strengthen?…">
+            <input class="tc-input" type="text" placeholder="Who benefits, and how?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">When &amp; how I'll do it</div>
+            <input class="tc-input" type="text" placeholder="Which day/time of week?…">
+            <input class="tc-input" type="text" placeholder="How will I protect this slot?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="task-card">
+        <div class="tc-head tc-head-take">
+          <div class="tc-num tc-num-take">3</div>
+          <div class="tc-head-title">Activity to take back</div>
+          <div class="tc-est"><input type="text" style="border:none;background:transparent;font-family:var(--font-sans);font-size:10px;color:var(--fg-muted);width:80px;outline:none;text-align:center;" placeholder="~___ min/week"></div>
+        </div>
+        <div class="tc-body">
+          <div class="tc-col">
+            <div class="tc-col-lbl">The activity</div>
+            <input class="tc-input" type="text" placeholder="e.g. Strategic thinking time / learning…">
+            <input class="tc-input" type="text" placeholder="Why has this been getting skipped?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">Why this builds long-term value</div>
+            <input class="tc-input" type="text" placeholder="What does this develop or strengthen?…">
+            <input class="tc-input" type="text" placeholder="Who benefits, and how?…">
+          </div>
+          <div class="tc-col">
+            <div class="tc-col-lbl">When &amp; how I'll do it</div>
+            <input class="tc-input" type="text" placeholder="Which day/time of week?…">
+            <input class="tc-input" type="text" placeholder="How will I protect this slot?…">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: THE 30-DAY EXPERIMENT -->
+  <div class="sec-lbl">Part 3 — The 30-day experiment</div>
+  <div class="sec-title">Design and commit to a trial run</div>
+  <div class="sec-sub" style="margin-bottom:18px;">Don't launch everything at once. Pick the most important trade from your lists above and run it as a deliberate 30-day experiment with clear success criteria.</div>
+
+  <div class="experiment-block">
+    <div class="exp-head">
+      <div class="exp-head-left">
+        <div class="exp-title">My 30-Day Trade</div>
+        <div class="exp-sub">One task handed to AI. One activity reclaimed. Four weeks with specific focus. A clear measure of whether it worked.</div>
+      </div>
+      <div class="exp-tag">30-Day Commitment</div>
+    </div>
+    <div class="exp-body">
+
+      <!-- What the experiment IS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+        <div>
+          <div class="ci-lbl" style="color:var(--time-give);">Task I'm giving to AI:</div>
+          <input class="ci-input" type="text" placeholder="The most important task to automate first…">
+          <div class="ci-lbl" style="color:var(--time-give);margin-top:8px;">Tool &amp; method:</div>
+          <input class="ci-input" type="text" placeholder="Exactly how I'll do it…">
+        </div>
+        <div>
+          <div class="ci-lbl" style="color:var(--time-take);">Activity I'm reclaiming:</div>
+          <input class="ci-input" type="text" placeholder="The most important high-value activity to protect…">
+          <div class="ci-lbl" style="color:var(--time-take);margin-top:8px;">When I'll do it:</div>
+          <input class="ci-input" type="text" placeholder="Specific day and time slot, every week…">
+        </div>
+      </div>
+
+      <!-- Week-by-week focus -->
+      <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;">Week-by-week: what I'll focus on and check</div>
+      <div class="week-strip">
+        <div class="week-card">
+          <div class="wc-num">Week 1</div>
+          <div class="wc-focus">Set up and start</div>
+          <input class="wc-input" type="text" placeholder="What I'm setting up…">
+          <input class="wc-input" type="text" placeholder="How I'll know it's working…">
+        </div>
+        <div class="week-card">
+          <div class="wc-num">Week 2</div>
+          <div class="wc-focus">First honest review</div>
+          <input class="wc-input" type="text" placeholder="What's working so far?…">
+          <input class="wc-input" type="text" placeholder="What needs adjusting?…">
+        </div>
+        <div class="week-card">
+          <div class="wc-num">Week 3</div>
+          <div class="wc-focus">Refine and deepen</div>
+          <input class="wc-input" type="text" placeholder="What I've improved…">
+          <input class="wc-input" type="text" placeholder="What I'm noticing about the reclaimed time?…">
+        </div>
+        <div class="week-card">
+          <div class="wc-num">Week 4</div>
+          <div class="wc-focus">Evaluate and decide</div>
+          <input class="wc-input" type="text" placeholder="Did the trade work?…">
+          <input class="wc-input" type="text" placeholder="Do I expand, continue, or stop?…">
+        </div>
+      </div>
+
+      <div class="checkin-row">
+        <div>
+          <div class="ci-lbl">How I'll know this worked (my success measure):</div>
+          <input class="ci-input" type="text" placeholder="A specific, observable outcome after 30 days…">
+          <input class="ci-input" type="text" placeholder="What will be different, and who will notice?…">
+        </div>
+        <div>
+          <div class="ci-lbl">Who I'm telling about this experiment:</div>
+          <input class="ci-input" type="text" placeholder="Name someone who can ask how it's going…">
+          <input class="ci-input" type="text" placeholder="When I'll check in with them…">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: THE AI SHAME SECTION -->
+  <div class="sec-lbl">Part 4 — The conversation nobody else covers</div>
+
+  <div class="shame-block">
+    <div class="shame-head">
+      <div class="sh-icon">⚠</div>
+      <div class="sh-text-wrap">
+        <div class="sh-title">The thing every course ignores</div>
+        <div class="sh-headline">"AI Shame" — and how to navigate your workplace honestly</div>
+      </div>
+    </div>
+    <div class="shame-body">
+
+      <div class="shame-stat" style="cursor:pointer;" onclick="openModal('stat-walkme-48')">
+        <div class="ss-num">48.8% <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-walkme-48')" style="width:14px;height:14px;font-size:8px;">ⓘ</button></div>
+        <div>
+          <div class="ss-text">of employees <strong>hide their AI use at work to avoid judgement</strong> — "AI shame" — even when the work they produce is genuinely better. This is most pronounced at the <strong>C-suite level (53.4%)</strong>, where executives are the most frequent AI users and the most secretive about it. 62.6% of Gen Z workers have submitted AI-assisted work while presenting it as entirely their own.</div>
+          <div class="ss-src">WalkMe AI in the Workplace Survey 2025 / Fortune, August 2025</div>
+        </div>
+      </div>
+
+      <p class="body-para" style="margin-bottom:18px;">This isn't a moral problem — it's a culture problem. Most workplaces haven't defined what transparent, ethical AI use looks like, which means workers are navigating it alone. The questions below help you think clearly about your specific context rather than applying a generic rule.</p>
+
+      <div class="faith-integrity">
+        <div class="fi-lbl">A note on integrity</div>
+        <div class="fi-text">For a Christian, the framework for transparency isn't just "what does my workplace culture allow?" It's deeper: <strong>who am I when nobody's checking?</strong> That's not a rebuke — it's actually liberating. You don't have to decode your organisation's unwritten rules about AI. You can start from a place of character rather than calculation. There's a meaningful difference between not broadcasting every AI-assisted task and actively misrepresenting your work. A person of integrity knows the difference — and stays clearly on the right side of it, regardless of what everyone else is doing.</div>
+      </div>
+
+      <div class="shame-questions">
+
+        <div class="sq-row">
+          <div class="sq-letter">A</div>
+          <div class="sq-content">
+            <div class="sq-q">What is your organisation's actual position on AI use — written or unwritten?</div>
+            <div class="sq-note">Not what it says in a policy document, if one exists. What the real culture is, based on what you observe.</div>
+            <input class="sq-input" type="text" placeholder="Is AI use encouraged, tolerated, frowned upon, or unclear?…">
+            <input class="sq-input" type="text" placeholder="Who in your org is openly using AI, and who is hiding it?…">
+          </div>
+        </div>
+
+        <div class="sq-row">
+          <div class="sq-letter">B</div>
+          <div class="sq-content">
+            <div class="sq-q">Are there tasks in your role where AI use would be genuinely problematic — not just uncomfortable?</div>
+            <div class="sq-note">Client confidentiality, data privacy, professional accountability, regulated outputs. Be honest — these are real constraints, not excuses.</div>
+            <input class="sq-input" type="text" placeholder="Specific tasks or situations where AI should not be used in your role…">
+            <input class="sq-input" type="text" placeholder="Why — is it a regulation, a relationship, or a professional standard?…">
+          </div>
+        </div>
+
+        <div class="sq-row">
+          <div class="sq-letter">C</div>
+          <div class="sq-content">
+            <div class="sq-q">What is your personal standard for transparency about AI use?</div>
+            <div class="sq-note">There's a meaningful difference between not announcing every AI-assisted task and actively misrepresenting your work. Where is your line?</div>
+            <input class="sq-input" type="text" placeholder="My standard for when to disclose AI use…">
+            <input class="sq-input" type="text" placeholder="A situation where I would and wouldn't disclose…">
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+        <div class="sec-lbl" style="margin-bottom:10px;">Your visibility strategy — choose your approach</div>
+        <div class="vis-options">
+          <div class="vis-card">
+            <div class="vc-lbl">If your workplace is openly AI-friendly</div>
+            <div class="vc-title">Make your AI use a visible advantage</div>
+            <div class="vc-desc">Being the person who uses AI well — and can show others how — is a genuine career differentiator. The 58% skills gap in most industries means AI-fluent workers stand out fast.</div>
+            <input class="vc-input" type="text" placeholder="How I'll make my AI fluency visible to the right people…">
+          </div>
+          <div class="vis-card">
+            <div class="vc-lbl">If your workplace is cautious or unclear</div>
+            <div class="vc-title">Navigate it quietly — but with integrity</div>
+            <div class="vc-desc">You can use AI for tasks where the output is what matters, without broadcasting it. The key is knowing your personal line and staying clearly on the right side of it.</div>
+            <input class="vc-input" type="text" placeholder="Where my line is, and how I'll stay clearly on the right side of it…">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- REFLECTION -->
+  <div class="sec-lbl">Final reflection</div>
+  <div class="sec-title">The honest questions</div>
+
+  <div class="reflect-grid">
+    <div class="rg">
+      <div class="rg-num">1</div>
+      <div class="rg-q">What has been stopping you from making this trade until now — and was that reason as solid as you thought?</div>
+      <textarea class="rg-area" placeholder="Time? Culture? Not knowing where to start? Fear of being seen differently?…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">2</div>
+      <div class="rg-q">Of the three activities you're reclaiming, which one will have the biggest impact on your value and trajectory in 12 months?</div>
+      <textarea class="rg-area" placeholder="Name it and say why…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">3</div>
+      <div class="rg-q">What would it look like for you to be genuinely transparent about your AI use — and what's the risk of doing that in your current environment?</div>
+      <textarea class="rg-area" placeholder="The real answer, not the safe one…"></textarea>
+    </div>
+    <div class="rg">
+      <div class="rg-num">4</div>
+      <div class="rg-q">If this 30-day experiment works exactly as planned — what will be different about how you spend your working week in 6 months?</div>
+      <textarea class="rg-area" placeholder="Describe a specific day or week…"></textarea>
+    </div>
+    <div class="rg" style="grid-column:1/-1;">
+      <div class="rg-num">5</div>
+      <div class="rg-q" style="color:var(--green);">If you reclaimed this time consistently for a year — what does God actually want you to do with it? Is the answer about your career, or something else?</div>
+      <textarea class="rg-area" placeholder="Be honest here. Sometimes reclaimed time reveals what we've been avoiding, not just what we should be building…"></textarea>
+    </div>
+  </div>
+
+  <!-- Commitment -->
+  <div class="commit">
+    <div class="commit-title">The Commitment</div>
+    <div class="commit-sub">One sentence, four fields. The specificity is the point — vague intentions don't survive contact with a real work week.</div>
+    <div class="commit-fields">
+      <div>
+        <div class="cf-lbl">Starting this week, I will hand to AI:</div>
+        <input class="cf-input" type="text" placeholder="The specific task…">
+      </div>
+      <div>
+        <div class="cf-lbl">Using this in the reclaimed time instead:</div>
+        <input class="cf-input" type="text" placeholder="The high-value activity…">
+      </div>
+      <div>
+        <div class="cf-lbl">I'll review whether it's working on:</div>
+        <input class="cf-input" type="text" placeholder="A specific date, 30 days from now…">
+      </div>
+      <div>
+        <div class="cf-lbl">The person I've told about this:</div>
+        <input class="cf-input" type="text" placeholder="Name someone who will ask you about it…">
+      </div>
+    </div>
+  </div>
+
+  <!-- Encouragement -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A closing word</div>
+    <div class="enc-text">
+      Most AI training tells you how to use the tools. Almost none of it tells you <strong>what to do with what the tools give you</strong>. That gap — between saving time and deploying it deliberately — is where the real career differentiation happens.<br><br>
+      The 52 minutes is not a productivity win. It's a decision point. You can let your employer absorb it through higher output expectations. You can spend it on things that don't compound. Or you can make a deliberate, ongoing investment in the work that makes you genuinely harder to replace. <strong>That choice doesn't happen by default. It happens here — in writing, with a date, and someone who knows about it.</strong><br><br>
+      And for those of us who are followers of Jesus: the Psalmist asked God to help us number our days wisely. This is one of those days. <strong>What you do with this margin is an act of stewardship — not just of time, but of the person God is forming you to be.</strong>
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/working-professionals</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Working Professionals</span><span class="tag">AI Integration</span><span class="tag">Career Strategy</span><span class="tag">30-Day Plan</span><span class="tag">Individual</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Working Professionals · WP–02 of 4</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+// ── MODAL DATA & LOGIC ──
+const STATS = {
+  'stat-netguru-52': {
+    num: '52–60 minutes',
+    label: 'saved per day per worker by AI tools, on average across industries',
+    source: 'Netguru — AI Adoption Statistics, December 2025',
+    confidence: '✓ High confidence — aggregated across multiple industry surveys',
+    context: 'Netguru\'s AI adoption research found that AI tools save workers an average of 52–60 minutes daily across industries. A related finding: 77% of employees say they would still use at least half of their reclaimed time on work-related activities. But 46% believe the time saved belongs to them, not their employer — a tension that most organisations have not yet addressed. This worksheet exists to help individuals make a deliberate choice about where that time goes.',
+    url: 'https://www.netguru.com/blog/ai-adoption-statistics'
+  },
+  'stat-walkme-48': {
+    num: '48.8%',
+    label: 'of employees hide their AI use at work to avoid judgement — "AI shame"',
+    source: 'WalkMe (an SAP company) — AI in the Workplace Survey 2025 / Fortune, August 2025',
+    confidence: '✓ High confidence — 1,000+ US workers surveyed',
+    context: 'WalkMe surveyed over 1,000 US workers for their 2025 AI in the Workplace survey. Nearly half (48.8%) admit to hiding their AI use to avoid judgement. This discomfort is most pronounced at the executive level — 53.4% of C-suite leaders conceal their AI habits, despite being the most frequent users. 62.6% of Gen Z workers have completed work using AI but presented it as entirely their own — the highest rate of any generation. The researchers noted that this creates "a confusing, if not chaotic, implementation of AI in the workplace."',
+    url: 'https://fortune.com/2025/08/29/what-is-ai-shame-readiness-gap-training-artificial-intelligence/'
+  },
+  'stat-walkme-53': {
+    num: '53.4%',
+    label: 'of C-suite leaders admit concealing their AI habits — despite being the most frequent users',
+    source: 'WalkMe — AI in the Workplace Survey 2025, cited in Fortune',
+    confidence: '✓ High confidence — 1,000+ US workers including senior leaders',
+    context: 'The WalkMe survey found a paradox at the executive level: C-suite leaders are the most active AI users in their organisations, yet more than half of them hide it. This likely reflects the pressure on senior leaders to project expertise and authority — using AI can feel like an admission of not knowing something. The same survey found more than half of professionals report being overwhelmed by AI training initiatives, saying it feels like "a second job."',
+    url: 'https://fortune.com/2025/08/29/what-is-ai-shame-readiness-gap-training-artificial-intelligence/'
+  },
+  'stat-linkedin-57': {
+    num: '57%',
+    label: 'of professionals say learning AI feels like "a second job" — adding stress with little workflow benefit',
+    source: 'LinkedIn survey, cited in Fortune / Built In, 2025',
+    confidence: '⚠ Secondary citation — verify against original LinkedIn report',
+    context: 'LinkedIn\'s survey found that more than half of professionals report being overwhelmed by AI training initiatives, describing it as feeling like "a second job." A related finding from the same reporting: more than 40% say the rate of AI\'s advancement has taken a toll on their wellbeing. This context matters for this worksheet — the goal is not to add another training burden, but to make a deliberate, low-friction trade that actually reduces overall cognitive load.',
+    url: 'https://builtin.com/articles/ai-anxiety-job-hugging-quiet-cracking'
+  },
+  'stat-ey-82': {
+    num: '82%',
+    label: 'of workers believe AI will make them more efficient — but most have no concrete plan for the reclaimed time',
+    source: 'EY — AI Anxiety in Business Survey',
+    confidence: '✓ High confidence — 1,000 employed US workers',
+    context: 'Ernst & Young\'s survey of 1,000 employed US workers found that 82% believe AI will make them more efficient, 81% believe it will make them more productive, and 81% believe it will allow them to focus on higher-value work. Yet the same survey found 65% are anxious about AI replacing their job. The opportunity and the anxiety coexist — the missing piece is a concrete plan to actually capture the efficiency gain and redirect it toward higher-value activity.',
+    url: 'https://www.ey.com/en_us/newsroom/2023/12/ey-research-shows-most-us-employees-feel-ai-anxiety'
+  },
+  'stat-stanford-augment': {
+    num: 'Automation vs Augmentation',
+    label: 'The finding that reframes the entire AI career conversation',
+    source: 'Stanford Digital Economy Lab — "Canaries in the Coal Mine," August 2025',
+    confidence: '✓ Very high confidence — ADP administrative payroll data, millions of US workers',
+    context: 'Using large-scale payroll data, Stanford researchers found the negative employment impacts from AI concentrate in occupations where AI automates routine tasks entirely. In occupations where workers use AI as an augmentation tool — to learn, to validate, to improve quality — employment for young workers remains stable or increases. The key implication for this worksheet: giving 52 minutes of AI time savings back to administrative output merely makes you a more efficient automator. Reinvesting it in relationship-building, strategic thinking, or skill development makes you harder to replace.',
+    url: 'https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf'
+  }
+};
+
+function openModal(id) {
+  const s = STATS[id];
+  if (!s) return;
+  document.getElementById('modalNum').textContent = s.num;
+  document.getElementById('modalLabel').textContent = s.label;
+  document.getElementById('modalSource').textContent = s.source;
+  document.getElementById('modalConfidence').textContent = s.confidence;
+  document.getElementById('modalContext').innerHTML = s.context;
+  const link = document.getElementById('modalLink');
+  link.href = s.url;
+  link.style.display = s.url ? 'inline-flex' : 'none';
+  document.getElementById('statModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('statModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('statModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
+
+<!-- MODAL HTML -->
+<div class="modal-overlay" id="statModal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-accent"></div>
+      <div class="modal-stat-num" id="modalNum"></div>
+      <div class="modal-stat-label" id="modalLabel"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-source-label">Source</div>
+      <div class="modal-source-name" id="modalSource"></div>
+      <div class="modal-confidence" id="modalConfidence"></div>
+      <div class="modal-context" id="modalContext"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Read the original source
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

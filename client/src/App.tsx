@@ -22,6 +22,7 @@ import ResourcesPage from "@/pages/resources";
 import ArticleSabbathRestAi from "@/pages/article-sabbath-rest-ai";
 import ArticleSoulNeedsStruggle from "@/pages/article-soul-needs-struggle";
 import ArticleTeensAlgorithmFriend from "@/pages/article-teens-algorithm-friend";
+import ChristianProfessionalWorksheetPage from "@/pages/christian-professional-worksheet";
 import AboutPage from "@/pages/about";
 import SurveyPage from "@/pages/survey";
 import PricingPage from "@/pages/pricing";
@@ -302,6 +303,7 @@ function Router() {
       <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><ArticleTeensAlgorithmFriend /></PublicSiteLayout>} />
       <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><ArticleSabbathRestAi /></PublicSiteLayout>} />
       <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><ArticleSoulNeedsStruggle /></PublicSiteLayout>} />
+      <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><ChristianProfessionalWorksheetPage /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
       <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
       <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />

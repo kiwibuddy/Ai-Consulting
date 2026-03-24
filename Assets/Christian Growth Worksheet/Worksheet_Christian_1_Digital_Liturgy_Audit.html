@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Digital Liturgy Audit — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --green-mid:  hsl(142,60%,80%);
+  --gold:       hsl(38,96%,50%);
+  --gold-bg:    hsl(38,96%,50%,0.08);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+  /* Audit section colours */
+  --s-desire:   hsl(280,52%,48%);
+  --s-desire-bg:hsl(280,52%,48%,0.07);
+  --s-believe:  hsl(210,65%,46%);
+  --s-believe-bg:hsl(210,65%,46%,0.07);
+  --s-love:     hsl(0,60%,50%);
+  --s-love-bg:  hsl(0,60%,50%,0.07);
+  --s-time:     hsl(38,90%,46%);
+  --s-time-bg:  hsl(38,90%,46%,0.08);
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:#ebebE5;}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:820px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.13),0 4px 16px rgba(0,0,0,0.05);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:hsl(142,76%,55%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO — contemplative, editorial feel ── */
+.hero{background:var(--dark);padding:44px 44px 50px;position:relative;overflow:hidden;}
+/* Subtle cross/plus pattern in background */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 80% 40%, hsl(142,76%,42%,.09) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, hsl(38,96%,50%,.06) 0%, transparent 40%);
+  pointer-events:none;
+}
+.hero-bottom-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),hsl(92,82%,45%),transparent 70%);}
+
+.hero-category{
+  font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:22px;
+  display:flex;align-items:center;gap:10px;
+}
+.cat-line{flex:1;height:1px;background:rgba(255,255,255,.08);}
+
+.hero-title{
+  font-family:var(--font-serif);font-size:46px;font-weight:500;
+  color:#fff;line-height:1.05;margin-bottom:6px;
+  letter-spacing:-0.5px;
+}
+.hero-title-sub{
+  font-family:var(--font-serif);font-size:46px;font-weight:400;font-style:italic;
+  color:rgba(255,255,255,.55);line-height:1.05;margin-bottom:22px;
+  letter-spacing:-0.5px;
+}
+.hero-desc{
+  font-size:14.5px;font-weight:300;color:rgba(255,255,255,.5);
+  line-height:1.7;max-width:520px;margin-bottom:32px;
+}
+.hero-desc strong{color:rgba(255,255,255,.75);font-weight:400;}
+.hero-meta{
+  display:flex;align-items:center;padding-top:22px;
+  border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;
+}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.1);}
+
+/* ── BODY ── */
+.body{padding:42px 44px 40px;}
+
+/* Opening context */
+.context-block{margin-bottom:36px;}
+.context-title{
+  font-family:var(--font-serif);font-size:15px;font-weight:500;
+  color:var(--fg-muted);text-transform:uppercase;letter-spacing:2px;
+  margin-bottom:16px;
+}
+
+/* James quote — the anchor */
+.anchor-quote{
+  background:var(--dark);border-radius:var(--r);
+  padding:28px 32px;margin-bottom:28px;
+  position:relative;overflow:hidden;
+}
+.anchor-quote::before{
+  content:'"';font-family:var(--font-serif);font-size:160px;line-height:.65;
+  color:rgba(255,255,255,.05);position:absolute;top:12px;right:16px;user-select:none;
+}
+.aq-lbl{
+  font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.aq-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.aq-text{
+  font-family:var(--font-serif);font-size:19px;font-style:italic;font-weight:400;
+  color:#fff;line-height:1.55;margin-bottom:12px;max-width:600px;
+}
+.aq-source{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.3px;}
+
+/* RSIS quote — unsettling secondary */
+.rsis-quote{
+  border-left:2.5px solid var(--gold);
+  padding:14px 0 12px 20px;
+  margin-bottom:28px;
+  position:relative;
+}
+.rq-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.rq-text{font-family:var(--font-serif);font-size:15.5px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:7px;}
+.rq-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+.intro-para{
+  font-size:14px;font-weight:300;line-height:1.75;color:var(--fg-med);
+  margin-bottom:24px;max-width:660px;
+}
+.intro-para strong{color:var(--fg);font-weight:500;}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+/* Shared section heading */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:600px;}
+
+/* Scripture */
+.scr{border-left:2.5px solid var(--green);padding:12px 0 10px 20px;margin-bottom:20px;position:relative;}
+.scr-q{font-family:var(--font-serif);font-size:40px;line-height:.5;color:var(--bg-muted);position:absolute;top:12px;left:4px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15px;font-style:italic;line-height:1.6;color:var(--fg);margin-bottom:6px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* ── PART 1: THE DAY MAP ── */
+.day-map{margin:20px 0 32px;}
+
+/* Timeline-style layout */
+.timeline{position:relative;padding-left:24px;}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:1.5px;background:var(--border);}
+
+.time-block{position:relative;margin-bottom:20px;}
+.time-dot{
+  position:absolute;left:-20px;top:6px;
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid var(--border);background:var(--bg);
+  flex-shrink:0;
+}
+.time-dot.active{border-color:var(--green);background:var(--green);}
+.time-label{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.time-questions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tq-wrap{}
+.tq-lbl{font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+.tq-input{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:5px;
+}
+.tq-input:focus{border-bottom-color:var(--green);}
+.tq-input::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* ── PART 2: THE THREE FORMATION QUESTIONS ── */
+/* These are the core — generous space, editorial feel */
+.formation-section{margin:24px 0 32px;}
+
+.formation-card{
+  border:1px solid var(--bcard);border-radius:var(--r);
+  overflow:hidden;margin-bottom:16px;
+}
+.fc-head{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px 22px 16px;
+}
+.fc-number{
+  font-family:var(--font-serif);font-size:36px;font-weight:400;
+  line-height:1;flex-shrink:0;
+}
+.fc-heading{}
+.fc-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:4px;}
+.fc-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;}
+.fc-question{
+  padding:0 22px 14px;
+  font-size:14px;font-weight:500;color:var(--fg);line-height:1.55;
+  border-bottom:1px solid var(--bcard);
+  font-style:italic;
+}
+.fc-space{
+  padding:18px 22px 20px;
+  background:var(--bg-warm);
+}
+.fc-space-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;}
+.fc-field{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12.5px;
+  color:var(--fg);padding:3px 0 6px;outline:none;display:block;margin-bottom:12px;
+}
+.fc-field:focus{border-bottom-color:var(--green);}
+.fc-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+.fc-field:last-child{margin-bottom:0;}
+
+/* Colour per card */
+.fc-desire .fc-number{color:var(--s-desire);}
+.fc-desire .fc-head{border-left:3px solid var(--s-desire);}
+.fc-believe .fc-number{color:var(--s-believe);}
+.fc-believe .fc-head{border-left:3px solid var(--s-believe);}
+.fc-love .fc-number{color:var(--s-love);}
+.fc-love .fc-head{border-left:3px solid var(--s-love);}
+
+/* ── PART 3: THE LITURGY COMPARISON ── */
+.comparison{margin:24px 0 32px;}
+.compare-grid{display:grid;grid-template-columns:1fr 44px 1fr;gap:0;align-items:stretch;margin-top:16px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+
+.cg-head-digital{background:var(--dark);padding:14px 18px;}
+.cg-head-label-d{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px;}
+.cg-head-title-d{font-family:var(--font-serif);font-size:16px;font-weight:500;color:#fff;}
+.cg-head-sub-d{font-size:11px;font-weight:300;color:rgba(255,255,255,.4);margin-top:3px;}
+
+.cg-vs{
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-muted);
+  font-family:var(--font-serif);font-size:13px;font-style:italic;
+  color:var(--fg-muted);writing-mode:vertical-lr;
+  letter-spacing:2px;border-left:1px solid var(--border);border-right:1px solid var(--border);
+}
+
+.cg-head-intentional{background:var(--green-bg);padding:14px 18px;border-left:3px solid var(--green);}
+.cg-head-label-i{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.cg-head-title-i{font-family:var(--font-serif);font-size:16px;font-weight:500;color:var(--fg);}
+.cg-head-sub-i{font-size:11px;font-weight:300;color:var(--fg-muted);margin-top:3px;}
+
+.cg-rows{}
+.cg-row-mid{display:flex;align-items:center;justify-content:center;background:var(--bg-muted);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.cg-row-pair{display:grid;grid-template-columns:1fr 44px 1fr;}
+
+.cg-cell{padding:12px 18px;border-top:1px solid var(--border);}
+.cg-cell-d{background:var(--bg);}
+.cg-cell-i{background:var(--bg-warm);}
+.cg-row-label{font-size:9.5px;font-weight:600;letter-spacing:.5px;color:var(--fg-muted);margin-bottom:6px;text-transform:uppercase;}
+.cg-field{
+  border:none;border-bottom:1px solid var(--border);width:100%;
+  background:transparent;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);padding:2px 0 4px;outline:none;display:block;margin-bottom:4px;
+}
+.cg-field:focus{border-bottom-color:var(--green);}
+.cg-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+.cg-mid-label{
+  font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--fg-muted);writing-mode:vertical-lr;text-align:center;
+  padding:8px 4px;
+}
+
+/* ── PART 4: THE HONEST QUESTIONS ── */
+.honest-block{margin-bottom:20px;}
+.hq-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px;}
+.hq-num{font-family:var(--font-serif);font-size:26px;font-weight:400;color:var(--border);flex-shrink:0;min-width:22px;line-height:1;}
+.hq-text{font-size:14px;font-weight:500;color:var(--fg);line-height:1.5;padding-top:2px;}
+.hq-prompt{font-size:11.5px;font-weight:300;color:var(--fg-muted);margin-top:2px;font-style:italic;}
+.hq-space{border:1px solid var(--bcard);border-radius:var(--r-sm);height:64px;background:var(--bg-warm);width:100%;}
+
+/* ── PART 5: COUNTER-LITURGIES ── */
+.counter-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.counter-card{background:var(--bg-warm);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:16px 18px;}
+.cc-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.cc-title{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.cc-desc{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:10px;}
+.cc-field{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12px;color:var(--fg);padding:2px 0 5px;outline:none;display:block;margin-bottom:6px;}
+.cc-field:focus{border-bottom-color:var(--green);}
+.cc-field::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+
+/* ── COMMITMENT ── */
+.commit{
+  border:2px solid var(--fg);border-radius:var(--r);
+  padding:22px 24px;margin:32px 0 0;
+}
+.commit-title{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.commit-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);margin-bottom:18px;line-height:1.5;}
+.commit-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cf-lbl{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.cf-input{border:none;border-bottom:1.5px solid var(--fg);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:3px 0 6px;outline:none;}
+.cf-input:focus{border-bottom-color:var(--green);}
+.cf-input::placeholder{color:var(--border);}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:28px 32px;margin-top:32px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+.enc-text{font-size:13.5px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.3);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">The Average Christian · Series 1 of 5</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bottom-line"></div>
+  <div class="hero-category">
+    <div class="cat-line"></div>
+    Personal Reflection &nbsp;·&nbsp; Individual Use &nbsp;·&nbsp; Spiritual Formation
+    <div class="cat-line"></div>
+  </div>
+  <div class="hero-title">Your Digital</div>
+  <div class="hero-title-sub">Liturgy Audit</div>
+  <div class="hero-desc">
+    The internet is training your desires. <strong>Right now. Whether you know it or not.</strong> This isn't about guilt — it's about clarity. You can't respond to something you haven't honestly examined.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">Personal reflection</span><div class="msep"></div>
+    <span class="mi">45 – 60 min</span><div class="msep"></div>
+    <span class="mi">Pray before you begin</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- ANCHOR QUOTE — Samuel James -->
+  <div class="anchor-quote">
+    <div class="aq-lbl"><div class="aq-dot"></div>The observation that changes everything</div>
+    <div class="aq-text">"The social internet is a profoundly spiritual and liturgical environment that trains our hearts to desire a particular vision of the good life."</div>
+    <div class="aq-source">Samuel James — <em>Digital Liturgies: Rediscovering Christian Wisdom in an Online Age</em> (2023)</div>
+  </div>
+
+  <!-- RSIS quote — the gut punch -->
+  <div class="rsis-quote">
+    <div class="rq-q">"</div>
+    <div class="rq-text">"I no longer know if I like something because it's me, or because an algorithm suggested it to me."</div>
+    <div class="rq-ref">Research participant — RSIS International study on consumer fatigue with AI, 2025</div>
+  </div>
+
+  <p class="intro-para">
+    A liturgy is a set of repeated practices that <strong>shapes what you love</strong> — not what you think you believe, but what your body, attention, and desires actually reach for. Sunday worship is a liturgy. So is the Rosary. So is the way you wake up, reach for your phone, check your feeds, scroll through your notifications, and start your day before you've said a word to God. <strong>Both are forming you.</strong> The question is which one is winning.
+  </p>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is — his good, pleasing and perfect will."</div>
+    <div class="scr-ref">Romans 12:2 · Transformation of the mind requires active counter-formation — not passive belief</div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 1: THE DAY MAP -->
+  <div class="sec-lbl">Part 1</div>
+  <div class="sec-title">Map a Typical Day Online</div>
+  <div class="sec-sub">Don't describe your ideal day. Describe your actual one. Be honest about where your attention actually goes — and in what order. The order matters as much as the content.</div>
+
+  <div class="day-map" style="margin-top:20px;">
+    <div class="timeline">
+
+      <div class="time-block">
+        <div class="time-dot active"></div>
+        <div class="time-label">Morning — first 30 minutes awake</div>
+        <div class="time-questions">
+          <div class="tq-wrap">
+            <div class="tq-lbl">What do you reach for first?</div>
+            <input class="tq-input" type="text" placeholder="Phone / Bible / nothing / prayer…">
+            <input class="tq-input" type="text" placeholder="What app or platform specifically?…">
+          </div>
+          <div class="tq-wrap">
+            <div class="tq-lbl">How long before you check something digital?</div>
+            <input class="tq-input" type="text" placeholder="Immediately / 10 min / after breakfast…">
+            <input class="tq-input" type="text" placeholder="What feeling drives that reach?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-dot"></div>
+        <div class="time-label">During the day — gaps and transitions</div>
+        <div class="time-questions">
+          <div class="tq-wrap">
+            <div class="tq-lbl">What do you do in small gaps?</div>
+            <input class="tq-input" type="text" placeholder="Waiting rooms, queues, lunch break…">
+            <input class="tq-input" type="text" placeholder="Scroll / pray / sit / read / text?…">
+          </div>
+          <div class="tq-wrap">
+            <div class="tq-lbl">Platforms you visit most often:</div>
+            <input class="tq-input" type="text" placeholder="List them honestly…">
+            <input class="tq-input" type="text" placeholder="Why those specifically?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-dot"></div>
+        <div class="time-label">Evening — after dinner, before sleep</div>
+        <div class="time-questions">
+          <div class="tq-wrap">
+            <div class="tq-lbl">Where does your attention go to unwind?</div>
+            <input class="tq-input" type="text" placeholder="Netflix / TikTok / podcasts / reading?…">
+            <input class="tq-input" type="text" placeholder="For how long, roughly?…">
+          </div>
+          <div class="tq-wrap">
+            <div class="tq-lbl">Last thing before you sleep:</div>
+            <input class="tq-input" type="text" placeholder="Phone in hand / prayer / reading?…">
+            <input class="tq-input" type="text" placeholder="What feeling do you fall asleep with?…">
+          </div>
+        </div>
+      </div>
+
+      <div class="time-block">
+        <div class="time-dot"></div>
+        <div class="time-label">AI use specifically</div>
+        <div class="time-questions">
+          <div class="tq-wrap">
+            <div class="tq-lbl">How do you currently use AI?</div>
+            <input class="tq-input" type="text" placeholder="Work / research / creative / spiritual?…">
+            <input class="tq-input" type="text" placeholder="How often, roughly?…">
+          </div>
+          <div class="tq-wrap">
+            <div class="tq-lbl">What do you tend to ask it?</div>
+            <input class="tq-input" type="text" placeholder="Questions you'd once ask a person / God?…">
+            <input class="tq-input" type="text" placeholder="What does that pattern reveal?…">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 2: THE THREE FORMATION QUESTIONS -->
+  <div class="sec-lbl">Part 2</div>
+  <div class="sec-title">The Formation Questions</div>
+  <div class="sec-sub">James K.A. Smith says liturgies form what we desire, what we love, and what we believe — in that order, from the body upward. These three questions follow that same structure. Sit with each one before moving to the next.</div>
+
+  <div class="formation-section">
+
+    <!-- DESIRE -->
+    <div class="formation-card fc-desire">
+      <div class="fc-head">
+        <div class="fc-number">1</div>
+        <div class="fc-heading">
+          <div class="fc-title">What is your digital life training you to desire?</div>
+          <div class="fc-sub">Not what you want to want — what your habits are actually producing in you, day by day.</div>
+        </div>
+      </div>
+      <div class="fc-question">"Liturgies are calibration technologies — they orient your desires toward a particular vision of the good life, often without your conscious participation." — James K.A. Smith</div>
+      <div class="fc-space">
+        <div class="fc-space-lbl">Your honest answer:</div>
+        <input class="fc-field" type="text" placeholder="After a typical day online, what do you find yourself wanting more of?…">
+        <input class="fc-field" type="text" placeholder="What vision of the good life is your feed selling you?…">
+        <input class="fc-field" type="text" placeholder="How does that compare to what Jesus says is the good life?…">
+      </div>
+    </div>
+
+    <!-- BELIEVE -->
+    <div class="formation-card fc-believe">
+      <div class="fc-head">
+        <div class="fc-number">2</div>
+        <div class="fc-heading">
+          <div class="fc-title">What is your digital life forming you to believe?</div>
+          <div class="fc-sub">Not your stated theology — the operational beliefs your behaviour is revealing.</div>
+        </div>
+      </div>
+      <div class="fc-question">"Without intentional practices of counter-formation, members will find themselves shaped into apathy, distraction, and secularism." — Timothy John Olson, SBTS</div>
+      <div class="fc-space">
+        <div class="fc-space-lbl">Your honest answer:</div>
+        <input class="fc-field" type="text" placeholder="What does your screen use suggest you actually believe about where truth comes from?…">
+        <input class="fc-field" type="text" placeholder="When you're anxious or uncertain, where do you instinctively go for answers?…">
+        <input class="fc-field" type="text" placeholder="What beliefs about yourself are being reinforced by what you consume?…">
+      </div>
+    </div>
+
+    <!-- LOVE -->
+    <div class="formation-card fc-love">
+      <div class="fc-head">
+        <div class="fc-number">3</div>
+        <div class="fc-heading">
+          <div class="fc-title">What is your digital life training you to love?</div>
+          <div class="fc-sub">Love in the deep sense — what your attention and time are actually being devoted to.</div>
+        </div>
+      </div>
+      <div class="fc-question">"We become what we behold." — John Mark Comer, citing Dallas Willard · "Attention has supplanted oil and data as the primary resource of the global economy." — Fractal: The Attention War</div>
+      <div class="fc-space">
+        <div class="fc-space-lbl">Your honest answer:</div>
+        <input class="fc-field" type="text" placeholder="What do you find yourself thinking about most — and where did that come from?…">
+        <input class="fc-field" type="text" placeholder="What gets your best attention — your feed or your prayer life?…">
+        <input class="fc-field" type="text" placeholder="What would you have to stop consuming to love God more?…">
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 3: THE COMPARISON -->
+  <div class="sec-lbl">Part 3</div>
+  <div class="sec-title">Two Liturgies, Side by Side</div>
+  <div class="sec-sub">Fill both columns honestly. What does your digital liturgy actually offer — versus what an intentional Christian practice offers in the same category?</div>
+
+  <div class="comparison">
+    <div class="compare-grid">
+      <!-- HEADERS -->
+      <div class="cg-head-digital">
+        <div class="cg-head-label-d">Your current digital liturgy</div>
+        <div class="cg-head-title-d">What the algorithm gives you</div>
+        <div class="cg-head-sub-d">What your default habits are actually producing</div>
+      </div>
+      <div class="cg-vs"><span style="font-size:11px;writing-mode:horizontal-tb;color:var(--fg-muted);">vs</span></div>
+      <div class="cg-head-intentional">
+        <div class="cg-head-label-i">An intentional Christian liturgy</div>
+        <div class="cg-head-title-i">What God offers instead</div>
+        <div class="cg-head-sub-i">What counter-formation practices produce over time</div>
+      </div>
+    </div>
+
+    <!-- ROW: Comfort -->
+    <div style="border:1px solid var(--border);border-top:none;display:grid;grid-template-columns:1fr 44px 1fr;">
+      <div class="cg-cell cg-cell-d">
+        <div class="cg-row-label">When I need comfort, the algorithm gives me:</div>
+        <input class="cg-field" type="text" placeholder="More scrolling, numbing, distraction…">
+      </div>
+      <div style="background:var(--bg-muted);display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+        <span style="font-size:8px;font-weight:600;color:var(--fg-muted);writing-mode:vertical-lr;text-transform:uppercase;letter-spacing:1px;">Comfort</span>
+      </div>
+      <div class="cg-cell cg-cell-i">
+        <div class="cg-row-label" style="color:var(--green);">What intentional prayer offers instead:</div>
+        <input class="cg-field" type="text" placeholder="Psalm 23 · 'Cast your anxieties on him' · Presence…">
+      </div>
+    </div>
+
+    <!-- ROW: Identity -->
+    <div style="border:1px solid var(--border);border-top:none;display:grid;grid-template-columns:1fr 44px 1fr;">
+      <div class="cg-cell cg-cell-d">
+        <div class="cg-row-label">The story my feed tells me about who I am:</div>
+        <input class="cg-field" type="text" placeholder="Not enough, behind, performing, comparing…">
+      </div>
+      <div style="background:var(--bg-muted);display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+        <span style="font-size:8px;font-weight:600;color:var(--fg-muted);writing-mode:vertical-lr;text-transform:uppercase;letter-spacing:1px;">Identity</span>
+      </div>
+      <div class="cg-cell cg-cell-i">
+        <div class="cg-row-label" style="color:var(--green);">What Scripture says about who I am:</div>
+        <input class="cg-field" type="text" placeholder="Beloved · Known · Enough · Being renewed…">
+      </div>
+    </div>
+
+    <!-- ROW: Truth -->
+    <div style="border:1px solid var(--border);border-top:none;display:grid;grid-template-columns:1fr 44px 1fr;">
+      <div class="cg-cell cg-cell-d">
+        <div class="cg-row-label">Where I instinctively go for answers:</div>
+        <input class="cg-field" type="text" placeholder="Google, AI, TikTok, podcasts…">
+      </div>
+      <div style="background:var(--bg-muted);display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+        <span style="font-size:8px;font-weight:600;color:var(--fg-muted);writing-mode:vertical-lr;text-transform:uppercase;letter-spacing:1px;">Truth</span>
+      </div>
+      <div class="cg-cell cg-cell-i">
+        <div class="cg-row-label" style="color:var(--green);">What I want to go to first:</div>
+        <input class="cg-field" type="text" placeholder="Prayer · Scripture · a wise person who knows me…">
+      </div>
+    </div>
+
+    <!-- ROW: Community -->
+    <div style="border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);display:grid;grid-template-columns:1fr 44px 1fr;overflow:hidden;">
+      <div class="cg-cell cg-cell-d">
+        <div class="cg-row-label">What passes for community in my digital life:</div>
+        <input class="cg-field" type="text" placeholder="Follows, likes, group chats, parasocial…">
+      </div>
+      <div style="background:var(--bg-muted);display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);">
+        <span style="font-size:8px;font-weight:600;color:var(--fg-muted);writing-mode:vertical-lr;text-transform:uppercase;letter-spacing:1px;">Community</span>
+      </div>
+      <div class="cg-cell cg-cell-i">
+        <div class="cg-row-label" style="color:var(--green);">What real community I could invest in:</div>
+        <input class="cg-field" type="text" placeholder="Name specific people or a community…">
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 4: HONEST QUESTIONS -->
+  <div class="sec-lbl">Part 4</div>
+  <div class="sec-title">The Questions That Won't Let You Off</div>
+  <div class="sec-sub">Don't rush. These are worth sitting with for a while before you write. The first answer is rarely the real one.</div>
+
+  <div style="margin-top:20px;">
+    <div class="honest-block">
+      <div class="hq-row"><div class="hq-num">1</div><div><div class="hq-text">If someone watched how you actually spent your attention over the past week, what would they conclude you love most?</div><div class="hq-prompt">Not what you say you love. What your time reveals.</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="honest-block">
+      <div class="hq-row"><div class="hq-num">2</div><div><div class="hq-text">When did you last sit in silence with God for more than five minutes — without a phone nearby?</div><div class="hq-prompt">What did that feel like? What does your answer reveal?</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="honest-block">
+      <div class="hq-row"><div class="hq-num">3</div><div><div class="hq-text">What do you believe about yourself after a heavy session of scrolling? Is that true?</div><div class="hq-prompt">The algorithm has an opinion about who you are. So does God. Which voice is louder right now?</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="honest-block">
+      <div class="hq-row"><div class="hq-num">4</div><div><div class="hq-text">What spiritual practice has been quietly displaced by digital habits in the past year?</div><div class="hq-prompt">Prayer? Scripture? Sabbath? Silence? Be specific about what used to be there.</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+    <div class="honest-block">
+      <div class="hq-row"><div class="hq-num">5</div><div><div class="hq-text">If you genuinely believed that 23 minutes of focus are lost every time you check your phone, what would you do differently today?</div><div class="hq-prompt">Research finding, not anecdote. What would it mean for your prayer life, your Bible reading, your relationships?</div></div></div>
+      <div class="hq-space"></div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- PART 5: COUNTER-LITURGIES -->
+  <div class="sec-lbl">Part 5</div>
+  <div class="sec-title">Counter-Liturgies — What to Put in Its Place</div>
+  <div class="sec-sub">The answer to a bad liturgy isn't willpower — it's a better liturgy. Dallas Willard called these the spiritual disciplines: the practices through which grace flows and desire is recalibrated. Pick one or two to begin this week.</div>
+
+  <div class="counter-grid">
+    <div class="counter-card">
+      <div class="cc-icon" style="background:var(--green-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v4M8 10v4M2 8h4M10 8h4" stroke="hsl(142,76%,42%)" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="8" r="2.5" stroke="hsl(142,76%,42%)" stroke-width="1.2"/></svg>
+      </div>
+      <div class="cc-title">Morning prayer before the phone</div>
+      <div class="cc-desc">Five minutes. Before you look at anything. Just you and God. The order matters — whoever gets your first attention shapes the whole day.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="cc-field" type="text" placeholder="What time, what practice, where?…">
+    </div>
+    <div class="counter-card">
+      <div class="cc-icon" style="background:var(--gold-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 4h10v8a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" stroke="hsl(38,90%,46%)" stroke-width="1.2" fill="none"/><path d="M3 4a2 2 0 012-2h6a2 2 0 012 2" stroke="hsl(38,90%,46%)" stroke-width="1.2" fill="none"/><line x1="6" y1="7" x2="10" y2="7" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="9.5" x2="9" y2="9.5" stroke="hsl(38,90%,46%)" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cc-title">Scripture before social media</div>
+      <div class="cc-desc">Read one passage — slowly, without looking for an application or lesson. Let it simply sit in you. The goal is exposure, not extraction.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="cc-field" type="text" placeholder="Which book to read, what time?…">
+    </div>
+    <div class="counter-card">
+      <div class="cc-icon" style="background:var(--s-desire-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C4.69 2 2 4.69 2 8s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z" stroke="hsl(280,52%,48%)" stroke-width="1.2" fill="none"/><path d="M8 5v4M8 11v.5" stroke="hsl(280,52%,48%)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cc-title">A daily phone-free window</div>
+      <div class="cc-desc">Choose one 30–60 minute window daily where the phone stays in another room. Tolerate the boredom. That boredom is where creativity and contemplation live.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="cc-field" type="text" placeholder="Which window, what time of day?…">
+    </div>
+    <div class="counter-card">
+      <div class="cc-icon" style="background:var(--s-believe-bg);">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="hsl(210,65%,46%)" stroke-width="1.2" fill="none"/><path d="M3 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="hsl(210,65%,46%)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="cc-title">Weekly accountability with one person</div>
+      <div class="cc-desc">Tell someone what you discovered in this audit. Not a performance — a real conversation. Comer is right: transformation happens in community, not in isolation.</div>
+      <div style="font-size:8.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;">My plan:</div>
+      <input class="cc-field" type="text" placeholder="Who will I tell, and when?…">
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- COMMITMENT -->
+  <div class="commit">
+    <div class="commit-title">One Concrete Change This Week</div>
+    <div class="commit-sub">Not a full overhaul. One thing. Specific, time-bound, written down. The disciplines don't move from your mind into your body by good intention — only by action.</div>
+    <div class="commit-fields">
+      <div>
+        <div class="cf-lbl">The digital habit I'm addressing:</div>
+        <input class="cf-input" type="text" placeholder="Be specific — which platform, which time of day…">
+      </div>
+      <div>
+        <div class="cf-lbl">The counter-liturgy I'm replacing it with:</div>
+        <input class="cf-input" type="text" placeholder="Prayer / Scripture / silence / presence…">
+      </div>
+      <div>
+        <div class="cf-lbl">When I will do this:</div>
+        <input class="cf-input" type="text" placeholder="Specific day, time, and location…">
+      </div>
+      <div>
+        <div class="cf-lbl">Who knows about this:</div>
+        <input class="cf-input" type="text" placeholder="Name someone who can ask you about it…">
+      </div>
+    </div>
+  </div>
+
+  <!-- ENCOURAGEMENT -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A closing word</div>
+    <div class="enc-text">
+      The goal of this worksheet isn't to make you feel bad about your screen use. It's to make the invisible visible — because you can't respond to something you haven't honestly looked at.<br><br>
+      Samuel James is right that the internet is a liturgical environment. It is shaping your desires, your beliefs, your loves — slowly, below the level of conscious choice, through sheer repetition. That is not a metaphor. It's how formation works. It's how the mall, the military, the monastery all work too.<br><br>
+      The good news is that the same mechanism that shapes us toward distraction can be redirected. <strong>God is not in competition with the algorithm for your attention. He is simply, patiently, asking you to bring your actual self — the distracted, divided, over-scrolled version of you — back to him.</strong> Over and over. And in that returning, you are changed. Not by willpower. By grace, mediated through practice.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com/resources</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Personal</span><span class="tag">Formation</span><span class="tag">Digital Liturgy</span><span class="tag">Prayer</span><span class="tag">Discipleship</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">The Average Christian · 1 of 5</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>
