@@ -1,4 +1,4 @@
-/** Working Professionals (Christian) series — embedded HTML worksheets under /resources/christian-professional/:slug */
+/** Working Professionals (Christian) series and standalone professional worksheets under /resources/christian-professional/:slug */
 export interface ChristianProfessionalWorksheetMeta {
   slug: string;
   /** Path under public/ */
@@ -9,8 +9,10 @@ export interface ChristianProfessionalWorksheetMeta {
   shareDescription: string;
   /** Optional social card image for this worksheet. */
   shareImage?: string;
-  /** 1–4 within the Working Professionals series */
-  seriesNumber: 1 | 2 | 3 | 4;
+  /** 1–4 within the Working Professionals series; omit for standalone worksheets. */
+  seriesNumber?: 1 | 2 | 3 | 4;
+  /** Shown above the iframe when `seriesNumber` is omitted. */
+  standAloneRibbon?: string;
 }
 
 export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta[] = [
@@ -57,6 +59,17 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "Career strategy for uncertain times. Working Professionals · Worksheet FOUR OF FOUR.",
     shareImage: "/images/worksheets/wp-christian-04.svg",
     seriesNumber: 4,
+  },
+  {
+    slug: "deepfakes-digital-truth-2026",
+    iframeSrc: "/worksheets/deepfakes-digital-truth-2026.html",
+    title: "Deepfakes & Digital Truth",
+    description:
+      "A practical reference guide to spotting AI-generated images, video, voice, text, fake profiles, and emergency scams — for families, churches, and leaders.",
+    shareDescription:
+      "Digital discernment in 2026: deepfakes, voice scams, and how to verify what you see and hear online.",
+    shareImage: "/images/worksheets/deepfakes-digital-truth.svg",
+    standAloneRibbon: "Digital Discernment",
   },
 ];
 

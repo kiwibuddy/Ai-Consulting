@@ -122,6 +122,19 @@ export const worksheets: WorksheetItem[] = [
     category: "Christian Growth",
     format: "Interactive",
   },
+  {
+    id: "deepfakes-digital-truth-2026",
+    title: "Deepfakes & Digital Truth",
+    description:
+      "Spot AI-generated images, video, voice, text, fake profiles, and emergency scams — a practical reference for families, churches, and leaders.",
+    url: "/resources/christian-professional/deepfakes-digital-truth-2026",
+    iframeSrc: "/worksheets/deepfakes-digital-truth-2026.html",
+    shareImage: "/images/worksheets/deepfakes-digital-truth.svg",
+    thumbnail: "/images/worksheets/deepfakes-digital-truth.svg",
+    date: "2026-03-25",
+    category: "Christian Growth",
+    format: "Interactive",
+  },
 
   // ── Education ────────────────────────────────────────────────
   {

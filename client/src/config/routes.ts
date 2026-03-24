@@ -15,6 +15,7 @@ export const PUBLIC_ROUTES = [
   "/resources/christian-professional/52-minute-opportunity-christian",
   "/resources/christian-professional/what-will-they-still-pay-me-for-christian",
   "/resources/christian-professional/five-year-positioning-map-christian",
+  "/resources/christian-professional/deepfakes-digital-truth-2026",
   "/resources/raising-humans-in-the-age-of-the-digital-god",
   "/resources/discipleship-and-missions-in-an-ai-age",
   "/resources/outsourcing-the-holy-spirit-to-ai",

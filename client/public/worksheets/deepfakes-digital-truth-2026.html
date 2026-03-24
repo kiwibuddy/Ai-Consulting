@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deepfakes & Digital Truth — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:         #ffffff;
+  --bg-warm:    hsl(40,33%,98%);
+  --bg-page:    hsl(35,20%,96%);
+  --bg-muted:   hsl(35,20%,94%);
+  --fg:         hsl(30,10%,15%);
+  --fg-med:     hsl(30,10%,28%);
+  --fg-muted:   hsl(30,8%,45%);
+  --border:     hsl(35,15%,88%);
+  --bcard:      hsl(35,15%,90%);
+  --green:      hsl(142,76%,42%);
+  --green-bg:   hsl(142,76%,42%,0.07);
+  --dark:       #171717;
+  --cta:        linear-gradient(135deg,hsl(142,76%,42%),hsl(92,82%,45%));
+
+  /* This sheet accent — amber/gold warning tone */
+  --amber:      hsl(38,95%,46%);
+  --amber-mid:  hsl(38,88%,52%);
+  --amber-bg:   hsl(38,88%,52%,.09);
+  --amber-light:hsl(38,70%,90%);
+
+  /* Threat level colours per section */
+  --img-col:    hsl(218,55%,44%);   /* images — blue */
+  --img-bg:     hsl(218,55%,44%,.07);
+  --vid-col:    hsl(260,48%,46%);   /* video — purple */
+  --vid-bg:     hsl(260,48%,46%,.07);
+  --aud-col:    hsl(4,62%,46%);     /* voice/audio — red */
+  --aud-bg:     hsl(4,62%,46%,.06);
+  --txt-col:    hsl(172,55%,34%);   /* text — teal */
+  --txt-bg:     hsl(172,55%,34%,.07);
+  --pro-col:    hsl(38,88%,44%);    /* fake profiles — amber */
+  --pro-bg:     hsl(38,88%,44%,.07);
+  --scam-col:   hsl(354,70%,40%);   /* emergency scams — deep red */
+  --scam-bg:    hsl(354,70%,40%,.06);
+
+  --font-sans:  'DM Sans',system-ui,sans-serif;
+  --font-serif: 'Playfair Display',Georgia,serif;
+  --r:          14px;
+  --r-sm:       8px;
+}
+
+html{background:hsl(38,25%,82%);}
+body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+
+.page{max-width:880px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.14),0 4px 16px rgba(0,0,0,0.06);}
+
+/* ── SITE HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--cta);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.2px;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(251,146,60,.15);border:1px solid rgba(251,146,60,.3);color:hsl(38,90%,65%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:44px 44px 48px;position:relative;overflow:hidden;border-bottom:3px solid var(--amber-mid);}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 82% 20%,hsl(38,88%,44%,.18) 0%,transparent 52%),
+    radial-gradient(circle at 14% 78%,hsl(354,70%,40%,.1) 0%,transparent 46%);
+  pointer-events:none;
+}
+.hero-ghost{
+  font-family:var(--font-serif);font-size:220px;font-weight:700;
+  color:rgba(255,255,255,.03);
+  position:absolute;right:20px;bottom:-30px;
+  line-height:1;user-select:none;pointer-events:none;
+}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.cat-rule{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:40px;font-weight:700;color:#fff;line-height:1.06;letter-spacing:-.5px;margin-bottom:8px;}
+.hero-title em{font-style:italic;font-weight:400;color:rgba(255,255,255,.55);}
+.hero-sub{font-family:var(--font-serif);font-size:15px;font-weight:400;font-style:italic;color:rgba(255,255,255,.4);margin-bottom:22px;}
+
+/* Section nav pills */
+.section-pills{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px;}
+.sp{
+  font-size:9.5px;font-weight:600;letter-spacing:.5px;
+  padding:5px 13px;border-radius:4px;border:1px solid;
+  cursor:pointer;transition:all .15s;
+}
+.sp-img{background:hsl(218,55%,44%,.2);border-color:hsl(218,45%,55%,.4);color:hsl(218,60%,75%);}
+.sp-vid{background:hsl(260,48%,46%,.2);border-color:hsl(260,40%,55%,.4);color:hsl(260,55%,78%);}
+.sp-aud{background:hsl(4,62%,46%,.2);border-color:hsl(4,50%,55%,.4);color:hsl(4,65%,72%);}
+.sp-txt{background:hsl(172,55%,34%,.2);border-color:hsl(172,45%,45%,.4);color:hsl(172,55%,68%);}
+.sp-pro{background:hsl(38,88%,44%,.2);border-color:hsl(38,70%,55%,.4);color:hsl(38,80%,70%);}
+.sp-scam{background:hsl(354,70%,40%,.2);border-color:hsl(354,55%,50%,.4);color:hsl(354,65%,72%);}
+
+/* Hero stats */
+.hero-stats{display:flex;gap:0;margin-bottom:22px;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-sm);overflow:hidden;}
+.hs{padding:12px 18px;flex:1;border-right:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .12s;}
+.hs:last-child{border-right:none;}
+.hs:hover{background:rgba(255,255,255,.04);}
+.hs-num{font-family:var(--font-serif);font-size:22px;font-weight:700;color:hsl(38,80%,65%);line-height:1;margin-bottom:3px;}
+.hs-text{font-size:10.5px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.4;}
+.hs-src{font-size:8px;color:rgba(255,255,255,.2);margin-top:3px;font-style:italic;}
+
+.hero-desc{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-desc strong{color:rgba(255,255,255,.8);font-weight:400;}
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.22);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.08);}
+
+/* ── BODY ── */
+.body{padding:36px 44px 38px;}
+
+/* Bible foundation block */
+.bible-block{
+  background:var(--dark);border-radius:var(--r);
+  padding:24px 28px;margin-bottom:32px;
+  position:relative;overflow:hidden;
+  border-left:4px solid var(--amber-mid);
+}
+.bible-block::before{
+  content:'"';font-family:var(--font-serif);font-size:160px;font-weight:700;
+  color:rgba(255,255,255,.04);position:absolute;top:0;right:16px;line-height:.9;
+  user-select:none;pointer-events:none;
+}
+.bb-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.bb-dot{width:5px;height:5px;border-radius:50%;background:var(--amber-mid);}
+.bible-verses{display:flex;flex-direction:column;gap:12px;}
+.bv{border-left:2px solid rgba(255,255,255,.1);padding:8px 14px;}
+.bv-ref{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-mid);margin-bottom:4px;}
+.bv-text{font-family:var(--font-serif);font-size:13.5px;font-style:italic;color:rgba(255,255,255,.7);line-height:1.6;}
+.bb-note{font-size:12px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.65;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
+.bb-note strong{color:rgba(255,255,255,.7);font-weight:400;}
+
+/* Shared */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:21px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:660px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+
+.body-para{font-size:13.5px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:14px;max-width:660px;}
+.body-para strong{color:var(--fg);font-weight:500;}
+
+/* ── UNIFIED FOUNDATION BLOCK ── */
+.foundation-block{
+  background:var(--bg);border-radius:var(--r);
+  margin-bottom:28px;overflow:hidden;
+  border:1px solid var(--border);
+}
+
+/* Header — light, not dark */
+.fb-header{
+  background:var(--bg-warm);padding:20px 28px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  border-bottom:3px solid var(--amber-mid);
+  position:relative;overflow:hidden;
+}
+.fb-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 88% 30%,hsl(38,88%,52%,.07) 0%,transparent 55%);
+  pointer-events:none;
+}
+.fb-header-content{flex:1;}
+.fb-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0;display:inline-block;margin-right:8px;vertical-align:middle;}
+.fb-label{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;display:block;}
+
+/* Intro text */
+.fb-intro{font-size:13.5px;font-weight:300;color:var(--fg-med);line-height:1.75;margin-bottom:16px;max-width:620px;}
+.fb-intro strong{color:var(--fg);font-weight:500;}
+
+/* Vishal maxim */
+.fb-vishal{
+  background:var(--amber-bg);border-radius:var(--r-sm);
+  border-left:3px solid var(--amber);
+  padding:12px 16px;
+}
+.fb-vishal-lbl{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:5px;}
+.fb-vishal-text{font-family:var(--font-serif);font-size:14px;font-style:italic;color:var(--fg);line-height:1.55;}
+
+/* Body area */
+.fb-body{padding:22px 28px;}
+
+/* Primary — Acts 17:11 */
+.fb-primary-verse{
+  background:var(--amber-bg);border-radius:var(--r-sm);
+  border-left:3px solid var(--amber);
+  padding:16px 20px;margin-bottom:16px;
+}
+.fb-pv-ref{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:7px;}
+.fb-pv-version{font-weight:400;font-style:italic;letter-spacing:0;text-transform:none;opacity:.7;}
+.fb-pv-text{font-family:var(--font-serif);font-size:15px;font-style:italic;color:var(--fg);line-height:1.6;margin-bottom:10px;}
+.fb-pv-note{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.7;}
+.fb-pv-note em{color:var(--fg);font-style:italic;}
+
+/* 2×2 grid of coloured verse cards */
+.fb-verse-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-bottom:16px;
+}
+.fb-verse-card{
+  border-radius:var(--r-sm);padding:14px 16px;border:1px solid;
+}
+/* Card colour variants */
+.fb-vc-blue{background:hsl(218,55%,44%,.06);border-color:hsl(218,45%,70%);}
+.fb-vc-green{background:hsl(142,55%,34%,.06);border-color:hsl(142,45%,68%);}
+.fb-vc-teal{background:hsl(172,55%,34%,.06);border-color:hsl(172,45%,65%);}
+.fb-vc-purple{background:hsl(260,48%,46%,.06);border-color:hsl(260,40%,72%);}
+
+.fb-vc-ref{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.fb-vc-ref-blue{color:hsl(218,55%,36%);}
+.fb-vc-ref-green{color:hsl(142,60%,28%);}
+.fb-vc-ref-teal{color:hsl(172,55%,28%);}
+.fb-vc-ref-purple{color:hsl(260,50%,38%);}
+.fb-vc-ver{font-weight:400;font-style:italic;letter-spacing:0;text-transform:none;}
+.fb-vc-text{font-family:var(--font-serif);font-size:13px;font-style:italic;color:var(--fg);line-height:1.55;margin-bottom:8px;}
+.fb-vc-note{font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.6;}
+.fb-vc-note em{color:var(--fg);}
+
+/* Miller insight band */
+.fb-miller{
+  background:var(--amber-bg);border:1px solid hsl(38,60%,76%);
+  border-radius:var(--r-sm);overflow:hidden;cursor:pointer;
+  transition:background .12s;
+}
+.fb-miller:hover{background:hsl(38,88%,44%,.14);}
+.fb-miller-head{
+  background:hsl(38,88%,44%,.15);padding:13px 18px;
+  border-bottom:1px solid hsl(38,60%,76%);
+}
+.fb-miller-lbl{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
+.fb-miller-line{font-family:var(--font-serif);font-size:14.5px;font-style:italic;color:var(--fg);line-height:1.5;}
+.fb-miller-body{
+  padding:14px 18px;
+  font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;
+}
+.fb-miller-body strong{color:var(--fg);font-weight:500;}
+.fb-miller-src{font-size:9.5px;color:var(--fg-muted);margin-top:10px;font-style:italic;}
+
+/* ── DETECTION SECTION PATTERN ── */
+/* Each content type gets a consistent visual treatment */
+.detection-section{margin-bottom:28px;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);}
+
+.ds-head{padding:16px 22px;position:relative;}
+.ds-head-img{background:var(--img-col);}
+.ds-head-vid{background:var(--vid-col);}
+.ds-head-aud{background:var(--aud-col);}
+.ds-head-txt{background:var(--txt-col);}
+.ds-head-pro{background:var(--pro-col);}
+.ds-head-scam{background:var(--scam-col);}
+
+.ds-head-ghost{
+  position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  font-size:44px;opacity:.12;user-select:none;line-height:1;
+}
+.ds-head-kicker{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:4px;}
+.ds-head-title{font-family:var(--font-serif);font-size:18px;font-weight:600;color:#fff;margin-bottom:2px;}
+.ds-head-sub{font-size:11.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.4;max-width:520px;}
+
+.ds-body{padding:18px 22px;background:var(--bg);}
+
+/* Steps list */
+.steps{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.step{display:flex;gap:12px;align-items:flex-start;}
+.step-num{
+  width:24px;height:24px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;color:#fff;
+  margin-top:1px;
+}
+.sn-img{background:var(--img-col);}
+.sn-vid{background:var(--vid-col);}
+.sn-aud{background:var(--aud-col);}
+.sn-txt{background:var(--txt-col);}
+.sn-pro{background:var(--pro-col);}
+.sn-scam{background:var(--scam-col);}
+
+.step-text{font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.6;}
+.step-text strong{color:var(--fg);font-weight:500;}
+
+/* Red flags */
+.red-flags{
+  background:hsl(4,62%,46%,.06);border:1px solid hsl(4,50%,78%);
+  border-radius:var(--r-sm);padding:12px 16px;margin-top:10px;
+}
+.rf-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:hsl(4,62%,46%);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.rf-items{display:flex;flex-direction:column;gap:4px;}
+.rf-item{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.5;}
+.rf-dot{color:hsl(4,62%,46%);flex-shrink:0;font-size:14px;line-height:1.3;}
+
+/* Safe steps / green actions */
+.safe-steps{
+  background:var(--green-bg);border:1px solid hsl(142,45%,76%);
+  border-radius:var(--r-sm);padding:12px 16px;margin-top:10px;
+}
+.ss-lbl{font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:hsl(142,60%,28%);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ss-items{display:flex;flex-direction:column;gap:4px;}
+.ss-item{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.5;}
+.ss-dot{color:var(--green);flex-shrink:0;font-size:14px;line-height:1.3;font-weight:700;}
+
+/* Tool chips */
+.tools-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.tool-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:600;padding:5px 12px;border-radius:4px;
+  border:1px solid var(--border);background:var(--bg-warm);color:var(--fg-muted);
+  text-decoration:none;transition:all .12s;cursor:pointer;
+}
+.tool-chip:hover{background:var(--green-bg);border-color:var(--green);color:hsl(142,65%,28%);}
+.tool-chip::after{content:'↗';font-size:9px;opacity:.5;}
+.tool-chip-dark{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:600;padding:5px 12px;border-radius:4px;
+  border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);
+  color:rgba(255,255,255,.6);text-decoration:none;transition:all .12s;cursor:pointer;
+}
+.tool-chip-dark:hover{background:rgba(255,255,255,.14);color:#fff;}
+.tool-chip-dark::after{content:'↗';font-size:9px;opacity:.5;}
+
+/* Two-column layout for some sections */
+.ds-two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ── THE EMERGENCY SCAM SECTION — special treatment ── */
+.scam-alert{
+  background:hsl(354,70%,40%);border-radius:var(--r);padding:20px 24px;
+  margin:14px 0;position:relative;overflow:hidden;
+}
+.scam-alert::before{
+  content:'!';font-family:var(--font-serif);font-size:200px;font-weight:700;
+  color:rgba(255,255,255,.05);position:absolute;right:10px;top:-20px;
+  line-height:1;user-select:none;
+}
+.sa-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sa-title{font-family:var(--font-serif);font-size:18px;font-weight:600;color:#fff;margin-bottom:6px;}
+.sa-sub{font-size:12.5px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.55;margin-bottom:14px;max-width:500px;}
+.sa-steps{display:flex;flex-direction:column;gap:6px;}
+.sa-step{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(255,255,255,.08);border-radius:6px;padding:8px 12px;
+}
+.sa-step-num{
+  width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.sa-step-text{font-size:12.5px;font-weight:300;color:rgba(255,255,255,.8);line-height:1.5;}
+.sa-step-text strong{color:#fff;font-weight:500;}
+
+/* Safe word box */
+.safe-word-box{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--r-sm);padding:14px 16px;margin-top:14px;
+}
+.swb-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:8px;}
+.swb-text{font-size:12.5px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:10px;}
+.swb-field{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.1);border-radius:6px;padding:10px 14px;
+}
+.swb-field-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);white-space:nowrap;}
+.swb-input{
+  border:none;border-bottom:1px solid rgba(255,255,255,.3);
+  background:transparent;font-family:var(--font-serif);font-size:15px;font-style:italic;
+  color:#fff;outline:none;flex:1;padding:2px 0 4px;
+}
+.swb-input::placeholder{color:rgba(255,255,255,.3);}
+
+/* ── THE QUICK REFERENCE CARD ── */
+.quick-ref{
+  background:var(--bg-muted);border:1px solid var(--border);
+  border-radius:var(--r);padding:20px 24px;margin:24px 0;
+}
+.qr-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--fg);margin-bottom:14px;}
+.qr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.qr-card{background:var(--bg);border:1px solid var(--bcard);border-radius:var(--r-sm);padding:12px 14px;}
+.qr-card-lbl{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.qr-card-title{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:6px;}
+.qr-items{font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.6;}
+
+/* ── FREE TOOLS LIST ── */
+.tools-list{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0;
+}
+.tl-card{
+  display:block;background:var(--bg-warm);border:1px solid var(--bcard);
+  border-radius:var(--r-sm);padding:12px 14px;text-decoration:none;
+  transition:all .14s;
+}
+.tl-card:hover{background:var(--green-bg);border-color:var(--green);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.tlc-name{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:3px;display:flex;align-items:center;justify-content:space-between;}
+.tlc-name::after{content:'↗';font-size:11px;color:var(--green);opacity:.7;}
+.tl-card:hover .tlc-name::after{opacity:1;}
+.tlc-use{font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.4;margin-bottom:5px;}
+.tlc-url{font-size:10px;color:var(--green);font-weight:500;}
+
+/* ── NATHANIEL QUOTE ── */
+.nb-quote{
+  background:var(--amber-bg);border:1px solid hsl(38,60%,76%);border-left:4px solid var(--amber);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:14px 18px;margin:20px 0;cursor:pointer;transition:background .12s;
+}
+.nb-quote:hover{background:hsl(38,88%,44%,.14);}
+.nbq-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.nbq-text{font-family:var(--font-serif);font-size:14px;font-style:italic;color:var(--fg-med);line-height:1.65;}
+.nbq-src{font-size:9px;color:var(--fg-muted);margin-top:5px;}
+
+/* Write-in areas */
+.ws-line{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:13px;color:var(--fg);padding:3px 0 5px;outline:none;display:block;margin-bottom:8px;}
+.ws-line:focus{border-bottom-color:var(--green);}
+.ws-line::placeholder{color:hsl(35,15%,82%);font-weight:300;}
+.ws-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0;}
+.ws-label{font-size:8.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:5px;}
+
+/* Commitment block */
+.commit-block{
+  border:2px solid var(--fg);border-radius:var(--r);padding:20px 24px;margin:24px 0;
+}
+.cb-title{font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--fg);margin-bottom:4px;}
+.cb-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-bottom:14px;}
+.cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* Encouragement */
+.enc{background:var(--dark);border-radius:var(--r);padding:24px 28px;margin-top:28px;position:relative;overflow:hidden;}
+.enc::before{content:'"';font-family:var(--font-serif);font-size:180px;line-height:.7;color:rgba(255,255,255,.04);position:absolute;top:16px;right:20px;user-select:none;}
+.enc-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.enc-dot{width:5px;height:5px;border-radius:50%;background:hsl(38,80%,60%);}
+.enc-text{font-size:13px;font-weight:300;line-height:1.8;color:rgba(255,255,255,.6);max-width:580px;}
+.enc-text strong{color:rgba(255,255,255,.9);font-weight:400;}
+.enc-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.enc-url{font-size:11px;color:rgba(255,255,255,.25);}
+.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--cta);color:#fff;border:none;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.5px;padding:10px 20px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
+.cta-btn:hover{opacity:.9;}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+
+.page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:8px;}
+.green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
+.green-link:hover{text-decoration:underline;}
+
+@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn,.stat-info-btn{display:none;}}
+
+/* ── MODAL ── */
+.stat-info-btn{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:9px;font-weight:700;cursor:pointer;vertical-align:middle;margin-left:5px;flex-shrink:0;transition:all .15s;line-height:1;font-style:normal;}
+.stat-info-btn:hover{background:rgba(255,255,255,.3);color:#fff;transform:scale(1.1);}
+.stat-info-btn-dark{background:var(--amber-bg);border:1px solid var(--amber);color:var(--amber);}
+.stat-info-btn-dark:hover{background:var(--amber);color:#fff;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(3px);}
+.modal-overlay.open{display:flex;}
+.modal-panel{background:#fff;border-radius:16px;max-width:520px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.15);overflow:hidden;animation:modalIn .2s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(8px);}to{opacity:1;transform:none;}}
+.modal-header{background:var(--dark);padding:20px 24px 18px;position:relative;}
+.modal-header-accent{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,hsl(38,80%,52%),hsl(142,76%,42%));}
+.modal-stat-num{font-family:var(--font-serif);font-size:32px;font-weight:700;color:hsl(38,80%,65%);line-height:1;margin-bottom:4px;}
+.modal-stat-label{font-size:13px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.4;max-width:380px;}
+.modal-close{position:absolute;top:14px;right:16px;width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.modal-close:hover{background:rgba(255,255,255,.2);color:#fff;}
+.modal-body{padding:20px 24px 24px;}
+.modal-source-label{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.modal-source-name{font-size:13px;font-weight:500;color:var(--fg);margin-bottom:10px;line-height:1.4;}
+.modal-context{font-size:12.5px;font-weight:300;color:var(--fg-med);line-height:1.7;margin-bottom:14px;}
+.modal-context strong{color:var(--fg);font-weight:500;}
+.modal-confidence{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);border:1px solid hsl(142,50%,78%);border-radius:4px;padding:4px 10px;margin-bottom:14px;font-size:10px;font-weight:600;color:hsl(142,60%,28%);}
+.modal-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--amber);text-decoration:none;padding:8px 14px;border-radius:7px;border:1px solid var(--amber-light);background:var(--amber-bg);transition:all .12s;}
+.modal-link:hover{background:var(--amber);color:#fff;border-color:var(--amber);}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="6.5" stroke="white" stroke-width="1.4"/><path d="M5 9L7.5 11.5L12 6" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Digital Discernment · Reference Guide</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ghost">?</div>
+  <div class="hero-category">
+    <div class="cat-rule"></div>
+    Images &nbsp;·&nbsp; Video &nbsp;·&nbsp; Voice Calls &nbsp;·&nbsp; Text &nbsp;·&nbsp; Fake Profiles &nbsp;·&nbsp; Emergency Scams
+    <div class="cat-rule"></div>
+  </div>
+  <div class="hero-title">Deepfakes &amp; <em>Digital Truth</em></div>
+  <div class="hero-sub">How to spot AI in 2026 — and protect yourself from what you can't unsee</div>
+
+  <div class="section-pills">
+    <a href="#images" class="sp sp-img">📷 AI Images</a>
+    <a href="#video" class="sp sp-vid">🎬 AI Video</a>
+    <a href="#audio" class="sp sp-aud">🎙 Voice Cloning</a>
+    <a href="#text" class="sp sp-txt">📝 AI Text</a>
+    <a href="#profiles" class="sp sp-pro">👤 Fake Profiles</a>
+    <a href="#scams" class="sp sp-scam">🚨 Emergency Scams</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hs" onclick="openModal('stat-deepfakes-8m')">
+      <div class="hs-num">8M <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-deepfakes-8m')">ⓘ</button></div>
+      <div class="hs-text">deepfakes projected to be shared in 2025 — up from 500,000 in 2023</div>
+      <div class="hs-src">European Parliamentary Research Service, July 2025</div>
+    </div>
+    <div class="hs" onclick="openModal('stat-unicef-1m')">
+      <div class="hs-num">1.2M <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-unicef-1m')">ⓘ</button></div>
+      <div class="hs-text">children had their images manipulated into deepfakes in one year — 1 in 25 in some countries</div>
+      <div class="hs-src">UNICEF / ECPAT / INTERPOL, February 2026</div>
+    </div>
+    <div class="hs" onclick="openModal('stat-voice-148')">
+      <div class="hs-num">148% <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-voice-148')">ⓘ</button></div>
+      <div class="hs-text">surge in AI-generated voice scams in 2025 — financial damages exceeded $200M in Q1 alone</div>
+      <div class="hs-src">Resemble AI Q1 2025 Report</div>
+    </div>
+    <div class="hs" onclick="openModal('stat-friendship-fraud')">
+      <div class="hs-num">↑ <button class="stat-info-btn" onclick="event.stopPropagation();openModal('stat-friendship-fraud')">ⓘ</button></div>
+      <div class="hs-text">friendship fraud targeting older people rising sharply in 2026 — often AI-assisted fake profiles</div>
+      <div class="hs-src">The Guardian, March 22, 2026</div>
+    </div>
+  </div>
+
+  <div class="hero-desc">
+    This is not a paranoid resource. Most of what you see online is real. But AI is changing that equation fast — and <strong>the people who get hurt are those who were never told what to look for.</strong> This guide gives you the practical steps to test what you see, hear, and read — before you share it, believe it, or send someone money.
+  </div>
+  <div class="hero-meta">
+    <span class="mi">General audiences</span><div class="msep"></div>
+    <span class="mi">Families, seniors, churches</span><div class="msep"></div>
+    <span class="mi">Keep &amp; share freely</span><div class="msep"></div>
+    <span class="mi">nathanielbaldock.com</span>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- BIBLE FOUNDATION -->
+  <!-- ── UNIFIED FOUNDATION BLOCK ── -->
+  <div class="foundation-block">
+
+    <!-- Dark header band -->
+    <div class="fb-header">
+      <div class="fb-header-content">
+        <span class="fb-dot"></span><span class="fb-label">A foundation for discernment</span>
+
+        <p class="fb-intro">We are called to be salt and light in the world — and that includes the digital world. Technology is changing how fast ideas travel, how easily images can be faked, and how simple it has become to deceive millions of people at once. As Christians we are called to <strong>steward our communications</strong> — to be people who help shape their communities through what we read, what we believe, and what we choose to pass on. The content we share is not neutral. It builds the world or erodes it. Before you work through this guide, take a moment with what these passages say about how we engage with information in an age when truth is genuinely hard to find.</p>
+
+        <div class="fb-vishal">
+          <div class="fb-vishal-lbl">Vishal Mangalwadi</div>
+          <div class="fb-vishal-text">"God spoke and created the universe. Man speaks and creates culture, which shapes the universe."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- White body -->
+    <div class="fb-body">
+
+      <!-- Primary scripture — Acts 17:11 — the Berean model -->
+      <div class="fb-primary-verse">
+        <div class="fb-pv-ref">Acts 17:11 <span class="fb-pv-version">NIV</span></div>
+        <div class="fb-pv-text">"Now the Berean Jews received the message with great eagerness and examined the Scriptures every day to see if what Paul said was true."</div>
+        <div class="fb-pv-note">The Bereans didn&#8217;t passively receive what they were told — they checked. Every day. That same habit applies to everything we encounter now: news articles, viral photos, shocking videos, voice messages, and posts shared by people we trust. The question is not whether to check. It is whether we have built the habit.</div>
+      </div>
+
+      <!-- 2×2 coloured verse cards -->
+      <div class="fb-verse-grid">
+
+        <div class="fb-verse-card fb-vc-blue">
+          <div class="fb-vc-ref fb-vc-ref-blue">Philippians 4:8 <span class="fb-vc-ver">NIV</span></div>
+          <div class="fb-vc-text">"Whatever is true, whatever is noble, whatever is right... think about such things."</div>
+          <div class="fb-vc-note">This is a warning against letting outrage, shock, and manufactured fear run your thinking. AI-generated content and misleading media are specifically designed to hijack attention through strong emotion. The counter-habit: actively seek what is <em>actually</em> true rather than being swept along by what feels urgent or dramatic. Don&#8217;t let fake news and shock-factor media pull you into rabbit trails away from what is real.</div>
+        </div>
+
+        <div class="fb-verse-card fb-vc-green">
+          <div class="fb-vc-ref fb-vc-ref-green">1 Thessalonians 5:21 <span class="fb-vc-ver">NIV</span></div>
+          <div class="fb-vc-text">"Test everything. Hold on to what is good."</div>
+          <div class="fb-vc-note">Paul&#8217;s command is universal — not just test things you&#8217;re suspicious of, or when you have time. <em>Everything.</em> The moment we stop testing is the moment we become useful to those who profit from spreading false content. Holding on to what is good means not passing on what you cannot verify.</div>
+        </div>
+
+        <div class="fb-verse-card fb-vc-teal">
+          <div class="fb-vc-ref fb-vc-ref-teal">Hebrews 5:14 <span class="fb-vc-ver">NIV</span></div>
+          <div class="fb-vc-text">"Solid food is for the mature, who by constant use have trained themselves to distinguish good from evil."</div>
+          <div class="fb-vc-note">Discernment is not a gift that arrives fully formed — it is a muscle. The word here is <em>trained</em>, the same word used for athletic practice. Digital discernment works the same way: the more consistently you apply these habits, the faster and more naturally you will sense when something is wrong.</div>
+        </div>
+
+        <div class="fb-verse-card fb-vc-purple">
+          <div class="fb-vc-ref fb-vc-ref-purple">John 8:32 <span class="fb-vc-ver">NIV</span></div>
+          <div class="fb-vc-text">"You will know the truth, and the truth will set you free."</div>
+          <div class="fb-vc-note">Freedom here is not only spiritual. When you cannot distinguish what is real online, you are manipulable — your fears, beliefs, and decisions can be shaped by whoever controls the content. Knowing how to find truth is a form of genuine freedom. This guide is a small part of that.</div>
+        </div>
+
+      </div>
+
+      <!-- Darrow Miller insight -->
+      <div class="fb-miller" onclick="openModal('stat-darrow-words')">
+        <div class="fb-miller-head">
+          <div class="fb-miller-lbl">Darrow L. Miller — <em>Why Words?</em> <button class="stat-info-btn stat-info-btn-dark" onclick="event.stopPropagation();openModal('stat-darrow-words')">ⓘ</button></div>
+          <div class="fb-miller-line">"Whoever controls language controls history and shapes the future of a people and a nation."</div>
+        </div>
+        <div class="fb-miller-body">AI-generated images, fabricated voices, and synthetic text are not just individual deceptions. They are a slow rewriting of the language through which a culture understands what is real. <strong>You must change the language of a society before you can change the society</strong> — which is why defending truth is not a niche concern, but a foundational one. Christians who refuse to spread false content, who check before they share, and who train themselves in discernment are not being cautious. <strong>They are stewarding the vocabulary of truth</strong> in a moment when it is under serious, sustained attack.
+          <div class="fb-miller-src">Darrow L. Miller, <em>Discipling Nations: The Power of Truth to Transform Culture</em>, YWAM Publishing &middot; <a href="https://disciplenations.org/resources/discipling-nations-the-power-of-truth-to-transform-culture/" target="_blank" style="color:hsl(38,65%,38%);text-decoration:none;">disciplenations.org</a></div>
+        </div>
+      </div>
+
+    </div><!-- /fb-body -->
+
+  </div>
+
+  <hr class="div">
+
+  <!-- ── SECTION 1: AI IMAGES ── -->
+  <div id="images" class="detection-section">
+    <div class="ds-head ds-head-img">
+      <div class="ds-head-ghost">📷</div>
+      <div class="ds-head-kicker">Section 1 · AI-Generated Images</div>
+      <div class="ds-head-title">Spotting fake photos on social media, news &amp; messaging apps</div>
+      <div class="ds-head-sub">AI can now generate photorealistic images of events that never happened, people who don't exist, and places that look completely real.
+        <button class="stat-info-btn" onclick="openModal('src-images')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num sn-img">1</div>
+          <div class="step-text"><strong>Zoom in on faces, hands, and edges.</strong> AI still struggles with teeth (too perfect or too many), earrings that don't match, hair along the hairline, and background text that becomes garbled on close inspection. Zoom to 100% and scan these areas.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-img">2</div>
+          <div class="step-text"><strong>Check the physics.</strong> Shadows that don't match the light source, reflections in eyes or glasses that show impossible scenes, and skin texture that is unnaturally smooth or oddly uniform are all AI tells. Real photos have natural imperfection.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-img">3</div>
+          <div class="step-text"><strong>Do a reverse image search.</strong> Right-click (desktop) or press-hold (mobile) and "Search image with Google." If the same photo appears with different captions or a different original context, it may be manipulated or mislabelled.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-img">4</div>
+          <div class="step-text"><strong>Check metadata (for photos shared as files).</strong> Right-click the file → Properties (PC) or Get Info (Mac). AI-generated images often show unusual creation times, editing software, or missing camera data that real photos carry.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-img">5</div>
+          <div class="step-text"><strong>Run it through a free AI detection tool</strong> like TrueMedia.org or Hive Moderation. These are not foolproof, but flagging is a useful additional signal — especially when combined with your own visual check.</div>
+        </div>
+      </div>
+
+      <div class="red-flags">
+        <div class="rf-lbl">⚠ Red flags at a glance</div>
+        <div class="rf-items">
+          <div class="rf-item"><div class="rf-dot">•</div>Perfect, uniform skin with no pores, wrinkles, or texture variation</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Blurred or warped backgrounds, especially near hair or clothing edges</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Accessories or jewellery that differ between sides of the face</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Text in signs, logos, or backgrounds that is garbled or nonsensical</div>
+          <div class="rf-item"><div class="rf-dot">•</div>The image makes you feel shocked or outraged — pause before sharing</div>
+        </div>
+      </div>
+
+      <div class="safe-steps">
+        <div class="ss-lbl">✓ Free tools to use</div>
+        <div class="tools-row">
+          <a class="tool-chip" href="https://hivemoderation.com/ai-generated-content-detection" target="_blank" rel="noopener">Hive Moderation — AI image &amp; video detector</a>
+          <a class="tool-chip" href="https://images.google.com" target="_blank" rel="noopener">Google Reverse Image Search</a>
+          <a class="tool-chip" href="https://www.tineye.com" target="_blank" rel="noopener">TinEye — image origin tracker</a>
+          <a class="tool-chip" href="https://gptzero.me" target="_blank" rel="noopener">GPTZero — AI text detector</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: AI VIDEO ── -->
+  <div id="video" class="detection-section">
+    <div class="ds-head ds-head-vid">
+      <div class="ds-head-ghost">🎬</div>
+      <div class="ds-head-kicker">Section 2 · AI-Generated Video (Deepfakes)</div>
+      <div class="ds-head-title">Spotting fake video on YouTube, social media &amp; TV</div>
+      <div class="ds-head-sub">Deepfake videos can put words in real people's mouths, show events that never happened, and make trusted figures appear to say things they never said.
+        <button class="stat-info-btn" onclick="openModal('src-video')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num sn-vid">1</div>
+          <div class="step-text"><strong>Watch the eyes.</strong> Real humans blink every 2–10 seconds spontaneously. AI-generated faces often stare without blinking for unnaturally long periods, and when they do blink, it looks mechanical — lacking the subtle muscle movements around the eyes that accompany genuine blinks.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-vid">2</div>
+          <div class="step-text"><strong>Watch the head movements.</strong> Most deepfake models train primarily on front-facing data. When a synthetic face rotates to a full profile, the rendering often breaks down — look for blurring, distortion, or the face becoming unnatural at angles.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-vid">3</div>
+          <div class="step-text"><strong>Check lip sync.</strong> Does the mouth movement exactly match every word? In deepfake videos there are often slight mismatches, especially on consonants. The jaw and cheek muscles also move unnaturally in synthetic faces.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-vid">4</div>
+          <div class="step-text"><strong>Look at lighting and shadows.</strong> Look for unnatural lighting, overly smooth skin textures, flickering edges, or blurred backgrounds. Does the light on the face match the direction of light sources in the scene? AI frequently gets this wrong.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-vid">5</div>
+          <div class="step-text"><strong>Verify the source independently.</strong> Search for the same clip or event on established news outlets. If major outlets aren't reporting it and the video is going viral on social media only, treat it with strong scepticism.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-vid">6</div>
+          <div class="step-text"><strong>Check for C2PA content credentials.</strong> Some platforms are beginning to show "Content Credentials" badges on verified authentic content. Their absence doesn't prove a fake, but their presence indicates the content has a verified chain of origin.</div>
+        </div>
+      </div>
+
+      <div class="red-flags">
+        <div class="rf-lbl">⚠ Red flags at a glance</div>
+        <div class="rf-items">
+          <div class="rf-item"><div class="rf-dot">•</div>Flickering or shimmering around the face, especially at hair and chin edges</div>
+          <div class="rf-item"><div class="rf-dot">•</div>The face looks slightly "pasted on" or disconnected from body movement</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Micro-expressions are absent — the face is too still between words</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Teeth disappear or blur when the mouth opens</div>
+          <div class="rf-item"><div class="rf-dot">•</div>A public figure says something wildly out of character — verify first</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: VOICE CLONING ── -->
+  <div id="audio" class="detection-section">
+    <div class="ds-head ds-head-aud">
+      <div class="ds-head-ghost">🎙</div>
+      <div class="ds-head-kicker">Section 3 · AI Voice Cloning</div>
+      <div class="ds-head-title">When the voice sounds exactly like someone you know</div>
+      <div class="ds-head-sub">AI can clone a person's voice from as little as 3–30 seconds of audio pulled from social media, voicemail, or video. The result can fool family members, friends, and colleagues.
+        <button class="stat-info-btn" onclick="openModal('src-voice')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num sn-aud">1</div>
+          <div class="step-text"><strong>Listen for unnatural speech rhythm.</strong> Cloned voices often have an overly smooth, steady pace, strange rhythm, or a lack of natural breathing sounds. The emotional depth may feel flat, hollow, or overly dramatic — too perfect in some ways, subtly wrong in others.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-aud">2</div>
+          <div class="step-text"><strong>Pause before reacting.</strong> These calls are designed to elicit an intense emotional reaction. If you do get an emergency call from a loved one, pause for a minute to gather your thoughts and respond instead of reacting. Scammers deliberately trigger the fear response.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-aud">3</div>
+          <div class="step-text"><strong>Ask a question only they would know.</strong> A family member's middle name, the street you grew up on, a shared memory, the name of a childhood pet. AI cannot answer questions it wasn't given data for — and a scammer won't know either.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-aud">4</div>
+          <div class="step-text"><strong>Hang up and call back on their real number.</strong> Don't trust the voice. Call the person who supposedly contacted you and verify the story. Use a phone number you know is theirs. Do not call back the number that rang you — it may be spoofed.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-aud">5</div>
+          <div class="step-text"><strong>Never send money through untraceable methods.</strong> Wire transfers, gift cards, and cryptocurrency are irreversible and impossible to recover. <strong>No legitimate emergency requires gift card payments.</strong> This is a universal scam signal.</div>
+        </div>
+      </div>
+
+      <div class="red-flags">
+        <div class="rf-lbl">⚠ Red flags at a glance</div>
+        <div class="rf-items">
+          <div class="rf-item"><div class="rf-dot">•</div>Extreme urgency — "you need to act NOW before it gets worse"</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Request for payment via gift cards, wire transfer, or crypto</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Caller says "don't tell anyone" or "the police can't know"</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Slightly odd tone, rhythm, or an echo in the voice</div>
+          <div class="rf-item"><div class="rf-dot">•</div>The story involves a foreign country, arrest, or accident — classic patterns</div>
+        </div>
+      </div>
+
+      <div class="safe-steps">
+        <div class="ss-lbl">✓ The single most effective protection</div>
+        <div class="ss-items">
+          <div class="ss-item"><div class="ss-dot">★</div><strong>Establish a family safe word now</strong> — a unique word or phrase only your family knows. If anyone ever calls claiming an emergency, ask for the safe word. If they don't have it, hang up and call back on the real number.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: AI TEXT ── -->
+  <div id="text" class="detection-section">
+    <div class="ds-head ds-head-txt">
+      <div class="ds-head-ghost">📝</div>
+      <div class="ds-head-kicker">Section 4 · AI-Generated Text</div>
+      <div class="ds-head-title">Spotting fake news articles, social posts &amp; AI-written content</div>
+      <div class="ds-head-sub">AI can generate convincing news articles, social media posts, and opinion pieces at scale. Knowing the linguistic patterns helps you slow down before sharing.
+        <button class="stat-info-btn" onclick="openModal('src-text')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <div class="ds-two-col">
+        <div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-col);margin-bottom:10px;">Signs in the writing itself</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num sn-txt">1</div>
+              <div class="step-text"><strong>Unnaturally smooth, uniform tone.</strong> AI text rarely has a genuine point of view. It hedges everything, presents "both sides" even when unnecessary, and avoids the specific personal voice real writers have.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">2</div>
+              <div class="step-text"><strong>Corporate transition words.</strong> Phrases like "it's important to note that," "in today's world," "it goes without saying," "delve into," and "testament to" appear at high rates in AI writing. Look for these clustering together.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">3</div>
+              <div class="step-text"><strong>Perfect grammar, no personality.</strong> Real human writing has quirks, specific references, personal voice, and natural variation. AI-generated text tends to be grammatically perfect but oddly generic.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">4</div>
+              <div class="step-text"><strong>Vague or unverifiable citations.</strong> AI often invents quotes, statistics, and sources that sound real but don't exist. Check any quote or statistic that seems compelling before you repeat it.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-col);margin-bottom:10px;">Verify the source and story</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num sn-txt">5</div>
+              <div class="step-text"><strong>Check the author.</strong> Does the byline belong to a real person? A quick search often reveals whether an "author" has any real web presence or whether the profile was created recently with no history.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">6</div>
+              <div class="step-text"><strong>Is it covered elsewhere?</strong> A real news story will be reported by multiple independent outlets. If a shocking claim only appears on one unfamiliar site, it may be fabricated.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">7</div>
+              <div class="step-text"><strong>Check the URL carefully.</strong> Fake news sites often use URLs like "ABCnews.com.co" or "CNN-breaking.net" — designed to look legitimate at a glance but slightly wrong on inspection.</div>
+            </div>
+            <div class="step">
+              <div class="step-num sn-txt">8</div>
+              <div class="step-text"><strong>Use a fact-checking site.</strong> Snopes.com, FactCheck.org, AFP Fact Check, and Reuters Fact Check all maintain databases of debunked stories. Search the headline before sharing.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="safe-steps" style="margin-top:14px;">
+        <div class="ss-lbl">✓ Free AI text detection &amp; fact-checking tools</div>
+        <div class="tools-row">
+          <a class="tool-chip" href="https://gptzero.me" target="_blank" rel="noopener">GPTZero.me</a>
+          <a class="tool-chip" href="https://originality.ai" target="_blank" rel="noopener">Originality.ai</a>
+          <a class="tool-chip" href="https://zerogpt.com" target="_blank" rel="noopener">ZeroGPT.com</a>
+          <a class="tool-chip" href="https://www.snopes.com" target="_blank" rel="noopener">Snopes.com — fact checking</a>
+          <a class="tool-chip" href="https://www.factcheck.org" target="_blank" rel="noopener">FactCheck.org</a>
+          <a class="tool-chip" href="https://factcheck.afp.com" target="_blank" rel="noopener">AFP Fact Check</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: FAKE PROFILES ── -->
+  <div id="profiles" class="detection-section">
+    <div class="ds-head ds-head-pro">
+      <div class="ds-head-ghost">👤</div>
+      <div class="ds-head-kicker">Section 5 · Fake Profiles &amp; Friendship Fraud</div>
+      <div class="ds-head-title">When the "person" you're talking to online doesn't exist</div>
+      <div class="ds-head-sub">AI-generated profile photos and AI-assisted conversations allow scammers to maintain convincing fake identities for weeks or months — especially targeting lonely or isolated people.
+        <button class="stat-info-btn" onclick="openModal('src-profiles')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <p class="body-para" style="margin-bottom:12px;">The Guardian reported in March 2026 <button class="stat-info-btn stat-info-btn-dark" onclick="openModal('stat-friendship-fraud')">ⓘ</button> that friendship fraud targeting older people is rising sharply — where scammers spend weeks building a relationship before asking for money. The AI profile photo is often the first layer of the deception.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num sn-pro">1</div>
+          <div class="step-text"><strong>Reverse image search the profile photo.</strong> AI-generated faces don't exist anywhere else online. If the profile picture appears on multiple unrelated sites or doesn't appear at all, both are warning signs.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-pro">2</div>
+          <div class="step-text"><strong>Check the account history.</strong> When was it created? How many posts? Does it have real friends or followers with genuine history? A new account with few connections but fast engagement is suspicious.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-pro">3</div>
+          <div class="step-text"><strong>Be alert to "romance trajectory" patterns.</strong> Too much attention too fast, escalating intimacy, beautiful profile with apparently glamorous life, never able to meet in person, always has a reason a video call won't work.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-pro">4</div>
+          <div class="step-text"><strong>Watch for the financial request pattern.</strong> Friendship or romance fraud almost always builds toward a financial request — an emergency, a stranded situation, a business investment "opportunity," medical costs.</div>
+        </div>
+        <div class="step">
+          <div class="step-num sn-pro">5</div>
+          <div class="step-text"><strong>Tell someone you trust.</strong> Scammers work to isolate victims and make them feel the relationship is special and private. If you feel uncomfortable telling a trusted friend or family member about an online relationship, that discomfort is important information.</div>
+        </div>
+      </div>
+
+      <div class="red-flags">
+        <div class="rf-lbl">⚠ Red flags at a glance</div>
+        <div class="rf-items">
+          <div class="rf-item"><div class="rf-dot">•</div>Intensely romantic or flattering tone within days of first contact</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Claims to be overseas, military, working on a ship, or in a remote location</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Has an implausibly perfect appearance but can never do a live video call</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Discourages you from checking their identity or talking to others about them</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Any request for money, gift cards, or cryptocurrency — even small amounts to start</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SECTION 6: EMERGENCY SCAMS ── -->
+  <div id="scams" class="detection-section">
+    <div class="ds-head ds-head-scam">
+      <div class="ds-head-ghost">🚨</div>
+      <div class="ds-head-kicker">Section 6 · Emergency Voice Scams — URGENT READ</div>
+      <div class="ds-head-title">When you hear your family member's voice saying they're in danger</div>
+      <div class="ds-head-sub">This is the most psychologically powerful scam technique AI has enabled. The voice sounds exactly like someone you love. They say they need money immediately. Your brain triggers a panic response.
+        <button class="stat-info-btn" onclick="openModal('src-scams')" style="margin-left:8px;">ⓘ</button>
+      </div>
+    </div>
+    <div class="ds-body">
+
+      <div class="scam-alert">
+        <div class="sa-lbl">⚠ If you receive this call RIGHT NOW — follow these steps</div>
+        <div class="sa-title">Stop. Breathe. Do not send money yet.</div>
+        <div class="sa-sub">Scammers exploit panic. The goal is to make you act before you think. Your brain's fear response is their primary weapon. Knowing this in advance is your best protection.</div>
+        <div class="sa-steps">
+          <div class="sa-step">
+            <div class="sa-step-num">1</div>
+            <div class="sa-step-text"><strong>Tell the caller you need to call them back.</strong> Any legitimate emergency allows time for a callback. A scammer will pressure you not to hang up.</div>
+          </div>
+          <div class="sa-step">
+            <div class="sa-step-num">2</div>
+            <div class="sa-step-text"><strong>Hang up and call the person directly</strong> on their real saved number — not by calling the number that rang you. If they answer, it was a scam. If no answer, call another family member to verify.</div>
+          </div>
+          <div class="sa-step">
+            <div class="sa-step-num">3</div>
+            <div class="sa-step-text"><strong>Ask the personal question only they would know.</strong> Before you do anything, ask for your family's safe word, or ask something AI can't answer — their first pet's name, your grandmother's maiden name.</div>
+          </div>
+          <div class="sa-step">
+            <div class="sa-step-num">4</div>
+            <div class="sa-step-text"><strong>Never send money via gift cards, wire transfer, or crypto.</strong> These are irreversible. No legitimate emergency requires gift cards. Police, hospitals, and lawyers do not ask for payment this way.</div>
+          </div>
+          <div class="sa-step">
+            <div class="sa-step-num">5</div>
+            <div class="sa-step-text"><strong>Report it.</strong> In NZ: Netsafe (netsafe.org.nz). In Australia: Scamwatch (scamwatch.gov.au). In the US: FTC (reportfraud.ftc.gov). Reporting helps protect others.</div>
+          </div>
+        </div>
+
+        <div class="safe-word-box">
+          <div class="swb-lbl">Set up your family safe word — do it now, before you ever need it</div>
+          <div class="swb-text">Choose a word or short phrase that is unusual, memorable, and that only your immediate family knows. If anyone ever calls claiming an emergency, ask for this word first. If they don't have it — it's a scam.</div>
+          <div class="swb-field">
+            <div class="swb-field-lbl">Our family safe word:</div>
+            <input class="swb-input" type="text" placeholder="Write it here — and tell your family today…">
+          </div>
+        </div>
+      </div>
+
+      <div class="red-flags" style="margin-top:10px;">
+        <div class="rf-lbl">⚠ Classic emergency scam patterns — recognise them</div>
+        <div class="rf-items">
+          <div class="rf-item"><div class="rf-dot">•</div>"I've been arrested and need bail money — please don't tell mum/dad yet"</div>
+          <div class="rf-item"><div class="rf-dot">•</div>"I was in a car accident in [foreign country] and need money for the hospital"</div>
+          <div class="rf-item"><div class="rf-dot">•</div>"I'm stranded and my wallet was stolen — please send me something on [app]"</div>
+          <div class="rf-item"><div class="rf-dot">•</div>A "lawyer" or "police officer" gets on the line to make it feel official</div>
+          <div class="rf-item"><div class="rf-dot">•</div>Caller ID shows your family member's number — this can be spoofed easily</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- QUICK REFERENCE CARD -->
+  <div class="sec-lbl">Quick reference</div>
+  <div class="sec-title">The one-page version</div>
+
+  <div class="quick-ref">
+    <div class="qr-title">Before you share, believe, or send money — ask these questions</div>
+    <div class="qr-grid">
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--img-col);">📷 Images</div>
+        <div class="qr-card-title">Does it look too perfect?</div>
+        <div class="qr-items">Zoom into face, hands, and text<br>Check shadows and skin texture<br>Reverse image search<br>Tool: TrueMedia.org</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--vid-col);">🎬 Video</div>
+        <div class="qr-card-title">Do the eyes and lips match?</div>
+        <div class="qr-items">Check blinking pattern<br>Watch lip sync carefully<br>Look for face-edge flickering<br>Search for the story elsewhere</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--aud-col);">🎙 Voice Call</div>
+        <div class="qr-card-title">Pause before you react</div>
+        <div class="qr-items">Ask for the safe word<br>Hang up, call back directly<br>Ask something only they'd know<br>Never gift cards or crypto</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--txt-col);">📝 Text / Articles</div>
+        <div class="qr-card-title">Is the author real?</div>
+        <div class="qr-items">Check the URL carefully<br>Is it covered by other outlets?<br>Fact-check the key claim<br>Snopes · FactCheck.org</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--pro-col);">👤 Profiles</div>
+        <div class="qr-card-title">Does this person exist?</div>
+        <div class="qr-items">Reverse image search photo<br>Check account creation date<br>Beware "too much attention"<br>Tell someone you trust</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-card-lbl" style="color:var(--scam-col);">🚨 Emergency</div>
+        <div class="qr-card-title">STOP — breathe first</div>
+        <div class="qr-items">Hang up — call them directly<br>Ask the personal question<br>No gift cards, no crypto<br>Report to Netsafe / Scamwatch</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- FREE TOOLS -->
+  <div class="sec-lbl">Free tools available now</div>
+  <div class="sec-title">What to bookmark today</div>
+  <div class="sec-sub" style="margin-bottom:16px;">None of these are perfect — AI detection is an ongoing arms race. But they give you a useful second opinion when something feels off.</div>
+
+  <div class="tools-list">
+    <a class="tl-card" href="https://hivemoderation.com/ai-generated-content-detection" target="_blank" rel="noopener">
+      <div class="tlc-name">Hive Moderation</div>
+      <div class="tlc-use">Free AI detection for images, video, and audio deepfakes. Upload a file or use the Chrome extension for live browsing.</div>
+      <div class="tlc-url">hivemoderation.com</div>
+    </a>
+    <a class="tl-card" href="https://images.google.com" target="_blank" rel="noopener">
+      <div class="tlc-name">Google Reverse Image</div>
+      <div class="tlc-use">Right-click any image → "Search image with Google" to find its origin and check whether it appears in other contexts.</div>
+      <div class="tlc-url">images.google.com</div>
+    </a>
+    <a class="tl-card" href="https://gptzero.me" target="_blank" rel="noopener">
+      <div class="tlc-name">GPTZero.me</div>
+      <div class="tlc-use">Paste text to check whether it was likely written by AI. Used in over 3,500 colleges worldwide.</div>
+      <div class="tlc-url">gptzero.me</div>
+    </a>
+    <a class="tl-card" href="https://www.snopes.com" target="_blank" rel="noopener">
+      <div class="tlc-name">Snopes.com</div>
+      <div class="tlc-use">Searchable database of fact-checked stories, viral claims, and debunked rumours. One of the oldest and most trusted.</div>
+      <div class="tlc-url">snopes.com</div>
+    </a>
+    <a class="tl-card" href="https://netsafe.org.nz/scams" target="_blank" rel="noopener">
+      <div class="tlc-name">Netsafe (NZ)</div>
+      <div class="tlc-use">New Zealand&#8217;s internet safety organisation — report scams or get free, confidential help and advice.</div>
+      <div class="tlc-url">netsafe.org.nz &middot; 0508 638 723</div>
+    </a>
+    <a class="tl-card" href="https://www.scamwatch.gov.au" target="_blank" rel="noopener">
+      <div class="tlc-name">Scamwatch (AUS)</div>
+      <div class="tlc-use">Australian Competition &amp; Consumer Commission — report scams and read the latest scam alerts.</div>
+      <div class="tlc-url">scamwatch.gov.au</div>
+    </a>
+  </div>
+
+  <hr class="div">
+
+  <!-- PERSONAL COMMITMENTS -->
+  <div class="commit-block">
+    <div class="cb-title">My digital discernment commitments</div>
+    <div class="cb-sub">Write these down — then share this guide with one person in your family or church community today.</div>
+    <div class="cb-grid">
+      <div>
+        <div class="ws-label">Before I share something on social media, I will:</div>
+        <input class="ws-line" type="text" placeholder="e.g. always check the source and reverse image search…">
+        <div class="ws-label" style="margin-top:8px;">The tool I'll bookmark this week:</div>
+        <input class="ws-line" type="text" placeholder="e.g. Hive Moderation, Snopes.com…">
+      </div>
+      <div>
+        <div class="ws-label">One person I'll share this guide with:</div>
+        <input class="ws-line" type="text" placeholder="Name them — elderly parent, family group, church friend…">
+        <div class="ws-label" style="margin-top:8px;">Our family safe word for emergency calls:</div>
+        <input class="ws-line" type="text" placeholder="Choose it today and tell your family…">
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING WORD -->
+  <div class="enc">
+    <div class="enc-lbl"><div class="enc-dot"></div>A closing word — from the Communication Sphere</div>
+    <div class="enc-text">
+      The goal of this guide is not to make you afraid of everything you see online. Most of what you encounter is real. The goal is what Paul describes in 1 Thessalonians — to <strong>test what you see and hold onto what is good</strong>. That takes a moment of pause. A second look. A willingness to check before you share.<br><br>
+      Christians who do this consistently are not being paranoid. They're being responsible stewards of their voice and their influence. <strong>When you stop sharing false content, you reduce the noise that harms real people.</strong> When you protect your family from voice scams, you are loving your neighbour with practical wisdom. And when you approach all of this with the gentleness of 1 Peter — not with judgement toward those who were fooled, but with calm equipping — you embody exactly what the Communication Sphere is meant to be.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com</div>
+      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Digital Discernment</span><span class="tag">Deepfakes</span><span class="tag">Voice Scams</span><span class="tag">Fake News</span><span class="tag">General Audience</span><span class="tag">Families</span><span class="tag">Seniors</span>
+  </div>
+
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
+  <div class="footer-r">
+    <span class="tag">Standalone Resource · 2026</span>
+    <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="statModal" onclick="closeModal(event)">
+  <div class="modal-panel" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-accent"></div>
+      <div class="modal-stat-num" id="modalNum"></div>
+      <div class="modal-stat-label" id="modalLabel"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-source-label">Source</div>
+      <div class="modal-source-name" id="modalSource"></div>
+      <div class="modal-confidence" id="modalConfidence"></div>
+      <div class="modal-context" id="modalContext"></div>
+      <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Read the original source
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+const STATS = {
+  'stat-deepfakes-8m': {
+    num: '8 million',
+    label: 'deepfakes projected to be shared in 2025 — up from just 500,000 in 2023',
+    source: 'European Parliamentary Research Service — Deepfake Trends Report, July 2025',
+    confidence: '✓ High confidence — European Parliament institutional research body',
+    context: 'The European Parliamentary Research Service projected that 8 million deepfakes would be shared online in 2025, representing a 1,500% increase from 500,000 in 2023. This acceleration is driven by the widespread availability of open-source AI models that allow anyone to generate convincing synthetic media with minimal technical skill. CloudSEK\'s analysis notes that modern AI platforms allow deepfake generation with no specialist knowledge, dramatically increasing the volume of manipulated content appearing online.',
+    url: 'https://www.europarl.europa.eu/RegData/etudes/BRIE/2021/690039/EPRS_BRI(2021)690039_EN.pdf'
+  },
+  'stat-unicef-1m': {
+    num: '1.2 million',
+    label: 'children had their images manipulated into sexually explicit deepfakes in the past year',
+    source: 'UNICEF / ECPAT International / INTERPOL — "Deepfake Abuse Is Abuse," February 4, 2026',
+    confidence: '✓ Very high confidence — UNICEF press release, nationally representative household surveys across 11 countries',
+    context: 'In a landmark study across 11 countries, UNICEF, ECPAT International, and INTERPOL found that at least 1.2 million children disclosed having had their images manipulated into sexually explicit deepfakes in the past year. In some countries this represents 1 in 25 children — the equivalent of one child in a typical classroom. Up to two-thirds of children in some study countries said they worry AI could be used to create fake sexual images or videos of them. UNICEF stated: "Deepfake abuse is abuse, and there is nothing fake about the harm it causes."',
+    url: 'https://www.unicef.org/press-releases/deepfake-abuse-is-abuse'
+  },
+  'stat-voice-148': {
+    num: '148%',
+    label: 'surge in AI-generated voice scams in 2025 — financial damages exceeded $200 million in Q1 2025 alone',
+    source: 'Resemble AI — Q1 2025 Report on AI Voice Scams',
+    confidence: '⚠ Secondary citation — Resemble AI is an industry-specific source; verify figures against independent reports',
+    context: 'Resemble AI\'s Q1 2025 report documented a 148% increase in AI-generated voice scams. Financial damages from deepfake incidents (including voice scams) exceeded $200 million in the first quarter of 2025 alone. Separately, ACA International reported in February 2026 that AI voice cloning is surging as scammers specifically target emotional pressure points — using cloned voices of family members to trigger panic responses that bypass rational thinking. The FTC has launched a Voice Cloning Challenge to develop detection and prevention tools.',
+    url: 'https://www.acainternational.org/news/ai-voice-cloning-surges-as-scammers-target-emotional-pressure-points/'
+  },
+  'stat-friendship-fraud': {
+    num: '↑ Rising',
+    label: 'friendship fraud targeting older people — building fake relationships over weeks before requesting money',
+    source: 'The Guardian — "Friendship fraud: warnings of rise in insidious scam targeting older people," March 22, 2026',
+    confidence: '✓ High confidence — The Guardian investigative journalism',
+    context: 'The Guardian reported in March 2026 on the sharp rise in "friendship fraud" — an especially insidious scam in which attackers, often aided by AI, spend weeks or months building a genuine-seeming relationship with victims before making a financial request. The targets are disproportionately older people who may be isolated or lonely. AI-generated profile photos are used to create convincing fake identities. The fraud is particularly damaging because victims often feel deep shame after being targeted, and may not report it.',
+    url: 'https://www.theguardian.com/money/2026/mar/22/friendship-fraud-warnings-rise-insidious-scam-older-people'
+  },
+  /* ── SECTION SOURCE CITATIONS ── */
+  'src-images': {
+    num: 'AI Images',
+    label: 'Sources for detecting AI-generated photos and images',
+    source: 'Multiple verified sources — 2024–2026',
+    confidence: '✓ Peer-reviewed and institutional sources',
+    context: '<strong>Kellogg Insight, Northwestern University</strong>: "5 Telltale Signs That a Photo Is AI-generated" — covers skin texture, lighting inconsistencies, and facial anomalies. kellogg.northwestern.edu<br><br><strong>Cyber Collective (Ashly Orshi, Sep 2024)</strong>: "Detecting AI-Generated Images: A Guide for Social Media Users" — reverse image search methods, metadata checks. cybercollective.org<br><br><strong>Mission Cloud (Dr. Ryan Ries, Jan 2026)</strong>: "How to Detect Deepfakes in 2026" — covers C2PA verification, detection tool limitations, and the arms race between AI creators and detectors. missioncloud.com<br><br><strong>PaladinAi (Dec 2025)</strong>: "Deepfake Detection Guide 2026" — comprehensive technical and behavioural methods. paladintech.ai',
+    url: 'https://insight.kellogg.northwestern.edu/article/ai-photos-identification'
+  },
+  'src-video': {
+    num: 'AI Video',
+    label: 'Sources for detecting AI-generated and deepfake video',
+    source: 'Multiple verified sources — 2025–2026',
+    confidence: '✓ Cybersecurity and AI research sources',
+    context: '<strong>CanIPhish (Gareth Shelwell, Jan 2026)</strong>: "10 Techniques To Spot AI-Generated Videos" — eye movement, head rotation, lip sync analysis. caniphish.com<br><br><strong>ESET (Jake Moore, Aug 2025)</strong>: "How to detect deepfakes: A practical guide" — visual inconsistencies, facial anomalies, metadata manipulation. eset.com<br><br><strong>ZeroFox (Dec 2025)</strong>: "How to Detect DeepFakes: A Guide for Security Teams" — enterprise-level and individual detection methods. zerofox.com<br><br><strong>Resemble AI (2025–2026)</strong>: "Deepfake Detection Methods: A Comprehensive Guide" — technical overview of GAN and diffusion model detection. resemble.ai<br><br><strong>C2PA Viewer (Feb 2026)</strong>: "How to C2PA Verify Image and Video Origins" — cryptographic content provenance standard. c2paviewer.com',
+    url: 'https://caniphish.com/blog/how-to-spot-ai-videos'
+  },
+  'src-voice': {
+    num: 'Voice Cloning',
+    label: 'Sources on AI voice cloning scams and how to protect yourself',
+    source: 'Multiple verified sources — 2025–2026',
+    confidence: '✓ Banking, cybersecurity, and consumer protection sources',
+    context: '<strong>ACA International (Feb 2026)</strong>: "AI Voice Cloning Surges as Scammers Target Emotional Pressure Points" — documents the rise and psychological mechanisms of voice cloning scams. acainternational.org<br><br><strong>Old National Bank (Catherine Reed, Mar 2026)</strong>: "AI Scam Alert: How Fraudsters Are Mimicking Family Voices in 2026" — practical consumer guide. oldnational.com<br><br><strong>Vision Computers</strong>: "AI Voice Cloning Family Emergency Scam" — explains the technical process and common patterns. visioncomputers.com<br><br><strong>Resemble AI</strong>: Documents 148% surge in AI voice scams in 2025, with financial damages exceeding $200M in Q1 2025 alone. resemble.ai<br><br><strong>INS LifeGuard (Feb 2026)</strong>: "Biggest Online Fraud and Scams Seniors Need to Watch in 2026" — particular focus on vulnerable populations. inslifeguard.com.au',
+    url: 'https://www.acainternational.org/news/ai-voice-cloning-surges-as-scammers-target-emotional-pressure-points/'
+  },
+  'src-text': {
+    num: 'AI Text',
+    label: 'Sources on detecting AI-generated writing, articles, and fake news',
+    source: 'Multiple verified sources — 2024–2026',
+    confidence: '✓ Academic, journalistic, and technology sources',
+    context: '<strong>Grammarly (Feb 2026)</strong>: "Decoding AI Language: Common Words and Phrases in AI-Generated Content" — comprehensive list of overused AI vocabulary patterns. grammarly.com<br><br><strong>Hastewire (Nov 2025)</strong>: "Uncover Linguistic Patterns of AI Writing: Key Tells" — in-depth linguistic analysis of AI writing patterns. hastewire.com<br><br><strong>Capitol Technology University (Mar 2024)</strong>: "How to Spot AI-generated Content: Is It Fact or Fiction?" — covers images, text, and video detection for general audiences. captechu.edu<br><br><strong>Fello AI (Lenka Vojtechova, Mar 2026)</strong>: "10 Easy Ways How to Detect AI Deepfakes in 2026" — practical everyday methods. felloai.com<br><br><strong>UncovAI (2026)</strong>: "10 Best Deepfake Detection Tools of 2026: Real-Time Guide" — comprehensive tool comparison. uncovai.com',
+    url: 'https://www.grammarly.com/blog/ai/common-ai-words/'
+  },
+  'src-profiles': {
+    num: 'Fake Profiles',
+    label: 'Sources on AI-generated fake social media profiles and friendship fraud',
+    source: 'Multiple verified sources — 2025–2026',
+    confidence: '✓ Journalism and consumer advocacy sources',
+    context: '<strong>The Guardian (Shane Hickey, Mar 22, 2026)</strong>: "Friendship fraud: warnings of rise in insidious scam targeting older people" — investigative report on the rise of long-term deceptive online relationships. theguardian.com<br><br><strong>Robson Ranch Pioneer Press (R.O.S.E. Advocacy, May 2025)</strong>: "How to Outsmart Fake Profiles on Social Media" — practical guide aimed at older adults. robsonranchpioneerpress.com<br><br><strong>Village Green Senior Living</strong>: "A Guide to Social Media For Seniors" and "What You Should and Shouldn\'t Do on Facebook" — community safety guides for older people. villagegreenseniorliving.com<br><br><strong>Michael Hill Trial Law (Nov 2024)</strong>: "Helping Seniors Navigate Social Media and Stay Safe Online" — legal and safety perspective. protectseniors.com',
+    url: 'https://www.theguardian.com/money/2026/mar/22/friendship-fraud-warnings-rise-insidious-scam-older-people'
+  },
+  'src-scams': {
+    num: 'Emergency Scams',
+    label: 'Sources on AI voice emergency scams and how to stop them',
+    source: 'Multiple verified sources — 2025–2026',
+    confidence: '✓ Government, banking, and consumer protection sources',
+    context: '<strong>Identity Theft Resource Center / ITRC</strong>: "The Most Common AI Scams In 2025" — comprehensive survey of AI-enabled fraud types. idtheftcenter.org<br><br><strong>INS LifeGuard Australia (Feb 2026)</strong>: "Biggest Online Fraud and Scams Seniors Need to Watch in 2026" — regional context for Australia and New Zealand. inslifeguard.com.au<br><br><strong>ACA International (Feb 2026)</strong>: "AI Voice Cloning Surges as Scammers Target Emotional Pressure Points" — documents the psychological tactics used in emergency scams. acainternational.org<br><br><strong>FTC Consumer Advice</strong>: "Scammers use AI to enhance their family emergency schemes" — official US Federal Trade Commission guidance with reporting instructions. consumer.ftc.gov<br><br><strong>National Cybersecurity Alliance</strong>: "Why Your Family and Coworkers Need a Safe Word in the Age of AI" — the safe word approach as primary defence. staysafeonline.org',
+    url: 'https://www.idtheftcenter.org/post/ai-scams-2025/'
+  },
+
+  'stat-darrow-words': {
+    num: '"Why Words?"',
+    label: 'Darrow L. Miller — the theological and sociological case for guarding language',
+    source: 'Darrow L. Miller, "Why Words?" — Discipling Nations: The Power of Truth to Transform Culture, YWAM Publishing (1998, revised ed.) · Disciple Nations Alliance',
+    confidence: '✓ Published book chapter — YWAM Publishing, widely cited in Christian worldview education',
+    context: 'In &ldquo;Why Words?&rdquo; Darrow Miller argues that language is the foundation of culture and identity. He presents two maxims: sociologically, &ldquo;You must change the language of a society before you change the society&rdquo;; theologically (from Vishal Mangalwadi), &ldquo;God spoke and created the universe. Man speaks and creates culture, which shapes the universe.&rdquo; Citing Rudyard Kipling that &ldquo;words are the most powerful drugs used by mankind&rdquo; and Dennis Peacocke\'s framing of truth-defenders as &ldquo;Word Warriors,&rdquo; Miller argues that whoever controls language controls history. In the AI era, deepfakes and AI-generated text do not merely deceive individuals &mdash; they corrupt the shared vocabulary of truth that cultures depend on.',
+    url: 'https://disciplenations.org/resources/discipling-nations-the-power-of-truth-to-transform-culture/'
+  }
+};
+
+function openModal(id) {
+  const s = STATS[id];
+  if (!s) return;
+  document.getElementById('modalNum').textContent = s.num;
+  document.getElementById('modalLabel').textContent = s.label;
+  document.getElementById('modalSource').textContent = s.source;
+  document.getElementById('modalConfidence').textContent = s.confidence;
+  document.getElementById('modalContext').innerHTML = s.context;
+  const link = document.getElementById('modalLink');
+  link.href = s.url;
+  link.style.display = s.url ? 'inline-flex' : 'none';
+  document.getElementById('statModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e.target === document.getElementById('statModal')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('statModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+</script>
+</body>
+</html>

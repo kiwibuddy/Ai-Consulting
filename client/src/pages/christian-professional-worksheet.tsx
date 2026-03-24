@@ -15,7 +15,7 @@ import {
 
 const DEFAULT_OG = "/Nathaniel_Portrait.png";
 
-function seriesOrdinalWord(n: ChristianProfessionalWorksheetMeta["seriesNumber"]): string {
+function seriesOrdinalWord(n: NonNullable<ChristianProfessionalWorksheetMeta["seriesNumber"]>): string {
   return (["ONE", "TWO", "THREE", "FOUR"] as const)[n - 1];
 }
 
@@ -124,11 +124,23 @@ export default function ChristianProfessionalWorksheetPage() {
         <section className="bg-white border-b border-neutral-200 px-6 py-5">
           <div className="max-w-3xl mx-auto">
             <p className="text-sm text-neutral-600 text-center">
-              Fill in the worksheet below. Use{" "}
-              <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
-              in the worksheet footer, or use{" "}
-              <strong className="font-medium text-neutral-800">Print worksheet</strong>{" "}
-              at the bottom of this page after you finish.
+              {meta.seriesNumber != null ? (
+                <>
+                  Fill in the worksheet below. Use{" "}
+                  <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
+                  in the worksheet footer, or use{" "}
+                  <strong className="font-medium text-neutral-800">Print worksheet</strong>{" "}
+                  at the bottom of this page after you finish.
+                </>
+              ) : (
+                <>
+                  Use the reference guide below in your browser. Use{" "}
+                  <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
+                  in the guide footer, or{" "}
+                  <strong className="font-medium text-neutral-800">Print worksheet</strong>{" "}
+                  at the bottom of this page when you want a paper copy.
+                </>
+              )}
             </p>
           </div>
         </section>
@@ -144,25 +156,37 @@ export default function ChristianProfessionalWorksheetPage() {
         </section>
 
         <section className="py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]">
-          <p className="text-center text-sm text-neutral-600 mb-3 tracking-wide flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-              Working Professionals
-            </span>
-            <span className="text-neutral-400" aria-hidden>
-              ·
-            </span>
-            <span>
-              <span className="font-medium text-neutral-800">Worksheet </span>
-              <span className="text-xs font-semibold uppercase tracking-wider text-neutral-700">
-                {seriesOrdinalWord(meta.seriesNumber)} OF FOUR
+          {meta.seriesNumber != null ? (
+            <p className="text-center text-sm text-neutral-600 mb-3 tracking-wide flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+                Working Professionals
               </span>
-            </span>
-          </p>
+              <span className="text-neutral-400" aria-hidden>
+                ·
+              </span>
+              <span>
+                <span className="font-medium text-neutral-800">Worksheet </span>
+                <span className="text-xs font-semibold uppercase tracking-wider text-neutral-700">
+                  {seriesOrdinalWord(meta.seriesNumber)} OF FOUR
+                </span>
+              </span>
+            </p>
+          ) : (
+            <p className="text-center text-sm text-neutral-600 mb-3 tracking-wide flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
+              <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+                {meta.standAloneRibbon ?? "Worksheet"}
+              </span>
+              <span className="text-neutral-400" aria-hidden>
+                ·
+              </span>
+              <span className="font-medium text-neutral-800">Interactive reference</span>
+            </p>
+          )}
           <iframe
             ref={iframeRef}
             title={meta.title}
             src={meta.iframeSrc}
-            className="w-full max-w-[900px] mx-auto block"
+            className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
             style={{ height: iframeHeight, minHeight: 600 }}
           />
         </section>
