@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Intimacy Trap deep dive card art">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#11141e" />
+      <stop offset="55%" stop-color="#161928" />
+      <stop offset="100%" stop-color="#1f1c33" />
+    </linearGradient>
+    <linearGradient id="band2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1f2b52" />
+      <stop offset="50%" stop-color="#26366a" />
+      <stop offset="100%" stop-color="#1f2b52" />
+    </linearGradient>
+    <filter id="glow2" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg2)" />
+  <rect x="0" y="230" width="1600" height="210" fill="url(#band2)" />
+  <g filter="url(#glow2)">
+    <rect x="176" y="294" width="14" height="80" rx="7" fill="#4b7e6f" />
+    <rect x="206" y="264" width="14" height="140" rx="7" fill="#6a6fd2" />
+    <rect x="236" y="286" width="14" height="96" rx="7" fill="#4c7f70" />
+    <rect x="266" y="238" width="14" height="192" rx="7" fill="#7a7fe2" />
+    <rect x="296" y="278" width="14" height="112" rx="7" fill="#528676" />
+    <rect x="326" y="248" width="14" height="172" rx="7" fill="#666ace" />
+    <rect x="356" y="266" width="14" height="136" rx="7" fill="#548879" />
+    <rect x="386" y="290" width="14" height="88" rx="7" fill="#6f74d9" />
+    <rect x="416" y="252" width="14" height="164" rx="7" fill="#508374" />
+    <rect x="446" y="270" width="14" height="128" rx="7" fill="#7b80e4" />
+    <rect x="476" y="288" width="14" height="92" rx="7" fill="#4a7d6e" />
+    <rect x="506" y="260" width="14" height="148" rx="7" fill="#656acf" />
+    <rect x="566" y="282" width="14" height="104" rx="7" fill="#4e8172" />
+    <rect x="596" y="246" width="14" height="176" rx="7" fill="#7278de" />
+    <rect x="626" y="270" width="14" height="128" rx="7" fill="#4f8273" />
+    <rect x="656" y="286" width="14" height="96" rx="7" fill="#676cd1" />
+    <rect x="686" y="254" width="14" height="160" rx="7" fill="#4d8071" />
+    <rect x="716" y="268" width="14" height="132" rx="7" fill="#7b7fe3" />
+    <rect x="746" y="292" width="14" height="84" rx="7" fill="#4f8274" />
+    <rect x="776" y="260" width="14" height="148" rx="7" fill="#666bcf" />
+    <rect x="836" y="286" width="14" height="96" rx="7" fill="#508374" />
+    <rect x="866" y="250" width="14" height="168" rx="7" fill="#7479df" />
+    <rect x="896" y="274" width="14" height="120" rx="7" fill="#4b7e6f" />
+    <rect x="926" y="288" width="14" height="92" rx="7" fill="#666bcf" />
+    <rect x="956" y="262" width="14" height="144" rx="7" fill="#518576" />
+    <rect x="986" y="278" width="14" height="112" rx="7" fill="#7a7fe4" />
+    <rect x="1016" y="294" width="14" height="80" rx="7" fill="#4f8273" />
+    <rect x="1046" y="266" width="14" height="136" rx="7" fill="#686dd2" />
+    <rect x="1076" y="282" width="14" height="104" rx="7" fill="#4d8071" />
+    <rect x="1106" y="244" width="14" height="180" rx="7" fill="#7d82e7" />
+  </g>
+</svg>

@@ -19,6 +19,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { worksheets } from "../client/src/content/worksheets";
 import { christianProfessionalWorksheets } from "../client/src/content/christian-professional-worksheets";
+import { deepDives } from "../client/src/content/deep-dives";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, "..", "dist", "public");
@@ -109,6 +110,15 @@ for (const worksheet of christianProfessionalWorksheets) {
     title: `${worksheet.title} — Worksheet`,
     description: worksheet.description,
     image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
+    ogType: "article",
+  };
+}
+
+for (const deepDive of deepDives) {
+  pages[deepDive.url] = {
+    title: `${deepDive.title} — Deep Dive`,
+    description: deepDive.description,
+    image: deepDive.shareImage ? `${SITE}${deepDive.shareImage}` : DEFAULT_IMAGE,
     ogType: "article",
   };
 }

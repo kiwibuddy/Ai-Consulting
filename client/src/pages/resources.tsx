@@ -13,7 +13,7 @@ import {
   landingViewportReveal,
   tesoroEase,
 } from "@/lib/animations";
-import { ArrowRight, Play, FileText, ExternalLink, Headphones, ClipboardList } from "lucide-react";
+import { ArrowRight, Play, FileText, ExternalLink, ClipboardList } from "lucide-react";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
@@ -37,9 +37,49 @@ const worksheetCategories = [
 type WorksheetCategory = (typeof worksheetCategories)[number];
 type WorksheetFilter = "All" | WorksheetCategory;
 type WorksheetCardItem = (typeof worksheets)[number];
+const deepDiveWaveHeights = [
+  24, 36, 30, 48, 34, 58, 38, 52, 28, 46, 40, 32, 26, 42, 34, 30, 50, 36, 44, 30,
+  28, 46, 34, 40, 30, 48, 32, 42,
+];
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
+}
+
+function DeepDiveAnimatedThumb({ id }: { id: string }) {
+  const blueVariant = id === "the-intimacy-trap-and-junior-job-crisis";
+  const bandClass = blueVariant
+    ? "from-[hsl(224,48%,24%)] via-[hsl(226,52%,30%)] to-[hsl(224,48%,24%)]"
+    : "from-[hsl(280,54%,20%)] via-[hsl(278,56%,28%)] to-[hsl(280,54%,20%)]";
+  const bgClass = blueVariant
+    ? "from-[hsl(230,38%,10%)] via-[hsl(234,34%,14%)] to-[hsl(246,32%,18%)]"
+    : "from-[hsl(254,36%,10%)] via-[hsl(260,34%,13%)] to-[hsl(272,34%,18%)]";
+
+  return (
+    <div className={`aspect-video w-full shrink-0 bg-gradient-to-br ${bgClass} flex items-center justify-center overflow-hidden`}>
+      <div className={`w-full h-[28%] bg-gradient-to-r ${bandClass} flex items-center justify-center`}>
+        <div className="flex items-center justify-center gap-[7px] px-5">
+          {deepDiveWaveHeights.map((height, index) => {
+            const isGreen = index % 2 === 0;
+            const delay = `${(index % 10) * 0.11}s`;
+            return (
+              <span
+                key={`${id}-wave-${index}`}
+                className={`inline-block w-[6px] rounded-full will-change-transform ${
+                  isGreen ? "bg-[hsl(150,42%,40%)]" : "bg-[hsl(266,50%,58%)]"
+                }`}
+                style={{
+                  height: `${height}px`,
+                  animation: "deepDiveWavePulse 1.9s ease-in-out infinite",
+                  animationDelay: delay,
+                }}
+              />
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function ResourcesPage() {
@@ -404,17 +444,7 @@ export default function ResourcesPage() {
                   rel={isExternalUrl(dive.url) ? "noopener noreferrer" : undefined}
                   className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
                 >
-                  {dive.thumbnail ? (
-                    <img
-                      src={dive.thumbnail}
-                      alt=""
-                      className="aspect-video w-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-                      <Headphones className="h-12 w-12 text-neutral-300" />
-                    </div>
-                  )}
+                  <DeepDiveAnimatedThumb id={dive.id} />
                   <div className="p-5 flex-1 flex flex-col">
                     {dive.category && (
                       <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
@@ -527,3 +557,4 @@ export default function ResourcesPage() {
     </div>
   );
 }
+

@@ -9,12 +9,16 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ArticleShare } from "@/components/article-share";
 import { getWorksheetById } from "@/content/worksheets";
+import { getDeepDiveById } from "@/content/deep-dives";
 
 const DEFAULT_OG = "/Nathaniel_Portrait.png";
 
 export default function WorksheetSharePage() {
   const params = useParams<{ id: string }>();
   const worksheet = getWorksheetById(params.id);
+  const deepDive = getDeepDiveById(params.id);
+  const resource = worksheet ?? deepDive;
+  const isDeepDive = Boolean(!worksheet && deepDive);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeHeight, setIframeHeight] = useState(1200);
 
@@ -31,7 +35,7 @@ export default function WorksheetSharePage() {
   }, []);
 
   useEffect(() => {
-    if (!worksheet?.iframeSrc) return;
+    if (!resource?.iframeSrc) return;
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -56,9 +60,9 @@ export default function WorksheetSharePage() {
       iframe.removeEventListener("load", onLoad);
       disconnect();
     };
-  }, [worksheet?.iframeSrc, syncIframeHeight]);
+  }, [resource?.iframeSrc, syncIframeHeight]);
 
-  if (!worksheet || !worksheet.iframeSrc) {
+  if (!resource || !resource.iframeSrc) {
     return (
       <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
         <SiteHeader currentPage="resources" />
@@ -77,7 +81,7 @@ export default function WorksheetSharePage() {
     );
   }
 
-  const canonicalPath = worksheet.url;
+  const canonicalPath = resource.url;
   const origin =
     typeof window !== "undefined" ? window.location.origin : "https://www.nathanielbaldock.com";
   const canonicalUrl = `${origin}${canonicalPath}`;
@@ -97,10 +101,10 @@ export default function WorksheetSharePage() {
       className="min-h-screen bg-neutral-50 text-neutral-900 font-sans overflow-x-hidden"
     >
       <PageSEO
-        title={`${worksheet.title} — Worksheet`}
-        description={worksheet.description}
+        title={`${resource.title} — ${isDeepDive ? "Deep Dive" : "Worksheet"}`}
+        description={resource.description}
         canonicalPath={canonicalPath}
-        image={worksheet.shareImage ?? DEFAULT_OG}
+        image={resource.shareImage ?? DEFAULT_OG}
         ogType="article"
       />
       <SiteHeader currentPage="resources" />
@@ -109,10 +113,12 @@ export default function WorksheetSharePage() {
         <section className="bg-white border-b border-neutral-200 px-6 py-5">
           <div className="max-w-3xl mx-auto">
             <p className="text-sm text-neutral-600 text-center">
-              Fill in the worksheet below. Use{" "}
+              {isDeepDive ? "Use the deep dive below." : "Fill in the worksheet below."} Use{" "}
               <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
-              in the worksheet footer, or use{" "}
-              <strong className="font-medium text-neutral-800">Print worksheet</strong>{" "}
+              in the page footer, or use{" "}
+              <strong className="font-medium text-neutral-800">
+                {isDeepDive ? "Print deep dive" : "Print worksheet"}
+              </strong>{" "}
               at the bottom of this page after you finish.
             </p>
           </div>
@@ -122,8 +128,8 @@ export default function WorksheetSharePage() {
           <div className="max-w-3xl mx-auto">
             <ArticleShare
               url={canonicalUrl}
-              title={worksheet.title}
-              description={worksheet.description}
+              title={resource.title}
+              description={resource.description}
             />
           </div>
         </section>
@@ -131,8 +137,8 @@ export default function WorksheetSharePage() {
         <section className="py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]">
           <iframe
             ref={iframeRef}
-            title={worksheet.title}
-            src={worksheet.iframeSrc}
+            title={resource.title}
+            src={resource.iframeSrc}
             className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
             style={{ height: iframeHeight, minHeight: 600 }}
           />
@@ -150,12 +156,12 @@ export default function WorksheetSharePage() {
                   Back to Resources
                 </Link>
                 <a
-                  href={worksheet.iframeSrc}
+                  href={resource.iframeSrc}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-neutral-500 hover:text-neutral-700 underline"
                 >
-                  Open worksheet in new tab
+                  {isDeepDive ? "Open deep dive in new tab" : "Open worksheet in new tab"}
                 </a>
                 <button
                   type="button"
@@ -163,7 +169,7 @@ export default function WorksheetSharePage() {
                   className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
                 >
                   <Printer className="h-4 w-4" />
-                  Print worksheet
+                  {isDeepDive ? "Print deep dive" : "Print worksheet"}
                 </button>
               </div>
               <Button asChild className="w-full sm:w-auto shrink-0">

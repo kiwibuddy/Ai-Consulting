@@ -700,6 +700,18 @@ html[data-theme="site"].light header.fixed.top-0,
   );
 }
 
+@keyframes deepDiveWavePulse {
+  0%,
+  100% {
+    transform: scaleY(0.58);
+    opacity: 0.58;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
 .card-premium {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
