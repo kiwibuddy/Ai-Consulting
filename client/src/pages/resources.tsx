@@ -25,6 +25,14 @@ const articlesByNewest = [...articles].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 
+/** Worksheets sorted newest first (carousel: left = newest, right = oldest). */
+const worksheetsByNewest = [...worksheets].sort((a, b) => {
+  const tb = new Date(b.date).getTime();
+  const ta = new Date(a.date).getTime();
+  if (tb !== ta) return tb - ta;
+  return a.id.localeCompare(b.id);
+});
+
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 const ctaLabel = "Book a free 30-min consultation";
@@ -87,7 +95,9 @@ export default function ResourcesPage() {
   const [worksheetFilter, setWorksheetFilter] = useState<WorksheetFilter>("All");
   const worksheetFilterOptions: WorksheetFilter[] = [
     "All",
-    ...worksheetCategories.filter((cat) => worksheets.some((sheet) => sheet.category === cat)),
+    ...worksheetCategories.filter((cat) =>
+      worksheetsByNewest.some((sheet) => sheet.category === cat)
+    ),
   ];
 
   const worksheetGroups =
@@ -95,13 +105,13 @@ export default function ResourcesPage() {
       ? worksheetCategories
           .map((category) => ({
             category,
-            items: worksheets.filter((sheet) => sheet.category === category),
+            items: worksheetsByNewest.filter((sheet) => sheet.category === category),
           }))
           .filter((group) => group.items.length > 0)
       : [
           {
             category: worksheetFilter,
-            items: worksheets.filter((sheet) => sheet.category === worksheetFilter),
+            items: worksheetsByNewest.filter((sheet) => sheet.category === worksheetFilter),
           },
         ];
 
@@ -338,7 +348,7 @@ export default function ResourcesPage() {
                 viewport={landingViewportReveal}
                 variants={cardSlideUpContainerVariants}
               >
-                {worksheets.map((sheet) => (
+                {worksheetsByNewest.map((sheet) => (
                   <div
                     key={sheet.id}
                     className="snap-start shrink-0 basis-[85%] sm:basis-[48%] lg:basis-[calc((100%-3rem)/3)]"
