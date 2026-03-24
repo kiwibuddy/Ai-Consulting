@@ -155,7 +155,13 @@ export default function ChristianProfessionalWorksheetPage() {
           </div>
         </section>
 
-        <section className="py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]">
+        <section
+          className={
+            meta.seriesNumber != null
+              ? "py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]"
+              : "py-6 px-3 sm:px-4 md:px-6 bg-white"
+          }
+        >
           {meta.seriesNumber != null ? (
             <p className="text-center text-sm text-neutral-600 mb-3 tracking-wide flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
@@ -186,7 +192,11 @@ export default function ChristianProfessionalWorksheetPage() {
             ref={iframeRef}
             title={meta.title}
             src={meta.iframeSrc}
-            className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
+            className={
+              meta.seriesNumber != null
+                ? "w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
+                : "w-full max-w-[900px] mx-auto block border-0 bg-white"
+            }
             style={{ height: iframeHeight, minHeight: 600 }}
           />
         </section>

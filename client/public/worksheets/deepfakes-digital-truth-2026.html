@@ -50,10 +50,11 @@
   --r-sm:       8px;
 }
 
-html{background:hsl(38,25%,82%);}
-body{font-family:var(--font-sans);color:var(--fg);padding:24px 16px 48px;}
+/* Flat embed: no outer “mat” or second card — parent page supplies the frame */
+html,body{background:var(--bg);}
+body{font-family:var(--font-sans);color:var(--fg);padding:0;}
 
-.page{max-width:880px;margin:0 auto;background:var(--bg);border-radius:20px;overflow:hidden;box-shadow:0 20px 64px -12px rgba(0,0,0,0.14),0 4px 16px rgba(0,0,0,0.06);}
+.page{max-width:880px;margin:0 auto;background:var(--bg);border-radius:0;overflow:hidden;box-shadow:none;}
 
 /* ── SITE HEADER ── */
 .site-hdr{background:var(--dark);padding:13px 36px;display:flex;align-items:center;justify-content:space-between;}
