@@ -16,11 +16,11 @@ export interface DeepDiveItem {
 
 export const deepDives: DeepDiveItem[] = [
   {
-    id: "protecting-kids-from-the-digital-god",
-    title: "Protecting Kids From the Digital God",
+    id: "the-digital-god-in-your-childs-pocket",
+    title: "The Digital God in Your Child's Pocket",
     description:
       "AI, your children, and the battle for their hearts, minds, and souls — practical discipleship guidance for Christian parents in an AI-shaped world.",
-    url: "/resources/worksheet/protecting-kids-from-the-digital-god",
+    url: "/resources/worksheet/the-digital-god-in-your-childs-pocket",
     iframeSrc: "/audio/deep-dives/protecting-kids-from-the-digital-god.html",
     shareImage: "/images/deep-dives/digital-god-card.svg",
     thumbnail: "/images/deep-dives/digital-god-card.svg",
@@ -29,11 +29,11 @@ export const deepDives: DeepDiveItem[] = [
     duration: "33 min",
   },
   {
-    id: "the-intimacy-trap-and-junior-job-crisis",
+    id: "the-broken-ladder-and-the-race-for-their-soul",
     title: "The Broken Ladder & the Race for Their Soul",
     description:
       "How AI is reshaping your child's future, relationships, and sense of reality — from broken career ladders to the intimacy trap and faithful family response.",
-    url: "/resources/worksheet/the-intimacy-trap-and-junior-job-crisis",
+    url: "/resources/worksheet/the-broken-ladder-and-the-race-for-their-soul",
     iframeSrc: "/audio/deep-dives/the-intimacy-trap-and-junior-job-crisis.html",
     shareImage: "/images/deep-dives/intimacy-trap-card.svg",
     thumbnail: "/images/deep-dives/intimacy-trap-card.svg",

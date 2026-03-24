@@ -47,7 +47,7 @@ function isExternalUrl(url: string) {
 }
 
 function DeepDiveAnimatedThumb({ id }: { id: string }) {
-  const blueVariant = id === "the-intimacy-trap-and-junior-job-crisis";
+  const blueVariant = id === "the-broken-ladder-and-the-race-for-their-soul";
   const bandClass = blueVariant
     ? "from-[hsl(224,48%,24%)] via-[hsl(226,52%,30%)] to-[hsl(224,48%,24%)]"
     : "from-[hsl(280,54%,20%)] via-[hsl(278,56%,28%)] to-[hsl(280,54%,20%)]";
@@ -457,7 +457,7 @@ export default function ResourcesPage() {
                     </p>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-xs text-neutral-500">
-                        {dive.duration && `${dive.duration} · `}
+                        PODCAST · {dive.duration && `${dive.duration} · `}
                         {dive.date}
                       </span>
                       <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">

@@ -304,6 +304,13 @@ function Router() {
       <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><ArticleTeensAlgorithmFriend /></PublicSiteLayout>} />
       <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><ArticleSabbathRestAi /></PublicSiteLayout>} />
       <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><ArticleSoulNeedsStruggle /></PublicSiteLayout>} />
+      {/* Redirect old deep-dive worksheet slugs to canonical slugs */}
+      <Route path="/resources/worksheet/protecting-kids-from-the-digital-god">
+        <Redirect to="/resources/worksheet/the-digital-god-in-your-childs-pocket" />
+      </Route>
+      <Route path="/resources/worksheet/the-intimacy-trap-and-junior-job-crisis">
+        <Redirect to="/resources/worksheet/the-broken-ladder-and-the-race-for-their-soul" />
+      </Route>
       <Route path="/resources/worksheet/:id" component={() => <PublicSiteLayout><WorksheetSharePage /></PublicSiteLayout>} />
       <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><ChristianProfessionalWorksheetPage /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
