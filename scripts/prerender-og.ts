@@ -17,6 +17,8 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { worksheets } from "../client/src/content/worksheets";
+import { christianProfessionalWorksheets } from "../client/src/content/christian-professional-worksheets";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, "..", "dist", "public");
@@ -90,6 +92,26 @@ const pages: Record<string, PageMeta> = {
     ogType: "article",
   },
 };
+
+for (const worksheet of worksheets) {
+  if (!worksheet.url.startsWith("/resources/worksheet/")) continue;
+  pages[worksheet.url] = {
+    title: `${worksheet.title} — Worksheet`,
+    description: worksheet.description,
+    image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
+    ogType: "article",
+  };
+}
+
+for (const worksheet of christianProfessionalWorksheets) {
+  const routePath = `/resources/christian-professional/${worksheet.slug}`;
+  pages[routePath] = {
+    title: `${worksheet.title} — Worksheet`,
+    description: worksheet.description,
+    image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
+    ogType: "article",
+  };
+}
 
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");

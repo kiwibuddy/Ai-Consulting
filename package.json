@@ -12,7 +12,8 @@
     "db:push": "drizzle-kit push",
     "db:seed": "tsx script/seed.ts",
     "db:seed-reset": "tsx script/seed-reset.ts",
-    "single-consultant": "tsx script/single-consultant-setup.ts"
+    "single-consultant": "tsx script/single-consultant-setup.ts",
+    "sync:worksheets-from-assets": "node scripts/sync-worksheets-from-assets.mjs"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.18.0",
