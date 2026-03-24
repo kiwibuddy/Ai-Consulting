@@ -11,23 +11,23 @@ export interface DeepDiveItem {
 
 export const deepDives: DeepDiveItem[] = [
   {
-    id: "placeholder-deep-dive-1",
-    title: "Coming soon: AI & the Future of the Church",
+    id: "protecting-kids-from-the-digital-god",
+    title: "Protecting Kids From the Digital God",
     description:
-      "An AI-generated podcast exploring how artificial intelligence is reshaping ministry, discipleship, and church life — synthesised from key research and thought leaders.",
-    url: "#",
-    date: "2026-03-01",
-    category: "AI & Faith",
-    duration: "18 min",
+      "A deep-dive conversation on parenting, formation, and practical boundaries for children growing up in an AI-saturated and screen-shaped culture.",
+    url: "/audio/deep-dives/protecting-kids-from-the-digital-god.m4a",
+    date: "2026-03-25",
+    category: "Family & Tech",
+    duration: "33 min",
   },
   {
-    id: "placeholder-deep-dive-2",
-    title: "Coming soon: Parenting in the Age of AI",
+    id: "the-intimacy-trap-and-junior-job-crisis",
+    title: "The Intimacy Trap and Junior Job Crisis",
     description:
-      "Two AI-generated voices unpack what the latest research says about kids, screens, and emerging tech — and what faithful parents can do about it.",
-    url: "#",
-    date: "2026-03-01",
-    category: "Family & Tech",
-    duration: "22 min",
+      "A discussion on how AI can imitate connection while weakening real relationships, and how automation pressures early-career roles and pathways.",
+    url: "/audio/deep-dives/the-intimacy-trap-and-junior-job-crisis.m4a",
+    date: "2026-03-25",
+    category: "Work & Culture",
+    duration: "13 min",
   },
 ];
