@@ -10,9 +10,14 @@ import { ArticleShare } from "@/components/article-share";
 import { ArrowLeft, Printer } from "lucide-react";
 import {
   getChristianProfessionalWorksheetBySlug,
+  type ChristianProfessionalWorksheetMeta,
 } from "@/content/christian-professional-worksheets";
 
-const DEFAULT_OG = "/images/teens-algorithm-header.png";
+const DEFAULT_OG = "/Nathaniel_Portrait.png";
+
+function seriesOrdinalWord(n: ChristianProfessionalWorksheetMeta["seriesNumber"]): string {
+  return (["ONE", "TWO", "THREE", "FOUR"] as const)[n - 1];
+}
 
 export default function ChristianProfessionalWorksheetPage() {
   const params = useParams<{ slug: string }>();
@@ -110,27 +115,21 @@ export default function ChristianProfessionalWorksheetPage() {
         title={`${meta.title} — Worksheet`}
         description={meta.description}
         canonicalPath={canonicalPath}
-        image={DEFAULT_OG}
+        image={meta.shareImage ?? DEFAULT_OG}
         ogType="article"
       />
       <SiteHeader currentPage="resources" />
 
       <main>
         <section className="bg-white border-b border-neutral-200 px-6 py-5">
-          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-3">
+          <div className="max-w-3xl mx-auto">
             <p className="text-sm text-neutral-600 text-center">
               Fill in the worksheet below. Use{" "}
               <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
-              in the worksheet footer, or print from here.
+              in the worksheet footer, or use{" "}
+              <strong className="font-medium text-neutral-800">Print worksheet</strong>{" "}
+              at the bottom of this page after you finish.
             </p>
-            <button
-              type="button"
-              onClick={printWorksheet}
-              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-100 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
-            >
-              <Printer className="h-4 w-4" />
-              Print worksheet
-            </button>
           </div>
         </section>
 
@@ -145,28 +144,32 @@ export default function ChristianProfessionalWorksheetPage() {
         </section>
 
         <section className="py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]">
-          <p className="text-center text-xs text-neutral-600 mb-3 uppercase tracking-wider">
-            Working Professionals · {meta.seriesPart}
+          <p className="text-center text-sm text-neutral-600 mb-3 tracking-wide flex flex-wrap items-baseline justify-center gap-x-1.5 gap-y-1">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
+              Working Professionals
+            </span>
+            <span className="text-neutral-400" aria-hidden>
+              ·
+            </span>
+            <span>
+              <span className="font-medium text-neutral-800">Worksheet </span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-neutral-700">
+                {seriesOrdinalWord(meta.seriesNumber)} OF FOUR
+              </span>
+            </span>
           </p>
           <iframe
             ref={iframeRef}
             title={meta.title}
             src={meta.iframeSrc}
-            className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
+            className="w-full max-w-[900px] mx-auto block"
             style={{ height: iframeHeight, minHeight: 600 }}
           />
         </section>
 
         <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
-          <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-4 justify-center sm:justify-start">
-              <Link
-                href="/resources"
-                className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Resources
-              </Link>
+          <div className="max-w-3xl mx-auto flex flex-col gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <a
                 href={meta.iframeSrc}
                 target="_blank"
@@ -175,15 +178,32 @@ export default function ChristianProfessionalWorksheetPage() {
               >
                 Open worksheet in new tab
               </a>
-            </div>
-            <Button asChild>
-              <a
-                href="https://www.nathanielbaldock.com/#contact"
-                className="tesoro-cta-gradient"
+              <button
+                type="button"
+                onClick={printWorksheet}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
               >
-                Book a free 30-min consultation
-              </a>
-            </Button>
+                <Printer className="h-4 w-4" />
+                Print worksheet
+              </button>
+            </div>
+            <div className="flex flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-2">
+              <Link
+                href="/resources"
+                className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Resources
+              </Link>
+              <Button asChild className="w-full max-w-[320px] sm:w-auto sm:max-w-none shrink-0">
+                <a
+                  href="https://www.nathanielbaldock.com/#contact"
+                  className="tesoro-cta-gradient justify-center"
+                >
+                  Book a free 30-min consultation
+                </a>
+              </Button>
+            </div>
           </div>
         </section>
       </main>

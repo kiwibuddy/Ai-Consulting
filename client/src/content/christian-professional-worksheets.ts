@@ -7,7 +7,10 @@ export interface ChristianProfessionalWorksheetMeta {
   description: string;
   /** For share cards and SEO */
   shareDescription: string;
-  seriesPart: string;
+  /** Optional social card image for this worksheet. */
+  shareImage?: string;
+  /** 1–4 within the Working Professionals series */
+  seriesNumber: 1 | 2 | 3 | 4;
 }
 
 export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta[] = [
@@ -18,8 +21,9 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
     description:
       "A personal risk audit: map where your tasks sit on the automation vs augmentation spectrum, with research-backed stats and a 90-day plan.",
     shareDescription:
-      "The question every employed person needs to answer — for themselves. Working Professionals worksheet 1 of 4.",
-    seriesPart: "WP–01 of 4",
+      "The question every employed person needs to answer — for themselves. Working Professionals · Worksheet ONE OF FOUR.",
+    shareImage: "/images/worksheets/wp-christian-01.svg",
+    seriesNumber: 1,
   },
   {
     slug: "52-minute-opportunity-christian",
@@ -28,8 +32,9 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
     description:
       "AI may give you roughly an hour back each day. What will you do with it? Plan the trade before someone else claims that time.",
     shareDescription:
-      "What will you do with the time AI gives you back? Working Professionals worksheet 2 of 4.",
-    seriesPart: "WP–02 of 4",
+      "What will you do with the time AI gives you back? Working Professionals · Worksheet TWO OF FOUR.",
+    shareImage: "/images/worksheets/wp-christian-02.svg",
+    seriesNumber: 2,
   },
   {
     slug: "what-will-they-still-pay-me-for-christian",
@@ -38,8 +43,9 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
     description:
       "Separate what’s on your job description from what you’re actually valued for — and what AI can’t replace.",
     shareDescription:
-      "Your human value proposition: what makes you irreplaceable. Working Professionals worksheet 3 of 4.",
-    seriesPart: "WP–03 of 4",
+      "Your human value proposition: what makes you irreplaceable. Working Professionals · Worksheet THREE OF FOUR.",
+    shareImage: "/images/worksheets/wp-christian-03.svg",
+    seriesNumber: 3,
   },
   {
     slug: "five-year-positioning-map-christian",
@@ -48,8 +54,9 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
     description:
       "Scenario planning for your career when you don’t know exactly what’s coming — moves that pay off across conservative, disruptive, and radical futures.",
     shareDescription:
-      "Career strategy for uncertain times. Working Professionals worksheet 4 of 4.",
-    seriesPart: "WP–04 of 4",
+      "Career strategy for uncertain times. Working Professionals · Worksheet FOUR OF FOUR.",
+    shareImage: "/images/worksheets/wp-christian-04.svg",
+    seriesNumber: 4,
   },
 ];
 

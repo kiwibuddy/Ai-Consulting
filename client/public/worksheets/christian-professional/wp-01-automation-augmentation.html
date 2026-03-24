@@ -360,6 +360,10 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
 .tag{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);}
+.footer-series{font-size:9px;font-weight:500;letter-spacing:0;color:var(--fg-muted);padding:3px 9px;border:1px solid var(--border);border-radius:4px;background:var(--bg);display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:0.15em;}
+.footer-series .fs-up{text-transform:uppercase;letter-spacing:1.5px;}
+.footer-series .fs-ws{text-transform:none;font-weight:500;color:var(--fg);letter-spacing:0;}
+.footer-series .fs-ord{text-transform:uppercase;font-weight:600;letter-spacing:2px;}
 
 .page-footer{background:var(--bg-page);border-top:1px solid var(--border);padding:15px 44px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
 .footer-l{font-size:10px;font-weight:500;color:var(--fg-muted);}
@@ -367,7 +371,16 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 .green-link{color:var(--green);font-size:10px;font-weight:500;text-decoration:none;}
 .green-link:hover{text-decoration:underline;}
 
-@media print{html{background:#fff;}body{padding:0;}.page{box-shadow:none;border-radius:0;}.cta-btn{display:none;}.stat-info-btn{display:none;}}
+@media print{
+  html{background:#fff;}
+  body{padding:0;}
+  .page{box-shadow:none;border-radius:0;}
+  .cta-btn{display:none;}
+  .stat-info-btn{display:none;}
+  .hero{break-inside:avoid;page-break-inside:avoid;}
+  .pro-bar,.stanford-box,.research-box,.faith-verse,.faith-lens,.distinction,.comparison-block,.cmp-grid,.cmp-body,.hero-central-stat,.hero-stats,.task-table,.task-section,.task-card,.rel-table,.rel-row,.invisible-block,.hvp-block,.visibility-grid,.vis-card,.reflect-grid,.rg,.enc,.page-footer,.current-state,.scenario,.twelve-month,.skill-card,.payoff-section,.po-card,.scenarios,.tm-body,.payoff-grid{break-inside:avoid;page-break-inside:avoid;}
+  .tt-row,.cmp-row{break-inside:avoid;page-break-inside:avoid;}
+}
 
 /* ── STAT INFO BUTTONS & MODAL ── */
 .stat-info-btn{
@@ -984,7 +997,6 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
     </div>
     <div class="enc-foot">
       <div class="enc-url">nathanielbaldock.com/working-professionals</div>
-      <button class="cta-btn" onclick="window.print()"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>Print / Save PDF</button>
     </div>
   </div>
 
@@ -997,7 +1009,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
 <div class="page-footer">
   <div class="footer-l">nathanielbaldock.com &nbsp;·&nbsp; AI Consulting for Churches, Schools &amp; Nonprofits</div>
   <div class="footer-r">
-    <span class="tag">Working Professionals · WP–01 of 4</span>
+    <span class="footer-series"><span class="fs-up">WORKING PROFESSIONALS</span> · <span class="fs-ws">Worksheet </span><span class="fs-ord">ONE OF FOUR</span></span>
     <a class="green-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
   </div>
 </div>

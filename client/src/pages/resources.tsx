@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
@@ -33,12 +34,98 @@ const worksheetCategories = [
   "Education",
   "Working Professionals",
 ] as const;
+type WorksheetCategory = (typeof worksheetCategories)[number];
+type WorksheetFilter = "All" | WorksheetCategory;
+type WorksheetCardItem = (typeof worksheets)[number];
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
 }
 
 export default function ResourcesPage() {
+  const [showAllWorksheets, setShowAllWorksheets] = useState(false);
+  const [worksheetFilter, setWorksheetFilter] = useState<WorksheetFilter>("All");
+  const worksheetFilterOptions: WorksheetFilter[] = [
+    "All",
+    ...worksheetCategories.filter((cat) => worksheets.some((sheet) => sheet.category === cat)),
+  ];
+
+  const worksheetGroups =
+    worksheetFilter === "All"
+      ? worksheetCategories
+          .map((category) => ({
+            category,
+            items: worksheets.filter((sheet) => sheet.category === category),
+          }))
+          .filter((group) => group.items.length > 0)
+      : [
+          {
+            category: worksheetFilter,
+            items: worksheets.filter((sheet) => sheet.category === worksheetFilter),
+          },
+        ];
+
+  const renderWorksheetCard = (sheet: WorksheetCardItem) => {
+    const sheetExternal = isExternalUrl(sheet.url);
+    const sheetCard = (
+      <>
+        {sheet.thumbnail ? (
+          <img
+            src={sheet.thumbnail}
+            alt=""
+            className="aspect-video w-full object-cover shrink-0"
+          />
+        ) : (
+          <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
+            <ClipboardList className="h-12 w-12 text-neutral-300" />
+          </div>
+        )}
+        <div className="p-5 flex-1 flex flex-col">
+          <h4 className="font-semibold text-neutral-900 text-lg mb-2">{sheet.title}</h4>
+          <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+            {sheet.description}
+          </p>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-neutral-500">
+              {sheet.format}
+            </span>
+            <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+              Open worksheet
+              <ArrowRight className="h-3.5 w-3.5" />
+            </span>
+          </div>
+        </div>
+      </>
+    );
+
+    return (
+      <motion.div
+        key={sheet.id}
+        variants={cardSlideUpItemVariants}
+        whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+        className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 h-full"
+      >
+        {sheetExternal ? (
+          <a
+            href={sheet.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+          >
+            {sheetCard}
+          </a>
+        ) : (
+          <Link
+            href={sheet.url}
+            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+          >
+            {sheetCard}
+          </Link>
+        )}
+      </motion.div>
+    );
+  };
+
   return (
     <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
       <PageSEO
@@ -173,14 +260,27 @@ export default function ResourcesPage() {
             whileInView="visible"
             viewport={landingViewportReveal}
             variants={staggerRevealContainerVariants}
-            className="mb-10"
+            className="mb-8"
           >
-            <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
-              variants={staggerRevealItemVariants}
-            >
-              Worksheets
-            </motion.h2>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
+              <motion.h2
+                className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900"
+                variants={staggerRevealItemVariants}
+              >
+                Worksheets
+              </motion.h2>
+              <motion.button
+                type="button"
+                onClick={() => {
+                  setShowAllWorksheets((prev) => !prev);
+                  setWorksheetFilter("All");
+                }}
+                variants={staggerRevealItemVariants}
+                className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] transition"
+              >
+                {showAllWorksheets ? "Back to carousel" : "Show all"}
+              </motion.button>
+            </div>
             <motion.p
               className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
               variants={staggerRevealItemVariants}
@@ -189,90 +289,75 @@ export default function ResourcesPage() {
             </motion.p>
           </motion.div>
 
-          {worksheetCategories.map((cat) => {
-            const items = worksheets.filter((s) => s.category === cat);
-            if (items.length === 0) return null;
-            return (
-              <div key={cat} className="mb-14 last:mb-0">
-                <motion.h3
-                  className="text-lg md:text-xl font-semibold text-neutral-800 mb-5"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={landingViewportReveal}
-                  variants={fadeUpRevealVariants}
-                >
-                  {cat}
-                </motion.h3>
-                <motion.div
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={landingViewportReveal}
-                  variants={cardSlideUpContainerVariants}
-                >
-                  {items.map((sheet) => {
-                    const sheetExternal = isExternalUrl(sheet.url);
-                    const sheetCard = (
-                      <>
-                        {sheet.thumbnail ? (
-                          <img
-                            src={sheet.thumbnail}
-                            alt=""
-                            className="aspect-video w-full object-cover shrink-0"
-                          />
-                        ) : (
-                          <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-                            <ClipboardList className="h-12 w-12 text-neutral-300" />
-                          </div>
-                        )}
-                        <div className="p-5 flex-1 flex flex-col">
-                          <h4 className="font-semibold text-neutral-900 text-lg mb-2">{sheet.title}</h4>
-                          <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                            {sheet.description}
-                          </p>
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-xs text-neutral-500">
-                              {sheet.format}
-                            </span>
-                            <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
-                              Open worksheet
-                              <ArrowRight className="h-3.5 w-3.5" />
-                            </span>
-                          </div>
-                        </div>
-                      </>
-                    );
-                    return (
-                      <motion.div
-                        key={sheet.id}
-                        variants={cardSlideUpItemVariants}
-                        whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                        className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-                      >
-                        {sheetExternal ? (
-                          <a
-                            href={sheet.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                          >
-                            {sheetCard}
-                          </a>
-                        ) : (
-                          <Link
-                            href={sheet.url}
-                            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                          >
-                            {sheetCard}
-                          </Link>
-                        )}
-                      </motion.div>
-                    );
-                  })}
-                </motion.div>
+          {!showAllWorksheets ? (
+            <>
+              <motion.div
+                className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-6 pb-3 snap-x snap-mandatory"
+                initial="hidden"
+                whileInView="visible"
+                viewport={landingViewportReveal}
+                variants={cardSlideUpContainerVariants}
+              >
+                {worksheets.map((sheet) => (
+                  <div
+                    key={sheet.id}
+                    className="snap-start shrink-0 basis-[85%] sm:basis-[48%] lg:basis-[calc((100%-3rem)/3)]"
+                  >
+                    {renderWorksheetCard(sheet)}
+                  </div>
+                ))}
+              </motion.div>
+              <p className="text-xs text-neutral-500 mt-2">
+                Swipe or scroll horizontally to browse all worksheets.
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="flex flex-wrap items-center gap-2 mb-8">
+                {worksheetFilterOptions.map((filter) => {
+                  const active = worksheetFilter === filter;
+                  return (
+                    <button
+                      key={filter}
+                      type="button"
+                      onClick={() => setWorksheetFilter(filter)}
+                      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                        active
+                          ? "border-[hsl(142,76%,42%)] bg-[hsl(142,76%,42%)] text-white"
+                          : "border-neutral-300 bg-white text-neutral-700 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)]"
+                      }`}
+                    >
+                      {filter}
+                    </button>
+                  );
+                })}
               </div>
-            );
-          })}
+              {worksheetGroups.map((group) => (
+                <div key={group.category} className="mb-14 last:mb-0">
+                  {worksheetFilter === "All" && (
+                    <motion.h3
+                      className="text-lg md:text-xl font-semibold text-neutral-800 mb-5"
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={landingViewportReveal}
+                      variants={fadeUpRevealVariants}
+                    >
+                      {group.category}
+                    </motion.h3>
+                  )}
+                  <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={landingViewportReveal}
+                    variants={cardSlideUpContainerVariants}
+                  >
+                    {group.items.map((sheet) => renderWorksheetCard(sheet))}
+                  </motion.div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </section>
 
