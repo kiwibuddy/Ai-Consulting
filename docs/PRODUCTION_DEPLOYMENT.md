@@ -19,14 +19,20 @@ Intake notifications go to **nathanielbaldock@gmail.com** (set in `shared/consta
 
 ### 2. Single consultant (production database)
 
-The app is configured for one consultant only. After the first deploy and `db:push`:
+The app is configured for one consultant only. **Set this env var in Railway:**
 
-1. Run the one-off script **once** against the production database (e.g. from your machine with `DATABASE_URL` pointing at production):
-   ```bash
-   CONSULTANT_INITIAL_PASSWORD=YourSecurePassword npx tsx script/single-consultant-setup.ts
-   ```
-2. This removes any other coach accounts and ensures **nathanielbaldock@gmail.com** is the only consultant login. Unset the env var after running.
-3. Do **not** run `npm run db:seed` in production (it is blocked unless `ALLOW_SEED_IN_PRODUCTION=1`); seed is for local/demo data only.
+```
+CONSULTANT_PASSWORD=YourSecurePassword
+```
+
+On every startup the server auto-ensures **nathanielbaldock@gmail.com** exists as the sole consultant with this password, `role: "coach"`, and `emailVerified: true`. This works even if the account was originally created via Google OAuth (which stores no password).
+
+**Alternative (one-off script):** If you prefer not to keep the password in env vars, run the setup script once against the production database, then remove the env var:
+```bash
+DATABASE_URL="postgresql://..." CONSULTANT_INITIAL_PASSWORD=YourSecurePassword npx tsx script/single-consultant-setup.ts
+```
+
+Do **not** run `npm run db:seed` in production (it is blocked unless `ALLOW_SEED_IN_PRODUCTION=1`); seed is for local/demo data only.
 
 ### 3. Optional: site traffic analytics
 

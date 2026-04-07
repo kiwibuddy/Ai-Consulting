@@ -24,6 +24,7 @@ In **Railway → your project → Variables** (or your host’s env / config), s
 
 Optional but recommended:
 
+- `CONSULTANT_PASSWORD` – Your login password. On startup the server auto-ensures `nathanielbaldock@gmail.com` exists as coach with this password and `emailVerified=true`. Fixes login when the account was created via Google OAuth (no password stored).
 - `SITE_CONTACT_EMAIL` – Receives intake form notifications (see `shared/constants.ts`).
 - `RESEND_API_KEY` + `RESEND_FROM_EMAIL` – So confirmation and notification emails are sent for intake submissions.
 - `NODE_ENV=production` – Usually set automatically by Railway.

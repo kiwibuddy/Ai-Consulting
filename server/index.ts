@@ -17,6 +17,7 @@ import { setupAuth, registerAuthRoutes } from "./auth";
 import { registerObjectStorageRoutes } from "./object_storage";
 import { startSessionReminderScheduler } from "./jobs/sessionReminders";
 import { checkDatabaseHealth } from "./dbHealth";
+import { bootstrapConsultant } from "./auth/bootstrap";
 
 const app = express();
 const httpServer = createServer(app);
@@ -96,6 +97,9 @@ app.use((req, res, next) => {
 
     return res.status(status).json({ message });
   });
+
+  // Ensure single consultant account is ready (when CONSULTANT_PASSWORD is set)
+  await bootstrapConsultant();
 
   // Production: verify DB connection and schema before accepting traffic
   if (process.env.NODE_ENV === "production") {
