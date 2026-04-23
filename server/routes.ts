@@ -27,19 +27,28 @@ import {
   resourceUploadedEmail,
 } from "./lib/email";
 import {
-  createStripeCheckoutSession,
-  handleStripeWebhook,
+  createCheckoutSessionForInvoice,
   createPayPalOrder,
+  createPayPalOrderForInvoice,
   capturePayPalOrder,
   getPaymentsByClient,
   getAllPayments,
   getInvoicesByClient,
   getAllInvoices,
   getInvoice,
+  getInvoiceByPublicToken,
   createInvoice,
   updateInvoice,
+  sendInvoiceToClient,
+  handleStripeWebhook,
   isStripeEnabled,
   isPayPalEnabled,
+  createBillingPortalSession,
+  createRetainerWithStripe,
+  getAllRetainers,
+  getCoachBillingMetrics,
+  refundStripePayment,
+  resendStripeInvoiceEmail,
 } from "./lib/payments";
 import {
   isCalendarEnabled,
@@ -1090,6 +1099,14 @@ export async function registerRoutes(
         // Payment settings
         stripeAccountId: z.string().optional(),
         paypalEmail: z.string().optional(),
+        acceptPaypal: z.boolean().optional(),
+        stripeCustomerPortalEnabled: z.boolean().optional(),
+        gstNumber: z.string().optional(),
+        gstEnabled: z.boolean().optional(),
+        defaultCurrency: z.string().optional(),
+        defaultTaxRate: z.number().min(0).optional(),
+        dunningRemindAfterDays1: z.number().min(0).max(60).optional(),
+        dunningRemindAfterDays2: z.number().min(0).max(60).optional(),
         // Onboarding
         onboardingCompleted: z.boolean().optional(),
         // Appearance
@@ -1294,15 +1311,33 @@ export async function registerRoutes(
   // PAYMENT ROUTES
   // ============================================================
   
-  // Get payment providers status
-  app.get("/api/payments/providers", requireAuth, (req, res) => {
+  // Get payment providers status (for logged-in app users; includes coach PayPal toggle)
+  app.get("/api/payments/providers", requireAuth, async (req, res) => {
+    let acceptPaypal = true;
+    try {
+      const coaches = await storage.getUsersByRole("coach");
+      const c = coaches[0];
+      if (c) {
+        const s = await storage.getCoachSettings(c.id);
+        if (s && s.acceptPaypal === false) {
+          acceptPaypal = false;
+        }
+      }
+    } catch {
+      /* use defaults */
+    }
     res.json({
       stripe: isStripeEnabled(),
-      paypal: isPayPalEnabled(),
+      paypal: isPayPalEnabled() && acceptPaypal,
     });
   });
 
-  // Create Stripe checkout session
+  /** Public: which payment methods exist (no auth; for /pay/:token) */
+  app.get("/api/public/payment-methods", (_req, res) => {
+    res.json({ stripe: isStripeEnabled(), paypal: isPayPalEnabled() });
+  });
+
+  // Create Stripe checkout session — **invoiceId only; amount from server (invoice row)**
   app.post("/api/payments/stripe/checkout", requireAuth, async (req, res) => {
     try {
       if (!isStripeEnabled()) {
@@ -1310,31 +1345,30 @@ export async function registerRoutes(
       }
 
       const schema = z.object({
-        amount: z.number().min(100), // Minimum $1.00
-        description: z.string(),
-        sessionId: z.string().optional(),
-        invoiceId: z.string().optional(),
+        invoiceId: z.string(),
       });
-      const data = schema.parse(req.body);
+      const { invoiceId } = schema.parse(req.body);
 
-      // Get client profile
       const profile = await storage.getClientProfile(req.user!.id);
       if (!profile) {
         return res.status(404).json({ error: "Client profile not found" });
       }
+      const user = await authStorage.getUser(req.user!.id);
+      if (!user?.email) {
+        return res.status(400).json({ error: "User email required" });
+      }
 
-      const result = await createStripeCheckoutSession({
-        clientId: profile.id,
-        amount: data.amount,
-        description: data.description,
-        sessionId: data.sessionId,
-        invoiceId: data.invoiceId,
-        successUrl: `${process.env.APP_URL}/client/billing?success=true`,
-        cancelUrl: `${process.env.APP_URL}/client/billing?cancelled=true`,
-      });
+      const appBase = process.env.APP_URL || "http://localhost:3000";
+      const result = await createCheckoutSessionForInvoice(
+        invoiceId,
+        profile.id,
+        { email: user.email, firstName: user.firstName, lastName: user.lastName },
+        `${appBase}/client/billing?success=true`,
+        `${appBase}/client/billing?cancelled=true`
+      );
 
       if (!result) {
-        return res.status(500).json({ error: "Failed to create checkout session" });
+        return res.status(400).json({ error: "Cannot create checkout for this invoice" });
       }
 
       res.json(result);
@@ -1363,7 +1397,7 @@ export async function registerRoutes(
     }
   });
 
-  // Create PayPal order
+  // Create PayPal order — **invoiceId only; amount from server**
   app.post("/api/payments/paypal/create-order", requireAuth, async (req, res) => {
     try {
       if (!isPayPalEnabled()) {
@@ -1371,28 +1405,20 @@ export async function registerRoutes(
       }
 
       const schema = z.object({
-        amount: z.number().min(100),
-        description: z.string(),
-        sessionId: z.string().optional(),
-        invoiceId: z.string().optional(),
+        invoiceId: z.string(),
       });
-      const data = schema.parse(req.body);
+      const { invoiceId } = schema.parse(req.body);
 
       const profile = await storage.getClientProfile(req.user!.id);
       if (!profile) {
         return res.status(404).json({ error: "Client profile not found" });
       }
 
-      const result = await createPayPalOrder({
-        clientId: profile.id,
-        amount: data.amount,
-        description: data.description,
-        sessionId: data.sessionId,
-        invoiceId: data.invoiceId,
-      });
+      const returnPath = "/client/billing?success=true";
+      const result = await createPayPalOrderForInvoice(invoiceId, profile.id, returnPath);
 
       if (!result) {
-        return res.status(500).json({ error: "Failed to create PayPal order" });
+        return res.status(400).json({ error: "Failed to create PayPal order" });
       }
 
       res.json(result);
@@ -1408,21 +1434,25 @@ export async function registerRoutes(
 
   // Capture PayPal order (callback from PayPal)
   app.get("/api/payments/paypal/capture", async (req, res) => {
+    const appBase = process.env.APP_URL || "http://localhost:3000";
     try {
       const orderId = req.query.token as string;
       if (!orderId) {
-        return res.redirect("/client/billing?error=missing_order");
+        return res.redirect(`${appBase}/client/billing?error=missing_order`);
       }
 
       const result = await capturePayPalOrder(orderId);
       if (result.success) {
-        res.redirect("/client/billing?success=true");
-      } else {
-        res.redirect("/client/billing?error=capture_failed");
+        const p = result.returnPath || "/client/billing?success=true";
+        if (p.startsWith("http")) {
+          return res.redirect(p);
+        }
+        return res.redirect(`${appBase}${p.startsWith("/") ? p : `/${p}`}`);
       }
+      res.redirect(`${appBase}/client/billing?error=capture_failed`);
     } catch (error) {
       console.error("PayPal capture error:", error);
-      res.redirect("/client/billing?error=capture_failed");
+      res.redirect(`${appBase}/client/billing?error=capture_failed`);
     }
   });
 
@@ -1483,13 +1513,16 @@ export async function registerRoutes(
         dueDate: z.string().optional(),
         items: z.string(), // JSON array
         notes: z.string().optional(),
+        currency: z.enum(["nzd", "usd"]).optional(),
       });
       const data = schema.parse(req.body);
+      const currency = data.currency || "nzd";
 
       const invoice = await createInvoice({
         clientId: data.clientId,
         amount: data.amount,
-        currency: "usd",
+        subtotal: data.amount,
+        currency,
         dueDate: data.dueDate ? new Date(data.dueDate) : null,
         items: data.items,
         notes: data.notes,
@@ -1509,7 +1542,9 @@ export async function registerRoutes(
   app.patch("/api/coach/invoices/:id", requireCoach, async (req, res) => {
     try {
       const schema = z.object({
-        status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
+        status: z
+          .enum(["draft", "sent", "paid", "overdue", "cancelled", "void", "uncollectible"])
+          .optional(),
         notes: z.string().optional(),
       });
       const data = schema.parse(req.body);
@@ -1525,6 +1560,205 @@ export async function registerRoutes(
       } else {
         res.status(500).json({ error: "Failed to update invoice" });
       }
+    }
+  });
+
+  // Coach: send invoice (Stripe + email, or pay-link email only)
+  app.post("/api/coach/invoices/:id/send", requireCoach, async (req, res) => {
+    try {
+      const out = await sendInvoiceToClient(paramId(req.params.id));
+      if (!out.ok) {
+        return res.status(400).json({ error: out.error || "Send failed" });
+      }
+      const inv = await getInvoice(paramId(req.params.id));
+      res.json(inv);
+    } catch (error) {
+      console.error("Send invoice:", error);
+      res.status(500).json({ error: "Failed to send invoice" });
+    }
+  });
+
+  app.post("/api/coach/invoices/:id/resend", requireCoach, async (req, res) => {
+    try {
+      const r = await resendStripeInvoiceEmail(paramId(req.params.id));
+      if (!r.ok) {
+        return res.status(400).json({ error: r.error || "Resend failed" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Resend failed" });
+    }
+  });
+
+  // Coach: billing metrics (MRR, AR, aging)
+  app.get("/api/coach/billing-metrics", requireCoach, async (_req, res) => {
+    try {
+      const m = await getCoachBillingMetrics();
+      res.json(m);
+    } catch (e) {
+      res.status(500).json({ error: "Failed to load metrics" });
+    }
+  });
+
+  // Coach: retainers
+  app.get("/api/coach/retainers", requireCoach, async (_req, res) => {
+    try {
+      res.json(await getAllRetainers());
+    } catch {
+      res.status(500).json({ error: "Failed to load retainers" });
+    }
+  });
+
+  app.post("/api/coach/retainers", requireCoach, async (req, res) => {
+    try {
+      const schema = z.object({
+        clientId: z.string(),
+        name: z.string().min(1),
+        description: z.string().optional(),
+        amountCents: z.number().min(100),
+        currency: z.enum(["nzd", "usd"]),
+        interval: z.enum(["month", "quarter", "year"]),
+      });
+      const d = schema.parse(req.body);
+      const out = await createRetainerWithStripe({
+        clientId: d.clientId,
+        name: d.name,
+        description: d.description,
+        amountCents: d.amountCents,
+        currency: d.currency,
+        interval: d.interval,
+      });
+      if ("error" in out) {
+        return res.status(400).json({ error: out.error });
+      }
+      res.status(201).json(out.retainer);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: error.errors });
+      } else {
+        res.status(500).json({ error: "Failed to create retainer" });
+      }
+    }
+  });
+
+  // Coach: refund a Stripe payment
+  app.post("/api/coach/payments/:id/refund", requireCoach, async (req, res) => {
+    const r = await refundStripePayment(paramId(req.params.id));
+    if (r.success) {
+      return res.json({ success: true });
+    }
+    res.status(400).json({ error: r.error || "Refund failed" });
+  });
+
+  // Public: read invoice for pay page (no auth)
+  app.get("/api/public/invoices/:token", async (req, res) => {
+    const inv = await getInvoiceByPublicToken(paramId(req.params.token));
+    if (!inv) {
+      return res.status(404).json({ error: "Invoice not found" });
+    }
+    if (inv.status === "paid" || inv.status === "void" || inv.status === "cancelled") {
+      return res.json({
+        id: inv.id,
+        invoiceNumber: inv.invoiceNumber,
+        amount: inv.amount,
+        currency: inv.currency,
+        status: inv.status,
+        dueDate: inv.dueDate,
+        items: inv.items,
+        paidAt: inv.paidAt,
+        isPaid: true,
+      });
+    }
+    res.json({
+      id: inv.id,
+      invoiceNumber: inv.invoiceNumber,
+      amount: inv.amount,
+      currency: inv.currency,
+      status: inv.status,
+      dueDate: inv.dueDate,
+      items: inv.items,
+      isPaid: false,
+    });
+  });
+
+  // Public: start hosted checkout (no auth) — must know pay link
+  app.post("/api/public/invoices/:token/checkout", async (req, res) => {
+    try {
+      const schema = z.object({
+        provider: z.enum(["stripe", "paypal"]),
+      });
+      const { provider } = schema.parse(req.body);
+      const inv = await getInvoiceByPublicToken(paramId(req.params.token));
+      if (!inv) {
+        return res.status(404).json({ error: "Not found" });
+      }
+      if (inv.status === "paid" || inv.status === "void" || inv.status === "cancelled") {
+        return res.status(400).json({ error: "Already paid" });
+      }
+      const prof = await storage.getClientProfileById(inv.clientId);
+      if (!prof?.userId) {
+        return res.status(400).json({ error: "Client not found" });
+      }
+      const user = await authStorage.getUser(prof.userId);
+      if (!user?.email) {
+        return res.status(400).json({ error: "Client email required" });
+      }
+      const appBase = process.env.APP_URL || "http://localhost:3000";
+      if (inv.stripeHostedInvoiceUrl && provider === "stripe") {
+        return res.json({ url: inv.stripeHostedInvoiceUrl, mode: "stripe_hosted" });
+      }
+      if (provider === "stripe") {
+        if (!isStripeEnabled()) {
+          return res.status(503).json({ error: "Card payments unavailable" });
+        }
+        const result = await createCheckoutSessionForInvoice(
+          inv.id,
+          inv.clientId,
+          { email: user.email, firstName: user.firstName, lastName: user.lastName },
+          `${appBase}/pay/${paramId(req.params.token)}?success=true`,
+          `${appBase}/pay/${paramId(req.params.token)}?cancelled=true`
+        );
+        if (!result) {
+          return res.status(500).json({ error: "Checkout failed" });
+        }
+        return res.json({ url: result.url, mode: "stripe_checkout" });
+      }
+      if (!isPayPalEnabled()) {
+        return res.status(503).json({ error: "PayPal unavailable" });
+      }
+      const payReturn = `/pay/${paramId(req.params.token)}?success=true`;
+      const pp = await createPayPalOrderForInvoice(inv.id, inv.clientId, payReturn);
+      if (!pp) {
+        return res.status(500).json({ error: "PayPal order failed" });
+      }
+      res.json({ url: pp.approvalUrl, orderId: pp.orderId, mode: "paypal" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: error.errors });
+      }
+      console.error("Public checkout:", error);
+      res.status(500).json({ error: "Checkout failed" });
+    }
+  });
+
+  // Client: Stripe billing portal (update card, see invoices in Stripe)
+  app.post("/api/client/billing/portal", requireClient, async (req, res) => {
+    try {
+      if (!isStripeEnabled()) {
+        return res.status(503).json({ error: "Stripe not configured" });
+      }
+      const profile = await storage.getClientProfile(req.user!.id);
+      if (!profile) {
+        return res.status(404).json({ error: "No profile" });
+      }
+      const appBase = process.env.APP_URL || "http://localhost:3000";
+      const s = await createBillingPortalSession(profile.id, `${appBase}/client/billing`);
+      if (!s) {
+        return res.status(500).json({ error: "Could not start portal" });
+      }
+      res.json(s);
+    } catch (e) {
+      res.status(500).json({ error: "Portal failed" });
     }
   });
 

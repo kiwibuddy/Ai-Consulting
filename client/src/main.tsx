@@ -14,18 +14,28 @@ function setThemeFromPath() {
 }
 setThemeFromPath();
 
-// Register service worker for PWA
+// PWA: only in production. In dev, a registered SW caches HTML/JS and easily serves a stale
+// bundle (wrong theme, old layout) even after Vite config/CSS fixes. Unregister in dev
+// to clear a previously registered worker from the same origin.
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((registration) => {
-        console.log("Service Worker registered:", registration);
-      })
-      .catch((error) => {
-        console.error("Service Worker registration failed:", error);
-      });
-  });
+  if (import.meta.env.PROD) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("Service Worker registered:", registration);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    });
+  } else {
+    void navigator.serviceWorker.getRegistrations().then((regs) => {
+      for (const r of regs) {
+        void r.unregister();
+      }
+    });
+  }
 }
 
 createRoot(document.getElementById("root")!).render(

@@ -21,6 +21,7 @@ export const PUBLIC_ROUTES = [
   "/resources/outsourcing-the-holy-spirit-to-ai",
   "/pricing",
   "/intake",
+  "/pay",
   "/privacy",
   "/terms",
   "/login",

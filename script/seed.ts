@@ -17,6 +17,7 @@ if (process.env.NODE_ENV === "production" && process.env.ALLOW_SEED_IN_PRODUCTIO
 }
 
 import bcrypt from "bcryptjs";
+import { randomBytes } from "crypto";
 import { authStorage } from "../server/auth/storage";
 import { storage } from "../server/storage";
 import { db } from "../server/db";
@@ -642,10 +643,12 @@ async function seed() {
       invoiceNumber: "INV-00001",
       clientId: clientProfile.id,
       amount: 52500, // $525.00
-      currency: "usd",
+      subtotal: 52500,
+      currency: "nzd",
       status: "paid",
       dueDate: subWeeks(new Date(), 4),
       paidAt: subWeeks(new Date(), 4),
+      publicToken: randomBytes(18).toString("base64url"),
       items: JSON.stringify([
         { description: "AI Consulting Package - 3 Sessions", amount: 52500 }
       ]),
@@ -658,7 +661,7 @@ async function seed() {
       clientId: clientProfile.id,
       invoiceId: invoice1.id,
       amount: 52500,
-      currency: "usd",
+      currency: "nzd",
       status: "completed",
       provider: "stripe",
       providerPaymentId: "pi_demo_" + Math.random().toString(36).substring(7),
@@ -672,10 +675,12 @@ async function seed() {
       invoiceNumber: "INV-00002",
       clientId: clientProfile.id,
       amount: 17500, // $175.00
-      currency: "usd",
+      subtotal: 17500,
+      currency: "nzd",
       status: "paid",
       dueDate: subWeeks(new Date(), 1),
       paidAt: subDays(new Date(), 5),
+      publicToken: randomBytes(18).toString("base64url"),
       items: JSON.stringify([
         { description: "Individual Consultation", amount: 17500 }
       ]),
@@ -687,7 +692,7 @@ async function seed() {
       clientId: clientProfile.id,
       invoiceId: invoice2.id,
       amount: 17500,
-      currency: "usd",
+      currency: "nzd",
       status: "completed",
       provider: "paypal",
       providerPaymentId: "PAY-demo-" + Math.random().toString(36).substring(7),
@@ -701,9 +706,11 @@ async function seed() {
       invoiceNumber: "INV-00003",
       clientId: clientProfile.id,
       amount: 35000, // $350.00
-      currency: "usd",
+      subtotal: 35000,
+      currency: "nzd",
       status: "sent",
       dueDate: addDays(new Date(), 14),
+      publicToken: randomBytes(18).toString("base64url"),
       items: JSON.stringify([
         { description: "Consultations - 2 Sessions", amount: 35000 }
       ]),

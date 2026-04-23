@@ -18,6 +18,7 @@ import { registerObjectStorageRoutes } from "./object_storage";
 import { startSessionReminderScheduler } from "./jobs/sessionReminders";
 import { checkDatabaseHealth } from "./dbHealth";
 import { bootstrapConsultant } from "./auth/bootstrap";
+import { isStripeEnabled, isPayPalEnabled } from "./lib/payments";
 
 const app = express();
 const httpServer = createServer(app);
@@ -100,6 +101,10 @@ app.use((req, res, next) => {
 
   // Ensure single consultant account is ready (when CONSULTANT_PASSWORD is set)
   await bootstrapConsultant();
+
+  const st = isStripeEnabled() ? "✓" : "✗";
+  const pp = isPayPalEnabled() ? "✓" : "✗";
+  log(`Payments: Stripe=${st} PayPal=${pp} (set STRIPE_* / PAYPAL_* env to enable)`);
 
   // Production: verify DB connection and schema before accepting traffic
   if (process.env.NODE_ENV === "production") {

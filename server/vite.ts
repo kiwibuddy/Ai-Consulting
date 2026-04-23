@@ -1,13 +1,24 @@
 import { type Express } from "express";
-import { createServer as createViteServer, createLogger } from "vite";
+import { createServer as createViteServer, createLogger, type UserConfig } from "vite";
 import { type Server } from "http";
-import viteConfig from "../vite.config";
+import viteConfigExport from "../vite.config";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 import { injectOgMeta } from "./og-meta";
 
 const viteLogger = createLogger();
+
+/** `vite.config` uses `defineConfig((env) => …)`; spreading that function in `…viteConfig` omits `root` and breaks `/src/main.tsx`. */
+function loadUserViteConfig(): UserConfig {
+  if (typeof viteConfigExport === "function") {
+    return viteConfigExport({
+      command: "serve",
+      mode: "development",
+    });
+  }
+  return viteConfigExport as UserConfig;
+}
 
 export async function setupVite(server: Server, app: Express) {
   const serverOptions = {
@@ -16,8 +27,10 @@ export async function setupVite(server: Server, app: Express) {
     allowedHosts: true as const,
   };
 
+  const userConfig = loadUserViteConfig();
+
   const vite = await createViteServer({
-    ...viteConfig,
+    ...userConfig,
     configFile: false,
     customLogger: {
       ...viteLogger,

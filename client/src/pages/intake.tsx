@@ -39,7 +39,8 @@ import {
   MoreHorizontal,
   ExternalLink,
   Shield,
-  Mic2,
+  Calendar,
+  ListChecks,
 } from "lucide-react";
 import {
   Collapsible,
@@ -250,7 +251,7 @@ function IntakeSituationFields() {
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-semibold text-neutral-900">Your situation</h2>
-      <p className="text-sm text-neutral-500 -mt-2">
+      <p className="text-sm text-neutral-500">
         Just enough for me to prepare — we&apos;ll explore the details together on the call.
       </p>
 
@@ -413,16 +414,21 @@ export default function IntakePage() {
     if (!BOOKING_URL || userDismissedExtendedRef.current) return;
     const w = watchedForm;
     if (!w) return;
-    const startedNameEmail =
+    const startedBasic =
       (w.firstName?.trim()?.length ?? 0) > 0 ||
       (w.lastName?.trim()?.length ?? 0) > 0 ||
       (w.email?.trim()?.length ?? 0) > 0;
+    const startedMoreAboutYou =
+      (w.phone?.trim()?.length ?? 0) > 0 ||
+      (w.organisation?.trim()?.length ?? 0) > 0 ||
+      (w.role?.trim()?.length ?? 0) > 0 ||
+      (w.industry?.trim()?.length ?? 0) > 0;
     const hasExtended =
       (w.problemStatement && w.problemStatement.length > 0) ||
       (w.currentAiUsage && w.currentAiUsage.length > 0) ||
       (w.budgetRange && w.budgetRange.length > 0) ||
       (w.howDidYouHear && w.howDidYouHear.length > 0);
-    if (startedNameEmail || hasExtended) setIntakeDetailsOpen(true);
+    if (startedBasic || startedMoreAboutYou || hasExtended) setIntakeDetailsOpen(true);
   }, [watchedForm]);
 
   const handleFinishedBooking = () => {
@@ -683,33 +689,56 @@ export default function IntakePage() {
             className={BOOKING_URL ? "space-y-0" : "space-y-8"}
           >
             {BOOKING_URL ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                <Card className="border-0 shadow-sm bg-white h-full min-h-[20rem] flex flex-col">
-                  <CardContent className="p-6 md:p-8 flex-1 flex flex-col justify-center text-center min-h-0">
-                    <p className="text-neutral-600 mb-4">
-                      Pick a time that works for you — you&apos;ll get a confirmation and calendar invite
-                      right away. A full-screen view opens here (no new tab).
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-stretch">
+                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col md:min-h-full">
+                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-col text-center md:text-left">
+                    <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+                        <Calendar className="h-5 w-5" aria-hidden />
+                      </div>
+                      <h2 className="text-base font-semibold text-neutral-900">Schedule in the calendar</h2>
+                    </div>
+                    <p className="text-sm text-neutral-600 leading-relaxed">
+                      Pick a time that works for you. You&apos;ll get a confirmation and calendar invite
+                      right away — the scheduler opens full screen here (no new tab).
                     </p>
-                    <Button
-                      type="button"
-                      size="lg"
-                      className="tesoro-cta-gradient rounded-xl font-semibold px-8"
-                      onClick={() => setBookingModalOpen(true)}
-                      data-testid="button-open-booking-modal"
-                    >
-                      Book a 30-min call
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <p className="text-sm text-neutral-500 mt-4">
-                      Or use the form on the right — the ··· control opens extra fields (optional).
-                    </p>
+                    <ul className="mt-5 space-y-3 text-left text-sm text-neutral-700">
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>Choose a slot that fits your week — NZ-friendly hours where possible.</span>
+                      </li>
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>Meet on Zoom or phone; you&apos;ll see the link in the invite.</span>
+                      </li>
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>
+                          Add context on the right if you like — the form expands as you go (optional).
+                        </span>
+                      </li>
+                    </ul>
+                    <div className="mt-auto pt-6 w-full">
+                      <Button
+                        type="button"
+                        size="lg"
+                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8"
+                        onClick={() => setBookingModalOpen(true)}
+                        data-testid="button-open-booking-modal"
+                      >
+                        Book a 30-min call
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                      <p className="text-xs text-neutral-500 mt-3 leading-snug">
+                        Prefer not to use the calendar? Use the form on the right and we&apos;ll coordinate by
+                        email.
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
-                <Card className="border-0 shadow-sm bg-white h-full min-h-[20rem] flex flex-col">
-                  <CardContent className="p-6 md:p-8 flex-1 flex flex-col gap-0 min-h-0">
-                    <div className="flex-1 min-h-0">
-                      <IntakeAboutYouFields />
-                    </div>
+                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col md:min-h-full">
+                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-col">
+                    <IntakeAboutYouFields />
                     <Collapsible
                       open={intakeDetailsOpen}
                       onOpenChange={(open) => {
@@ -730,20 +759,22 @@ export default function IntakePage() {
                               <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
                               <span className="text-sm text-center sm:text-left leading-snug">
                                 {intakeDetailsOpen
-                                  ? "Hide extra context"
+                                  ? "Hide full intake (optional details)"
                                   : "Add situation, budget & more (optional)"}
                               </span>
                             </span>
                           </Button>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="data-[state=open]:pt-1">
-                          <div className="pt-4">
+                        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-none">
+                          <div className="pt-4 space-y-0">
                             <IntakeExtendedFields />
                           </div>
                         </CollapsibleContent>
                       </div>
                     </Collapsible>
-                    <div className="mt-6 pt-4 border-t border-neutral-100">{submitFooter}</div>
+                    <div className="mt-6 pt-4 border-t border-neutral-100 shrink-0">
+                      {submitFooter}
+                    </div>
                   </CardContent>
                 </Card>
               </div>

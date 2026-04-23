@@ -16,6 +16,7 @@ import NotFound from "@/pages/not-found";
 // Public pages
 import LandingPage from "@/pages/landing";
 import IntakePage from "@/pages/intake";
+import PublicPayPage from "@/pages/pay";
 import SpeakingPage from "@/pages/speaking";
 import SpeakingInvitePage from "@/pages/speaking-invite";
 import ResourcesPage from "@/pages/resources";
@@ -293,6 +294,7 @@ function Router() {
       {/* Public routes — always wrapped in PublicSiteLayout so data-theme="site" is never lost */}
       <Route path="/" component={PublicHome} />
       <Route path="/intake" component={() => <PublicSiteLayout><IntakePage /></PublicSiteLayout>} />
+      <Route path="/pay/:token" component={() => <PublicSiteLayout><PublicPayPage /></PublicSiteLayout>} />
       <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
       <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
       <Route path="/survey" component={() => <PublicSiteLayout><SurveyPage /></PublicSiteLayout>} />

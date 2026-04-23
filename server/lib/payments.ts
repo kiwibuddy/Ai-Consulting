@@ -14,20 +14,19 @@ import {
   type InsertInvoice,
   type Retainer,
 } from "@shared/schema";
-import { eq, desc, and, gte, sql } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { sendEmail, paymentReceivedEmail, invoiceSentEmail, invoicePaymentFailedEmail } from "./email";
+import { createRequire } from "node:module";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
-import {
-  Client,
-  Environment,
-  OrdersController,
-  CheckoutPaymentIntent,
-} from "@paypal/paypal-server-sdk";
+
+// tsx bundles .ts in a way that breaks ESM named exports from this package; CJS require preserves them.
+const requirePaypal = createRequire(import.meta.url);
+const { Client, Environment, OrdersController, CheckoutPaymentIntent } = requirePaypal(
+  "@paypal/paypal-server-sdk",
+) as typeof import("@paypal/paypal-server-sdk");
 
 // Initialize Stripe (only if API key is set)
-const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2025-02-24.acacia" as Stripe.LatestApiVersion })
-  : null;
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 
 if (!process.env.STRIPE_SECRET_KEY) {
   console.warn("STRIPE_SECRET_KEY not set. Stripe payments will be disabled.");
@@ -457,7 +456,9 @@ async function processStripeInvoicePaid(inv: Stripe.Invoice, _eventId: string): 
   }
 
   // Subscription invoice: link retainer
-  const subId = typeof inv.subscription === "string" ? inv.subscription : inv.subscription?.id;
+  const invWithSub = inv as Stripe.Invoice & { subscription?: string | Stripe.Subscription | null };
+  const subRef = invWithSub.subscription;
+  const subId = typeof subRef === "string" ? subRef : subRef && typeof subRef === "object" && "id" in subRef ? (subRef as { id: string }).id : null;
   if (subId) {
     const [r] = await db.select().from(retainers).where(eq(retainers.stripeSubscriptionId, subId)).limit(1);
     if (r) {
@@ -496,22 +497,23 @@ async function processStripeInvoiceFailed(inv: Stripe.Invoice): Promise<void> {
       .where(eq(invoices.id, localId));
     const invRow = await getInvoice(localId);
     if (invRow) {
-      const user = await authStorage.getUser(
-        (await storage.getClientProfileById(invRow.clientId))?.userId || ""
-      );
-      if (user?.email) {
-        try {
-          await sendEmail(
-            invoicePaymentFailedEmail(
-              user.email,
-              [user.firstName, user.lastName].filter(Boolean).join(" "),
-              invRow.invoiceNumber,
-              (invRow.amount / 100).toFixed(2),
-              invRow.currency
-            )
-          );
-        } catch (e) {
-          console.error("Failed to send invoice failed email", e);
+      const prof = await storage.getClientProfileById(invRow.clientId);
+      if (prof?.userId) {
+        const user = await authStorage.getUser(prof.userId);
+        if (user?.email) {
+          try {
+            await sendEmail(
+              invoicePaymentFailedEmail(
+                user.email,
+                [user.firstName, user.lastName].filter(Boolean).join(" "),
+                invRow.invoiceNumber,
+                (invRow.amount / 100).toFixed(2),
+                invRow.currency
+              )
+            );
+          } catch (e) {
+            console.error("Failed to send invoice failed email", e);
+          }
         }
       }
     }
@@ -531,15 +533,21 @@ async function processStripeInvoiceVoided(inv: Stripe.Invoice): Promise<void> {
 async function syncRetainerFromSubscription(sub: Stripe.Subscription): Promise<void> {
   const localId = sub.metadata?.localRetainerId;
   if (!localId) return;
-  const status = sub.status === "active" || sub.status === "trialing" ? "active" : sub.status === "past_due" ? "past_due" : "cancelled";
+  const s = sub as Stripe.Subscription & { current_period_end?: number; cancel_at?: number | null };
+  const status =
+    sub.status === "active" || sub.status === "trialing"
+      ? "active"
+      : sub.status === "past_due"
+        ? "past_due"
+        : "cancelled";
   await db
     .update(retainers)
     .set({
       status: status as Retainer["status"],
-      currentPeriodEnd: sub.current_period_end
-        ? new Date(sub.current_period_end * 1000)
+      currentPeriodEnd: s.current_period_end
+        ? new Date(s.current_period_end * 1000)
         : null,
-      cancelledAt: sub.cancel_at ? new Date(sub.cancel_at * 1000) : null,
+      cancelledAt: s.cancel_at ? new Date(s.cancel_at * 1000) : null,
       updatedAt: new Date(),
     })
     .where(eq(retainers.id, localId));
@@ -642,12 +650,11 @@ export async function createPayPalOrder(options: {
     }
   );
 
-  if (!res.result) {
+  const order = (res as { result?: { id?: string; links?: Array<{ rel: string; href: string }> } }).result;
+  if (!order?.id) {
     console.error("PayPal create order failed", res);
     return null;
   }
-
-  const order = res.result;
   const approvalUrl = order.links?.find((l) => l.rel === "approve")?.href;
   if (!order.id || !approvalUrl) {
     return null;
@@ -675,28 +682,34 @@ export async function createPayPalOrderForInvoice(
   });
 }
 
-export async function capturePayPalOrder(orderId: string): Promise<{ success: boolean; paymentId?: string }> {
+export async function capturePayPalOrder(orderId: string): Promise<{
+  success: boolean;
+  paymentId?: string;
+  returnPath?: string;
+}> {
   if (!ordersController) return { success: false };
 
-  const cap = await ordersController.captureOrder(
-    { id: orderId, prefer: "return=representation" } as { id: string; prefer?: string }
-  );
+  const cap = await ordersController.captureOrder({
+    id: orderId,
+    prefer: "return=representation",
+  });
 
-  if (!cap.result) {
+  const capture = (cap as { result?: { purchaseUnits?: Array<{ payments?: { captures?: Array<{ amount?: { value?: string; currencyCode?: string }; id?: string }> }; customId?: string; custom_id?: string }> } }).result;
+  if (!capture) {
     console.error("PayPal capture failed", cap);
     return { success: false };
   }
 
-  const capture = cap.result;
   const pu = capture.purchaseUnits?.[0];
   const captureData = pu?.payments?.captures?.[0];
   if (!captureData) {
     return { success: false };
   }
 
+  const customRaw = pu?.customId ?? (pu as { custom_id?: string }).custom_id;
   let metadata: { clientId: string; sessionId?: string; invoiceId?: string; returnPath?: string } = { clientId: "" };
   try {
-    metadata = JSON.parse(pu?.customId || "{}");
+    metadata = JSON.parse(customRaw || "{}");
   } catch {
     /* empty */
   }
@@ -730,7 +743,7 @@ export async function capturePayPalOrder(orderId: string): Promise<{ success: bo
   }
 
   await sendPaymentNotifications(payment);
-  return { success: true, paymentId: payment.id };
+  return { success: true, paymentId: payment.id, returnPath: metadata.returnPath };
 }
 
 // ============================================================
@@ -880,7 +893,7 @@ export async function getCoachBillingMetrics(): Promise<{
     if (i.status === "draft") continue;
     byCur.set(i.currency, (byCur.get(i.currency) || 0) + i.amount);
   }
-  const arByCurrency = [...byCur.entries()].map(([currency, cents]) => ({ currency, cents }));
+  const arByCurrency = Array.from(byCur.entries()).map(([currency, cents]) => ({ currency, cents }));
 
   const since = new Date();
   since.setDate(since.getDate() - 30);
@@ -948,5 +961,170 @@ export async function resendStripeInvoiceEmail(invoiceId: string): Promise<{ ok:
     return { ok: true };
   } catch (e) {
     return { ok: false, error: (e as Error).message };
+  }
+}
+
+/** Mark invoice sent: Stripe invoicing, or pay-by-link email when Stripe is off. */
+export async function sendInvoiceToClient(
+  invoiceId: string
+): Promise<{ ok: boolean; error?: string }> {
+  const inv = await getInvoice(invoiceId);
+  if (!inv) return { ok: false, error: "Invoice not found" };
+  const prof = await storage.getClientProfileById(inv.clientId);
+  if (!prof?.userId) return { ok: false, error: "Client not found" };
+  const user = await authStorage.getUser(prof.userId);
+  if (!user?.email) return { ok: false, error: "Client email missing" };
+
+  if (isStripeEnabled()) {
+    const sent = await createAndSendStripeInvoice(inv, {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+    if (!sent) {
+      return { ok: false, error: "Failed to create Stripe invoice" };
+    }
+    await updateInvoice(invoiceId, {
+      status: "sent",
+      sentAt: new Date(),
+      stripeInvoiceId: sent.stripeInvoiceId,
+      stripeHostedInvoiceUrl: sent.hostedInvoiceUrl,
+      stripeInvoicePdf: sent.invoicePdf || null,
+    });
+    return { ok: true };
+  }
+
+  const payUrl = `${appUrl()}/pay/${inv.publicToken}`;
+  const amountStr = new Intl.NumberFormat("en-NZ", {
+    style: "currency",
+    currency: inv.currency.toUpperCase(),
+  }).format(inv.amount / 100);
+  const due = inv.dueDate ? new Date(inv.dueDate).toLocaleDateString("en-NZ") : "—";
+  await sendEmail(
+    invoiceSentEmail(
+      user.email,
+      [user.firstName, user.lastName].filter(Boolean).join(" ") || "there",
+      { invoiceNumber: inv.invoiceNumber, payUrl, amount: amountStr, dueDate: due }
+    )
+  );
+  await updateInvoice(invoiceId, { status: "sent", sentAt: new Date() });
+  return { ok: true };
+}
+
+export async function createBillingPortalSession(
+  clientProfileId: string,
+  returnUrl: string
+): Promise<{ url: string } | null> {
+  if (!stripe) return null;
+  const prof = await storage.getClientProfileById(clientProfileId);
+  if (!prof) return null;
+  const user = prof.userId ? await authStorage.getUser(prof.userId) : undefined;
+  if (!user?.email) return null;
+  const customerId = await getOrCreateStripeCustomer(clientProfileId, { email: user.email, firstName: user.firstName, lastName: user.lastName });
+  if (!customerId) return null;
+  const session = await stripe.billingPortal.sessions.create({ customer: customerId, return_url: returnUrl });
+  return { url: session.url };
+}
+
+export type CreateRetainerInput = {
+  clientId: string;
+  name: string;
+  description?: string;
+  amountCents: number;
+  currency: string;
+  interval: "month" | "quarter" | "year";
+};
+
+export async function createRetainerWithStripe(
+  data: CreateRetainerInput
+): Promise<{ retainer: Retainer } | { error: string }> {
+  if (!stripe) {
+    return { error: "Stripe not configured" };
+  }
+  const prof = await storage.getClientProfileById(data.clientId);
+  if (!prof?.userId) {
+    return { error: "Client not found" };
+  }
+  const user = await authStorage.getUser(prof.userId);
+  if (!user?.email) {
+    return { error: "Client email not found" };
+  }
+
+  const [r0] = await db
+    .insert(retainers)
+    .values({
+      clientId: data.clientId,
+      name: data.name,
+      description: data.description ?? null,
+      amount: data.amountCents,
+      currency: data.currency.toLowerCase(),
+      interval: data.interval,
+      intervalCount: 1,
+      status: "active",
+    })
+    .returning();
+
+  const localRetainerId = r0.id;
+
+  try {
+    const customerId = await getOrCreateStripeCustomer(data.clientId, {
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+    if (!customerId) throw new Error("No Stripe customer");
+
+    const product = await stripe.products.create(
+      { name: data.name, description: data.description, metadata: { localRetainerId: localRetainerId } },
+      { idempotencyKey: `ret_prod_${localRetainerId}` }
+    );
+
+    const recurring =
+      data.interval === "month"
+        ? { interval: "month" as const, interval_count: 1 }
+        : data.interval === "quarter"
+          ? { interval: "month" as const, interval_count: 3 }
+          : { interval: "year" as const, interval_count: 1 };
+
+    const price = await stripe.prices.create(
+      {
+        product: product.id,
+        unit_amount: data.amountCents,
+        currency: data.currency.toLowerCase(),
+        recurring,
+      },
+      { idempotencyKey: `ret_price_${localRetainerId}` }
+    );
+
+    const sub = (await stripe.subscriptions.create(
+      {
+        customer: customerId,
+        items: [{ price: price.id }],
+        metadata: { localRetainerId: localRetainerId },
+        collection_method: "send_invoice",
+        days_until_due: 7,
+      },
+      { idempotencyKey: `ret_sub_${localRetainerId}` }
+    )) as Stripe.Subscription & { current_period_end?: number };
+
+    const [r1] = await db
+      .update(retainers)
+      .set({
+        stripeSubscriptionId: sub.id,
+        stripePriceId: price.id,
+        stripeProductId: product.id,
+        currentPeriodEnd: sub.current_period_end
+          ? new Date(sub.current_period_end * 1000)
+          : null,
+        updatedAt: new Date(),
+      })
+      .where(eq(retainers.id, localRetainerId))
+      .returning();
+
+    return { retainer: r1! };
+  } catch (e) {
+    await db.update(retainers).set({ status: "cancelled", updatedAt: new Date() }).where(eq(retainers.id, localRetainerId));
+    console.error("createRetainerWithStripe", e);
+    return { error: (e as Error).message || "Retainer create failed" };
   }
 }
