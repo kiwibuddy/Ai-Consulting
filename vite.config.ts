@@ -1,25 +1,51 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+const projectRoot = import.meta.dirname;
+const clientRoot = path.resolve(projectRoot, "client");
+
+/**
+ * Vite inlines VITE_* at build time. CI hosts (Vercel, Railway, etc.) inject
+ * VITE_BOOKING_URL into process.env — pin it here so the client bundle always
+ * picks it up, even if env file resolution is odd with `root: client`.
+ */
+function bookingUrlFromEnv(mode: string): string {
+  const fromRoot = loadEnv(mode, projectRoot, "VITE_");
+  const fromClient = loadEnv(mode, clientRoot, "VITE_");
+  return (
+    process.env.VITE_BOOKING_URL ??
+    fromRoot.VITE_BOOKING_URL ??
+    fromClient.VITE_BOOKING_URL ??
+    ""
+  );
+}
+
+export default defineConfig(({ mode }) => {
+  const bookingUrl = bookingUrlFromEnv(mode);
+
+  return {
+    plugins: [react()],
+    define: {
+      "import.meta.env.VITE_BOOKING_URL": JSON.stringify(bookingUrl),
     },
-  },
-  root: path.resolve(import.meta.dirname, "client"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
-  server: {
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
+    resolve: {
+      alias: {
+        "@": path.resolve(clientRoot, "src"),
+        "@shared": path.resolve(projectRoot, "shared"),
+        "@assets": path.resolve(projectRoot, "attached_assets"),
+      },
     },
-  },
+    root: clientRoot,
+    build: {
+      outDir: path.resolve(projectRoot, "dist/public"),
+      emptyOutDir: true,
+    },
+    server: {
+      fs: {
+        strict: true,
+        deny: ["**/.*"],
+      },
+    },
+  };
 });
