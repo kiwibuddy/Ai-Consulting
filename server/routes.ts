@@ -53,6 +53,7 @@ import {
   provisionPortalAfterIntake,
   provisionPortalFromCalendarClaim,
   parseCalendarClaimBody,
+  resendPortalActivation,
 } from "./lib/portal-provision";
 import {
   ingestCalendarBooking,
@@ -729,6 +730,25 @@ export async function registerRoutes(
       res.json(client);
     } catch (error) {
       res.status(500).json({ error: "Failed to get client" });
+    }
+  });
+
+  app.post("/api/coach/clients/:id/resend-portal-invite", requireCoach, async (req, res) => {
+    try {
+      const client = await storage.getClientProfileByIdWithUser(paramId(req.params.id));
+      if (!client) {
+        return res.status(404).json({ error: "Client not found" });
+      }
+      const email = client.user?.email;
+      const firstName = client.user?.firstName || "there";
+      const userId = client.user?.id;
+      if (!email || !userId) {
+        return res.status(400).json({ error: "Client has no email address on file" });
+      }
+      await resendPortalActivation(userId, email, firstName);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to send portal invite" });
     }
   });
 

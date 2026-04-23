@@ -55,6 +55,7 @@ import {
   Plus,
   Upload,
   Download,
+  Send,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -109,6 +110,17 @@ export default function CoachClientDetail() {
 
   const { data: resources } = useQuery<Resource[]>({
     queryKey: ["/api/coach/resources"],
+  });
+
+  const resendPortalInvite = useMutation({
+    mutationFn: () =>
+      apiRequest<{ success: boolean }>("POST", `/api/coach/clients/${clientId}/resend-portal-invite`),
+    onSuccess: () => {
+      toast({ title: "Portal invite sent", description: "Activation email delivered to the client." });
+    },
+    onError: () => {
+      toast({ title: "Failed to send invite", variant: "destructive" });
+    },
   });
 
   const { uploadFile } = useUpload({
@@ -276,6 +288,18 @@ export default function CoachClientDetail() {
           <Link href={`/consultant/billing?clientId=${clientId}`}>
             <Button variant="outline">Create Invoice</Button>
           </Link>
+        ) : null}
+        {client.user?.email ? (
+          <LoadingButton
+            variant="outline"
+            size="sm"
+            loading={resendPortalInvite.isPending}
+            onClick={() => resendPortalInvite.mutate()}
+            title={`Send portal activation email to ${client.user?.email}`}
+          >
+            <Send className="mr-2 h-4 w-4" />
+            Send Portal Invite
+          </LoadingButton>
         ) : null}
         <Badge
           variant={

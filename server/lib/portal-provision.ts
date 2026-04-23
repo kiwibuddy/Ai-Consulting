@@ -28,6 +28,14 @@ async function sendActivationTokenEmail(userId: string, email: string, firstName
 }
 
 /**
+ * Manually resend a portal activation / password-set email for any client user.
+ * Safe to call regardless of whether the user already has a password — always issues a fresh token.
+ */
+export async function resendPortalActivation(userId: string, email: string, firstName: string): Promise<void> {
+  await sendActivationTokenEmail(userId, email, firstName);
+}
+
+/**
  * After a public intake is saved: create or link a client user, then send the right follow-up email(s).
  * Does not throw — log errors; intake HTTP response should still succeed.
  */

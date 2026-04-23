@@ -1,9 +1,11 @@
+import crypto from "node:crypto";
 import { and, desc, eq, isNull, or } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db";
 import { authStorage } from "../auth";
 import { storage } from "../storage";
 import { intakeForms, type InsertSession } from "@shared/schema";
+import { sendEmail, portalActivationEmail } from "./email";
 
 const bookingPayloadSchema = z.object({
   eventId: z.string().min(1),
@@ -31,6 +33,14 @@ function splitName(displayName?: string): { firstName: string; lastName?: string
     firstName: parts[0],
     lastName: parts.slice(1).join(" "),
   };
+}
+
+const ACTIVATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+async function sendPortalActivationEmail(userId: string, email: string, firstName: string) {
+  const token = crypto.randomBytes(32).toString("hex");
+  await authStorage.setPasswordResetToken(userId, token, new Date(Date.now() + ACTIVATION_TTL_MS));
+  await sendEmail(portalActivationEmail(email, firstName, token));
 }
 
 function mapBookingStatus(status: CalendarBookingPayload["status"]): InsertSession["status"] {
@@ -65,6 +75,8 @@ export async function ingestCalendarBooking(payload: CalendarBookingPayload): Pr
     return { ok: true };
   }
 
+  let sendActivation = false;
+
   if (!user) {
     user = await authStorage.upsertUser({
       email: attendeeEmail,
@@ -74,6 +86,10 @@ export async function ingestCalendarBooking(payload: CalendarBookingPayload): Pr
       role: "client",
       emailVerified: true,
     });
+    sendActivation = true;
+  } else if (!user.password && !user.googleId) {
+    // Existing account but no way to log in yet — resend activation
+    sendActivation = true;
   }
 
   let profile = await storage.getClientProfile(user.id);
@@ -129,6 +145,14 @@ export async function ingestCalendarBooking(payload: CalendarBookingPayload): Pr
         message: `${payload.attendeeName || attendeeEmail} now has ${sessionCount} sessions. Consider creating an invoice or quote.`,
         relatedId: profile.id,
       });
+    }
+  }
+
+  if (sendActivation) {
+    try {
+      await sendPortalActivationEmail(user.id, payload.attendeeEmail.trim(), firstName);
+    } catch (err) {
+      console.error("[calendar-ingest] Failed to send portal activation email:", err);
     }
   }
 
