@@ -45,3 +45,21 @@ Google’s public appointment pages **cannot be shown inside an iframe on other 
 - Keep using the **Speaking invite** form on `/speaking/invite` as a qualification form.
 - After you review a request, send the prospect a booking link (this same 30-min link or a separate “Speaking discovery” schedule if you create one) so they can pick a time.
 - No change to the form itself; this is your workflow after they submit.
+
+## 7. Sync bookings into the consultant dashboard
+
+To make Google bookings appear in your app dashboard/clients list/session history:
+
+1. Set env vars in app hosting (and local `.env` as needed):
+   - `GOOGLE_CALENDAR_WEBHOOK_SECRET=<long-random-secret>`
+2. Deploy app updates so this endpoint is live:
+   - `POST /api/integrations/google-calendar/booking`
+3. Open `script.google.com` and create a new Apps Script project.
+4. Paste in [`scripts/google-calendar-booking-sync.gs`](../scripts/google-calendar-booking-sync.gs).
+5. Update:
+   - `API_BASE_URL` to your app domain
+   - `WEBHOOK_SECRET` to match `GOOGLE_CALENDAR_WEBHOOK_SECRET`
+6. Run `syncRecentBookings()` once manually (grants permissions).
+7. Add a **time-driven trigger** for `syncRecentBookings` every 5 minutes.
+
+After this is active, new Google bookings are upserted into `coaching_sessions`, linked to client records by email, and become visible in consultant dashboard/session views.

@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { eq, and, or, ne, isNull, desc, inArray } from "drizzle-orm";
+import { eq, and, or, ne, isNull, desc, inArray, count } from "drizzle-orm";
 import {
   users,
   clientProfiles,
@@ -59,8 +59,10 @@ export interface IStorage {
   getSession(id: string): Promise<Session | undefined>;
   createSession(session: InsertSession): Promise<Session>;
   updateSession(id: string, session: Partial<Session>): Promise<Session | undefined>;
+  upsertSessionByCalendarEventId(eventId: string, data: InsertSession): Promise<Session>;
   getSessionsByClient(clientId: string): Promise<Session[]>;
   getAllSessions(): Promise<Session[]>;
+  getSessionCountByClient(clientId: string): Promise<number>;
 
   // Resources
   getResource(id: string): Promise<Resource | undefined>;
@@ -212,12 +214,51 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
+  async upsertSessionByCalendarEventId(eventId: string, data: InsertSession): Promise<Session> {
+    const [existing] = await db
+      .select()
+      .from(coachingSessions)
+      .where(eq(coachingSessions.googleCalendarEventId, eventId));
+
+    if (existing) {
+      const [updated] = await db
+        .update(coachingSessions)
+        .set({
+          ...data,
+          googleCalendarEventId: eventId,
+          calendarSyncedAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .where(eq(coachingSessions.id, existing.id))
+        .returning();
+      return updated;
+    }
+
+    const [created] = await db
+      .insert(coachingSessions)
+      .values({
+        ...data,
+        googleCalendarEventId: eventId,
+        calendarSyncedAt: new Date(),
+      })
+      .returning();
+    return created;
+  }
+
   async getSessionsByClient(clientId: string): Promise<Session[]> {
     return db.select().from(coachingSessions).where(eq(coachingSessions.clientId, clientId)).orderBy(desc(coachingSessions.scheduledAt));
   }
 
   async getAllSessions(): Promise<Session[]> {
     return db.select().from(coachingSessions).orderBy(desc(coachingSessions.scheduledAt));
+  }
+
+  async getSessionCountByClient(clientId: string): Promise<number> {
+    const [row] = await db
+      .select({ value: count() })
+      .from(coachingSessions)
+      .where(eq(coachingSessions.clientId, clientId));
+    return row?.value ?? 0;
   }
 
   // Resources

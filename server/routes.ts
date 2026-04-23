@@ -55,6 +55,11 @@ import {
   parseCalendarClaimBody,
 } from "./lib/portal-provision";
 import {
+  ingestCalendarBooking,
+  parseCalendarBookingPayload,
+  verifyCalendarWebhookSecret,
+} from "./lib/calendar-ingest";
+import {
   isCalendarEnabled,
   getCalendarAuthUrl,
   exchangeCalendarCode,
@@ -214,6 +219,28 @@ export async function registerRoutes(
       return res.status(400).json({ error: result.error });
     }
     res.json({ success: true });
+  });
+
+  /** External ingest endpoint for Google booking sync (Apps Script bridge). */
+  app.post("/api/integrations/google-calendar/booking", publicFormLimiter, async (req, res) => {
+    const secret = req.headers["x-webhook-secret"];
+    const secretValue = Array.isArray(secret) ? secret[0] : secret;
+    if (!verifyCalendarWebhookSecret(secretValue)) {
+      return res.status(401).json({ error: "Unauthorized webhook" });
+    }
+
+    const parsed = parseCalendarBookingPayload(req.body);
+    if (!parsed.ok) {
+      return res.status(400).json({ error: parsed.error });
+    }
+
+    try {
+      await ingestCalendarBooking(parsed.data);
+      return res.json({ ok: true });
+    } catch (error) {
+      console.error("Google booking ingest failed:", error);
+      return res.status(500).json({ error: "Failed to ingest booking" });
+    }
   });
 
   // AI Knowledge Bank survey (public)
@@ -1952,6 +1979,65 @@ export async function registerRoutes(
       const metrics = await getClientMetrics(clientId);
       res.json(metrics);
     } catch (error) {
+      res.status(500).json({ error: "Failed to get client metrics" });
+    }
+  });
+
+  // ============================================================
+  // CONSULTANT API ALIASES (for legacy/front-end compatibility)
+  // ============================================================
+  app.get("/api/consultant/clients", requireCoach, async (_req, res) => {
+    try {
+      const clients = await storage.getAllClientProfilesWithUsers();
+      res.json(clients);
+    } catch {
+      res.status(500).json({ error: "Failed to get clients" });
+    }
+  });
+
+  app.get("/api/consultant/clients/:id", requireCoach, async (req, res) => {
+    try {
+      const client = await storage.getClientProfileByIdWithUser(paramId(req.params.id));
+      if (!client) return res.status(404).json({ error: "Client not found" });
+      res.json(client);
+    } catch {
+      res.status(500).json({ error: "Failed to get client" });
+    }
+  });
+
+  app.get("/api/consultant/intake", requireCoach, async (_req, res) => {
+    try {
+      const intakes = await storage.getAllIntakeForms();
+      res.json(intakes);
+    } catch {
+      res.status(500).json({ error: "Failed to get intakes" });
+    }
+  });
+
+  app.get("/api/consultant/sessions", requireCoach, async (_req, res) => {
+    try {
+      const sessions = await storage.getAllSessions();
+      res.json(sessions);
+    } catch {
+      res.status(500).json({ error: "Failed to get sessions" });
+    }
+  });
+
+  app.get("/api/consultant/sessions/:id", requireCoach, async (req, res) => {
+    try {
+      const session = await storage.getSession(paramId(req.params.id));
+      if (!session) return res.status(404).json({ error: "Session not found" });
+      res.json(session);
+    } catch {
+      res.status(500).json({ error: "Failed to get session" });
+    }
+  });
+
+  app.get("/api/consultant/clients/:id/analytics", requireCoach, async (req, res) => {
+    try {
+      const metrics = await getClientMetrics(paramId(req.params.id));
+      res.json(metrics);
+    } catch {
       res.status(500).json({ error: "Failed to get client metrics" });
     }
   });

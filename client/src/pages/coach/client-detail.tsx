@@ -272,6 +272,11 @@ export default function CoachClientDetail() {
           <h1 className="font-serif text-3xl font-bold tracking-tight">{getClientName()}</h1>
           <p className="text-muted-foreground">Client profile and activity</p>
         </div>
+        {clientSessions.length >= 2 ? (
+          <Link href={`/consultant/billing?clientId=${clientId}`}>
+            <Button variant="outline">Create Invoice</Button>
+          </Link>
+        ) : null}
         <Badge
           variant={
             client.status === "active"
@@ -449,6 +454,9 @@ export default function CoachClientDetail() {
                           >
                             {session.status}
                           </Badge>
+                          {session.googleCalendarEventId ? (
+                            <p className="text-xs text-muted-foreground mt-1">Source: Google Calendar</p>
+                          ) : null}
                         </TableCell>
                         <TableCell>{session.duration} min</TableCell>
                         <TableCell className="text-right">

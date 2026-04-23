@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { EmptyState } from "@/components/empty-state";
 import { TableSkeleton } from "@/components/loading-skeleton";
-import type { ClientProfile } from "@shared/schema";
+import type { ClientProfile, Session } from "@shared/schema";
 import { Users, Search, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
@@ -42,6 +42,9 @@ export default function CoachClients() {
 
   const { data: clients, isLoading } = useQuery<ClientProfileWithUser[]>({
     queryKey: ["/api/consultant/clients"],
+  });
+  const { data: sessions } = useQuery<Session[]>({
+    queryKey: ["/api/consultant/sessions"],
   });
 
   if (isLoading) {
@@ -73,6 +76,11 @@ export default function CoachClients() {
     const matchesStatus = filterStatus === "all" || client.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
+
+  const sessionCountsByClient = (sessions ?? []).reduce<Record<string, number>>((acc, session) => {
+    acc[session.clientId] = (acc[session.clientId] ?? 0) + 1;
+    return acc;
+  }, {});
 
   return (
     <div className="space-y-6 p-6">
@@ -144,6 +152,10 @@ export default function CoachClients() {
                         <p className="font-medium">{getClientName(client)}</p>
                         <p className="text-sm text-muted-foreground">
                           {client.user?.email || client.preferredContactMethod || "No email"}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {sessionCountsByClient[client.id] ?? 0} session
+                          {(sessionCountsByClient[client.id] ?? 0) === 1 ? "" : "s"}
                         </p>
                       </div>
                     </div>
