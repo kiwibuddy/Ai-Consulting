@@ -41,6 +41,7 @@ import {
   ExternalLink,
   Shield,
   Calendar,
+  ClipboardList,
   ListChecks,
 } from "lucide-react";
 import {
@@ -132,11 +133,13 @@ const intakeFormSchema = z.object({
 
 type IntakeFormValues = z.infer<typeof intakeFormSchema>;
 
-function IntakeAboutYouFields() {
+function IntakeAboutYouFields({ showSectionTitle = true }: { showSectionTitle?: boolean }) {
   const { control } = useFormContext<IntakeFormValues>();
   return (
     <div className="space-y-5">
-      <h2 className="text-lg font-semibold text-neutral-900">About you</h2>
+      {showSectionTitle ? (
+        <h2 className="text-lg font-semibold text-neutral-900">About you</h2>
+      ) : null}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FormField
@@ -421,6 +424,7 @@ export default function IntakePage() {
   });
 
   const [intakeDetailsOpen, setIntakeDetailsOpen] = useState(false);
+  const [intakeFormModalOpen, setIntakeFormModalOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [showBookingThanks, setShowBookingThanks] = useState(false);
   const [claimEmail, setClaimEmail] = useState("");
@@ -492,6 +496,7 @@ export default function IntakePage() {
       });
       form.reset();
       setIntakeDetailsOpen(false);
+      setIntakeFormModalOpen(false);
       userDismissedExtendedRef.current = false;
       setSubmittedForm("consultation");
     },
@@ -539,6 +544,34 @@ export default function IntakePage() {
       <p className="text-xs text-neutral-400 max-w-prose">
         I&apos;ll respond within 1–2 business days. Your information is only used to arrange and prepare
         for our conversation.
+      </p>
+    </div>
+  );
+
+  const intakeModalSubmitFooter = (
+    <div className="w-full space-y-3 border-t border-neutral-100 pt-5 mt-6">
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitMutation.isPending}
+        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+        data-testid="button-submit-intake-modal"
+      >
+        {submitMutation.isPending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Sending…
+          </>
+        ) : (
+          <>
+            Submit intake form
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </>
+        )}
+      </Button>
+      <p className="text-xs text-neutral-400 max-w-prose">
+        Expect a personal reply, usually within one business day, always within 1–2. Your information is
+        only used to follow up and prepare for your call.
       </p>
     </div>
   );
@@ -674,12 +707,23 @@ export default function IntakePage() {
           <>
         <div className="mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
-            Request a free discovery call
+            {BOOKING_URL ? "Free 30-minute discovery call" : "Request a free discovery call"}
           </h1>
-          <p className="text-lg text-neutral-600 max-w-2xl">
-            Tell me a little about your situation and I'll be in touch to
-            arrange a 30-minute conversation — no obligation, no sales pitch.
-            We'll explore whether I can help and what that might look like.
+          <p className="text-lg text-neutral-600 max-w-2xl leading-relaxed">
+            {BOOKING_URL ? (
+              <>
+                <span className="text-neutral-800 font-medium">Pick one step below: </span>
+                book a time in the calendar, or open the short intake. Both are free, no
+                pressure—I use what you share to show up prepared. Intakes get a real reply, usually
+                within one business day, always within 1–2. Your details stay private.
+              </>
+            ) : (
+              <>
+                Tell me a little about your context and I&apos;ll be in touch to arrange a 30-minute
+                conversation. No hard sell—just enough to see whether I can help and what a next step
+                could look like.
+              </>
+            )}
           </p>
         </div>
 
@@ -815,11 +859,8 @@ export default function IntakePage() {
         )}
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
-            className={BOOKING_URL ? "space-y-0" : "space-y-8"}
-          >
-            {BOOKING_URL ? (
+          {BOOKING_URL ? (
+            <>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                 <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col self-stretch">
                   <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-1 flex-col text-center md:text-left">
@@ -848,7 +889,8 @@ export default function IntakePage() {
                       <li className="flex gap-3">
                         <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
                         <span>
-                          Add context on the right if you like — the form expands as you go (optional).
+                          Want me to have context first? Add it with the intake on the right before we meet
+                          (optional).
                         </span>
                       </li>
                     </ul>
@@ -864,77 +906,155 @@ export default function IntakePage() {
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                       <p className="text-xs text-neutral-500 mt-3 leading-snug">
-                        Prefer not to use the calendar? Use the form on the right and we&apos;ll coordinate by
-                        email.
+                        Prefer to coordinate by email first? Use the intake in the other column, then
+                        we&apos;ll pick a time.
                       </p>
                     </div>
                   </CardContent>
                 </Card>
                 <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col self-stretch">
-                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-1 flex-col">
-                    <div className="flex min-h-0 flex-1 flex-col gap-0">
-                      <IntakeAboutYouFields />
-                      <Collapsible
-                        open={intakeDetailsOpen}
-                        onOpenChange={(open) => {
-                          setIntakeDetailsOpen(open);
-                          if (open) userDismissedExtendedRef.current = false;
-                          else userDismissedExtendedRef.current = true;
-                        }}
-                      >
-                        <div className="border-t border-neutral-200/80 pt-4 mt-5">
-                          <CollapsibleTrigger asChild>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              className="w-full h-auto min-h-12 py-2.5 text-neutral-600 gap-2 flex-col sm:flex-row"
-                              data-testid="intake-expand-details"
-                            >
-                              <span className="inline-flex items-center gap-2">
-                                <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
-                                <span className="text-sm text-center sm:text-left leading-snug">
-                                  {intakeDetailsOpen
-                                    ? "Hide full intake (optional details)"
-                                    : "Add situation, budget & more (optional)"}
-                                </span>
-                              </span>
-                            </Button>
-                          </CollapsibleTrigger>
-                          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-none">
-                            <div className="pt-4 space-y-0">
-                              <IntakeExtendedFields />
-                            </div>
-                          </CollapsibleContent>
-                        </div>
-                      </Collapsible>
+                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-1 flex-col text-center md:text-left">
+                    <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+                        <ClipboardList className="h-5 w-5" aria-hidden />
+                      </div>
+                      <h2 className="text-base font-semibold text-neutral-900">Send a short intake</h2>
                     </div>
-                    <div className="mt-auto w-full shrink-0 border-t border-neutral-100 pt-4">
-                      {submitFooter}
+                    <p className="text-sm text-neutral-600 leading-relaxed">
+                      A few fields about you and your context help me reply with next steps. I read every
+                      submission; you&apos;ll get a real response, not an automated string of emails.
+                    </p>
+                    <ul className="mt-5 space-y-3 text-left text-sm text-neutral-700">
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>
+                          Capture the basics—name, role, sector, and how to reach you—so I can follow up
+                          helpfully.
+                        </span>
+                      </li>
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>
+                          Add extra context in the form if you can; the more I know, the more prepared I am
+                          for our first call.
+                        </span>
+                      </li>
+                      <li className="flex gap-3">
+                        <ListChecks className="h-4 w-4 shrink-0 text-emerald-600 mt-0.5" aria-hidden />
+                        <span>
+                          Ready to book before you type? Use the calendar on the left. Otherwise, I aim to
+                          respond within 1 business day, always within 1–2.
+                        </span>
+                      </li>
+                    </ul>
+                    <div className="mt-auto pt-6 w-full">
+                      <Button
+                        type="button"
+                        size="lg"
+                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+                        onClick={() => {
+                          setIntakeFormModalOpen(true);
+                          trackEvent("intake", { action: "open_intake_modal" });
+                        }}
+                        data-testid="button-open-intake-modal"
+                      >
+                        Submit intake form
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                      <p className="text-xs text-neutral-500 mt-3 leading-snug max-w-prose text-left">
+                        I usually reply within 1 business day, always within 1–2. I only use your details to
+                        follow up and prepare for a conversation.
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
               </div>
-            ) : (
-              <>
-                <Card className="border-0 shadow-sm bg-white">
-                  <CardContent className="p-6 md:p-8">
-                    <IntakeAboutYouFields />
-                  </CardContent>
-                </Card>
-                <Card className="border-0 shadow-sm bg-white">
-                  <CardContent className="p-6 md:p-8">
-                    <IntakeSituationFields />
-                  </CardContent>
-                </Card>
-                <Card className="border-0 shadow-sm bg-white">
-                  <CardContent className="p-6 md:p-8">
-                    <IntakePracticalFields />
-                  </CardContent>
-                </Card>
-                <div className="pt-2">{submitFooter}</div>
-              </>
-            )}
-          </form>
+
+              <Dialog open={intakeFormModalOpen} onOpenChange={setIntakeFormModalOpen}>
+                <DialogContent
+                  className={cn(
+                    "max-h-[min(100dvh-1.5rem,56rem)] w-[min(100%-1.5rem,42rem)] max-w-2xl gap-0 p-0 overflow-hidden",
+                    "border-0 bg-white shadow-xl sm:rounded-xl",
+                    "public-form-light"
+                  )}
+                >
+                  <div className="border-b border-neutral-200 bg-neutral-50 px-5 py-4 pr-12 sm:pr-12">
+                    <DialogHeader>
+                      <DialogTitle className="text-base font-semibold text-neutral-900 sm:text-lg">
+                        Request a call — your details
+                      </DialogTitle>
+                      <DialogDescription className="text-left text-sm text-neutral-600">
+                        Add what you can. If you have time, expand the optional section for situation, budget,
+                        and how you heard about me.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </div>
+                  <form
+                    onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
+                    className="max-h-[min(75dvh,46rem)] overflow-y-auto px-5 py-5"
+                  >
+                    <IntakeAboutYouFields showSectionTitle={false} />
+                    <Collapsible
+                      open={intakeDetailsOpen}
+                      onOpenChange={(open) => {
+                        setIntakeDetailsOpen(open);
+                        if (open) userDismissedExtendedRef.current = false;
+                        else userDismissedExtendedRef.current = true;
+                      }}
+                    >
+                      <div className="border-t border-neutral-200/80 pt-4 mt-5">
+                        <CollapsibleTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            className="w-full h-auto min-h-12 py-2.5 text-neutral-600 gap-2 flex-col sm:flex-row"
+                            data-testid="intake-expand-details"
+                          >
+                            <span className="inline-flex items-center gap-2">
+                              <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
+                              <span className="text-sm text-center sm:text-left leading-snug">
+                                {intakeDetailsOpen
+                                  ? "Hide full intake (optional details)"
+                                  : "Add situation, budget & more (optional)"}
+                              </span>
+                            </span>
+                          </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-none">
+                          <div className="pt-4 space-y-0">
+                            <IntakeExtendedFields />
+                          </div>
+                        </CollapsibleContent>
+                      </div>
+                    </Collapsible>
+                    {intakeModalSubmitFooter}
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </>
+          ) : (
+            <form
+              onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
+              className="space-y-8"
+            >
+              <Card className="border-0 shadow-sm bg-white">
+                <CardContent className="p-6 md:p-8">
+                  <IntakeAboutYouFields />
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-sm bg-white">
+                <CardContent className="p-6 md:p-8">
+                  <IntakeSituationFields />
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-sm bg-white">
+                <CardContent className="p-6 md:p-8">
+                  <IntakePracticalFields />
+                </CardContent>
+              </Card>
+              <div className="pt-2">{submitFooter}</div>
+            </form>
+          )}
         </Form>
 
         {BOOKING_URL && (
