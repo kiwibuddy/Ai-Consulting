@@ -72,17 +72,17 @@ export default function CoachSetup() {
   // Pre-populate with existing data
   useEffect(() => {
     if (settings) {
-      if (settings.businessName) setBusinessName(settings.businessName);
-      if (settings.bio) setBio(settings.bio);
-      if (settings.location) setLocation(settings.location);
-      if (settings.phone) {
-        // Combine country code and phone if they exist
-        const fullPhone = settings.countryCode && settings.phone 
-          ? `${settings.countryCode}${settings.phone}`
-          : settings.phone;
-        setPhone(fullPhone);
+      setBusinessName(settings.businessName ?? "");
+      setBio(settings.bio ?? "");
+      setLocation(settings.location ?? "");
+      // Combine country code and phone number for the phone input
+      const fullPhone = settings.countryCode && settings.phone
+        ? `${settings.countryCode}${settings.phone}`
+        : (settings.phone ?? undefined);
+      setPhone(fullPhone);
+      if (settings.hourlyRate !== undefined && settings.hourlyRate !== null) {
+        setHourlyRate(settings.hourlyRate.toString());
       }
-      if (settings.hourlyRate) setHourlyRate(settings.hourlyRate.toString());
       if (settings.colorTheme) applyColorTheme(settings.colorTheme);
     }
 
@@ -110,15 +110,21 @@ export default function CoachSetup() {
       queryClient.invalidateQueries({ queryKey: ["/api/coach/settings"] });
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     },
+    onError: () => {
+      toast({ title: "Failed to save", description: "Could not save changes. Please try again.", variant: "destructive" });
+    },
   });
 
   const themeMutation = useMutation({
     mutationFn: async (colorTheme: ColorTheme) => {
       applyColorTheme(colorTheme);
+      // Sync theme to both coach_settings and users table so it persists correctly on all loads
+      await apiRequest("PATCH", "/api/auth/user", { colorTheme });
       return apiRequest("PATCH", "/api/coach/settings", { colorTheme });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/coach/settings"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       toast({ title: "Theme updated", description: "Your portal theme has been saved." });
     },
     onError: () => {

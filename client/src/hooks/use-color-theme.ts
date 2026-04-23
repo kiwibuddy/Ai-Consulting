@@ -34,15 +34,14 @@ export function useColorTheme() {
 
   // Determine which theme to use
   const effectiveTheme: ColorTheme | null = (() => {
-    // User's personal preference takes precedence
-    if (userData?.colorTheme) {
-      return userData.colorTheme;
-    }
-    // For coaches, fall back to their coach settings theme
+    // For coaches: coach_settings.colorTheme is the authoritative source (set by the Settings page)
     if (isCoach && coachSettings?.colorTheme) {
       return coachSettings.colorTheme;
     }
-    // Default to ember
+    // For clients (and coaches without a coach-settings theme): use the user-level preference
+    if (userData?.colorTheme) {
+      return userData.colorTheme;
+    }
     return null;
   })();
 

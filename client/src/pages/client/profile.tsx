@@ -217,11 +217,22 @@ export default function ClientProfile() {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      phone: profile?.phone || "",
-      goals: profile?.goals || "",
-      preferredContactMethod: profile?.preferredContactMethod || "email",
+      phone: "",
+      goals: "",
+      preferredContactMethod: "email",
     },
   });
+
+  // Reset the form once profile data loads (defaultValues are only read on initial mount)
+  useEffect(() => {
+    if (profile) {
+      form.reset({
+        phone: profile.phone || "",
+        goals: profile.goals || "",
+        preferredContactMethod: profile.preferredContactMethod || "email",
+      });
+    }
+  }, [profile]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateProfile = useMutation({
     mutationFn: async (data: ProfileFormValues) => {
