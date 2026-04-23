@@ -520,6 +520,17 @@ export default function IntakePage() {
     trackEvent("intake_booking", { action: "open_external_window" });
   };
 
+  const handleStartBooking = () => {
+    if (bookingUsesExternalWindow) {
+      openBookingPage();
+      // Keep the follow-up block visible without forcing a modal step.
+      setShowBookingThanks(true);
+      setBookingPortalClaimed(false);
+      return;
+    }
+    setBookingModalOpen(true);
+  };
+
   const submitFooter = (
     <div className="w-full space-y-3">
       <Button
@@ -899,7 +910,7 @@ export default function IntakePage() {
                         type="button"
                         size="lg"
                         className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
-                        onClick={() => setBookingModalOpen(true)}
+                        onClick={handleStartBooking}
                         data-testid="button-open-booking-modal"
                       >
                         {bookingUsesExternalWindow ? "Book in Google Calendar" : "Book a 30-min call"}
@@ -1057,7 +1068,7 @@ export default function IntakePage() {
           )}
         </Form>
 
-        {BOOKING_URL && (
+        {BOOKING_URL && !bookingUsesExternalWindow && (
           <Dialog open={bookingModalOpen} onOpenChange={setBookingModalOpen}>
             <DialogContent
               className={cn(

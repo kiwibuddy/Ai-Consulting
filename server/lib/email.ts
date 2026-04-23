@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { getNewestArticle } from "../../shared/content/featured-article";
 
 // Only create Resend client when API key is set (constructor throws otherwise)
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -711,6 +712,28 @@ const appBaseUrlForEmail = () =>
   process.env.PUBLIC_SITE_URL ||
   (process.env.NODE_ENV === "production" ? "https://nathanielbaldock.com" : "http://localhost:3000");
 
+function escapeHtmlForEmail(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** CTA to the newest public article (same date ordering as the marketing site). */
+function freeLatestResourceHtmlForEmail(): string {
+  const article = getNewestArticle();
+  if (!article) return "";
+  const base = appBaseUrlForEmail().replace(/\/$/, "");
+  const path = article.url.startsWith("/") ? article.url : `/${article.url}`;
+  const href = `${base}${path}`;
+  const title = escapeHtmlForEmail(article.title);
+  return `<p style="margin: 20px 0 0; padding-top: 18px; border-top: 1px solid #e5e5e5; font-size: 14px; color: #404040; line-height: 1.55;">
+  <strong style="color: #262626">Free to read on the site</strong> — our latest resource:<br />
+  <a href="${href}" style="color: ${emailPrimaryGreen}; font-weight: 600; text-decoration: none; border-bottom: 1px solid ${emailPrimaryGreen}">${title}</a>
+</p>`;
+}
+
 /** One-time link to set password and access the client portal (7-day token). */
 export function portalActivationEmail(
   userEmail: string,
@@ -799,6 +822,7 @@ export function intakeExistingClientEmail(
                 <p>Hi ${firstName},</p>
                 <p>Thanks — we received your new message. You already have an account; sign in to the client portal for updates and follow-up.</p>
                 <p><a class="btn" href="${loginUrl}">Sign in to client portal</a></p>
+                ${freeLatestResourceHtmlForEmail()}
               </div>
             </div>
           </div>
@@ -838,6 +862,7 @@ export function intakeGoogleUserEmail(
                 <p>Hi ${displayName},</p>
                 <p>We received your request. Your account uses Google sign-in — use the same email in the portal.</p>
                 <p><a class="btn" href="${loginUrl}">Open sign in</a></p>
+                ${freeLatestResourceHtmlForEmail()}
               </div>
             </div>
           </div>
