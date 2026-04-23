@@ -156,7 +156,7 @@ function ClientLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div data-theme="app">
+    <div>
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
       <div className="flex h-screen w-full">
         <AppSidebar role="client" />
@@ -214,7 +214,7 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
   const QuickNoteModal = React.lazy(() => import("@/components/modals/quick-note-modal").then(m => ({ default: m.QuickNoteModal })));
 
   return (
-    <div data-theme="app">
+    <div>
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
       <div className="flex h-screen w-full">
         <AppSidebar role="coach" />
