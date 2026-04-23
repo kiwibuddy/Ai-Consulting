@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
+import { useForm, Controller, useWatch } from "react-hook-form";
+import { useState, useEffect, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
@@ -36,10 +36,18 @@ import {
   Loader2,
   Clock,
   MessageCircle,
+  MoreHorizontal,
   Shield,
   Mic2,
 } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { SpeakingFormContent } from "@/pages/speaking-invite";
+import { useFormContext } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 const SECTOR_OPTIONS = [
   { value: "church", label: "Church / Ministry" },
@@ -99,6 +107,263 @@ const intakeFormSchema = z.object({
 
 type IntakeFormValues = z.infer<typeof intakeFormSchema>;
 
+function IntakeAboutYouFields() {
+  const { control } = useFormContext<IntakeFormValues>();
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-semibold text-neutral-900">About you</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First name *</FormLabel>
+              <FormControl>
+                <Input placeholder="Jane" {...field} data-testid="input-firstname" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last name *</FormLabel>
+              <FormControl>
+                <Input placeholder="Smith" {...field} data-testid="input-lastname" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <FormField
+        control={control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email *</FormLabel>
+            <FormControl>
+              <Input
+                type="email"
+                placeholder="jane@example.com"
+                {...field}
+                data-testid="input-email"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormItem>
+        <FormLabel>Phone</FormLabel>
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field }) => (
+            <PhoneInput
+              international
+              defaultCountry="NZ"
+              countryCallingCodeEditable={false}
+              value={field.value}
+              onChange={(val) => field.onChange(val || "")}
+              className="flex h-10 w-full rounded-md border border-input bg-background text-sm ring-offset-background [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:px-3 [&_.PhoneInputInput]:py-2 [&_.PhoneInputCountry]:px-3 [&_.PhoneInputCountry]:border-r [&_.PhoneInputCountry]:border-input"
+            />
+          )}
+        />
+      </FormItem>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <FormField
+          control={control}
+          name="organisation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Organisation</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Church, school, NGO…"
+                  {...field}
+                  data-testid="input-organisation"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Your role</FormLabel>
+              <FormControl>
+                <Input placeholder="e.g. Pastor, Director" {...field} data-testid="input-role" />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </div>
+
+      <FormField
+        control={control}
+        name="industry"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Sector</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your sector" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {SECTOR_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+}
+
+function IntakeSituationFields() {
+  const { control } = useFormContext<IntakeFormValues>();
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-semibold text-neutral-900">Your situation</h2>
+      <p className="text-sm text-neutral-500 -mt-2">
+        Just enough for me to prepare — we&apos;ll explore the details together on the call.
+      </p>
+
+      <FormField
+        control={control}
+        name="problemStatement"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>What are you hoping to get help with?</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="e.g. We're a church of ~200 people and our admin team is overwhelmed. We'd like to explore how AI could help with communications, sermon prep support, or volunteer coordination — but we don't know where to start."
+                className="min-h-[100px]"
+                {...field}
+                data-testid="textarea-problem"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="currentAiUsage"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Where are you at with AI currently?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {AI_EXPERIENCE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+}
+
+function IntakePracticalFields() {
+  const { control } = useFormContext<IntakeFormValues>();
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-semibold text-neutral-900">Practical details</h2>
+
+      <FormField
+        control={control}
+        name="budgetRange"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Do you have a budget range in mind?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select (optional)" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {BUDGET_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-neutral-400 mt-1">
+              No pressure — this just helps me suggest the right starting point. Community pricing is
+              available.
+            </p>
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="howDidYouHear"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>How did you hear about me?</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select (optional)" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {HOW_HEARD_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+}
+
+function IntakeExtendedFields() {
+  return (
+    <div className="space-y-8">
+      <IntakeSituationFields />
+      <div className="pt-2 border-t border-neutral-100">
+        <IntakePracticalFields />
+      </div>
+    </div>
+  );
+}
+
 type FormType = "consultation" | "speaking";
 
 function getInitialFormType(): FormType {
@@ -130,6 +395,26 @@ export default function IntakePage() {
     },
   });
 
+  const [intakeDetailsOpen, setIntakeDetailsOpen] = useState(false);
+  const userDismissedExtendedRef = useRef(false);
+  const watchedForm = useWatch({ control: form.control });
+
+  useEffect(() => {
+    if (!BOOKING_URL || userDismissedExtendedRef.current) return;
+    const w = watchedForm;
+    if (!w) return;
+    const startedNameEmail =
+      (w.firstName?.trim()?.length ?? 0) > 0 ||
+      (w.lastName?.trim()?.length ?? 0) > 0 ||
+      (w.email?.trim()?.length ?? 0) > 0;
+    const hasExtended =
+      (w.problemStatement && w.problemStatement.length > 0) ||
+      (w.currentAiUsage && w.currentAiUsage.length > 0) ||
+      (w.budgetRange && w.budgetRange.length > 0) ||
+      (w.howDidYouHear && w.howDidYouHear.length > 0);
+    if (startedNameEmail || hasExtended) setIntakeDetailsOpen(true);
+  }, [watchedForm]);
+
   const submitMutation = useMutation({
     mutationFn: async (data: IntakeFormValues) => {
       return apiRequest("POST", "/api/intake", data);
@@ -141,6 +426,8 @@ export default function IntakePage() {
         description: "I'll be in touch within 1–2 business days.",
       });
       form.reset();
+      setIntakeDetailsOpen(false);
+      userDismissedExtendedRef.current = false;
       setSubmittedForm("consultation");
     },
     onError: (err: unknown) => {
@@ -154,6 +441,34 @@ export default function IntakePage() {
       });
     },
   });
+
+  const submitFooter = (
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <p className="text-xs text-neutral-400 max-w-sm">
+        I&apos;ll respond within 1–2 business days. Your information is only used to arrange and prepare
+        for our conversation.
+      </p>
+      <Button
+        type="submit"
+        size="lg"
+        disabled={submitMutation.isPending}
+        className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
+        data-testid="button-submit"
+      >
+        {submitMutation.isPending ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Sending…
+          </>
+        ) : (
+          <>
+            Request a call
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </>
+        )}
+      </Button>
+    </div>
+  );
 
   // Success state: show the card for whichever form was submitted
   if (submittedForm === "consultation") {
@@ -240,7 +555,12 @@ export default function IntakePage() {
         canonicalPath="/intake"
       />
       <SiteHeader />
-      <main className="public-form-light max-w-3xl mx-auto px-6 pt-28 pb-12 md:pb-16">
+      <main
+        className={cn(
+          "public-form-light mx-auto px-6 pt-28 pb-12 md:pb-16",
+          formType === "consultation" && BOOKING_URL ? "max-w-6xl" : "max-w-3xl"
+        )}
+      >
         {/* Sliding switcher: same green as CTA, other option plain text; pill slides on click */}
         <div className="mb-8">
           <div className="relative flex rounded-xl border border-neutral-200 bg-neutral-100 p-1.5">
@@ -305,321 +625,96 @@ export default function IntakePage() {
           </span>
         </div>
 
-        {BOOKING_URL && (
-          <Card className="border-0 shadow-sm bg-white mb-8">
-            <CardContent className="p-6 md:p-8 text-center">
-              <p className="text-neutral-600 mb-4">
-                Pick a time that works for you — you'll get a confirmation and calendar invite right away.
-              </p>
-              <Button
-                size="lg"
-                className="tesoro-cta-gradient rounded-xl font-semibold px-8"
-                asChild
-              >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                  Book a 30-min call
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
-              <p className="text-sm text-neutral-500 mt-4">
-                Or describe your situation below and I'll be in touch to arrange a time.
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
-            className="space-y-8"
+            className={BOOKING_URL ? "space-y-0" : "space-y-8"}
           >
-            <Card className="border-0 shadow-sm bg-white">
-              <CardContent className="p-6 md:p-8 space-y-5">
-                <h2 className="text-lg font-semibold text-neutral-900">
-                  About you
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>First name *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Jane" {...field} data-testid="input-firstname" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Last name *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Smith" {...field} data-testid="input-lastname" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email *</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="jane@example.com"
-                          {...field}
-                          data-testid="input-email"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormItem>
-                  <FormLabel>Phone</FormLabel>
-                  <Controller
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <PhoneInput
-                        international
-                        defaultCountry="NZ"
-                        countryCallingCodeEditable={false}
-                        value={field.value}
-                        onChange={(val) => field.onChange(val || "")}
-                        className="flex h-10 w-full rounded-md border border-input bg-background text-sm ring-offset-background [&_.PhoneInputInput]:flex-1 [&_.PhoneInputInput]:bg-transparent [&_.PhoneInputInput]:outline-none [&_.PhoneInputInput]:px-3 [&_.PhoneInputInput]:py-2 [&_.PhoneInputCountry]:px-3 [&_.PhoneInputCountry]:border-r [&_.PhoneInputCountry]:border-input"
-                      />
-                    )}
-                  />
-                </FormItem>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="organisation"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Organisation</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Church, school, NGO…"
-                            {...field}
-                            data-testid="input-organisation"
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Your role</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Pastor, Director" {...field} data-testid="input-role" />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="industry"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Sector</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select your sector" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {SECTOR_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-sm bg-white">
-              <CardContent className="p-6 md:p-8 space-y-5">
-                <h2 className="text-lg font-semibold text-neutral-900">
-                  Your situation
-                </h2>
-                <p className="text-sm text-neutral-500 -mt-2">
-                  Just enough for me to prepare — we'll explore the details
-                  together on the call.
-                </p>
-
-                <FormField
-                  control={form.control}
-                  name="problemStatement"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        What are you hoping to get help with?
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="e.g. We're a church of ~200 people and our admin team is overwhelmed. We'd like to explore how AI could help with communications, sermon prep support, or volunteer coordination — but we don't know where to start."
-                          className="min-h-[100px]"
-                          {...field}
-                          data-testid="textarea-problem"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="currentAiUsage"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Where are you at with AI currently?
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {AI_EXPERIENCE_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-sm bg-white">
-              <CardContent className="p-6 md:p-8 space-y-5">
-                <h2 className="text-lg font-semibold text-neutral-900">
-                  Practical details
-                </h2>
-
-                <FormField
-                  control={form.control}
-                  name="budgetRange"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Do you have a budget range in mind?
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select (optional)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {BUDGET_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <p className="text-xs text-neutral-400 mt-1">
-                        No pressure — this just helps me suggest the right
-                        starting point. Community pricing is available.
-                      </p>
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="howDidYouHear"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>How did you hear about me?</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select (optional)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {HOW_HEARD_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
-              <p className="text-xs text-neutral-400 max-w-sm">
-                I'll respond within 1–2 business days. Your information is only
-                used to arrange and prepare for our conversation.
-              </p>
-              <Button
-                type="submit"
-                size="lg"
-                disabled={submitMutation.isPending}
-                className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
-                data-testid="button-submit"
-              >
-                {submitMutation.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending…
-                  </>
-                ) : (
-                  <>
-                    Request a call
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            </div>
+            {BOOKING_URL ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                <Card className="border-0 shadow-sm bg-white h-full min-h-[20rem] flex flex-col">
+                  <CardContent className="p-6 md:p-8 flex-1 flex flex-col justify-center text-center min-h-0">
+                    <p className="text-neutral-600 mb-4">
+                      Pick a time that works for you — you&apos;ll get a confirmation and calendar invite
+                      right away.
+                    </p>
+                    <Button
+                      size="lg"
+                      className="tesoro-cta-gradient rounded-xl font-semibold px-8"
+                      asChild
+                    >
+                      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                        Book a 30-min call
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                    <p className="text-sm text-neutral-500 mt-4">
+                      Or use the form on the right — the ··· control opens extra fields (optional).
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-sm bg-white h-full min-h-[20rem] flex flex-col">
+                  <CardContent className="p-6 md:p-8 flex-1 flex flex-col gap-0 min-h-0">
+                    <div className="flex-1 min-h-0">
+                      <IntakeAboutYouFields />
+                    </div>
+                    <Collapsible
+                      open={intakeDetailsOpen}
+                      onOpenChange={(open) => {
+                        setIntakeDetailsOpen(open);
+                        if (open) userDismissedExtendedRef.current = false;
+                        else userDismissedExtendedRef.current = true;
+                      }}
+                    >
+                      <div className="border-t border-neutral-200/80 pt-4 mt-5">
+                        <CollapsibleTrigger asChild>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            className="w-full h-auto min-h-12 py-2.5 text-neutral-600 gap-2 flex-col sm:flex-row"
+                            data-testid="intake-expand-details"
+                          >
+                            <span className="inline-flex items-center gap-2">
+                              <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
+                              <span className="text-sm text-center sm:text-left leading-snug">
+                                {intakeDetailsOpen
+                                  ? "Hide extra context"
+                                  : "Add situation, budget & more (optional)"}
+                              </span>
+                            </span>
+                          </Button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="data-[state=open]:pt-1">
+                          <div className="pt-4">
+                            <IntakeExtendedFields />
+                          </div>
+                        </CollapsibleContent>
+                      </div>
+                    </Collapsible>
+                    <div className="mt-6 pt-4 border-t border-neutral-100">{submitFooter}</div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : (
+              <>
+                <Card className="border-0 shadow-sm bg-white">
+                  <CardContent className="p-6 md:p-8">
+                    <IntakeAboutYouFields />
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-sm bg-white">
+                  <CardContent className="p-6 md:p-8">
+                    <IntakeSituationFields />
+                  </CardContent>
+                </Card>
+                <Card className="border-0 shadow-sm bg-white">
+                  <CardContent className="p-6 md:p-8">
+                    <IntakePracticalFields />
+                  </CardContent>
+                </Card>
+                <div className="pt-2">{submitFooter}</div>
+              </>
+            )}
           </form>
         </Form>
 
