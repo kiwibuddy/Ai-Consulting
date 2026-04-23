@@ -530,6 +530,65 @@ export function paymentReceivedEmail(
   };
 }
 
+export function invoiceSentEmail(
+  recipientEmail: string,
+  recipientName: string,
+  data: { invoiceNumber: string; payUrl: string; amount: string; dueDate: string }
+): EmailOptions {
+  return {
+    to: recipientEmail,
+    subject: `Invoice ${data.invoiceNumber} — ${data.amount}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #0d9488; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+            .content { background-color: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
+            .button { display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, hsl(142 76% 42%), hsl(92 82% 45%)); color: white; text-decoration: none; border-radius: 6px; margin-top: 20px; font-weight: 600; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header"><h1>Your invoice is ready</h1></div>
+            <div class="content">
+              <p>Hi ${recipientName},</p>
+              <p>Please find your invoice <strong>${data.invoiceNumber}</strong> for <strong>${data.amount}</strong>${data.dueDate ? ` (due ${data.dueDate})` : ""}.</p>
+              <p><a class="button" href="${data.payUrl}">View &amp; pay invoice</a></p>
+              <p style="font-size: 12px; color: #666;">If the button doesn’t work, copy this link: ${data.payUrl}</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function invoicePaymentFailedEmail(
+  recipientEmail: string,
+  recipientName: string,
+  invoiceNumber: string,
+  amount: string,
+  currency: string
+): EmailOptions {
+  return {
+    to: recipientEmail,
+    subject: `Payment issue — Invoice ${invoiceNumber}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8"></head>
+        <body style="font-family: Arial, sans-serif;">
+          <p>Hi ${recipientName},</p>
+          <p>We couldn’t process payment for invoice <strong>${invoiceNumber}</strong> (${amount} ${currency.toUpperCase()}). Please sign in to your client portal to update your payment method or try again.</p>
+        </body>
+      </html>
+    `,
+  };
+}
+
 export function verificationEmail(userEmail: string, userName: string, verificationToken: string): EmailOptions {
   const baseUrl =
     process.env.APP_URL ||
