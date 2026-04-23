@@ -37,6 +37,7 @@ import {
   Clock,
   MessageCircle,
   MoreHorizontal,
+  ExternalLink,
   Shield,
   Mic2,
 } from "lucide-react";
@@ -45,6 +46,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { SpeakingFormContent } from "@/pages/speaking-invite";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
@@ -396,6 +404,8 @@ export default function IntakePage() {
   });
 
   const [intakeDetailsOpen, setIntakeDetailsOpen] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [showBookingThanks, setShowBookingThanks] = useState(false);
   const userDismissedExtendedRef = useRef(false);
   const watchedForm = useWatch({ control: form.control });
 
@@ -414,6 +424,12 @@ export default function IntakePage() {
       (w.howDidYouHear && w.howDidYouHear.length > 0);
     if (startedNameEmail || hasExtended) setIntakeDetailsOpen(true);
   }, [watchedForm]);
+
+  const handleFinishedBooking = () => {
+    setBookingModalOpen(false);
+    setShowBookingThanks(true);
+    trackEvent("intake_booking", { action: "completed_in_modal" });
+  };
 
   const submitMutation = useMutation({
     mutationFn: async (data: IntakeFormValues) => {
@@ -625,6 +641,42 @@ export default function IntakePage() {
           </span>
         </div>
 
+        {showBookingThanks && (
+          <Card className="mb-8 border border-green-200/80 bg-gradient-to-r from-green-50/90 to-white shadow-sm">
+            <CardContent className="p-5 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-4 justify-between">
+                <div className="flex gap-3 min-w-0">
+                  <CheckCircle className="h-9 w-9 text-green-600 shrink-0" aria-hidden />
+                  <div>
+                    <h2 className="text-lg font-semibold text-neutral-900">Thanks for booking a time</h2>
+                    <p className="text-sm text-neutral-600 mt-1.5 max-w-prose">
+                      I&apos;m looking forward to our conversation. In the meantime, here are the latest
+                      resources you can explore.
+                    </p>
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      <Button size="sm" className="tesoro-cta-gradient font-medium" asChild>
+                        <Link href="/resources">
+                          View latest resources
+                          <ArrowRight className="ml-1.5 h-4 w-4" />
+                        </Link>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-neutral-500"
+                        onClick={() => setShowBookingThanks(false)}
+                      >
+                        Dismiss
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit((data) => submitMutation.mutate(data))}
@@ -636,17 +688,17 @@ export default function IntakePage() {
                   <CardContent className="p-6 md:p-8 flex-1 flex flex-col justify-center text-center min-h-0">
                     <p className="text-neutral-600 mb-4">
                       Pick a time that works for you — you&apos;ll get a confirmation and calendar invite
-                      right away.
+                      right away. A full-screen view opens here (no new tab).
                     </p>
                     <Button
+                      type="button"
                       size="lg"
                       className="tesoro-cta-gradient rounded-xl font-semibold px-8"
-                      asChild
+                      onClick={() => setBookingModalOpen(true)}
+                      data-testid="button-open-booking-modal"
                     >
-                      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                        Book a 30-min call
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </a>
+                      Book a 30-min call
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                     <p className="text-sm text-neutral-500 mt-4">
                       Or use the form on the right — the ··· control opens extra fields (optional).
@@ -717,6 +769,68 @@ export default function IntakePage() {
             )}
           </form>
         </Form>
+
+        {BOOKING_URL && (
+          <Dialog open={bookingModalOpen} onOpenChange={setBookingModalOpen}>
+            <DialogContent
+              className={cn(
+                "!fixed !inset-0 !z-50 !flex h-[100dvh] max-h-[100dvh] w-full !max-w-none !translate-x-0 !translate-y-0 flex-col gap-0 overflow-hidden p-0",
+                "rounded-none border-0 shadow-2xl",
+                "data-[state=open]:!slide-in-from-top-0 data-[state=closed]:!slide-out-to-top-0"
+              )}
+            >
+              <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-white">
+                <DialogHeader className="shrink-0 space-y-0 border-b border-neutral-200 bg-neutral-50 px-4 py-3 pr-14 text-left">
+                  <DialogTitle className="text-base sm:text-lg font-semibold text-neutral-900 pr-2">
+                    Schedule your 30-minute call
+                  </DialogTitle>
+                  <p className="text-xs text-neutral-500 mt-1 max-w-2xl">
+                    When you&apos;re done choosing a time, use &quot;I&apos;ve finished booking&quot; below
+                    for a quick thank-you and a link to resources.
+                  </p>
+                  <DialogDescription className="sr-only">
+                    Google Calendar appointment scheduling. When complete, return using the control at
+                    the bottom of the screen.
+                  </DialogDescription>
+                </DialogHeader>
+                <iframe
+                  title="Book a 30-minute call — Google Calendar"
+                  src={BOOKING_URL}
+                  className="min-h-0 w-full flex-1 border-0 bg-white"
+                  allow="camera; microphone; fullscreen; payment; clipboard-read; clipboard-write"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+                <div className="shrink-0 space-y-3 border-t border-neutral-200 bg-neutral-50 px-3 py-3 sm:px-4 sm:py-4">
+                  <p className="text-[11px] sm:text-xs text-neutral-500 text-center sm:text-left">
+                    If the calendar doesn&apos;t load here (some sites block embeds),{" "}
+                    <a
+                      href={BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-neutral-700 underline font-medium inline-flex items-center gap-0.5"
+                    >
+                      open in a new tab
+                      <ExternalLink className="h-3 w-3" aria-hidden />
+                    </a>
+                    .
+                  </p>
+                  <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2">
+                    <Button type="button" variant="outline" onClick={() => setBookingModalOpen(false)}>
+                      Close
+                    </Button>
+                    <Button
+                      type="button"
+                      className="tesoro-cta-gradient font-medium"
+                      onClick={handleFinishedBooking}
+                    >
+                      I&apos;ve finished booking
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
 
         <footer className="border-t border-neutral-200 py-8 mt-12 text-center text-sm text-neutral-400">
           <p>
