@@ -87,6 +87,21 @@ const BUDGET_OPTIONS = [
 /** When set (e.g. Google Calendar booking link), intake shows "Book a 30-min call" CTA that opens this URL. */
 const BOOKING_URL = import.meta.env.VITE_BOOKING_URL as string | undefined;
 
+/** Google appointment pages set frame restrictions — embedded iframes on other sites are usually blank. */
+function isGoogleCalendarBookingUrl(url: string): boolean {
+  try {
+    const host = new URL(url).hostname;
+    // These hosts send frame-ancestors / X-Frame-Options that blank third-party iframes.
+    return (
+      host === "calendar.app.google" ||
+      host === "calendar.google.com" ||
+      host.endsWith(".app.google")
+    );
+  } catch {
+    return false;
+  }
+}
+
 const HOW_HEARD_OPTIONS = [
   { value: "friend", label: "Friend or colleague" },
   { value: "church", label: "Through my church" },
@@ -492,17 +507,21 @@ export default function IntakePage() {
     },
   });
 
+  const bookingUsesExternalWindow = Boolean(BOOKING_URL && isGoogleCalendarBookingUrl(BOOKING_URL));
+
+  const openBookingPage = () => {
+    if (!BOOKING_URL) return;
+    window.open(BOOKING_URL, "_blank", "noopener,noreferrer");
+    trackEvent("intake_booking", { action: "open_external_window" });
+  };
+
   const submitFooter = (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <p className="text-xs text-neutral-400 max-w-sm">
-        I&apos;ll respond within 1–2 business days. Your information is only used to arrange and prepare
-        for our conversation.
-      </p>
+    <div className="w-full space-y-3">
       <Button
         type="submit"
         size="lg"
         disabled={submitMutation.isPending}
-        className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
+        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
         data-testid="button-submit"
       >
         {submitMutation.isPending ? (
@@ -517,6 +536,10 @@ export default function IntakePage() {
           </>
         )}
       </Button>
+      <p className="text-xs text-neutral-400 max-w-prose">
+        I&apos;ll respond within 1–2 business days. Your information is only used to arrange and prepare
+        for our conversation.
+      </p>
     </div>
   );
 
@@ -797,9 +820,9 @@ export default function IntakePage() {
             className={BOOKING_URL ? "space-y-0" : "space-y-8"}
           >
             {BOOKING_URL ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:items-stretch">
-                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col md:min-h-full">
-                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-col text-center md:text-left">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col self-stretch">
+                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-1 flex-col text-center md:text-left">
                     <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
                         <Calendar className="h-5 w-5" aria-hidden />
@@ -808,7 +831,10 @@ export default function IntakePage() {
                     </div>
                     <p className="text-sm text-neutral-600 leading-relaxed">
                       Pick a time that works for you. You&apos;ll get a confirmation and calendar invite
-                      right away — the scheduler opens full screen here (no new tab).
+                      right away
+                      {bookingUsesExternalWindow
+                        ? " — the scheduler opens in a new window (Google does not allow embedding on other sites)."
+                        : " — the scheduler opens full screen here in a modal (no new tab)."}
                     </p>
                     <ul className="mt-5 space-y-3 text-left text-sm text-neutral-700">
                       <li className="flex gap-3">
@@ -830,11 +856,11 @@ export default function IntakePage() {
                       <Button
                         type="button"
                         size="lg"
-                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8"
+                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
                         onClick={() => setBookingModalOpen(true)}
                         data-testid="button-open-booking-modal"
                       >
-                        Book a 30-min call
+                        {bookingUsesExternalWindow ? "Book in Google Calendar" : "Book a 30-min call"}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                       <p className="text-xs text-neutral-500 mt-3 leading-snug">
@@ -844,43 +870,45 @@ export default function IntakePage() {
                     </div>
                   </CardContent>
                 </Card>
-                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col md:min-h-full">
-                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-col">
-                    <IntakeAboutYouFields />
-                    <Collapsible
-                      open={intakeDetailsOpen}
-                      onOpenChange={(open) => {
-                        setIntakeDetailsOpen(open);
-                        if (open) userDismissedExtendedRef.current = false;
-                        else userDismissedExtendedRef.current = true;
-                      }}
-                    >
-                      <div className="border-t border-neutral-200/80 pt-4 mt-5">
-                        <CollapsibleTrigger asChild>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            className="w-full h-auto min-h-12 py-2.5 text-neutral-600 gap-2 flex-col sm:flex-row"
-                            data-testid="intake-expand-details"
-                          >
-                            <span className="inline-flex items-center gap-2">
-                              <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
-                              <span className="text-sm text-center sm:text-left leading-snug">
-                                {intakeDetailsOpen
-                                  ? "Hide full intake (optional details)"
-                                  : "Add situation, budget & more (optional)"}
+                <Card className="border-0 shadow-sm bg-white h-full min-h-0 flex flex-col self-stretch">
+                  <CardContent className="p-6 md:p-8 flex h-full min-h-0 flex-1 flex-col">
+                    <div className="flex min-h-0 flex-1 flex-col gap-0">
+                      <IntakeAboutYouFields />
+                      <Collapsible
+                        open={intakeDetailsOpen}
+                        onOpenChange={(open) => {
+                          setIntakeDetailsOpen(open);
+                          if (open) userDismissedExtendedRef.current = false;
+                          else userDismissedExtendedRef.current = true;
+                        }}
+                      >
+                        <div className="border-t border-neutral-200/80 pt-4 mt-5">
+                          <CollapsibleTrigger asChild>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              className="w-full h-auto min-h-12 py-2.5 text-neutral-600 gap-2 flex-col sm:flex-row"
+                              data-testid="intake-expand-details"
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                <MoreHorizontal className="h-5 w-5 shrink-0" aria-hidden />
+                                <span className="text-sm text-center sm:text-left leading-snug">
+                                  {intakeDetailsOpen
+                                    ? "Hide full intake (optional details)"
+                                    : "Add situation, budget & more (optional)"}
+                                </span>
                               </span>
-                            </span>
-                          </Button>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-none">
-                          <div className="pt-4 space-y-0">
-                            <IntakeExtendedFields />
-                          </div>
-                        </CollapsibleContent>
-                      </div>
-                    </Collapsible>
-                    <div className="mt-6 pt-4 border-t border-neutral-100 shrink-0">
+                            </Button>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-none">
+                            <div className="pt-4 space-y-0">
+                              <IntakeExtendedFields />
+                            </div>
+                          </CollapsibleContent>
+                        </div>
+                      </Collapsible>
+                    </div>
+                    <div className="mt-auto w-full shrink-0 border-t border-neutral-100 pt-4">
                       {submitFooter}
                     </div>
                   </CardContent>
@@ -924,35 +952,76 @@ export default function IntakePage() {
                     Schedule your 30-minute call
                   </DialogTitle>
                   <p className="text-xs text-neutral-500 mt-1 max-w-2xl">
-                    When you&apos;re done choosing a time, use &quot;I&apos;ve finished booking&quot; below
-                    for a quick thank-you and a link to resources.
+                    {bookingUsesExternalWindow ? (
+                      <>
+                        Open Google&apos;s calendar in a new tab, then use &quot;I&apos;ve finished booking&quot;
+                        below for a thank-you, resources, and client portal access.
+                      </>
+                    ) : (
+                      <>
+                        When you&apos;re done choosing a time, use &quot;I&apos;ve finished booking&quot; below
+                        for a quick thank-you and a link to resources.
+                      </>
+                    )}
                   </p>
                   <DialogDescription className="sr-only">
-                    Google Calendar appointment scheduling. When complete, return using the control at
-                    the bottom of the screen.
+                    Appointment scheduling. When complete, return using the control at the bottom of
+                    the screen.
                   </DialogDescription>
                 </DialogHeader>
-                <iframe
-                  title="Book a 30-minute call — Google Calendar"
-                  src={BOOKING_URL}
-                  className="min-h-0 w-full flex-1 border-0 bg-white"
-                  allow="camera; microphone; fullscreen; payment; clipboard-read; clipboard-write"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-                <div className="shrink-0 space-y-3 border-t border-neutral-200 bg-neutral-50 px-3 py-3 sm:px-4 sm:py-4">
-                  <p className="text-[11px] sm:text-xs text-neutral-500 text-center sm:text-left">
-                    If the calendar doesn&apos;t load here (some sites block embeds),{" "}
+                {bookingUsesExternalWindow ? (
+                  <div className="flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-5 overflow-y-auto bg-gradient-to-b from-white to-neutral-50/90 px-4 py-10 text-center sm:py-12">
+                    <p className="text-sm text-neutral-600 max-w-md leading-relaxed">
+                      Google doesn&apos;t allow this booking page to display inside other websites (the area
+                      would stay blank). Use the button to open the real scheduler, then return here
+                      when you&apos;re done.
+                    </p>
+                    <Button
+                      type="button"
+                      size="lg"
+                      className="tesoro-cta-gradient w-full max-w-sm rounded-xl font-semibold text-white"
+                      onClick={openBookingPage}
+                    >
+                      Book in Google Calendar
+                      <ExternalLink className="ml-2 h-4 w-4" />
+                    </Button>
                     <a
                       href={BOOKING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-neutral-700 underline font-medium inline-flex items-center gap-0.5"
+                      className="text-sm text-neutral-600 underline underline-offset-2 inline-flex items-center gap-1"
                     >
-                      open in a new tab
-                      <ExternalLink className="h-3 w-3" aria-hidden />
+                      Open in new tab
+                      <ExternalLink className="h-3.5 w-3.5" aria-hidden />
                     </a>
-                    .
-                  </p>
+                  </div>
+                ) : (
+                  <>
+                    <iframe
+                      title="Book a 30-minute call"
+                      src={BOOKING_URL}
+                      className="w-full min-h-[50vh] flex-1 border-0 bg-white"
+                      allow="camera; microphone; fullscreen; payment; clipboard-read; clipboard-write"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                    <div className="shrink-0 border-t border-neutral-200 bg-neutral-50 px-3 py-2 sm:px-4">
+                      <p className="text-[11px] sm:text-xs text-neutral-500 text-center sm:text-left">
+                        If the calendar doesn&apos;t load (some schedulers block embeds),{" "}
+                        <a
+                          href={BOOKING_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-neutral-700 underline font-medium inline-flex items-center gap-0.5"
+                        >
+                          open in a new tab
+                          <ExternalLink className="h-3 w-3" aria-hidden />
+                        </a>
+                        .
+                      </p>
+                    </div>
+                  </>
+                )}
+                <div className="shrink-0 space-y-3 border-t border-neutral-200 bg-neutral-50 px-3 py-3 sm:px-4 sm:py-4">
                   <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-2">
                     <Button type="button" variant="outline" onClick={() => setBookingModalOpen(false)}>
                       Close

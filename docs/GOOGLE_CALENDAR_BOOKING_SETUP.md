@@ -36,6 +36,10 @@ Use Google Calendar **Appointment Schedule** so visitors can book 30-min discove
    VITE_BOOKING_URL=https://calendar.app.google/your-schedule-id
    ```
 
+### Embedding note (Google)
+
+Google’s public appointment pages **cannot be shown inside an iframe on other websites** (the browser will show a blank area). The intake page detects `calendar.app.google` / `calendar.google.com` links and **opens the scheduler in a new tab** from the full-screen booking step, with clear copy and an “I’ve finished booking” control so visitors can continue to the thank-you and client portal flow. Non-Google schedulers (e.g. Calendly) may still load in the embedded modal if their policy allows it.
+
 ## 6. Speaking invites (manual follow-up)
 
 - Keep using the **Speaking invite** form on `/speaking/invite` as a qualification form.
