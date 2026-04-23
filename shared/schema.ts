@@ -14,7 +14,22 @@ export const actionStatusEnum = pgEnum("action_status", ["pending", "in_progress
 export const notificationTypeEnum = pgEnum("notification_type", ["intake_submitted", "account_created", "session_scheduled", "session_reminder", "resource_uploaded", "action_assigned", "session_request", "payment_received", "action_due", "session_cancelled"]);
 export const paymentStatusEnum = pgEnum("payment_status", ["pending", "completed", "failed", "refunded"]);
 export const paymentProviderEnum = pgEnum("payment_provider", ["stripe", "paypal"]);
-export const invoiceStatusEnum = pgEnum("invoice_status", ["draft", "sent", "paid", "overdue", "cancelled"]);
+export const invoiceStatusEnum = pgEnum("invoice_status", [
+  "draft",
+  "sent",
+  "paid",
+  "overdue",
+  "cancelled",
+  "void",
+  "uncollectible",
+]);
+export const retainerIntervalEnum = pgEnum("retainer_interval", ["month", "quarter", "year"]);
+export const retainerStatusEnum = pgEnum("retainer_status", [
+  "active",
+  "paused",
+  "cancelled",
+  "past_due",
+]);
 
 // Client Profiles - extends user data for clients
 export const clientProfiles = pgTable("client_profiles", {
@@ -33,6 +48,8 @@ export const clientProfiles = pgTable("client_profiles", {
   // Onboarding status
   profileCompleted: boolean("profile_completed").default(false),
   status: varchar("status").default("active"),
+  /** Stripe Customer ID (shared for one-off, invoicing, subscriptions) */
+  stripeCustomerId: varchar("stripe_customer_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -183,6 +200,17 @@ export const coachSettings = pgTable("coach_settings", {
   // Payment settings
   stripeAccountId: varchar("stripe_account_id"), // For Stripe Connect (optional)
   paypalEmail: varchar("paypal_email"), // For PayPal payouts
+  acceptPaypal: boolean("accept_paypal").default(true),
+  stripeCustomerPortalEnabled: boolean("stripe_customer_portal_enabled").default(true),
+  /** NZ GST: optional until registered */
+  gstNumber: varchar("gst_number"),
+  gstEnabled: boolean("gst_enabled").default(false),
+  defaultCurrency: varchar("default_currency").default("nzd"),
+  /** Tax rate in basis points (e.g. 1500 = 15%) */
+  defaultTaxRate: integer("default_tax_rate").default(0),
+  /** Reminder: days after due before first Stripe dunning (stored for UI; Stripe handles sends) */
+  dunningRemindAfterDays1: integer("dunning_remind_after_days1").default(3),
+  dunningRemindAfterDays2: integer("dunning_remind_after_days2").default(7),
   // Onboarding
   onboardingCompleted: boolean("onboarding_completed").default(false),
   // Appearance
@@ -198,13 +226,17 @@ export const payments = pgTable("payments", {
   invoiceId: varchar("invoice_id"),
   sessionId: varchar("session_id"),
   amount: integer("amount").notNull(), // Amount in cents
-  currency: varchar("currency").default("usd").notNull(),
+  currency: varchar("currency").default("nzd").notNull(),
   status: paymentStatusEnum("status").default("pending").notNull(),
   provider: paymentProviderEnum("provider").notNull(),
-  providerPaymentId: varchar("provider_payment_id"), // Stripe payment_intent or PayPal order ID
+  providerPaymentId: varchar("provider_payment_id"), // Stripe payment_intent, charge, or PayPal order ID
   providerCustomerId: varchar("provider_customer_id"), // Stripe customer ID
   description: text("description"),
   metadata: text("metadata"), // JSON string for additional data
+  /** Stripe charge.receipt_url or PayPal transaction link */
+  receiptUrl: varchar("receipt_url"),
+  /** Partial refunds in cents */
+  refundedAmount: integer("refunded_amount").default(0),
   paidAt: timestamp("paid_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -215,13 +247,44 @@ export const invoices = pgTable("invoices", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   invoiceNumber: varchar("invoice_number").notNull().unique(),
   clientId: varchar("client_id").notNull(),
-  amount: integer("amount").notNull(), // Amount in cents
-  currency: varchar("currency").default("usd").notNull(),
+  amount: integer("amount").notNull(), // Total in cents (incl. tax if applicable)
+  subtotal: integer("subtotal").default(0), // Pre-tax in cents
+  taxRate: integer("tax_rate").default(0), // basis points, e.g. 1500 = 15%
+  taxAmount: integer("tax_amount").default(0), // in cents
+  currency: varchar("currency").default("nzd").notNull(),
   status: invoiceStatusEnum("status").default("draft").notNull(),
   dueDate: timestamp("due_date"),
   paidAt: timestamp("paid_at"),
+  sentAt: timestamp("sent_at"),
+  /** Unauthenticated /pay/{token} link */
+  publicToken: varchar("public_token").unique(),
   items: text("items").notNull(), // JSON array of line items
   notes: text("notes"),
+  stripeInvoiceId: varchar("stripe_invoice_id"),
+  /** Stripe hosted invoice / pay page */
+  stripeHostedInvoiceUrl: text("stripe_hosted_invoice_url"),
+  /** PDF download URL from Stripe */
+  stripeInvoicePdf: text("stripe_invoice_pdf"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Recurring retainers (Stripe Subscriptions)
+export const retainers = pgTable("retainers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clientId: varchar("client_id").notNull(),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  amount: integer("amount").notNull(), // per period, cents
+  currency: varchar("currency").default("nzd").notNull(),
+  interval: retainerIntervalEnum("interval").notNull(),
+  intervalCount: integer("interval_count").default(1),
+  status: retainerStatusEnum("status").default("active").notNull(),
+  stripeSubscriptionId: varchar("stripe_subscription_id"),
+  stripePriceId: varchar("stripe_price_id"),
+  stripeProductId: varchar("stripe_product_id"),
+  currentPeriodEnd: timestamp("current_period_end"),
+  cancelledAt: timestamp("cancelled_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -258,6 +321,14 @@ export const clientProfilesRelations = relations(clientProfiles, ({ many }) => (
   sessions: many(coachingSessions),
   resources: many(resources),
   actionItems: many(actionItems),
+  retainers: many(retainers),
+}));
+
+export const retainersRelations = relations(retainers, ({ one }) => ({
+  client: one(clientProfiles, {
+    fields: [retainers.clientId],
+    references: [clientProfiles.id],
+  }),
 }));
 
 export const coachingSessionsRelations = relations(coachingSessions, ({ many }) => ({
@@ -334,6 +405,12 @@ export const insertInvoiceSchema = createInsertSchema(invoices).omit({
   updatedAt: true,
 });
 
+export const insertRetainerSchema = createInsertSchema(retainers).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertSurveyResponseSchema = createInsertSchema(surveyResponses).omit({
   id: true,
   createdAt: true,
@@ -378,6 +455,9 @@ export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 
 export type Invoice = typeof invoices.$inferSelect;
 export type InsertInvoice = z.infer<typeof insertInvoiceSchema>;
+
+export type Retainer = typeof retainers.$inferSelect;
+export type InsertRetainer = z.infer<typeof insertRetainerSchema>;
 
 export type UserOAuthToken = typeof userOAuthTokens.$inferSelect;
 export type InsertUserOAuthToken = z.infer<typeof insertUserOAuthTokenSchema>;
