@@ -12,7 +12,10 @@ function useLockSiteTheme() {
   const root = document.documentElement;
 
   useLayoutEffect(() => {
-    const apply = () => root.setAttribute("data-theme", SITE_THEME);
+    const apply = () => {
+      root.setAttribute("data-theme", SITE_THEME);
+      root.removeAttribute("data-color-theme");
+    };
     apply();
 
     const observer = new MutationObserver(() => {

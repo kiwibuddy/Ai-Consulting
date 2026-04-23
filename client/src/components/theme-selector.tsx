@@ -116,19 +116,20 @@ export function ThemeSelector({ value, onChange, disabled, className }: ThemeSel
   );
 }
 
+const DATA_COLOR = "data-color-theme";
+
 /**
- * Apply a color theme to the document (dashboard only).
- * No-op when the public site is visible — public site has a single locked theme (dark header, green CTA).
+ * Apply dashboard **accent** color (ember, ocean, …) on the `html` element only.
+ * Must not touch `data-theme` — that is reserved for public **site** vs **app** shell (useThemeFromPath).
  */
 export function applyColorTheme(theme: ColorTheme | null | undefined) {
-  const isPublicSite =
-    typeof document !== "undefined" && document.querySelector("[data-public-site]");
-  if (isPublicSite) return;
+  if (typeof document === "undefined") return;
+  if (document.querySelector("[data-public-site]")) return;
 
   const themeToApply = theme || "ember";
   if (themeToApply === "ember") {
-    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute(DATA_COLOR);
   } else {
-    document.documentElement.setAttribute("data-theme", themeToApply);
+    document.documentElement.setAttribute(DATA_COLOR, themeToApply);
   }
 }

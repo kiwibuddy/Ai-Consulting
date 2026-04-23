@@ -91,6 +91,8 @@ export const intakeForms = pgTable("intake_forms", {
   assessmentResults: text("assessment_results"),
   status: intakeStatusEnum("status").default("pending"),
   coachNotes: text("coach_notes"),
+  /** Set when portal user is created or linked from this intake (auto-provision). */
+  linkedUserId: varchar("linked_user_id"),
   createdAt: timestamp("created_at").defaultNow(),
   reviewedAt: timestamp("reviewed_at"),
 });
@@ -348,6 +350,7 @@ export const insertIntakeFormSchema = createInsertSchema(intakeForms).omit({
   id: true,
   status: true,
   coachNotes: true,
+  linkedUserId: true,
   createdAt: true,
   reviewedAt: true,
 });

@@ -2,6 +2,6 @@
   "build": { "buildCommand": "npm run build" },
   "deploy": {
     "preDeployCommand": ["npm run db:push"],
-    "startCommand": "npm start"
+    "startCommand": "NODE_ENV=production node dist/index.cjs"
   }
 }

@@ -17,10 +17,13 @@ import {
 import { eq, desc } from "drizzle-orm";
 import { sendEmail, paymentReceivedEmail, invoiceSentEmail, invoicePaymentFailedEmail } from "./email";
 import { createRequire } from "node:module";
+import { join } from "node:path";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
 
 // tsx bundles .ts in a way that breaks ESM named exports from this package; CJS require preserves them.
-const requirePaypal = createRequire(import.meta.url);
+// Do not use `import.meta.url` here: the production bundle is CJS and esbuild leaves `import.meta` empty,
+// so `createRequire` would get `undefined`. Resolving from `package.json` at cwd matches Railway and `npm start`.
+const requirePaypal = createRequire(join(process.cwd(), "package.json"));
 const { Client, Environment, OrdersController, CheckoutPaymentIntent } = requirePaypal(
   "@paypal/paypal-server-sdk",
 ) as typeof import("@paypal/paypal-server-sdk");

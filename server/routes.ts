@@ -18,7 +18,6 @@ import type { EventAttributes } from "ics";
 import {
   sendEmail,
   intakeSubmittedEmail,
-  intakeConfirmationEmail,
   surveyNotificationEmail,
   surveyThankYouEmail,
   accountCreatedEmail,
@@ -50,6 +49,11 @@ import {
   refundStripePayment,
   resendStripeInvoiceEmail,
 } from "./lib/payments";
+import {
+  provisionPortalAfterIntake,
+  provisionPortalFromCalendarClaim,
+  parseCalendarClaimBody,
+} from "./lib/portal-provision";
 import {
   isCalendarEnabled,
   getCalendarAuthUrl,
@@ -152,12 +156,9 @@ export async function registerRoutes(
       const data = insertIntakeFormSchema.parse(intakeData);
       const intake = await storage.createIntakeForm(data);
 
-      // Send confirmation and notifications; do not fail the request if email fails
+      // Send confirmation, coach notifications, and provision client portal (async emails)
       try {
-        await sendEmail(intakeConfirmationEmail(
-          data.email,
-          data.firstName
-        ));
+        await provisionPortalAfterIntake(intake);
 
         const summary = data.problemStatement || data.goals || "(No problem statement)";
         const intakeNotificationPayload = {
@@ -200,6 +201,19 @@ export async function registerRoutes(
         res.status(500).json({ error: "Failed to submit intake form" });
       }
     }
+  });
+
+  /** After Google Calendar booking: self-serve portal access (same email as calendar). */
+  app.post("/api/portal/claim-from-booking", publicFormLimiter, async (req, res) => {
+    const parsed = parseCalendarClaimBody(req.body);
+    if (!parsed.ok) {
+      return res.status(400).json({ error: parsed.error });
+    }
+    const result = await provisionPortalFromCalendarClaim(parsed.data);
+    if (!result.ok) {
+      return res.status(400).json({ error: result.error });
+    }
+    res.json({ success: true });
   });
 
   // AI Knowledge Bank survey (public)
@@ -715,13 +729,11 @@ export async function registerRoutes(
       
       const intake = await storage.updateIntakeForm(paramId(req.params.id), data);
       
-      // When intake is accepted, create user account and client profile
+      // When intake is accepted, ensure user + client profile (may already exist from auto-provision)
       if (data.status === "accepted" && existingIntake.email) {
-        // Check if user already exists with this email
         const existingUser = await authStorage.getUserByEmail(existingIntake.email);
-        
+
         if (!existingUser) {
-          // Create user account (no password - will use Google sign-in)
           const newUser = await authStorage.upsertUser({
             email: existingIntake.email,
             username: existingIntake.email,
@@ -729,21 +741,28 @@ export async function registerRoutes(
             lastName: existingIntake.lastName,
             role: "client",
           });
-
-          // Create client profile
           await storage.createClientProfile({
             userId: newUser.id,
             phone: existingIntake.phone || null,
             goals: existingIntake.problemStatement || existingIntake.goals || null,
             status: "active",
           });
+          await storage.linkIntakeToUser(existingIntake.id, newUser.id);
+          await sendEmail(
+            accountCreatedEmail(existingIntake.email, `${existingIntake.firstName} ${existingIntake.lastName}`)
+          );
+        } else if (existingUser.role === "client") {
+          await storage.linkIntakeToUser(existingIntake.id, existingUser.id);
+          if (!(await storage.getClientProfile(existingUser.id))) {
+            await storage.createClientProfile({
+              userId: existingUser.id,
+              phone: existingIntake.phone || null,
+              goals: existingIntake.problemStatement || existingIntake.goals || null,
+              status: "active",
+            });
+          }
+          // They already received portal emails from intake; no duplicate accountCreatedEmail
         }
-        
-        // Send welcome email with Google sign-in instructions
-        await sendEmail(accountCreatedEmail(
-          existingIntake.email,
-          `${existingIntake.firstName} ${existingIntake.lastName}`
-        ));
       }
       
       res.json(intake);

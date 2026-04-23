@@ -706,6 +706,147 @@ export function intakeConfirmationEmail(clientEmail: string, clientName: string)
   };
 }
 
+const appBaseUrlForEmail = () =>
+  process.env.APP_URL ||
+  process.env.PUBLIC_SITE_URL ||
+  (process.env.NODE_ENV === "production" ? "https://nathanielbaldock.com" : "http://localhost:3000");
+
+/** One-time link to set password and access the client portal (7-day token). */
+export function portalActivationEmail(
+  userEmail: string,
+  firstName: string,
+  token: string
+): EmailOptions {
+  const baseUrl = appBaseUrlForEmail();
+  const setPasswordUrl = `${baseUrl}/reset-password?token=${encodeURIComponent(token)}&intent=activate`;
+  const logoUrl = emailLogoUrl;
+  return {
+    to: userEmail,
+    subject: "Set your password — client portal - Nathaniel Baldock AI Consulting",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
+            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
+            .header h1 { margin: 0; font-size: 1.35rem; font-weight: 700; }
+            .content { padding: 28px 24px; }
+            .btn { display: inline-block; padding: 12px 22px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 600; margin: 8px 0 16px; }
+            .link-box { font-size: 12px; color: #737373; word-break: break-all; margin-top: 12px; }
+            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
+            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" />
+                <h1>Your client portal</h1>
+              </div>
+              <div class="content">
+                <p>Hi ${firstName},</p>
+                <p>Use the secure link below to <strong>choose a password</strong> and open your client portal — session notes, resources, and follow-up in one place.</p>
+                <p><a class="btn" href="${setPasswordUrl}">Set up my password</a></p>
+                <p class="link-box">If the button doesn’t work, paste this into your browser:<br/>${setPasswordUrl}</p>
+                <p style="font-size:13px;color:#525252">This link expires in 7 days. If you didn’t request this, you can ignore this email.</p>
+              </div>
+              <div class="footer">
+                <a href="${publicSiteUrl}">Nathaniel Baldock AI Consulting</a>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function intakeExistingClientEmail(
+  userEmail: string,
+  firstName: string,
+  loginUrl: string
+): EmailOptions {
+  const logoUrl = emailLogoUrl;
+  return {
+    to: userEmail,
+    subject: "We’ve got your request — sign in to your portal",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #262626; background: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #fff; padding: 24px; text-align: center; }
+            .content { padding: 24px; }
+            .btn { display: inline-block; padding: 12px 22px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 600; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header"><img src="${logoUrl}" alt="Logo" height="40" style="height:40px;width:auto" /></div>
+              <div class="content">
+                <p>Hi ${firstName},</p>
+                <p>Thanks — we received your new message. You already have an account; sign in to the client portal for updates and follow-up.</p>
+                <p><a class="btn" href="${loginUrl}">Sign in to client portal</a></p>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+export function intakeGoogleUserEmail(
+  userEmail: string,
+  displayName: string,
+  loginUrl: string
+): EmailOptions {
+  const logoUrl = emailLogoUrl;
+  return {
+    to: userEmail,
+    subject: "We’ve got your request — sign in with Google",
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8" />
+          <style>
+            body { margin: 0; font-family: -apple-system, sans-serif; line-height: 1.6; color: #262626; background: #fafafa; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #fff; padding: 20px; text-align: center; }
+            .content { padding: 24px; }
+            .btn { display: inline-block; padding: 12px 22px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 600; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header"><img src="${logoUrl}" alt="Logo" height="40" style="height:40px" /></div>
+              <div class="content">
+                <p>Hi ${displayName},</p>
+                <p>We received your request. Your account uses Google sign-in — use the same email in the portal.</p>
+                <p><a class="btn" href="${loginUrl}">Open sign in</a></p>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
 export function surveyNotificationEmail(options: {
   ownerEmail?: string;
   firstName: string;

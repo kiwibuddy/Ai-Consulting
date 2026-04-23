@@ -116,7 +116,12 @@ function useThemeFromPath() {
     const theme = isDashboard ? APP_THEME : SITE_THEME;
     const root = document.documentElement;
 
-    const apply = () => root.setAttribute("data-theme", theme);
+    const apply = () => {
+      root.setAttribute("data-theme", theme);
+      if (!isDashboard) {
+        root.removeAttribute("data-color-theme");
+      }
+    };
     apply();
     // Re-apply after other layout effects and after paint so we win any race with dashboard theme
     const rafId = requestAnimationFrame(() => {
@@ -128,9 +133,6 @@ function useThemeFromPath() {
 }
 
 function ClientLayout({ children }: { children: React.ReactNode }) {
-  useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", APP_THEME);
-  }, []);
   const { data: profile, isLoading: profileLoading } = useQuery<ClientProfileData>({
     queryKey: ["/api/client/profile"],
     retry: false,
@@ -183,10 +185,6 @@ interface CoachSettings {
 }
 
 function CoachLayout({ children }: { children: React.ReactNode }) {
-  useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", APP_THEME);
-    // Do not remove data-theme on unmount: PublicSiteLayout will set "site" when navigating to public pages.
-  }, []);
   const { data: settings, isLoading: settingsLoading } = useQuery<CoachSettings>({
     queryKey: ["/api/coach/settings"],
     retry: false,
@@ -461,7 +459,13 @@ function Router() {
       </Route>
 
       {/* Fallback to 404 */}
-      <Route component={NotFound} />
+      <Route
+        component={() => (
+          <PublicSiteLayout>
+            <NotFound />
+          </PublicSiteLayout>
+        )}
+      />
     </Switch>
     </>
   );

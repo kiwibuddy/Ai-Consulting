@@ -1,28 +1,29 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, ApiError } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { ArrowLeft, Lock, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { ArrowLeft, Lock, Loader2, AlertCircle } from "lucide-react";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [token, setToken] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [isActivate, setIsActivate] = useState(false);
   const { toast } = useToast();
   const [, navigate] = useLocation();
 
-  // Extract token from URL
+  // Extract token and intent from URL (e.g. portal activation one-time link)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlToken = params.get("token");
     setToken(urlToken);
+    setIsActivate(params.get("intent") === "activate");
   }, []);
 
   const resetMutation = useMutation({
@@ -30,16 +31,27 @@ export default function ResetPassword() {
       return apiRequest<{ success: boolean; message: string }>("POST", "/api/auth/reset-password", data);
     },
     onSuccess: () => {
-      setSuccess(true);
+      const fromActivation =
+        typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).get("intent") === "activate";
       toast({
-        title: "Password Reset",
-        description: "Your password has been reset successfully.",
+        title: fromActivation ? "Account activated" : "Password reset",
+        description: fromActivation
+          ? "You can now sign in with your new password."
+          : "Your password has been reset successfully.",
       });
+      navigate("/login", { replace: true });
     },
-    onError: (err: Error & { message?: string }) => {
+    onError: (err: unknown) => {
+      const msg =
+        err instanceof ApiError
+          ? (err.body?.message ?? err.body?.error)
+          : err instanceof Error
+            ? err.message
+            : null;
       toast({
         title: "Error",
-        description: err.message || "Failed to reset password. The link may have expired.",
+        description: msg || "Failed to reset password. The link may have expired.",
         variant: "destructive",
       });
     },
@@ -134,75 +146,66 @@ export default function ResetPassword() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-serif text-2xl">Set New Password</CardTitle>
+            <CardTitle className="font-serif text-2xl">
+              {isActivate ? "Set your password" : "Set new password"}
+            </CardTitle>
             <CardDescription>
-              Enter your new password below.
+              {isActivate
+                ? "Create a password to finish activating your client portal. You will be redirected to sign in."
+                : "Enter your new password below."}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {success ? (
-              <div className="text-center py-4">
-                <div className="mx-auto w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-4">
-                  <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="password">New password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter new password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="pl-9"
+                    required
+                    minLength={8}
+                  />
                 </div>
-                <h3 className="font-medium mb-2">Password Reset Complete</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Your password has been reset successfully. You can now sign in with your new password.
-                </p>
-                <Link href="/">
-                  <Button>Go to Sign In</Button>
-                </Link>
+                <p className="text-xs text-muted-foreground">At least 8 characters</p>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="password">New Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Enter new password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pl-9"
-                      required
-                      minLength={8}
-                    />
-                  </div>
-                  <p className="text-xs text-muted-foreground">At least 8 characters</p>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm password</Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm new password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="pl-9"
+                    required
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="confirmPassword"
-                      type="password"
-                      placeholder="Confirm new password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="pl-9"
-                      required
-                    />
-                  </div>
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={resetMutation.isPending || !password || !confirmPassword}
-                >
-                  {resetMutation.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Resetting...
-                    </>
-                  ) : (
-                    "Reset Password"
-                  )}
-                </Button>
-              </form>
-            )}
+              </div>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={resetMutation.isPending || !password || !confirmPassword}
+              >
+                {resetMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {isActivate ? "Saving…" : "Resetting…"}
+                  </>
+                ) : isActivate ? (
+                  "Create password and continue"
+                ) : (
+                  "Reset password"
+                )}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </main>

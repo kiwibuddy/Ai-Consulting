@@ -235,6 +235,9 @@ export function registerAuthRoutes(app: Express): void {
       // Hash and save new password
       const hashedPassword = await bcrypt.hash(password, 10);
       await authStorage.resetPassword(user.id, hashedPassword);
+      if (!user.emailVerified) {
+        await authStorage.verifyEmail(user.id);
+      }
 
       res.json({ success: true, message: "Password has been reset successfully. You can now log in." });
     } catch (err) {

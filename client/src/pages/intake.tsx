@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -407,6 +408,10 @@ export default function IntakePage() {
   const [intakeDetailsOpen, setIntakeDetailsOpen] = useState(false);
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [showBookingThanks, setShowBookingThanks] = useState(false);
+  const [claimEmail, setClaimEmail] = useState("");
+  const [claimFirstName, setClaimFirstName] = useState("");
+  const [claimLastName, setClaimLastName] = useState("");
+  const [bookingPortalClaimed, setBookingPortalClaimed] = useState(false);
   const userDismissedExtendedRef = useRef(false);
   const watchedForm = useWatch({ control: form.control });
 
@@ -434,8 +439,31 @@ export default function IntakePage() {
   const handleFinishedBooking = () => {
     setBookingModalOpen(false);
     setShowBookingThanks(true);
+    setBookingPortalClaimed(false);
     trackEvent("intake_booking", { action: "completed_in_modal" });
   };
+
+  const claimPortalMutation = useMutation({
+    mutationFn: async (body: { email: string; firstName?: string; lastName?: string }) => {
+      return apiRequest<{ success: boolean }>("POST", "/api/portal/claim-from-booking", body);
+    },
+    onSuccess: () => {
+      setBookingPortalClaimed(true);
+      trackEvent("portal_claim", { source: "calendar_thank_you" });
+      toast({
+        title: "Check your email",
+        description: "We sent a link to set your password or sign in to the client portal.",
+      });
+    },
+    onError: (err: unknown) => {
+      const serverMsg = err instanceof ApiError ? err.body?.error ?? err.body?.message : null;
+      toast({
+        title: "Couldn’t send",
+        description: typeof serverMsg === "string" ? serverMsg : "Please try again or use Sign in on the site.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const submitMutation = useMutation({
     mutationFn: async (data: IntakeFormValues) => {
@@ -649,36 +677,116 @@ export default function IntakePage() {
 
         {showBookingThanks && (
           <Card className="mb-8 border border-green-200/80 bg-gradient-to-r from-green-50/90 to-white shadow-sm">
-            <CardContent className="p-5 sm:p-6">
-              <div className="flex flex-col sm:flex-row sm:items-start gap-4 justify-between">
-                <div className="flex gap-3 min-w-0">
-                  <CheckCircle className="h-9 w-9 text-green-600 shrink-0" aria-hidden />
-                  <div>
-                    <h2 className="text-lg font-semibold text-neutral-900">Thanks for booking a time</h2>
-                    <p className="text-sm text-neutral-600 mt-1.5 max-w-prose">
-                      I&apos;m looking forward to our conversation. In the meantime, here are the latest
-                      resources you can explore.
-                    </p>
-                    <div className="mt-4 flex flex-wrap items-center gap-2">
-                      <Button size="sm" className="tesoro-cta-gradient font-medium" asChild>
-                        <Link href="/resources">
-                          View latest resources
-                          <ArrowRight className="ml-1.5 h-4 w-4" />
-                        </Link>
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="text-neutral-500"
-                        onClick={() => setShowBookingThanks(false)}
-                      >
-                        Dismiss
-                      </Button>
-                    </div>
+            <CardContent className="p-5 sm:p-6 space-y-6">
+              <div className="flex gap-3 min-w-0">
+                <CheckCircle className="h-9 w-9 text-green-600 shrink-0" aria-hidden />
+                <div className="min-w-0">
+                  <h2 className="text-lg font-semibold text-neutral-900">Thanks for booking a time</h2>
+                  <p className="text-sm text-neutral-600 mt-1.5 max-w-prose">
+                    I&apos;m looking forward to our conversation. In the meantime, here are the latest
+                    resources you can explore.
+                  </p>
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <Button size="sm" className="tesoro-cta-gradient font-medium" asChild>
+                      <Link href="/resources">
+                        View latest resources
+                        <ArrowRight className="ml-1.5 h-4 w-4" />
+                      </Link>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-neutral-500"
+                      onClick={() => setShowBookingThanks(false)}
+                    >
+                      Dismiss
+                    </Button>
                   </div>
                 </div>
               </div>
+
+              {BOOKING_URL && (
+                <div className="border-t border-green-200/60 pt-5">
+                  <h3 className="text-sm font-semibold text-neutral-900">Client portal</h3>
+                  <p className="text-sm text-neutral-600 mt-1 mb-3 max-w-prose">
+                    Use the <strong>same email you used in Google Calendar</strong> (or the one you want for
+                    the portal). We&apos;ll email you a secure link to set a password or to sign in.
+                  </p>
+                  {bookingPortalClaimed ? (
+                    <p className="text-sm text-green-800 font-medium">
+                      Done — check your inbox for the next step. You can also{" "}
+                      <Link href="/login" className="underline">
+                        go to Sign in
+                      </Link>{" "}
+                      anytime.
+                    </p>
+                  ) : (
+                    <form
+                      className="space-y-3 max-w-md"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        claimPortalMutation.mutate({
+                          email: claimEmail.trim(),
+                          firstName: claimFirstName.trim() || undefined,
+                          lastName: claimLastName.trim() || undefined,
+                        });
+                      }}
+                    >
+                      <div className="space-y-1.5">
+                        <Label htmlFor="claim-email">Email</Label>
+                        <Input
+                          id="claim-email"
+                          type="email"
+                          required
+                          autoComplete="email"
+                          placeholder="you@example.com"
+                          value={claimEmail}
+                          onChange={(e) => setClaimEmail(e.target.value)}
+                          className="bg-white"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="claim-first">First name (optional)</Label>
+                          <Input
+                            id="claim-first"
+                            value={claimFirstName}
+                            onChange={(e) => setClaimFirstName(e.target.value)}
+                            className="bg-white"
+                            placeholder="Jane"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="claim-last">Last name (optional)</Label>
+                          <Input
+                            id="claim-last"
+                            value={claimLastName}
+                            onChange={(e) => setClaimLastName(e.target.value)}
+                            className="bg-white"
+                            placeholder="Smith"
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        type="submit"
+                        size="sm"
+                        disabled={claimPortalMutation.isPending || !claimEmail.trim()}
+                        className="tesoro-cta-gradient"
+                      >
+                        {claimPortalMutation.isPending ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending…
+                          </>
+                        ) : (
+                          "Send portal access email"
+                        )}
+                      </Button>
+                    </form>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         )}

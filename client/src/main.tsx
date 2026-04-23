@@ -10,7 +10,11 @@ initAnalytics();
 function setThemeFromPath() {
   const path = typeof window !== "undefined" ? window.location.pathname || "/" : "/";
   const isDashboard = path.startsWith("/client") || path.startsWith("/consultant");
-  document.documentElement.setAttribute("data-theme", isDashboard ? "app" : "site");
+  const root = document.documentElement;
+  root.setAttribute("data-theme", isDashboard ? "app" : "site");
+  if (!isDashboard) {
+    root.removeAttribute("data-color-theme");
+  }
 }
 setThemeFromPath();
 

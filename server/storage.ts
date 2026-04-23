@@ -49,6 +49,8 @@ export interface IStorage {
   // Intake Forms
   getIntakeForm(id: string): Promise<IntakeForm | undefined>;
   createIntakeForm(form: InsertIntakeForm): Promise<IntakeForm>;
+  /** Sets linked_user_id only (does not touch reviewedAt). */
+  linkIntakeToUser(intakeId: string, userId: string): Promise<void>;
   updateIntakeForm(id: string, data: Partial<IntakeForm>): Promise<IntakeForm | undefined>;
   getAllIntakeForms(): Promise<IntakeForm[]>;
   getPendingIntakeForms(): Promise<IntakeForm[]>;
@@ -172,6 +174,13 @@ export class DatabaseStorage implements IStorage {
   async createIntakeForm(form: InsertIntakeForm): Promise<IntakeForm> {
     const [created] = await db.insert(intakeForms).values(form).returning();
     return created;
+  }
+
+  async linkIntakeToUser(intakeId: string, userId: string): Promise<void> {
+    await db
+      .update(intakeForms)
+      .set({ linkedUserId: userId })
+      .where(eq(intakeForms.id, intakeId));
   }
 
   async updateIntakeForm(id: string, data: Partial<IntakeForm>): Promise<IntakeForm | undefined> {
