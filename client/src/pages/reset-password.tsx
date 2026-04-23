@@ -5,7 +5,6 @@ import { apiRequest, ApiError } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Lock, Loader2, AlertCircle, ArrowLeft } from "lucide-react";
 
@@ -96,7 +95,7 @@ export default function ResetPassword() {
             placeholder="Enter new password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="pl-9 bg-white border-stone-200 focus:border-green-500 focus:ring-green-500"
+            className="pl-9 !bg-white !text-stone-900 !border-stone-200 placeholder:text-stone-400"
             required
             minLength={8}
           />
@@ -115,7 +114,7 @@ export default function ResetPassword() {
             placeholder="Confirm new password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="pl-9 bg-white border-stone-200 focus:border-green-500 focus:ring-green-500"
+            className="pl-9 !bg-white !text-stone-900 !border-stone-200 placeholder:text-stone-400"
             required
           />
         </div>
@@ -151,22 +150,20 @@ export default function ResetPassword() {
           </div>
         </header>
         <main className="container mx-auto px-4 py-16 max-w-md">
-          <Card className="border-stone-100 shadow-md">
-            <CardContent className="p-8 text-center">
-              <div className="rounded-full bg-red-50 p-4 w-fit mx-auto mb-6">
-                <AlertCircle className="h-10 w-10 text-red-500" />
-              </div>
-              <h1 className="font-serif text-2xl font-bold mb-2 text-stone-900">Invalid link</h1>
-              <p className="text-stone-500 mb-6">
-                This link is invalid or has expired. Request a new one below.
-              </p>
-              <Link href="/forgot-password">
-                <button className="tesoro-cta-gradient px-6 py-3 rounded-full font-semibold text-white text-sm">
-                  Request new link
-                </button>
-              </Link>
-            </CardContent>
-          </Card>
+          <div className="bg-white rounded-2xl shadow-md border border-stone-100 p-8 text-center">
+            <div className="rounded-full bg-red-50 p-4 w-fit mx-auto mb-6">
+              <AlertCircle className="h-10 w-10 text-red-500" />
+            </div>
+            <h1 className="font-serif text-2xl font-bold mb-2 text-stone-900">Invalid link</h1>
+            <p className="text-stone-500 mb-6">
+              This link is invalid or has expired. Request a new one below.
+            </p>
+            <Link href="/forgot-password">
+              <button className="tesoro-cta-gradient px-6 py-3 rounded-full font-semibold text-white text-sm">
+                Request new link
+              </button>
+            </Link>
+          </div>
         </main>
       </div>
     );
@@ -203,11 +200,9 @@ export default function ResetPassword() {
           </div>
 
           {/* Form card */}
-          <Card className="border-stone-100 shadow-md">
-            <CardContent className="p-8">
-              {passwordForm}
-            </CardContent>
-          </Card>
+          <div className="bg-white rounded-2xl shadow-md border border-stone-100 p-8">
+            {passwordForm}
+          </div>
 
           <p className="text-center text-xs text-stone-400 mt-6">
             Already have an account?{" "}
@@ -239,13 +234,11 @@ export default function ResetPassword() {
           </Button>
         </Link>
 
-        <Card className="border-stone-100 shadow-md">
-          <CardContent className="p-8">
-            <h1 className="font-serif text-2xl font-bold text-stone-900 mb-1">Set new password</h1>
-            <p className="text-stone-500 text-sm mb-6">Enter your new password below.</p>
-            {passwordForm}
-          </CardContent>
-        </Card>
+        <div className="bg-white rounded-2xl shadow-md border border-stone-100 p-8">
+          <h1 className="font-serif text-2xl font-bold text-stone-900 mb-1">Set new password</h1>
+          <p className="text-stone-500 text-sm mb-6">Enter your new password below.</p>
+          {passwordForm}
+        </div>
       </main>
     </div>
   );
