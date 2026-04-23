@@ -745,7 +745,7 @@ export function portalActivationEmail(
   const logoUrl = emailLogoUrl;
   return {
     to: userEmail,
-    subject: "Set your password — client portal - Nathaniel Baldock AI Consulting",
+    subject: `Your client portal is ready, ${firstName}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -753,35 +753,46 @@ export function portalActivationEmail(
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
-            .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
-            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
-            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
-            .header h1 { margin: 0; font-size: 1.35rem; font-weight: 700; }
-            .content { padding: 28px 24px; }
-            .btn { display: inline-block; padding: 12px 22px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 600; margin: 8px 0 16px; }
-            .link-box { font-size: 12px; color: #737373; word-break: break-all; margin-top: 12px; }
-            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
-            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; color: #262626; background-color: #f5f5f4; }
+            .wrapper { max-width: 600px; margin: 0 auto; padding: 32px 16px; }
+            .card { background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+            .header-accent { height: 5px; background: linear-gradient(90deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); }
+            .header { background: #ffffff; padding: 28px 32px 20px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+            .header img { display: block; margin: 0 auto 10px; height: 48px; width: auto; max-width: 200px; object-fit: contain; }
+            .header-name { font-size: 13px; font-weight: 600; color: #525252; letter-spacing: 0.04em; text-transform: uppercase; }
+            .content { padding: 32px 32px 24px; }
+            .content p { margin: 0 0 16px; font-size: 15.5px; }
+            .btn-wrap { text-align: left; margin: 20px 0; }
+            .btn { display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 999px; font-weight: 700; font-size: 15px; letter-spacing: 0.01em; }
+            .divider { border: none; border-top: 1px solid #e5e5e5; margin: 24px 0; }
+            .link-box { font-size: 12px; color: #a3a3a3; word-break: break-all; }
+            .expiry { font-size: 13px; color: #737373; margin-top: 16px; }
+            .footer { padding: 20px 32px; background: #fafaf9; border-top: 1px solid #e5e5e5; font-size: 13px; color: #a3a3a3; text-align: center; }
+            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; font-weight: 600; }
           </style>
         </head>
         <body>
           <div class="wrapper">
             <div class="card">
+              <div class="header-accent"></div>
               <div class="header">
-                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" />
-                <h1>Your client portal</h1>
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="200" height="48" />
+                <div class="header-name">Nathaniel Baldock AI Consulting</div>
               </div>
               <div class="content">
-                <p>Hi ${firstName},</p>
-                <p>Use the secure link below to <strong>choose a password</strong> and open your client portal — session notes, resources, and follow-up in one place.</p>
-                <p><a class="btn" href="${setPasswordUrl}">Set up my password</a></p>
-                <p class="link-box">If the button doesn’t work, paste this into your browser:<br/>${setPasswordUrl}</p>
-                <p style="font-size:13px;color:#525252">This link expires in 7 days. If you didn’t request this, you can ignore this email.</p>
+                <p>Hi ${firstName}!</p>
+                <p>I'm really looking forward to our time together. I've set up a private portal for you where you'll find your session notes, curated resources, and a direct line to me — all in one place.</p>
+                <p>Click below to choose your password and step inside. It only takes a moment.</p>
+                <div class="btn-wrap">
+                  <a class="btn" href="${setPasswordUrl}">Access my portal &rarr;</a>
+                </div>
+                <hr class="divider" />
+                <p class="link-box">If the button doesn't work, paste this link into your browser:<br/>${setPasswordUrl}</p>
+                <p class="expiry">This link expires in 7 days. If you weren't expecting this email, you can safely ignore it.</p>
               </div>
               <div class="footer">
-                <a href="${publicSiteUrl}">Nathaniel Baldock AI Consulting</a>
+                <a href="${publicSiteUrl}">Nathaniel Baldock AI Consulting</a><br/>
+                Practical AI for Faith, Education &amp; Mission-Driven Leaders
               </div>
             </div>
           </div>
