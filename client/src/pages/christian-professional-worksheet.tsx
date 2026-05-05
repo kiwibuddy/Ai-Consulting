@@ -19,11 +19,18 @@ function seriesOrdinalWord(n: NonNullable<ChristianProfessionalWorksheetMeta["se
   return (["ONE", "TWO", "THREE", "FOUR"] as const)[n - 1];
 }
 
+/** Hard ceiling on the auto-grow iframe so any future runaway is bounded. */
+const MAX_IFRAME_HEIGHT = 8000;
+
 export default function ChristianProfessionalWorksheetPage() {
   const params = useParams<{ slug: string }>();
   const meta = getChristianProfessionalWorksheetBySlug(params.slug);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeHeight, setIframeHeight] = useState(1200);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [params.slug]);
 
   const syncIframeHeight = useCallback(() => {
     const iframe = iframeRef.current;
@@ -34,7 +41,9 @@ export default function ChristianProfessionalWorksheetPage() {
         doc.body.scrollHeight,
         doc.documentElement?.scrollHeight ?? 0
       );
-      if (h > 0) setIframeHeight(h + 32);
+      if (h <= 0) return;
+      const next = Math.min(h + 32, MAX_IFRAME_HEIGHT);
+      setIframeHeight((prev) => (Math.abs(prev - next) < 8 ? prev : next));
     } catch {
       /* ignore */
     }

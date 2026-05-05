@@ -13,6 +13,9 @@ import { getDeepDiveById } from "@/content/deep-dives";
 
 const DEFAULT_OG = "/Nathaniel_Portrait.png";
 
+/** Hard ceiling on the auto-grow iframe so any future runaway is bounded. */
+const MAX_IFRAME_HEIGHT = 8000;
+
 export default function WorksheetSharePage() {
   const params = useParams<{ id: string }>();
   const worksheet = getWorksheetById(params.id);
@@ -21,6 +24,12 @@ export default function WorksheetSharePage() {
   const isDeepDive = Boolean(!worksheet && deepDive);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeHeight, setIframeHeight] = useState(1200);
+  const fitViewport =
+    !isDeepDive && (worksheet?.displayMode === "fit-viewport");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [params.id]);
 
   const syncIframeHeight = useCallback(() => {
     const iframe = iframeRef.current;
@@ -28,7 +37,9 @@ export default function WorksheetSharePage() {
     try {
       const doc = iframe.contentDocument;
       const h = Math.max(doc.body.scrollHeight, doc.documentElement?.scrollHeight ?? 0);
-      if (h > 0) setIframeHeight(h + 32);
+      if (h <= 0) return;
+      const next = Math.min(h + 32, MAX_IFRAME_HEIGHT);
+      setIframeHeight((prev) => (Math.abs(prev - next) < 8 ? prev : next));
     } catch {
       /* ignore cross-origin restrictions */
     }
@@ -36,6 +47,7 @@ export default function WorksheetSharePage() {
 
   useEffect(() => {
     if (!resource?.iframeSrc) return;
+    if (fitViewport) return;
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -60,7 +72,7 @@ export default function WorksheetSharePage() {
       iframe.removeEventListener("load", onLoad);
       disconnect();
     };
-  }, [resource?.iframeSrc, syncIframeHeight]);
+  }, [resource?.iframeSrc, syncIframeHeight, fitViewport]);
 
   if (!resource || !resource.iframeSrc) {
     return (
@@ -146,7 +158,11 @@ export default function WorksheetSharePage() {
             title={resource.title}
             src={resource.iframeSrc}
             className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
-            style={{ height: iframeHeight, minHeight: 600 }}
+            style={
+              fitViewport
+                ? { height: "clamp(600px, 88vh, 1080px)" }
+                : { height: iframeHeight, minHeight: 600 }
+            }
           />
         </section>
 

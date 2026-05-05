@@ -12,6 +12,14 @@ export interface WorksheetItem {
   date: string;
   category?: string;
   format?: string;
+  /**
+   * How the iframe should be sized.
+   * - `auto` (default): grow the iframe to match the inner document's scroll height.
+   * - `fit-viewport`: render at a fixed clamped viewport height. Use for
+   *   interactive content that styles its root with `min-height: 100vh`,
+   *   which would otherwise feedback-loop the auto-resize logic.
+   */
+  displayMode?: "auto" | "fit-viewport";
 }
 
 export const worksheets: WorksheetItem[] = [
@@ -244,32 +252,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-05-04",
     category: "Presentations",
     format: "Presentation",
-  },
-  {
-    id: "presentations-leveraging-ai-kingdom-impact",
-    title: "Leveraging AI for Evangelism, Discipleship & Church Growth",
-    description:
-      "Practical ways churches and ministry leaders can use AI for evangelism, discipleship, and growth — without outsourcing the soul work that only people can do.",
-    url: "/resources/worksheet/presentations-leveraging-ai-kingdom-impact",
-    iframeSrc: "/worksheets/presentations/leveraging-ai-for-kingdom-impact.html",
-    shareImage: "/images/worksheets/presentations-leveraging-ai.svg",
-    thumbnail: "/images/worksheets/presentations-leveraging-ai.svg",
-    date: "2026-03-19",
-    category: "Presentations",
-    format: "Presentation",
-  },
-  {
-    id: "presentations-ai-and-global-discipleship",
-    title: "AI and Global Discipleship",
-    description:
-      "An honest look at how AI is reshaping work, learning, and faith across the world — and what global Christian discipleship needs to look like in response.",
-    url: "/resources/worksheet/presentations-ai-and-global-discipleship",
-    iframeSrc: "/worksheets/presentations/ai-and-global-discipleship.html",
-    shareImage: "/images/worksheets/presentations-global-discipleship.svg",
-    thumbnail: "/images/worksheets/presentations-global-discipleship.svg",
-    date: "2026-04-22",
-    category: "Presentations",
-    format: "Presentation",
+    displayMode: "fit-viewport",
   },
   {
     id: "presentations-life-calling-discovery",
@@ -283,6 +266,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-04-02",
     category: "Presentations",
     format: "Reflection",
+    displayMode: "fit-viewport",
   },
   {
     id: "presentations-lords-prayer-through-spheres",
@@ -296,6 +280,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-03-30",
     category: "Presentations",
     format: "Reflection",
+    displayMode: "fit-viewport",
   },
   {
     id: "presentations-research-to-presentation",
@@ -309,6 +294,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-04-24",
     category: "Presentations",
     format: "Workflow",
+    displayMode: "fit-viewport",
   },
   {
     id: "presentations-workflow-claude-to-live-site",
