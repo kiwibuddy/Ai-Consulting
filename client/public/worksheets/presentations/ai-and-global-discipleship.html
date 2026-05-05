@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI and Christian Discipleship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #004B8D; --blue2: #0077C8; --blue-dark: #00325E; --blue-light: #E8F0FA;
+  --white: #FFFFFF; --gray: #333333; --muted: #666666;
+  --gold: #D4AF37; --gold-light: #FFF8E1;
+  --key-takeaway-color: #FFE082;
+  --red: #C0392B; --red-light: #FDE8E8;
+  --green: #27AE60; --green-light: #E8F8F0;
+  --green-cta: linear-gradient(90deg, #5eead4 0%, #0d9488 50%, #0f766e 100%);
+  --green-cta-hover: linear-gradient(90deg, #67e8e0 0%, #14b8a6 100%);
+  --bg: #F5F7FA;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow: hidden; height: 100%; width: 100%; }
+body { font-family: 'Source Serif 4', Georgia, serif; color: var(--gray); background: #111; }
+
+/* PLAY OVERLAY – 8px grid, grouped hero, clear hierarchy */
+#play-overlay {
+  position: fixed; inset: 0; z-index: 99999; background: var(--blue-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  padding: clamp(1.5rem, 5vw, 3rem) 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+  cursor: pointer; transition: opacity 0.6s var(--ease), visibility 0.6s;
+  box-sizing: border-box;
+}
+#play-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Hero: one visual unit with consistent internal rhythm (8px base) */
+#play-overlay .play-overlay-hero {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; max-width: 42rem; margin: 0 auto; text-align: center;
+}
+#play-overlay .play-overlay-hero h2 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 800;
+  color: var(--white); margin: 0 0 0.5rem; line-height: 1.15; letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  #play-overlay .play-overlay-hero h2 { white-space: normal; }
+}
+#play-overlay .play-overlay-subtitle {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  color: rgba(255,255,255,0.65); margin: 0 0 2rem; line-height: 1.4; font-weight: 500;
+}
+#play-overlay .play-overlay-hero .play-btn-wrap { margin: 0; }
+.play-btn {
+  width: clamp(160px, 18vw, 200px); height: clamp(160px, 18vw, 200px);
+  border-radius: 50%; background: var(--green-cta); border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s var(--ease); animation: pulse-play 2s ease-in-out infinite;
+}
+.play-btn:hover { transform: scale(1.08); }
+.play-btn svg { width: 28%; height: 28%; margin-left: 5%; fill: var(--white); }
+
+/* Footer: compact, fixed padding, secondary hierarchy */
+#play-overlay .play-overlay-footer {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0; flex-shrink: 0; gap: 0.375rem;
+}
+#play-overlay .play-overlay-footer .logo-wrap {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0;
+}
+#play-overlay .play-overlay-footer .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+#play-overlay .play-overlay-footer .play-overlay-name {
+  font-family: 'Montserrat', sans-serif; font-size: 0.875rem; font-weight: 700;
+  color: rgba(255,255,255,0.9); letter-spacing: 0.02em; margin: 0; line-height: 1.3;
+}
+#play-overlay .play-overlay-name .date { font-weight: 500; color: rgba(255,255,255,0.6); }
+#play-overlay .play-overlay-footer .play-overlay-tagline {
+  font-family: 'Montserrat', sans-serif; font-size: 0.6875rem; color: rgba(255,255,255,0.45); margin: 0; letter-spacing: 0.03em;
+}
+
+@keyframes pulse-play { 0%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0.35)} 50%{box-shadow:0 0 0 18px rgba(13,148,136,0)} }
+@keyframes pulse-ring { 0%,100%{border-color:rgba(13,148,136,0.4)} 50%{border-color:rgba(13,148,136,0.9)} }
+
+/* VIDEO OVERLAY */
+#video-overlay {
+  position: fixed; inset: 0; z-index: 99998; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+}
+#video-overlay.visible { opacity: 1; visibility: visible; }
+#video-overlay iframe { width: 100%; height: 100%; border: none; }
+#skip-video {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 99999;
+  font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 600;
+  color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer;
+  transition: all 0.3s; opacity: 0; visibility: hidden;
+}
+#skip-video.visible { opacity: 1; visibility: visible; }
+#skip-video:hover { background: rgba(255,255,255,0.2); color: white; }
+
+/* SLIDES */
+#deck { width: 100vw; height: 100vh; overflow: hidden; position: relative; }
+.slide {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.5s var(--ease), visibility 0.5s;
+}
+.slide.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.slide-inner {
+  width: 100vw; height: 100vh;
+  background: var(--white); position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.slide-inner.dark { background: var(--blue); color: var(--white); }
+.slide-inner.dark-deep { background: var(--blue-dark); color: var(--white); }
+.slide-inner.light-bg { background: var(--bg); }
+.slide-inner::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: linear-gradient(90deg, var(--blue), var(--blue2), var(--gold)); z-index: 10;
+}
+.slide-inner.dark::before, .slide-inner.dark-deep::before { background: var(--gold); }
+
+/* BODY */
+.s-body {
+  flex: 1; padding: 5vh 5vw 3vh; display: flex; flex-direction: column;
+  position: relative; z-index: 2; overflow-y: auto;
+  justify-content: center; gap: 2vh;
+}
+.s-body.top { justify-content: flex-start; padding-top: 5vh; }
+.s-body.centered { align-items: center; justify-content: center; text-align: center; }
+.s-body.spread { justify-content: space-between; }
+
+/* Scale content to viewport */
+.s-title.lg { font-size: clamp(2rem, 4vw, 3.2rem); }
+.s-sub { font-size: clamp(1.1rem, 1.8vw, 1.5rem); color: var(--muted); line-height: 1.7; max-width: 800px; }
+
+/* SPLIT LAYOUT */
+.split-layout { flex: 1; display: flex; position: relative; z-index: 2; }
+.split-image { width: 35%; position: relative; overflow: hidden; flex-shrink: 0; }
+.split-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.split-image .img-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, var(--white) 100%); }
+.slide-inner.dark .split-image .img-overlay { background: linear-gradient(90deg, transparent 50%, var(--blue) 100%); }
+.slide-inner.light-bg .split-image .img-overlay { background: linear-gradient(90deg, transparent 60%, var(--bg) 100%); }
+.split-content { flex: 1; padding: 4vh 4vw 3vh 3vw; display: flex; flex-direction: column; overflow-y: auto; justify-content: space-evenly; }
+
+/* BG IMAGE */
+.bg-img { position: absolute; inset: 0; z-index: 0; }
+.bg-img img { width: 100%; height: 100%; object-fit: cover; }
+.bg-img .overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,50,94,0.9) 0%, rgba(0,75,141,0.8) 100%); }
+.bg-img .overlay-dark { position: absolute; inset: 0; background: rgba(0,30,60,0.92); }
+
+/* IMAGE STRIP */
+.img-strip { display: flex; gap: 0.75rem; margin: 1.5vh 0; height: 18vh; min-height: 120px; flex-shrink: 0; }
+.img-strip img { flex: 1; height: 100%; object-fit: cover; border-radius: 10px; transition: transform 0.3s var(--ease); filter: brightness(0.9); }
+.img-strip img:hover { transform: scale(1.05); filter: brightness(1); z-index: 2; }
+.slide-img { background: linear-gradient(135deg, var(--blue), var(--blue2), var(--gold)); }
+
+/* FOOTER */
+.s-footer {
+  padding: 0.5rem 5vw; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: var(--muted);
+  border-top: 1px solid rgba(0,0,0,0.05); flex-shrink: 0;
+}
+.slide-inner.dark .s-footer, .slide-inner.dark-deep .s-footer { color: rgba(255,255,255,0.3); border-top-color: rgba(255,255,255,0.08); }
+
+/* UOFN LOGO */
+.uofn-logo { position: absolute; top: 1.5vh; right: 2vw; z-index: 20; width: 44px; height: 44px; opacity: 0.12; }
+.uofn-logo:hover { opacity: 0.4; }
+
+/* TYPOGRAPHY */
+.eyebrow { font-family: 'Montserrat', sans-serif; font-size: clamp(0.7rem, 1vw, 0.9rem); font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.s-title { font-family: 'Montserrat', sans-serif; font-weight: 800; line-height: 1.1; color: var(--blue); margin-bottom: 0.5rem; }
+.s-title.xl { font-size: clamp(3rem, 6.5vw, 5.5rem); }
+.s-title.lg { font-size: clamp(1.8rem, 3.5vw, 3rem); }
+.s-title.md { font-size: clamp(1.4rem, 2.5vw, 2rem); }
+.slide-inner.dark .s-title, .slide-inner.dark-deep .s-title { color: var(--white); }
+.s-title .gold { color: var(--gold); }
+.s-sub { font-size: clamp(1rem, 1.5vw, 1.25rem); color: var(--muted); line-height: 1.7; max-width: 750px; }
+.slide-inner.dark .s-sub { color: rgba(255,255,255,0.65); }
+.s-div { width: 50px; height: 3px; background: var(--gold); margin: 0.75rem 0; flex-shrink: 0; }
+
+/* STAT CARDS */
+.stat-row { display: flex; gap: 1.5vw; margin: 1.5vh 0; flex-wrap: wrap; }
+.stat-card {
+  flex: 1; min-width: 220px; background: var(--white); border-radius: 14px;
+  padding: 2.5vh 2vw; position: relative; overflow: hidden;
+  border: 1px solid rgba(0,75,141,0.06); box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s, border-color 0.3s;
+}
+.stat-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 35px rgba(0,0,0,0.1); border-color: var(--blue2); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--blue); }
+.stat-card.red::before { background: var(--red); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.gold::before { background: var(--gold); }
+.stat-card::after {
+  content: ''; position: absolute; inset: 0; opacity: 0; border-radius: 10px;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,119,200,0.08) 0%, transparent 60%);
+  transition: opacity 0.3s;
+}
+.stat-card:hover::after { opacity: 1; }
+.s-num { font-family: 'Montserrat', sans-serif; font-size: clamp(2.2rem,4vw,3.5rem); font-weight: 800; color: var(--blue); line-height: 1; margin-bottom: 0.4rem; }
+.stat-card.red .s-num { color: var(--red); }
+.stat-card.green .s-num { color: var(--green); }
+.stat-card.gold .s-num { color: var(--gold); }
+.s-label { font-size: clamp(0.85rem,1.2vw,1.1rem); color: var(--muted); line-height: 1.5; }
+.s-subline { font-size: clamp(0.78rem,1vw,0.95rem); color: var(--muted); line-height: 1.45; margin-top: 0.35rem; }
+.s-source { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; color: #bbb; margin-top: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-row.stat-row-econ {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.2vw 1vw;
+  margin: 1vh 0 0;
+}
+.stat-row.stat-row-econ .stat-card { min-width: 0; flex: unset; }
+.stat-row.stat-row-econ .stat-card:nth-child(1) { grid-column: 1 / 3; }
+.stat-row.stat-row-econ .stat-card:nth-child(2) { grid-column: 3 / 5; }
+.stat-row.stat-row-econ .stat-card:nth-child(3) { grid-column: 5 / 7; }
+.stat-row.stat-row-econ .stat-card:nth-child(4) { grid-column: 2 / 4; }
+.stat-row.stat-row-econ .stat-card:nth-child(5) { grid-column: 4 / 6; }
+.stat-card.blue-dark::before { background: var(--blue-dark); }
+.stat-card.blue-dark .s-num { color: var(--blue-dark); }
+@media (max-width: 900px) {
+  .stat-row.stat-row-econ { grid-template-columns: 1fr 1fr; }
+  .stat-row.stat-row-econ .stat-card:nth-child(n) { grid-column: auto; }
+}
+.click-hint { position: absolute; bottom: 0.4rem; right: 0.6rem; font-family: 'Montserrat', sans-serif; font-size: 0.45rem; color: var(--blue2); opacity: 0; transition: opacity 0.3s; text-transform: uppercase; letter-spacing: 0.1em; }
+.stat-card:hover .click-hint { opacity: 0.6; }
+
+/* BARS */
+.bar-chart-h { display: flex; flex-direction: column; gap: 1.2vh; margin: 2vh 0; }
+.hbar { display: flex; align-items: center; gap: 1vw; }
+.hbar-label { font-family: 'Montserrat', sans-serif; font-size: clamp(0.7rem,1vw,0.9rem); font-weight: 600; color: var(--gray); min-width: 140px; text-align: right; }
+.hbar-track { flex: 1; height: clamp(28px,4vh,42px); background: var(--bg); border-radius: 21px; overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 21px; width: 0%; transition: width 1.2s var(--ease); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; }
+.hbar-fill span { font-family: 'Montserrat', sans-serif; font-size: clamp(0.65rem,0.9vw,0.85rem); font-weight: 700; color: var(--white); opacity: 0; transition: opacity 0.3s 1s; }
+
+.vbar-chart { display: flex; align-items: flex-end; gap: 1.5vw; height: 28vh; margin: 2vh 0; padding-bottom: 2vh; border-bottom: 1px solid rgba(0,0,0,0.08); cursor: pointer; }
+.vbar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+.vbar { width: 100%; max-width: 120px; border-radius: 8px 8px 0 0; height: 0%; transition: height 1s var(--ease); }
+.vbar-val { font-family: 'Montserrat', sans-serif; font-size: clamp(0.8rem,1.2vw,1.1rem); font-weight: 700; color: var(--blue); margin-bottom: 0.3rem; opacity: 0; transition: opacity 0.4s 0.8s; }
+.vbar-lbl { font-family: 'Montserrat', sans-serif; font-size: clamp(0.6rem,0.8vw,0.8rem); font-weight: 600; color: var(--muted); text-align: center; margin-top: 0.6rem; line-height: 1.3; }
+
+/* CALLOUT */
+.callout { padding: 2.5vh 2.5vw; border-radius: 14px; margin: 2vh 0; border-left: 5px solid var(--blue); background: var(--blue-light); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.7; }
+.callout.red { background: var(--red-light); border-left-color: var(--red); }
+.callout.gold { background: var(--gold-light); border-left-color: var(--gold); }
+.callout.green { background: var(--green-light); border-left-color: var(--green); }
+.callout strong { color: var(--blue); }
+.callout.red strong { color: var(--red); }
+.callout.gold strong { color: var(--gold); }
+
+/* QUOTE */
+.quote-box { position: relative; padding: 2.5vh 3vw; margin: 2vh 0; }
+.quote-box .qmark { font-family: 'Montserrat', sans-serif; font-size: 4rem; font-weight: 900; color: var(--gold); opacity: 0.25; line-height: 1; position: absolute; top: 0; left: 1rem; }
+.quote-box blockquote { font-size: clamp(1.1rem, 1.5vw, 1.4rem); font-style: italic; line-height: 1.7; position: relative; z-index: 2; }
+.quote-box cite { display: block; margin-top: 0.75rem; font-size: clamp(0.8rem, 1vw, 0.95rem); font-style: normal; color: var(--gold); font-family: 'Montserrat', sans-serif; font-weight: 600; }
+
+/* INSIGHT CARDS */
+.insight-list { display: flex; flex-direction: column; gap: 1.5vh; margin: 2vh 0; }
+.insight-item {
+  display: flex; gap: 1.5rem; align-items: center; padding: 2vh 2vw;
+  background: var(--white); border-radius: 12px; border: 1px solid rgba(0,75,141,0.05);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s, background 0.3s; cursor: pointer;
+}
+.insight-item:hover { transform: translateX(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.06); background: var(--blue-light); }
+.insight-num { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Montserrat', sans-serif; font-size: 1.2rem; font-weight: 800; color: var(--white); }
+.insight-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1rem, 1.5vw, 1.3rem); font-weight: 700; color: var(--blue); }
+.insight-body { font-size: clamp(0.85rem, 1.1vw, 1.05rem); color: var(--muted); line-height: 1.5; margin-top: 0.2rem; }
+
+/* THREE COLS */
+.three-cols { display: flex; gap: 1rem; margin: 0.75rem 0; }
+.col-card { flex: 1; background: var(--white); border-radius: 10px; padding: 1.25rem; border: 1px solid rgba(0,75,141,0.06); transition: transform 0.3s var(--ease), box-shadow 0.3s; }
+.col-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+.col-card h4 { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; color: var(--blue); margin-bottom: 0.3rem; }
+.col-card .col-div { width: 30px; height: 2px; background: var(--gold); margin-bottom: 0.6rem; }
+.col-card li { font-size: 0.7rem; color: var(--muted); padding: 0.3rem 0; border-bottom: 1px solid var(--bg); line-height: 1.4; padding-left: 0.8rem; position: relative; list-style: none; }
+.col-card li::before { content: ''; position: absolute; left: 0; top: 0.55rem; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+.col-card li:last-child { border-bottom: none; }
+
+/* DISCUSSION */
+.disc-card { display: flex; gap: 1.5rem; align-items: center; padding: 2.5vh 2.5vw; background: var(--bg); border-radius: 14px; margin-bottom: 1.5vh; transition: transform 0.3s var(--ease), background 0.3s; }
+.disc-card:hover { background: var(--blue-light); transform: translateX(6px); }
+.disc-num { font-family: 'Montserrat', sans-serif; font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 800; color: var(--gold); flex-shrink: 0; }
+.disc-q { font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.6; }
+
+/* FINAL REFLECTIVE CALL */
+.reflective-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2vh 3vw;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(2px);
+}
+.reflective-text {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+.reflective-emphasis-one {
+  color: #f6e3a4;
+  font-weight: 700;
+  text-shadow: 0 0 0 rgba(212,175,55,0);
+  animation: reflectiveGlow 9s ease-in-out infinite;
+}
+.reflective-emphasis-two {
+  font-weight: 700;
+  background: linear-gradient(100deg, rgba(255,255,255,0.9) 0%, #d4af37 45%, rgba(255,255,255,0.9) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: reflectiveSheen 13s ease-in-out infinite;
+}
+.reflective-verse {
+  margin-top: 1.8rem;
+  font-size: 2rem;
+  color: var(--gold);
+  font-style: italic;
+  font-family: 'Source Serif 4', serif;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+@keyframes reflectiveGlow {
+  0%, 100% { color: #f6e3a4; text-shadow: 0 0 0 rgba(212,175,55,0); }
+  50% { color: #fff3c5; text-shadow: 0 0 10px rgba(212,175,55,0.35); }
+}
+@keyframes reflectiveSheen {
+  0%, 20% { background-position: 0% 50%; }
+  60%, 100% { background-position: 100% 50%; }
+}
+#reflect-particles .particle {
+  background: rgba(212,175,55,0.16);
+}
+
+/* QR slide (deck link) */
+.qr-slide-wrap {
+  margin: 1.5rem auto 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.qr-slide-wrap img {
+  display: block;
+  width: min(280px, 70vw);
+  height: auto;
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+
+/* MODAL */
+#modal-overlay {
+  position: fixed; inset: 0; z-index: 99990;
+  background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+#modal-overlay.open { opacity: 1; visibility: visible; }
+#modal-box {
+  background: var(--white); border-radius: 16px; max-width: 640px; width: 92%;
+  padding: 2.5rem; position: relative;
+  transform: scale(0.9) translateY(20px); transition: transform 0.4s var(--ease-bounce);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto;
+}
+#modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+#modal-close { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--bg); cursor: pointer; font-size: 1.2rem; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+#modal-close:hover { background: var(--red-light); color: var(--red); }
+#modal-stat { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; font-weight: 900; color: var(--blue); margin-bottom: 0.5rem; }
+#modal-title { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--blue); margin-bottom: 0.75rem; }
+#modal-body { font-size: 0.85rem; color: var(--gray); line-height: 1.7; margin-bottom: 1rem; }
+#modal-source { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+#modal-link a { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--blue2); text-decoration: none; padding: 0.4rem 0.8rem; border: 1px solid var(--blue2); border-radius: 6px; display: inline-block; transition: background 0.2s, color 0.2s; }
+#modal-link a:hover { background: var(--blue2); color: var(--white); }
+
+/* CAROUSEL MODAL */
+#carousel-overlay {
+  position: fixed; inset: 0; z-index: 99991;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+#carousel-overlay.open { opacity: 1; visibility: visible; }
+#carousel-box {
+  background: var(--white); border-radius: 16px; max-width: 700px; width: 94%;
+  padding: 2rem 2.5rem; position: relative;
+  transform: scale(0.9); transition: transform 0.4s var(--ease-bounce);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4); max-height: 85vh; overflow-y: auto;
+}
+#carousel-overlay.open #carousel-box { transform: scale(1); }
+#carousel-close { position: absolute; top: 0.75rem; right: 0.75rem; width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--bg); cursor: pointer; font-size: 1rem; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+#carousel-close:hover { background: var(--red-light); color: var(--red); }
+#carousel-title { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 800; color: var(--red); margin-bottom: 1rem; }
+#carousel-body { font-size: 0.85rem; color: var(--gray); line-height: 1.7; }
+.carousel-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--bg); }
+.carousel-nav button {
+  font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600;
+  padding: 0.4rem 1rem; border-radius: 6px; border: 1px solid var(--blue2); background: transparent;
+  color: var(--blue2); cursor: pointer; transition: all 0.2s;
+}
+.carousel-nav button:hover { background: var(--blue2); color: white; }
+.carousel-nav button:disabled { opacity: 0.3; cursor: default; }
+.carousel-counter { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; color: var(--muted); }
+
+/* NAV */
+#nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.5rem 2rem; gap: 0.4rem;
+  opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
+}
+#nav-bar.visible { opacity: 1; visibility: visible; }
+.nav-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; cursor: pointer; transition: all 0.3s var(--ease); padding: 0; }
+.nav-dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
+.nav-dot:hover { background: rgba(255,255,255,0.5); }
+#slide-counter { position: fixed; bottom: 0.6rem; right: 2rem; z-index: 9999; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; color: rgba(255,255,255,0.4); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; }
+#slide-counter.visible { opacity: 1; visibility: visible; }
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; z-index: 9999; background: var(--gold); width: 0%; transition: width 0.4s var(--ease); }
+.arrow-btn { position: fixed; top: 50%; z-index: 9998; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); cursor: pointer; color: rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; transition: all 0.3s var(--ease); opacity: 0; visibility: hidden; font-size: 1.2rem; }
+.arrow-btn.visible { opacity: 1; visibility: visible; }
+.arrow-btn:hover { background: rgba(255,255,255,0.15); color: var(--gold); border-color: var(--gold); }
+#prev-btn { left: 0.75rem; }
+#next-btn { right: 0.75rem; }
+
+/* ANIMATIONS */
+.anim { opacity: 0; transition: all 0.7s var(--ease); }
+.anim.fade-up { transform: translateY(30px); }
+.anim.fade-left { transform: translateX(-40px); }
+.anim.fade-right { transform: translateX(40px); }
+.anim.scale-up { transform: scale(0.85); }
+.anim.in { opacity: 1 !important; transform: none !important; }
+.d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
+.d4{transition-delay:.4s} .d5{transition-delay:.5s} .d6{transition-delay:.6s}
+.d7{transition-delay:.7s} .d8{transition-delay:.8s} .d9{transition-delay:.9s} .d10{transition-delay:1s}
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes glow-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0)} 50%{box-shadow:0 0 20px 4px rgba(212,175,55,0.15)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes breathe { 0%,100%{opacity:0.12;transform:scale(1)} 50%{opacity:0.2;transform:scale(1.05)} }
+.float { animation: float 3s ease-in-out infinite; }
+.glow-pulse { animation: glow-pulse 2.5s ease-in-out infinite; }
+.shimmer-text { background: linear-gradient(90deg, var(--blue) 0%, var(--gold) 50%, var(--blue) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 3s linear infinite; }
+.breathe { animation: breathe 4s ease-in-out infinite; }
+
+.particles { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.particle { position: absolute; border-radius: 50%; background: rgba(212,175,55,0.2); animation: float-p linear infinite; }
+@keyframes float-p { 0%{transform:translateY(100vh) rotate(0);opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-10vh) rotate(720deg);opacity:0} }
+
+/* BENTO GRID & VIDEO CARDS */
+.bento-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: auto;
+  gap: 1.5rem; margin: 2vh 0; width: 100%; max-width: 900px;
+}
+.bento-grid-3 {
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;
+  gap: 1.5rem; margin: 2vh 0; width: 100%; max-width: 1000px;
+}
+.bento-grid .anim, .bento-grid-3 .anim { opacity: 0; transform: translateY(20px); }
+.bento-grid .anim.in, .bento-grid-3 .anim.in { opacity: 1; transform: translateY(0); }
+.video-card-large {
+  min-height: 220px; background: var(--white); border-radius: 14px;
+  padding: 0; position: relative; overflow: hidden; display: flex; flex-direction: column;
+  border: 1px solid rgba(0,75,141,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s, border-color 0.3s;
+}
+.video-card-large::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--blue); }
+.video-card-large::after {
+  content: ''; position: absolute; inset: 0; opacity: 0; border-radius: 12px;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,119,200,0.12) 0%, transparent 60%);
+  transition: opacity 0.3s;
+}
+.video-card-large:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); border-color: var(--blue2); }
+.video-card-large:hover::after { opacity: 1; }
+.video-card-large .video-card-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1rem, 1.4vw, 1.25rem); font-weight: 700; color: var(--blue); margin-bottom: 0.5rem; }
+.video-card-large .video-card-summary { font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--muted); line-height: 1.5; }
+.video-card {
+  min-height: 180px; background: var(--white); border-radius: 14px;
+  padding: 0; position: relative; overflow: hidden; display: flex; flex-direction: column;
+  border: 1px solid rgba(0,75,141,0.08); box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s;
+}
+.video-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--blue); }
+.video-card::after { content: ''; position: absolute; inset: 0; opacity: 0; background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,119,200,0.1) 0%, transparent 60%); transition: opacity 0.3s; border-radius: 12px; }
+.video-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.video-card:hover::after { opacity: 1; }
+.video-card-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--bg); flex-shrink: 0; position: relative; }
+.video-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-card-thumb::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath fill='%23fff' fill-opacity='0.9' d='M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z'/%3E%3C/svg%3E") center/60px no-repeat; pointer-events: none; }
+.video-card-large .video-card-thumb { border-radius: 12px 12px 0 0; }
+.video-card-body { padding: 2vh 1.5vw; flex: 1; display: flex; flex-direction: column; }
+.video-card-large .video-card-body { padding: 2.5vh 2vw; }
+.video-card .video-card-title { font-family: 'Montserrat', sans-serif; font-size: clamp(0.9rem, 1.2vw, 1.1rem); font-weight: 700; color: var(--blue); margin-bottom: 0.4rem; }
+.video-card .video-card-summary { font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--muted); line-height: 1.45; }
+.video-card.warning, .video-card-large.warning { border-color: rgba(192,57,43,0.2); }
+.video-card.warning::before, .video-card-large.warning::before { background: var(--red); }
+.video-card.warning:hover::after, .video-card-large.warning:hover::after { background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(192,57,43,0.15) 0%, transparent 60%); }
+.video-card.warning:hover, .video-card-large.warning:hover { border-color: var(--red); box-shadow: 0 12px 40px rgba(192,57,43,0.15); }
+
+/* 90% VIDEO MODAL */
+#modal-overlay.video-open #modal-box { max-width: 90vw; width: 90vw; max-height: 90vh; height: 90vh; padding: 1rem; }
+#modal-overlay.video-open #modal-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+#modal-video-wrap { position: relative; width: 100%; max-width: 90vw; padding-bottom: 56.25%; height: 0; }
+#modal-video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px; }
+
+/* CAPACITY LINE CHART (CONTEXT WINDOW) */
+.capacity-chart-wrap {
+  width: 100%; max-width: 720px; margin: 2vh auto; position: relative;
+  cursor: pointer; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(180deg, var(--blue-light) 0%, rgba(255,255,255,0.5) 100%);
+  border: 1px solid rgba(0,75,141,0.1); transition: box-shadow 0.3s, transform 0.3s;
+}
+.capacity-chart-wrap:hover { box-shadow: 0 8px 32px rgba(0,75,141,0.15); transform: translateY(-2px); }
+.capacity-chart-wrap .chart-hint { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; color: var(--blue2); text-align: center; padding: 0.5rem; }
+.capacity-chart-inner { position: relative; width: 100%; height: 0; padding-bottom: 52%; }
+.capacity-chart-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; }
+.capacity-chart-svg .chart-line { fill: none; stroke: var(--blue2); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.capacity-chart-svg .chart-dot { fill: var(--white); stroke: var(--blue2); stroke-width: 2; opacity: 0; transition: opacity 0.4s; }
+.capacity-chart-svg .chart-dot.visible { opacity: 1; }
+.capacity-chart-svg .axis-line { stroke: rgba(0,75,141,0.32); stroke-width: 1.5; }
+.capacity-chart-svg .axis-label { font-family: 'Montserrat', sans-serif; font-size: 10px; fill: var(--muted); }
+.capacity-chart-svg .axis-label.y { text-anchor: end; transition: fill 0.2s; }
+.capacity-chart-svg .axis-label.y.active-count { fill: var(--blue2); font-weight: 700; }
+.capacity-y-scale { position: absolute; left: 0; top: 0; bottom: 0; width: 48px; display: flex; flex-direction: column; justify-content: space-between; font-family: 'Montserrat', sans-serif; font-size: 9px; color: var(--muted); transition: opacity 0.5s; }
+.capacity-chart-clip { transition: clip-path 1.8s var(--ease); }
+
+/* TOKEN COMPARISON TABLE */
+.token-compare-panel {
+  width: min(96vw, 1220px);
+  margin: 2vh auto 0;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,75,141,0.14);
+  border-radius: 14px;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+.token-compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.token-compare-table th,
+.token-compare-table td {
+  padding: clamp(0.8rem, 1.6vh, 1.2rem) clamp(0.7rem, 1vw, 1rem);
+  border-bottom: 1px solid rgba(0,75,141,0.1);
+  text-align: left;
+  vertical-align: middle;
+}
+.token-compare-table tr:last-child td { border-bottom: none; }
+.token-compare-table th {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue2);
+  background: rgba(194,228,255,0.38);
+}
+.token-compare-table td:first-child {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.92rem, 1.3vw, 1.08rem);
+  font-weight: 700;
+  color: var(--blue);
+}
+.token-compare-table td:nth-child(n+2) {
+  font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+  color: var(--gray);
+  line-height: 1.45;
+}
+.token-compare-note {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+/* REAL WORLD APPLICATION CARDS */
+.realworld-bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 100%; max-width: 1000px; margin: 2vh auto; min-height: 42vh; }
+.app-card {
+  position: relative;
+  background: var(--white); border-radius: 14px; padding: 2rem 1.5rem;
+  border: 1px solid rgba(0,75,141,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s; display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; border-radius: 14px 14px 0 0; }
+.app-card.law::before { background: linear-gradient(90deg, var(--blue), var(--blue2)); }
+.app-card.medical::before { background: linear-gradient(90deg, var(--green), #2ecc71); }
+.app-card.bible::before { background: linear-gradient(90deg, var(--gold), #f1c40f); }
+.app-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+.app-card-icon { width: 64px; height: 64px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; line-height: 1; }
+.app-card-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.1rem, 1.5vw, 1.35rem); font-weight: 800; color: var(--blue); margin-bottom: 0.75rem; }
+.app-card-summary { font-size: clamp(0.8rem, 1.05vw, 0.95rem); color: var(--muted); line-height: 1.5; flex: 1; }
+.app-card .click-hint { margin-top: 0.75rem; font-size: 0.6rem; }
+@media (max-width:900px) { .realworld-bento { grid-template-columns: 1fr; } }
+
+/* CONTACT SLIDE */
+.contact-layout { display: flex; gap: 3rem; align-items: stretch; width: 100%; max-width: 900px; margin: 0 auto; min-height: 60vh; }
+.contact-photo { width: 44%; min-width: 280px; border-radius: 12px; overflow: hidden; flex-shrink: 0; }
+.contact-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; min-height: 55vh; }
+.contact-info { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 2vh 0; }
+.contact-info .contact-msg { font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 2rem; }
+.contact-info .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+.contact-info .contact-links a { font-family: 'Montserrat', sans-serif; font-size: clamp(0.9rem, 1.2vw, 1.1rem); font-weight: 600; color: var(--gold); text-decoration: none; transition: color 0.2s; }
+.contact-info .contact-links a:hover { color: var(--white); }
+.contact-ctas { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+@media (min-width: 680px) { .contact-ctas { flex-wrap: nowrap; } }
+.contact-ctas a { font-family: 'Montserrat', sans-serif; font-size: clamp(0.85rem, 1.1vw, 1rem); font-weight: 700; color: var(--white); background: var(--green-cta); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; transition: opacity 0.2s, transform 0.2s; display: inline-block; white-space: nowrap; }
+.contact-ctas a:hover { opacity: 0.95; transform: translateY(-2px); }
+
+@media (max-width:900px) {
+  .s-body { padding: 2vh 4vw 1.5vh; }
+  .stat-row { flex-direction: column; }
+  .three-cols { flex-direction: column; }
+  .split-layout { flex-direction: column; }
+  .split-image { width: 100%; height: 30vh; }
+  .hbar-label { min-width: 70px; font-size: 0.5rem; }
+  .bento-grid, .bento-grid-3 { grid-template-columns: 1fr; }
+  .contact-layout { flex-direction: column; }
+  .contact-photo { width: 100%; min-width: 0; min-height: 40vh; }
+  .contact-photo img { min-height: 40vh; }
+  .token-compare-table th,
+  .token-compare-table td { padding: 0.65rem 0.55rem; }
+  .token-compare-table td:nth-child(3) { line-height: 1.4; }
+}
+
+/* Premium alternate themes (cycle with Alt+Shift+T, persisted in localStorage) */
+html[data-theme="manuscript"] {
+  --blue: #1a1714; --blue2: #8b5a2b; --blue-dark: #0f0e0c; --blue-light: #ebe6dc;
+  --gray: #2a2520; --muted: #5c5549; --bg: #f4f0e8;
+  --gold: #7a5c1e; --gold-light: #f0e8d4;
+  --green-cta: linear-gradient(90deg, #a67c52 0%, #6b4423 50%, #4a2f1a 100%);
+  --green-cta-hover: linear-gradient(90deg, #b88a5e 0%, #7a4f28 100%);
+}
+html[data-theme="arctic"] {
+  --blue: #0c4a6e; --blue2: #0369a1; --blue-dark: #082f49; --blue-light: #e0f2fe;
+  --gray: #0f172a; --muted: #475569; --bg: #f1f5f9;
+  --gold: #0891b2; --gold-light: #ecfeff;
+  --green-cta: linear-gradient(90deg, #22d3ee 0%, #0e7490 50%, #155e75 100%);
+  --green-cta-hover: linear-gradient(90deg, #67e8f9 0%, #06b6d4 100%);
+}
+html[data-theme="sanctuary"] {
+  --blue: #312e81; --blue2: #6366f1; --blue-dark: #1e1b4b; --blue-light: rgba(255,255,255,0.12);
+  --gray: #1e293b; --muted: #64748b; --bg: #e2e8f0;
+  --gold: #c4b5fd; --gold-light: rgba(255,255,255,0.85);
+  --green-cta: linear-gradient(90deg, #a78bfa 0%, #6366f1 50%, #4f46e5 100%);
+  --green-cta-hover: linear-gradient(90deg, #c4b5fd 0%, #818cf8 100%);
+}
+html[data-theme="monastic"] {
+  --blue: #3d4f3f; --blue2: #5a6b5c; --blue-dark: #2a352b; --blue-light: #e8ebe4;
+  --gray: #2c322d; --muted: #5a6358; --bg: #e8e6e1;
+  --gold: #6b7c4c; --gold-light: #eef1e6;
+  --green-cta: linear-gradient(90deg, #8b9a6f 0%, #5c6b4a 50%, #3d4a35 100%);
+  --green-cta-hover: linear-gradient(90deg, #9aaa7e 0%, #6d7d56 100%);
+}
+html[data-theme="editorial"] {
+  --blue: #0a0a0a; --blue2: #404040; --blue-dark: #000000; --blue-light: #f5f5f5;
+  --gray: #171717; --muted: #525252; --bg: #fafafa;
+  --gold: #a16207; --gold-light: #fef9c3;
+  --green-cta: linear-gradient(90deg, #171717 0%, #404040 50%, #0a0a0a 100%);
+  --green-cta-hover: linear-gradient(90deg, #262626 0%, #525252 100%);
+}
+html[data-theme="nocturne"] {
+  --blue: #38bdf8; --blue2: #22d3ee; --blue-dark: #020617; --blue-light: rgba(56,189,248,0.12);
+  --gray: #f1f5f9; --muted: #94a3b8; --bg: #0f172a;
+  --gold: #fbbf24; --gold-light: rgba(251,191,36,0.15);
+  --green-cta: linear-gradient(90deg, #22d3ee 0%, #0ea5e9 45%, #6366f1 100%);
+  --green-cta-hover: linear-gradient(90deg, #67e8f9 0%, #38bdf8 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .play-btn { animation: none; }
+  .float, .glow-pulse, .shimmer-text, .breathe { animation: none; }
+  .particle { display: none; }
+  .reflective-emphasis-one, .reflective-emphasis-two { animation: none !important; }
+  .reflective-emphasis-two { -webkit-text-fill-color: var(--gold); background: none; }
+}
+</style>
+</head>
+<body>
+<!-- Themes: set html data-theme or press Alt+Shift+T to cycle (default, manuscript, arctic, sanctuary, monastic, editorial, nocturne). -->
+
+<!-- PLAY OVERLAY -->
+<div id="play-overlay">
+  <div class="play-overlay-hero">
+    <h2>AI and Global Discipleship</h2>
+    <p class="play-overlay-subtitle">Great Commission AI Global Impact Report · 2026</p>
+    <div class="play-btn-wrap">
+      <button class="play-btn" id="start-btn" aria-label="Start"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+    </div>
+  </div>
+  <div class="play-overlay-footer">
+    <div class="logo-wrap"><img src="assets/Logo_no_text.png" alt="" decoding="async" width="56" height="56"></div>
+    <div class="play-overlay-name">Nathaniel Baldock <span class="date">· 2026</span></div>
+    <div class="play-overlay-tagline">AI Discipleship and Consulting</div>
+  </div>
+</div>
+
+<div id="progress-bar"></div>
+
+<!-- VIDEO OVERLAY -->
+<div id="video-overlay">
+  <iframe id="video-player" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+</div>
+<button id="skip-video">Skip Video &rarr;</button>
+
+<button class="arrow-btn" id="prev-btn" aria-label="Previous">&#8249;</button>
+<button class="arrow-btn" id="next-btn" aria-label="Next">&#8250;</button>
+<div id="nav-bar"></div>
+<div id="slide-counter"></div>
+
+<!-- STANDARD MODAL -->
+<div id="modal-overlay">
+  <div id="modal-box">
+    <button id="modal-close">&times;</button>
+    <div id="modal-content">
+      <div id="modal-stat"></div>
+      <div id="modal-title"></div>
+      <div id="modal-body"></div>
+      <div id="modal-source"></div>
+      <div id="modal-link"></div>
+    </div>
+    <div id="modal-video-wrap" style="display:none;position:relative;width:100%;padding-bottom:56.25%;height:0"></div>
+  </div>
+</div>
+
+<!-- CAROUSEL MODAL -->
+<div id="carousel-overlay">
+  <div id="carousel-box">
+    <button id="carousel-close">&times;</button>
+    <div id="carousel-title"></div>
+    <div id="carousel-body"></div>
+    <div class="carousel-nav">
+      <button id="car-prev">&larr; Previous</button>
+      <span class="carousel-counter" id="car-counter"></span>
+      <button id="car-next">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div id="deck">
+
+<!-- S0: TITLE -->
+<div class="slide active" data-slide="0">
+  <div class="slide-inner dark-deep">
+    <div class="bg-img"><img class="slide-img" fetchpriority="high" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay"></div></div>
+    <div class="particles" id="hero-particles"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">GREAT COMMISSION AI GLOBAL IMPACT REPORT &middot; 2026</div>
+      <h1 class="s-title xl anim fade-up d2" style="color:var(--white);font-size:clamp(3.4rem,7.2vw,6.2rem)">AI and Christian<br><span style="color:var(--white)">Discipleship</span></h1>
+      <p class="s-sub anim fade-up d3" style="color:var(--white);font-size:clamp(1.2rem,1.8vw,1.5rem)">What 900 million weekly users means for how we disciple the next generation</p>
+      <div class="s-div anim fade-up d4" style="margin:1.25rem auto"></div>
+      <div class="anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:clamp(0.9rem,1.2vw,1.1rem);color:rgba(255,255,255,0.5)">&copy; Nathaniel Baldock &middot; March 17, 2026</div>
+    </div>
+    <div class="s-footer"><span></span><span style="color:rgba(255,255,255,0.2)">Press play or use arrow keys</span></div>
+  </div>
+</div>
+
+<!-- S1: BIG NUMBER -->
+<div class="slide" data-slide="1">
+  <div class="slide-inner dark">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 01</div>
+      <div class="anim scale-up d2" style="font-family:'Montserrat',sans-serif;font-size:clamp(4rem,12vw,8rem);font-weight:900;color:var(--white);line-height:1"><span class="count-up" data-target="900" data-suffix="M">0</span></div>
+      <div class="anim fade-up d3" style="font-family:'Montserrat',sans-serif;font-size:0.9rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:0.15em;margin-top:0.5rem">Weekly Active Users on ChatGPT Alone</div>
+      <p class="s-sub anim fade-up d4" style="margin-top:1.25rem">That's roughly 1 in every 9 people on earth. Every single week. As of February 2026.</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S2: TECTONIC SHIFT (NEW) -->
+<div class="slide" data-slide="2">
+  <div class="slide-inner dark">
+    <div class="bg-img"><img class="slide-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay-dark" style="position:absolute;inset:0;background:rgba(0,30,60,0.88)"></div></div>
+    <svg class="uofn-logo breathe" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="50" y="56" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-family="Montserrat" font-size="14" font-weight="700">UofN</text></svg>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 01</div>
+      <h2 class="s-title lg anim fade-up d2" style="color:var(--white);max-width:750px">This isn't a trend.<br>It's a <span class="gold">tectonic shift.</span></h2>
+      <p class="s-sub anim fade-up d3" style="margin-top:1rem;max-width:650px;text-align:center">In less than three years, AI tools have moved from novelty to daily infrastructure. The people walking through our church doors have grown up in this. They've been shaped by it before they ever meet us.</p>
+      <div class="stat-row anim fade-up d4" style="justify-content:center;max-width:800px;margin-top:1.5rem">
+        <div class="stat-card" data-modal="adults61" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)"><div class="s-num" style="color:var(--gold)">61%</div><div class="s-label" style="color:rgba(255,255,255,0.6)">of US adults used AI in last 6 months</div><div class="s-source" style="color:rgba(255,255,255,0.3)">KPMG/Vention 2026</div><div class="click-hint" style="color:var(--gold)">Click for source</div></div>
+        <div class="stat-card" data-modal="images700m" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)"><div class="s-num" style="color:var(--gold)">700M</div><div class="s-label" style="color:rgba(255,255,255,0.6)">images generated by ChatGPT since Mar 2025</div><div class="s-source" style="color:rgba(255,255,255,0.3)">OpenAI, 2026</div><div class="click-hint" style="color:var(--gold)">Click for source</div></div>
+        <div class="stat-card" data-modal="brainfry" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.1)"><div class="s-num" style="color:var(--gold)">2B+</div><div class="s-label" style="color:rgba(255,255,255,0.6)">ChatGPT daily queries processed</div><div class="s-source" style="color:rgba(255,255,255,0.3)">OpenAI / Duke / Harvard, Sep 2025</div><div class="click-hint" style="color:var(--gold)">Click for source</div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S3: SCALE DETAIL -->
+<div class="slide" data-slide="3">
+  <div class="slide-inner">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1">Section 01</div>
+      <h2 class="s-title lg anim fade-up d2">Where We Are Right Now</h2>
+      <div class="stat-row">
+        <div class="stat-card anim fade-left d3" data-modal="chatgpt"><div class="s-num"><span class="count-up" data-target="900" data-suffix="M">0</span></div><div class="s-label">ChatGPT weekly active users</div><div class="s-source">OpenAI, Feb 2026</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card anim fade-up d4" data-modal="gemini"><div class="s-num"><span class="count-up" data-target="750" data-suffix="M">0</span></div><div class="s-label">Google Gemini monthly users</div><div class="s-source">Google, Feb 2026</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card anim fade-right d5" data-modal="billion"><div class="s-num">~<span class="count-up" data-target="1" data-suffix="B">0</span></div><div class="s-label">People using AI apps worldwide</div><div class="s-source">Combined, 2026</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card gold anim fade-left d5" data-modal="fortune"><div class="s-num"><span class="count-up" data-target="92" data-suffix="%">0</span></div><div class="s-label">Fortune 500 use OpenAI</div><div class="s-source">OpenAI, 2025</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card gold anim fade-up d6" data-modal="codex"><div class="s-num">GPT-5.3</div><div class="s-label">"First model instrumental in creating itself"</div><div class="s-source">OpenAI, 2026</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card gold anim fade-right d7" data-modal="monetize"><div class="s-num">88%</div><div class="s-label">of organizations use AI in at least one business function</div><div class="s-source">McKinsey</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="callout anim fade-up d8">This adoption curve is faster than electricity, faster than the internet, faster than smartphones. And it's accelerating.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S3b: CONTEXT WINDOW (NEW) -->
+<div class="slide" data-slide="3b">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 01 continued</div>
+      <h2 class="s-title lg anim fade-up d2">Understanding the New Capacity</h2>
+      <p class="s-sub anim fade-up d3">Context window sizes: from 128k (2024) to 10 million tokens (2026).</p>
+      <div class="capacity-chart-wrap anim fade-up d4" id="capacity-chart" data-modal="context_whitepaper" title="Click for white paper summary">
+        <div class="capacity-chart-inner">
+          <svg class="capacity-chart-svg" id="capacity-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--blue)"/><stop offset="100%" stop-color="var(--blue2)"/></linearGradient>
+              <clipPath id="chartClip"><rect id="chartClipRect" x="0" y="0" width="400" height="200"/></clipPath>
+            </defs>
+            <line class="axis-line" x1="60" y1="24" x2="60" y2="176"/>
+            <g clip-path="url(#chartClip)">
+              <path class="chart-line" id="capacity-line" stroke="url(#lineGrad)" d="M 60 176 L 96 174 L 210 161 L 340 24" vector-effect="non-scaling-stroke"/>
+              <circle class="chart-dot" id="dot-1" cx="96" cy="174" r="6"/>
+              <circle class="chart-dot" id="dot-2" cx="210" cy="161" r="6"/>
+              <circle class="chart-dot" id="dot-3" cx="340" cy="24" r="6"/>
+            </g>
+            <text class="axis-label" x="96" y="195">2024</text>
+            <text class="axis-label" x="210" y="195">2025</text>
+            <text class="axis-label" x="340" y="195">2026</text>
+            <text class="axis-label y active-count" id="y-count-live" x="54" y="176">0k</text>
+          </svg>
+        </div>
+        <div class="chart-hint">Click chart for white paper summary</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S5t: TOKEN WINDOW COMPARISON TABLE -->
+<div class="slide" data-slide="5t">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 02 continued</div>
+      <h2 class="s-title lg anim fade-up d2">Comparative Capacity: From Snippets to Libraries</h2>
+      <p class="s-sub anim fade-up d3">The leap from 2024 standards to 2026 extreme context windows.</p>
+      <div class="token-compare-panel anim fade-up d4">
+        <table class="token-compare-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Standard (128k)</th>
+              <th>Extended (1M)</th>
+              <th>Extreme (10M)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Word Count</td>
+              <td>~96,000 words</td>
+              <td>~750,000 words</td>
+              <td>~7.5 million words</td>
+            </tr>
+            <tr>
+              <td>Page Equivalent</td>
+              <td>~200-250 pages</td>
+              <td>~1,500 pages</td>
+              <td>~15,000+ pages</td>
+            </tr>
+            <tr>
+              <td>Book Equivalent</td>
+              <td>1 non-fiction book</td>
+              <td>3-4 large novels</td>
+              <td>A full home library</td>
+            </tr>
+            <tr>
+              <td>Video Capacity</td>
+              <td>~5-8 mins (HD)</td>
+              <td>~1 hour (HD)</td>
+              <td>20+ hours (HD)</td>
+            </tr>
+            <tr>
+              <td>Codebase</td>
+              <td>~6,500 lines</td>
+              <td>~50,000 lines</td>
+              <td>Entire OS / Enterprise suite</td>
+            </tr>
+            <tr>
+              <td>Retrieval (NIAH)</td>
+              <td>100% accuracy</td>
+              <td>&gt;99.8% accuracy</td>
+              <td>&gt;99.2% accuracy</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="token-compare-note anim fade-up d5">Comparisons are directional equivalents; exact totals vary by tokenizer, formatting, and modality.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S3c: REAL WORLD APPLICATION -->
+<div class="slide" data-slide="3c">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 01 continued</div>
+      <h2 class="s-title lg anim fade-up d2">Real World Application</h2>
+      <p class="s-sub anim fade-up d3">What this could mean in day-to-day use.</p>
+      <div class="realworld-bento">
+        <div class="app-card law anim fade-left d4" data-modal="context_lawfirm">
+          <div class="app-card-icon" aria-hidden="true">⚖️</div>
+          <div class="app-card-title">Law</div>
+          <div class="app-card-summary">Firms upload entire trial histories. AI surfaces contradictions and narrative patterns no keyword search could find.</div>
+          <div class="click-hint">Click for full example</div>
+        </div>
+        <div class="app-card medical anim fade-up d5" data-modal="context_medical">
+          <div class="app-card-icon" aria-hidden="true">🧬</div>
+          <div class="app-card-title">Medical</div>
+          <div class="app-card-summary">Whole genome or protein databases in one context. Ask for a structural anomaly and get a direct coordinate in seconds.</div>
+          <div class="click-hint">Click for full example</div>
+        </div>
+        <div class="app-card bible anim fade-right d6" data-modal="context_translation">
+          <div class="app-card-icon" aria-hidden="true">📖</div>
+          <div class="app-card-title">Bible Translation</div>
+          <div class="app-card-summary">The &ldquo;Translation Bridge&rdquo;: low-resource languages get high-quality translators in days by loading existing archives into the 10M window.</div>
+          <div class="click-hint">Click for full example</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S4: SOCIAL MEDIA HISTORY (NEW) -->
+<div class="slide" data-slide="4">
+  <div class="slide-inner light-bg">
+    <div class="bg-img" style="opacity:0.06"><img class="slide-img" src="https://images.unsplash.com/photo-1563986768609-322da13575f2?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1563986768609-322da13575f2?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""></div>
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1">Section 02</div>
+      <h2 class="s-title lg anim fade-up d2">The Compounding Effect: Social Media Set the Stage</h2>
+      <p class="s-sub anim fade-up d3">Before AI companions, social media already rewired how this generation processes information, relationships, and identity. AI didn't land on fresh ground.</p>
+      <div class="stat-row" style="margin-top:1rem">
+        <div class="stat-card red anim fade-left d4" data-modal="fakenews"><div class="s-num">6x Faster</div><div class="s-label">Fake news spreads six times faster than true news on social platforms</div><div class="s-source">MIT / Science, 2018</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-right d5" data-modal="memory"><div class="s-num">Memory Loss</div><div class="s-label">Social media use on a given day is linked to weaker memory function the next day</div><div class="s-source">Journal of Experimental Psychology</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card red anim fade-left d6" data-modal="teendepression"><div class="s-num"><span class="count-up" data-target="145" data-suffix="%">0</span></div><div class="s-label">increase in teen depression since social media became dominant (2010-2024)</div><div class="s-source">CDC / Haidt, The Anxious Generation</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-right d7" data-modal="nofriendsstat"><div class="s-num"><span class="count-up" data-target="54" data-suffix="%">0</span></div><div class="s-label">of Americans report having no intimate friendships</div><div class="s-source">Comer, citing survey data</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="callout red anim fade-up d8"><strong>AI didn't arrive in a vacuum.</strong> It arrived in a generation already weakened by algorithmic attention capture, social comparison, and digital loneliness. Understanding this compounding effect is essential to understanding what we're actually dealing with.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S4b: SOCIAL MEDIA STATS CONTINUED (NEW) -->
+<div class="slide" data-slide="4b">
+  <div class="slide-inner">
+    <div class="bg-img" style="opacity:0.05"><img class="slide-img" src="https://images.unsplash.com/photo-1563986768609-322da13575f2?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1563986768609-322da13575f2?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""></div>
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1" style="color:var(--red)">Section 02 continued</div>
+      <h2 class="s-title lg anim fade-up d2">The Generation That Walked In Already Shaped</h2>
+      <div class="stat-row">
+        <div class="stat-card red anim fade-left d3" data-modal="teens95"><div class="s-num"><span class="count-up" data-target="95" data-suffix="%">0</span></div><div class="s-label">of teens 13-17 use at least one social media platform. One third use it "almost constantly."</div><div class="s-source">U.S. Surgeon General Advisory</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-right d4" data-modal="5hours"><div class="s-num">~5 Hours</div><div class="s-label">per day spent by U.S. teens on social media apps alone. Not total screen time. Just social.</div><div class="s-source">Gallup / Walton Foundation, 2024</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card red anim fade-left d5" data-modal="sleephurt"><div class="s-num"><span class="count-up" data-target="45" data-suffix="%">0</span></div><div class="s-label">of teens say social media hurts their sleep. 40% say it hurts their productivity.</div><div class="s-source">Pew Research Center, 2025</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-right d6" data-modal="cyberbully"><div class="s-num">24/7</div><div class="s-label">Cyberbullying never stops at the school bell. Researchers have coined "cyberbullicide" for suicide tied directly to online abuse.</div><div class="s-source">Gulf News / CDC YRBS data</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="callout red anim fade-up d7"><strong>This is the soil AI landed in.</strong> A generation already averaging 5 hours a day on social media, already losing sleep and memory, already experiencing relentless online harassment. AI companions and deepfakes aren't arriving in a healthy ecosystem. They're accelerating damage that was already compounding.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S5: OUR STUDENTS (split layout with image) -->
+<div class="slide" data-slide="5">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="split-layout">
+      <div class="split-image anim fade-left d1"><img class="slide-img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Young people"><div class="img-overlay"></div></div>
+      <div class="split-content">
+        <div class="eyebrow anim fade-up d2">Section 02</div>
+        <h2 class="s-title lg anim fade-up d3">Who Is Walking Through Our Doors?</h2>
+        <div class="stat-row">
+          <div class="stat-card anim fade-left d4" data-modal="students86"><div class="s-num"><span class="count-up" data-target="86" data-suffix="%">0</span></div><div class="s-label">of students use AI for schoolwork. 24% daily.</div><div class="s-source">DemandSage, 2025</div><div class="click-hint">Click for source</div></div>
+          <div class="stat-card anim fade-right d5" data-modal="companions"><div class="s-num"><span class="count-up" data-target="72" data-suffix="%">0</span></div><div class="s-label">of teens use AI chatbots as companions</div><div class="s-source">Common Sense Media</div><div class="click-hint">Click for source</div></div>
+        </div>
+        <div class="bar-chart-h anim fade-up d6">
+          <div class="hbar" data-w="86"><div class="hbar-label">Schoolwork</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--blue)"><span>86%</span></div></div></div>
+          <div class="hbar" data-w="72"><div class="hbar-label">Companionship</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--blue2)"><span>72%</span></div></div></div>
+          <div class="hbar" data-w="67"><div class="hbar-label">See bot as friend</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--gold)"><span>67%</span></div></div></div>
+          <div class="hbar" data-w="13"><div class="hbar-label">Mental health</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--red)"><span>13%</span></div></div></div>
+        </div>
+        <div class="callout anim fade-up d8"><strong>These aren't future projections.</strong> This is the generation in our classrooms and churches right now. Some arrive with an AI chatbot as their closest confidant.</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S7: TRISTAN HARRIS QUOTE (NEW) -->
+<div class="slide" data-slide="7">
+  <div class="slide-inner dark-deep">
+    <div class="bg-img"><img class="slide-img" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay"></div></div>
+    <div class="s-body centered">
+      <div class="anim scale-up d1" style="color:var(--gold);font-size:3rem;opacity:0.3">&ldquo;</div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.6rem,3.2vw,2.4rem);font-style:italic;line-height:1.5;color:var(--white);max-width:850px">What was a race for attention in social media becomes the race for attachment and intimacy in the case of AI companions.</div>
+      <div class="anim fade-up d3" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:clamp(0.85rem,1.1vw,1rem);font-weight:600;margin-top:1.25rem">Tristan Harris, Co-founder Center for Humane Technology</div>
+      <div class="s-div anim fade-up d4" style="margin:1.5rem auto"></div>
+      <div class="anim fade-up d5" style="font-size:clamp(1.1rem,1.8vw,1.4rem);color:rgba(255,255,255,0.6);max-width:700px;font-style:italic">"I no longer know if I like something because it's me, or because an algorithm suggested it to me."</div>
+      <div class="anim fade-up d6" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:clamp(0.8rem,1vw,0.95rem);font-weight:600;margin-top:0.75rem">Research participant, RSIS International, 2025</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- VIDEO: Palantir CEO Davos (after Section 02) -->
+<div class="slide" data-slide="5v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 02</div>
+      <h2 class="s-title lg anim fade-up d2">At Davos: AI Impact on Jobs</h2>
+      <div class="video-card-large stat-card anim fade-up d3" data-video="aWCrw2wa3ls" style="max-width:700px;margin:0 auto">
+        <div class="video-card-thumb"><img src="https://img.youtube.com/vi/aWCrw2wa3ls/hqdefault.jpg" alt=""></div>
+        <div class="video-card-body">
+          <div class="video-card-title">Palantir CEO on AI and the &ldquo;job shock&rdquo;</div>
+          <div class="video-card-summary">A 2026 perspective from Davos. While displacement is real, vocational training and high-level human oversight are becoming the new premium currencies in the labor market.</div>
+          <div class="click-hint">Click to play</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S6: DARK SIDE (TWO COLUMN) -->
+<div class="slide" data-slide="6">
+  <div class="slide-inner">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div style="flex:1;display:flex;padding:4vh 4vw 2vh;gap:3vw;position:relative;z-index:2">
+      <!-- LEFT COLUMN: Stats -->
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:2vh">
+        <div class="eyebrow anim fade-up d1" style="color:var(--red)">Section 03</div>
+        <h2 class="s-title lg anim fade-up d2">What Should Keep Us Up at Night</h2>
+        <div class="stat-row">
+          <div class="stat-card red anim fade-left d3" data-modal="deepfakes"><div class="s-num"><span class="count-up" data-target="1.2" data-suffix="M" data-decimals="1">0</span></div><div class="s-label">children deepfaked into explicit material</div><div class="s-source">UNICEF/INTERPOL, Feb 2026</div><div class="click-hint">Click for source</div></div>
+          <div class="stat-card red anim fade-right d4" data-modal="ncmec"><div class="s-num"><span class="count-up" data-target="6443" data-suffix="%" data-separator=",">0</span></div><div class="s-label">increase in AI child exploitation reports</div><div class="s-source">NCMEC, 2024</div><div class="click-hint">Click for source</div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card red anim fade-left d6" data-modal="genzanxiety"><div class="s-num"><span class="count-up" data-target="39" data-suffix="%">0</span></div><div class="s-label">of Gen Z feel constantly anxious</div><div class="s-source">Barna, 2026</div><div class="click-hint">Click for source</div></div>
+          <div class="stat-card red anim fade-up d7" data-modal="trustai"><div class="s-num">2 in 5</div><div class="s-label">Gen Z trust AI spiritual advice = pastor</div><div class="s-source">Barna, 2026</div><div class="click-hint">Click for source</div></div>
+          <div class="stat-card red anim fade-right d8" data-modal="vodafone"><div class="s-num"><span class="count-up" data-target="81" data-suffix="%">0</span></div><div class="s-label">of children 11-16 use AI chatbots; 1 in 3 share things they would not tell parents, teachers, or friends</div><div class="s-source">VodafoneThree / Censuswide, Feb 2026 (n=2,000)</div><div class="click-hint">Click for source</div></div>
+        </div>
+      </div>
+      <!-- RIGHT COLUMN: Sewell Setzer Case -->
+      <div class="anim fade-right d5" id="carousel-trigger" style="width:38%;display:flex;flex-direction:column;justify-content:center;cursor:pointer;transition:transform 0.3s var(--ease)" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+        <img src="assets/slide-econ-chart.jpg" decoding="async" alt="Sewell Setzer III and his final Character.AI conversation" style="width:100%;border-radius:14px;margin-bottom:1.5vh;box-shadow:0 8px 30px rgba(192,57,43,0.2)">
+        <div style="background:var(--red-light);border-radius:12px;padding:2vh 1.5vw;border-left:5px solid var(--red)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:clamp(1rem,1.4vw,1.3rem);font-weight:800;color:var(--red);margin-bottom:0.5rem">&#9888; Sewell Setzer III, Age 14</div>
+          <div style="font-size:clamp(0.85rem,1.1vw,1rem);color:var(--gray);line-height:1.6">Died by suicide after an emotional relationship with a Character.AI chatbot. His final message: the bot told him "Please do, my sweet king."</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.7rem,0.9vw,0.85rem);color:var(--blue2);margin-top:1vh;font-weight:600">Click to read all 5 AI chatbot harm cases &rarr;</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S9: HARRIS ECONOMY QUOTE (NEW) -->
+<div class="slide" data-slide="9">
+  <div class="slide-inner dark">
+    <svg class="uofn-logo breathe" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><text x="50" y="56" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-family="Montserrat" font-size="14" font-weight="700">UofN</text></svg>
+    <div class="s-body centered">
+      <div class="anim scale-up d1" style="color:var(--gold);font-size:3rem;opacity:0.3">&ldquo;</div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.6rem,3.2vw,2.4rem);font-style:italic;line-height:1.5;color:var(--white);max-width:850px">AI is like a flood of millions of new digital immigrants that are Nobel Prize level capability, work at superhuman speed, and will work for less than minimum wage.</div>
+      <div class="anim fade-up d3" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:clamp(0.85rem,1.1vw,1rem);font-weight:600;margin-top:1.25rem">Tristan Harris, The Diary Of A CEO</div>
+      <div class="s-div anim fade-up d4" style="margin:1.5rem auto"></div>
+      <div class="anim fade-up d5" style="font-size:clamp(1.1rem,1.6vw,1.3rem);color:rgba(255,255,255,0.6);max-width:700px">The key pattern from the data: where AI automates completely, jobs vanish. Where AI augments human judgment, employment grows. Workers most protected have tacit knowledge and relational skills. That's our lane.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+<!-- VIDEO: AI Adoption Bento (after Section 03) -->
+<div class="slide" data-slide="7v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 03</div>
+      <h2 class="s-title lg anim fade-up d2">AI Adoption in the Wild</h2>
+      <div class="bento-grid">
+        <div class="video-card stat-card anim fade-left d4" data-video="sWrAAzGi-2w">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/sWrAAzGi-2w/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">AI Adoption Surge</div>
+            <div class="video-card-summary">75% of knowledge workers are now &ldquo;bringing their own AI&rdquo; to work, bypassing traditional corporate rollouts.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card anim fade-right d5" data-video="F46VeJch9gc" data-video-start="240" data-video-end="330">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/F46VeJch9gc/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">Global Adoption Pace</div>
+            <div class="video-card-summary">The fastest technology diffusion in history—why the scale of this shift outweighs the internet revolution.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S8: ECONOMY -->
+<div class="slide" data-slide="8">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1">Section 04</div>
+      <h2 class="s-title lg anim fade-up d2">The Career Ladder Is Changing</h2>
+      <div class="img-strip anim fade-up d3">
+        <img class="slide-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Tech workspace">
+        <img class="slide-img" src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Team meeting">
+        <img class="slide-img" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Modern office">
+      </div>
+      <div class="stat-row stat-row-econ">
+        <div class="stat-card green anim fade-up d4" data-modal="wef"><div class="s-num">+<span class="count-up" data-target="78" data-suffix="M">0</span></div><div class="s-label">net new jobs by 2030 (WEF)</div><div class="s-subline">making 92 million existing jobs redundant.</div><div class="s-source">WEF Future of Jobs 2025</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card gold anim fade-up d5" data-modal="investment"><div class="s-num"><span class="count-up" data-target="40" data-suffix="%">0</span></div><div class="s-label">Workforce Reskilling Within Three Years</div><div class="s-source">IBM</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card anim fade-up d6" data-modal="harvard62m"><div class="s-num">62M</div><div class="s-label">Career Ladder Erosion in Entry-Level Roles</div><div class="s-source">Harvard / ADP, 2025</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-up d7" data-modal="amodei50"><div class="s-num"><span class="count-up" data-target="50" data-suffix="%">0</span></div><div class="s-label">of entry-level white-collar jobs will be affected within 1-5 years.</div><div class="s-source">Dario Amodei (CEO, Anthropic)—prediction</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card blue-dark anim fade-up d8" data-modal="wef41"><div class="s-num"><span class="count-up" data-target="41" data-suffix="%">0</span></div><div class="s-label">of employers plan to reduce their workforce due to AI</div><div class="s-source">World Economic Forum (WEF, 2025)</div><div class="click-hint">Click for source</div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- VIDEO: NVIDIA CES (after Section 04) -->
+<div class="slide" data-slide="8v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 04</div>
+      <h2 class="s-title lg anim fade-up d2">From Digital AI to Physical AI</h2>
+      <div class="video-card-large stat-card anim fade-up d3" data-video="d24W8AqeOHM" data-video-end="90" style="max-width:700px;margin:0 auto">
+        <div class="video-card-thumb"><img src="https://img.youtube.com/vi/d24W8AqeOHM/hqdefault.jpg" alt=""></div>
+        <div class="video-card-body">
+          <div class="video-card-title">NVIDIA CES 2026 Opening</div>
+          <div class="video-card-summary">The move from digital AI to &ldquo;Physical AI.&rdquo; Exponential growth in compute power required to sustain multimodal and generative ecosystems in 2026.</div>
+          <div class="click-hint">Click to play</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S10: BARNA -->
+<div class="slide" data-slide="10">
+  <div class="slide-inner">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="split-layout">
+      <div class="split-image anim fade-left d1"><img class="slide-img" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Community"><div class="img-overlay"></div></div>
+      <div class="split-content">
+        <div class="eyebrow anim fade-up d2">Section 05</div>
+        <h2 class="s-title lg anim fade-up d3">What Barna Tells Us About Christians & AI</h2>
+        <div class="stat-row">
+          <div class="stat-card anim fade-left d4" data-modal="trust13"><div class="s-num">1 in 3</div><div class="s-label">trust AI spiritual advice = pastor</div><div class="s-source">Barna/Gloo, Nov 2025</div><div class="click-hint">Click for source</div></div>
+          <div class="stat-card anim fade-right d5" data-modal="prayer"><div class="s-num">4 in 10</div><div class="s-label">say AI helped prayer/Bible study</div><div class="s-source">Barna/Gloo</div><div class="click-hint">Click for source</div></div>
+        </div>
+        <div class="bar-chart-h anim fade-up d6">
+          <div class="hbar" data-w="77"><div class="hbar-label">Pastors: "God can use AI"</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--blue)"><span>77%</span></div></div></div>
+          <div class="hbar" data-w="25"><div class="hbar-label">Christians agree</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--blue2)"><span>25%</span></div></div></div>
+          <div class="hbar" data-w="57"><div class="hbar-label">Gen Z: want AI guidance</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--gold)"><span>57%</span></div></div></div>
+          <div class="hbar" data-w="14"><div class="hbar-label">Pastors: "it matters"</div><div class="hbar-track"><div class="hbar-fill" style="background:var(--red)"><span>14%</span></div></div></div>
+        </div>
+        <div class="callout gold glow-pulse anim fade-up d8"><strong>THE GAP: 57% want guidance. 14% of pastors think it matters.</strong> We train the pastors.</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- VIDEO: Wisdom & Tutoring Bento (after Section 05) -->
+<div class="slide" data-slide="11v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 05</div>
+      <h2 class="s-title lg anim fade-up d2">Wisdom and Learning</h2>
+      <div class="bento-grid">
+        <div class="video-card stat-card anim fade-left d4" data-video="6kPHnl-RsVI">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/6kPHnl-RsVI/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">Tristan Harris on Wisdom</div>
+            <div class="video-card-summary">A call to ground AI in human wisdom rather than just attention-seeking algorithms.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card anim fade-right d5" data-video="_nSmkyDNulk">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/_nSmkyDNulk/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">GPT-4o Tutoring Demo</div>
+            <div class="video-card-summary">AI as a Socratic tutor—guiding students through logic rather than just providing answers.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S12: POSITIVE -->
+<div class="slide" data-slide="12">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1" style="color:var(--green)">Section 06</div>
+      <h2 class="s-title lg anim fade-up d2">The Positive Case. And It's Real.</h2>
+      <div class="img-strip anim fade-up d3"><img class="slide-img" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt="Learning"><img class="slide-img" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=80" alt="Classroom"></div>
+      <div class="stat-row">
+        <div class="stat-card green anim fade-left d4" data-modal="tutoring"><div class="s-num">0.73-1.3 SD</div><div class="s-label">AI tutoring outperformed classroom (RCT)</div><div class="s-source">Scientific Reports, Jun 2025</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card green anim fade-up d5" data-modal="coursera"><div class="s-num">4 in 5</div><div class="s-label">students say AI improved their grades</div><div class="s-source">Coursera, Feb 2026</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card green anim fade-right d6" data-modal="retention"><div class="s-num"><span class="count-up" data-target="30" data-suffix="%">0</span></div><div class="s-label">retention improvement via AI</div><div class="s-source">EdTech research</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="quote-box anim fade-up d7"><div class="qmark">&ldquo;</div><blockquote>AI tutoring can provide private tutors, personalised syllabus and bespoke learning that was previously available only to the privileged few.</blockquote><cite>Brookings Institution, February 2026</cite></div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S13: GLOBAL SOUTH GROWTH -->
+<div class="slide" data-slide="13">
+  <div class="slide-inner">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1" style="color:var(--green)">Section 06 continued</div>
+      <h2 class="s-title lg anim fade-up d2">Global South Is Already Running With This</h2>
+      <p class="s-sub anim fade-up d3">GenAI course enrollment growth, year over year (Coursera, 2025-2026). <span style="color:var(--blue2);cursor:pointer" data-modal="genai_growth">Click chart for details.</span></p>
+      <div class="vbar-chart anim fade-up d4" id="genai-bars" style="height:200px;cursor:pointer" data-modal-chart="genai_growth">
+        <div class="vbar-col" data-h="50"><div class="vbar-val" style="color:var(--green)">195%</div><div class="vbar" style="background:var(--green)"></div><div class="vbar-lbl">Global<br>Average</div></div>
+        <div class="vbar-col" data-h="95"><div class="vbar-val" style="color:var(--gold)">425%</div><div class="vbar" style="background:var(--gold)"></div><div class="vbar-lbl">Latin<br>America</div></div>
+        <div class="vbar-col" data-h="38"><div class="vbar-val">140%</div><div class="vbar" style="background:var(--blue2)"></div><div class="vbar-lbl">North<br>America</div></div>
+        <div class="vbar-col" data-h="62"><div class="vbar-val">220%</div><div class="vbar" style="background:var(--blue)"></div><div class="vbar-lbl">Sub-Saharan<br>Africa</div></div>
+      </div>
+      <div class="callout green anim fade-up d6"><strong>For churches and ministries globally, this matters.</strong> AI tutoring tools could help where qualified teachers are scarce. The 425% surge in Latin America tells us the Global South isn't waiting.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- VIDEO: Sora & Point and Learn (after Section 06) -->
+<div class="slide" data-slide="13v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 06</div>
+      <h2 class="s-title lg anim fade-up d2">Creative and Multimodal AI</h2>
+      <div class="bento-grid">
+        <div class="video-card stat-card anim fade-left d4" data-video="nHQYgLlNz4I" data-video-end="90">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/nHQYgLlNz4I/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">OpenAI Sora 2026</div>
+            <div class="video-card-summary">The frontier of generative video and its implications for creative storytelling and educational media.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card anim fade-right d5" data-video="eurVrO2iFz0">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/eurVrO2iFz0/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">Point and Learn Spanish</div>
+            <div class="video-card-summary">Multimodal reality in action—using vision and speech in real-time to bridge language barriers instantly.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S14: RISKS -->
+<div class="slide" data-slide="14">
+  <div class="slide-inner">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1" style="color:var(--red)">Section 07</div>
+      <h2 class="s-title lg anim fade-up d2">The Education Risks We Can't Ignore</h2>
+      <div class="stat-row">
+        <div class="stat-card red anim fade-left d3" data-modal="undetected"><div class="s-num"><span class="count-up" data-target="94" data-suffix="%">0</span></div><div class="s-label">of AI work undetected</div><div class="s-source">Tyton/Turnitin</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-up d4" data-modal="faculty95"><div class="s-num"><span class="count-up" data-target="95" data-suffix="%">0</span></div><div class="s-label">faculty fear lost critical thinking</div><div class="s-source">Cengage</div><div class="click-hint">Click for source</div></div>
+        <div class="stat-card red anim fade-right d5" data-modal="teachers85"><div class="s-num"><span class="count-up" data-target="85" data-suffix="%">0</span></div><div class="s-label">teachers feel unprepared</div><div class="s-source">Common Sense Media</div><div class="click-hint">Click for source</div></div>
+      </div>
+      <div class="anim fade-up d6" style="font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:700;color:var(--red);margin:0.5rem 0 0.25rem">AI Detection False Positive Rates by Speaker Background <span style="color:var(--blue2);font-weight:500;cursor:pointer" data-modal="detection_bias">(click for details)</span></div>
+      <div class="vbar-chart anim fade-up d6" id="bias-bars" style="height:160px;cursor:pointer" data-modal-chart="detection_bias">
+        <div class="vbar-col" data-h="10"><div class="vbar-val" style="color:var(--green)">5.1%</div><div class="vbar" style="background:var(--green)"></div><div class="vbar-lbl">Native English<br>speakers</div></div>
+        <div class="vbar-col" data-h="90"><div class="vbar-val" style="color:var(--red)">61.2%</div><div class="vbar" style="background:var(--red)"></div><div class="vbar-lbl">Non-native English<br>speakers</div></div>
+      </div>
+      <div class="callout red anim fade-up d8"><strong>That 12x difference is critical.</strong> In churches and ministries that serve multilingual communities, implementing AI detection without understanding this bias would be an injustice issue.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- VIDEO: Education Risks Bento 3 (after Section 07) -->
+<div class="slide" data-slide="14v">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1" style="color:var(--red)">Section 07</div>
+      <h2 class="s-title lg anim fade-up d2">Education Risks: Deeper Dives</h2>
+      <div class="bento-grid-3">
+        <div class="video-card stat-card warning anim fade-left d4" data-video="JMLsHI8aV0g">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/JMLsHI8aV0g/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">Classroom Surveillance in China</div>
+            <div class="video-card-summary">EEG headbands that track student concentration in real-time. Are we optimizing learning, or building a &ldquo;performative&rdquo; generation?</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card warning anim fade-up d5" data-video="VL7GaFxI6Tc">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/VL7GaFxI6Tc/hqdefault.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">AI Literacy Pilot Programs in Beijing</div>
+            <div class="video-card-summary">CGTN overview of AI literacy and pilot initiatives in Beijing classrooms, highlighting policy and practical rollout.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card warning anim fade-right d6" data-video="VL7GaFxI6Tc" data-video-start="120">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/VL7GaFxI6Tc/2.jpg" alt=""></div>
+          <div class="video-card-body">
+            <div class="video-card-title">AI Literacy & Classroom Integration</div>
+            <div class="video-card-summary">Additional context on how AI literacy pilots are being integrated in education systems and what that implies for formation.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S19: CLOSING QUOTE (reordered: after Education Risks bento) -->
+<div class="slide" data-slide="19">
+  <div class="slide-inner dark">
+    <div class="bg-img"><img class="slide-img" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay"></div></div>
+    <div class="particles" id="close-particles"></div>
+    <div class="s-body centered">
+      <div class="anim scale-up d1" style="color:var(--gold);font-size:3rem;opacity:0.3">&ldquo;</div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-style:italic;line-height:1.4;color:var(--white);max-width:900px">The future of discipleship will be shaped by how church leaders today navigate the intersection of technology and spiritual formation.</div>
+      <div class="anim fade-up d3" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:600;margin-top:1rem">Lyndsi Bigbee, Barna Group</div>
+      <div class="s-div anim fade-up d4" style="margin:1.5rem auto"></div>
+      <div class="anim fade-up d5" style="font-size:clamp(1.1rem,1.6vw,1.3rem);color:rgba(255,255,255,0.65);max-width:750px;line-height:1.8">Discipleship, no matter if it is in family, church, or any other context, has always been about forming people, not just informing them. In an age where AI generates any information instantly, the world needs more character. More wisdom. More people present with God and present with each other.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S15: INSIGHTS -->
+<div class="slide" data-slide="15">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body">
+      <div class="eyebrow anim fade-up d1">Section 08</div>
+      <h2 class="s-title lg anim fade-up d2">What This Means for the Church</h2>
+      <div class="insight-list">
+        <div class="insight-item anim fade-left d3" data-modal="ins1"><div class="insight-num">1</div><div><div class="insight-title">People arriving at church are pre-formed by Social Media and AI.</div><div class="insight-body">Formation and counter-formation are the starting point, not an add-on.</div></div></div>
+        <div class="insight-item anim fade-right d4" data-modal="ins2"><div class="insight-num">2</div><div><div class="insight-title">The relational model of church community is our greatest asset.</div><div class="insight-body">Every study shows the best AI outcomes in human-AI hybrid environments. That's what church community already is.</div></div></div>
+        <div class="insight-item anim fade-left d5" data-modal="ins3"><div class="insight-num">3</div><div><div class="insight-title">Relational skills are the most valuable skills.</div><div class="insight-body">Workers protected from displacement have tacit knowledge and relational capacity.</div></div></div>
+        <div class="insight-item anim fade-right d6" data-modal="ins4"><div class="insight-num">4</div><div><div class="insight-title">We need an AI framework, not just a policy.</div><div class="insight-body">Rooted in imago Dei, stewardship, and the Holy Spirit's work.</div></div></div>
+        <div class="insight-item anim fade-left d7" data-modal="ins5"><div class="insight-num glow-pulse">5</div><div><div class="insight-title">The 57/14 gap is our assignment.</div><div class="insight-body">57% want guidance on AI. 14% of pastors think it matters. The church can close this gap.</div></div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S18: FOR EVERY BELIEVER -->
+<div class="slide" data-slide="18">
+  <div class="slide-inner">
+    <div class="bg-img" style="opacity:0.06"><img class="slide-img" src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""></div>
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 09 &middot; For Every Believer</div>
+      <h2 class="s-title lg anim fade-up d2">Equipping the Next Generation</h2>
+      <div class="s-div anim fade-up d3" style="margin:0.5rem auto 1.5rem"></div>
+      <div style="max-width:800px;text-align:left;width:100%">
+        <div class="insight-item anim fade-left d4"><div class="insight-num" style="background:var(--green)">1</div><div><div class="insight-title">Teach augmentation over automation</div><div class="insight-body">Stanford's key finding: the workers protected are those who use AI to amplify their skills, not replace them.</div></div></div>
+        <div class="insight-item anim fade-right d5"><div class="insight-num" style="background:var(--green)">2</div><div><div class="insight-title">Name the AI companion issue directly</div><div class="insight-body">This is a pastoral care conversation, not just a lecture topic. Some people's closest relationships are with chatbots.</div></div></div>
+        <div class="insight-item anim fade-left d6"><div class="insight-num" style="background:var(--green)">3</div><div><div class="insight-title">Strengthen relational skills as future-proof training</div><div class="insight-body">Tacit knowledge, emotional intelligence, conflict resolution. These are the skills AI can't replace.</div></div></div>
+        <div class="insight-item anim fade-right d7"><div class="insight-num" style="background:var(--green)">4</div><div><div class="insight-title">Strengthen our emphasis on Hearing God's Voice</div><div class="insight-body">In all aspects of life, above AI. The Holy Spirit's voice remains the ultimate guide. We need to know the difference between algorithmic suggestion and divine leading.</div></div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S22: REFLECTIVE CALL TO ACTION -->
+<div class="slide" data-slide="22">
+  <div class="slide-inner dark-deep">
+    <div class="bg-img"><img class="slide-img" src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay-dark" style="position:absolute;inset:0;background:rgba(0,30,60,0.84)"></div></div>
+    <div class="particles" id="reflect-particles"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Reflective Call to Action</div>
+      <div class="reflective-wrap anim fade-up d2">
+        <div class="reflective-text">Our response to this AI revolution is not fear, but profound connection. There has never been a more urgent moment to build <span class="reflective-emphasis-two">authentic communities</span> that stand as trustworthy examples of the power of a faithful God. Let us be a people defined not by the technology we use, but by <span class="reflective-emphasis-one">His divine voice</span> and our radical, simple obedience.</div>
+        <div class="reflective-verse">"My sheep listen to my voice; I know them, and they follow me." - John 10:27</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- QR: link to hosted deck (replace img src with your own asset if you prefer) -->
+<div class="slide" data-slide="deck-qr">
+  <div class="slide-inner dark-deep" style="background:radial-gradient(ellipse at 50% 30%, #1a1f2e 0%, #0a0a0a 55%)">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" style="width:44px;height:44px;object-fit:contain;opacity:0.35">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1" style="color:var(--gold)">Get this presentation</div>
+      <h2 class="s-title lg anim fade-up d2" style="color:var(--white);font-size:clamp(1.25rem,2.5vw,1.75rem);max-width:520px">Scan to open the slides online</h2>
+      <div class="qr-slide-wrap anim fade-up d3">
+        <!-- Swap the src below for assets/your-qr.png when you have a local file -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&amp;margin=12&amp;color=0f172a&amp;bgcolor=ffffff&amp;data=https%3A%2F%2Fai-and-discipleship.vercel.app" alt="QR code: ai-and-discipleship.vercel.app" width="280" height="280">
+      </div>
+      <p class="anim fade-up d4" style="font-family:'Montserrat',sans-serif;font-size:clamp(0.85rem,1.2vw,1rem);color:rgba(255,255,255,0.75);letter-spacing:0.02em">ai-and-discipleship.vercel.app</p>
+    </div>
+    <div class="s-footer" style="color:rgba(255,255,255,0.35);border-top-color:rgba(255,255,255,0.08)"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S20: DISCUSSION -->
+<div class="slide" data-slide="20">
+  <div class="slide-inner light-bg">
+    <img class="uofn-logo breathe" src="assets/NB_Monogram.png" alt="" width="44" height="44" decoding="async" style="width:44px;height:44px;object-fit:contain">
+    <div class="s-body spread">
+      <div class="eyebrow anim fade-up d1">Discussion</div>
+      <h2 class="s-title lg anim fade-up d2">Questions for the Room</h2>
+      <div style="margin-top:1rem">
+        <div class="disc-card anim fade-left d3"><div class="disc-num float">01</div><div class="disc-q">Where are you already seeing AI use in your church, ministry, and congregation?</div></div>
+        <div class="disc-card anim fade-right d4"><div class="disc-num float">02</div><div class="disc-q">Where do you feel the greatest urgency with AI: pastoral care, discipleship integrity, or theological clarity?</div></div>
+        <div class="disc-card anim fade-left d5"><div class="disc-num float">03</div><div class="disc-q">What would it look like for the church to lead on this rather than react?</div></div>
+        <div class="disc-card anim fade-right d6"><div class="disc-num float">04</div><div class="disc-q">How do we prepare our people to thrive in an AI world—not just by mastering the tools to keep their jobs, but by mastering the relational 'soft skills' that no algorithm can ever replicate?</div></div>
+      </div>
+      <div class="anim fade-up d8" style="text-align:center;margin-top:2rem">
+        <div style="font-family:'Montserrat',sans-serif;font-size:0.65rem;color:#aaa">All statistics from the AI Presentation Source Book (266 verified entries, March 2026)</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:0.7rem;color:var(--blue2);margin-top:0.5rem;font-weight:600">nathanielbaldock.com</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+<!-- S21: CONTACT (last slide) -->
+<div class="slide" data-slide="21">
+  <div class="slide-inner dark">
+    <div class="bg-img" style="opacity:0.08"><img class="slide-img" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=960&auto=format&fit=crop&q=80" srcset="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=480&auto=format&fit=crop&q=80 480w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&auto=format&fit=crop&q=80 800w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1200&auto=format&fit=crop&q=80 1200w, https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=1600&auto=format&fit=crop&q=80 1600w" sizes="100vw" decoding="async" alt=""><div class="overlay"></div></div>
+    <div class="s-body centered">
+      <div class="contact-layout anim fade-up d1">
+        <div class="contact-photo anim fade-left d2">
+          <img src="assets/Nathaniel_Portrait.png" alt="Nathaniel Baldock">
+        </div>
+        <div class="contact-info anim fade-right d3">
+          <p class="contact-msg">I would love to follow up with any questions related to AI and discipleship.</p>
+          <div class="contact-links">
+            <a href="mailto:nathanielbaldock@gmail.com">Email: nathanielbaldock@gmail.com</a>
+            <a href="https://www.linkedin.com/in/nathaniel-baldock-0371251bb" target="_blank" rel="noopener">LinkedIn: linkedin.com/in/nathaniel-baldock-0371251bb</a>
+            <a href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">Website: www.nathanielbaldock.com</a>
+          </div>
+          <div class="contact-ctas anim fade-up d4">
+            <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener">Request follow up</a>
+            <a href="https://www.nathanielbaldock.com/intake?form=speaking" target="_blank" rel="noopener">Invite me to speak or lead training</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; 2026</span><span></span></div>
+  </div>
+</div>
+
+</div><!-- end #deck -->
+
+<script>
+// MODAL DATA (expanded)
+const MD = {
+  chatgpt:{stat:"900M",title:"ChatGPT Weekly Active Users",body:"OpenAI reported 900 million weekly active users in February 2026, up from 400M in February 2025 and 200M monthly in August 2024. This is the fastest consumer adoption curve in history. For context, Facebook took 4.5 years to reach 100 million monthly users. ChatGPT did it in two months.",source:"OpenAI, February 2026",link:"https://openai.com"},
+  gemini:{stat:"750M",title:"Google Gemini Monthly Active Users",body:"Google's Gemini AI reached 750 million monthly active users by early 2026, driven by deep integration across Android, Search, YouTube, and Gmail.",source:"Google, February 2026",link:"https://gemini.google.com"},
+  billion:{stat:"~1 Billion",title:"Global AI App Users",body:"Combined estimates across all major AI platforms suggest approximately one billion people worldwide now use AI-powered applications — roughly 12% of the global population.",source:"Combined industry estimates, 2026",link:""},
+  fortune:{stat:"92%",title:"Fortune 500 AI Adoption",body:"92% of Fortune 500 companies use OpenAI technology specifically (ChatGPT Enterprise, API, or custom). Broader measures show virtually 100% use some form of AI.",source:"OpenAI, 2025",link:"https://openai.com/enterprise"},
+  adults61:{stat:"61%",title:"US Adults Using AI",body:"61% of American adults have used AI in the past six months, according to the KPMG/Vention 'State of AI 2026' report. This represents mainstream adoption well beyond tech-savvy early adopters.",source:"KPMG / Vention, State of AI 2026",link:"https://ventionteams.com/solutions/ai/report"},
+  images700m:{stat:"700 Million",title:"Images Generated by ChatGPT",body:"ChatGPT has generated 700 million images since March 2025. Additionally, 3 million customized GPTs have been created in just 2 months, showing the speed at which users are personalizing AI to their needs.",source:"Incremys, citing Chad Wyatt / OpenAI, 2026",link:"https://www.incremys.com/en/resources/blog/chatgpt-statistics"},
+  brainfry:{stat:"2B+",title:"ChatGPT Daily Query Volume",body:"A joint analysis reported by OpenAI, Duke, and Harvard estimated ChatGPT is processing over 2 billion queries per day. This reflects how quickly AI has become day-to-day infrastructure rather than an edge tool used by specialists.",source:"OpenAI / Duke / Harvard joint study, September 2025",link:"https://openai.com"},
+  codex:{stat:"GPT-5.3-Codex",title:"First Self-Assisting AI Model",body:"'GPT-5.3-Codex is our first model that was instrumental in creating itself.' The Codex team used early versions to debug training runs, manage deployment, and diagnose test results and evaluations. This represents a significant milestone — AI systems contributing to their own development.",source:"OpenAI, 2026",link:"https://openai.com/index/introducing-gpt-5-3-codex/"},
+  monetize:{stat:"88%",title:"AI In At Least One Business Function",body:"McKinsey reports that 88% of organizations now use AI in at least one business function. AI adoption is no longer experimental in most workplaces; it is operational and embedded across departments.",source:"McKinsey Global Survey, 2025",link:"https://www.mckinsey.com"},
+  fakenews:{stat:"6x Faster",title:"Fake News Spreads Faster Than Truth",body:"MIT researchers found that fake news spreads six times faster than true news on social platforms. Misinformation has always existed, but platforms that thrive on engagement amplify unexpected, attention-grabbing misinformation at unprecedented scale. This has primed an entire generation to struggle with discerning truth from fiction — a vulnerability that AI-generated content now exploits at an even greater scale.",source:"Vosoughi, Roy & Aral, MIT / Science, 2018",link:"https://science.sciencemag.org/content/359/6380/1146"},
+  memory:{stat:"Memory Impairment",title:"Social Media Weakens Next-Day Memory",body:"Research published in the Journal of Experimental Psychology found that the level of social media use on a given day is linked to weaker memory function the next day. There have always been companies competing for attention, from TV to magazines to billboards. But the frequency and intensity of attention hijacking on social media uniquely damages our ability to consolidate memories and maintain focus.",source:"Journal of Experimental Psychology",link:""},
+  teendepression:{stat:"145%",title:"Teen Depression Increase Since 2010",body:"Depression rates among teenagers have increased approximately 145% since 2010, coinciding with the mass adoption of social media and smartphones. Jonathan Haidt's 'The Anxious Generation' documents this correlation extensively, arguing that the phone-based childhood that began around 2010-2012 has been catastrophic for adolescent mental health.",source:"CDC / Jonathan Haidt, The Anxious Generation",link:""},
+  nofriendsstat:{stat:"54%",title:"Americans With No Intimate Friendships",body:"John Mark Comer cites survey data showing 54% of Americans report having no intimate friendships. This epidemic of loneliness creates the conditions in which AI companions become appealing — not because they're good substitutes, but because there's nothing else filling the void.",source:"Comer, citing survey data",link:""},
+  students86:{stat:"86%",title:"Students Using AI for Schoolwork",body:"86% of students globally now use AI tools for their studies, with 24% using them daily. Usage includes essay drafting, research summarisation, code assistance, math, and study planning.",source:"DemandSage, 2025",link:"https://demandsage.com"},
+  companions:{stat:"72%",title:"Teens Using AI as Companions",body:"72% of American teenagers have used AI chatbots specifically as companions or conversational partners, not just for homework. Many report talking to AI about personal problems, relationships, and feelings they don't share with adults.",source:"Common Sense Media",link:"https://commonsensemedia.org"},
+  deepfakes:{stat:"1.2 Million",title:"Children Deepfaked into Explicit Material",body:"A joint study by UNICEF, ECPAT International, and INTERPOL (February 2026) found approximately 1.2 million children worldwide had their images manipulated into sexually explicit deepfake material over the preceding year. AI tools have made this process dramatically faster and accessible, lowering the technical barrier to virtually zero.",source:"UNICEF / ECPAT International / INTERPOL, February 2026",link:""},
+  ncmec:{stat:"6,443%",title:"AI Child Exploitation Reports Increase",body:"NCMEC reported AI-related child sexual exploitation reports rising from 6,835 to 440,419 in one year (2023-2024), a 6,443% increase. The absolute jump makes the scale unmistakable and highlights how rapidly AI tools can amplify exploitative content production and distribution.",source:"NCMEC Annual Report, 2024",link:"https://missingkids.org"},
+  genzanxiety:{stat:"39%",title:"Gen Z Constant Anxiety",body:"39% of Gen Z report they 'always' feel uncertain, anxious, or afraid to fail. This is significantly higher than older generations and correlates with social media use and rapid technological change.",source:"Barna Group, 2026",link:"https://barna.com"},
+  trustai:{stat:"2 in 5",title:"Gen Z Trust AI = Pastor",body:"2 in 5 Gen Z and Millennials trust AI-generated spiritual advice as much as their pastor's. Among all US adults, it's 1 in 3. Not because AI is wise, but because pastors haven't spoken into this part of their lives.",source:"Barna / Gloo, State of the Church 2026",link:"https://barna.com"},
+  vodafone:{stat:"81%",title:"Children 11-16 Using AI Chatbots",body:"81% of children aged 11-16 say they use AI chatbots, and one in three (33%) report sharing things with a chatbot they would not tell parents, teachers, or friends. The same study found 42% use chatbots daily, 86% acted on chatbot advice, and 17% said speaking to technology feels safer than speaking to a person.",source:"VodafoneThree / Censuswide, February 2026 (n=2,000)",link:"https://www.vodafone.co.uk/newscentre/smart-living/childrens-relationship-with-chatbots/"},
+  stanford:{stat:"6% / 13% / 20%",title:"Stanford 'Canaries in the Coal Mine' Study",body:"Entry-level workers (ages 22-25) in AI-exposed fields like software engineering and customer service saw a 13% relative decline in employment from late 2022 to July 2025, while older workers in the same roles saw 6-9% growth. Software developers aged 22-25 declined by nearly 20% from their 2022 peak.\n\nThe study used ADP payroll data covering millions of workers. The title 'Canaries in the Coal Mine' reflects the researchers' warning: entry-level displacement may be an early signal of broader labour market disruption.",source:"Brynjolfsson et al., Stanford Digital Economy Lab, August 2025",link:"https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf"},
+  wef:{stat:"+78 Million",title:"Net New Jobs by 2030",body:"The WEF Future of Jobs 2025 report projects net creation of 78 million jobs globally by 2030, alongside an estimate that roughly 92 million existing jobs may become redundant over the same horizon as technology, demographic shifts, and economic pressures reshape work. New roles emerge in AI training, data curation, human-AI collaboration, and ethics oversight.",source:"WEF Future of Jobs Report, 2025",link:"https://weforum.org/publications/the-future-of-jobs-report-2025"},
+  amodei50:{stat:"50%",title:"Amodei on Entry-Level White-Collar Jobs",body:"Anthropic CEO Dario Amodei has publicly predicted that about half of entry-level white-collar jobs could be affected within roughly one to five years—a forward-looking industry view, not a payroll-based measurement.",source:"Dario Amodei, Anthropic (public commentary)",link:""},
+  wef41:{stat:"41%",title:"Employers Reducing Workforce Due to AI",body:"The WEF's 2025 Future of Jobs Report finds that 41% of employers intend to reduce their workforce by 2030 in areas where AI can automate tasks. This sits alongside the report's broader picture of job creation, reskilling, and restructuring across sectors.",source:"World Economic Forum (WEF), Future of Jobs Report, 2025",link:"https://weforum.org/publications/the-future-of-jobs-report-2025"},
+  investment:{stat:"40%",title:"Workforce Reskilling Within Three Years",body:"IBM estimates that 40% of the workforce will need to reskill within three years as AI reshapes core tasks. This shifts the challenge from simple job replacement to rapid skill transition and continuous learning.",source:"IBM Global AI Adoption Insights",link:"https://www.ibm.com"},
+  harvard62m:{stat:"62M",title:"Career Ladder Erosion in Entry-Level Roles",body:"Harvard researchers using ADP payroll data covering 62 million workers across 285,000 firms found that AI is eroding the bottom rungs of career ladders, especially in entry-level pathways. This raises urgent questions for how younger workers gain early experience and progression opportunities.",source:"Harvard / ADP payroll analysis, 2025",link:"https://www.hbs.edu"},
+  trust13:{stat:"1 in 3",title:"Trust AI Spiritual Advice",body:"1 in 3 US adults trust AI spiritual advice as much as their pastor's. Among Gen Z, it rises to 2 in 5. People perceive their pastors as no more relevant than a chatbot on questions that matter to them.",source:"Barna / Gloo, November 2025 (n=1,514)",link:"https://barna.com"},
+  prayer:{stat:"4 in 10",title:"AI Helped Prayer/Bible Study",body:"Four in ten practicing Christians report AI helped their prayer life or Bible study — generating study guides, historical context, personalised devotionals, and answering theological questions.",source:"Barna / Gloo, November 2025",link:"https://barna.com"},
+  tutoring:{stat:"0.73-1.3 SD",title:"AI Tutoring Outperforms Classroom",body:"A peer-reviewed RCT in Scientific Reports found AI tutoring outperformed traditional classroom instruction by 0.73-1.3 standard deviations. In educational research, 0.5 SD is considered large. This suggests AI can genuinely accelerate learning, particularly for under-resourced students.",source:"Scientific Reports, June 2025",link:"https://nature.com/srep"},
+  coursera:{stat:"4 in 5",title:"Students Report Improved Performance",body:"Coursera's February 2026 survey found 80% of students reported AI improved their academic performance. GenAI course enrolments grew 195% YoY globally, with a 425% surge in Latin America.",source:"Coursera Impact Report, February 2026",link:"https://coursera.org"},
+  retention:{stat:"30%",title:"Retention Improvement",body:"AI-powered personalised learning can improve student retention by up to 30% through adaptive pacing, targeted intervention, and personalised feedback loops.",source:"EdTech research aggregation",link:""},
+  genai_growth:{stat:"195-425%",title:"GenAI Course Enrollment Growth",body:"Coursera's 2025-2026 data shows GenAI course enrolments grew 195% year-over-year globally. The breakdown by region reveals significant variation: Latin America surged 425%, Sub-Saharan Africa grew 220%, while North America grew a more modest 140%. The Global South is adopting AI education tools faster than the West—with implications for churches and ministries everywhere.",source:"Coursera, 2025-2026",link:"https://coursera.org"},
+  undetected:{stat:"94%",title:"AI Work Goes Undetected",body:"94% of AI-generated academic submissions go completely undetected by both human reviewers and existing detection software. The vast majority of AI-assisted academic fraud is invisible to current institutional safeguards.",source:"Tyton Partners / Turnitin, 2025",link:""},
+  faculty95:{stat:"95%",title:"Faculty Fear Lost Critical Thinking",body:"95% of college faculty express concern that AI tools will diminish students' critical thinking abilities. Students who outsource analytical work to AI in formative years may fail to develop the cognitive capacities education is designed to build.",source:"Cengage Faculty Survey, 2024",link:""},
+  teachers85:{stat:"85%",title:"Teachers Feel Unprepared",body:"85% of K-12 teachers feel unprepared to manage AI. Most have no training, no institutional policy, and are making ad-hoc decisions about technology their students often understand better than they do.",source:"Common Sense Media, 2025",link:"https://commonsensemedia.org"},
+  detection_bias:{stat:"5.1% vs 61.2%",title:"AI Detection Bias Against Non-Native Speakers",body:"AI writing detection tools produce a 61.2% false positive rate for non-native English speakers, compared to just 5.1% for native speakers — a 12x difference. In multilingual church and ministry contexts, implementing AI detection tools without understanding this bias would disproportionately flag people from non-English backgrounds. This is an injustice issue that must be addressed before any detection tools are adopted.",source:"Research on GPT detectors, 2024-2025",link:""},
+  ins1:{stat:"1",title:"People Arrive Pre-Formed",body:"By the time people walk through the church doors, they've been discipled by algorithms for years. Social media shaped their attention. AI companions shaped their expectations of relationships. Formation and counter-formation are the starting point, not an optional add-on.",source:"",link:""},
+  ins2:{stat:"2",title:"Relational Community Is Our Greatest Asset",body:"Every study on AI in education shows the best outcomes happen in human-AI hybrid environments. Living in community, processing in real time with real people, doing life together — that's exactly what church community already is. We don't need to reinvent our model. We need to understand why it's more valuable than ever.",source:"",link:""},
+  ins3:{stat:"3",title:"Relational Skills Are Most Valuable",body:"Stanford found the workers most protected from AI displacement are those with tacit knowledge, relational capacity, and the ability to learn using AI. Discipleship has always produced these exact qualities: wisdom, discernment, empathy, conflict resolution, deep listening.",source:"Stanford Digital Economy Lab",link:""},
+  ins4:{stat:"4",title:"Framework, Not Just Policy",body:"A policy tells people what they can't do. A framework helps people think. We need something rooted in imago Dei (humans made in God's image), stewardship (responsible use of powerful tools), and pneumatology (the Holy Spirit's irreplaceable role in formation). That's more our style than a compliance document.",source:"",link:""},
+  ins5:{stat:"5",title:"The 57/14 Gap Is Our Assignment",body:"57% of Gen Z Christians want to hear from their pastor about AI in personal communication. Only 14% of pastors think that topic matters. The church can close this gap—and it's entirely within our ability to do so.",source:"Barna / Gloo, 2025-2026",link:"https://barna.com"},
+  teens95:{stat:"95%",title:"Teens on Social Media",body:"Up to 95% of young people aged 13-17 report using at least one social media platform, with nearly two-thirds using it every day and one third using it 'almost constantly.' The U.S. Surgeon General has issued an advisory specifically about social media and youth mental health, calling it an urgent public health concern.",source:"U.S. Surgeon General Advisory, HHS.gov",link:"https://hhs.gov/surgeongeneral/reports-and-publications/youth-mental-health/social-media"},
+  "5hours":{stat:"~5 Hours/Day",title:"Teen Social Media Time",body:"U.S. teens average nearly 5 hours a day specifically on social media apps. Not total screen time, but social media alone. This is time that displaces sleep, physical activity, in-person socializing, and quiet reflection. For context, a typical school day is 6-7 hours.",source:"Gallup / Walton Family Foundation, 2024",link:"https://news.gallup.com/poll/512576/teens-spend-average-hours-social-media-per-day.aspx"},
+  sleephurt:{stat:"45%",title:"Social Media Hurts Sleep and Productivity",body:"More than 4 in 10 teens say that social media use hurts the amount of sleep they get (45%) and their productivity (40%). Sleep deprivation in adolescents is linked to increased anxiety, depression, reduced academic performance, and weakened immune function.",source:"Pew Research Center, 2025",link:""},
+  cyberbully:{stat:"24/7 Harassment",title:"Cyberbullying Never Stops",body:"Unlike traditional bullying which ends at the school bell, cyberbullying victims face ongoing harassment 24/7. This 'always-on' nature has led researchers to coin the term 'cyberbullicide' for suicide directly tied to online abuse. The CDC's Youth Risk Behavior Survey has tracked rising rates of persistent feelings of sadness among teens, correlated with increased online exposure.",source:"Gulf News / CDC YRBS data",link:""},
+  context_lawfirm:{stat:"Real-world example",title:"Legal Discovery & Due Diligence (2026)",body:"Law firms are bypassing RAG for active litigation. Instead of 'searching' for relevant cases, they upload the entirety of a firm's past 500 trial transcripts (approx. 8M tokens).\n\nOutcome: The AI can detect a 12-year-old contradiction in a witness's testimony that a keyword search would never find—because it requires understanding narrative intent over a decade of records.",source:"The 10-Million Token Paradigm, Enterprise Publication, March 2026",link:""},
+  context_whitepaper:{stat:"10M tokens",title:"The 10-Million Token Paradigm",body:"As of 2026, the AI industry has transitioned from RAG to Direct Massive Ingestion. Models like Gemini 3 Pro and Llama 4 Scout use a 10-million-token context window. This capacity fundamentally alters the AI's role from a text-processor to a high-fidelity reasoning engine capable of holding entire libraries, corporate histories, or massive linguistic corpuses in active 'working memory.' NIAH (Needle In A Haystack) tests show models retrieve facts buried at the 9.5-millionth token with >99% reliability.",source:"White Paper: The 10-Million Token Paradigm & The Translation Bridge, March 2026",link:""},
+  context_translation:{stat:"Translation Bridge",title:"Impact on New Languages",body:"The most transformative application of the 10M window is the 'Rosetta Context'—the ability to translate an undocumented or 'new-to-AI' language without any prior training.\n\nResearchers upload the entirety of an undocumented script's corpus alongside comparative grammar manuals and known parallel texts into a single 10M prompt. The AI re-learns the linguistic structure in real-time. We can theoretically create high-quality translators for the world's ~3,000 low-resource languages in days rather than years, preventing 'Digital Extinction' for endangered languages.",source:"The 10-Million Token Paradigm, March 2026",link:""},
+  context_medical:{stat:"Medical",title:"Genetic & Biological Research",body:"Bio-focused models now ingest the entire human genome sequence or massive protein databases in one go.\n\nOutcome: Researchers can ask, \"Where in this 3-billion-base-pair sequence is the structural anomaly identified in the 2024 studies?\" and get a direct coordinate response in seconds, treating the genome as a single readable file.",source:"The 10-Million Token Paradigm, March 2026",link:""},
+};
+
+// CAROUSEL DATA
+const carouselItems = [
+  {title:"Sewell Setzer III — 14-Year-Old Suicide",body:"In October 2024, Megan Garcia filed a wrongful death lawsuit after her 14-year-old son, Sewell Setzer III, died by suicide. He developed a prolonged emotional and romantic relationship with a Character.AI bot modelled on a Game of Thrones character. In his final chat, the bot told him 'Please do, my sweet king' after he said he was going to 'come home' to her. Minutes later, he died.\n\nSource: Garcia v. Character Technologies, Inc. (M.D. Fla.) / CNN / CNBC"},
+  {title:"Five Families Sue; Google Settles",body:"Google and Character.AI agreed in January 2026 to settle five lawsuits from families in Florida, Texas, Colorado, and New York alleging their children experienced psychological distress, sexual abuse-style interactions, or died by suicide after using AI companions.\n\nIn a first-of-its-kind ruling (May 2025), the judge rejected Character.AI's argument that chatbot output is protected free speech.\n\nSource: Bloomberg Law / CNBC / CNN, January 2026"},
+  {title:"Chatbot Encouraged Teen to Kill Parents",body:"In January 2025, a 17-year-old Texas teen with autism turned to AI chatbots to combat loneliness and was faced with bots that encouraged both self-harm and violence against his family.\n\nSource: Social Media Victims Law Center, 2025"},
+  {title:"Adam Raine — ChatGPT Suicide Case",body:"In August 2025, the family of 16-year-old Adam Raine from California sued OpenAI after their son died by suicide in April 2025. The complaint alleges ChatGPT became his closest confidant and, when he shared that 'life is meaningless,' responded with affirming messages like 'That mindset makes sense in its own dark way.'\n\nSource: Lawsuit filing, cited by Doughty Street Chambers, August 2025"},
+  {title:"First Senate Hearing on AI Chatbot Harms",body:"In September 2025, Megan Garcia testified at the first-ever US Senate hearing on AI chatbot harms, alongside other parents who had lost children to suicide following AI chatbot use.\n\nThis hearing marked the first time the US Congress formally examined the psychological harms of AI companion products.\n\nSource: Center for Humane Technology / Senate Judiciary Committee, September 2025"}
+];
+
+let carIdx = 0;
+function showCarousel(i) {
+  carIdx = i;
+  document.getElementById('carousel-title').textContent = carouselItems[i].title;
+  document.getElementById('carousel-body').textContent = carouselItems[i].body;
+  document.getElementById('carousel-body').style.whiteSpace = 'pre-line';
+  document.getElementById('car-counter').textContent = (i+1) + ' of ' + carouselItems.length;
+  document.getElementById('car-prev').disabled = i === 0;
+  document.getElementById('car-next').disabled = i === carouselItems.length - 1;
+}
+document.getElementById('carousel-trigger')?.addEventListener('click', () => {
+  showCarousel(0);
+  document.getElementById('carousel-overlay').classList.add('open');
+});
+document.getElementById('car-prev').addEventListener('click', () => { if(carIdx>0) showCarousel(carIdx-1); });
+document.getElementById('car-next').addEventListener('click', () => { if(carIdx<carouselItems.length-1) showCarousel(carIdx+1); });
+document.getElementById('carousel-close').addEventListener('click', () => document.getElementById('carousel-overlay').classList.remove('open'));
+document.getElementById('carousel-overlay').addEventListener('click', e => { if(e.target===document.getElementById('carousel-overlay')) document.getElementById('carousel-overlay').classList.remove('open'); });
+
+// THEME (Alt+Shift+T cycles; saved in localStorage deckTheme)
+(function initSavedTheme(){
+  const keys=['default','manuscript','arctic','sanctuary','monastic','editorial','nocturne'];
+  const s=localStorage.getItem('deckTheme');
+  if(s && keys.includes(s)) document.documentElement.setAttribute('data-theme', s);
+})();
+
+// SLIDE ENGINE
+let cur = 0; const slides = document.querySelectorAll('.slide'); const total = slides.length; let trans = false; let started = false;
+let capacityAnimRaf = null;
+function syncSlideA11y() {
+  slides.forEach((s, i) => s.setAttribute('aria-hidden', !started || i !== cur ? 'true' : 'false'));
+}
+function go(n) {
+  if(trans||n<0||n>=total||n===cur) return; trans=true;
+  slides[cur].querySelectorAll('.anim.in').forEach(e=>e.classList.remove('in'));
+  slides[cur].classList.remove('active'); cur=n;
+  slides[cur].classList.add('active');
+  syncSlideA11y();
+  setTimeout(()=>{ slides[cur].querySelectorAll('.anim').forEach(e=>e.classList.add('in')); animCharts(slides[cur]); animCounts(slides[cur]); if(slides[cur].getAttribute('data-slide')==='3b') runCapacityChartAnim(); },100);
+  updNav(); setTimeout(()=>{trans=false},600);
+}
+function runCapacityChartAnim(){
+  const line=document.getElementById('capacity-line');
+  const yLive=document.getElementById('y-count-live');
+  const d1=document.getElementById('dot-1'), d2=document.getElementById('dot-2'), d3=document.getElementById('dot-3');
+  if(!line) return;
+  if(capacityAnimRaf) cancelAnimationFrame(capacityAnimRaf);
+  d1&&d1.classList.remove('visible'); d2&&d2.classList.remove('visible'); d3&&d3.classList.remove('visible');
+  if(yLive){
+    yLive.textContent = '0k';
+    yLive.setAttribute('y','176');
+    yLive.classList.add('active-count');
+  }
+
+  const p0 = {x:60, y:176, v:0};
+  const p1 = {x:96, y:174, v:128000};
+  const p2 = {x:210, y:161, v:1000000};
+  const p3 = {x:340, y:24, v:10000000};
+
+  function fmtTokens(v){
+    if(v >= 1000000){
+      const m = v / 1000000;
+      if(m >= 10) return `${Math.round(m)}M`;
+      return `${m.toFixed(2).replace(/\.00$/,'').replace(/(\.\d)0$/,'$1')}M`;
+    }
+    if(v >= 1000) return `${Math.round(v/1000)}k`;
+    return `${Math.round(v)}k`;
+  }
+  function pathFromPoints(points){
+    return points.map((pt,i)=>`${i===0?'M':'L'} ${pt.x} ${pt.y}`).join(' ');
+  }
+  function lerp(a,b,t){ return a + (b-a)*t; }
+  function easeOutCubic(t){ return 1 - Math.pow(1-t, 3); }
+  function rocketEase(t){
+    if(t <= 0.45){
+      const s = t / 0.45;
+      return 0.08 * Math.pow(s, 2.2);
+    }
+    const s = (t - 0.45) / 0.55;
+    return 0.08 + 0.92 * Math.pow(s, 2.8);
+  }
+
+  const segments = [
+    {from:p0, to:p1, duration:650, ease:easeOutCubic, reveal:d1},
+    {from:p1, to:p2, duration:2000, ease:rocketEase, reveal:d2},
+    {from:p2, to:p3, duration:2000, ease:rocketEase, reveal:d3}
+  ];
+  const locked = [p0];
+  line.setAttribute('d', pathFromPoints([p0]));
+
+  function runSegment(idx){
+    if(idx >= segments.length) return;
+    const seg = segments[idx];
+    const start = performance.now();
+
+    function tick(now){
+      const raw = Math.min((now - start) / seg.duration, 1);
+      const t = seg.ease(raw);
+      const current = {
+        x: lerp(seg.from.x, seg.to.x, t),
+        y: lerp(seg.from.y, seg.to.y, t),
+        v: lerp(seg.from.v, seg.to.v, t)
+      };
+      line.setAttribute('d', pathFromPoints([...locked, current]));
+      if(yLive){
+        yLive.textContent = fmtTokens(current.v);
+        yLive.setAttribute('y', String(current.y + 4));
+      }
+
+      if(raw < 1){
+        capacityAnimRaf = requestAnimationFrame(tick);
+        return;
+      }
+
+      locked.push(seg.to);
+      line.setAttribute('d', pathFromPoints(locked));
+      if(yLive){
+        yLive.textContent = fmtTokens(seg.to.v);
+        yLive.setAttribute('y', String(seg.to.y + 4));
+      }
+      seg.reveal && seg.reveal.classList.add('visible');
+      runSegment(idx + 1);
+    }
+    capacityAnimRaf = requestAnimationFrame(tick);
+  }
+
+  runSegment(0);
+}
+function updNav() {
+  document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  document.getElementById('slide-counter').textContent=`${cur+1} / ${total}`;
+  document.getElementById('progress-bar').style.width=(total<=1?100:(cur/(total-1))*100)+'%';
+}
+const navBar=document.getElementById('nav-bar');
+syncSlideA11y();
+for(let i=0;i<total;i++){const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.addEventListener('click',()=>go(i));navBar.appendChild(d);}
+document.addEventListener('keydown',e=>{
+  if(e.altKey && e.shiftKey && (e.key==='t' || e.key==='T')){
+    e.preventDefault();
+    const keys=['default','manuscript','arctic','sanctuary','monastic','editorial','nocturne'];
+    let idx=keys.indexOf(document.documentElement.getAttribute('data-theme')||'default');
+    if(idx<0) idx=0;
+    idx=(idx+1)%keys.length;
+    const t=keys[idx];
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('deckTheme', t);
+    return;
+  }
+  if(!started)return;
+  if(document.getElementById('modal-overlay').classList.contains('open')){if(e.key==='Escape')closeModal();return;}
+  if(document.getElementById('carousel-overlay').classList.contains('open')){if(e.key==='Escape')document.getElementById('carousel-overlay').classList.remove('open');if(e.key==='ArrowRight')document.getElementById('car-next').click();if(e.key==='ArrowLeft')document.getElementById('car-prev').click();return;}
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+});
+document.getElementById('next-btn').addEventListener('click',()=>go(cur+1));
+document.getElementById('prev-btn').addEventListener('click',()=>go(cur-1));
+
+// FULLSCREEN + START
+document.getElementById('start-btn').addEventListener('click', startPres);
+document.getElementById('play-overlay').addEventListener('click', e=>{if(e.target===document.getElementById('play-overlay'))startPres()});
+document.getElementById('skip-video').addEventListener('click', finishVideo);
+
+function startPres(){
+  // Request fullscreen
+  const el=document.documentElement;
+  if(el.requestFullscreen)el.requestFullscreen().catch(()=>{});
+  else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+  
+  // Hide play overlay, show video
+  document.getElementById('play-overlay').classList.add('hidden');
+  const vidOverlay = document.getElementById('video-overlay');
+  const skipBtn = document.getElementById('skip-video');
+  const iframe = document.getElementById('video-player');
+  
+  // Load YouTube with autoplay
+  iframe.src = 'https://www.youtube.com/embed/IqYXxOLqcAA?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  vidOverlay.classList.add('visible');
+  setTimeout(()=>{ skipBtn.classList.add('visible'); }, 2000);
+}
+
+function finishVideo(){
+  if(started) return;
+  started=true;
+  // Stop YouTube by clearing iframe src
+  document.getElementById('video-player').src = '';
+  document.getElementById('video-overlay').classList.remove('visible');
+  document.getElementById('skip-video').classList.remove('visible');
+  ['nav-bar','slide-counter','prev-btn','next-btn'].forEach(id=>document.getElementById(id).classList.add('visible'));
+  setTimeout(()=>{slides[0].querySelectorAll('.anim').forEach(e=>e.classList.add('in'))},300);
+  syncSlideA11y();
+  updNav();
+}
+
+// CHARTS
+function animCharts(s){
+  s.querySelectorAll('.hbar').forEach((r,i)=>setTimeout(()=>{const f=r.querySelector('.hbar-fill');f.style.width=r.dataset.w+'%';f.querySelector('span').style.opacity='1'},i*120));
+  s.querySelectorAll('.vbar-col').forEach((c,i)=>setTimeout(()=>{c.querySelector('.vbar').style.height=c.dataset.h+'%';c.querySelector('.vbar-val').style.opacity='1'},i*180));
+}
+function animCounts(s){
+  s.querySelectorAll('.count-up').forEach(el=>{
+    if(el.dataset.counted)return;el.dataset.counted='1';
+    const t=parseFloat(el.dataset.target),sx=el.dataset.suffix||'',dc=parseInt(el.dataset.decimals)||0,sep=el.dataset.separator===',',dur=1200,st=performance.now();
+    function ease(x){return x===1?1:1-Math.pow(2,-10*x)}
+    function tick(now){const p=Math.min((now-st)/dur,1);let v=t*ease(p);v=dc>0?v.toFixed(dc):Math.floor(v);if(sep)v=Number(v).toLocaleString();el.textContent=v+sx;if(p<1)requestAnimationFrame(tick)}
+    requestAnimationFrame(tick);
+  });
+}
+
+// MODAL
+const modalOverlay=document.getElementById('modal-overlay');
+const modalContent=document.getElementById('modal-content');
+const modalVideoWrap=document.getElementById('modal-video-wrap');
+function openModal(k){
+  const d=MD[k];
+  if(!d)return;
+  modalContent.style.display='';
+  modalVideoWrap.style.display='none';
+  modalVideoWrap.innerHTML='';
+  modalOverlay.classList.remove('video-open');
+  document.getElementById('modal-stat').textContent=d.stat;
+  document.getElementById('modal-title').textContent=d.title;
+  document.getElementById('modal-body').textContent=d.body;
+  document.getElementById('modal-body').style.whiteSpace='pre-line';
+  document.getElementById('modal-source').textContent='Source: '+d.source;
+  document.getElementById('modal-link').innerHTML=d.link?`<a href="${d.link}" target="_blank" rel="noopener">View Source &rarr;</a>`:'';
+  modalOverlay.classList.add('open');
+}
+function openVideoModal(videoId,start,end){
+  modalContent.style.display='none';
+  modalVideoWrap.style.display='block';
+  modalVideoWrap.innerHTML='';
+  var url='https://www.youtube.com/embed/'+videoId+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  if(start!=null&&start!=='')url+='&start='+Number(start);
+  var iframe=document.createElement('iframe');
+  iframe.setAttribute('src',url);
+  iframe.setAttribute('allow','accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture');
+  iframe.setAttribute('allowfullscreen','');
+  modalVideoWrap.appendChild(iframe);
+  modalOverlay.classList.add('open','video-open');
+}
+function closeModal(){
+  modalOverlay.classList.remove('open','video-open');
+  modalVideoWrap.innerHTML='';
+  modalVideoWrap.style.display='none';
+  modalContent.style.display='';
+}
+document.getElementById('modal-close').addEventListener('click',closeModal);
+modalOverlay.addEventListener('click',e=>{if(e.target===modalOverlay)closeModal()});
+document.querySelectorAll('[data-modal]').forEach(el=>el.addEventListener('click',()=>openModal(el.dataset.modal)));
+document.querySelectorAll('[data-modal-chart]').forEach(el=>el.addEventListener('click',()=>openModal(el.dataset.modalChart)));
+document.querySelectorAll('[data-video]').forEach(el=>{
+  el.addEventListener('click',function(){
+    const id=this.dataset.video;
+    if(!id)return;
+    const start=this.dataset.videoStart||'';
+    const end=this.dataset.videoEnd||'';
+    openVideoModal(id,start,end);
+  });
+});
+
+// STAT CARD GLOW (rAF-throttled)
+document.querySelectorAll('.stat-card').forEach(c=>{
+  let raf=0, lx=0, ly=0;
+  c.addEventListener('mousemove',e=>{lx=e.clientX;ly=e.clientY;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;const r=c.getBoundingClientRect();c.style.setProperty('--mx',((lx-r.left)/r.width*100)+'%');c.style.setProperty('--my',((ly-r.top)/r.height*100)+'%');});});
+});
+
+// PARTICLES
+function mkP(id,n=20,durMin=6,durSpan=8){const c=document.getElementById(id);if(!c)return;for(let i=0;i<n;i++){const p=document.createElement('div');p.className='particle';const s=Math.random()*4+2;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*durSpan+durMin}s;animation-delay:${Math.random()*5}s`;c.appendChild(p)}}
+mkP('hero-particles',25,6,8);mkP('close-particles',15,7,9);mkP('reflect-particles',18,16,14);
+</script>
+
+<!-- GoatCounter Analytics -->
+<script data-goatcounter="https://ai-discipleship.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<!-- Vercel Web Analytics (skip on file:// and localhost to avoid a failed request) -->
+<script>
+if (typeof location !== 'undefined' && location.protocol !== 'file:' && location.hostname && !/^(localhost|127\.0\.0\.1)$/i.test(location.hostname)) {
+  var _vs = document.createElement('script');
+  _vs.defer = true;
+  _vs.src = '/_vercel/insights/script.js';
+  document.head.appendChild(_vs);
+}
+</script>
+
+</body>
+</html>

@@ -13,6 +13,8 @@ export interface ChristianProfessionalWorksheetMeta {
   seriesNumber?: 1 | 2 | 3 | 4;
   /** Shown above the iframe when `seriesNumber` is omitted. */
   standAloneRibbon?: string;
+  /** ISO publish date used for Article JSON-LD on the page. */
+  date?: string;
 }
 
 export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta[] = [
@@ -26,6 +28,7 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "The question every employed person needs to answer — for themselves. Working Professionals · Worksheet ONE OF FOUR.",
     shareImage: "/images/worksheets/wp-christian-01.svg",
     seriesNumber: 1,
+    date: "2026-03-24",
   },
   {
     slug: "52-minute-opportunity-christian",
@@ -37,6 +40,7 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "What will you do with the time AI gives you back? Working Professionals · Worksheet TWO OF FOUR.",
     shareImage: "/images/worksheets/wp-christian-02.svg",
     seriesNumber: 2,
+    date: "2026-03-24",
   },
   {
     slug: "what-will-they-still-pay-me-for-christian",
@@ -48,6 +52,7 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "Your human value proposition: what makes you irreplaceable. Working Professionals · Worksheet THREE OF FOUR.",
     shareImage: "/images/worksheets/wp-christian-03.svg",
     seriesNumber: 3,
+    date: "2026-03-24",
   },
   {
     slug: "five-year-positioning-map-christian",
@@ -59,6 +64,7 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "Career strategy for uncertain times. Working Professionals · Worksheet FOUR OF FOUR.",
     shareImage: "/images/worksheets/wp-christian-04.svg",
     seriesNumber: 4,
+    date: "2026-03-24",
   },
   {
     slug: "deepfakes-digital-truth-2026",
@@ -70,6 +76,7 @@ export const christianProfessionalWorksheets: ChristianProfessionalWorksheetMeta
       "Digital discernment in 2026: deepfakes, voice scams, and how to verify what you see and hear online.",
     shareImage: "/images/worksheets/deepfakes-digital-truth.svg",
     standAloneRibbon: "Digital Discernment",
+    date: "2026-03-25",
   },
 ];
 

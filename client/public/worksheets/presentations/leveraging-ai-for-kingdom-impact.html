@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leveraging AI for Evangelism, Discipleship & Church Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Updated palette inspired by Sphere Devotions */
+  --navy: #1A1A2E;
+  --teal: #1B5E7B;
+  --gold: #D4A843;
+  --gold-light: #FFF8E1;
+  --cream: #F7F4EF;
+  --cream-dark: #EDE8E0;
+  --white: #FFFFFF;
+  --dark: #141418;
+  --mid: #1E1E2C;
+  --txt: #2C2C3A;
+  --muted: #6B6B7B;
+  --sub: #8F8F9D;
+  --green: #27AE60;
+  --green-light: #E8F8F0;
+  --red: #C0392B;
+  --red-light: #FDE8E8;
+  --orange: #E67E22;
+  --sphere-red: #D94F3C;
+  --sphere-orange: #E8834A;
+  --sphere-gold: #E2A84B;
+  --sphere-green: #5DAE5D;
+  --sphere-teal: #3BA3A3;
+  --sphere-blue: #3B82A3;
+  --gradient-warm: linear-gradient(135deg, #D94F3C 0%, #E8834A 25%, #E2A84B 50%, #D4A843 100%);
+  --gradient-hero: linear-gradient(135deg, #D94F3C 0%, #E8834A 20%, #E2A84B 40%, #5DAE5D 60%, #3BA3A3 80%, #3B82A3 100%);
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { overflow: hidden; height: 100%; width: 100%; }
+body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); background: #111; }
+
+/* PLAY OVERLAY */
+#play-overlay {
+  position: fixed; inset: 0; z-index: 99999; background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; transition: opacity 0.6s var(--ease), visibility 0.6s;
+}
+#play-overlay .play-logo {
+  width: 80px; height: 80px; margin-bottom: 1.25rem; border-radius: 50%;
+  object-fit: contain; flex-shrink: 0;
+}
+.title-logo {
+  height: 38px; width: auto; max-width: 280px; object-fit: contain; margin-bottom: 0.75rem;
+  filter: brightness(0) invert(1); opacity: 0.9;
+}
+.contact-logo {
+  height: 36px; width: auto; max-width: 260px; object-fit: contain; margin-bottom: 1rem;
+  filter: brightness(0) invert(1); opacity: 0.9;
+}
+#play-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#play-overlay h2 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 800; color: var(--white); margin-bottom: 0.4rem; text-align: center; letter-spacing: -0.02em; }
+.play-subtitle { font-family: 'Montserrat', sans-serif; font-size: clamp(0.8rem, 1.2vw, 1rem); color: rgba(255,255,255,0.35); margin-bottom: 2rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.play-btn {
+  width: 100px; height: 100px; border-radius: 50%; border: none;
+  background: var(--gradient-warm); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s var(--ease); animation: pulse-play 2s ease-in-out infinite;
+}
+.play-btn:hover { transform: scale(1.1); }
+.play-btn svg { width: 36px; height: 36px; margin-left: 5px; fill: var(--white); }
+@keyframes pulse-play { 0%,100%{box-shadow:0 0 0 0 rgba(212,168,67,0.35)} 50%{box-shadow:0 0 0 22px rgba(212,168,67,0)} }
+.play-author { font-family:'Montserrat',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.25); margin-top:2rem; }
+
+/* SLIDES */
+#deck { width: 100vw; height: 100vh; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+.slide {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.5s var(--ease), visibility 0.5s;
+}
+.slide.active { opacity: 1; visibility: visible; pointer-events: auto; }
+.slide-inner {
+  width: min(100vw, 177.78vh); height: min(100vh, 56.25vw); aspect-ratio: 16/9;
+  max-width: 100vw; max-height: 100vh; background: var(--white); position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+@media (max-width:768px) {
+  .slide-inner { width: 100vw; height: 100vh; max-width: none; max-height: none; aspect-ratio: auto; }
+}
+.slide-inner.dark { background: var(--dark); color: var(--white); }
+.slide-inner.mid { background: var(--mid); color: var(--white); }
+.slide-inner.cream { background: var(--cream); }
+.slide-inner::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: var(--gradient-hero); z-index: 10;
+}
+.slide-inner.dark::before, .slide-inner.mid::before { background: var(--gradient-warm); }
+
+/* Roman Road slide: full-page background image */
+.slide-inner.roman-road-bg {
+  position: relative;
+}
+.slide-inner.roman-road-bg::after {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: url('https://images.unsplash.com/photo-1709912151904-3e849b7850a6?w=1920&auto=format&fit=crop&q=85') center/cover no-repeat;
+}
+.slide-inner.roman-road-bg::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom,
+    rgba(247,244,239,0.82) 0%,
+    rgba(247,244,239,0.88) 50%,
+    rgba(247,244,239,0.85) 100%);
+  pointer-events: none;
+}
+.slide-inner.roman-road-bg .s-body,
+.slide-inner.roman-road-bg .s-footer { position: relative; z-index: 2; }
+
+/* Roman Road compact cards — stacked left, fit to text */
+.roman-road-cards { display: flex; flex-direction: column; gap: 0.8rem; max-width: 420px; flex-shrink: 0; margin: 1.5vh 0; }
+.roman-card {
+  padding: 0.9rem 1.2rem; border-radius: 10px; font-size: clamp(0.95rem, 1.2vw, 1.1rem); line-height: 1.55;
+  border-left: 4px solid var(--navy);
+}
+.roman-card-1st { background: rgba(255,255,255,0.95); color: var(--navy); box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+.roman-card-21st { background: var(--gold-light); border-left-color: var(--gold); color: var(--navy); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+/* BODY — full-height layout, balanced vertical spacing */
+.s-body {
+  flex: 1; min-height: 0; padding: 3.5vh 4.5vw 2.5vh; display: flex; flex-direction: column;
+  position: relative; z-index: 2; overflow-y: auto; justify-content: center; gap: 2.5vh;
+}
+.s-body.top { justify-content: flex-start; padding-top: 3.5vh; gap: 2.2vh; }
+.s-body.centered { align-items: center; justify-content: center; text-align: center; gap: 2vh; }
+
+/* FOOTER */
+.s-footer {
+  padding: 0.6rem 5vw; display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Montserrat', sans-serif; font-size: clamp(0.65rem, 0.8vw, 0.75rem); color: var(--muted);
+  border-top: 1px solid rgba(0,0,0,0.05); flex-shrink: 0;
+}
+.slide-inner.dark .s-footer, .slide-inner.mid .s-footer { color: rgba(255,255,255,0.2); border-top-color: rgba(255,255,255,0.04); }
+
+/* TYPOGRAPHY — larger, more readable at 16:9 */
+.eyebrow { font-family: 'Montserrat', sans-serif; font-size: clamp(0.75rem, 1vw, 0.95rem); font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+.s-title { font-family: 'Montserrat', sans-serif; font-weight: 800; line-height: 1.1; color: var(--navy); margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+.s-title.xl { font-size: clamp(2.8rem, 6.5vw, 5.2rem); }
+.s-title.lg { font-size: clamp(1.85rem, 3.5vw, 3rem); }
+.s-title.md { font-size: clamp(1.45rem, 2.4vw, 1.95rem); }
+.slide-inner.dark .s-title, .slide-inner.mid .s-title { color: var(--white); }
+.s-title .gold { color: var(--gold); }
+.s-title .warm-gradient {
+  background: var(--gradient-warm); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s-sub { font-size: clamp(1.05rem, 1.5vw, 1.3rem); color: var(--muted); line-height: 1.7; max-width: 750px; }
+.slide-inner.dark .s-sub { color: rgba(255,255,255,0.55); }
+.s-div { width: 50px; height: 3px; background: var(--gradient-warm); margin: 0.6rem 0; flex-shrink: 0; border-radius: 2px; }
+
+/* STAT CARDS — larger padding, bigger type, fill height */
+.stat-row { display: flex; gap: 1.5vw; margin: 2vh 0; flex-wrap: wrap; flex: 1; min-height: 0; }
+.stat-card {
+  flex: 1; min-width: 200px; min-height: 120px; background: var(--white); border-radius: 14px;
+  padding: 2.8vh 2.2vw; position: relative; overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s, border-color 0.3s;
+}
+.stat-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-color: var(--teal); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--navy); }
+.stat-card.gold::before { background: var(--gradient-warm); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.red::before { background: var(--red); }
+.stat-card::after {
+  content: ''; position: absolute; inset: 0; opacity: 0; border-radius: 14px;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(27,94,123,0.08) 0%, transparent 60%);
+  transition: opacity 0.3s;
+}
+.stat-card:hover::after { opacity: 1; }
+.s-num { font-family: 'Montserrat', sans-serif; font-size: clamp(2.2rem, 3.8vw, 3.2rem); font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 0.4rem; }
+.stat-card.gold .s-num { color: var(--gold); }
+.stat-card.green .s-num { color: var(--green); }
+.stat-card.red .s-num { color: var(--red); }
+.s-label { font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: var(--muted); line-height: 1.5; }
+.s-source { font-family: 'Montserrat', sans-serif; font-size: clamp(0.75rem, 0.95vw, 0.9rem); color: #aaa; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.click-hint { position: absolute; bottom: 0.4rem; right: 0.6rem; font-family: 'Montserrat', sans-serif; font-size: 0.5rem; color: var(--teal); opacity: 0; transition: opacity 0.3s; text-transform: uppercase; letter-spacing: 0.1em; }
+.stat-card:hover .click-hint { opacity: 0.6; }
+
+/* BARS */
+.bar-chart-h { display: flex; flex-direction: column; gap: 1vh; margin: 1.5vh 0; }
+/* Line graph charts (SVG) */
+.line-chart-svg { width: 100%; height: 100%; min-height: 180px; display: block; }
+.line-chart-path { fill: none; stroke: #2BA8A0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.line-chart-path.acc { stroke: #2BA8A0; }
+.line-chart-path.dim { stroke: #2BA8A0; }
+.line-chart-path.projection { stroke: rgba(43,168,160,0.6); stroke-dasharray: 6 4; stroke-dashoffset: 100; transition: stroke-dashoffset 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.line-chart-dot { fill: #E8834A; opacity: 0; transition: opacity 0.25s ease-out; }
+.line-chart-dot.teal { fill: #2BA8A0; }
+.line-chart-dot.gold { fill: var(--gold); }
+.line-chart-dot.projection { fill: rgba(43,168,160,0.5); }
+.line-chart-label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; fill: #2BA8A0; opacity: 0; transition: opacity 0.25s ease-out; }
+.line-chart-label.orange { fill: #E8834A; }
+.line-chart-label.gold { fill: var(--gold); }
+.line-chart-label.projection { fill: rgba(255,255,255,0.5); }
+.line-chart-year { font-family: 'Montserrat', sans-serif; font-size: 9px; fill: rgba(255,255,255,0.45); }
+.line-chart-vline { stroke: rgba(232,131,74,0.4); stroke-width: 1; opacity: 0; transition: opacity 0.25s ease-out; }
+#chart-diminishing, #chart-acceleration { min-height: 200px; }
+.hbar { display: flex; align-items: center; gap: 1vw; cursor: pointer; }
+.hbar-label { font-family: 'Montserrat', sans-serif; font-size: clamp(0.8rem, 1.05vw, 1rem); font-weight: 600; color: var(--txt); min-width: 140px; text-align: right; }
+.hbar-track { flex: 1; height: clamp(26px, 3.5vh, 38px); background: rgba(0,0,0,0.04); border-radius: 19px; overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 19px; width: 0%; transition: width 1.2s var(--ease); display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; }
+.hbar-fill span { font-family: 'Montserrat', sans-serif; font-size: clamp(0.6rem, 0.85vw, 0.8rem); font-weight: 700; color: var(--white); opacity: 0; transition: opacity 0.3s 1s; }
+
+/* CALLOUT — larger, more prominent */
+.callout { padding: 2.8vh 2.8vw; border-radius: 12px; margin: 2vh 0; border-left: 5px solid var(--navy); background: rgba(0,0,0,0.03); font-size: clamp(1.1rem, 1.45vw, 1.35rem); line-height: 1.65; }
+.callout.gold { background: var(--gold-light); border-left-color: var(--gold); }
+.callout.red { background: var(--red-light); border-left-color: var(--red); }
+.callout.green { background: var(--green-light); border-left-color: var(--green); }
+.callout strong { color: var(--navy); }
+
+/* QUOTE */
+.quote-box { position: relative; padding: 2.5vh 3.5vw; margin: 2vh 0; flex: 1; min-height: 0; }
+.quote-box .qmark { font-family: 'Montserrat', sans-serif; font-size: 4rem; font-weight: 900; color: var(--gold); opacity: 0.25; line-height: 1; position: absolute; top: 0; left: 0.5rem; }
+.quote-box blockquote { font-size: clamp(1.3rem, 1.75vw, 1.6rem); font-style: italic; line-height: 1.65; position: relative; z-index: 2; }
+.quote-box cite { display: block; margin-top: 0.7rem; font-size: clamp(0.95rem, 1.15vw, 1.1rem); font-style: normal; color: var(--gold); font-family: 'Montserrat', sans-serif; font-weight: 600; }
+
+/* INSIGHT CARDS — larger, better vertical rhythm */
+.insight-list { display: flex; flex-direction: column; gap: 1.5vh; margin: 2vh 0; flex: 1; min-height: 0; }
+.insight-item {
+  display: flex; gap: 1.5rem; align-items: center; padding: 2.2vh 2vw;
+  background: var(--white); border-radius: 10px; border: 1px solid rgba(0,0,0,0.04);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s, background 0.3s; cursor: pointer;
+}
+.insight-item:hover { transform: translateX(6px); box-shadow: 0 4px 18px rgba(0,0,0,0.06); background: rgba(0,0,0,0.01); }
+.insight-num { width: 48px; height: 48px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--white); }
+.insight-num.gold-bg { background: var(--gold); }
+.insight-num.teal-bg { background: var(--teal); }
+.insight-num.warm-bg { background: var(--sphere-red); }
+.insight-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.1rem, 1.5vw, 1.35rem); font-weight: 700; color: var(--navy); }
+.insight-body { font-size: clamp(1rem, 1.25vw, 1.15rem); color: var(--muted); line-height: 1.5; margin-top: 0.25rem; }
+
+/* THREE COLS */
+.three-cols { display: flex; gap: 1.5rem; margin: 2vh 0; flex: 1; min-height: 0; }
+.col-card { flex: 1; background: var(--white); border-radius: 10px; padding: 2rem; border: 1px solid rgba(0,0,0,0.05); transition: transform 0.3s var(--ease), box-shadow 0.3s; cursor: pointer; }
+.col-card:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(0,0,0,0.07); }
+.col-card h4 { font-family: 'Montserrat', sans-serif; font-size: clamp(1rem, 1.25vw, 1.15rem); font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+.col-card .col-div { width: 28px; height: 2px; background: var(--gradient-warm); margin-bottom: 0.5rem; }
+.col-card li { font-size: clamp(0.95rem, 1.15vw, 1.1rem); color: var(--muted); padding: 0.4rem 0; border-bottom: 1px solid var(--cream); line-height: 1.5; padding-left: 0.9rem; position: relative; list-style: none; }
+.col-card li::before { content: ''; position: absolute; left: 0; top: 0.6rem; width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+.col-card li:last-child { border-bottom: none; }
+
+/* TWO COLS */
+.two-cols { display: flex; gap: 2rem; margin: 2vh 0; flex: 1; min-height: 0; }
+.two-cols > div { flex: 1; }
+
+/* STEP CARDS */
+.step-row { display: flex; gap: 1.2rem; margin: 2vh 0; flex-wrap: wrap; flex: 1; min-height: 0; }
+.step-card { flex: 1; min-width: 180px; background: var(--white); border-radius: 10px; padding: 2rem; border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+.step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-warm); }
+.step-num { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--gold); margin-bottom: 0.4rem; }
+.step-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.05rem, 1.25vw, 1.2rem); font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+.step-body { font-size: clamp(0.95rem, 1.15vw, 1.1rem); color: var(--muted); line-height: 1.5; }
+
+/* DISCUSSION */
+.disc-card { display: flex; gap: 1.4rem; align-items: center; padding: 2.5vh 2.5vw; background: rgba(0,0,0,0.02); border-radius: 12px; margin-bottom: 1.5vh; transition: transform 0.3s var(--ease), background 0.3s; }
+.disc-card:hover { background: rgba(0,0,0,0.04); transform: translateX(5px); }
+.disc-num { font-family: 'Montserrat', sans-serif; font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 800; color: var(--gold); flex-shrink: 0; }
+.disc-q { font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.6; }
+
+/* ═══════ TESTIMONY SLIDES ═══════ */
+.testimony-slide {
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.testimony-bg {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  filter: brightness(0.35);
+}
+.testimony-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(20,20,24,0.85) 0%, rgba(30,30,44,0.7) 100%);
+}
+.testimony-content {
+  position: relative; z-index: 2; text-align: center; padding: 5vw; max-width: 900px;
+}
+.testimony-qmark { font-family: 'Montserrat', sans-serif; font-size: 5.5rem; font-weight: 900; line-height: 1; background: var(--gradient-warm); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5; }
+.testimony-quote {
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem); font-style: italic; line-height: 1.65;
+  color: var(--white); margin: 1.2rem 0 1.8rem;
+}
+.testimony-cite {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+  font-weight: 600; color: var(--gold); letter-spacing: 0.05em;
+}
+
+/* ═══════ TOOL SHOWCASE GRID ═══════ */
+.tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 2vh 0; flex: 1; min-height: 0; }
+.tool-grid-expand { gap: 1.5rem; margin: 2.5vh 0; grid-auto-rows: 1fr; }
+.tool-grid-expand .tool-card { display: flex; flex-direction: column; min-height: 0; }
+.tool-grid-expand .tool-card-img { height: 160px; flex-shrink: 0; }
+.tool-grid-expand .tool-card-body { padding: 1.3rem 1.4rem; flex: 1; }
+.tool-card {
+  background: var(--white); border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05); cursor: pointer;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s;
+  position: relative;
+}
+.tool-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.tool-card-img {
+  height: 120px; background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  border-bottom: 1px solid rgba(0,0,0,0.04); position: relative;
+}
+.tool-card-img img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.tool-card-img .tool-icon {
+  font-size: 2.2rem; font-weight: 900; font-family: 'Montserrat', sans-serif;
+  background: var(--gradient-warm); -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Video play button */
+.video-trigger {
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; cursor: pointer; transition: all 0.3s var(--ease);
+  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--gold);
+}
+.video-trigger:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); transform: scale(1.03); }
+.video-trigger .play-icon { width: 20px; height: 20px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.video-trigger .play-icon svg { width: 8px; height: 8px; fill: var(--dark); margin-left: 1px; }
+.video-trigger.light { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: var(--navy); }
+.video-trigger.light:hover { background: rgba(0,0,0,0.08); border-color: var(--gold); }
+
+/* Co-Pilot slide: 2 columns, 9:16 video left */
+.copilot-cols { display: flex; gap: 2rem; align-items: stretch; margin: 2vh 0; min-height: 0; flex: 1; }
+.copilot-video-col { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.video-thumb-9x16 {
+  aspect-ratio: 9/16; max-height: 55vh; width: auto; border-radius: 14px; overflow: hidden;
+  background: var(--cream-dark); box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  cursor: pointer; position: relative; transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+.video-thumb-9x16:hover { transform: scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
+.video-thumb-9x16 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-thumb-9x16::after {
+  content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath fill='%23fff' fill-opacity='0.9' d='M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z'/%3E%3C/svg%3E") center/28% no-repeat; pointer-events: none;
+}
+.copilot-content-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+@media (max-width: 900px) {
+  .copilot-cols { flex-direction: column; align-items: center; }
+  .video-thumb-9x16 { max-height: 40vh; }
+}
+
+/* BENTO GRID & VIDEO CARDS (like Ai and Discipleship) */
+.bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin: 2vh 0; width: 100%; max-width: 900px; flex: 1; min-height: 0; }
+.bento-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 2vh 0; width: 100%; max-width: 1000px; flex: 1; min-height: 0; }
+.video-card, .video-card-large {
+  min-height: 160px; background: var(--white); border-radius: 12px; padding: 0; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  cursor: pointer; transition: transform 0.4s var(--ease), box-shadow 0.4s, border-color 0.3s;
+}
+.video-card::before, .video-card-large::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-warm); z-index: 1; }
+.video-card::after, .video-card-large::after {
+  content: ''; position: absolute; inset: 0; opacity: 0; border-radius: 12px;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(27,94,123,0.1) 0%, transparent 60%);
+  transition: opacity 0.3s; pointer-events: none;
+}
+.video-card:hover, .video-card-large:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: var(--teal); }
+.video-card:hover::after, .video-card-large:hover::after { opacity: 1; }
+.video-card-thumb { width: 100%; aspect-ratio: 16/9; border-radius: 10px 10px 0 0; overflow: hidden; background: var(--cream); flex-shrink: 0; position: relative; }
+.video-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-card-thumb::after { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath fill='%23fff' fill-opacity='0.9' d='M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z'/%3E%3C/svg%3E") center/50px no-repeat; pointer-events: none; }
+.video-card-body { padding: 1.5vh 1.5vw; flex: 1; display: flex; flex-direction: column; }
+.video-card-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.05rem, 1.35vw, 1.25rem); font-weight: 700; color: var(--navy); margin-bottom: 0.45rem; }
+.video-card-summary { font-size: clamp(0.95rem, 1.2vw, 1.1rem); color: var(--muted); line-height: 1.45; }
+.video-card-large .video-card-body { padding: 1.8vh 1.8vw; }
+.video-card-large .video-card-title { font-size: clamp(1.15rem, 1.45vw, 1.35rem); }
+.video-card-large .video-card-summary { font-size: clamp(1rem, 1.25vw, 1.15rem); }
+@media (max-width:900px) { .bento-grid, .bento-grid-3 { grid-template-columns: 1fr; } }
+
+/* Front Door slide layout tune-up */
+.front-door-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; align-items: stretch; margin: 2vh 0; flex: 1; min-height: 0; }
+.front-door-left, .front-door-right { min-width: 0; }
+.front-door-stats { margin: 0; }
+.front-door-video { height: 100%; min-height: 240px; }
+.front-door-video .video-card-large { height: 100%; min-height: 240px; }
+.front-door-video .video-card-thumb { aspect-ratio: 16/9; }
+@media (max-width:900px) {
+  .front-door-grid { grid-template-columns: 1fr; }
+  .front-door-video, .front-door-video .video-card-large { min-height: 0; }
+}
+
+/* Video hero slide: 90% window thumbnail + centered play (play on click only) */
+.video-hero-slide .s-body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2vh 2vw; }
+.video-hero-thumb {
+  width: min(90vw, calc(90vh * 16 / 9)); aspect-ratio: 16/9;
+  position: relative; border-radius: 14px; overflow: hidden; background: #0a0a0a; cursor: pointer;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25); transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+.video-hero-thumb:hover { transform: scale(1.02); box-shadow: 0 16px 56px rgba(0,0,0,0.35); }
+.video-hero-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-hero-thumb .play-btn-center {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 80px; height: 80px; border-radius: 50%; background: rgba(212,168,67,0.95); border: 4px solid rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  transition: background 0.2s, transform 0.2s; pointer-events: none;
+}
+.video-hero-thumb:hover .play-btn-center { background: var(--gold); transform: translate(-50%, -50%) scale(1.08); }
+.video-hero-thumb .play-btn-center svg { width: 28px; height: 28px; fill: var(--dark); margin-left: 4px; }
+@media (max-width:900px) {
+  .video-hero-thumb { width: min(92vw, calc(90vh * 16 / 9)); }
+  .video-hero-thumb .play-btn-center { width: 64px; height: 64px; }
+  .video-hero-thumb .play-btn-center svg { width: 22px; height: 22px; }
+}
+
+/* Full-screen image slide */
+.slide-inner.fullscreen-img {
+  padding: 0; background: var(--white);
+}
+.slide-inner.fullscreen-img::before { display: none; }
+.fullscreen-img-wrap {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding: 0; overflow: hidden; z-index: 1;
+}
+.fullscreen-img-wrap img {
+  width: 100%; height: 100%; object-fit: contain; object-position: center;
+}
+.slide-inner.fullscreen-img .s-footer { position: relative; z-index: 2; }
+
+/* Contact Me slide */
+.contact-slide-layout {
+  display: flex; gap: clamp(1.5rem, 3vw, 3rem); align-items: center; justify-content: center;
+  width: 100%; max-width: 900px; margin: 0 auto; text-align: left;
+}
+.contact-portrait {
+  flex-shrink: 0; width: min(220px, 28vw); aspect-ratio: 3/4; border-radius: 16px;
+  overflow: hidden; border: 2px solid rgba(255,255,255,0.12); box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.contact-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.contact-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1rem; }
+.contact-heading { font-family: 'Montserrat', sans-serif; font-size: clamp(1rem, 1.6vw, 1.35rem); font-weight: 600; color: var(--white); line-height: 1.45; }
+.contact-details { display: flex; flex-direction: column; gap: 0.4rem; font-size: clamp(0.8rem, 1vw, 0.9rem); }
+.contact-details a { color: var(--white); text-decoration: none; transition: color 0.2s; }
+.contact-details a:hover { color: var(--gold); }
+.contact-label { color: var(--gold); font-family: 'Montserrat', sans-serif; font-weight: 600; margin-right: 0.35em; }
+.contact-cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.contact-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.75rem 1.25rem; border-radius: 12px; border: none; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: clamp(0.75rem, 1vw, 0.85rem); font-weight: 700; color: var(--white);
+  background: linear-gradient(135deg, #1B5E7B 0%, #27AE60 100%); box-shadow: 0 4px 16px rgba(27,94,123,0.35);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s; text-decoration: none; white-space: nowrap;
+}
+.contact-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(27,94,123,0.45); color: var(--white); }
+@media (max-width: 768px) {
+  .contact-slide-layout { flex-direction: column; text-align: center; }
+  .contact-portrait { width: min(180px, 40vw); }
+  .contact-cta-row { justify-content: center; }
+}
+
+.tool-card-body { padding: 1rem 1.2rem; }
+.tool-card-name { font-family: 'Montserrat', sans-serif; font-size: clamp(1rem, 1.2vw, 1.15rem); font-weight: 700; color: var(--navy); margin-bottom: 0.35rem; }
+.tool-card-desc { font-size: clamp(0.9rem, 1.1vw, 1.05rem); color: var(--muted); line-height: 1.45; }
+.price-badge {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  font-family: 'Montserrat', sans-serif; font-size: 0.55rem; font-weight: 700;
+  background: var(--dark); color: var(--white); padding: 0.2rem 0.5rem;
+  border-radius: 20px; letter-spacing: 0.02em;
+}
+
+/* ═══════ VISUAL WORKFLOW ═══════ */
+.workflow-pipeline { display: flex; align-items: center; gap: 0.5rem; margin: 2vh 0; flex: 1; min-height: 0; }
+.workflow-step {
+  flex: 1; text-align: center; background: var(--white); border-radius: 10px;
+  padding: 1.5rem 0.8rem; border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.3s var(--ease); cursor: pointer;
+}
+.workflow-step:hover { transform: translateY(-3px); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.workflow-step-icon {
+  width: 52px; height: 52px; border-radius: 12px; margin: 0 auto 0.6rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 0.65rem; color: var(--white);
+}
+.workflow-step-name { font-family: 'Montserrat', sans-serif; font-size: clamp(0.95rem, 1.15vw, 1.1rem); font-weight: 700; color: var(--navy); }
+.workflow-step-sub { font-size: clamp(0.85rem, 1vw, 0.95rem); color: var(--muted); margin-top: 0.25rem; }
+.workflow-arrow {
+  font-family: 'Montserrat', sans-serif; font-size: 1.2rem; color: var(--gold);
+  flex-shrink: 0; font-weight: 800;
+}
+
+/* IMAGE STRIP */
+.img-strip { display: flex; gap: 1rem; height: 18vh; min-height: 110px; margin: 2vh 0; flex-shrink: 0; }
+.img-strip img {
+  flex: 1; height: 100%; object-fit: cover; border-radius: 10px;
+  filter: brightness(0.85); transition: transform 0.3s, filter 0.3s;
+}
+.img-strip img:hover { transform: scale(1.03); filter: brightness(1); }
+
+/* MODAL */
+#modal-overlay {
+  position: fixed; inset: 0; z-index: 99990;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
+}
+#modal-overlay.open { opacity: 1; visibility: visible; }
+#modal-box {
+  background: var(--white); border-radius: 16px; max-width: 600px; width: 92%;
+  padding: 2.5rem; position: relative;
+  transform: scale(0.9) translateY(20px); transition: transform 0.4s var(--ease-bounce);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.3); max-height: 85vh; overflow-y: auto;
+}
+#modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+#modal-close { position: absolute; top: 1rem; right: 1rem; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--cream); cursor: pointer; font-size: 1.1rem; color: var(--muted); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+#modal-close:hover { background: var(--red-light); color: var(--red); }
+#modal-stat { font-family: 'Montserrat', sans-serif; font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 0.4rem; }
+#modal-title { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 0.6rem; }
+#modal-body { font-size: 0.85rem; color: var(--txt); line-height: 1.7; margin-bottom: 0.8rem; }
+#modal-source { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+#modal-link a { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--teal); text-decoration: none; padding: 0.4rem 0.8rem; border: 1px solid var(--teal); border-radius: 6px; display: inline-block; transition: background 0.2s, color 0.2s; }
+#modal-link a:hover { background: var(--teal); color: var(--white); }
+
+/* INTRO VIDEO OVERLAY (fullscreen from play button) */
+#intro-video-overlay {
+  position: fixed; inset: 0; z-index: 99998; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+}
+#intro-video-overlay.open { opacity: 1; visibility: visible; }
+#intro-video-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+#intro-video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#intro-skip-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 99999;
+  padding: 0.6rem 1.5rem; border-radius: 8px; border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: background 0.2s, border-color 0.2s;
+  opacity: 1; visibility: visible;
+}
+#intro-skip-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); color: var(--gold); }
+
+/* SLIDE VIDEO OVERLAY (fullscreen when opening a specific slide) */
+#slide-video-overlay {
+  position: fixed; inset: 0; z-index: 99997; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+}
+#slide-video-overlay.open { opacity: 1; visibility: visible; }
+#slide-video-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+#slide-video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#slide-video-close {
+  position: fixed; top: 1.5rem; right: 2rem; z-index: 99999;
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5); color: var(--white); font-size: 1.5rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s;
+}
+#slide-video-close:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); }
+
+/* VIDEO MODAL */
+#video-overlay {
+  position: fixed; inset: 0; z-index: 99995; background: rgba(0,0,0,0.92);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
+}
+#video-overlay.open { opacity: 1; visibility: visible; }
+#video-overlay iframe { width: 80vw; height: 45vw; max-height: 80vh; border: none; border-radius: 8px; }
+#video-close { position: absolute; top: 1.5rem; right: 2rem; width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); cursor: pointer; font-size: 1.5rem; color: var(--white); display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 2; }
+#video-close:hover { background: rgba(255,255,255,0.25); }
+
+/* NAV */
+#nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9998;
+  background: rgba(0,0,0,0.88); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.5rem 2rem; gap: 0.35rem;
+  opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
+}
+#nav-bar.visible { opacity: 1; visibility: visible; }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; cursor: pointer; transition: all 0.3s var(--ease); padding: 0; }
+.nav-dot.active { background: var(--gold); width: 18px; border-radius: 4px; }
+.nav-dot:hover { background: rgba(255,255,255,0.5); }
+#slide-counter { position: fixed; bottom: 0.6rem; right: 2rem; z-index: 9999; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 600; color: rgba(255,255,255,0.35); opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; }
+#slide-counter.visible { opacity: 1; visibility: visible; }
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; z-index: 9999; background: var(--gradient-warm); width: 0%; transition: width 0.4s var(--ease); }
+.arrow-btn { position: fixed; top: 50%; z-index: 9998; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); cursor: pointer; color: rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; transition: all 0.3s var(--ease); opacity: 0; visibility: hidden; font-size: 1.1rem; }
+.arrow-btn.visible { opacity: 1; visibility: visible; }
+.arrow-btn:hover { background: rgba(255,255,255,0.12); color: var(--gold); border-color: var(--gold); }
+#prev-btn { left: 0.6rem; }
+#next-btn { right: 0.6rem; }
+
+/* ANIMATIONS */
+.anim { opacity: 0; transition: all 0.7s var(--ease); }
+.anim.fade-up { transform: translateY(25px); }
+.anim.fade-left { transform: translateX(-30px); }
+.anim.fade-right { transform: translateX(30px); }
+.anim.scale-up { transform: scale(0.85); }
+.anim.in { opacity: 1 !important; transform: none !important; }
+.d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
+.d4{transition-delay:.4s} .d5{transition-delay:.5s} .d6{transition-delay:.6s}
+.d7{transition-delay:.7s} .d8{transition-delay:.8s} .d9{transition-delay:.9s} .d10{transition-delay:1s}
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+.float { animation: float 3s ease-in-out infinite; }
+.shimmer-text { background: linear-gradient(90deg, #D94F3C 0%, #E8834A 20%, #E2A84B 40%, #5DAE5D 60%, #3BA3A3 80%, #D94F3C 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
+
+.particles { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+.particle { position: absolute; border-radius: 50%; background: rgba(212,168,67,0.12); animation: float-p linear infinite; }
+@keyframes float-p { 0%{transform:translateY(100vh) rotate(0);opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-10vh) rotate(720deg);opacity:0} }
+
+@media (max-width:900px) {
+  .s-body { padding: 2vh 4vw 1.5vh; }
+  .stat-row, .three-cols, .two-cols, .step-row, .tool-grid { flex-direction: column; }
+  .tool-grid { grid-template-columns: 1fr; }
+  .hbar-label { min-width: 70px; font-size: 0.55rem; }
+  .workflow-pipeline { flex-direction: column; }
+  .workflow-arrow { transform: rotate(90deg); }
+  .img-strip { height: 10vh; }
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO VIDEO OVERLAY (fullscreen, from play button) -->
+<div id="intro-video-overlay">
+  <div id="intro-video-player"></div>
+  <button type="button" id="intro-skip-btn">Skip</button>
+</div>
+
+<!-- PLAY OVERLAY -->
+<div id="play-overlay">
+  <img src="assets/NB_Monogram.png" alt="Nathaniel Baldock" class="play-logo">
+  <h2>Leveraging AI for <span class="shimmer-text">Kingdom Impact</span></h2>
+  <div class="play-subtitle">Evangelism &middot; Discipleship &middot; Church Growth</div>
+  <button class="play-btn" id="start-btn" aria-label="Start"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+  <div class="play-author">Nathaniel Baldock &middot; nathanielbaldock.com</div>
+</div>
+
+<div id="progress-bar"></div>
+<button class="arrow-btn" id="prev-btn" aria-label="Previous">&#8249;</button>
+<button class="arrow-btn" id="next-btn" aria-label="Next">&#8250;</button>
+<div id="nav-bar"></div>
+<div id="slide-counter"></div>
+
+<!-- MODAL -->
+<div id="modal-overlay">
+  <div id="modal-box">
+    <button id="modal-close">&times;</button>
+    <div id="modal-stat"></div>
+    <div id="modal-title"></div>
+    <div id="modal-body"></div>
+    <div id="modal-source"></div>
+    <div id="modal-link"></div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="video-overlay">
+  <button id="video-close">&times;</button>
+  <iframe id="video-frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<div id="slide-video-overlay">
+  <div id="slide-video-player"></div>
+  <button type="button" id="slide-video-close" title="Close">&times;</button>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div id="deck">
+
+<!-- S0: TITLE -->
+<div class="slide active">
+  <div class="slide-inner dark">
+    <div class="particles" id="hero-particles"></div>
+    <div class="s-body centered">
+      <img src="assets/NB_Monogram.png" alt="Nathaniel Baldock" class="anim fade-up d1" style="width:64px;height:64px;border-radius:50%;object-fit:contain;margin-bottom:0.5rem">
+      <div class="eyebrow anim fade-up d1">Being Fully Human in an AI World</div>
+      <h1 class="s-title xl anim fade-up d2" style="color:var(--white)">Leveraging AI for<br><span class="shimmer-text" style="font-size:inherit">Kingdom Impact</span></h1>
+      <p class="s-sub anim fade-up d3">Evangelism &middot; Discipleship &middot; Church Growth</p>
+      <div class="s-div anim fade-up d4" style="margin:1rem auto"></div>
+      <div class="anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:clamp(0.85rem,1.1vw,1rem);color:rgba(255,255,255,0.35)">Nathaniel Baldock &middot; nathanielbaldock.com</div>
+    </div>
+    <div class="s-footer"><span></span><span style="color:rgba(255,255,255,0.15)">Use arrow keys to navigate &middot; Click stats for details</span></div>
+  </div>
+</div>
+
+<!-- S1: THE HOOK -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">The Opening Question</div>
+      <div class="anim scale-up d2" style="font-family:'Montserrat',sans-serif;font-size:clamp(4rem,11vw,7.5rem);font-weight:900;line-height:1"><span class="shimmer-text"><span class="count-up" data-target="150">0</span></span></div>
+      <div class="anim fade-up d3" style="font-family:'Montserrat',sans-serif;font-size:clamp(0.85rem,1.2vw,1.1rem);font-weight:600;color:rgba(255,255,255,0.65);max-width:650px;line-height:1.6;margin-top:0.8rem">people came to faith through an AI chatbot &mdash; not a pastor, not a missionary, but lines of code trained on Christian apologetics.</div>
+      <div class="anim fade-up d4" style="margin-top:1.5rem">
+        <div class="stat-card" data-modal="s150" style="display:inline-block;min-width:auto;padding:0.8rem 1.8rem;background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1)">
+          <span style="font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;color:var(--gold)">Click for source details &rarr;</span>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock &middot; nathanielbaldock.com</span><span></span></div>
+  </div>
+</div>
+
+<!-- S2: THESIS -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body centered">
+      <div class="anim scale-up d1" style="font-size:3rem;opacity:0.3"><span class="testimony-qmark">&ldquo;</span></div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.4rem,2.8vw,2.2rem);font-style:italic;line-height:1.5;color:var(--white);max-width:800px">The question is no longer whether to engage with AI, but how to do so faithfully, effectively, and strategically &mdash; while remaining fully human in an AI world.</div>
+      <div class="s-div anim fade-up d3" style="margin:1.2rem auto"></div>
+      <div class="anim fade-up d4" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.35)">The Central Thesis</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S3: ROMAN ROADS SECTION -->
+<div class="slide">
+  <div class="slide-inner mid">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 01</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">The <span class="warm-gradient">Roman Roads</span><br>Paradigm</h2>
+      <p class="s-sub anim fade-up d3">AI as infrastructure for the Gospel &mdash; not a replacement for the Holy Spirit</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S4: ROMAN ROADS EXPLAINED -->
+<div class="slide">
+  <div class="slide-inner cream roman-road-bg">
+    <div class="s-body" style="justify-content:flex-start;padding-top:4vh">
+      <h2 class="s-title lg anim fade-up d1">AI Is the New <span class="gold">Roman Road</span></h2>
+      <div class="roman-road-cards anim fade-up d2">
+        <div class="roman-card roman-card-1st">
+          <strong>1st Century:</strong> Roman roads were built by a secular empire for commerce and military conquest. The early Church leveraged this infrastructure to spread the gospel to the ends of the earth.
+        </div>
+        <div class="roman-card roman-card-21st">
+          <strong>21st Century:</strong> AI infrastructure was built by tech conglomerates for data and profit. The modern Church can walk these digital roads carrying the message of Christ to unreached people.
+        </div>
+      </div>
+      <div class="callout green anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:clamp(1.05rem,1.3vw,1.2rem);font-weight:600;text-align:center;margin-top:auto;flex-shrink:0">
+        Key Principle: <strong>AI-Enhanced, Not AI-Dependent</strong> &mdash; Think of AI as a capable seminary intern. &mdash; Kenny Jahng, NAE
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: NAE / Kenny Jahng</span></div>
+  </div>
+</div>
+
+<!-- S4b: ROMAN ROAD QUOTE (full slide) -->
+<div class="slide">
+  <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column">
+    <div class="testimony-slide" style="flex:1;min-height:0">
+      <div class="testimony-bg" style="background-image:url('https://images.unsplash.com/photo-1709912151904-3e849b7850a6?w=1920&auto=format&fit=crop&q=85')"></div>
+      <div class="testimony-overlay"></div>
+      <div class="testimony-content">
+        <div class="testimony-qmark anim scale-up d1">&ldquo;</div>
+        <div class="testimony-quote anim fade-up d2">The infrastructure is already laid. The question isn&rsquo;t whether the roads exist. The question is who&rsquo;s going to walk on them and what message they&rsquo;re going to carry.</div>
+        <div class="s-div anim fade-up d3" style="margin:1rem auto"></div>
+        <div class="testimony-cite anim fade-up d4">&mdash; Kenny Jahng, NAE</div>
+      </div>
+    </div>
+    <div class="s-footer" style="background:rgba(0,0,0,0.3);border-top-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)"><span>Nathaniel Baldock</span><span>Source: NAE / Kenny Jahng</span></div>
+  </div>
+</div>
+
+<!-- S5: KEY STATS -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <div class="eyebrow anim fade-up d1">The Data</div>
+      <h2 class="s-title lg anim fade-up d2">The Current <span class="gold">Landscape</span></h2>
+      <div class="stat-row">
+        <div class="stat-card anim fade-up d3" data-modal="trust30"><div class="s-num"><span class="count-up" data-target="30" data-suffix="%">0</span></div><div class="s-label">of U.S. adults trust AI spiritual advice as much as a pastor</div><div class="s-source">Barna/Gloo &middot; Nov 2025</div><div class="click-hint">CLICK FOR DETAILS</div></div>
+        <div class="stat-card gold anim fade-up d4" data-modal="trust40"><div class="s-num"><span class="count-up" data-target="40" data-suffix="%">0</span></div><div class="s-label">of Gen Z (39%) &amp; Millennials (40%) trust AI as much as pastoral counsel</div><div class="s-source">Barna/Gloo &middot; Nov 2025</div><div class="click-hint">CLICK FOR DETAILS</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card anim fade-up d5" data-modal="sermon64"><div class="s-num"><span class="count-up" data-target="64" data-suffix="%">0</span></div><div class="s-label">of preachers use AI for sermon prep &mdash; up 20pts in one year</div><div class="s-source">Exponential &middot; 2025</div><div class="click-hint">CLICK FOR DETAILS</div></div>
+        <div class="stat-card green anim fade-up d6" data-modal="support90"><div class="s-num"><span class="count-up" data-target="90" data-suffix="%">0</span></div><div class="s-label">of faith leaders support AI in some form of ministry</div><div class="s-source">Exponential &middot; 2025</div><div class="click-hint">CLICK FOR DETAILS</div></div>
+      </div>
+      <div class="callout red anim fade-up d7" style="font-family:'Montserrat',sans-serif;font-size:clamp(1.05rem,1.35vw,1.25rem)">
+        <strong style="color:var(--red)">The Discipleship Gap:</strong> 1/3 of Christians want guidance on AI, but only <strong style="color:var(--red)">12% of pastors</strong> feel comfortable teaching on it. &mdash; <em>Barna/Gloo, Feb 2026</em>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Barna/Gloo; Exponential</span></div>
+  </div>
+</div>
+
+<!-- S6: BIBLE TRANSLATION SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.12"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 02</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Bible Translation<br><span class="warm-gradient">Revolution</span></h2>
+      <p class="s-sub anim fade-up d3">From decades to years &mdash; AI is compressing the timeline for unreached languages</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S7: THE GOAL — EVERY LANGUAGE TRANSLATED -->
+<div class="slide">
+  <div class="slide-inner cream" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://www.wycliffe.org/images/basic-pages/fig--africa-man-holding-new-scripture.webp') center/cover;opacity:0.08"></div>
+    <div class="s-body top">
+      <div class="eyebrow anim fade-up d1">Wycliffe Vision 2025</div>
+      <h2 class="s-title lg anim fade-up d2">The Goal: Every Language <span class="gold">Translated</span></h2>
+      <p class="s-sub anim fade-up d3" style="font-style:italic">Every number represents a person who has a story that matters to God.</p>
+      <div class="stat-row">
+        <div class="stat-card anim fade-up d3" style="text-align:center"><div class="s-num" style="font-size:clamp(1.8rem,3vw,2.6rem)"><span class="count-up" data-target="7400" data-suffix="">0</span></div><div class="s-label">known spoken or signed languages around the world</div><div class="s-source">wycliffe.org/vision-2025</div></div>
+        <div class="stat-card gold anim fade-up d4" style="text-align:center"><div class="s-num" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--red)">541</div><div class="s-label">Vision 2025 languages still need Bible translation to start for the first time</div><div class="s-source">wycliffe.org/vision-2025</div></div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card green anim fade-up d5" style="text-align:center"><div class="s-num" style="font-size:clamp(1.8rem,3vw,2.6rem)"><span class="count-up" data-target="4450" data-suffix="+">0</span></div><div class="s-label">languages with Bible translation actively being done worldwide</div><div class="s-source">ProgressBible, Jan 2026</div></div>
+        <div class="stat-card anim fade-up d6" style="text-align:center"><div class="s-num" style="font-size:clamp(1.8rem,3vw,2.6rem)"><span class="count-up" data-target="2800" data-suffix="">0</span></div><div class="s-label">languages where Wycliffe is engaged in translation projects today</div><div class="s-source">Wycliffe USA</div></div>
+      </div>
+      <div class="img-strip anim fade-up d7">
+        <img src="https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=400&q=80" alt="Bible translation celebration" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&q=80" alt="Young woman with Scripture" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&q=80" alt="Translator at work" loading="lazy">
+      </div>
+      <div class="callout gold anim fade-up d8" style="font-family:'Montserrat',sans-serif;font-size:clamp(0.95rem,1.2vw,1.1rem);font-weight:600;text-align:center;margin:0;padding:1vh 1.8vw">
+        2.1 billion people served across 171 countries &middot; Source: ProgressBible, Jan. 1, 2026
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: wycliffe.org/vision-2025</span></div>
+  </div>
+</div>
+
+<!-- S7b: ANIMATED CHARTS — DIMINISHING TASK & ACCELERATION -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body top" style="gap:1vh">
+      <div style="display:flex;gap:2rem;flex:1;min-height:0">
+        <!-- LEFT CHART: Diminishing Translation Task -->
+        <div class="anim fade-left d1" style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <div style="margin-bottom:0.3rem">
+            <div class="eyebrow" style="margin-bottom:0.1rem;font-size:0.6rem">Translation Progress</div>
+            <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(0.9rem,1.5vw,1.2rem);color:var(--white)">Diminishing <span style="color:var(--gold)">Translation Task</span></h3>
+          </div>
+          <div id="chart-diminishing" data-modal="vision2025_detail" style="cursor:pointer;flex:1;min-height:0;border-radius:12px;overflow:hidden;background:#0C1520;border:1px solid rgba(255,255,255,0.08);padding:1rem;position:relative;display:flex;flex-direction:column">
+            <div class="chart-hint" style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
+            <svg class="line-chart-svg" viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet">
+              <defs><linearGradient id="dim-line-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#2BA8A0"/><stop offset="70%" stop-color="#2BA8A0"/><stop offset="100%" stop-color="var(--gold)"/></linearGradient></defs>
+              <path class="line-chart-path dim line-chart-seg" data-seg="0" d="M 20 30 L 76 33" stroke="url(#dim-line-grad)"/>
+              <path class="line-chart-path dim line-chart-seg" data-seg="1" d="M 76 33 L 132 42" stroke="url(#dim-line-grad)"/>
+              <path class="line-chart-path dim line-chart-seg" data-seg="2" d="M 132 42 L 188 52" stroke="url(#dim-line-grad)"/>
+              <path class="line-chart-path dim line-chart-seg" data-seg="3" d="M 188 52 L 244 75" stroke="url(#dim-line-grad)"/>
+              <path class="line-chart-path dim line-chart-seg" data-seg="4" d="M 244 75 L 300 93" stroke="url(#dim-line-grad)"/>
+              <line class="line-chart-vline" x1="20" y1="30" x2="20" y2="95" data-delay="0"/><line class="line-chart-vline" x1="76" y1="33" x2="76" y2="95" data-delay="1"/><line class="line-chart-vline" x1="132" y1="42" x2="132" y2="95" data-delay="2"/><line class="line-chart-vline" x1="188" y1="52" x2="188" y2="95" data-delay="3"/><line class="line-chart-vline" x1="244" y1="75" x2="244" y2="95" data-delay="4"/><line class="line-chart-vline" x1="300" y1="93" x2="300" y2="95" data-delay="5"/>
+              <circle class="line-chart-dot teal" cx="20" cy="30" r="5" data-delay="0"/><circle class="line-chart-dot teal" cx="76" cy="33" r="5" data-delay="1"/><circle class="line-chart-dot teal" cx="132" cy="42" r="5" data-delay="2"/><circle class="line-chart-dot teal" cx="188" cy="52" r="5" data-delay="3"/><circle class="line-chart-dot" cx="244" cy="75" r="5" data-delay="4"/><circle class="line-chart-dot gold" cx="300" cy="93" r="5" data-delay="5"/>
+              <text class="line-chart-label teal" x="20" y="22" text-anchor="middle" data-delay="0">1,990</text><text class="line-chart-label teal" x="76" y="22" text-anchor="middle" data-delay="1">1,904</text><text class="line-chart-label teal" x="132" y="22" text-anchor="middle" data-delay="2">1,612</text><text class="line-chart-label teal" x="188" y="22" text-anchor="middle" data-delay="3">1,336</text><text class="line-chart-label orange" x="244" y="22" text-anchor="middle" data-delay="4">833</text><text class="line-chart-label gold" x="300" y="22" text-anchor="middle" data-delay="5">541</text>
+              <text class="line-chart-year" x="20" y="108" text-anchor="middle">2020</text><text class="line-chart-year" x="76" y="108" text-anchor="middle">2021</text><text class="line-chart-year" x="132" y="108" text-anchor="middle">2022</text><text class="line-chart-year" x="188" y="108" text-anchor="middle">2023</text><text class="line-chart-year" x="244" y="108" text-anchor="middle">2024</text><text class="line-chart-year" x="300" y="108" text-anchor="middle" style="fill:rgba(255,255,255,0.7);font-weight:700">2025</text>
+            </svg>
+          </div>
+        </div>
+        <!-- RIGHT CHART: Acceleration -->
+        <div class="anim fade-right d2" style="flex:1;display:flex;flex-direction:column;min-width:0">
+          <div style="margin-bottom:0.3rem">
+            <div class="eyebrow" style="margin-bottom:0.1rem;font-size:0.6rem">An Unprecedented</div>
+            <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(0.9rem,1.5vw,1.2rem);color:var(--white)"><span style="color:var(--gold)">Acceleration</span></h3>
+          </div>
+          <div id="chart-acceleration" data-modal="acceleration_detail" style="cursor:pointer;flex:1;min-height:0;border-radius:12px;overflow:hidden;background:#0C1520;border:1px solid rgba(255,255,255,0.08);padding:1rem;position:relative;display:flex;flex-direction:column">
+            <div class="chart-hint" style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
+            <svg class="line-chart-svg" viewBox="0 0 320 130" preserveAspectRatio="xMidYMid meet">
+              <defs><linearGradient id="acc-line-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#2BA8A0"/><stop offset="80%" stop-color="#2BA8A0"/><stop offset="100%" stop-color="var(--gold)"/></linearGradient></defs>
+              <path class="line-chart-path acc line-chart-seg" data-seg="0" d="M 20 92 L 67 89" stroke="url(#acc-line-grad)"/>
+              <path class="line-chart-path acc line-chart-seg" data-seg="1" d="M 67 89 L 114 82" stroke="url(#acc-line-grad)"/>
+              <path class="line-chart-path acc line-chart-seg" data-seg="2" d="M 114 82 L 161 72" stroke="url(#acc-line-grad)"/>
+              <path class="line-chart-path acc line-chart-seg" data-seg="3" d="M 161 72 L 208 58" stroke="url(#acc-line-grad)"/>
+              <path class="line-chart-path acc line-chart-seg" data-seg="4" d="M 208 58 L 255 37" stroke="url(#acc-line-grad)"/>
+              <path class="line-chart-path projection line-chart-seg" data-seg="5" d="M 255 37 L 302 30" stroke="rgba(43,168,160,0.6)"/>
+              <line class="line-chart-vline" x1="20" y1="92" x2="20" y2="95" data-delay="0"/><line class="line-chart-vline" x1="67" y1="89" x2="67" y2="95" data-delay="1"/><line class="line-chart-vline" x1="114" y1="82" x2="114" y2="95" data-delay="2"/><line class="line-chart-vline" x1="161" y1="72" x2="161" y2="95" data-delay="3"/><line class="line-chart-vline" x1="208" y1="58" x2="208" y2="95" data-delay="4"/><line class="line-chart-vline" x1="255" y1="37" x2="255" y2="95" data-delay="5"/><line class="line-chart-vline" x1="302" y1="30" x2="302" y2="95" data-delay="6"/>
+              <circle class="line-chart-dot teal" cx="20" cy="92" r="5" data-delay="0"/><circle class="line-chart-dot teal" cx="67" cy="89" r="5" data-delay="1"/><circle class="line-chart-dot teal" cx="114" cy="82" r="5" data-delay="2"/><circle class="line-chart-dot teal" cx="161" cy="72" r="5" data-delay="3"/><circle class="line-chart-dot teal" cx="208" cy="58" r="5" data-delay="4"/><circle class="line-chart-dot gold" cx="255" cy="37" r="5" data-delay="5"/><circle class="line-chart-dot projection" cx="302" cy="30" r="5" data-delay="6"/>
+              <text class="line-chart-label teal" x="20" y="82" text-anchor="middle" data-delay="0">547</text><text class="line-chart-label teal" x="67" y="79" text-anchor="middle" data-delay="1">698</text><text class="line-chart-label teal" x="114" y="72" text-anchor="middle" data-delay="2">1,121</text><text class="line-chart-label teal" x="161" y="62" text-anchor="middle" data-delay="3">1,596</text><text class="line-chart-label teal" x="208" y="48" text-anchor="middle" data-delay="4">2,100</text><text class="line-chart-label gold" x="255" y="27" text-anchor="middle" data-delay="5">2,900</text><text class="line-chart-label projection" x="302" y="20" text-anchor="middle" data-delay="6">3,000*</text>
+              <text class="line-chart-year" x="20" y="108" text-anchor="middle">2020</text><text class="line-chart-year" x="67" y="108" text-anchor="middle">2021</text><text class="line-chart-year" x="114" y="108" text-anchor="middle">2022</text><text class="line-chart-year" x="161" y="108" text-anchor="middle">2023</text><text class="line-chart-year" x="208" y="108" text-anchor="middle">2024</text><text class="line-chart-year" x="255" y="108" text-anchor="middle" style="fill:rgba(255,255,255,0.7);font-weight:700">2025</text><text class="line-chart-year" x="302" y="108" text-anchor="middle" style="fill:rgba(255,255,255,0.3)">2026*</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="callout anim fade-up d3" style="background:rgba(255,255,255,0.04);border-left-color:var(--gold);margin:0;flex-shrink:0;padding:0.8vh 1.5vw">
+        <span style="font-family:'Montserrat',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.6)">From 1,990 languages needing translation in 2020 to just 541 in 2025. Wycliffe&rsquo;s total language engagements grew from 547 to nearly 2,900. <strong style="color:var(--gold)">God is on the move.</strong></span>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: wycliffe.org/vision-2025 &middot; ProgressBible Jan 2026</span></div>
+  </div>
+</div>
+
+<!-- S8: CO-PILOT PROCESS (S9 in deck) -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">AI as <span class="gold">Co-Pilot</span>, Not Replacement</h2>
+      <div class="copilot-cols">
+        <div class="copilot-video-col anim fade-up d2">
+          <div class="video-thumb-9x16" data-video="SR2NzXl0C08" role="button" tabindex="0" title="Play video">
+            <img src="https://img.youtube.com/vi/SR2NzXl0C08/hqdefault.jpg" alt="Co-Pilot video" loading="lazy">
+          </div>
+        </div>
+        <div class="copilot-content-col">
+          <div class="insight-list">
+            <div class="insight-item anim fade-left d2"><div class="insight-num gold-bg">1</div><div><div class="insight-title">AI Generates Draft</div><div class="insight-body">Trained on high-resource languages, AI generates an 80% rough draft ensuring key term consistency across thousands of verses.</div></div></div>
+            <div class="insight-item anim fade-right d3"><div class="insight-num teal-bg">2</div><div><div class="insight-title">Humans Refine</div><div class="insight-body">Indigenous translators review for cultural nuance, emotional resonance, and theological accuracy. They provide the &ldquo;friction&rdquo; the AI cannot.</div></div></div>
+            <div class="insight-item anim fade-left d4"><div class="insight-num">3</div><div><div class="insight-title">Community Checks</div><div class="insight-body">&ldquo;People in the community are accepting the text, and our team&rsquo;s confidence is increasing.&rdquo; &mdash; Seed Company</div></div></div>
+          </div>
+          <div class="callout anim fade-up d5">
+            <strong>The OMF Principle:</strong> An algorithm doesn&rsquo;t have a soul. It has never experienced grace. True cultural engagement requires empathy, respect, and a willingness to listen to people&rsquo;s lived stories.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Seed Company; OMF; SIL</span></div>
+  </div>
+</div>
+
+<!-- S9: TESTIMONY — BRANCHU COMMUNITY -->
+<div class="slide">
+  <div class="testimony-slide">
+    <div class="testimony-bg" style="background-image:url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1400&auto=format&fit=crop&q=80')"></div>
+    <div class="testimony-overlay"></div>
+    <div class="testimony-content">
+      <div class="testimony-qmark anim scale-up d1">&ldquo;</div>
+      <div class="testimony-quote anim fade-up d2">This country says that Buddha is God, but Buddha is in the ground. We know because we have the Bible in our language that our God is the God of the world. He was in the ground, but he is alive.</div>
+      <div class="testimony-cite anim fade-up d3">&mdash; Local leader, Branchu community, 2023 Bible dedication</div>
+      <div class="s-div anim fade-up d4" style="margin:1rem auto"></div>
+      <div class="anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.35)">24 years of translation &middot; Seed Company</div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: SIL TOOLS -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">The SIL <span class="gold">AI Ecosystem</span></h2>
+      <div class="insight-list">
+        <div class="insight-item anim fade-up d2" data-modal="scripture_forge"><div class="insight-num gold-bg">SF</div><div><div class="insight-title">Scripture Forge</div><div class="insight-body">Team-based translation with AI drafting from 8,000+ translated verses</div></div></div>
+        <div class="insight-item anim fade-up d3" data-modal="aqua"><div class="insight-num teal-bg">AQ</div><div><div class="insight-title">AQuA</div><div class="insight-body">Augmented Quality Assessment &mdash; catches errors before they reach print</div></div></div>
+        <div class="insight-item anim fade-up d4" data-modal="faithbridge"><div class="insight-num">FB</div><div><div class="insight-title">Faithbridge</div><div class="insight-body">AI Bible Q&amp;A for translators in 80 languages via audio &amp; text</div></div></div>
+        <div class="insight-item anim fade-up d5" data-modal="aero"><div class="insight-num warm-bg">AE</div><div><div class="insight-title">AERO</div><div class="insight-body">AI for oral cultures: noise removal, voice change, key term detection in audio</div></div></div>
+      </div>
+      <div class="callout gold anim fade-up d6" data-modal="ai_sil_org" style="font-family:'Montserrat',sans-serif;font-size:clamp(1rem,1.25vw,1.15rem);text-align:center;cursor:pointer;margin-top:0.5rem">
+        300+ minority language models &middot; Two-thirds of the world&rsquo;s population are oral learners &middot; <strong>ai.sil.org</strong>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: SIL AI & NLP (ai.sil.org)</span></div>
+  </div>
+</div>
+
+<!-- S11: EVANGELISM SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.1"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 03</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">AI-Powered<br><span class="warm-gradient">Evangelism</span></h2>
+      <p class="s-sub anim fade-up d3">Chatbots, targeted outreach, and the new digital front door</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S12: DIGITAL MARS HILL (slide 14: fullscreen video on enter) -->
+<div class="slide" data-slide-video="YoS3hVnvSfM">
+  <div class="slide-inner cream" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.05"></div>
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">The Digital <span class="gold">Mars Hill</span></h2>
+      <div style="display:flex;gap:1.2rem;margin:0.5vh 0">
+        <!-- Left: Apologist screenshot + info -->
+        <div class="anim fade-left d2" style="flex:1;display:flex;flex-direction:column;gap:0.6rem">
+          <div class="col-card" data-modal="apologist" style="flex:1;margin:0">
+            <h4>The Apologist Project (apologist.ai)</h4><div class="col-div"></div>
+            <ul>
+              <li>775k+ faith questions answered in 200 languages</li>
+              <li>Won 1st place at Indigitous #HACK 2024</li>
+              <li>&ldquo;The best Bible Q&amp;A chatbot in existence&rdquo; &mdash; Got Questions</li>
+            </ul>
+          </div>
+          <div class="col-card" data-modal="alim" style="flex:1;margin:0">
+            <h4>&ldquo;Alim&rdquo; &mdash; Worldview-Specific Evangelism</h4><div class="col-div"></div>
+            <ul>
+              <li>Chatbot designed for the Muslim community</li>
+              <li>Mirrors Paul&rsquo;s Mars Hill approach (Acts 17)</li>
+              <li>Seekers ask hardest questions at 2 AM &mdash; zero social risk</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Right: Apologist.ai screenshot -->
+        <div class="anim fade-right d3" style="flex:1;display:flex;align-items:stretch">
+          <div data-modal="apologist" style="cursor:pointer;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.06);box-shadow:0 4px 20px rgba(0,0,0,0.08);flex:1;display:flex">
+            <img src="assets/apologist-ai-chatbot-interface.png" alt="Apologist.ai chatbot interface" style="width:100%;height:100%;object-fit:cover" loading="lazy">
+          </div>
+        </div>
+      </div>
+      <div class="callout anim fade-up d4" style="font-style:italic;margin:0.5vh 0;padding:1.2vh 2vw">
+        Why chatbots work: Asking a pastor a hard question feels intimidating. Asking a chatbot feels completely safe. Zero judgment. Available 24/7 in closed-access nations.
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: apologistproject.org</span></div>
+  </div>
+</div>
+
+<!-- S13: CRU QUOTE -->
+<div class="slide">
+  <div class="slide-inner dark" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.06"></div>
+    <div class="s-body centered">
+      <div class="testimony-qmark anim scale-up d1" style="opacity:0.3">&ldquo;</div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.45rem,2.7vw,2.2rem);font-style:italic;line-height:1.5;color:var(--white);max-width:800px">Rather than debating whether AI is moral, I would say: Can we redeem it for the glory of God? We&rsquo;re using AI to help people discover a relationship with Jesus.</div>
+      <div class="anim fade-up d3" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:clamp(0.95rem,1.2vw,1.1rem);font-weight:600;margin-top:1rem">&mdash; Andre Echevarria, Cru &mdash; U.S. Digital Strategies</div>
+      <div class="s-div anim fade-up d4" style="margin:1rem auto"></div>
+      <div class="stat-row anim fade-up d5" style="max-width:750px">
+        <div class="stat-card" data-modal="cru" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);text-align:center">
+          <div class="s-num" style="color:var(--gold);font-size:clamp(1.9rem,2.5vw,2.2rem)">60&ndash;80</div>
+          <div class="s-label" style="color:rgba(255,255,255,0.5)">languages translated in minutes, not months</div>
+        </div>
+        <div class="stat-card" data-modal="cru" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);text-align:center">
+          <div class="s-num" style="color:var(--gold);font-size:clamp(1.9rem,2.5vw,2.2rem)">AI</div>
+          <div class="s-label" style="color:rgba(255,255,255,0.5)">identifies seekers via social media behavior and serves targeted messages of hope</div>
+        </div>
+        <div class="stat-card" data-modal="cru" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);text-align:center">
+          <div class="s-num" style="color:var(--gold);font-size:clamp(1.6rem,2vw,1.9rem)">Intern</div>
+          <div class="s-label" style="color:rgba(255,255,255,0.5)">AI as an &ldquo;advanced intern&rdquo; &mdash; never fully automated without human oversight</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: CBN News</span></div>
+  </div>
+</div>
+
+<!-- S14: TESTIMONY — CRU SEEKER -->
+<div class="slide">
+  <div class="testimony-slide">
+    <div class="testimony-bg" style="background-image:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&auto=format&fit=crop&q=80')"></div>
+    <div class="testimony-overlay"></div>
+    <div class="testimony-content">
+      <div class="testimony-qmark anim scale-up d1">&ldquo;</div>
+      <div class="testimony-quote anim fade-up d2">I never grew up with a true role model. I was never raised religious. Christians were coming up on my &lsquo;For You&rsquo; page on social media, so I decided to research more about it. Eventually, I got listening to the Bible every day.</div>
+      <div class="testimony-cite anim fade-up d3">&mdash; Testimony shared by Andre Echevarria, Cru</div>
+      <div class="s-div anim fade-up d4" style="margin:1rem auto"></div>
+      <div class="anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.35)">AI-targeted outreach bringing seekers to faith</div>
+      <div class="anim fade-up d5" style="margin-top:1rem">
+        <button type="button" class="video-trigger" data-video="gETQ5qBDhtg" style="cursor:pointer;border-radius:10px;padding:0.5rem 1rem;font-size:0.8rem">
+          <span class="play-icon"><svg viewBox="0 0 24 24" width="10" height="10"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg></span>
+          <span>Watch: Should Christians Fear AI? (CBN / Cru)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15: GEO & FRONT DOOR -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">The New <span class="gold">Front Door</span></h2>
+      <div class="stat-row">
+        <div class="stat-card anim fade-up d2" data-modal="touchpoints"><div class="s-num">12&ndash;15</div><div class="s-label">digital touch points now required before someone visits a church (up from 3&ndash;5)</div><div class="s-source">VisitorReach</div><div class="click-hint">CLICK</div></div>
+        <div class="stat-card gold anim fade-up d3" data-modal="geo"><div class="s-num">GEO</div><div class="s-label">Generative Engine Optimization &mdash; if your website isn&rsquo;t AI-readable, seekers can&rsquo;t find you</div><div class="s-source">Missional Marketing</div><div class="click-hint">CLICK</div></div>
+      </div>
+      <div class="anim fade-up d4" style="margin:0.5vh 0">
+        <button type="button" class="video-trigger light" data-video="NLKYQc1bbXE" style="cursor:pointer;border-radius:10px">
+          <span class="play-icon"><svg viewBox="0 0 24 24" width="10" height="10"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg></span>
+          <span>Watch: VisitorReach &mdash; What We Do (12&ndash;15 touchpoint reality) &middot; Kenny Jahng / NAE</span>
+        </button>
+      </div>
+      <div class="callout anim fade-up d5">
+        <strong>People now ask ChatGPT:</strong> &ldquo;What&rsquo;s a good church for young families near me?&rdquo; If your website isn&rsquo;t structured for AI search engines, you&rsquo;re invisible to this growing segment of seekers.
+      </div>
+      <div class="callout gold anim fade-up d6">
+        <strong>Practical steps:</strong> Write FAQ sections, use clear image alt-text, list on trusted directories, ensure robots.txt doesn&rsquo;t block GPTBot and PerplexityBot.
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: VisitorReach; Missional Marketing</span></div>
+  </div>
+</div>
+
+<!-- S16: LIVE TRANSLATION SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.1"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 04</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Live <span class="warm-gradient">Translation</span></h2>
+      <p class="s-sub anim fade-up d3">Making every Sunday multilingual &mdash; the digital curb cut effect</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S17: LIVE TRANSLATION DETAILS -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">AI Translation in <span class="gold">10 Minutes</span></h2>
+      <div class="step-row">
+        <div class="step-card anim fade-up d2"><div class="step-num">1</div><div class="step-title">Connect</div><div class="step-body">Soundboard to laptop. 10-minute setup. No sound booths.</div></div>
+        <div class="step-card anim fade-up d3"><div class="step-num">2</div><div class="step-title">Capture</div><div class="step-body">AI captures speech &rarr; text &rarr; translates in real-time.</div></div>
+        <div class="step-card anim fade-up d4"><div class="step-num">3</div><div class="step-title">Deliver</div><div class="step-body">Attendees scan QR code for captions in their language on their phone.</div></div>
+      </div>
+      <div class="insight-list">
+        <div class="insight-item anim fade-up d5" data-modal="boostlingo"><div class="insight-num gold-bg">BL</div><div><div class="insight-title">Boostlingo</div><div class="insight-body">130+ languages, from $9.99</div></div></div>
+        <div class="insight-item anim fade-up d6" data-modal="streamlingo"><div class="insight-num teal-bg">SL</div><div><div class="insight-title">Streamlingo</div><div class="insight-body">Church-focused live translation with powerful testimonials</div></div></div>
+        <div class="insight-item anim fade-up d7" data-modal="glossa"><div class="insight-num">GL</div><div><div class="insight-title">Glossa</div><div class="insight-body">$5/language/session, 100+ languages, no app required</div></div></div>
+      </div>
+      <div class="callout gold anim fade-up d8" style="font-size:clamp(1rem,1.25vw,1.15rem)">
+        <strong>The Curb Cut Effect:</strong> 70% of Gen Z and 53% of Millennials use closed captions regularly (Preply, 2022). Captions benefit ESL, hearing impaired, AND caption-reliant Gen Z &mdash; all in one unified service.
+      </div>
+      <div class="anim fade-up d9" style="display:flex;gap:0.75rem;flex-wrap:wrap;justify-content:center;margin:0.5vh 0">
+        <button type="button" class="video-trigger light" data-video="oxkEl72bybY" style="cursor:pointer;border-radius:10px;padding:0.5rem 1rem;font-size:0.8rem">
+          <span class="play-icon"><svg viewBox="0 0 24 24" width="10" height="10"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg></span>
+          <span>Watch: Live AI Church Translation Demo (Boostlingo)</span>
+        </button>
+        <button type="button" class="video-trigger light" data-video="a_V9h4_R9K8" style="cursor:pointer;border-radius:10px;padding:0.5rem 1rem;font-size:0.8rem">
+          <span class="play-icon"><svg viewBox="0 0 24 24" width="10" height="10"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg></span>
+          <span>Watch: AI Translation for Churches</span>
+        </button>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Boostlingo; Streamlingo; Glossa; Preply</span></div>
+  </div>
+</div>
+
+<!-- S18: TESTIMONY — STREAMLINGO -->
+<div class="slide">
+  <div class="testimony-slide">
+    <div class="testimony-bg" style="background-image:url('https://images.unsplash.com/photo-1519834022362-cf872776cdb5?w=1400&auto=format&fit=crop&q=80')"></div>
+    <div class="testimony-overlay"></div>
+    <div class="testimony-content">
+      <div class="testimony-qmark anim scale-up d1">&ldquo;</div>
+      <div class="testimony-quote anim fade-up d2">When we used Streamlingo for the first time, a member of our congregation came to us after the service. He is Iranian and was moved to tears &mdash; after three years in our church, he was finally able to understand the entire sermon.</div>
+      <div class="testimony-cite anim fade-up d3">&mdash; Church leadership team, via Streamlingo</div>
+      <div class="s-div anim fade-up d4" style="margin:1rem auto"></div>
+      <div class="anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.35)">Live AI translation &middot; streamlingo.net</div>
+    </div>
+  </div>
+</div>
+
+<!-- S19: DISCIPLESHIP SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.1"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 05</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Discipleship &amp;<br><span class="warm-gradient">Content</span></h2>
+      <p class="s-sub anim fade-up d3">Unburying church wisdom and the one-sermon-to-one-week workflow</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S20: RAG EXPLAINED -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">Unburying Wisdom with <span class="gold">RAG</span></h2>
+      <div class="two-cols">
+        <div class="callout red anim fade-left d2">
+          <strong style="color:var(--red)">Generic AI (Whole Internet)</strong><br>
+          Pulls answers from everywhere. Might synthesize from an orthodox theologian OR a heretical blog post. A &ldquo;stochastic parrot&rdquo; &mdash; predicting plausible words, not truth.
+        </div>
+        <div class="callout green anim fade-right d3">
+          <strong style="color:var(--green)">RAG-Powered Church AI (Your Content Only)</strong><br>
+          Retrieval Augmented Generation retrieves passages ONLY from YOUR uploaded sermons, doctrinal statements, and approved resources. Fenced in by your church&rsquo;s theology.
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card anim fade-up d4" data-modal="agentiveaiq"><div class="s-num" style="font-size:1.3rem">AgentiveAIQ</div><div class="s-label">RAG + Knowledge Graph, from $39/mo</div><div class="click-hint">CLICK</div></div>
+        <div class="stat-card gold anim fade-up d5" data-modal="tapos"><div class="s-num" style="font-size:1.3rem">Tapos.app</div><div class="s-label">Sermon archive AI &mdash; send, seed, engage, nurture, disciple</div><div class="click-hint">CLICK</div></div>
+        <div class="stat-card green anim fade-up d6" data-modal="callm"><div class="s-num" style="font-size:1.3rem">Gloo CALLM</div><div class="s-label">Christian-Aligned Large Language Model</div><div class="click-hint">CLICK</div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: AgentiveAIQ; Tapos; Gloo</span></div>
+  </div>
+</div>
+
+<!-- S21: ONE SERMON → ONE WEEK (Visual Workflow) -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">One Sermon &rarr; One Week of <span class="gold">Content</span></h2>
+      <div class="workflow-pipeline anim fade-up d2">
+        <div class="workflow-step" data-modal="revcom">
+          <div class="workflow-step-icon" style="background:var(--sphere-red)">REV</div>
+          <div class="workflow-step-name">Transcribe</div>
+          <div class="workflow-step-sub">Rev.com &middot; $16</div>
+        </div>
+        <div class="workflow-arrow">&rarr;</div>
+        <div class="workflow-step" data-modal="opuspro">
+          <div class="workflow-step-icon" style="background:var(--sphere-orange)">OPUS</div>
+          <div class="workflow-step-name">Clip</div>
+          <div class="workflow-step-sub">Opus Pro &middot; 5&ndash;10 clips</div>
+        </div>
+        <div class="workflow-arrow">&rarr;</div>
+        <div class="workflow-step" data-modal="claudeai">
+          <div class="workflow-step-icon" style="background:var(--sphere-teal)">AI</div>
+          <div class="workflow-step-name">Multiply</div>
+          <div class="workflow-step-sub">Claude AI &middot; Blog, study, email</div>
+        </div>
+        <div class="workflow-arrow">&rarr;</div>
+        <div class="workflow-step" data-modal="churchsocial">
+          <div class="workflow-step-icon" style="background:var(--sphere-green)">CS</div>
+          <div class="workflow-step-name">Schedule</div>
+          <div class="workflow-step-sub">ChurchSocial &middot; $15/mo</div>
+        </div>
+      </div>
+      <div class="callout gold anim fade-up d3" style="font-family:'Montserrat',sans-serif;font-weight:700;text-align:center;font-size:1rem">
+        Total time: Under 1 hour for a full week of multi-platform content.
+      </div>
+      <!-- Real tool screenshots strip -->
+      <div style="display:flex;gap:0.8rem;margin:1vh 0;flex:1;min-height:0" class="anim fade-up d4">
+        <div data-modal="opuspro" style="flex:1;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:transform 0.3s,box-shadow 0.3s;display:flex;flex-direction:column">
+          <img src="assets/opusclip-church-clipping.png" alt="OpusClip church clipping" style="width:100%;flex:1;object-fit:cover;min-height:0" loading="lazy">
+          <div style="padding:0.5rem 0.75rem;background:white;font-family:'Montserrat',sans-serif;font-size:clamp(0.65rem,0.85vw,0.8rem);font-weight:700;color:var(--navy);text-align:center">Opus Pro &mdash; Sermon Clips</div>
+        </div>
+        <div data-modal="churchsocial" style="flex:1;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:transform 0.3s,box-shadow 0.3s;display:flex;flex-direction:column">
+          <img src="https://cdn.prod.website-files.com/66fbef1791a926d3333be70e/682cc24a8d5e16d78435c7ca_Sermon%20Studio%20Hero.png" alt="ChurchSocial Sermon Studio" style="width:100%;flex:1;object-fit:cover;min-height:0" loading="lazy">
+          <div style="padding:0.5rem 0.75rem;background:white;font-family:'Montserrat',sans-serif;font-size:clamp(0.65rem,0.85vw,0.8rem);font-weight:700;color:var(--navy);text-align:center">ChurchSocial &mdash; Sermon Studio</div>
+        </div>
+        <div data-modal="hours_saved" style="flex:1;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 10px rgba(0,0,0,0.06);transition:transform 0.3s,box-shadow 0.3s;display:flex;flex-direction:column">
+          <img src="assets/ministry-automation.png" alt="Ministry Automation" style="width:100%;flex:1;object-fit:cover;min-height:0" loading="lazy">
+          <div style="padding:0.5rem 0.75rem;background:white;font-family:'Montserrat',sans-serif;font-size:clamp(0.65rem,0.85vw,0.8rem);font-weight:700;color:var(--navy);text-align:center">Ministry Automation &mdash; AI Agents</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Churchfront; ChurchSocial.ai; Discipls.io</span></div>
+  </div>
+</div>
+
+<!-- New slide after 23: 5 AI church tools full examples (90% thumbnail, play on click) -->
+<div class="slide">
+  <div class="slide-inner cream video-hero-slide">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1" style="margin-bottom:1rem">5 AI Church Tools <span class="gold">Full Examples</span></h2>
+      <div class="video-hero-thumb anim fade-up d2" data-video="IaCU_y2b23U" role="button" tabindex="0" title="Click to play">
+        <img src="https://img.youtube.com/vi/IaCU_y2b23U/maxresdefault.jpg" alt="5 AI church tools full examples" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IaCU_y2b23U/hqdefault.jpg'">
+        <span class="play-btn-center" aria-hidden="true">
+          <svg viewBox="0 0 68 48" width="28" height="28"><path fill="currentColor" d="M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Click the thumbnail to play</span></div>
+  </div>
+</div>
+
+<!-- S22: PASTOR WORKFLOW SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.08"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 06</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">The Pastor&rsquo;s<br><span class="warm-gradient">Workflow</span></h2>
+      <p class="s-sub anim fade-up d3">Reclaiming 15&ndash;20 hours through AI-assisted sermon preparation</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S23: MON-FRI — fullscreen video on enter, auto-close when ended -->
+<div class="slide" data-slide-video="DfUOX5c__jg">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">Monday &rarr; Friday: <span class="gold">AI-Assisted</span> Prep</h2>
+      <div class="insight-list" style="gap:1.2vh;margin:1.5vh 0;flex:1;min-height:0">
+        <div class="insight-item anim fade-left d2"><div class="insight-num gold-bg" style="font-size:0.85rem">MON</div><div><div class="insight-title">Research</div><div class="insight-body">AI generates exegetical summary, Greek/Hebrew key words, historical context. <strong>3 hrs &rarr; 1 hr.</strong></div></div></div>
+        <div class="insight-item anim fade-right d3"><div class="insight-num teal-bg" style="font-size:0.85rem">TUE</div><div><div class="insight-title">Structure</div><div class="insight-body">AI generates 3&ndash;4 homiletical structures. Pastor selects and refines. <strong>Saves 1.5 hrs.</strong></div></div></div>
+        <div class="insight-item anim fade-left d4"><div class="insight-num" style="font-size:0.8rem">W&ndash;TH</div><div><div class="insight-title">Write &amp; Apply</div><div class="insight-body">AI generates rough draft as &ldquo;clay.&rdquo; Pastor rewrites in own voice, injects personal stories.</div></div></div>
+        <div class="insight-item anim fade-right d5"><div class="insight-num warm-bg" style="font-size:0.85rem">FRI</div><div><div class="insight-title">Polish &amp; Pray</div><div class="insight-body">AI flags weak transitions. Pastor polishes. Dedicated time in prayer over the message.</div></div></div>
+      </div>
+      <div class="stat-card gold anim fade-up d6" data-modal="hours_saved" style="text-align:center;padding:0.8vh 1.5vw;margin-top:1.2vh;flex:0 0 auto;align-self:center;max-width:420px;min-height:0">
+        <div class="s-num" style="color:var(--gold);font-size:clamp(1.6rem,2.8vw,2.4rem)">15&ndash;20 hrs/week</div>
+        <div class="s-label" style="font-size:clamp(0.95rem,1.2vw,1.1rem)">saved and reallocated to pastoral care, family, and Sabbath rest</div>
+        <div class="s-source" style="margin-top:0.3rem">Ministry Automation</div>
+        <div class="click-hint">CLICK FOR DETAILS</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: Ministry Automation</span></div>
+  </div>
+</div>
+
+<!-- S24: TOOL SHOWCASE 1 — Bible Translation & Evangelism -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <div class="eyebrow anim fade-up d1">Tool Showcase</div>
+      <h2 class="s-title lg anim fade-up d2">Translation &amp; <span class="gold">Evangelism</span> Tools</h2>
+      <div class="tool-grid anim fade-up d3">
+        <div class="tool-card" data-modal="scripture_forge">
+          <div class="tool-card-img"><img src="assets/scripture-forge-interface.jpg" alt="Scripture Forge interface" loading="lazy"></div>
+          <div class="price-badge">Free</div>
+          <div class="tool-card-body"><div class="tool-card-name">Scripture Forge</div><div class="tool-card-desc">AI-assisted team Bible translation from 8,000+ verses &middot; ai.sil.org</div></div>
+        </div>
+        <div class="tool-card" data-modal="apologist">
+          <div class="tool-card-img"><img src="assets/apologist-ai-chatbot-interface.png" alt="Apologist.ai chatbot interface" loading="lazy"></div>
+          <div class="price-badge">Free</div>
+          <div class="tool-card-body"><div class="tool-card-name">Apologist.ai</div><div class="tool-card-desc">775k+ faith questions answered &middot; 200 languages &middot; 175+ countries</div></div>
+        </div>
+        <div class="tool-card" data-modal="callm" data-video="teyWls_oQTc">
+          <div class="tool-card-img"><img src="assets/gloo-callm-fai-evaluation-framework.png" alt="Gloo CALLM — FAI evaluation framework" loading="lazy"></div>
+          <div class="price-badge">Enterprise</div>
+          <div class="tool-card-body"><div class="tool-card-name">Gloo CALLM</div><div class="tool-card-desc">First Christian-Aligned LLM &middot; 30+ points above frontier models</div></div>
+        </div>
+        <div class="tool-card" data-modal="boostlingo">
+          <div class="tool-card-img"><img src="assets/boostlingo-ai-translation-services.png" alt="Boostlingo AI translation services" loading="lazy"></div>
+          <div class="price-badge">$9.99+</div>
+          <div class="tool-card-body"><div class="tool-card-name">Boostlingo</div><div class="tool-card-desc">Live AI translation &middot; 130+ languages &middot; 10-min setup &middot; QR code delivery</div></div>
+        </div>
+        <div class="tool-card" data-modal="streamlingo">
+          <div class="tool-card-img"><img src="assets/streamlingo-benefits-overview.png" alt="Streamlingo benefits overview" loading="lazy"></div>
+          <div class="price-badge">Varies</div>
+          <div class="tool-card-body"><div class="tool-card-name">Streamlingo</div><div class="tool-card-desc">Church-focused live translation &middot; &ldquo;Moved to tears&rdquo; testimonials</div></div>
+        </div>
+        <div class="tool-card" data-modal="glossa">
+          <div class="tool-card-img"><img src="assets/glossa-live-translation-interface.png" alt="Glossa live translation interface" loading="lazy"></div>
+          <div class="price-badge">$5/lang</div>
+          <div class="tool-card-body"><div class="tool-card-name">Glossa</div><div class="tool-card-desc">100+ languages &middot; $5/session &middot; No app needed &middot; Browser-based</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Click any tool for details</span></div>
+  </div>
+</div>
+
+<!-- S25: TOOL SHOWCASE 2 — Sermon, Content & Admin -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <div class="eyebrow anim fade-up d1">Tool Showcase</div>
+      <h2 class="s-title lg anim fade-up d2">Sermon, Content &amp; <span class="gold">Admin</span> Tools</h2>
+      <div class="tool-grid tool-grid-expand anim fade-up d3">
+        <div class="tool-card" data-modal="agentiveaiq">
+          <div class="tool-card-img"><img src="assets/agentiveaiq-ai-agents-platform.png" alt="AgentiveAIQ — AI agents platform" loading="lazy"></div>
+          <div class="price-badge">$39/mo</div>
+          <div class="tool-card-body"><div class="tool-card-name">AgentiveAIQ</div><div class="tool-card-desc">RAG + Knowledge Graph &middot; No-code builder &middot; Persistent memory</div></div>
+        </div>
+        <div class="tool-card" data-modal="churchsocial">
+          <div class="tool-card-img"><img src="https://cdn.prod.website-files.com/66fbef1791a926d3333be70e/682cc24a8d5e16d78435c7ca_Sermon%20Studio%20Hero.png" alt="ChurchSocial Sermon Studio" loading="lazy"></div>
+          <div class="price-badge">$15/mo</div>
+          <div class="tool-card-body"><div class="tool-card-name">ChurchSocial.ai</div><div class="tool-card-desc">Sermon clips, graphics, AI captions &middot; 2,000+ churches</div></div>
+        </div>
+        <div class="tool-card" data-modal="opuspro">
+          <div class="tool-card-img"><img src="assets/opusclip-church-clipping.png" alt="OpusClip — church video clipping" loading="lazy"></div>
+          <div class="price-badge">Free trial</div>
+          <div class="tool-card-body"><div class="tool-card-name">Opus Pro</div><div class="tool-card-desc">Full sermon &rarr; 5&ndash;10 viral clips &middot; Auto captions &middot; TikTok/Reels</div></div>
+        </div>
+        <div class="tool-card" data-modal="claudeai">
+          <div class="tool-card-img"><img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=400&auto=format&fit=crop&q=80" alt="Claude AI — content writing" loading="lazy"></div>
+          <div class="price-badge">Free/Pro</div>
+          <div class="tool-card-body"><div class="tool-card-name">Claude AI</div><div class="tool-card-desc">Blog, Bible study, podcast notes, email &mdash; all from one transcript</div></div>
+        </div>
+        <div class="tool-card" data-modal="tools_sermon">
+          <div class="tool-card-img"><img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&auto=format&fit=crop&q=80" alt="Logos — library study" loading="lazy"></div>
+          <div class="price-badge">$9.99/mo</div>
+          <div class="tool-card-body"><div class="tool-card-name">Logos AI</div><div class="tool-card-desc">Deep exegetical study &middot; AI pulls only from YOUR vetted library</div></div>
+        </div>
+        <div class="tool-card" data-modal="hours_saved">
+          <div class="tool-card-img"><img src="assets/ministry-automation.png" alt="Ministry Automation — reclaim 20 hours" loading="lazy"></div>
+          <div class="price-badge">$997/yr</div>
+          <div class="tool-card-body"><div class="tool-card-name">Ministry Automation</div><div class="tool-card-desc">Pre-built AI agents &middot; 300+ churches &middot; Saves 15&ndash;20 hrs/week</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Full list: AI Technology for Kingdom Impact White Paper</span></div>
+  </div>
+</div>
+
+<!-- S26: ETHICS SECTION -->
+<div class="slide">
+  <div class="slide-inner mid" style="position:relative">
+    <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.08"></div>
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">Section 07</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Ethical<br><span class="warm-gradient">Guardrails</span></h2>
+      <p class="s-sub anim fade-up d3">The stochastic parrot problem, data privacy, and the 70/30 rule</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S27: DANGERS -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">The <span style="color:var(--red)">Stochastic Parrot</span> Problem</h2>
+      <p class="s-sub anim fade-up d2" style="font-style:italic">AI has no concept of truth. It predicts the next most plausible word. Plausible &ne; truthful.</p>
+      <div class="insight-list">
+        <div class="insight-item anim fade-up d3" data-modal="hallucination" style="border-left:4px solid var(--red)"><div class="insight-num" style="background:var(--red)">!</div><div><div class="insight-title" style="color:var(--red)">Hallucination</div><div class="insight-body">AI fabricated an entire bibliography of academic papers that didn&rsquo;t exist &mdash; with journal titles, dates, and page numbers.</div></div></div>
+        <div class="insight-item anim fade-up d4" data-modal="dataprivacy" style="border-left:4px solid var(--red)"><div class="insight-num" style="background:var(--red)">!</div><div><div class="insight-title" style="color:var(--red)">Data Privacy</div><div class="insight-body">Pasting sensitive counseling emails into ChatGPT feeds confidential pastoral data into a public training corpus forever.</div></div></div>
+        <div class="insight-item anim fade-up d5" data-modal="doctrine" style="border-left:4px solid var(--red)"><div class="insight-num" style="background:var(--red)">!</div><div><div class="insight-title" style="color:var(--red)">Doctrinal Drift</div><div class="insight-body">Generic AI doesn&rsquo;t distinguish orthodox theology from heretical blog posts.</div></div></div>
+        <div class="insight-item anim fade-up d6" data-modal="authenticity" style="border-left:4px solid var(--red)"><div class="insight-num" style="background:var(--red)">!</div><div><div class="insight-title" style="color:var(--red)">Authenticity</div><div class="insight-body">If AI writes your pastoral prayer, whose heart is speaking to God?</div></div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Lausanne; Nigerian Pastoral Counsellors</span></div>
+  </div>
+</div>
+
+<!-- S28: 70/30 + POLICY -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">The <span class="gold">70/30 Rule</span> &amp; Your AI Policy</h2>
+      <div class="anim fade-up d2" style="display:flex;border-radius:10px;overflow:hidden;margin:1vh 0">
+        <div style="flex:7;background:var(--teal);padding:1.3rem 1.6rem;color:white;font-family:'Montserrat',sans-serif;font-size:clamp(0.95rem,1.2vw,1.1rem);font-weight:700">70% &mdash; Your words, stories, tears, Spirit-led insights</div>
+        <div style="flex:3;background:var(--gold);padding:1.3rem;color:white;font-family:'Montserrat',sans-serif;font-size:clamp(0.9rem,1.1vw,1.05rem);font-weight:600">30% &mdash; AI structure, research, data</div>
+      </div>
+      <div class="three-cols">
+        <div class="col-card anim fade-up d3" data-modal="pillar_privacy"><h4>&#128274; Data Privacy</h4><div class="col-div"></div><ul><li>Never paste sensitive pastoral data into public AI</li><li>Compartmentalize counseling notes and prayer requests</li></ul></div>
+        <div class="col-card anim fade-up d4" data-modal="pillar_bias"><h4>&#9888;&#65039; Bias Awareness</h4><div class="col-div"></div><ul><li>Public models carry cultural, political, theological biases of the internet</li><li>They are not neutral arbiters of truth</li></ul></div>
+        <div class="col-card anim fade-up d5" data-modal="pillar_transparency"><h4>&#128065; Transparency</h4><div class="col-div"></div><ul><li>Be honest about when AI assists content creation</li><li>The contract of authenticity with your congregation matters</li></ul></div>
+      </div>
+      <div class="callout red anim fade-up d6" style="font-size:clamp(1rem,1.25vw,1.15rem);font-style:italic">
+        &ldquo;Operating without an AI policy is like handing a teenager the keys to a sports car without teaching them the rules of the road.&rdquo; &mdash; Jason Hamrock
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: The Church Network / Jason Hamrock</span></div>
+  </div>
+</div>
+
+<!-- S29: WHERE AI BELONGS -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1">Where AI <span class="gold">Belongs</span> &mdash; and <span style="color:var(--red)">Doesn&rsquo;t</span></h2>
+      <div class="two-cols">
+        <div class="anim fade-left d2">
+          <div style="background:var(--green);color:white;padding:0.6rem 1rem;border-radius:8px 8px 0 0;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.85rem;text-align:center">AI CAN DO WELL</div>
+          <div class="insight-list" style="margin-top:0">
+            <div class="insight-item" data-modal="admin67" style="border-left:3px solid var(--green)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Admin tasks (67%)</div></div></div>
+            <div class="insight-item" data-modal="budget50" style="border-left:3px solid var(--green)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Budgeting advice (50%)</div></div></div>
+            <div class="insight-item" style="border-left:3px solid var(--green)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Content with oversight</div></div></div>
+            <div class="insight-item" style="border-left:3px solid var(--green)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Translation &amp; transcription</div></div></div>
+          </div>
+        </div>
+        <div class="anim fade-right d3">
+          <div style="background:var(--red);color:white;padding:0.6rem 1rem;border-radius:8px 8px 0 0;font-family:'Montserrat',sans-serif;font-weight:700;font-size:0.85rem;text-align:center">HUMANS ARE ESSENTIAL</div>
+          <div class="insight-list" style="margin-top:0">
+            <div class="insight-item" data-modal="counsel86" style="border-left:3px solid var(--red)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Spiritual counseling (86%)</div></div></div>
+            <div class="insight-item" data-modal="mental84" style="border-left:3px solid var(--red)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Mental health counseling (84%)</div></div></div>
+            <div class="insight-item" style="border-left:3px solid var(--red)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Pastoral care &amp; presence</div></div></div>
+            <div class="insight-item" style="border-left:3px solid var(--red)"><div><div class="insight-title" style="font-size:clamp(0.95rem,1.15vw,1.1rem)">Spirit-led discernment</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="s-source anim fade-up d4" style="text-align:center;margin-top:1vh">Source: Gloo/Barna &ldquo;Ethical Ministry Uses of AI&rdquo; (2024) &middot; 1,072 U.S. adults surveyed</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: Gloo/Barna 2024</span></div>
+  </div>
+</div>
+
+<!-- S30: PARADOX OF TOIL -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body centered">
+      <div class="testimony-qmark anim scale-up d1" style="opacity:0.3">&ldquo;</div>
+      <div class="anim fade-up d2" style="font-size:clamp(1.2rem,2.2vw,1.8rem);font-style:italic;line-height:1.5;color:var(--white);max-width:800px">Humans have historically filled the margin technology creates with more toil. The question is: how do we take the margin AI returns to us and invest it in meaning-making &mdash; rather than simply becoming busier?</div>
+      <div class="anim fade-up d3" style="color:var(--gold);font-family:'Montserrat',sans-serif;font-size:clamp(0.8rem,1vw,0.95rem);font-weight:600;margin-top:1rem">&mdash; Todd Korpi, Lausanne Global Analysis / AI Goes to Church (IVP, 2025)</div>
+      <div class="s-div anim fade-up d4" style="margin:1.2rem auto"></div>
+      <div class="anim fade-up d5" style="font-size:clamp(1rem,1.5vw,1.2rem);color:rgba(255,255,255,0.45);max-width:700px">In an age of AI, the local church can become a beacon of stability and hope, demonstrating what it means to love God and neighbor with heart, soul, mind, and strength.</div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: Lausanne / Todd Korpi</span></div>
+  </div>
+</div>
+
+<!-- S31: INFORMATION VS INCARNATION -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body centered">
+      <div class="eyebrow anim fade-up d1">The Core Distinction</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)"><span class="warm-gradient">Information</span> vs.<br>Incarnation</h2>
+      <div class="s-div anim fade-up d3" style="margin:1rem auto"></div>
+      <div class="anim fade-up d4" style="font-size:clamp(1.1rem,1.8vw,1.4rem);color:rgba(255,255,255,0.6);max-width:750px;line-height:1.7">AI cannot look a grieving mother in the eye and weep with her. It cannot sit in a hospital waiting room or pray with genuine Spirit-led empathy.<br><br><strong style="color:var(--gold)">We are not automating the relationship. We are automating the data delivery.</strong></div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: OMF; NAE</span></div>
+  </div>
+</div>
+
+<!-- S32: DISCUSSION -->
+<div class="slide">
+  <div class="slide-inner cream">
+    <div class="s-body top">
+      <div class="eyebrow anim fade-up d1">Discussion</div>
+      <h2 class="s-title lg anim fade-up d2">Questions for the <span class="gold">Room</span></h2>
+      <div style="margin-top:0.5rem">
+        <div class="disc-card anim fade-left d3"><div class="disc-num float">01</div><div class="disc-q">How is AI already showing up in your ministry context? What are you seeing?</div></div>
+        <div class="disc-card anim fade-right d4"><div class="disc-num float">02</div><div class="disc-q">Where do you feel the greatest urgency: evangelism, discipleship, content creation, or theological clarity?</div></div>
+        <div class="disc-card anim fade-left d5"><div class="disc-num float">03</div><div class="disc-q">What would it look like for your church to lead on AI rather than react to it?</div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span></span></div>
+  </div>
+</div>
+
+<!-- S33: CALL TO ACTION -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="particles" id="close-particles"></div>
+    <div class="s-body top" style="align-items:center">
+      <div class="eyebrow anim fade-up d1">Your Next Steps</div>
+      <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Call to <span class="shimmer-text">Action</span></h2>
+      <div class="s-div anim fade-up d3" style="margin:0.8rem auto"></div>
+      <div class="insight-list anim fade-up d4" style="max-width:700px;text-align:left;flex:none;margin:2vh auto 1.5rem;gap:1.2vh">
+        <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num gold-bg">1</div><div><div class="insight-title" style="color:var(--white)">Draft your AI policy this week</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Set the boundaries before problems emerge.</div></div></div>
+        <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num teal-bg">2</div><div><div class="insight-title" style="color:var(--white)">Test one tool</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Upload a past sermon into Tapos or AgentiveAIQ.</div></div></div>
+        <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num">3</div><div><div class="insight-title" style="color:var(--white)">Invest reclaimed time in people</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Not more busyness. Pastoral care, family, Sabbath.</div></div></div>
+        <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num warm-bg">4</div><div><div class="insight-title" style="color:var(--white)">Disciple your congregation on AI</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">They&rsquo;re waiting for your guidance. Only 12% of pastors are leading here.</div></div></div>
+      </div>
+      <div class="anim fade-up d6" style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--gold);font-style:italic;max-width:650px;margin:2rem auto 0;line-height:1.6;flex-shrink:0">
+        Perhaps the greatest gift AI will give the Church is a stark reminder that our ultimate calling is incarnation &mdash; being physical, empathetic, and truly present with one another in a way no machine ever could.
+      </div>
+      <div class="anim fade-up d7" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.35);margin-top:1.5rem;flex-shrink:0">
+        nathanielbaldock.com &middot; Being Fully Human in an AI World
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Thank you</span></div>
+  </div>
+</div>
+
+<!-- S34: SOURCEVIEW TOGETHER (App Store) -->
+<div class="slide">
+  <div class="slide-inner cream fullscreen-img">
+    <div class="fullscreen-img-wrap">
+      <img src="assets/sourceview-together-appstore.png" alt="SourceView Together — 365 Stories. 4 Friends. 1 Amazing Journey. Download on the App Store" loading="lazy">
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>SourceView Together</span></div>
+  </div>
+</div>
+
+<!-- S35: SOURCEVIEW TOGETHER (Google Play) -->
+<div class="slide">
+  <div class="slide-inner cream fullscreen-img">
+    <div class="fullscreen-img-wrap">
+      <img src="assets/sourceview-together-googleplay.png" alt="SourceView Together — 365 Stories. 4 Friends. 1 Amazing Journey. Get it on Google Play" loading="lazy">
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>SourceView Together</span></div>
+  </div>
+</div>
+
+<!-- CONTACT ME -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body centered">
+      <img src="assets/NB_Logo.png" alt="Nathaniel Baldock AI Consulting" class="anim fade-up d1 contact-logo" loading="lazy">
+      <div class="contact-slide-layout anim fade-up d1">
+        <div class="contact-portrait">
+          <img src="assets/Nathaniel_Portrait.png" alt="Nathaniel Baldock" loading="lazy">
+        </div>
+        <div class="contact-content">
+          <p class="contact-heading">I would love to follow up with any questions related to AI and discipleship.</p>
+          <div class="contact-details">
+            <div><span class="contact-label">Email:</span> <a href="mailto:nathanielbaldock@gmail.com">nathanielbaldock@gmail.com</a></div>
+            <div><span class="contact-label">LinkedIn:</span> <a href="https://linkedin.com/in/nathaniel-baldock-0371251bb" target="_blank" rel="noopener">linkedin.com/in/nathaniel-baldock-0371251bb</a></div>
+            <div><span class="contact-label">Website:</span> <a href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">www.nathanielbaldock.com</a></div>
+          </div>
+          <div class="contact-cta-row">
+            <a href="mailto:nathanielbaldock@gmail.com?subject=Follow-up%20from%20AI%20%26%20Kingdom%20Impact%20presentation" class="contact-cta-btn">Request follow up</a>
+            <a href="mailto:nathanielbaldock@gmail.com?subject=Speaking%20or%20training%20invitation" class="contact-cta-btn">Invite me to speak or lead training</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Contact</span></div>
+  </div>
+</div>
+
+</div><!-- end #deck -->
+
+<script>
+// ═══════ MODAL DATA ═══════
+const MD = {
+  s150:{stat:"150",title:"People Came to Faith Through an AI Chatbot",body:"Through targeted Facebook ads, skeptics were directed to a chatbot answering the question 'Who is Jesus?' trained on Christian apologetics. 150 non-believers not only found faith but connected to physical local churches.\n\nThis demonstrates AI's potential as a digital on-ramp for evangelism — meeting seekers where they are with zero social risk.",source:"Premier Christianity / Chris Goswami",link:"https://www.premierchristianity.com"},
+  trust30:{stat:"30%",title:"U.S. Adults Trust AI Spiritual Advice as Much as a Pastor",body:"In a survey of 1,514 U.S. adults conducted in November 2025, Barna found nearly a third (30%) 'somewhat' or 'strongly' agree that spiritual advice from AI 'is as trustworthy as advice from a pastor.'\n\nAmong practicing Christians specifically, that figure rises to 34% — higher than non-practicing Christians (29%) and non-Christians (27%).\n\nThe research was released at the National Religious Broadcasters Convention, February 2026.",source:"Barna Group / Gloo 'State of the Church' initiative, Nov 2025 survey",link:"https://gloo.com/press/releases/ai-is-becoming-a-spiritual-authority-in-americans%E2%80%99-lives-new-research-reveals"},
+  trust40:{stat:"39–40%",title:"Gen Z & Millennials Trust AI as Much as Pastoral Counsel",body:"Among Gen Z respondents, 39% trust AI spiritual advice as much as a pastor. Among Millennials, that figure is 40%.\n\nRoughly 4 in 10 practicing Christians say AI has helped them with prayer, Bible study, or spiritual growth.\n\n41% of Protestant pastors report using AI for Bible study preparation.\n\nDaniel Copeland (Barna VP of Research): 'There's a real opportunity here for pastors to disciple their congregants on how to use this technology in a beneficial way.'",source:"Barna Group / Gloo, Nov 2025 (1,514 U.S. adults)",link:"https://www.christianpost.com/news/a-third-of-christians-trust-spiritual-advice-from-ai.html"},
+  sermon64:{stat:"64%",title:"Preachers Using AI for Sermon Preparation",body:"64% of preachers now say they use AI for sermon preparation, marking a nearly 20-point increase in just one year.\n\n61% of church leaders report using AI tools daily or weekly — up from 43% one year prior.\n\nThe study polled 594 pastors and church staff from over 20 denominations.",source:"Exponential / ChurchTechToday 'State of AI in the Church 2025'",link:"https://exponential.org/product/ai-in-the-church-2025/"},
+  support90:{stat:"~90%",title:"Faith Leaders Support AI in Ministry",body:"Nearly 90% of faith leaders surveyed say they support using AI in some form of ministry.\n\n'You'd think the churches are laggards in technology, but they're embracing this.' — Kenny Jahng, ChurchTechToday\n\nThe report is available as a FREE digital download.",source:"Exponential / ChurchTechToday, 2025 (600+ respondents)",link:"https://exponential.org/product/ai-in-the-church-2025/"},
+  t67:{stat:"67 Years",title:"First 500 Bible Translations",body:"The first 500 complete Bible translations took 67 years to complete.\n\nThis represents the historic pace of Bible translation — a multigenerational grind involving years of linguistic analysis, cultural immersion, and painstaking manuscript work.",source:"Wycliffe / Doug Hennum (CIO)",link:"https://cbn.com/news/world/should-christians-fear-artificial-intelligence"},
+  t17:{stat:"17 Years",title:"Next 500 Bible Translations",body:"The second 500 Bible translations were completed in just 17 years, compared to 67 years for the first 500.\n\nAI-assisted drafting, indigenous translator empowerment, and mobile tools have dramatically accelerated the process.",source:"Wycliffe / Christian Post",link:"https://www.christianpost.com/news/new-bible-translation-technology-by-wycliffe-spreading-gospel-faster-than-ever-before.html"},
+  t24:{stat:"24 Years",title:"Branchu Community — Traditional Timeline",body:"The Branchu community in the rugged hills of Asia took 24 years to complete a full Bible translation using traditional methods.\n\nAt their 2023 completion event, a local leader held the printed Bible and said: 'This country says that Buddha is God, but Buddha is in the ground. We know because we have the Bible in our language that our God is the God of the world.'",source:"Seed Company — 'From Decades to Years: AI in Action'",link:"https://seedcompany.com/stories/from-decades-to-years-ai-in-action/"},
+  vision2025_detail:{stat:"541",title:"Diminishing Translation Task — Vision 2025",body:"The number of Vision 2025 languages still needing Bible translation to begin for the first time has decreased in ways that can only be attributed to God.\n\nNow approximately 550 Vision 2025 languages need Bible translation to start for the first time. Of these, approximately 400 languages have plans that are ready for launch — but we need the additional funding to say \"yes\" to starting these new languages without risking our commitments to nearly 3,000 languages we\'re actively partnering with today.\n\nWycliffe isn\'t just about starting Bible translation; we\'re about completing Bible translation. And while Vision 2025 was a critical mile marker in this journey, it\'s not the finish line; it\'s simply the starting point.",source:"Wycliffe USA — Vision 2025",link:"https://www.wycliffe.org/vision-2025"},
+  acceleration_detail:{stat:"2,900",title:"An Unprecedented Acceleration in Language Engagements",body:"Over the last few years, God has moved in incredible ways. Wycliffe\'s total language engagements have increased exponentially:\n\n2020: 547 languages\n2021: 698 languages\n2022: 1,121 languages\n2023: 1,596 languages\n2024: 2,100 languages\n2025: 2,900 languages (projected)\n2026–2028: 3,000 / 2,900 / 2,800 (projected)\n\nThis unprecedented growth reflects God raising up local churches to take the lead in Bible translation for their own communities, countries, and entire regions — accelerating the pace like never before.",source:"Wycliffe USA — Vision 2025",link:"https://www.wycliffe.org/vision-2025"},
+  t6:{stat:"6 Years",title:"Twig Cluster OT with AI Assistance",body:"Translation teams in the Twig Cluster of Asian languages are using AI-assisted drafting to translate the Old Testament (3x longer than the NT) in just 6 years.\n\nCommunity members see Scripture more quickly and provide feedback on clarity and naturalness, with translator confidence increasing.\n\nThe entirety of God's Word in these communities is within reach — not in decades, but in just a few years.",source:"Seed Company",link:"https://seedcompany.com/stories/from-decades-to-years-ai-in-action/"},
+  scripture_forge:{stat:"SF",title:"Scripture Forge — AI-Assisted Bible Translation",body:"An online app for team-based Bible translation using AI to generate rough drafts based on previously translated Scripture.\n\nWhen a project contains about 8,000 verses (equivalent to a New Testament), it can auto-draft the next book.\n\nIncludes Paratext integration for ongoing synchronization.",source:"SIL AI & NLP",link:"https://ai.sil.org/projects/scriptureforge"},
+  aqua:{stat:"AQuA",title:"Augmented Quality Assessment",body:"Uses AI to assist translation teams in assessing multiple facets of translation quality.\n\nSeveral teams have found errors that would otherwise have made it to print.\n\nAvailable as a standalone web application with plans for Scripture Forge integration.",source:"SIL AI & NLP",link:"https://ai.sil.org/projects/AQuA"},
+  faithbridge:{stat:"FB",title:"Faithbridge — AI Bible Q&A for Translators",body:"An AI-powered Bible Q&A app enabling local language translators to interact with Bible translation resources in 80 languages via audio and text.\n\nSaves teams tremendous amounts of time filtering through thousands of translation resources.",source:"SIL AI & NLP",link:"https://ai.sil.org/projects/faithbridge"},
+  aero:{stat:"AERO",title:"AI Enhancements Responsive to Orality",body:"A suite addressing oral-first language communities:\n\n• Noise removal from audio recordings\n• Voice change for translator safety/security\n• Automatic transcription\n• Key term detection and find-and-replace in audio\n\nTwo-thirds of the world's population (~4.7 billion) are oral learners who prefer listening to reading.",source:"SIL AI & NLP / Orality.net",link:"https://ai.sil.org/projects/AERO"},
+  apologist:{stat:"apologist.ai",title:"The Apologist Project — Digital Mars Hill",body:"Conversational AI for Christian evangelism and discipleship, trained on a curated corpus from Got Questions Ministries, Reasons to Believe, Ligonier Ministries, Bible Project, Stand to Reason, and more.\n\nSupports 10 languages. Won 1st place at Indigitous #HACK 2024 and 2nd place at Gloo's AI & the Church Hackathon.\n\n'The best Bible Q&A chatbot in existence.' — Shea Houdmann, Got Questions",source:"The Apologist Project",link:"https://apologistproject.org"},
+  alim:{stat:"Alim",title:"Worldview-Specific Evangelism for Muslims",body:"A chatbot designed for the Muslim community that first appeals to sources of authority the user already trusts, then ties those sources back to Christian doctrine.\n\nMirrors Paul's Mars Hill approach (Acts 17:22-34) — contextualized, respectful, deeply strategic.\n\nSeekers can ask the hardest questions at 2 AM with zero social risk — especially powerful in closed-access nations.",source:"The Apologist Project",link:"https://apologistproject.org/ministries"},
+  cru:{stat:"60–80",title:"Cru's AI-Powered Digital Strategy",body:"Cru uses AI to translate gospel resources into 60–80 languages on demand in minutes rather than months.\n\nThey use AI built into advertising platforms to identify seekers via social media behavior and serve targeted messages of hope.\n\nAndre Echevarria frames AI as an 'advanced intern' — never fully automated without human oversight.\n\nCru also uses Adobe Experience Manager with AI auto-tagging to match seekers to relevant gospel content based on their spiritual journey stage.",source:"CBN News / Andre Echevarria, Cru",link:"https://cbn.com/news/world/should-christians-fear-artificial-intelligence"},
+  touchpoints:{stat:"12–15",title:"Digital Touch Points Before Church Visit",body:"Before the pandemic, it only took 3–5 touchpoints for someone to feel comfortable visiting a church. Today, that number has soared to 12–15 touchpoints.\n\nPeople require consistent digital engagement showing they're seen, known, and valued before committing to a physical visit.\n\n'Most churches are failing miserably in having a strategy to create that many touchpoints.' — Marc Estes, CEO, VisitorReach",source:"VisitorReach / Carey Nieuwhof",link:"https://www.visitorreach.com/blog/church-outreach-12-touchpoints-rule"},
+  geo:{stat:"GEO",title:"Generative Engine Optimization for Churches",body:"People now ask ChatGPT, Claude, and Perplexity: 'What's a good church for young families near me?'\n\nIf your website isn't structured for AI search, you're invisible to this growing segment.\n\nGEO involves creating structured, trustworthy, AI-readable content with clear headings, FAQ sections, schema markup, and ensuring robots.txt doesn't block AI bots.\n\nThis is the new 'front door' for the Church.",source:"Missional Marketing",link:"https://missionalmarketing.com/church-seo-geo-ai-search-for-churches/"},
+  boostlingo:{stat:"130+",title:"Boostlingo — Live AI Translation for Churches",body:"All-in-one AI solution supporting 130+ languages. Setup takes less than 10 minutes — connect a sound system to a laptop, attendees scan a QR code for live captions and translation on their phones.\n\nEliminates the need for human interpreters and specialized sound booths.\n\nAI interpretation starts at $9.99.",source:"Boostlingo",link:"https://boostlingo.com/solutions/multilingual-events/live-translation/ai-translation-for-churches/"},
+  streamlingo:{stat:"SL",title:"Streamlingo — Church-Focused Live Translation",body:"Purpose-built for churches with powerful testimonials.\n\nOne church reported: 'When we used Streamlingo for the first time, a member of our congregation came to us after the service. He is Iranian and was moved to tears — after three years in our church, he was finally able to understand the entire sermon.'\n\nRelieves translators and organizers. Offers more languages without pricy audio infrastructure.",source:"Streamlingo",link:"https://streamlingo.net/"},
+  glossa:{stat:"$5",title:"Glossa — Affordable Live AI Translation",body:"Live AI translation in 100+ languages at $5 per language per session.\n\nNo headsets or app downloads required — listeners access via web browser on any device.\n\nNo listener limits — whether 1 or 100 people are listening, same price per language.",source:"Glossa",link:"https://glossa.live/"},
+  agentiveaiq:{stat:"$39/mo",title:"AgentiveAIQ — RAG-Powered Church Chatbot",body:"No-code chatbot platform using RAG (Retrieval Augmented Generation) + Knowledge Graph.\n\nForces AI to answer strictly from YOUR uploaded sermons, doctrinal statements, and approved resources — fenced in by your church's theology.\n\nFeatures persistent memory for authenticated members, AI course builder, and Shopify/WooCommerce integrations.\n\nBase: $39/mo; Pro: $129/mo; Agency: $449/mo.",source:"AgentiveAIQ",link:"https://agentiveaiq.com"},
+  tapos:{stat:"Tapos",title:"Tapos.app — Sermon Archive AI",body:"Founded by Preston Pope and Nick Smith. Uses AI to 'unbury' church wisdom — turns past sermons and resources into searchable, interactive discipleship tools.\n\nOperates on a SEND framework: Seed, Engage, Nurture, Disciple.\n\nUnlike generic AI, Tapos uses your specific church content to provide theologically aligned answers.",source:"Discipleship.org / Tapos.app",link:"https://discipleship.org"},
+  callm:{stat:"CALLM",title:"Gloo's Christian-Aligned Large Language Model",body:"First-of-its-kind Christian-aligned LLM built on content from Christianity Today, RightNow Media, Ligonier Ministries, Outreach, Barna, and others.\n\nGloo's technology can pull the statement of faith off a church's website to answer questions aligned with that specific theology.\n\nThe FAI-C Benchmark shows frontier LLMs average only 61/100 on Christian flourishing, while Gloo's tuned models outperform by 30+ points.",source:"Gloo",link:"https://gloo.com"},
+  revcom:{stat:"$16",title:"Rev.com — Sermon Transcription",body:"AI transcription service providing complete, accurate transcripts with quick turnaround.\n\nIdentifies different speakers throughout the service — distinguishes music, announcements, and sermon content.\n\nThis single transcript becomes the foundation for all other AI content multiplication.",source:"Rev.com / Churchfront",link:"https://www.rev.com"},
+  opuspro:{stat:"Opus Pro",title:"Opus Pro — AI Video Clip Generation",body:"Transforms full sermon video into 5–10 short-form clips perfect for Instagram, TikTok, and YouTube Shorts.\n\nPaste your YouTube link or upload video — AI identifies the most engaging segments and creates clips with automatic captions.\n\nIncludes editing features to trim and refine content.",source:"Opus Pro / Churchfront",link:"https://www.opus.pro"},
+  claudeai:{stat:"Claude",title:"Claude AI — Content Multiplication",body:"From a single sermon transcript, Claude AI can generate:\n\n• Bible study materials with discussion questions\n• Blog posts\n• Podcast notes with episode summaries\n• YouTube chapter markers\n• Email devotionals\n• Small group guides\n\nClaude is especially strong for longer documents and deeper thinking — 'better for longer documents and deeper thinking than ChatGPT.' — Tithely",source:"Anthropic (claude.ai) / Churchfront; Tithely",link:"https://claude.ai"},
+  churchsocial:{stat:"$15/mo",title:"ChurchSocial.ai — Sermon-to-Social Pipeline",body:"All-in-one platform consolidating social media management, content generation, and graphic design for churches.\n\nCreate AI-generated reels from sermons, generate social posts, blogs, and graphics from sermon transcripts.\n\nDrag-and-drop calendar for scheduling across Facebook, Instagram, TikTok.\n\n'With a streamlined AI workflow, you can produce a full week of content in under an hour.'",source:"ChurchSocial.ai / Discipls.io",link:"https://www.churchsocial.ai"},
+  hours_saved:{stat:"15–20 hrs",title:"Hours Saved Per Week with AI",body:"Church administrators using AI tools save an average of 15–20 hours per week on routine tasks like email management, scheduling, database updates, sermon research, and communication drafts.\n\nMinistry Automation reports 300+ churches using their platform with average savings of $8,600/year.\n\nThis time is reallocated to pastoral care, vision casting, family, and preventing burnout.",source:"Ministry Automation (ministryautomation.com)",link:"https://ministryautomation.com"},
+  hallucination:{stat:"!",title:"AI Hallucination — Fabricated Citations",body:"A researcher asked ChatGPT for a bibliography of academic articles he had written about the theology of shame.\n\nThe AI generated a 'highly impressive looking list of academic citations complete with journal titles, dates, and page numbers' — but not a single paper was real.\n\nThe AI completely hallucinated fake academic citations to sound plausible. Plausible ≠ truthful.",source:"Lausanne Global Analysis / 'Useful Helper or Dangerous Tool?'",link:"https://lausanne.org/global-analysis/ai-and-the-future-of-mission"},
+  dataprivacy:{stat:"!",title:"Pastoral Data in Public AI",body:"If a pastor copies and pastes a sensitive counseling email from a congregant into a generic AI like ChatGPT, asking for advice on how to respond pastorally, they have just fed confidential, potentially identifiable pastoral data into a public machine learning model.\n\nThat data is now part of the machine's training corpus — potentially forever.\n\nThis is a massive breach of pastoral trust.",source:"Jason Hamrock / The Church Network",link:"https://thechurchnetwork.com"},
+  doctrine:{stat:"!",title:"Doctrinal Drift from Generic AI",body:"Generic public AI models are trained on the entire internet. They might synthesize an answer from a deeply orthodox theologian OR a wildly heretical blog post.\n\nThe AI literally doesn't know the difference — it's a probability engine guessing the next most plausible word.\n\nThis is why RAG-powered tools (AgentiveAIQ, Tapos, Gloo CALLM) that restrict AI to your own approved content are critical.",source:"Multiple sources / Nigerian Pastoral Counsellors",link:""},
+  authenticity:{stat:"!",title:"The Authenticity Question",body:"Carey Nieuwhof draws a hard line between using AI as an intern versus a ghostwriter.\n\nThe grind of sermon preparation — actually wrestling with the text — is a feature of pastoral ministry, not a bug. Outsourcing it stunts the pastor's own spiritual formation.\n\nWhen a congregation listens, they implicitly believe they're hearing what God laid on their pastor's heart — not what a machine scraped from the internet.\n\nIf AI writes your pastoral prayer, whose heart is speaking to God?",source:"Carey Nieuwhof / Ministry Leaders",link:""},
+  admin67:{stat:"67%",title:"Christians Support AI for Admin Tasks",body:"Two in three Christians (67%) feel that AI could perform administrative tasks such as scheduling or planning as well as or better than humans.\n\nJust over half (53%) believe AI could organize music set lists as well as or better than humans.\n\nHalf (50%) see AI as equal to or better than humans for church budgeting advice.",source:"Gloo/Barna 'Ethical Ministry Uses of AI' (May 2024, 1,072 U.S. adults)",link:"https://religionnews.com/2024/07/09/new-study-reveals-christian-views-on-ethical-ministry-uses-of-ai/"},
+  budget50:{stat:"50%",title:"AI for Church Budgeting",body:"Half of Christians (50%) see AI as equal to or better than humans in giving church budgeting advice.\n\nThis reflects growing comfort with AI handling data-driven, analytical tasks where emotional intelligence isn't the primary requirement.",source:"Gloo/Barna (May 2024)",link:"https://religionnews.com/2024/07/09/new-study-reveals-christian-views-on-ethical-ministry-uses-of-ai/"},
+  counsel86:{stat:"86%",title:"Spiritual Counseling — Humans Essential",body:"86% of Christians believe spiritual counseling could be better done by humans than AI.\n\nThis represents the clearest boundary line: congregants want human presence, empathy, and spiritual discernment in their most vulnerable moments.\n\nAI can organize information. It cannot provide incarnation.",source:"Gloo/Barna 'Ethical Ministry Uses of AI' (2024)",link:"https://religionnews.com/2024/07/09/new-study-reveals-christian-views-on-ethical-ministry-uses-of-ai/"},
+  mental84:{stat:"84%",title:"Mental Health Counseling — Humans Essential",body:"84% of Christians believe mental health counseling could be better done by humans.\n\nThis is the second-strongest boundary after spiritual counseling, reflecting deep concern about AI handling emotionally sensitive and potentially life-threatening situations.",source:"Gloo/Barna (2024)",link:"https://religionnews.com/2024/07/09/new-study-reveals-christian-views-on-ethical-ministry-uses-of-ai/"},
+  pillar_privacy:{stat:"🔒",title:"AI Policy Pillar: Data Privacy",body:"Never paste sensitive pastoral data (counseling notes, prayer requests, financial struggles) into public AI tools like ChatGPT or Gemini.\n\nCompartmentalize confidential information. Use RAG-powered tools with your own content only.\n\nEstablish clear guidelines about what data can and cannot enter AI systems.",source:"Jason Hamrock / The Church Network",link:"https://thechurchnetwork.com"},
+  pillar_bias:{stat:"⚠️",title:"AI Policy Pillar: Bias Awareness",body:"Public AI models are trained on the open internet, which means they inherently carry the cultural, political, and theological biases of the internet.\n\nThey are not neutral arbiters of truth.\n\nChurch leaders must understand that AI outputs reflect the data it was trained on — not divine revelation.",source:"Multiple sources",link:""},
+  pillar_transparency:{stat:"👁",title:"AI Policy Pillar: Transparency",body:"Churches need to be intellectually honest with their congregations about when and how they're using AI assistance in content creation.\n\nThe unwritten contract of authenticity matters. People trust they're hearing their pastor's heart, not a machine's output.\n\nFull disclosure builds trust. Hidden use erodes it.",source:"NAE / Kenny Jahng; Carey Nieuwhof",link:"https://www.nae.org/ai-church-role-kenny-jahng/"},
+  ai_sil_org:{stat:"ai.sil.org",title:"SIL AI & NLP — AI for Minority Languages",body:"SIL is a global, faith-based nonprofit that partners with language communities to develop AI and Natural Language Processing solutions for Bible translation and minority language flourishing.\n\nTheir vision: People flourishing in community as the benefits of AI extend to local language speakers desiring to engage in the digital sphere.\n\nKey projects include Scripture Forge, AQuA, Faithbridge, AERO, Lynx, and more — with 300+ minority language models. Two-thirds of the world's population (~4.7 billion) are oral learners who prefer listening to reading.",source:"SIL AI & NLP",link:"https://ai.sil.org"},
+  tools_translation:{stat:"🌍",title:"Bible Translation AI Tools",body:"Scripture Forge — AI-assisted team-based translation (ai.sil.org)\nAQuA — Augmented Quality Assessment\nFaithbridge — AI Bible Q&A for translators in 80 languages\nAERO — AI for oral cultures\nLynx — AI woven into translation editing software\n\nAll donation-supported through SIL.",source:"SIL AI & NLP",link:"https://ai.sil.org/projects"},
+  tools_evangelism:{stat:"📢",title:"Evangelism AI Tools",body:"Apologist.ai — Worldview-specific chatbots (Free)\nGloo CALLM — Christian-Aligned LLM\nCru taxonomy — AI auto-tagging for spiritual journey mapping\nVisitorReach — AI-powered church outreach ($varies)",source:"Multiple sources",link:"https://apologistproject.org"},
+  tools_sermon:{stat:"📖",title:"Sermon Preparation AI Tools",body:"Logos AI — Smart Search, Summarize, Sermon Assistant ($9.99/mo+)\nMinistry Automation — Pre-built AI agents for pastors ($997/yr)\nBibley.io — AI Bible study companion ($5/mo)\nNotebookLM — Google's free AI for document synthesis\nChurch.tech — Toolbelt for sermons ($100/mo Pro)",source:"Multiple sources",link:"https://logos.com"},
+  tools_content:{stat:"🎬",title:"Content Creation AI Tools",body:"ChurchSocial.ai — Sermon-to-social pipeline ($15/mo)\nOpus Pro — AI video clip generation (Free trial)\nClaude AI — Long-form content multiplication (Free/Pro)\nElevenLabs — Voice cloning for devotional audio\nLumen5 — Text-to-video conversion",source:"Multiple sources",link:"https://www.churchsocial.ai"},
+  tools_translation_live:{stat:"🌐",title:"Live Translation AI Tools",body:"Boostlingo — 130+ languages, from $9.99\nStreamlingo — Church-focused live translation\nGlossa — $5/language/session, 100+ languages\nKUDO AI — Installed at multiple US churches",source:"Multiple sources",link:"https://boostlingo.com"},
+  tools_admin:{stat:"⚙️",title:"Admin & Chatbot AI Tools",body:"Fathom Video — Free AI meeting transcription\nAgentiveAIQ — RAG-powered church chatbot ($39/mo)\nWesley AI — Wesleyan-aligned theological chatbot\nGrammarly — Writing assistance\nZapier — Workflow automation",source:"Multiple sources",link:"https://agentiveaiq.com"},
+};
+
+// ═══════ SLIDE ENGINE ═══════
+let cur = 0; const slides = document.querySelectorAll('.slide'); const total = slides.length; let trans = false; let started = false;
+function go(n) {
+  if(trans||n<0||n>=total||n===cur) return; trans=true;
+  var prevSlide = slides[cur];
+  prevSlide.querySelectorAll('.anim.in').forEach(e=>e.classList.remove('in'));
+  if(prevSlide.contains(document.getElementById('chart-diminishing'))){
+    resetLineCharts();
+    dimAnimated=false; accAnimated=false;
+  }
+  prevSlide.classList.remove('active'); cur=n;
+  slides[cur].classList.add('active');
+  setTimeout(()=>{ slides[cur].querySelectorAll('.anim').forEach(e=>e.classList.add('in')); animCounts(slides[cur]); animCharts(slides[cur]); animChartsDimAcc(slides[cur]); },100);
+  updNav();
+  var slideVideoId = slides[cur].dataset.slideVideo;
+  if (slideVideoId) {
+    setTimeout(function() { openSlideVideo(slideVideoId); }, 350);
+  }
+  setTimeout(()=>{trans=false},600);
+}
+function updNav() {
+  document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  document.getElementById('slide-counter').textContent=`${cur+1} / ${total}`;
+  document.getElementById('progress-bar').style.width=((cur/(total-1))*100)+'%';
+}
+const navBar=document.getElementById('nav-bar');
+for(let i=0;i<total;i++){const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.addEventListener('click',()=>go(i));navBar.appendChild(d);}
+var slideVideoPlayer = null;
+function openSlideVideo(videoId) {
+  var overlay = document.getElementById('slide-video-overlay');
+  overlay.classList.add('open');
+  var el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  function createPlayer() {
+    var container = document.getElementById('slide-video-player');
+    if (slideVideoPlayer && slideVideoPlayer.destroy) { try { slideVideoPlayer.destroy(); } catch(e){} slideVideoPlayer = null; }
+    container.innerHTML = '';
+    slideVideoPlayer = new YT.Player('slide-video-player', {
+      videoId: videoId,
+      playerVars: { autoplay: 1, rel: 0 },
+      events: {
+        onStateChange: function(e) {
+          if (e.data === YT.PlayerState.ENDED) closeSlideVideo();
+        }
+      }
+    });
+  }
+  if (window.YT && window.YT.Player) {
+    createPlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = function() {
+      createPlayer();
+    };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      var s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  }
+}
+function closeSlideVideo(){
+  var overlay = document.getElementById('slide-video-overlay');
+  if (slideVideoPlayer && slideVideoPlayer.destroy) { try { slideVideoPlayer.destroy(); } catch(e){} slideVideoPlayer = null; }
+  document.getElementById('slide-video-player').innerHTML = '';
+  overlay.classList.remove('open');
+}
+document.getElementById('slide-video-close').addEventListener('click', closeSlideVideo);
+document.getElementById('slide-video-overlay').addEventListener('click', function(e){ if (e.target === this) closeSlideVideo(); });
+
+document.addEventListener('keydown',e=>{
+  if(!started)return;
+  if(document.getElementById('slide-video-overlay').classList.contains('open')){if(e.key==='Escape')closeSlideVideo();return;}
+  if(document.getElementById('modal-overlay').classList.contains('open')){if(e.key==='Escape')closeModal();return;}
+  if(document.getElementById('video-overlay').classList.contains('open')){if(e.key==='Escape')closeVideo();return;}
+  if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
+  if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+});
+document.getElementById('next-btn').addEventListener('click',()=>go(cur+1));
+document.getElementById('prev-btn').addEventListener('click',()=>go(cur-1));
+
+// ═══════ INTRO VIDEO (play button → fullscreen video → skip → presentation) ═══════
+const INTRO_VIDEO_ID = 'CLW-9lbvSEw';
+var introVideoPlayer = null;
+var introVideoDone = false;
+
+function playIntroVideo(){
+  document.getElementById('play-overlay').classList.add('hidden');
+  var overlay = document.getElementById('intro-video-overlay');
+  var playerRoot = document.getElementById('intro-video-player');
+  introVideoDone = false;
+  overlay.classList.add('open');
+  var el = document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen().catch(function(){});
+  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  function onIntroDone(){
+    if(introVideoDone) return;
+    introVideoDone = true;
+    if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+    playerRoot.innerHTML = '';
+    overlay.classList.remove('open');
+    startPres();
+  }
+  document.getElementById('intro-skip-btn').onclick = onIntroDone;
+
+  function createIntroPlayer(){
+    if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+    playerRoot.innerHTML = '';
+    introVideoPlayer = new YT.Player('intro-video-player', {
+      videoId: INTRO_VIDEO_ID,
+      playerVars: { autoplay: 1, rel: 0 },
+      events: {
+        onStateChange: function(e){
+          if(e.data === YT.PlayerState.ENDED) onIntroDone();
+        }
+      }
+    });
+  }
+  if (window.YT && window.YT.Player) {
+    createIntroPlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = function(){ createIntroPlayer(); };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      var s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  }
+}
+
+function startPres(){
+  document.getElementById('play-overlay').classList.add('hidden');
+  document.getElementById('intro-video-overlay').classList.remove('open');
+  if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+  document.getElementById('intro-video-player').innerHTML = '';
+  started=true;
+  ['nav-bar','slide-counter','prev-btn','next-btn'].forEach(id=>document.getElementById(id).classList.add('visible'));
+  setTimeout(()=>{slides[0].querySelectorAll('.anim').forEach(e=>e.classList.add('in'))},300);
+  updNav();
+}
+
+document.getElementById('start-btn').addEventListener('click', playIntroVideo);
+document.getElementById('play-overlay').addEventListener('click', e=>{if(e.target===document.getElementById('play-overlay'))playIntroVideo()});
+
+// ═══════ CHARTS ═══════
+function animCharts(s){
+  s.querySelectorAll('.hbar').forEach((r,i)=>setTimeout(()=>{const f=r.querySelector('.hbar-fill');f.style.width=r.dataset.w+'%';f.querySelector('span').style.opacity='1'},i*120));
+}
+function resetLineCharts(){
+  var dim=document.getElementById('chart-diminishing'), acc=document.getElementById('chart-acceleration');
+  if(!dim||!acc)return;
+  [dim,acc].forEach(function(container){
+    container.querySelectorAll('.line-chart-seg').forEach(function(seg){
+      var len=seg.getTotalLength?.();
+      if(len){
+        if(seg.classList.contains('projection')){
+          seg.style.strokeDasharray='6 4';
+          seg.style.strokeDashoffset=len;
+        }else{
+          seg.style.strokeDasharray=len;
+          seg.style.strokeDashoffset=len;
+        }
+      }
+    });
+    container.querySelectorAll('.line-chart-dot, .line-chart-label, .line-chart-vline').forEach(function(el){ el.style.opacity='0'; el.style.transitionDelay=''; });
+  });
+}
+function animLineChartSegmented(container){
+  var segs=container.querySelectorAll('.line-chart-seg');
+  var dots=container.querySelectorAll('.line-chart-dot');
+  var labels=container.querySelectorAll('.line-chart-label');
+  var vlines=container.querySelectorAll('.line-chart-vline');
+  if(!segs.length)return;
+  var stepMs=550;
+  function showPoint(i){
+    if(dots[i]){ dots[i].style.opacity='1'; dots[i].style.transitionDelay=''; }
+    if(labels[i]){ labels[i].style.opacity='1'; labels[i].style.transitionDelay=''; }
+    if(vlines[i]){ vlines[i].style.opacity='1'; vlines[i].style.transitionDelay=''; }
+  }
+  function drawSegment(i){
+    var seg=segs[i];
+    if(!seg)return;
+    var len=seg.getTotalLength();
+    if(seg.classList.contains('projection')){
+      seg.style.strokeDasharray='6 4';
+      seg.style.strokeDashoffset=len;
+    }else{
+      seg.style.strokeDasharray=len;
+      seg.style.strokeDashoffset=len;
+    }
+    seg.getBoundingClientRect();
+    seg.style.strokeDashoffset='0';
+  }
+  showPoint(0);
+  for(var i=0;i<segs.length;i++){
+    (function(idx){
+      setTimeout(function(){
+        drawSegment(idx);
+        setTimeout(function(){ showPoint(idx+1); }, 500);
+      }, idx*stepMs);
+    })(i);
+  }
+}
+function animChartsDimAcc(s){
+  const dim=document.getElementById('chart-diminishing'), acc=document.getElementById('chart-acceleration');
+  if(!dim||!acc||!s.contains(dim))return;
+  dimAnimated=false; accAnimated=false;
+  resetLineCharts();
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      animLineChartSegmented(dim);
+      dimAnimated=true;
+      var dimSegs=dim.querySelectorAll('.line-chart-seg');
+      var dimTotalMs=dimSegs.length*550+500;
+      setTimeout(function(){
+        animLineChartSegmented(acc);
+        accAnimated=true;
+      }, dimTotalMs);
+    });
+  });
+}
+function animCounts(s){
+  s.querySelectorAll('.count-up').forEach(el=>{
+    if(el.dataset.counted)return;el.dataset.counted='1';
+    const t=parseFloat(el.dataset.target),sx=el.dataset.suffix||'',dur=1200,st=performance.now();
+    function ease(x){return x===1?1:1-Math.pow(2,-10*x)}
+    function tick(now){const p=Math.min((now-st)/dur,1);let v=Math.floor(t*ease(p));el.textContent=v+sx;if(p<1)requestAnimationFrame(tick)}
+    requestAnimationFrame(tick);
+  });
+}
+
+// ═══════ MODAL ═══════
+function openModal(k){const d=MD[k];if(!d)return;document.getElementById('modal-stat').textContent=d.stat;document.getElementById('modal-title').textContent=d.title;document.getElementById('modal-body').textContent=d.body;document.getElementById('modal-body').style.whiteSpace='pre-line';document.getElementById('modal-source').textContent='Source: '+d.source;document.getElementById('modal-link').innerHTML=d.link?`<a href="${d.link}" target="_blank" rel="noopener">View Source &rarr;</a>`:'';document.getElementById('modal-overlay').classList.add('open');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+document.getElementById('modal-close').addEventListener('click',closeModal);
+document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('modal-overlay'))closeModal()});
+document.querySelectorAll('[data-modal]').forEach(el=>el.addEventListener('click',function(){
+  if(this.dataset.video){openVideo(this.dataset.video);return;}
+  openModal(this.dataset.modal);
+}));
+
+// ═══════ VIDEO MODAL ═══════
+function openVideo(id){
+  var src;
+  if(id.startsWith('VIMEO_')){
+    src='https://player.vimeo.com/video/'+id.replace('VIMEO_','')+'?autoplay=1&title=0&byline=0';
+  } else {
+    src='https://www.youtube.com/embed/'+id+'?autoplay=1';
+  }
+  document.getElementById('video-frame').src=src;
+  document.getElementById('video-overlay').classList.add('open');
+}
+function closeVideo(){document.getElementById('video-frame').src='';document.getElementById('video-overlay').classList.remove('open');}
+document.getElementById('video-close').addEventListener('click',closeVideo);
+document.getElementById('video-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('video-overlay'))closeVideo()});
+document.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('click',()=>openVideo(el.dataset.video)));
+
+// ═══════ STAT CARD GLOW ═══════
+document.querySelectorAll('.stat-card').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')})});
+
+// ═══════ PARTICLES ═══════
+function mkP(id,n=18){const c=document.getElementById(id);if(!c)return;for(let i=0;i<n;i++){const p=document.createElement('div');p.className='particle';const s=Math.random()*4+2;p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*5}s`;c.appendChild(p)}}
+mkP('hero-particles',20);mkP('close-particles',12);
+
+
+// ═══════ CLICK-TO-ANIMATE CHARTS ═══════
+let dimAnimated = false, accAnimated = false;
+document.getElementById('chart-diminishing').addEventListener('click', function(e) {
+  if (!dimAnimated) {
+    e.stopPropagation();
+    animLineChartSegmented(this);
+    var hint = this.querySelector('.chart-hint');
+    if (hint) hint.textContent = 'CLICK AGAIN FOR DETAILS';
+    dimAnimated = true;
+  } else {
+    openModal('vision2025_detail');
+  }
+});
+document.getElementById('chart-acceleration').addEventListener('click', function(e) {
+  if (!accAnimated) {
+    e.stopPropagation();
+    animLineChartSegmented(this);
+    var hint = this.querySelector('.chart-hint');
+    if (hint) hint.textContent = 'CLICK AGAIN FOR DETAILS';
+    accAnimated = true;
+  } else {
+    openModal('acceleration_detail');
+  }
+});
+
+// ═══════ TOUCH SWIPE ═══════
+let touchX=0;
+document.addEventListener('touchstart',e=>{touchX=e.changedTouches[0].screenX},{passive:true});
+document.addEventListener('touchend',e=>{if(!started)return;const d=e.changedTouches[0].screenX-touchX;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1)}},{passive:true});
+</script>
+</body>
+</html>

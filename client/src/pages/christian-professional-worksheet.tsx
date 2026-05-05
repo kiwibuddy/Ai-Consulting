@@ -2,11 +2,11 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "wouter";
-import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ArticleShare } from "@/components/article-share";
+import { WorksheetLeadCTA } from "@/components/worksheet-lead-cta";
 import { ArrowLeft, Printer } from "lucide-react";
 import {
   getChristianProfessionalWorksheetBySlug,
@@ -117,6 +117,16 @@ export default function ChristianProfessionalWorksheetPage() {
         canonicalPath={canonicalPath}
         image={meta.shareImage ?? DEFAULT_OG}
         ogType="article"
+        article={
+          meta.date
+            ? {
+                author: "Nathaniel Baldock",
+                authorUrl: "https://www.nathanielbaldock.com/about",
+                publishedDate: meta.date,
+                modifiedDate: meta.date,
+              }
+            : undefined
+        }
       />
       <SiteHeader currentPage="resources" />
 
@@ -201,8 +211,20 @@ export default function ChristianProfessionalWorksheetPage() {
           />
         </section>
 
-        <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
-          <div className="max-w-3xl mx-auto flex flex-col gap-4">
+        <WorksheetLeadCTA
+          headline="Ready to apply this to your role and team?"
+          body="A 30-minute call can help you turn this worksheet into a clear plan for your job, your team, and the next year of your career — grounded in your faith and your specific context."
+        />
+
+        <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-4">
+            <Link
+              href="/resources"
+              className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Resources
+            </Link>
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <a
                 href={meta.iframeSrc}
@@ -220,23 +242,6 @@ export default function ChristianProfessionalWorksheetPage() {
                 <Printer className="h-4 w-4" />
                 Print worksheet
               </button>
-            </div>
-            <div className="flex flex-wrap items-center justify-center sm:justify-between gap-x-4 gap-y-2">
-              <Link
-                href="/resources"
-                className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Resources
-              </Link>
-              <Button asChild className="w-full max-w-[320px] sm:w-auto sm:max-w-none shrink-0">
-                <a
-                  href="https://www.nathanielbaldock.com/#contact"
-                  className="tesoro-cta-gradient justify-center"
-                >
-                  Book a free 30-min consultation
-                </a>
-              </Button>
             </div>
           </div>
         </section>

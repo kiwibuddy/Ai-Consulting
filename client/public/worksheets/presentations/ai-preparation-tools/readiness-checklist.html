@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Household Readiness Checklist · Nathaniel Baldock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fafaf6;
+  --paper-warm: #f5f3ec;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a48;
+  --ink-mute: #7a7872;
+  --ink-faint: #a8a59c;
+  --accent: #8b1c1c;
+  --accent-soft: #c2685c;
+  --rule: #d8d4c8;
+  --rule-strong: #8a8678;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: #e8e4d8;
+  color: var(--ink);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'ss02', 'cv01';
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 14mm auto;
+  background: var(--paper);
+  padding: 16mm 14mm 12mm;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.08);
+  position: relative;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+.page:last-child { page-break-after: auto; }
+
+@media print {
+  body { background: white; }
+  .page { margin: 0; width: 210mm; height: 297mm; box-shadow: none; }
+}
+
+/* HEADER */
+.sheet-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  padding-bottom: 0.85rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 1rem;
+}
+
+.sheet-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.sheet-title {
+  font-family: 'Fraunces', serif;
+  font-size: 2.1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.sheet-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.sheet-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+  font-weight: 400;
+}
+
+.sheet-meta {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  line-height: 1.6;
+}
+
+/* INTRO */
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-bottom: 1.1rem;
+  max-width: 70ch;
+}
+
+.lede strong {
+  font-weight: 500;
+  color: var(--ink);
+  font-style: normal;
+}
+
+/* TIME-HORIZON SECTIONS */
+.horizon {
+  margin-bottom: 0.95rem;
+  page-break-inside: avoid;
+}
+
+.horizon-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.85rem;
+  align-items: baseline;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule-strong);
+  margin-bottom: 0.55rem;
+}
+
+.horizon-num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.horizon-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.horizon-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+}
+
+.horizon-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.horizon-domain {
+  break-inside: avoid;
+}
+
+.domain-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+  display: block;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.checklist {
+  list-style: none;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  padding: 0.32rem 0;
+  align-items: start;
+}
+
+.checklist li::before {
+  content: "☐";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+  margin-top: 0;
+}
+
+.checklist li strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.checklist li .gloss {
+  color: var(--ink-mute);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.74rem;
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* FOOTER */
+.sheet-footer {
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  align-items: center;
+}
+
+.sheet-footer .center { text-align: center; }
+.sheet-footer .right { text-align: right; }
+.sheet-footer .accent { color: var(--accent); }
+
+/* PAGE 2 specifics */
+.principle-bar {
+  background: var(--paper-warm);
+  border-left: 2px solid var(--accent);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.principle-bar p {
+  color: var(--ink-soft);
+}
+
+.principle-bar strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.signoff {
+  margin-top: auto;
+  background: white;
+  border: 1.5px solid var(--ink);
+  padding: 0.95rem 1.1rem;
+  margin-bottom: 0.9rem;
+}
+
+.signoff-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  align-items: end;
+  margin-top: 0.55rem;
+}
+
+.signoff-grid > div {
+  display: grid;
+  grid-template-rows: auto 1.4rem;
+}
+
+.signoff-grid label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  margin-bottom: 0.15rem;
+}
+
+.signoff-grid .field {
+  border-bottom: 1px solid var(--ink);
+}
+
+.signoff-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.signoff p {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* "What this checklist is not" */
+.scope-note {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 0.9rem 1.05rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.scope-note .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.scope-note p { margin-bottom: 0.5rem; }
+.scope-note p:last-child { margin-bottom: 0; }
+.scope-note strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ PAGE 1 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Companion to <em>The AI Threat Level Framework</em> · Worksheet 02</div>
+      <h1 class="sheet-title">The Household <em>Readiness</em> Checklist</h1>
+      <p class="sheet-tagline">A complete reference for resilient households, organised by how often you need to do it.</p>
+    </div>
+    <div class="sheet-meta">
+      Worksheet 02 / 04<br>
+      Print at 100% · A4<br>
+      Nathaniel Baldock · 2026
+    </div>
+  </header>
+
+  <p class="lede">If the 30-Day Onboarding Plan is the guided sequence, this is the comprehensive reference. The actions are organised by <strong>time horizon</strong> rather than threat level: the things you do this weekend, this month, every quarter, every year. A household that holds to this rhythm is doing roughly 80% of the resilience work the framework recommends, regardless of which level the world finds itself in.</p>
+
+  <!-- HORIZON 1: THIS WEEKEND -->
+  <section class="horizon">
+    <header class="horizon-header">
+      <span class="horizon-num">i.</span>
+      <span class="horizon-title">This weekend</span>
+      <span class="horizon-meta">One-time setup · ~6–8 hours total</span>
+    </header>
+    <div class="horizon-body">
+      <div class="horizon-domain">
+        <span class="domain-label">Identity</span>
+        <ul class="checklist">
+          <li><span><strong>Hardware-key 2FA on three accounts.</strong> Email, bank, government ID.<span class="gloss">Two keys: primary + backup, stored separately.</span></span></li>
+          <li><span><strong>Move family chats to Signal.</strong> Free, end-to-end encrypted, no metadata harvesting.</span></li>
+          <li><span><strong>Choose a family safe phrase.</strong> 4–7 unrelated words, in person only, never digital. <span class="gloss">See Worksheet 03.</span></span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Devices</span>
+        <ul class="checklist">
+          <li><span><strong>Encrypt every laptop hard drive.</strong> BitLocker (Windows), FileVault (Mac).<span class="gloss">Built in. Free. ~30 minutes per machine.</span></span></li>
+          <li><span><strong>Disable phone advertising IDs and unnecessary location services.</strong></span></li>
+          <li><span><strong>Clear AI-assistant memory in every tool.</strong> ChatGPT, Claude, Gemini, Siri, Alexa.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Financial first-aid</span>
+        <ul class="checklist">
+          <li><span><strong>Assemble the EFFAK kit.</strong> Photo IDs, birth certificates, insurance, prescriptions in waterproof storage.<span class="gloss">See Worksheet 04.</span></span></li>
+          <li><span><strong>Cash reserve in low denominations.</strong> NZ$5, $10, $20 notes for ATM-down scenarios.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Family</span>
+        <ul class="checklist">
+          <li><span><strong>Tell every family member over 10 about the safe phrase, in person.</strong> Practice once.</span></li>
+          <li><span><strong>Schedule the elderly-parents conversation.</strong> Bring Worksheet 03.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZON 2: THIS MONTH -->
+  <section class="horizon">
+    <header class="horizon-header">
+      <span class="horizon-num">ii.</span>
+      <span class="horizon-title">This month</span>
+      <span class="horizon-meta">Build out · ~4–6 hours total over 30 days</span>
+    </header>
+    <div class="horizon-body">
+      <div class="horizon-domain">
+        <span class="domain-label">Information ecosystem</span>
+        <ul class="checklist">
+          <li><span><strong>Build a written list of 20 trusted human sources.</strong> Named journalists, researchers, government officials.</span></li>
+          <li><span><strong>Reduce passive social-media intake.</strong> Time limits, remove apps from home screen.</span></li>
+          <li><span><strong>Audit your own voice and video footprint online.</strong><span class="gloss">3 seconds is enough for cloning.</span></span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Local network</span>
+        <ul class="checklist">
+          <li><span><strong>Map 5 people in walking distance, 10 in your neighbourhood.</strong> Note skills.</span></li>
+          <li><span><strong>Make actual contact with one of them this month.</strong> Coffee, text, knock.</span></li>
+          <li><span><strong>Find your local Civil Defence group online.</strong><span class="gloss">NZ: civildefence.govt.nz to find your CDEM Group.</span></span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Civil-defence baseline</span>
+        <ul class="checklist">
+          <li><span><strong>Standard 7-day household emergency supplies.</strong> Water (21 L/person), food, medications, torch, battery radio, first aid.</span></li>
+          <li><span><strong>Build to 14-day Stay-at-Home reserve over time.</strong></span></li>
+          <li><span><strong>Pack a separate 3-day Go-Kit for evacuation.</strong></span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Civic</span>
+        <ul class="checklist">
+          <li><span><strong>Identify one venue where AI policy is being shaped locally.</strong> School, council, denomination, professional body.</span></li>
+          <li><span><strong>Write the submission, letter, or email. Send it.</strong></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORIZON 3: EVERY QUARTER -->
+  <section class="horizon">
+    <header class="horizon-header">
+      <span class="horizon-num">iii.</span>
+      <span class="horizon-title">Every quarter</span>
+      <span class="horizon-meta">Maintenance audit · ~1 hour every 3 months</span>
+    </header>
+    <div class="horizon-body">
+      <div class="horizon-domain">
+        <span class="domain-label">Audits</span>
+        <ul class="checklist">
+          <li><span><strong>Clear AI-assistant memory across all tools.</strong> Quarterly recurring reminder.</span></li>
+          <li><span><strong>Review password manager. Rotate any reused passwords.</strong></span></li>
+          <li><span><strong>Update the trusted-sources list.</strong> Add new ones, drop ones that have lost credibility.</span></li>
+          <li><span><strong>Check supply-kit expiry dates.</strong> Water, food, medications.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Practice</span>
+        <ul class="checklist">
+          <li><span><strong>Family safe-phrase recall drill.</strong><span class="gloss">Recall is the failure point under stress.</span></span></li>
+          <li><span><strong>Test every manual override in the house.</strong> Front door key, water main, electrical breaker, garage release. <span class="gloss">See Worksheet 04.</span></span></li>
+          <li><span><strong>One household conversation about a "what if X" scenario.</strong></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="sheet-footer">
+    <span>nathanielbaldock.com</span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">Worksheet 02 · Page 1 of 2</span>
+  </footer>
+
+</div>
+
+<!-- ═══════════════════════ PAGE 2 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Worksheet 02 · Continued</div>
+      <h1 class="sheet-title" style="font-size: 1.7rem;">Annual review · ongoing rhythm · sign-off</h1>
+    </div>
+    <div class="sheet-meta">
+      Page 2 of 2<br>
+      Annual review block<br>
+      Sign &amp; date below
+    </div>
+  </header>
+
+  <!-- HORIZON 4: ANNUAL -->
+  <section class="horizon">
+    <header class="horizon-header">
+      <span class="horizon-num">iv.</span>
+      <span class="horizon-title">Annual review</span>
+      <span class="horizon-meta">Once a year · ~3 hours · pick a fixed date</span>
+    </header>
+    <div class="horizon-body">
+      <div class="horizon-domain">
+        <span class="domain-label">Financial</span>
+        <ul class="checklist">
+          <li><span><strong>Review reserves.</strong> 3–6 months baseline; consider building to 12 months at higher threat levels.</span></li>
+          <li><span><strong>Insurance review.</strong> Add identity-theft and cyber-fraud rider where available.</span></li>
+          <li><span><strong>Review concentration risk.</strong> Avoid heavy bets on AI stocks in either direction. Diversify across institutions.</span></li>
+          <li><span><strong>If you own your home, review options for principal reduction.</strong> Paid-off shelter is the highest-value durable resilience asset most households can hold.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Career &amp; vocation</span>
+        <ul class="checklist">
+          <li><span><strong>Review hybrid-skill plan.</strong> Are you building skills with embodied / relational / judgment components AI cannot easily replicate?</span></li>
+          <li><span><strong>Audit one income stream not dependent on a single employer.</strong> Consulting, teaching, side practice, craft.</span></li>
+          <li><span><strong>Cultivate verifiable reputation.</strong> Named recommendations, repeat clients, public work product.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Children &amp; adolescents</span>
+        <ul class="checklist">
+          <li><span><strong>Review family AI policy by age group.</strong> Under-12: parent-supervised only. 12–16: specific tasks, no AI companions. 16–18: increasingly autonomous.</span></li>
+          <li><span><strong>Audit screen time.</strong> Significant unmediated time daily, daily reading of physical books, family meals without screens.</span></li>
+        </ul>
+      </div>
+      <div class="horizon-domain">
+        <span class="domain-label">Practice &amp; community</span>
+        <ul class="checklist">
+          <li><span><strong>Annual contemplative retreat or extended walking time.</strong> Re-orient.</span></li>
+          <li><span><strong>Review your local network. Add 2–3 new connections.</strong></span></li>
+          <li><span><strong>Review one substantive AI-policy engagement done in the past year.</strong> Plan the next.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="principle-bar">
+    <p><strong>The ongoing rhythm, in one sentence:</strong> daily contemplative practice, weekly Sabbath, monthly local connection, quarterly audit, annual review. Every level of the framework — from the calmest Level 1 to the worst Level 5 — points to the same underlying disciplines. The household that has cultivated relational density, embodied practice, and intergenerational depth fares better at every level than one that has not.</p>
+  </div>
+
+  <div class="scope-note">
+    <span class="label">What this checklist is deliberately not</span>
+    <p>This is <strong>household-level</strong> readiness. It is not a substitute for civil-defence guidance during an actual emergency, where you should follow the directions of NEMA / FEMA / your jurisdiction's emergency-management agency precisely.</p>
+    <p>This is also not a survivalist document. The actions here are what every credible emergency-management agency in the developed world recommends. The framework explicitly rejects bunker-style preparation, off-grid relocation that severs you from existing relationships, and stockpiling of weapons or speculative assets. The empirical record on those is bad.</p>
+  </div>
+
+  <div class="signoff">
+    <h3 class="signoff-title">Annual review sign-off</h3>
+    <p>Hold yourself accountable. Pick one date a year (a birthday, an anniversary, the new year) and complete this review. Sign below to mark the year complete.</p>
+    <div class="signoff-grid">
+      <div><label>Year reviewed</label><span class="field"></span></div>
+      <div><label>Date completed</label><span class="field"></span></div>
+      <div><label>Reviewer 1 (signed)</label><span class="field"></span></div>
+      <div><label>Reviewer 2 (signed)</label><span class="field"></span></div>
+    </div>
+  </div>
+
+  <footer class="sheet-footer">
+    <span>Companion to <em>The AI Threat Level Framework</em></span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">nathanielbaldock.com · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

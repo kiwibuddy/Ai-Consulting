@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Analog Asset Log · Nathaniel Baldock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fafaf6;
+  --paper-warm: #f5f3ec;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a48;
+  --ink-mute: #7a7872;
+  --ink-faint: #a8a59c;
+  --accent: #8b1c1c;
+  --accent-soft: #c2685c;
+  --rule: #d8d4c8;
+  --rule-strong: #8a8678;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page { size: A4; margin: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: #e8e4d8;
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'ss02', 'cv01';
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 14mm auto;
+  background: var(--paper);
+  padding: 16mm 14mm 12mm;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.08);
+  position: relative;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+.page:last-child { page-break-after: auto; }
+
+@media print {
+  body { background: white; }
+  .page { margin: 0; width: 210mm; height: 297mm; box-shadow: none; }
+}
+
+/* HEADER */
+.sheet-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  padding-bottom: 0.85rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.sheet-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.sheet-title {
+  font-family: 'Fraunces', serif;
+  font-size: 2.1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.sheet-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.sheet-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+  font-weight: 400;
+}
+
+.sheet-meta {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  line-height: 1.6;
+}
+
+/* OPENING */
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-bottom: 0.95rem;
+  max-width: 70ch;
+}
+
+.lede strong {
+  font-weight: 500;
+  color: var(--ink);
+  font-style: normal;
+}
+
+/* HOUSEHOLD METADATA STRIP */
+.meta-strip {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 0.7rem 0.95rem;
+  margin-bottom: 1.1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  align-items: end;
+}
+
+.meta-field label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 0.18rem;
+}
+
+.meta-field .field {
+  border-bottom: 1px solid var(--ink);
+  height: 1.3rem;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+/* SECTION HEADER */
+.section-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.85rem;
+  align-items: baseline;
+  padding-bottom: 0.4rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.section-num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.55rem;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.1;
+}
+
+.section-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  text-align: right;
+  line-height: 1.4;
+}
+
+.section-blurb {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.7rem;
+  max-width: 70ch;
+}
+
+/* TABLE: physical overrides */
+table.asset-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  margin-bottom: 0.85rem;
+}
+
+table.asset-table thead th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1.5px solid var(--ink);
+  background: var(--paper-warm);
+}
+
+table.asset-table tbody td {
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+table.asset-table tbody tr {
+  height: 2.1rem;
+}
+
+table.asset-table .system {
+  padding: 0.5rem 0.55rem;
+  font-weight: 500;
+  color: var(--ink);
+  font-size: 0.8rem;
+  background: white;
+  width: 26%;
+}
+
+table.asset-table .system .gloss {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.72rem;
+  color: var(--ink-mute);
+  margin-top: 0.1rem;
+  font-weight: 400;
+}
+
+table.asset-table .write-cell {
+  padding: 0;
+  border-left: 1px solid var(--rule);
+}
+
+table.asset-table .checkbox-cell {
+  padding: 0.5rem;
+  text-align: center;
+  width: 6%;
+  border-left: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  color: var(--ink-mute);
+}
+
+/* RECORDS LIST */
+.records-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem 1.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.record-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px dotted var(--rule);
+  font-size: 0.8rem;
+}
+
+.record-row:last-child { border-bottom: none; }
+
+.record-row .name {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.record-row .name .gloss {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.72rem;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+
+.record-row .have-box {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+}
+
+.record-row .location-line {
+  border-bottom: 1px solid var(--ink);
+  width: 4.5rem;
+  height: 1.05rem;
+}
+
+/* REFERENCE LIBRARY (page 2) */
+.library-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem 1.5rem;
+}
+
+.library-cat {
+  break-inside: avoid;
+}
+
+.library-cat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+  display: block;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.library-cat-blurb {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--ink-mute);
+  margin-bottom: 0.45rem;
+  line-height: 1.4;
+}
+
+.library-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--rule);
+  align-items: start;
+}
+
+.library-row::before {
+  content: "☐";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+  margin-top: 0;
+}
+
+.library-row .title {
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.library-row .title .gloss {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.72rem;
+  color: var(--ink-mute);
+  font-weight: 400;
+  margin-top: 0.08rem;
+}
+
+.library-empty {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--rule);
+  align-items: center;
+}
+
+.library-empty::before {
+  content: "☐";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+}
+
+.library-empty .blank {
+  border-bottom: 1px solid var(--ink-mute);
+  height: 1.1rem;
+}
+
+/* FOOTER */
+.sheet-footer {
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  align-items: center;
+}
+
+.sheet-footer .center { text-align: center; }
+.sheet-footer .right { text-align: right; }
+.sheet-footer .accent { color: var(--accent); }
+
+/* SCOPE NOTE */
+.scope-note {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 0.85rem 1rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.scope-note .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.scope-note strong { color: var(--ink); font-weight: 600; }
+
+/* AUDIT BAR */
+.audit-bar {
+  background: white;
+  border: 1.5px solid var(--ink);
+  padding: 0.85rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.8rem;
+}
+
+.audit-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.audit-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.audit-field label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 0.18rem;
+}
+
+.audit-field .field {
+  border-bottom: 1px solid var(--ink);
+  height: 1.3rem;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ PAGE 1 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Companion to <em>The AI Threat Level Framework</em> · Worksheet 04</div>
+      <h1 class="sheet-title">The <em>Analog</em> Asset Log</h1>
+      <p class="sheet-tagline">A written inventory of what works in your house when networks, smart-home apps, and AI assistants don't.</p>
+    </div>
+    <div class="sheet-meta">
+      Worksheet 04 / 04<br>
+      Print at 100% · A4<br>
+      Nathaniel Baldock · 2026
+    </div>
+  </header>
+
+  <p class="lede">A surprising amount of a modern household runs through software now: locks, garage doors, heating, lighting, payments, identity, even key documents. <strong>This worksheet is the audit document for what still works when the software does not.</strong> Three sections: physical overrides for digital systems, offline copies of essential records, and a small reference library worth keeping in print. Fill it in once, review annually, store one copy at home and one with a trusted family member at distance.</p>
+
+  <div class="meta-strip">
+    <div class="meta-field"><label>Household name</label><div class="field"></div></div>
+    <div class="meta-field"><label>Date completed</label><div class="field"></div></div>
+    <div class="meta-field"><label>Next review (1 year)</label><div class="field"></div></div>
+  </div>
+
+  <header class="section-header">
+    <span class="section-num">i.</span>
+    <h2 class="section-title">Physical overrides for digital systems</h2>
+    <span class="section-meta">Test each before<br>you need it</span>
+  </header>
+  <p class="section-blurb">For every smart or networked system in your home, write down where the manual override is, who in the household knows how to use it, and confirm by testing.</p>
+
+  <table class="asset-table">
+    <thead>
+      <tr>
+        <th>System</th>
+        <th>Where the manual override is</th>
+        <th style="text-align: center;">Tested</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="system">Front door<span class="gloss">Smart lock backup</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Other external doors<span class="gloss">Back, side, garage internal</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Garage door<span class="gloss">Manual release cord</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Water main<span class="gloss">Manual shutoff valve</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Hot water cylinder<span class="gloss">Isolation valve</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Gas main<span class="gloss">Outdoor shutoff handle</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Electrical panel<span class="gloss">Physical breaker</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Heating / cooling<span class="gloss">Analog thermostat or pilot</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Vehicle keys<span class="gloss">Physical key, not just fob</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Communications<span class="gloss">Battery / wind-up radio</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Payment<span class="gloss">Cash reserve, low denominations</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+      <tr>
+        <td class="system">Light source<span class="gloss">Torch + spare batteries per person</span></td>
+        <td class="write-cell"></td>
+        <td class="checkbox-cell">☐</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="scope-note">
+    <span class="label">If a household AI assistant or agent goes wrong</span>
+    <p>If a smart-home AI assistant begins issuing instructions that contradict your judgement, do three things in order: <strong>(1)</strong> clear its memory and conversation history, <strong>(2)</strong> disconnect it from networked controls (toggle Wi-Fi off if needed), <strong>(3)</strong> operate critical systems manually using the table above until you can verify the AI is back to safe behaviour. This is not paranoia — the Cloud Security Alliance's NIST AI Agentic Profile (2026) explicitly lists behavioural drift across delegation chains as a known agentic-AI risk.</p>
+  </div>
+
+  <footer class="sheet-footer">
+    <span>nathanielbaldock.com</span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">Worksheet 04 · Page 1 of 2</span>
+  </footer>
+
+</div>
+
+<!-- ═══════════════════════ PAGE 2 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Worksheet 04 · Continued</div>
+      <h1 class="sheet-title" style="font-size: 1.7rem;">Offline records · reference library · audit</h1>
+    </div>
+    <div class="sheet-meta">
+      Page 2 of 2<br>
+      Store one copy at home<br>
+      One with trusted family
+    </div>
+  </header>
+
+  <header class="section-header">
+    <span class="section-num">ii.</span>
+    <h2 class="section-title">Offline copies of essential records</h2>
+    <span class="section-meta">In waterproof storage<br>Updated annually</span>
+  </header>
+  <p class="section-blurb">Copies of essential records, in physical form, in a waterproof container. Not originals — copies. Useful at every level of disruption from internet outage to extended displacement. The Federal Reserve has called this an Emergency Financial First-Aid Kit (EFFAK) for over a decade; the framing is universal.</p>
+
+  <div class="records-grid">
+    <div>
+      <div class="record-row" style="border-bottom: 1.5px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding-bottom: 0.4rem;">
+        <span>Document</span>
+        <span style="font-size: 0.58rem;">Have</span>
+        <span style="font-size: 0.58rem;">Where</span>
+      </div>
+      <div class="record-row">
+        <span class="name">Photo IDs <span class="gloss">passport, licence, RealMe printout</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Birth certificates <span class="gloss">every household member</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Marriage / civil-union records</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Home insurance policy</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Health insurance details</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Life / disability insurance</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Vehicle insurance &amp; registration</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Property records <span class="gloss">deed, mortgage, body-corporate</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+    </div>
+    <div>
+      <div class="record-row" style="border-bottom: 1.5px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding-bottom: 0.4rem;">
+        <span>Document</span>
+        <span style="font-size: 0.58rem;">Have</span>
+        <span style="font-size: 0.58rem;">Where</span>
+      </div>
+      <div class="record-row">
+        <span class="name">Prescriptions list <span class="gloss">with dosages, every household member</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">GP and specialist contacts</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Bank account numbers <span class="gloss">numbers only, not passwords</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Key contracts <span class="gloss">employment, lease, business</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Will / power of attorney</span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Family contact list <span class="gloss">addresses, not just numbers</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Cash reserve <span class="gloss">low denominations · NZ$5 / 10 / 20</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+      <div class="record-row">
+        <span class="name">Hardware-key backups <span class="gloss">stored separately from primaries</span></span>
+        <span class="have-box">☐</span>
+        <span class="location-line"></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="section-header">
+    <span class="section-num">iii.</span>
+    <h2 class="section-title">A small reference library</h2>
+    <span class="section-meta">Hard copy<br>Useful even in normal life</span>
+  </header>
+  <p class="section-blurb">Books worth having in print. Not survivalist doctrine — useful at every level from "internet outage" to "extended displacement," and useful even when none of those occur. Keep what you would actually open. Borrow from your library to test before buying.</p>
+
+  <div class="library-grid">
+    <div class="library-cat">
+      <span class="library-cat-label">Practical reference</span>
+      <p class="library-cat-blurb">When you need to find something specific without internet.</p>
+      <div class="library-row"><span class="title">A printed atlas <span class="gloss">world + your region in detail</span></span></div>
+      <div class="library-row"><span class="title">A standard first-aid manual <span class="gloss">Red Cross, St John, or equivalent</span></span></div>
+      <div class="library-row"><span class="title">A basic medical reference <span class="gloss">e.g. Merck Manual, Where There Is No Doctor</span></span></div>
+      <div class="library-row"><span class="title">A standard household-repair manual</span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+    </div>
+    <div class="library-cat">
+      <span class="library-cat-label">Local knowledge</span>
+      <p class="library-cat-blurb">Knowing where you actually are, not just where the GPS says.</p>
+      <div class="library-row"><span class="title">Detailed map of your local region <span class="gloss">topographic if rural</span></span></div>
+      <div class="library-row"><span class="title">A guide to local edible plants &amp; foraging</span></div>
+      <div class="library-row"><span class="title">A guide to home gardening / food preservation</span></div>
+      <div class="library-row"><span class="title">Bird, plant, or local-history guide of choice</span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+    </div>
+    <div class="library-cat">
+      <span class="library-cat-label">Sustained-attention reading</span>
+      <p class="library-cat-blurb">Real defence against deskilling: books worth re-reading.</p>
+      <div class="library-row"><span class="title">A printed Bible (or core text of your tradition)</span></div>
+      <div class="library-row"><span class="title">A few substantial works of theology / philosophy / history</span></div>
+      <div class="library-row"><span class="title">A small shelf of fiction you would re-read</span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+    </div>
+    <div class="library-cat">
+      <span class="library-cat-label">Family-specific</span>
+      <p class="library-cat-blurb">Your household, your tradition, your work.</p>
+      <div class="library-row"><span class="title">Children's books worth re-reading</span></div>
+      <div class="library-row"><span class="title">Cookbooks you actually cook from</span></div>
+      <div class="library-row"><span class="title">Music: hymnal, songbook, or score collection</span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+      <div class="library-empty"><span class="blank"></span></div>
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <span class="label">What this is not</span>
+    <p>This worksheet is <strong>not</strong> a survivalist inventory. It does not include firearms, large fuel reserves, off-grid communications gear, or any of the bunker apparatus the framework explicitly warns against. The hard cases this aids are not extinction scenarios — they are ordinary infrastructure outages, displaced-by-disaster scenarios, and the slow-motion stress of a degraded information environment. Every item here aids you at every level.</p>
+  </div>
+
+  <div class="audit-bar">
+    <h3 class="audit-title">Annual <em>audit</em> sign-off</h3>
+    <div class="audit-field"><label>Year</label><div class="field"></div></div>
+    <div class="audit-field"><label>Date reviewed</label><div class="field"></div></div>
+    <div class="audit-field"><label>Reviewer (signed)</label><div class="field"></div></div>
+  </div>
+
+  <footer class="sheet-footer" style="margin-top: 0;">
+    <span>Companion to <em>The AI Threat Level Framework</em></span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">nathanielbaldock.com · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

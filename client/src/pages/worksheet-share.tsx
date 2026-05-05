@@ -3,11 +3,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, Printer } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ArticleShare } from "@/components/article-share";
+import { WorksheetLeadCTA } from "@/components/worksheet-lead-cta";
 import { getWorksheetById } from "@/content/worksheets";
 import { getDeepDiveById } from "@/content/deep-dives";
 
@@ -106,6 +106,12 @@ export default function WorksheetSharePage() {
         canonicalPath={canonicalPath}
         image={resource.shareImage ?? DEFAULT_OG}
         ogType="article"
+        article={{
+          author: "Nathaniel Baldock",
+          authorUrl: "https://www.nathanielbaldock.com/about",
+          publishedDate: resource.date,
+          modifiedDate: resource.date,
+        }}
       />
       <SiteHeader currentPage="resources" />
 
@@ -144,39 +150,45 @@ export default function WorksheetSharePage() {
           />
         </section>
 
-        <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
-          <div className="max-w-3xl mx-auto flex flex-col gap-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 justify-center sm:justify-start">
-                <Link
-                  href="/resources"
-                  className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Resources
-                </Link>
-                <a
-                  href={resource.iframeSrc}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-neutral-500 hover:text-neutral-700 underline"
-                >
-                  {isDeepDive ? "Open deep dive in new tab" : "Open worksheet in new tab"}
-                </a>
-                <button
-                  type="button"
-                  onClick={printWorksheet}
-                  className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
-                >
-                  <Printer className="h-4 w-4" />
-                  {isDeepDive ? "Print deep dive" : "Print worksheet"}
-                </button>
-              </div>
-              <Button asChild className="w-full sm:w-auto shrink-0">
-                <a href="https://www.nathanielbaldock.com/#contact" className="tesoro-cta-gradient">
-                  Book a free 30-min consultation
-                </a>
-              </Button>
+        <WorksheetLeadCTA
+          headline={
+            isDeepDive
+              ? "Want to talk through what this means for your situation?"
+              : "Want help turning this into a clear next step?"
+          }
+          body={
+            isDeepDive
+              ? "A 30-minute call can help you work out what this deep dive actually means for your family, church, school, or organisation — without the jargon or the sales pitch."
+              : "A 30-minute call can help you turn this worksheet into a concrete plan for your family, church, school, or team — tailored to your specific situation."
+          }
+        />
+
+        <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
+          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-4">
+            <Link
+              href="/resources"
+              className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Resources
+            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <a
+                href={resource.iframeSrc}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-neutral-500 hover:text-neutral-700 underline"
+              >
+                {isDeepDive ? "Open deep dive in new tab" : "Open worksheet in new tab"}
+              </a>
+              <button
+                type="button"
+                onClick={printWorksheet}
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+              >
+                <Printer className="h-4 w-4" />
+                {isDeepDive ? "Print deep dive" : "Print worksheet"}
+              </button>
             </div>
           </div>
         </section>

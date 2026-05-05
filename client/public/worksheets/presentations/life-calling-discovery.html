@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a1a1a">
+<title>Life Calling Discovery — Nathaniel Baldock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+:root{
+  --bg:#fff;--bg-warm:hsl(252,35%,98%);--bg-muted:hsl(252,18%,94%);
+  --page-bg:hsl(252,22%,96%);
+  --surface:hsl(252,40%,99%);
+  --surface-border:hsl(252,16%,90%);
+  --surface-shadow:0 4px 32px rgba(45,40,90,.07),0 1px 3px rgba(45,40,90,.04);
+  --fg:hsl(30,10%,15%);--fg-med:hsl(30,10%,28%);--fg-muted:hsl(30,8%,45%);
+  --border:hsl(252,14%,88%);--bcard:hsl(252,14%,90%);--dark:#1a1a1a;
+  --ac:#595ad3;--ac-bg:rgba(89,90,211,0.09);
+  --gold:hsl(38,88%,44%);--gold-bg:rgba(200,140,0,0.07);
+  --font-sans:'DM Sans',system-ui,sans-serif;
+  --font-serif:'Playfair Display',Georgia,serif;
+  --r:14px;
+  --shell-max:1200px;
+  --shell-pad:clamp(16px,3vw,36px);
+}
+html{background:var(--page-bg);}
+body{font-family:var(--font-sans);color:var(--fg);min-height:100%;padding:0;margin:0;}
+.page{max-width:none;margin:0;background:var(--page-bg);border-radius:0;overflow:visible;box-shadow:none;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
+
+/* First screen: full viewport like sphere prayer / world-view */
+.hero-screen{
+  min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;
+  background:var(--dark);
+  flex-shrink:0;
+}
+
+/* ── HEADER ── */
+.site-hdr{background:var(--dark);padding:13px 0;padding-top:max(13px,env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--ac),#88c807);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:14px;height:14px;fill:#fff;}
+.logo-name{font-size:13px;font-weight:600;color:#fff;}
+.logo-sub{font-size:9.5px;color:rgba(255,255,255,.4);letter-spacing:.5px;}
+.hdr-badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* ── HERO ── */
+.hero{background:var(--dark);padding:28px 0 16px;position:relative;overflow:hidden;flex:1;display:flex;flex-direction:column;justify-content:space-between;min-height:0;}
+.hero-main{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;}
+.hero-scroll-hint{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.22);text-align:center;padding:12px 0 8px;margin:0;}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 10% 65%,rgba(89,90,211,.1) 0%,transparent 50%),
+  radial-gradient(ellipse at 88% 25%,rgba(136,200,7,.08) 0%,transparent 48%),
+  radial-gradient(ellipse at 50% 100%,rgba(200,140,0,.07) 0%,transparent 40%);}
+.hero-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--gold),#88c807,transparent 85%);}
+.hero-cat{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:22px;display:flex;align-items:center;gap:10px;}
+.cat-line{flex:1;height:1px;background:rgba(255,255,255,.08);}
+.hero-title{font-family:var(--font-serif);font-size:clamp(32px,5vw,50px);font-weight:500;color:#fff;line-height:1.05;margin-bottom:5px;letter-spacing:-.5px;}
+.hero-sub{font-family:var(--font-serif);font-size:clamp(17px,2.5vw,25px);font-weight:400;font-style:italic;color:rgba(255,255,255,.42);line-height:1.2;margin-bottom:24px;}
+.hero-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.75;max-width:52rem;margin-bottom:30px;}
+.hero-desc strong{color:rgba(255,255,255,.75);font-weight:400;}
+.hero-meta{display:flex;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:4px 0;}
+.mi{font-size:9.5px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.25);padding:0 16px;}
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:rgba(255,255,255,.1);}
+
+/* Centered column (matches world-view full-width + inner shell) */
+.shell{width:100%;max-width:var(--shell-max);margin-left:auto;margin-right:auto;padding-left:var(--shell-pad);padding-right:var(--shell-pad);}
+.shell--hero{flex:1;display:flex;flex-direction:column;min-height:0;}
+.shell--hero .hero{flex:1;}
+
+/* ── BODY ── */
+.body{flex:1;width:100%;background:var(--page-bg);padding:clamp(28px,4vw,48px) 0;padding-bottom:clamp(36px,5vw,56px);}
+.body-inner{width:100%;max-width:var(--shell-max);margin:0 auto;padding:0 var(--shell-pad);display:flex;flex-direction:column;gap:clamp(18px,2.5vw,26px);}
+
+.surface-card{background:var(--surface);border:1px solid var(--surface-border);border-radius:18px;box-shadow:var(--surface-shadow);padding:clamp(22px,3vw,36px) clamp(20px,3vw,40px);}
+
+hr.div{border:none;border-top:1px solid var(--border);margin:28px 0;}
+.section-head{display:flex;gap:16px;align-items:stretch;margin-bottom:4px;}
+.section-accent{width:3px;flex-shrink:0;background:var(--ac);border-radius:2px;margin-top:3px;margin-bottom:3px;min-height:3.2rem;}
+.section-head-main{flex:1;min-width:0;}
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--ac);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:clamp(20px,2.2vw,26px);font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:8px;}
+.sec-sub{font-size:14px;font-weight:300;color:var(--fg-muted);line-height:1.7;margin-bottom:0;}
+.intro-para{font-size:14px;font-weight:300;line-height:1.85;color:var(--fg-med);margin-bottom:0;}
+.intro-para strong{color:var(--fg);font-weight:500;}
+
+/* Anchor quote */
+.anchor-quote{background:var(--dark);border-radius:18px;padding:clamp(22px,3vw,32px) clamp(22px,3vw,36px);margin-bottom:0;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.2);}
+.anchor-quote::before{content:'"';font-family:var(--font-serif);font-size:140px;line-height:.65;color:rgba(255,255,255,.04);position:absolute;top:8px;right:14px;user-select:none;}
+.aq-lbl{font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.aq-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);}
+.aq-text{font-family:var(--font-serif);font-size:clamp(16px,1.5vw,19px);font-style:italic;color:#fff;line-height:1.65;margin-bottom:10px;max-width:none;}
+.aq-source{font-size:10px;color:rgba(255,255,255,.3);}
+
+/* Scripture */
+.scr{border-left:3px solid var(--ac);padding:10px 0 9px 20px;margin-bottom:0;position:relative;}
+.surface-card .scr:last-child{margin-bottom:0;}
+.scr-q{font-family:var(--font-serif);font-size:36px;line-height:.5;color:var(--bg-muted);position:absolute;top:8px;left:2px;user-select:none;}
+.scr-text{font-family:var(--font-serif);font-size:15px;font-style:italic;line-height:1.7;color:var(--fg);margin-bottom:6px;}
+.scr-ref{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);}
+
+/* ── CATEGORY CARDS ── */
+.cat-card{border:1px solid var(--surface-border);border-radius:18px;overflow:hidden;margin-bottom:0;box-shadow:var(--surface-shadow);background:var(--surface);}
+.cc-head{padding:clamp(18px,2.5vw,24px) clamp(20px,3vw,32px) 14px;display:flex;align-items:flex-start;gap:16px;border-left:4px solid var(--ac);background:var(--ac-bg);}
+.cc-num{font-family:var(--font-serif);font-size:42px;font-weight:400;line-height:.9;flex-shrink:0;opacity:.14;color:var(--ac);}
+.cc-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ac);margin-bottom:3px;}
+.cc-title{font-family:var(--font-serif);font-size:20px;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:3px;}
+.cc-sub{font-size:12.5px;font-weight:300;color:var(--fg-muted);line-height:1.5;}
+.cc-prompt{padding:14px clamp(20px,3vw,32px) 16px;font-size:14px;font-style:italic;color:var(--fg-med);line-height:1.75;border-bottom:1px solid var(--border);background:var(--bg);}
+.cc-prompt strong{font-style:normal;font-weight:600;color:var(--fg);}
+.cc-reflect{padding:clamp(18px,2.5vw,24px) clamp(20px,3vw,32px) clamp(20px,3vw,28px);background:var(--bg-warm);}
+.pr-lbl{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:11px;}
+
+/* Input fields */
+.q-row{margin-bottom:12px;}.q-row:last-child{margin-bottom:0;}
+.q-label{font-size:12.5px;font-weight:400;color:var(--fg-med);margin-bottom:6px;line-height:1.45;}
+.q-input{border:none;border-bottom:1px solid var(--border);width:100%;background:transparent;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);padding:3px 0 6px;outline:none;display:block;transition:border-color .2s;}
+.q-input:focus{border-bottom-color:var(--ac);}
+.q-input::placeholder{color:hsl(35,15%,80%);font-weight:300;}
+.q-input.tall{min-height:46px;resize:none;border:1px solid var(--border);border-radius:7px;padding:8px 10px;font-size:12.5px;line-height:1.6;overflow:hidden;transition:height .1s ease;}
+.q-input.tall:focus{border-color:var(--ac);}
+
+/* Two-col inputs */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+
+/* ── PATTERN SYNTHESIS ── */
+.synthesis-box{border:1px solid var(--surface-border);border-radius:18px;overflow:hidden;margin:0;box-shadow:var(--surface-shadow);}
+.sb-head{background:var(--dark);padding:clamp(18px,2.5vw,24px) clamp(20px,3vw,32px);}
+.sb-title{font-family:var(--font-serif);font-size:18px;font-weight:500;color:#fff;}
+.sb-sub{font-size:11px;color:rgba(255,255,255,.36);margin-top:2px;}
+.sb-body{padding:clamp(20px,3vw,28px) clamp(20px,3vw,32px) clamp(22px,3vw,32px);background:var(--bg-warm);}
+.sb-row{margin-bottom:16px;}.sb-row:last-child{margin-bottom:0;}
+.sb-label{font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.sb-input{border:none;border-bottom:2px solid var(--border);width:100%;background:transparent;font-family:var(--font-serif);font-size:14.5px;color:var(--fg);padding:4px 0 7px;outline:none;display:block;font-style:italic;transition:border-color .2s;resize:none;overflow:hidden;min-height:32px;line-height:1.5;}
+.sb-input:focus{border-bottom-color:var(--gold);}
+.sb-input::placeholder{color:hsl(35,15%,80%);font-weight:300;font-style:italic;}
+
+/* Closing */
+.enc-block{background:var(--dark);border-radius:18px;padding:clamp(22px,3vw,32px) clamp(22px,3vw,36px);margin-bottom:0;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.15);}
+.enc-block::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 80%,rgba(89,90,211,.1) 0%,transparent 55%);}
+.enc-text{font-size:13px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px;position:relative;z-index:1;}
+.enc-text strong{color:#fff;font-weight:400;}
+.enc-foot{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.enc-url{font-size:10px;color:rgba(255,255,255,.25);}
+.cta-btn{background:linear-gradient(135deg,var(--ac),#88c807);border:none;color:#fff;font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:9px 20px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .2s,transform .2s;}
+.cta-btn:hover{opacity:.9;transform:translateY(-1px);}
+
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding-bottom:max(24px,env(safe-area-inset-bottom));}
+.tag{background:var(--bg-muted);border:1px solid var(--bcard);border-radius:20px;padding:3px 10px;font-size:9.5px;font-weight:500;color:var(--fg-muted);}
+.page-footer{background:var(--bg-muted);border-top:1px solid var(--surface-border);width:100%;margin-top:auto;}
+.page-footer-inner{max-width:var(--shell-max);margin:0 auto;padding:13px var(--shell-pad);padding-bottom:max(13px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.footer-l{font-size:10px;color:var(--fg-muted);}
+.footer-r{display:flex;align-items:center;gap:10px;}
+.footer-link{font-size:10px;color:var(--ac);text-decoration:none;font-weight:500;}
+
+/* Individual category accent colours */
+.c1{--cc:#ff3a30;--cc-bg:rgba(255,58,48,0.07);}
+.c2{--cc:#ff9600;--cc-bg:rgba(255,150,0,0.07);}
+.c3{--cc:#b89000;--cc-bg:rgba(184,144,0,0.07);}
+.c4{--cc:#5a8a00;--cc-bg:rgba(90,138,0,0.07);}
+.c5{--cc:#595ad3;--cc-bg:rgba(89,90,211,0.07);}
+.c6{--cc:#1a9ab8;--cc-bg:rgba(26,154,184,0.07);}
+.c7{--cc:#c44499;--cc-bg:rgba(196,68,153,0.07);}
+.c8{--cc:#ff3a30;--cc-bg:rgba(255,58,48,0.07);}
+.c9{--cc:#ff9600;--cc-bg:rgba(255,150,0,0.07);}
+.c10{--cc:#595ad3;--cc-bg:rgba(89,90,211,0.07);}
+
+.cat-card.c1 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c1 .cc-num{color:var(--cc);}
+.cat-card.c1 .cc-label{color:var(--cc);}
+.cat-card.c1 .q-input:focus,.cat-card.c1 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c2 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c2 .cc-num{color:var(--cc);}
+.cat-card.c2 .cc-label{color:var(--cc);}
+.cat-card.c2 .q-input:focus,.cat-card.c2 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c3 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c3 .cc-num{color:var(--cc);}
+.cat-card.c3 .cc-label{color:var(--cc);}
+.cat-card.c3 .q-input:focus,.cat-card.c3 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c4 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c4 .cc-num{color:var(--cc);}
+.cat-card.c4 .cc-label{color:var(--cc);}
+.cat-card.c4 .q-input:focus,.cat-card.c4 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c5 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c5 .cc-num{color:var(--cc);}
+.cat-card.c5 .cc-label{color:var(--cc);}
+.cat-card.c5 .q-input:focus,.cat-card.c5 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c6 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c6 .cc-num{color:var(--cc);}
+.cat-card.c6 .cc-label{color:var(--cc);}
+.cat-card.c6 .q-input:focus,.cat-card.c6 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c7 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c7 .cc-num{color:var(--cc);}
+.cat-card.c7 .cc-label{color:var(--cc);}
+.cat-card.c7 .q-input:focus,.cat-card.c7 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c8 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c8 .cc-num{color:var(--cc);}
+.cat-card.c8 .cc-label{color:var(--cc);}
+.cat-card.c8 .q-input:focus,.cat-card.c8 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c9 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c9 .cc-num{color:var(--cc);}
+.cat-card.c9 .cc-label{color:var(--cc);}
+.cat-card.c9 .q-input:focus,.cat-card.c9 .q-input.tall:focus{border-color:var(--cc);}
+.cat-card.c10 .cc-head{border-left-color:var(--cc);background:var(--cc-bg);}
+.cat-card.c10 .cc-num{color:var(--cc);}
+.cat-card.c10 .cc-label{color:var(--cc);}
+.cat-card.c10 .q-input:focus,.cat-card.c10 .q-input.tall:focus{border-color:var(--cc);}
+
+.surface-card .intro-para{margin-bottom:1.1rem;}
+.surface-card .section-head{margin-bottom:8px;}
+.surface-card .scr{margin-top:8px;}
+.surface-card hr.div{margin:24px 0;}
+
+@media(max-width:600px){
+  .two-col{grid-template-columns:1fr;}
+  .page-footer-inner{flex-direction:column;align-items:flex-start;}
+}
+@media print{
+  html,body{background:#fff;padding:0;}
+  .page{background:#fff;box-shadow:none;border-radius:0;min-height:0;}
+  .body{background:#fff;}
+  .hero-screen{min-height:0;}
+  .hero{flex:none;display:block;}
+  .hero-main{display:block;}
+  .hero-scroll-hint{display:none;}
+  .surface-card,.cat-card,.synthesis-box,.anchor-quote,.enc-block{box-shadow:none;}
+  .cta-btn{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero-screen">
+<div class="shell shell--hero">
+<!-- HEADER -->
+<div class="site-hdr">
+  <div class="logo-row">
+    <div class="logo-mark"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="10" cy="10" r="4.5" fill="#fff" opacity=".22"/><circle cx="10" cy="10" r="2" fill="#fff"/></svg></div>
+    <div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">nathanielbaldock.com</div></div>
+  </div>
+  <div class="hdr-badge">Nelson DTS 2026</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-line"></div>
+  <div class="hero-main">
+    <div class="hero-cat"><span>Biblical Worldview · Kingdom Calling</span><div class="cat-line"></div></div>
+    <div class="hero-title">Life Calling Discovery</div>
+    <div class="hero-sub">What is in your tool belt?</div>
+    <div class="hero-desc">God has endowed every person with a unique combination of gifts, talents, experiences, and passions for his purposes. <strong>This worksheet helps you examine the tools he has placed in your belt</strong> — not to manufacture a calling, but to discover the one he has already been shaping in you.</div>
+    <div class="hero-meta">
+      <span class="mi">Personal reflection</span><div class="msep"></div>
+      <span class="mi">60 – 90 min</span><div class="msep"></div>
+      <span class="mi">Take your time. Be honest.</span><div class="msep"></div>
+      <span class="mi">nathanielbaldock.com</span>
+    </div>
+  </div>
+  <p class="hero-scroll-hint">Scroll down to begin</p>
+</div>
+</div><!-- /shell shell--hero -->
+</div><!-- /hero-screen -->
+
+<!-- BODY -->
+<div class="body">
+<div class="body-inner">
+
+  <div class="anchor-quote">
+    <div class="aq-lbl"><div class="aq-dot"></div>The foundation of this exercise</div>
+    <div class="aq-text">"The spheres are not a motivation. Your calling is not a target. They are a description of how you express your relationship with God."</div>
+    <div class="aq-source">Life Calling Workshop — YWAM</div>
+  </div>
+
+  <div class="surface-card">
+  <p class="intro-para">This is a discovery exercise, not a test. There are no wrong answers and no expected outcomes. The goal is not to arrive at a five-year plan — it is to look honestly at how God has been shaping you, and to begin to see the patterns. The person you are reading these words is already a person God has been forming for a specific purpose in a specific corner of the world. <strong>This worksheet creates space to see what he has been doing.</strong></p>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"Take your everyday, ordinary life — your sleeping, eating, going-to-work, and walking-around life — and place it before God as an offering. Don't become so well-adjusted to your culture that you fit into it without even thinking. Instead, fix your attention on God. You will be changed from the inside out."</div>
+    <div class="scr-ref">Romans 12:1–2 · The Message · Your ordinary life is the material God works with</div>
+  </div>
+
+  <hr class="div" style="margin-top:0;">
+  <div class="section-head">
+    <span class="section-accent" aria-hidden="true"></span>
+    <div class="section-head-main">
+      <div class="sec-lbl">The Ten Categories</div>
+      <div class="sec-title">Work through each one slowly.</div>
+      <p class="sec-sub">Don't rush to get to the synthesis at the end. The most important discoveries tend to come in the categories you least expect. Give yourself permission to write honestly — not the answer that sounds most spiritual, but what is actually true.</p>
+    </div>
+  </div>
+  </div><!-- /surface-card -->
+
+  <!-- ── 1. MOTIVATION ── -->
+  <div class="cat-card c1">
+    <div class="cc-head">
+      <div class="cc-num">1</div>
+      <div>
+        <div class="cc-label">Motivation</div>
+        <div class="cc-title">What enflames your heart?</div>
+        <div class="cc-sub">Not what you think should motivate you. What actually does.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Motivation is one of the most reliable indicators of calling — because it is hard to manufacture and hard to sustain artificially. <strong>What makes you come alive?</strong> What would you do even if nobody paid you for it, and even if nobody was watching? Pay attention to what stirs something in you that feels like more than preference — the thing that genuinely burdens you, energises you, or keeps coming back.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">What topics, problems, or people make you lose track of time when you are thinking about them or working on them?</div>
+        <textarea class="q-input tall" placeholder="The things you find yourself returning to — even when no one assigned them to you..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What injustice or brokenness in the world makes you genuinely angry — the thing you cannot just walk past?</div>
+        <textarea class="q-input tall" placeholder="The gap between what is and what should be that you find most unbearable..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">When do you feel most alive? What were you doing the last time you thought "this is what I was made for"?</div>
+        <textarea class="q-input tall" placeholder="Be specific about the moment and the activity..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 2. LIFE HISTORY ── -->
+  <div class="cat-card c2">
+    <div class="cc-head">
+      <div class="cc-num">2</div>
+      <div>
+        <div class="cc-label">Life History</div>
+        <div class="cc-title">What has God been doing in your story?</div>
+        <div class="cc-sub">Your history is not a list of events. It is a shaped narrative.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      <strong>God wastes nothing.</strong> The turning points in your life — the losses, the unexpected doors, the moments of clarity, the times when everything fell apart and something new emerged — are not random. They are the material God has been using to shape the specific person your calling requires you to be. Joseph did not understand the pit until he was in the palace. You may not yet see the full picture of your story. But looking at the major chapters is one of the most powerful ways to see what God has been building.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">What are the three or four major turning points in your life — the moments that changed the direction of who you were becoming?</div>
+        <textarea class="q-input tall" placeholder="Not just the significant events — the ones that actually changed something in you..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What experiences — painful, joyful, or surprising — have most shaped how you see the world and what you care about?</div>
+        <textarea class="q-input tall" placeholder="What did those experiences form in you that would not exist without them?..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">Looking back, where do you see God's hand in your story — even in the places that felt like detours at the time?</div>
+        <textarea class="q-input tall" placeholder="The thread you can now see that you could not see then..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. NATURAL TALENTS ── -->
+  <div class="cat-card c3">
+    <div class="cc-head">
+      <div class="cc-num">3</div>
+      <div>
+        <div class="cc-label">Natural Talents</div>
+        <div class="cc-title">What are you genuinely good at?</div>
+        <div class="cc-sub">The things that come easily to you — that others find difficult.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Natural talents are often undervalued precisely because they come easily — we tend to discount what does not cost us effort. But <strong>God did not distribute gifts randomly.</strong> The things you do well without trying are often the core tools of your calling. Romans 12:6 says: "We have different gifts, according to the grace given to each of us." The Greek word is <em>charisma</em> — grace-gifts. What others would need years of training to do, you carry naturally. That is not accident — it is equipment.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">What do people consistently come to you for — the things others ask your help with before they ask anyone else?</div>
+        <textarea class="q-input tall" placeholder="What you are known for being good at in your community..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What comes naturally to you that you notice others find difficult? What do you do almost without thinking that others have to work hard to learn?</div>
+        <textarea class="q-input tall" placeholder="The things you may have discounted as 'not a big deal' because they are easy for you..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What have you been told — by teachers, parents, coaches, or peers — that you are particularly gifted at?</div>
+        <textarea class="q-input tall" placeholder="The consistent feedback about your abilities across different contexts..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. PERSONALITY ── -->
+  <div class="cat-card c4">
+    <div class="cc-head">
+      <div class="cc-num">4</div>
+      <div>
+        <div class="cc-label">Personality</div>
+        <div class="cc-title">How has God wired you?</div>
+        <div class="cc-sub">Your personality is not a limitation to work around. It is part of the design.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      God made introverts and extroverts, big-picture thinkers and detail-oriented implementers, people who thrive in crisis and people who build slowly over decades. <strong>None of these is more spiritual than the others.</strong> Your personality shapes which expression of the Kingdom is most natural for you — and often points toward the kind of environment and role where you will be most fruitful. Psalm 139:14 says you are "fearfully and wonderfully made." Your wiring is not accidental.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="two-col">
+        <div class="q-row" style="margin-bottom:0;">
+          <div class="q-label">Do you tend to draw energy from being with people, or from being alone? How does this shape where you thrive?</div>
+          <textarea class="q-input tall" placeholder="Introvert / extrovert / somewhere in between..."></textarea>
+        </div>
+        <div class="q-row" style="margin-bottom:0;">
+          <div class="q-label">Are you more energised by big-picture vision, or by the practical details of making things work?</div>
+          <textarea class="q-input tall" placeholder="Visionary / implementer / both in different seasons..."></textarea>
+        </div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What are two or three personality strengths that have served you well in your most effective moments?</div>
+        <textarea class="q-input tall" placeholder="The qualities that show up when you are at your best..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What environments — types of work, settings, team dynamics — bring out the best version of you?</div>
+        <textarea class="q-input tall" placeholder="The conditions in which you are most alive, most focused, most yourself..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. SPIRITUAL GIFTS ── -->
+  <div class="cat-card c5">
+    <div class="cc-head">
+      <div class="cc-num">5</div>
+      <div>
+        <div class="cc-label">Spiritual Gifts</div>
+        <div class="cc-title">What is God blessing and multiplying through you?</div>
+        <div class="cc-sub">Not what you do for God — what he seems to be doing through you.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Spiritual gifts are not performances you put on for God. They are the Spirit's activity through you — <strong>and the clearest indicator is usually fruit.</strong> Where do you see God moving when you engage? Where do people encounter God through your presence, your words, your acts? 1 Peter 4:10 says: "Each of you should use whatever gift you have received to serve others, as faithful stewards of God's grace in its various forms." The key word is received — these gifts are grace, not achievement.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">Where do you consistently see God move when you are involved — the contexts or activities where things seem to come alive in a way that goes beyond your effort?</div>
+        <textarea class="q-input tall" placeholder="Where God seems to multiply what you bring, beyond what you could produce alone..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What do others say they receive when they are with you — the impact they describe that you may not always see in yourself?</div>
+        <textarea class="q-input tall" placeholder="The consistent testimony of others about what happens when you serve them..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">If you have a sense of your spiritual gifts — whether through formal assessment or life experience — what are they? Where have you seen them confirmed?</div>
+        <textarea class="q-input tall" placeholder="Teaching, mercy, prophecy, giving, leadership, encouragement, service..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. ENCULTURATION ── -->
+  <div class="cat-card c6">
+    <div class="cc-head">
+      <div class="cc-num">6</div>
+      <div>
+        <div class="cc-label">Enculturation</div>
+        <div class="cc-title">What has your culture given you — and what has it cost you?</div>
+        <div class="cc-sub">Your cultural background is not neutral. It is both a gift and a lens.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Every culture reflects some aspects of God's character and distorts others. <strong>Your cultural formation has given you genuine strengths</strong> — a sense of hospitality, an awareness of community, a particular way of seeing justice or beauty or family — that other cultures lack. It has also given you blindspots and patterns that need to be examined. Paul writes in Romans 12:2: "Do not conform to the pattern of this world" — this is as much about cultural formation as it is about individual sin. Knowing both sides of your enculturation helps you steward it well.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">What are the genuine strengths of your cultural background — the values, perspectives, or capacities it has given you?</div>
+        <textarea class="q-input tall" placeholder="Strong sense of community, hospitality, resilience, oral tradition, relational depth..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What are the blindspots or limitations your cultural formation has given you — the patterns that may need examination?</div>
+        <textarea class="q-input tall" placeholder="Individualism, shame-avoidance, hierarchy, materialism, religious formalism..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">How might your specific cultural background be uniquely suited to bring the Kingdom into a particular context or community?</div>
+        <textarea class="q-input tall" placeholder="The door your background opens that others cannot access as easily..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 7. TRAINING ── -->
+  <div class="cat-card c7">
+    <div class="cc-head">
+      <div class="cc-num">7</div>
+      <div>
+        <div class="cc-label">Training</div>
+        <div class="cc-title">What have you learned — formally and informally?</div>
+        <div class="cc-sub">Education, experience, and the things life has taught you by doing them.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Training includes the obvious — formal education, courses, qualifications — but also the less obvious: the skills you developed through years of doing something, the knowledge you absorbed in a particular industry, the wisdom you earned through failure. <strong>Nehemiah assessed the walls of Jerusalem before he rebuilt them</strong> (Nehemiah 2:11–15). He did a quiet inventory of what was there. This section is your Nehemiah moment — an honest survey of what you have and what you still need.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">What formal training or education do you have? What did it equip you with — beyond the qualification itself?</div>
+        <textarea class="q-input tall" placeholder="Degrees, courses, apprenticeships — and what capacity each actually developed..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What skills have you developed through life experience — the things you learned by doing, failing, and trying again?</div>
+        <textarea class="q-input tall" placeholder="Work experience, ministry, raising children, community leadership, problem-solving in the field..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What training or skills do you sense you still need — the gaps between where you are and where you sense your calling is taking you?</div>
+        <textarea class="q-input tall" placeholder="The honest gaps — not self-criticism, just inventory..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 8. INTERESTS ── -->
+  <div class="cat-card c8">
+    <div class="cc-head">
+      <div class="cc-num">8</div>
+      <div>
+        <div class="cc-label">Interests</div>
+        <div class="cc-title">What locations, people, and needs pull at you?</div>
+        <div class="cc-sub">Where does your heart go when you let it wander?</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Interests are not trivial. <strong>They are often God's way of directing our attention before we have the language for calling.</strong> A persistent fascination with a particular people group, a region of the world, a human need, or a type of work is worth taking seriously. Proverbs 4:23 says "guard your heart, for everything you do flows from it." What your heart is drawn toward — without being told — is significant data about what it was made for.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">Are there specific locations — cities, nations, regions, neighbourhoods — that you find yourself drawn to, praying for, or wanting to understand better?</div>
+        <textarea class="q-input tall" placeholder="The places that pull you. The nations or communities you cannot forget..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">Are there specific people groups — defined by age, culture, need, profession, or marginalisation — that you consistently feel drawn toward?</div>
+        <textarea class="q-input tall" placeholder="The people whose situation you find yourself caring about, returning to, learning about..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What human needs — poverty, education, mental health, environmental care, political corruption, family breakdown — keep surfacing in your reading, your conversations, your prayers?</div>
+        <textarea class="q-input tall" placeholder="The problems you cannot stop thinking about — the gaps between what is and what should be that specifically burden you..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 9. STATIONS ── -->
+  <div class="cat-card c9">
+    <div class="cc-head">
+      <div class="cc-num">9</div>
+      <div>
+        <div class="cc-label">Stations</div>
+        <div class="cc-title">What are the fixed things that shape your context?</div>
+        <div class="cc-sub">The realities that are not preferences — they are the current framework of your life.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      Stations include the things about your life that are not really choices — your gender, your marital status, your family responsibilities, your nationality, your life stage. <strong>These are not limitations on your calling. They are part of its shape.</strong> Martin Luther's famous insight was that the Christian life is lived in the stations God has placed us in — the ordinary roles and relationships through which his Kingdom comes. Understanding your stations honestly helps you understand where your calling will actually be expressed, not where it might be in some other life.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="two-col">
+        <div class="q-row" style="margin-bottom:0;">
+          <div class="q-label">What is your current relational station — single, married, parent, caregiver? How does this shape where and how you can serve?</div>
+          <textarea class="q-input tall" placeholder="Not just status — how it shapes your capacity, location, and calling..."></textarea>
+        </div>
+        <div class="q-row" style="margin-bottom:0;">
+          <div class="q-label">What other fixed factors shape your current context — nationality, health, family obligations, financial situation?</div>
+          <textarea class="q-input tall" placeholder="The realities that currently define the parameters of your life..."></textarea>
+        </div>
+      </div>
+      <div class="q-row" style="margin-top:12px;">
+        <div class="q-label">How do your current stations open doors for Kingdom impact that someone in a different station could not access?</div>
+        <textarea class="q-input tall" placeholder="The unique access your current life situation gives you..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10. CONNECTIONS ── -->
+  <div class="cat-card c10">
+    <div class="cc-head">
+      <div class="cc-num">10</div>
+      <div>
+        <div class="cc-label">Connections</div>
+        <div class="cc-title">Who is in your network — and who covers your gaps?</div>
+        <div class="cc-sub">No calling is meant to be lived alone. The body of Christ is a team.</div>
+      </div>
+    </div>
+    <div class="cc-prompt">
+      <strong>Calling is rarely solitary.</strong> Nehemiah did not rebuild Jerusalem alone — he had gatekeepers and goldsmiths and merchants and priests, each working on the section nearest their home (Nehemiah 3). Paul had Barnabas and Silas and Timothy and Priscilla and Aquila — each bringing what the others lacked. Your network is not just professional capital. It is part of how God intends the calling to be carried. And your gaps — the areas where you are weakest — are often invitations to find the people whose strengths cover them.
+    </div>
+    <div class="cc-reflect">
+      <div class="pr-lbl">Reflect and respond</div>
+      <div class="q-row">
+        <div class="q-label">Who are the key people God has placed in your life — mentors, peers, team members — who have shaped or supported your calling?</div>
+        <textarea class="q-input tall" placeholder="The people without whom your story would look very different..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">What are your areas of genuine weakness — the capacities you lack that your calling requires? Who in your network covers these gaps?</div>
+        <textarea class="q-input tall" placeholder="Your honest gaps — and the people whose strengths already complement yours..."></textarea>
+      </div>
+      <div class="q-row">
+        <div class="q-label">Are there others who share your specific burden? Who else is carrying a similar passion or calling — and how could your paths connect?</div>
+        <textarea class="q-input tall" placeholder="The people you sense are on the same mission, even if from different directions..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ── PATTERN SYNTHESIS ── -->
+  <div class="surface-card">
+  <div class="section-head">
+    <span class="section-accent" aria-hidden="true"></span>
+    <div class="section-head-main">
+      <div class="sec-lbl">The Pattern</div>
+      <div class="sec-title">Look at what has emerged.</div>
+      <p class="sec-sub">Now look across everything you have written. Calling is rarely revealed in a single answer — it emerges in the pattern. What threads run through multiple categories? What surprises you? What has God been consistently pointing to that you may have dismissed?</p>
+    </div>
+  </div>
+
+  <div class="scr">
+    <div class="scr-q">"</div>
+    <div class="scr-text">"We are ALL called first to God, then God calls us to use our unique God-given gifts for his mission on earth. When we get our vocations from him, it becomes a Kingdom calling — enabling everyone to participate in bringing the Kingdom of God on earth as it is in heaven."</div>
+    <div class="scr-ref">YWAM University of the Nations — Life Calling Workshop</div>
+  </div>
+  </div><!-- /surface-card -->
+
+  <div class="synthesis-box">
+    <div class="sb-head">
+      <div class="sb-title">Your Life Calling — First Draft</div>
+      <div class="sb-sub">This will change. That is fine. Write what you can see right now.</div>
+    </div>
+    <div class="sb-body">
+      <div class="sb-row">
+        <div class="sb-label">What surprised you in this exercise? What emerged that you were not expecting?</div>
+        <textarea class="q-input tall" style="font-family:var(--font-sans);font-style:normal;" placeholder="The patterns or themes that you did not predict when you started..."></textarea>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">What are the two or three strongest threads running across multiple categories?</div>
+        <textarea class="q-input tall" style="font-family:var(--font-sans);font-style:normal;" placeholder="The things that kept showing up — in your motivation, your history, your interests, your gifts..."></textarea>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">What do you sense God saying to you through this reflection?</div>
+        <textarea class="sb-input" placeholder="Not what you think he should say — what you actually sense right now..."></textarea>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">How would you describe your calling in one or two sentences — however tentative?</div>
+        <textarea class="sb-input" placeholder="I sense God has made me to... in the area of... for the sake of..."></textarea>
+      </div>
+      <div class="sb-row">
+        <div class="sb-label">What are one or two concrete next steps — education, training, conversation, or action — that would move you further into what you have sensed?</div>
+        <textarea class="sb-input" placeholder="Specific and honest. Not a five-year plan — the next step..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="enc-block">
+    <div class="enc-text">
+      Calling is not a destination you arrive at — it is a direction you walk in. The tools in your belt are already there. God has been placing them since before you were born (Jeremiah 1:5). The question this worksheet is really asking is: <strong>will you look honestly at what he has already given you, and trust that it is enough for what he is asking you to do?</strong><br><br>
+      Use this alongside the Lord's Prayer Spheres worksheet — bring your calling into his presence, and let the prayer shape how you understand where your tools belong.
+    </div>
+    <div class="enc-foot">
+      <div class="enc-url">nathanielbaldock.com</div>
+      <button class="cta-btn" onclick="window.print()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1" width="10" height="6.5" rx="1" stroke="white" stroke-width="1.2"/><path d="M1.5 7.5v3.5a1 1 0 001 1h8a1 1 0 001-1V7.5" stroke="white" stroke-width="1.2"/><rect x="3.5" y="8.5" width="6" height="1" rx=".5" fill="white"/><rect x="3.5" y="10" width="4" height="1" rx=".5" fill="white"/></svg>
+        Print / Save PDF
+      </button>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag">Life Calling</span>
+    <span class="tag">Vocation</span>
+    <span class="tag">Kingdom Purpose</span>
+    <span class="tag">Biblical Worldview</span>
+    <span class="tag">Discipleship</span>
+    <span class="tag">Nelson DTS 2026</span>
+  </div>
+
+</div><!-- /body-inner -->
+</div><!-- /body -->
+
+<div class="page-footer">
+  <div class="page-footer-inner">
+    <div class="footer-l">nathanielbaldock.com · Biblical Worldview Resources</div>
+    <div class="footer-r">
+      <span class="tag">Life Calling Discovery</span>
+      <a class="footer-link" href="https://www.nathanielbaldock.com" target="_blank">Visit site →</a>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+(function(){
+  function autoExpand(el){
+    el.style.height='auto';
+    el.style.height=(el.scrollHeight)+'px';
+  }
+  function initAll(){
+    document.querySelectorAll('textarea.q-input, textarea.sb-input').forEach(function(ta){
+      ta.addEventListener('input',function(){ autoExpand(this); });
+      // Also handle paste
+      ta.addEventListener('paste',function(){ setTimeout(function(){ autoExpand(ta); },0); });
+      // Init on load in case pre-filled
+      autoExpand(ta);
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', initAll);
+  } else {
+    initAll();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day AI Resilience Onboarding · Nathaniel Baldock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fafaf6;
+  --paper-warm: #f5f3ec;
+  --ink: #1a1a1a;
+  --ink-soft: #4a4a48;
+  --ink-mute: #7a7872;
+  --ink-faint: #a8a59c;
+  --accent: #8b1c1c;          /* oxblood */
+  --accent-soft: #c2685c;
+  --rule: #d8d4c8;
+  --rule-strong: #8a8678;
+  --highlight: #f8e8b8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+html { font-size: 16px; }
+
+body {
+  font-family: 'Inter Tight', -apple-system, sans-serif;
+  background: #e8e4d8;
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'ss02', 'cv01';
+}
+
+/* ─── A4 page architecture ─── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 14mm auto;
+  background: var(--paper);
+  padding: 18mm 16mm 14mm;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.08);
+  position: relative;
+  page-break-after: always;
+  display: flex;
+  flex-direction: column;
+}
+.page:last-child { page-break-after: auto; }
+
+@media print {
+  body { background: white; }
+  .page {
+    margin: 0;
+    width: 210mm;
+    height: 297mm;
+    box-shadow: none;
+    page-break-after: always;
+  }
+}
+
+/* ─── Header ─── */
+.sheet-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  padding-bottom: 1rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+.sheet-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+.sheet-title {
+  font-family: 'Fraunces', serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.sheet-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.sheet-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin-top: 0.4rem;
+  font-weight: 400;
+}
+
+.sheet-meta {
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  line-height: 1.6;
+}
+
+/* ─── Intro lede ─── */
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-bottom: 1.4rem;
+  max-width: 60ch;
+}
+
+.lede strong {
+  font-weight: 500;
+  color: var(--ink);
+  font-style: normal;
+}
+
+/* ─── Week panels (calendar grid) ─── */
+.weeks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  flex: 1;
+}
+
+.week {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 0.85rem 0.95rem 0.9rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.week-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: baseline;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0.55rem;
+}
+
+.week-num {
+  font-family: 'Fraunces', serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.week-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 0.18rem;
+}
+
+.week-theme {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.day-list {
+  list-style: none;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.day-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  padding: 0.32rem 0;
+  border-bottom: 1px dotted var(--rule);
+  align-items: start;
+}
+
+.day-list li:last-child { border-bottom: none; }
+
+.day-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.day-task {
+  color: var(--ink);
+  font-size: 0.78rem;
+  line-height: 1.38;
+}
+
+.day-task strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.day-task .gloss {
+  color: var(--ink-mute);
+  font-style: italic;
+  font-size: 0.74rem;
+  font-family: 'Fraunces', serif;
+}
+
+/* checkbox glyph */
+.day-task::before {
+  content: "☐";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  margin-right: 0.35rem;
+  color: var(--ink-mute);
+}
+
+.section-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-mute);
+  margin: 1rem 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* ─── Bottom: ongoing rhythm ─── */
+.ongoing {
+  background: white;
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--accent);
+  padding: 0.85rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.ongoing-title {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 0.35rem;
+}
+
+.ongoing p {
+  color: var(--ink-soft);
+}
+
+/* ─── Footer (every page) ─── */
+.sheet-footer {
+  margin-top: 1rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  align-items: center;
+}
+
+.sheet-footer .center { text-align: center; }
+.sheet-footer .right { text-align: right; }
+.sheet-footer .accent { color: var(--accent); }
+
+/* ─── Decorative ornament ─── */
+.ornament {
+  font-family: 'Fraunces', serif;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  text-align: center;
+  letter-spacing: 0.5em;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* PAGE 2 ELEMENTS */
+.principles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.principle {
+  border-left: 2px solid var(--accent);
+  padding: 0.4rem 0.8rem 0.4rem 0.85rem;
+}
+
+.principle-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+.principle-text {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.principle-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.what-not {
+  background: var(--paper-warm);
+  border: 1px solid var(--rule);
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+.what-not h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 0.55rem;
+  letter-spacing: -0.005em;
+}
+
+.what-not h3 .x {
+  color: var(--accent);
+  font-weight: 400;
+  margin-right: 0.4rem;
+}
+
+.what-not ul {
+  list-style: none;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.what-not li {
+  padding: 0.32rem 0 0.32rem 1rem;
+  border-bottom: 1px dotted var(--rule);
+  position: relative;
+}
+
+.what-not li:last-child { border-bottom: none; }
+
+.what-not li::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+}
+
+.what-not li strong { color: var(--ink); font-weight: 600; }
+
+.tracker {
+  background: white;
+  border: 1.5px solid var(--ink);
+  padding: 1rem 1.1rem;
+}
+
+.tracker-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.tracker-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.tracker-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+}
+
+.tracker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.tracker-week {
+  border: 1px solid var(--rule);
+  padding: 0.5rem 0.6rem;
+  background: var(--paper-warm);
+  text-align: center;
+}
+
+.tracker-week-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.tracker-week-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  margin-bottom: 0.3rem;
+}
+
+.tracker-fill {
+  border: 1px solid var(--ink-mute);
+  height: 1.5rem;
+  background: white;
+}
+
+.completion-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  margin-top: 0.85rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.signature-line {
+  border-bottom: 1px solid var(--ink);
+  flex: 1;
+  margin: 0 0.5rem;
+  height: 1rem;
+}
+
+.completion-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 0.55rem;
+}
+
+.completion-grid > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.completion-grid label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ PAGE 1 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Companion to <em>The AI Threat Level Framework</em> · Worksheet 01</div>
+      <h1 class="sheet-title">The 30-Day <em>Onboarding</em> Plan</h1>
+      <p class="sheet-tagline">A guided four-week sequence for households starting from zero.</p>
+    </div>
+    <div class="sheet-meta">
+      Worksheet 01 / 04<br>
+      Print at 100% · A4<br>
+      Nathaniel Baldock · 2026
+    </div>
+  </header>
+
+  <p class="lede">Most households who agree the AI risk picture deserves attention have the same problem: <strong>they don't know where to start.</strong> This worksheet sequences the most consequential Level&nbsp;1 and Level&nbsp;2 actions across four weeks. Nothing here is theatrical. Each day's task takes 15 minutes to two hours. By day 30 you will have done the substantive 80% of household-level resilience work, and you will know which longer-cycle items remain.</p>
+
+  <div class="weeks">
+
+    <!-- WEEK 1 -->
+    <article class="week">
+      <header class="week-header">
+        <span class="week-num">01</span>
+        <div>
+          <span class="week-label">Week One</span>
+          <span class="week-theme">Identity &amp; the family</span>
+        </div>
+      </header>
+      <ul class="day-list">
+        <li>
+          <span class="day-mark">DAY 01</span>
+          <span class="day-task"><strong>Buy two hardware security keys.</strong> YubiKey 5C NFC or Google Titan. <span class="gloss">~NZ$80 each. The two-key rule: one primary, one backup, stored apart.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 02</span>
+          <span class="day-task"><strong>Enrol the keys on your primary email account.</strong> <span class="gloss">Email is the recovery channel for everything else. Do this account first.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 03</span>
+          <span class="day-task"><strong>Enrol the keys on your primary bank and government-identity portal.</strong> <span class="gloss">RealMe in NZ. Most major NZ banks now support hardware keys.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 04</span>
+          <span class="day-task"><strong>Choose a family safe phrase.</strong> 4–7 unrelated words. <span class="gloss">See the Safe Phrase Guide for selection rules.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 05</span>
+          <span class="day-task"><strong>Tell every family member over 10, in person.</strong> <span class="gloss">Never write it down. Practice once.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAYS 06–07</span>
+          <span class="day-task"><strong>Install Signal on every household device.</strong> Migrate the family group chat. <span class="gloss">End-to-end encrypted by default. Free.</span></span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- WEEK 2 -->
+    <article class="week">
+      <header class="week-header">
+        <span class="week-num">02</span>
+        <div>
+          <span class="week-label">Week Two</span>
+          <span class="week-theme">Devices &amp; financial first-aid</span>
+        </div>
+      </header>
+      <ul class="day-list">
+        <li>
+          <span class="day-mark">DAY 08</span>
+          <span class="day-task"><strong>Encrypt every laptop hard drive.</strong> BitLocker on Windows, FileVault on Mac. <span class="gloss">Both built in. Free. ~30 minutes once initiated.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 09</span>
+          <span class="day-task"><strong>On phones: turn off location services for any app that doesn't need it.</strong> Disable advertising IDs. <span class="gloss">Settings → Privacy on iOS; Settings → Privacy → Ads on Android.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 10</span>
+          <span class="day-task"><strong>Open every AI assistant in the household.</strong> Clear conversation logs and saved context. <span class="gloss">ChatGPT, Claude, Gemini, Siri, Alexa.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAYS 11–12</span>
+          <span class="day-task"><strong>Assemble the EFFAK kit.</strong> Photo IDs, birth certificates, insurance, prescription lists in waterproof storage, plus low-denomination cash. <span class="gloss">See the Analog Asset Log.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 13</span>
+          <span class="day-task"><strong>Confirm 3–6 months emergency reserves.</strong> If short, set a savings rate to close the gap.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 14</span>
+          <span class="day-task"><strong>Review insurance.</strong> Add identity-theft and cyber-fraud rider where available.</span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- WEEK 3 -->
+    <article class="week">
+      <header class="week-header">
+        <span class="week-num">03</span>
+        <div>
+          <span class="week-label">Week Three</span>
+          <span class="week-theme">Information &amp; community</span>
+        </div>
+      </header>
+      <ul class="day-list">
+        <li>
+          <span class="day-mark">DAY 15</span>
+          <span class="day-task"><strong>Build a written list of 20 trusted human sources.</strong> Named journalists, researchers, government officials. <span class="gloss">Update quarterly. Replace social-feed scrolling.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 16</span>
+          <span class="day-task"><strong>Reduce passive social-media intake.</strong> Set time limits or remove apps from your phone home screen.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 17</span>
+          <span class="day-task"><strong>Audit your own voice and video footprint online.</strong> <span class="gloss">3 seconds of audio is enough for voice cloning.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAYS 18–19</span>
+          <span class="day-task"><strong>Map your local network.</strong> Name 5 people in walking distance, 10 in your neighbourhood. <span class="gloss">Note their skills: medical, mechanical, food production, vehicles.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 20</span>
+          <span class="day-task"><strong>Make actual contact with one of them this week.</strong> A coffee, a text, a knock on the door.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 21</span>
+          <span class="day-task"><strong>Find your local emergency-management group online.</strong> <span class="gloss">NZ: civildefence.govt.nz to find your CDEM Group. Bookmark the page.</span></span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- WEEK 4 -->
+    <article class="week">
+      <header class="week-header">
+        <span class="week-num">04</span>
+        <div>
+          <span class="week-label">Week Four</span>
+          <span class="week-theme">Practice &amp; the longer work</span>
+        </div>
+      </header>
+      <ul class="day-list">
+        <li>
+          <span class="day-mark">DAY 22</span>
+          <span class="day-task"><strong>Have the elderly-parents conversation.</strong> Bring the Safe Phrase Guide. Practice the protocol with them in person. <span class="gloss">Highest-leverage 30 minutes in this whole plan.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 23</span>
+          <span class="day-task"><strong>Choose one analog practice to do weekly.</strong> Sustained reading, longhand journaling, walking conversation, prayer.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 24</span>
+          <span class="day-task"><strong>Establish one screen-free time block per day.</strong> Family meal, evening hour, morning routine. Hold it.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAYS 25–26</span>
+          <span class="day-task"><strong>Standard household emergency supplies.</strong> Water, food, medications, torch, battery radio. <span class="gloss">7-day baseline. Build to 14 over time. NZ: getready.govt.nz.</span></span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 27</span>
+          <span class="day-task"><strong>Identify the AI policy venue you can engage.</strong> School board, denomination, professional body, council submission. Pick one.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAY 28</span>
+          <span class="day-task"><strong>Write the submission, letter, or email.</strong> Send it.</span>
+        </li>
+        <li>
+          <span class="day-mark">DAYS 29–30</span>
+          <span class="day-task"><strong>Review.</strong> What's done, what's outstanding. Schedule the longer items into your calendar. Set the quarterly audit reminder.</span>
+        </li>
+      </ul>
+    </article>
+
+  </div>
+
+  <div class="ongoing">
+    <div class="ongoing-title">After day 30, what becomes ongoing</div>
+    <p>The 30-day plan covers the substantive 80%. The remaining 20% is a handful of longer-cycle items: hybrid-skill career planning (12–18 months), paying down shelter where possible, deepening the local network, sustained civic engagement, weekly contemplative practice. The Household Readiness Checklist (Worksheet 02) lays out that ongoing rhythm.</p>
+  </div>
+
+  <footer class="sheet-footer">
+    <span>nathanielbaldock.com</span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">Worksheet 01 · Page 1 of 2</span>
+  </footer>
+
+</div>
+
+<!-- ═══════════════════════ PAGE 2 ═══════════════════════ -->
+<div class="page">
+
+  <header class="sheet-header">
+    <div>
+      <div class="sheet-eyebrow">Worksheet 01 · Continued</div>
+      <h1 class="sheet-title" style="font-size: 1.8rem;">Six principles · what to <em>avoid</em> · tracker</h1>
+    </div>
+    <div class="sheet-meta">
+      Page 2 of 2<br>
+      Track completion below<br>
+      Sign &amp; date when done
+    </div>
+  </header>
+
+  <h2 class="section-heading">Six principles to keep in mind through the month</h2>
+
+  <div class="principles">
+    <div class="principle">
+      <span class="principle-num">i.</span>
+      <p class="principle-text"><strong>This is no-regret work.</strong> Every action on this list aids you regardless of how AI risk plays out. None depends on a particular forecast being right.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-num">ii.</span>
+      <p class="principle-text"><strong>Done beats elegant.</strong> A clumsy completed safe-phrase protocol protects your family. A perfect un-built one does not.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-num">iii.</span>
+      <p class="principle-text"><strong>Do days in order; weeks can flex.</strong> The week-one identity work is foundation. Weeks 2–4 can swap by a day or two if life intrudes.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-num">iv.</span>
+      <p class="principle-text"><strong>The hardest day is day 22.</strong> The elderly-parents conversation is awkward. Do it anyway. The asymmetric value is real: adults 60+ lost US$7.7B to fraud in 2025.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-num">v.</span>
+      <p class="principle-text"><strong>Do not lecture.</strong> If a family member is reluctant, lead with the actions, not the framework. Most people resist the pitch but accept the practice.</p>
+    </div>
+    <div class="principle">
+      <span class="principle-num">vi.</span>
+      <p class="principle-text"><strong>Skipped days are normal.</strong> Aim for 25 of 30. Make a note where you skipped and circle back in week 5.</p>
+    </div>
+  </div>
+
+  <div class="what-not">
+    <h3><span class="x">✕</span>What this plan deliberately does <em style="color: var(--accent); font-style: italic;">not</em> include</h3>
+    <ul>
+      <li><strong>Liquidating retirement savings or investments</strong> on the basis of AI-doom forecasts. The empirical record on panic-selling during sustained stress is uniformly negative.</li>
+      <li><strong>Relocating to off-grid or "bunker" arrangements</strong> that sever you from professional networks, congregational life, and community trust. Resilience research is unanimous: relational density predicts surviving disruption, not geographic isolation.</li>
+      <li><strong>Stockpiling firearms, large fuel reserves, or survivalist apparatus.</strong> None of these address the actual Level 1–2 risks. All carry significant offsetting harms.</li>
+      <li><strong>Lecturing friends and family about AI risk</strong> in ways that frame them as fools. The cost-benefit on relational capital is poor; the persuasion benefit is near zero.</li>
+      <li><strong>Removing children entirely from AI tools.</strong> Skill in using AI well, including knowing when not to, is itself a moat. Supervised engagement beats blanket prohibition.</li>
+    </ul>
+  </div>
+
+  <div class="tracker">
+    <div class="tracker-header">
+      <h3 class="tracker-title">Completion tracker</h3>
+      <span class="tracker-sub">Tick each week's days as you finish them</span>
+    </div>
+    <div class="tracker-grid">
+      <div class="tracker-week">
+        <span class="tracker-week-num">01</span>
+        <div class="tracker-week-line">Identity &amp; family</div>
+        <div class="tracker-fill"></div>
+      </div>
+      <div class="tracker-week">
+        <span class="tracker-week-num">02</span>
+        <div class="tracker-week-line">Devices &amp; finance</div>
+        <div class="tracker-fill"></div>
+      </div>
+      <div class="tracker-week">
+        <span class="tracker-week-num">03</span>
+        <div class="tracker-week-line">Info &amp; community</div>
+        <div class="tracker-fill"></div>
+      </div>
+      <div class="tracker-week">
+        <span class="tracker-week-num">04</span>
+        <div class="tracker-week-line">Practice &amp; longer work</div>
+        <div class="tracker-fill"></div>
+      </div>
+    </div>
+    <div class="completion-grid">
+      <div>
+        <label>Date completed</label>
+        <span class="signature-line"></span>
+      </div>
+      <div>
+        <label>Signed</label>
+        <span class="signature-line"></span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="sheet-footer" style="margin-top: auto;">
+    <span>Companion to <em>The AI Threat Level Framework</em></span>
+    <span class="center accent">— ✦ —</span>
+    <span class="right">nathanielbaldock.com · 2026</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

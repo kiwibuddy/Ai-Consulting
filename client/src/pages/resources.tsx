@@ -41,6 +41,7 @@ const worksheetCategories = [
   "Christian Growth",
   "Education",
   "Working Professionals",
+  "Presentations",
 ] as const;
 type WorksheetCategory = (typeof worksheetCategories)[number];
 type WorksheetFilter = "All" | WorksheetCategory;
