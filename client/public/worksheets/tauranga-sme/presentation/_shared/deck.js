@@ -20,7 +20,38 @@
     else document.addEventListener("DOMContentLoaded", fn);
   }
 
+  function enterFullscreen() {
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }
+
   ready(function () {
+    const playOverlay = document.getElementById("play-overlay");
+    const startBtn = document.getElementById("start-btn");
+    let started = !playOverlay;
+
+    function beginDeck() {
+      if (started) return;
+      started = true;
+      document.documentElement.classList.add("deck-started");
+      if (playOverlay) playOverlay.classList.add("hidden");
+      enterFullscreen();
+      updNav();
+    }
+
+    if (started) document.documentElement.classList.add("deck-started");
+    else if (startBtn) startBtn.focus();
+
+    if (startBtn)
+      startBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        beginDeck();
+      });
+    if (playOverlay)
+      playOverlay.addEventListener("click", function (e) {
+        if (e.target === playOverlay) beginDeck();
+      });
     // ── Bibliography auto-render ──────────────────────────────
     const bibHost = document.getElementById("bib-host");
     if (bibHost && BIB.length) {
@@ -149,6 +180,7 @@
 
     // ── Keyboard ──────────────────────────────────────────────
     document.addEventListener("keydown", function (e) {
+      if (!document.documentElement.classList.contains("deck-started")) return;
       if (mo && mo.classList.contains("open")) {
         if (e.key === "Escape") closeModal();
         return;
@@ -188,6 +220,7 @@
       deck.addEventListener(
         "touchend",
         function (e) {
+          if (!document.documentElement.classList.contains("deck-started")) return;
           const dx = e.changedTouches[0].clientX - tx;
           if (Math.abs(dx) > 50) go(dx < 0 ? cur + 1 : cur - 1);
         },
