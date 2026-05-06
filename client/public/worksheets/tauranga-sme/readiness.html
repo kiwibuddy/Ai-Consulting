@@ -549,7 +549,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
 /* Guided layout */
 body.guided .page{ display:flex;flex-direction:column;max-height:calc(100dvh - 68px);overflow:hidden; }
 body.guided .site-hdr{ flex:0 0 auto; }
-body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0; }
+body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0 var(--page-px); }
 body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
 body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
 body.guided .body > .guide-chapter{ min-height:0; }
@@ -558,14 +558,8 @@ body.guided .body > hr.div{ display:none!important; }
 body.guided .body > .guide-chapter.is-active{
   display:flex;flex:1 1 auto;flex-direction:column;min-height:0;
   overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-  padding:0 var(--page-px) clamp(1.25rem, 4vw, 2rem);scroll-behavior:smooth;
+  padding:0 0 clamp(1.25rem, 4vw, 2rem);scroll-behavior:smooth;
   animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both;
-}
-body.guided .body > .guide-chapter.is-active > .hero:first-child{
-  margin-inline:calc(-1 * var(--page-px));
-  width:calc(100% + 2 * var(--page-px));
-  max-width:none;
-  box-sizing:border-box;
 }
 body.guided .guide-chapter.is-active .phase-hdr{
   position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;
@@ -622,10 +616,6 @@ body:not(.guided) .step{ margin:24px 0 20px; }
 .reveal.is-visible{ opacity:1;transform:translateY(0); }
 
 @media print{
-  body.guided .body > .guide-chapter.is-active > .hero:first-child{
-    margin-inline:0!important;
-    width:auto!important;
-  }
   .hero::before{
     background-image:
       radial-gradient(ellipse 90% 72% at 100% -8%, hsla(200, 55%, 97%, .94) 0%, transparent 52%),
@@ -653,7 +643,7 @@ body:not(.guided) .step{ margin:24px 0 20px; }
 }
 @media(max-width:640px){
   .body{ padding:1.5rem var(--page-px) 1.5rem; }
-  body.guided .body{ padding:4px 0 0; }
+  body.guided .body{ padding:4px var(--page-px) 0; }
   body.guided .page{ max-height:calc(100dvh - 88px); }
   .hero{ padding:2rem var(--page-px) 2.25rem; }
   .site-hdr{ padding:14px var(--page-px); }
