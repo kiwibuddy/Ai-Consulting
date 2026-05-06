@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 4 — Staying Legal — NZ Privacy & Copyright (Preview) · Nathaniel Baldock</title>
+<meta name="description" content="A preview frame for Session 4 of the Tauranga SME deck — staying legal under NZ Privacy Act 2020 and the Copyright Act. Hero plus five live slides and a Coming Soon frame.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/deck.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button class="arrow-btn" id="prev-btn" aria-label="Previous slide">&#8249;</button>
+<button class="arrow-btn" id="next-btn" aria-label="Next slide">&#8250;</button>
+<div id="nav-bar"></div>
+<div id="slide-counter"></div>
+
+<div id="modal-overlay" role="dialog" aria-modal="true">
+  <div id="modal-box">
+    <button id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-stat"></div>
+    <div id="modal-title"></div>
+    <div id="modal-body"></div>
+    <div id="modal-source"></div>
+    <div id="modal-link"></div>
+  </div>
+</div>
+
+<div id="deck">
+
+<!-- 01 — Hero -->
+<div class="slide active">
+  <div class="slide-inner session-div">
+    <div class="hero-bg"></div>
+    <div class="s-body center">
+      <div class="hero-badge"><span class="dot"></span> Session 04 of 04 · Tauranga · 2026 · Preview</div>
+      <h1 class="s-title xl">Staying <span class="lime">Legal</span><br><em>NZ Privacy & Copyright in 30 minutes.</em></h1>
+      <div class="s-div" style="margin:1.4rem auto;"></div>
+      <p class="s-lead" style="max-width:740px;text-align:center">A plain-language guide to the Privacy Act 2020, the Copyright Act, and Māori Data Sovereignty obligations as they apply to AI tool use in a BoP business. Know your obligations before you add the next tool.</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock · nathanielbaldock.com</span><span>Session 4 of 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 02 — Three frameworks every owner needs -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">The frame</p>
+      <h2 class="s-title lg">Three frameworks every BoP owner needs in <span class="lime">30 seconds</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The Privacy Act 2020 governs personal information. The Copyright Act 1994 (with NZ's distinctive 'computer-generated works' clause) governs outputs. Māori Data Sovereignty governs Māori data as a taonga.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="opc_ipps_13">
+          <div class="s-num">13</div>
+          <div class="s-label">Information Privacy Principles apply to all AI data collection</div>
+          <div class="s-source">OPC, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="nz_copyright_anomaly">
+          <div class="s-num">CGW</div>
+          <div class="s-label">NZ uniquely recognises 'computer-generated works' under copyright</div>
+          <div class="s-source">Bell Gully</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="mds_taonga">
+          <div class="s-num">Taonga</div>
+          <div class="s-label">Māori data sovereignty — data treated as a treasure</div>
+          <div class="s-source">MDS principles</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>02 / preview</span><span>Session 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 03 — Privacy Act 2020 -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Privacy Act 2020 · OPC guidance</p>
+      <h2 class="s-title lg">If it processes personal info,<br>run a <span style="color:var(--sky)">PIA</span> first.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The Office of the Privacy Commissioner is unambiguous: every IPP applies to AI use. Senior leadership approval is expected. Human review is required before acting on AI outputs that affect a person.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">PIA — what it covers</p>
+          <ul class="sc-list">
+            <li>What personal info goes in (and where it ends up)</li>
+            <li>Whether the supplier trains on your data</li>
+            <li>Cross-border data flow (most AI tools are offshore)</li>
+            <li>How long data is retained</li>
+            <li>Who, internally, signs off on the deployment</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-red">
+          <p class="sc-tag">Common SME failures</p>
+          <ul class="sc-list">
+            <li>Pasting customer details into a public ChatGPT window</li>
+            <li>Using AI tools without a privacy review</li>
+            <li>No human-in-the-loop on AI-derived decisions</li>
+            <li>Customer-facing AI without disclosure</li>
+            <li>Training data including ex-employees' personal info</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout"><strong>Practical:</strong> the Silver and Gold tiers include a pre-filled PIA template you fill in once. Re-use it for every tool you add.</div>
+    </div>
+    <div class="s-footer"><span>03 / preview</span><span>Session 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 04 — Copyright -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Copyright Act 1994 · NZ's anomaly</p>
+      <h2 class="s-title lg">Yes, you (probably) own your <span style="color:var(--gold)">AI-generated content</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">NZ is internationally distinctive: the Copyright Act explicitly protects 'computer-generated works' that meet an originality test, even without a human author. But supplier contracts must reflect this — most haven't been updated.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">What you should do</p>
+          <ul class="sc-list">
+            <li>Add a 'works created using AI' clause to supplier contracts</li>
+            <li>Keep prompts and inputs as evidence of human originality</li>
+            <li>Avoid AI tools whose ToS claim ownership of your outputs</li>
+            <li>Disclose AI involvement to customers where ethically required</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-gold" data-modal="ajpark_ip" style="cursor:pointer">
+          <p class="sc-tag">AJ Park's practical gaps</p>
+          <ul class="sc-list">
+            <li>Training-data licensing in your supply chain</li>
+            <li>Output ownership in commercial contracts</li>
+            <li>Indemnity from AI vendors (often missing)</li>
+            <li>Trademark / logo creation needs separate review</li>
+          </ul>
+          <p style="margin-top:1rem;font-size:.7rem;color:var(--gold);font-weight:700">CLICK FOR SOURCE</p>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>04 / preview</span><span>Session 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 05 — Māori Data Sovereignty -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Māori Data Sovereignty</p>
+      <h2 class="s-title lg">Data is <span class="lime">taonga</span>.<br>The principles are clear.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">For BoP businesses with iwi partners, customers in te ao Māori, or hiring from Toi Kai Rawa's pipeline, Māori Data Sovereignty isn't a nice-to-have. It's the same kind of obligation as the Privacy Act, with sharper expectations.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle lime">1</div>
+          <div><div class="num-title">Identify Māori data in your business</div><div class="num-body">Customer lists, employee data, supplier contacts, photos, narratives — Māori data is broader than 'iwi info'.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">2</div>
+          <div><div class="num-title">Apply MDS principles to AI tool selection</div><div class="num-body">Where is the data stored? Who governs it? Does the tool train on it? Cross-border issues are heightened for Māori data.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">Document the conversation</div><div class="num-body">Even a single-page checklist showing you considered MDS in your tool selection is a meaningful step. Gold tier includes the template.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>05 / preview</span><span>Session 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 06 — Three documents you need on file -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">The compliance baseline</p>
+      <h2 class="s-title lg">Three documents.<br>On <span style="color:var(--sky)">file</span>. By month-end.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">If an insurer, a procurement audit, or your Priority One contact asks tomorrow, you need three things ready. The full session walks through each. The Silver tier hands you the templates pre-filled.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">Privacy Impact Assessment (PIA) — completed for any AI tool that touches personal info</div><div class="num-body">Reusable across multiple tools. One page, signed off by the senior person responsible.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">2</div>
+          <div><div class="num-title">Internal AI Use Policy — a one-page set of rules for staff</div><div class="num-body">What's allowed, what's not, how to ask. Removes the private rules and replaces them with an explicit one.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">AI Tool Register — every tool, the data it touches, who owns it</div><div class="num-body">A spreadsheet, kept up to date. The basis of any future audit, insurance review, or supplier conversation.</div></div>
+        </div>
+      </div>
+      <div class="callout"><strong>The Pilot test:</strong> if you walk into the funded conversation with these three documents, the advisor's hours go on strategic plan, not basic compliance. That's where the funded value lives.</div>
+    </div>
+    <div class="s-footer"><span>06 / preview</span><span>Session 4 — Legal · Preview</span></div>
+  </div>
+</div>
+
+<!-- 07 — Coming soon -->
+<div class="slide">
+  <div class="slide-inner session-div">
+    <div class="hero-bg"></div>
+    <div class="cs-body">
+      <span class="cs-pill"><span class="dot"></span> Full session releases on launch</span>
+      <h2 class="cs-title">Coming soon. <em>Recording in progress.</em></h2>
+      <div class="cs-divider"></div>
+      <p class="cs-desc">Sessions 2–4 are being built. Buyers of any tier are notified the moment each one ships — no extra fee. Skip the line and book a 1:1 if you want this conversation now.</p>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.16em;font-weight:700">Email questions: hello@nathanielbaldock.com</p>
+    </div>
+    <div class="s-footer"><span>07 / preview · end of preview</span><span>Session 4 — Legal · Coming soon</span></div>
+  </div>
+</div>
+
+</div>
+
+<script src="../_shared/modal-db.js"></script>
+<script src="../_shared/deck.js"></script>
+</body>
+</html>

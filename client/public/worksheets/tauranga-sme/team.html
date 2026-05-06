@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI and Your Team — A Conversation Guide for Bay of Plenty Employers · Nathaniel Baldock</title>
+<meta name="description" content="A practical conversation guide for Bay of Plenty small employers navigating AI with their team. Cover role impacts, upskilling, and the workforce conversation honestly.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:             #ffffff;
+  --bg-warm:        hsl(42, 40%, 98%);
+  --bg-mist:        hsl(210, 24%, 96%);
+  --bg-muted:       hsl(210, 16%, 94%);
+  --fg:             #0a0a0a;
+  --fg-med:         hsl(220, 8%, 30%);
+  --fg-muted:       hsl(220, 7%, 44%);
+  --border:         hsl(220, 12%, 88%);
+  --accent:         hsl(207, 58%, 34%);
+  --accent-mid:     hsl(200, 45%, 42%);
+  --accent-soft:    hsl(200, 40%, 94%);
+  --accent-bright:  hsl(198, 70%, 48%);
+  --sky-tint:       hsl(200, 45%, 88%);
+  --lime:           hsl(79, 82%, 50%);
+  --lime-deep:      hsl(79, 70%, 38%);
+  --lime-muted:     hsl(79, 40%, 92%);
+  --gold:           #C9A227;
+  --gold-bg:        hsl(40, 60%, 95%);
+  --green:          hsl(152, 45%, 36%);
+  --green-bg:       hsl(152, 40%, 94%);
+  --red-bg:         hsl(0, 40%, 95%);
+  --red:            hsl(0, 55%, 45%);
+  --purple:         hsl(265, 38%, 44%);
+  --purple-bg:      hsl(265, 35%, 95%);
+  --dark:           hsl(220, 18%, 8%);
+  --card-shadow:    0 1px 2px rgba(15,23,42,.04), 0 12px 32px -8px rgba(15,23,42,.08);
+  --p1:             hsl(205, 52%, 38%);
+  --p2:             hsl(195, 48%, 40%);
+  --p3:             hsl(175, 42%, 36%);
+  --p4:             hsl(230, 38%, 44%);
+  --p5:             hsl(265, 32%, 44%);
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+  --font-serif:     'Fraunces', 'Georgia', serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, monospace;
+  --r:              16px;
+  --r-sm:           10px;
+  --page-px:        clamp(1.25rem, 4.5vw, 4.25rem);
+  --prose-max:      min(70ch, 100%);
+}
+
+html{ background:var(--bg); min-height:100%; }
+html.guide-locked{ scroll-padding-bottom:max(5.25rem,env(safe-area-inset-bottom,0px)); }
+body{ font-family:var(--font-sans);color:var(--fg);margin:0;padding:0 0 100px;-webkit-font-smoothing:antialiased; }
+body:not(.guided) .ch-dots,
+body:not(.guided) .nav-ghost,
+body:not(.guided) .nav-primary,
+body:not(.guided) .guide-progress-label{ display:none; }
+body:not(.guided) .guide-dock .guide-dock-inner{ justify-content:center; }
+.page{ max-width:none;width:100%;margin:0;background:var(--bg);border-radius:0;overflow:hidden;box-shadow:none;border:none; }
+
+/* HEADER */
+.site-hdr{ background:var(--bg);padding:16px var(--page-px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border); }
+.logo-row{ display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;transition:opacity .2s; }
+a.logo-row:hover{ opacity:.78; }
+.logo-mark{ width:36px;height:36px;background:var(--fg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-serif);font-weight:600;color:var(--bg);font-size:15px;letter-spacing:-.02em; }
+.logo-name{ font-size:13px;font-weight:600;color:var(--fg);letter-spacing:-.01em; }
+.logo-sub{ font-size:9.5px;color:var(--fg-muted);letter-spacing:.08em; }
+.hdr-badge{ background:var(--bg-warm);border:1px solid var(--border);color:var(--fg-med);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:999px; }
+
+/* HERO */
+.hero{ background:linear-gradient(180deg,hsl(205,42%,91%) 0%,hsl(210,28%,96%) 38%,hsl(42,38%,98%) 72%,var(--bg) 100%);padding:clamp(2.5rem,5vw,3.5rem) var(--page-px) clamp(2.25rem,4.5vw,3rem);position:relative;overflow:hidden;border-bottom:1px solid var(--border); }
+.hero::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 100% -10%,hsl(200,55%,88%,.7) 0%,transparent 50%),radial-gradient(ellipse 60% 50% at 0% 100%,hsl(79,40%,90%,.35) 0%,transparent 45%);pointer-events:none; }
+.hero::after{ content:'';position:absolute;inset:0;opacity:.35;pointer-events:none;mix-blend-mode:multiply;background-image:radial-gradient(circle,hsl(220,10%,50%) .6px,transparent .6px);background-size:7px 7px; }
+.hero-category{ font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:22px;display:flex;align-items:center;gap:12px;position:relative;z-index:1; }
+.cat-rule{ flex:1;height:1px;background:var(--border);max-width:120px; }
+.hero-title{ font-family:var(--font-serif);font-size:clamp(1.9rem,4.5vw,2.55rem);font-weight:600;color:var(--fg);line-height:1.08;letter-spacing:-.03em;margin-bottom:12px;position:relative;z-index:1; }
+.hero-title em{ font-style:italic;font-weight:450;color:var(--fg-muted); }
+.hero-sub{ font-family:var(--font-sans);font-size:15px;font-weight:400;color:var(--fg-med);margin-bottom:28px;position:relative;z-index:1;max-width:var(--prose-max);line-height:1.5; }
+.hero-stats{ display:flex;gap:0;margin-bottom:28px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative;z-index:1;background:var(--bg);box-shadow:var(--card-shadow); }
+.hs{ padding:16px 18px;flex:1;border-right:1px solid var(--border); }
+.hs:last-child{ border-right:none; }
+.hs-num{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1;margin-bottom:6px;letter-spacing:-.02em; }
+.hs-text{ font-size:10px;font-weight:400;color:var(--fg-muted);line-height:1.5;letter-spacing:.02em; }
+.hero-desc{ font-size:14px;font-weight:400;color:var(--fg-med);line-height:1.7;max-width:var(--prose-max);margin-bottom:8px;position:relative;z-index:1; }
+.hero-desc strong{ color:var(--fg);font-weight:500; }
+.hero-meta{ display:flex;align-items:center;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap;gap:4px 0;position:relative;z-index:1;margin-top:18px; }
+.mi{ font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);padding:0 16px; }
+.mi:first-child{ padding-left:0; }
+.msep{ width:1px;height:11px;background:var(--border); }
+
+/* BODY */
+.body{ padding:clamp(2.5rem,4.5vw,3.25rem) var(--page-px) clamp(2rem,3.5vw,2.75rem);background:var(--bg); }
+.intro-para{ font-size:14px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:var(--prose-max); }
+.intro-para strong{ color:var(--fg);font-weight:500; }
+hr.div{ border:none;border-top:1px solid var(--border);margin:32px 0; }
+
+/* PHASE HDR */
+.phase-hdr{ display:flex;align-items:flex-start;gap:18px;margin:36px 0 18px; }
+.phase-num{ width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:#fff;flex-shrink:0;letter-spacing:-.02em; }
+.ph-1{background:var(--p1);}.ph-2{background:var(--p2);}.ph-3{background:var(--p3);}.ph-4{background:var(--p4);}.ph-5{background:var(--p5);}
+.phase-text{ padding-top:2px; }
+.phase-kicker{ font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px; }
+.phase-title{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:5px;letter-spacing:-.02em; }
+.phase-sub{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.55;max-width:var(--prose-max); }
+
+/* STEP */
+.step{ position:relative;margin:24px 0 20px;padding-left:24px;border-left:2px solid var(--sky-tint);transition:background .35s,border-left-color .35s,opacity .25s; }
+.step-head{ display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap; }
+.step-num{ font-family:var(--font-sans);font-size:10px;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase; }
+.step-title{ font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);line-height:1.35;letter-spacing:-.02em; }
+.step-body{ font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.7;overflow:hidden; }
+.step-body p{ margin-bottom:10px; }
+.step-body p:last-child{ margin-bottom:0; }
+.step-body a{ color:var(--accent-mid);text-decoration:none;border-bottom:1px solid var(--accent-soft); }
+.step-body a:hover{ border-bottom-color:var(--accent-bright); }
+
+/* CALLOUT BLOCKS */
+.tip{ background:var(--gold-bg);border:1px solid hsl(38,50%,84%);border-left:3px solid var(--gold);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.tip-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px; }
+.tip strong{ color:var(--fg);font-weight:500; }
+.note{ background:var(--accent-soft);border:1px solid var(--sky-tint);border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.note-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px; }
+.note strong{ color:var(--fg);font-weight:500; }
+.aha{ background:linear-gradient(135deg,var(--lime-muted) 0%,var(--bg-warm) 100%);border:1px solid hsl(79,30%,82%);border-left:3px solid var(--lime-deep);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.aha-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--lime-deep);margin-bottom:5px; }
+.aha strong{ color:var(--fg);font-weight:500; }
+.warn{ background:var(--red-bg);border:1px solid hsl(0,30%,82%);border-left:3px solid var(--red);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.warn-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:5px; }
+.warn strong{ color:var(--fg);font-weight:500; }
+.maori-block{ background:hsl(265,25%,96%);border:1px solid hsl(265,20%,82%);border-left:3px solid var(--purple);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.maori-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:5px; }
+.maori-block strong{ color:var(--fg);font-weight:500; }
+
+/* STAT CALLOUT */
+.stat-callout{ display:grid;grid-template-columns:auto 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0;box-shadow:var(--card-shadow); }
+.stat-num-col{ background:var(--fg);padding:18px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:90px; }
+.stat-num-val{ font-family:var(--font-serif);font-size:1.8rem;font-weight:600;color:var(--lime);line-height:1;text-align:center;letter-spacing:-.03em; }
+.stat-num-unit{ font-size:10px;font-weight:500;color:hsl(210,15%,65%);text-align:center;letter-spacing:1px;margin-top:3px; }
+.stat-body-col{ padding:14px 18px; }
+.stat-body-text{ font-size:12.5px;font-weight:400;color:var(--fg-med);line-height:1.6; }
+.stat-body-text strong{ color:var(--fg);font-weight:500; }
+.stat-source{ font-size:9px;font-weight:500;color:var(--fg-muted);letter-spacing:.04em;margin-top:6px; }
+
+/* ROLE EXPOSURE GRID */
+.exposure-grid{ display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px;box-shadow:var(--card-shadow); }
+.eg-header{ display:grid;grid-template-columns:1fr 110px 130px;background:var(--fg);padding:10px 14px;gap:8px; }
+.eg-header span{ font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:hsl(210,15%,70%); }
+.eg-row{ display:grid;grid-template-columns:1fr 110px 130px;border-bottom:1px solid var(--border);gap:8px;align-items:flex-start;padding:12px 14px;transition:background .15s; }
+.eg-row:last-child{ border-bottom:none; }
+.eg-row:nth-child(odd){ background:var(--bg-warm); }
+.eg-row:hover{ background:var(--accent-soft); }
+.eg-role{ font-size:12.5px;font-weight:500;color:var(--fg);line-height:1.4; }
+.eg-role span{ display:block;font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-top:2px; }
+.eg-exposure{ display:flex;align-items:center; }
+.exp-badge{ font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:999px; }
+.exp-high{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.exp-med{ background:var(--accent-soft);color:var(--accent); }
+.exp-low{ background:var(--lime-muted);color:var(--lime-deep); }
+.eg-shift{ font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.5; }
+.eg-shift strong{ color:var(--fg-med);font-weight:500; }
+
+/* CONVERSATION SCRIPT */
+.convo-block{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:14px 0 20px; }
+.cb-header{ background:var(--bg-mist);padding:12px 16px;border-bottom:1px solid var(--border); }
+.cb-header-title{ font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--fg); }
+.cb-header-sub{ font-size:11px;font-weight:300;color:var(--fg-muted);margin-top:3px; }
+.cb-item{ padding:14px 16px;border-bottom:1px solid var(--border); }
+.cb-item:last-child{ border-bottom:none; }
+.cb-speaker{ font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px; }
+.cb-speaker.employer{ color:var(--accent); }
+.cb-speaker.employee{ color:var(--green); }
+.cb-speaker.both{ color:var(--fg-muted); }
+.cb-text{ font-size:12.5px;line-height:1.7;color:var(--fg-med); }
+.cb-text strong{ color:var(--fg);font-weight:500; }
+.cb-note{ font-size:11px;font-style:italic;color:var(--fg-muted);margin-top:6px;line-height:1.5; }
+
+/* POLICY BUILDER */
+.policy-builder{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px; }
+.pb-header{ background:var(--bg-mist);padding:14px 18px;border-bottom:1px solid var(--border); }
+.pb-header-title{ font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--fg); }
+.pb-header-sub{ font-size:11px;font-weight:300;color:var(--fg-muted);margin-top:3px; }
+.pb-section{ padding:14px 18px;border-bottom:1px solid var(--border); }
+.pb-section:last-child{ border-bottom:none; }
+.pb-section-label{ font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px; }
+.pb-section-question{ font-size:13px;font-weight:500;color:var(--fg);margin-bottom:8px;line-height:1.4; }
+.pb-field{ width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);background:var(--bg-warm);resize:vertical;min-height:52px;line-height:1.6; }
+.pb-field:focus{ outline:none;border-color:var(--accent-mid);background:var(--bg); }
+.pb-options{ display:flex;flex-direction:column;gap:6px;margin-top:4px; }
+.pb-opt{ display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);cursor:pointer;font-size:12.5px;line-height:1.5;color:var(--fg-med);transition:border-color .15s,background .15s; }
+.pb-opt:hover{ border-color:var(--accent);background:var(--accent-soft); }
+.pb-opt input{ margin-top:2px;accent-color:var(--accent);flex-shrink:0; }
+
+/* UPSKILL PLAN */
+.upskill-grid{ display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:14px 0 20px; }
+.upskill-card{ background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px 18px; }
+.uc-tag{ font-size:8.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:999px;display:inline-block;margin-bottom:10px; }
+.uc-tag.free{ background:var(--lime-muted);color:var(--lime-deep); }
+.uc-tag.paid{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.uc-tag.local{ background:var(--accent-soft);color:var(--accent); }
+.uc-title{ font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--fg);margin-bottom:6px;line-height:1.3; }
+.uc-body{ font-size:12px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:8px; }
+.uc-link{ font-size:11px;font-weight:500;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-soft); }
+.uc-link:hover{ border-bottom-color:var(--accent-bright); }
+
+/* CONVERSATION PREP FIELDS */
+.prep-grid{ display:flex;flex-direction:column;gap:10px;margin:14px 0; }
+.prep-item{ background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px; }
+.prep-label{ font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px; }
+.prep-prompt{ font-size:12.5px;font-weight:500;color:var(--fg);margin-bottom:8px;line-height:1.4; }
+.prep-field{ width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);background:var(--bg);resize:vertical;min-height:48px;line-height:1.6; }
+.prep-field:focus{ outline:none;border-color:var(--accent-mid); }
+
+/* CTA */
+.cta-block{ background:linear-gradient(135deg,hsl(207,52%,18%) 0%,hsl(207,45%,24%) 100%);border-radius:var(--r);padding:32px clamp(1.5rem,3vw,2.5rem);margin:32px 0 0;color:#fff;position:relative;overflow:hidden; }
+.cta-block::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 110% -20%,hsl(79,60%,55%,.18) 0%,transparent 55%);pointer-events:none; }
+.cta-eyebrow{ font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(200,50%,70%);margin-bottom:10px;position:relative; }
+.cta-title{ font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:600;color:#fff;margin-bottom:10px;line-height:1.2;letter-spacing:-.02em;position:relative; }
+.cta-body{ font-size:13px;font-weight:300;line-height:1.7;color:hsl(210,30%,82%);max-width:55ch;margin-bottom:24px;position:relative; }
+.cta-body strong{ color:#fff;font-weight:500; }
+.cta-actions{ display:flex;flex-wrap:wrap;gap:10px;position:relative; }
+.cta-btn-primary{ display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--dark);font-family:var(--font-sans);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:999px;text-decoration:none;transition:background .2s,transform .15s;border:none;cursor:pointer; }
+.cta-btn-primary:hover{ background:hsl(79,82%,44%);transform:translateY(-1px); }
+.cta-btn-secondary{ display:inline-flex;align-items:center;background:transparent;color:#fff;font-family:var(--font-sans);font-size:12px;font-weight:500;padding:12px 22px;border-radius:999px;border:1px solid hsl(210,30%,50%);text-decoration:none;transition:border-color .2s,background .2s;cursor:pointer; }
+.cta-btn-secondary:hover{ border-color:#fff;background:hsl(207,45%,30%); }
+
+/* JOURNEY */
+.journey-summary{ background:var(--bg-mist);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:28px 0 0; }
+.journey-title{ font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:4px; }
+.journey-pct{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:14px; }
+.journey-list{ list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px; }
+.journey-list li{ display:flex;align-items:center;gap:10px;font-size:12px;font-weight:300;color:var(--fg-med); }
+.jl-ico{ font-size:11px;color:var(--fg-muted);width:14px;flex-shrink:0;text-align:center; }
+.jl-done .jl-ico{ color:var(--lime-deep); }
+.jl-done > span:last-child{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.journey-reset-btn{ margin-top:14px;background:none;border:1px solid var(--border);font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--fg-muted);padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .2s; }
+.journey-reset-btn:hover{ border-color:var(--fg-muted);color:var(--fg); }
+
+/* FOOTER */
+.foot{ padding:0;border:0;display:block;border-top:1px solid var(--border);background:var(--bg); }
+.foot-body{ position:relative;background:var(--bg-mist);padding:8px var(--page-px) 10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px; }
+.foot-brand{ font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--fg-muted); }
+.foot-right{ font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:9px;color:var(--fg-muted); }
+
+/* DOCK */
+.guide-dock{ position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;justify-content:center;padding:10px 12px max(10px,env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent 0%,rgba(255,255,255,.92) 18%,#fff 100%);border-top:1px solid var(--border);box-shadow:0 -4px 24px rgba(15,23,42,.08);pointer-events:none; }
+.guide-dock *{ pointer-events:auto; }
+.guide-dock-inner{ width:100%;max-width:none;padding:0 var(--page-px);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 12px; }
+.guide-dock .guide-mode{ display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--bg-mist); }
+.guide-dock .guide-mode button{ font-family:var(--font-sans);font-size:11px;font-weight:600;padding:8px 14px;border:none;background:transparent;color:var(--fg-muted);cursor:pointer;transition:background .2s,color .2s; }
+.guide-dock .guide-mode button[aria-pressed="true"]{ background:var(--fg);color:var(--bg); }
+.guide-dock .guide-mode button:not([aria-pressed="true"]):hover{ color:var(--fg); }
+.guide-chapter-nav{ display:flex;align-items:center;gap:8px;flex:1;min-width:0;justify-content:center; }
+.guide-dock .ch-dots{ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:min(100%,28rem); }
+.guide-dock .ch-dot{ width:8px;height:8px;border-radius:50%;border:1px solid var(--border);background:var(--bg);padding:0;cursor:pointer;transition:transform .22s cubic-bezier(.34,1.56,.64,1),background .2s,border-color .2s; }
+.guide-dock .ch-dot:hover{ transform:scale(1.14); }
+.guide-dock .ch-dot[aria-current="true"]{ background:var(--accent);border-color:var(--accent); }
+.guide-dock .ch-dot.done{ background:var(--lime);border-color:var(--lime-deep); }
+.guide-nav-btns{ display:flex;gap:6px;align-items:center; }
+.guide-dock .nav-ghost,.guide-dock .nav-primary{ font-family:var(--font-sans);font-size:12px;font-weight:600;padding:9px 18px;border-radius:999px;cursor:pointer;border:none;transition:background .2s,color .2s,opacity .2s; }
+.guide-dock .nav-ghost{ background:var(--bg-mist);color:var(--fg-muted);border:1px solid var(--border); }
+.guide-dock .nav-ghost:hover:not(:disabled){ color:var(--fg); }
+.guide-dock .nav-primary{ background:var(--fg);color:var(--bg); }
+.guide-dock .nav-primary:hover:not(:disabled){ background:var(--accent); }
+.guide-dock .nav-primary:disabled,.guide-dock .nav-ghost:disabled{ opacity:.35;cursor:not-allowed; }
+.guide-progress-label{ font-size:10px;font-weight:500;color:var(--fg-muted);letter-spacing:.06em; }
+
+/* GUIDED */
+body.guided .page{ display:flex;flex-direction:column;max-height:calc(100dvh - 68px);overflow:hidden; }
+body.guided .site-hdr{ flex:0 0 auto; }
+body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0; }
+body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
+body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
+body.guided .body > .guide-chapter{ min-height:0; }
+body.guided .body > .guide-chapter.is-active{ display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 0 20px;scroll-behavior:smooth;animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both; }
+body.guided .guide-chapter.is-active .phase-hdr{ position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;background:var(--bg);box-shadow:0 1px 0 0 var(--border),0 10px 12px -8px rgba(15,23,42,.08); }
+body.guided .foot{ flex:0 0 auto;margin:0; }
+body:not(.guided) .guide-chapter{ display:contents; }
+body.guided .hero{ border-radius:0; }
+
+/* STEP CHECKBOX */
+.step .step-check{ position:absolute;top:0;right:0;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted);cursor:pointer;user-select:none;z-index:2; }
+@media(min-width:700px){ .step{padding-top:4px;} .step .step-check{top:2px;} }
+.step .step-check-input{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.step .step-check-box{ width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--bg);display:grid;place-items:center;flex-shrink:0;transition:border-color .22s,background .25s,transform .35s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-box svg{ width:12px;height:12px;color:var(--lime-deep);opacity:0;transform:scale(.2) rotate(-12deg);transition:opacity .2s,transform .4s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-input:checked + .step-check-box{ border-color:var(--lime-deep);background:var(--lime-muted);animation:checkPop .5s cubic-bezier(.34,1.56,.64,1),checkRipple .65s ease-out .05s 1; }
+.step .step-check-input:checked + .step-check-box svg{ opacity:1;transform:scale(1) rotate(0deg);transition-delay:.06s; }
+.step .step-check-txt{ transition:color .25s; }
+.step .step-check-input:checked ~ .step-check-txt{ color:var(--lime-deep); }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-head{ margin-bottom:0; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-body{ max-height:0!important;opacity:0;transform:translateY(-3px);margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;pointer-events:none;transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .26s,transform .3s,margin .28s,padding .28s; }
+body.guided .guide-chapter.is-active .step.is-step-open .step-body{ max-height:80rem;opacity:1;transform:translateY(0);pointer-events:auto;transition:max-height .48s cubic-bezier(.4,0,.2,1),opacity .4s ease .08s,transform .4s ease .08s; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open){ margin:5px 0 8px; }
+body.guided .guide-chapter.is-active .step.is-step-open{ margin:20px 0 18px; }
+body:not(.guided) .step .step-body{ max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important; }
+body:not(.guided) .step{ margin:24px 0 20px; }
+.step.is-done{ opacity:.96;border-left-color:var(--lime)!important;background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);box-shadow:0 0 0 1px hsla(79,40%,80%,.35) inset; }
+.step.is-done .step-title{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.step.just-marked{ animation:stepFlash .55s ease 1; }
+.reveal{ opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s; }
+.reveal.is-visible{ opacity:1;transform:translateY(0); }
+
+@keyframes ch-enter{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+@keyframes checkPop{ 0%{transform:scale(.92);} 45%{transform:scale(1.06);} 100%{transform:scale(1);} }
+@keyframes checkRipple{ 0%{box-shadow:0 0 0 0 hsla(79,86%,52%,.45);} 100%{box-shadow:0 0 0 10px hsla(79,86%,52%,0);} }
+@keyframes stepFlash{ 0%{background:linear-gradient(90deg,hsla(79,55%,88%,.9) 0%,rgba(255,255,255,0) 20px);} 100%{background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);} }
+
+@media print{ .guide-dock,.site-hdr{display:none!important;} body{padding-bottom:0;} body.guided .guide-chapter .step .step-body{max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important;} }
+@media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} body.guided .guide-chapter.is-active{animation:none;} .step .step-check-input:checked + .step-check-box{animation:none;} }
+@media(max-width:640px){
+  .body{padding:1.5rem var(--page-px) 1.5rem;}
+  body.guided .body{padding:4px var(--page-px) 0;}
+  body.guided .page{max-height:calc(100dvh - 88px);}
+  .hero{padding:2rem var(--page-px) 2.25rem;}
+  .hero-title{font-size:30px;}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;}
+  .hs{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .hs:nth-child(2n){border-right:none;}
+  .hs:nth-child(3),.hs:nth-child(4){border-bottom:none;}
+  .eg-header,.eg-row{grid-template-columns:1fr 90px;}
+  .eg-shift{display:none;}
+  .upskill-grid{grid-template-columns:1fr;}
+  .stat-callout{grid-template-columns:1fr;}
+  .cta-actions{flex-direction:column;}
+}
+</style>
+</head>
+<body class="guided">
+<div class="page">
+
+<!-- HEADER -->
+<div class="site-hdr">
+  <a class="logo-row" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="logo-name">Nathaniel Baldock</div>
+      <div class="logo-sub">AI CONSULTANT &middot; TAURANGA</div>
+    </div>
+  </a>
+  <div class="hdr-badge">Worksheet 4 of 4</div>
+</div>
+
+<!-- HERO -->
+<div class="guide-chapter is-active" id="ch-welcome" data-g-label="Start here">
+<div class="hero">
+  <div class="hero-category">
+    <span>Bay of Plenty &middot; Employer Guide</span>
+    <div class="cat-rule"></div>
+    <span>45 minutes &middot; For employers with staff</span>
+  </div>
+  <div class="hero-title">AI and <em>your team.</em></div>
+  <div class="hero-sub">A practical conversation guide for Bay of Plenty small employers. How to talk about AI honestly with the people who work for you.</div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">24.7%</div><div class="hs-text">Tauranga subregion<br>knowledge-intensive jobs</div></div>
+    <div class="hs"><div class="hs-num">32.1%</div><div class="hs-text">National average —<br>our region is catching up</div></div>
+    <div class="hs"><div class="hs-num">44%</div><div class="hs-text">BOP future workforce<br>will be Māori</div></div>
+    <div class="hs"><div class="hs-num">66%</div><div class="hs-text">Faster skills change<br>in AI-exposed roles</div></div>
+  </div>
+
+  <div class="hero-desc">
+    The AI conversation most employers are avoiding is the one their team is already having without them. This worksheet gives you a framework for having it well: <strong>which roles are most exposed, what upskilling looks like in practice, how to factor in the Māori workforce dimension without getting it wrong, and what to actually say</strong> in the room.
+  </div>
+
+  <div class="hero-meta">
+    <div class="mi">PwC AI Jobs Barometer 2025</div><div class="msep"></div>
+    <div class="mi">RBNZ Labour Market Analysis</div><div class="msep"></div>
+    <div class="mi">Priority One / Toi Kai Rawa Trust</div>
+  </div>
+</div>
+</div><!-- /ch-welcome -->
+
+<!-- BODY -->
+<div class="body">
+
+<!-- CH 1: THE CONVERSATION YOU'RE AVOIDING -->
+<div class="guide-chapter" id="ch-context" data-g-label="The honest picture">
+  <div class="phase-hdr">
+    <div class="phase-num ph-1">1</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 1 &middot; Context</div>
+      <div class="phase-title">The conversation most employers are avoiding</div>
+      <div class="phase-sub">Understanding what's actually happening to work in our region before you talk to your team about it.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    The Tauranga subregion sits at 24.7% knowledge-intensive employment against a national average of 32.1%. That gap matters here because it means a higher proportion of local jobs involve tasks that AI is actively reshaping — administration, data processing, customer service, scheduling, and written communication. These aren't abstract statistics for a business owner with five staff.
+  </p>
+
+  <p class="intro-para">
+    The instinct for most employers is to wait. Wait until it's clearer. Wait until it directly affects the business. The problem is that your team isn't waiting. They're already reading about it, talking about it at home, and wondering whether you know something you're not saying. The conversation happens either with you or without you.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.1</div>
+      <div class="step-title">Understand what the data actually says about BOP roles</div>
+    </div>
+    <div class="step-body">
+      <div class="stat-callout reveal">
+        <div class="stat-num-col">
+          <div class="stat-num-val">66%</div>
+          <div class="stat-num-unit">faster</div>
+        </div>
+        <div class="stat-body-col">
+          <div class="stat-body-text">Skills required in AI-exposed roles are changing <strong>66% faster</strong> than in non-AI roles. For a Bay of Plenty employer, this means the skills that made someone a strong hire two years ago may look different within the next two to three years. The question is whether you're building that into how you develop your people.</div>
+          <div class="stat-source">Source: PwC Global AI Jobs Barometer, 2025 · NZ Analysis</div>
+        </div>
+      </div>
+
+      <div class="stat-callout reveal">
+        <div class="stat-num-col">
+          <div class="stat-num-val">44%</div>
+          <div class="stat-num-unit">of future<br>workforce</div>
+        </div>
+        <div class="stat-body-col">
+          <div class="stat-body-text">44% of the Bay of Plenty's future workforce will be Māori. Programmes like the <strong>Toi Kai Rawa Trust's Toi Ki Tua internship</strong> are actively placing Māori graduates in AI-adjacent roles at companies including Zespri. For a BOP employer, this isn't a distant consideration — it shapes who you're developing and how.</div>
+          <div class="stat-source">Source: Priority One / Toi Kai Rawa Trust · Western Bay of Plenty subregion data</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-lbl">What this doesn't mean</div>
+        None of this means you need to restructure your team or start issuing AI readiness assessments. It means having <strong>one honest conversation</strong> where you tell your team what you know, acknowledge what you don't, and ask them what they're seeing. That conversation is what this worksheet prepares you for.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.2</div>
+      <div class="step-title">Check your own position before you talk to your team</div>
+    </div>
+    <div class="step-body">
+      <p>Before any conversation with staff, it helps to be clear about where you actually stand as the employer. Two questions worth sitting with:</p>
+      <div class="prep-grid">
+        <div class="prep-item">
+          <div class="prep-label">Your honest answer</div>
+          <div class="prep-prompt">Do you have any concerns about how AI might affect roles in your business over the next two to three years? Be specific.</div>
+          <textarea class="prep-field" placeholder="e.g. Our admin role spends 60% of time on tasks that AI tools could handle. I don't have a plan for what that means yet."></textarea>
+        </div>
+        <div class="prep-item">
+          <div class="prep-label">What you want from the conversation</div>
+          <div class="prep-prompt">What do you want your team to understand or feel after this conversation? What outcome would make it worthwhile?</div>
+          <textarea class="prep-field" placeholder="e.g. I want them to feel informed, not blindsided. And I want to hear what they're already noticing."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-context -->
+
+<hr class="div">
+
+<!-- CH 2: ROLE EXPOSURE -->
+<div class="guide-chapter" id="ch-roles" data-g-label="Role exposure">
+  <div class="phase-hdr">
+    <div class="phase-num ph-2">2</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 2 &middot; Role mapping</div>
+      <div class="phase-title">Which roles in your business are most exposed?</div>
+      <div class="phase-sub">A practical guide to assessing AI exposure across common Bay of Plenty small business roles — without the corporate jargon.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    "AI exposure" doesn't mean a role is at risk of disappearing. It means a meaningful portion of what someone does in that role involves tasks that AI tools can now assist with or automate. High exposure can mean more efficiency and less drudge work — or it can mean a role needs to evolve. Usually both.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.1</div>
+      <div class="step-title">Review common BOP small business roles against AI exposure</div>
+    </div>
+    <div class="step-body">
+      <p>Find the roles closest to your team. The "likely shift" column describes where the role is heading — not a prediction, but a reasonable direction based on current tool capabilities.</p>
+
+      <div class="exposure-grid reveal">
+        <div class="eg-header">
+          <span>Role type</span>
+          <span>AI exposure</span>
+          <span>Likely shift</span>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Administration / Office Manager<span>Scheduling, correspondence, data entry, document processing</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-high">High</span></div>
+          <div class="eg-shift">From processing to <strong>coordinating and reviewing</strong>. AI handles first drafts and data sorting; human handles judgment calls and relationships.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Customer Service / Sales Support<span>Responding to enquiries, quotes, follow-ups, FAQ handling</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-high">High</span></div>
+          <div class="eg-shift">Routine queries move to AI-assisted responses; role shifts toward <strong>complex and relationship-based</strong> interactions that require human judgment.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Marketing / Content Creation<span>Social media, copywriting, email campaigns, design</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-high">High</span></div>
+          <div class="eg-shift">First drafts and bulk content shift to AI; role shifts toward <strong>strategy, brand voice, and editing</strong>. Creative direction remains human.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Accounts / Bookkeeping<span>Invoice processing, reconciliation, expense categorisation</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-high">High</span></div>
+          <div class="eg-shift">Repetitive data work shifts to AI tools built into Xero/MYOB; role moves toward <strong>oversight, anomaly-catching, and financial judgment</strong>.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Operations / Logistics Coordinator<span>Scheduling, supplier management, inventory tracking</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-med">Medium</span></div>
+          <div class="eg-shift">AI assists with pattern recognition and forecasting; human remains central for <strong>supplier relationships and exception management</strong>.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Trades / Technical Roles<span>On-site work, installation, inspection, physical tasks</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-low">Lower</span></div>
+          <div class="eg-shift">Core physical work unchanged; AI supports <strong>quoting, scheduling, and documentation</strong>. The role itself is largely stable near-term.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Hospitality / Front of House<span>Service, customer interaction, food and beverage</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-low">Lower</span></div>
+          <div class="eg-shift">Back-end scheduling and ordering affected; <strong>direct customer experience</strong> remains a human role. Relationship and warmth can't be automated.</div>
+        </div>
+        <div class="eg-row">
+          <div class="eg-role">Senior / Business Owner Role<span>Strategy, client relationships, business development</span></div>
+          <div class="eg-exposure"><span class="exp-badge exp-med">Medium</span></div>
+          <div class="eg-shift">AI handles research and documentation; the <strong>judgment, trust, and leadership</strong> work becomes more valuable, not less.</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="note-lbl">How to use this with your team</div>
+        Don't share this table as a verdict. Share it as a starting point for a conversation. The most useful question to ask each team member is: <strong>"Which parts of your week feel most repetitive to you?"</strong> That tells you more than any exposure assessment.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.2</div>
+      <div class="step-title">Map your actual team</div>
+    </div>
+    <div class="step-body">
+      <p>Use this space to note down the roles in your business and your honest read on their exposure. Keep it simple.</p>
+      <div class="prep-grid">
+        <div class="prep-item">
+          <div class="prep-label">Your team map</div>
+          <div class="prep-prompt">List each role in your business and mark it High / Medium / Low exposure based on the table above. Note one task in each role that AI is most likely to affect.</div>
+          <textarea class="prep-field" style="min-height:100px;" placeholder="e.g.&#10;Admin (Sarah) — High. Most exposed: email drafting and data entry.&#10;Delivery driver (Mark) — Low. Most exposed: route planning and scheduling.&#10;Sales support (me) — Medium. Most exposed: quote follow-ups."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-roles -->
+
+<hr class="div">
+
+<!-- CH 3: THE CONVERSATION ITSELF -->
+<div class="guide-chapter" id="ch-convo" data-g-label="The conversation">
+  <div class="phase-hdr">
+    <div class="phase-num ph-3">3</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 3 &middot; The conversation</div>
+      <div class="phase-title">What to actually say in the room</div>
+      <div class="phase-sub">A practical script and conversation guide. Not word-for-word — you know your team better than this worksheet does. But close enough to be useful.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    The biggest mistake employers make in this conversation is over-preparing the business case and under-preparing for the human reaction. Your team will have two questions before they have any others: <strong>Is my job safe? And why are you telling me this now?</strong> Answer those early and honestly, and the rest of the conversation gets easier.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.1</div>
+      <div class="step-title">Use this as your conversation guide</div>
+    </div>
+    <div class="step-body">
+      <div class="convo-block reveal">
+        <div class="cb-header">
+          <div class="cb-header-title">A conversation guide for small employers</div>
+          <div class="cb-header-sub">Adapt this to your voice. The structure matters more than the specific wording.</div>
+        </div>
+
+        <div class="cb-item">
+          <div class="cb-speaker employer">Opening — you</div>
+          <div class="cb-text">I want to have an honest conversation about AI and what it means for how we work. I don't have all the answers. What I do know is that it's changing faster than I expected, and you deserve to hear what I'm thinking — not just read about it in the news.</div>
+          <div class="cb-note">Why this works: It positions you as informed but not omniscient. It signals respect before it signals concern.</div>
+        </div>
+
+        <div class="cb-item">
+          <div class="cb-speaker employer">On job security — you</div>
+          <div class="cb-text">I'm not planning any redundancies. What I am thinking about is how our roles might evolve over the next couple of years. Some of the repetitive work — things like [name a specific example from your business] — might get handled differently. I'd rather plan that with you than have it happen to you.</div>
+          <div class="cb-note">Name a real example. Abstract statements don't land. "Like the weekly report that takes two hours to format" lands better than "administrative tasks."</div>
+        </div>
+
+        <div class="cb-item">
+          <div class="cb-speaker employer">On upskilling — you</div>
+          <div class="cb-text">I want to support anyone here who wants to learn how to use these tools. We don't need to do it all at once. But if there's something specific that would make your work easier, I'm open to finding time and budget for it.</div>
+          <div class="cb-note">Don't over-promise. "Open to finding time and budget" is more honest than "we're investing in full training programmes."</div>
+        </div>
+
+        <div class="cb-item">
+          <div class="cb-speaker both">Open the floor</div>
+          <div class="cb-text">What are you already noticing? Are there things in your role that feel repetitive or time-consuming that you've wondered about? I'd rather hear that than find out later you've been sitting on it.</div>
+          <div class="cb-note">This is the most important part. Most team members have already observed things worth knowing. Ask and then actually listen.</div>
+        </div>
+
+        <div class="cb-item">
+          <div class="cb-speaker employee">Common responses — and how to handle them</div>
+          <div class="cb-text">
+            <strong>"Is AI going to take my job?"</strong> — "Not as far as I can see. What I think will happen is that parts of your job change. The goal is to make that something we do together, not something that surprises you."<br><br>
+            <strong>"I don't know anything about AI."</strong> — "That's fine. Neither did I six months ago. We'll work through it at a pace that makes sense."<br><br>
+            <strong>"I already use it a bit."</strong> — "Tell me more. What have you found useful?" This person is your best internal resource. Use them.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.2</div>
+      <div class="step-title">Handle the Māori workforce dimension with care</div>
+    </div>
+    <div class="step-body">
+      <p>For many Bay of Plenty employers, this conversation will include Māori staff — and the broader context matters here in ways that aren't always obvious to Pākehā employers.</p>
+
+      <div class="maori-block reveal">
+        <div class="maori-lbl">Context worth understanding</div>
+        The <strong>Toi Kai Rawa Trust's Toi Ki Tua programme</strong> exists specifically to bridge the gap between Māori tertiary graduates and knowledge-intensive roles in the Bay of Plenty — including AI-adjacent positions at companies like Zespri. This reflects a real aspiration within the region's Māori community to participate in and lead the knowledge economy, not be displaced by it.<br><br>
+        If you have Māori staff who are nervous about AI, it's worth knowing that <strong>fear of displacement is well-founded historically</strong> — and your words in that room carry weight that goes beyond the immediate conversation. Honest acknowledgment of that history, and genuine commitment to developing Māori staff rather than just managing them, makes a real difference.<br><br>
+        If you're unsure how to navigate this in your specific context, <a href="https://www.priorityone.co.nz" target="_blank">Priority One</a> and the Toi Kai Rawa Trust are the most relevant local contacts.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-convo -->
+
+<hr class="div">
+
+<!-- CH 4: UPSKILLING -->
+<div class="guide-chapter" id="ch-upskill" data-g-label="Upskilling options">
+  <div class="phase-hdr">
+    <div class="phase-num ph-4">4</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 4 &middot; Upskilling</div>
+      <div class="phase-title">What upskilling actually looks like for a small team</div>
+      <div class="phase-sub">You don't need a training budget or an L&amp;D department. You need to know which resources are genuinely useful and which are just marketing.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    The honest truth about AI upskilling for small business teams is that most of the value comes from two things: someone spending 30 minutes experimenting with a tool on a real task, and a team culture where it's safe to share what they learn. Formal training helps, but it's downstream of those two things.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.1</div>
+      <div class="step-title">Know the best options for your team's budget and time</div>
+    </div>
+    <div class="step-body">
+      <div class="upskill-grid reveal">
+        <div class="upskill-card">
+          <span class="uc-tag free">Free</span>
+          <div class="uc-title">Google's AI Essentials course</div>
+          <div class="uc-body">A practical, jargon-free introduction to using AI tools at work. Designed for non-technical people. Takes about 5 hours, can be done in chunks. Good starting point for any team member.</div>
+          <a class="uc-link" href="https://grow.google/intl/en_nz/" target="_blank">grow.google/intl/en_nz →</a>
+        </div>
+        <div class="upskill-card">
+          <span class="uc-tag free">Free</span>
+          <div class="uc-title">Microsoft AI Skills Initiative</div>
+          <div class="uc-body">Particularly relevant if your team uses Microsoft 365. Covers practical AI use in Word, Excel, Outlook, and Teams. Certificates available at no cost.</div>
+          <a class="uc-link" href="https://www.microsoft.com/en-nz/ai/ai-skills" target="_blank">microsoft.com/en-nz/ai/ai-skills →</a>
+        </div>
+        <div class="upskill-card">
+          <span class="uc-tag local">Local</span>
+          <div class="uc-title">Tauranga Business Chamber AI programme</div>
+          <div class="uc-body">The Chamber has been actively building AI capability for local businesses since 2025. Member events, workshops, and resources specifically designed for BOP business owners and their teams.</div>
+          <a class="uc-link" href="https://www.tauranga.org.nz" target="_blank">tauranga.org.nz →</a>
+        </div>
+        <div class="upskill-card">
+          <span class="uc-tag local">Local</span>
+          <div class="uc-title">Regional Business Partner Network</div>
+          <div class="uc-body">Funded advisory support is available through Priority One for BOP businesses, including AI capability building. The MBIE AI Advisory Pilot launched in 2026 specifically targets this gap.</div>
+          <a class="uc-link" href="https://www.priorityone.co.nz" target="_blank">priorityone.co.nz →</a>
+        </div>
+        <div class="upskill-card">
+          <span class="uc-tag paid">Low cost</span>
+          <div class="uc-title">LinkedIn Learning — AI for Business</div>
+          <div class="uc-body">Practical role-specific courses for admin, marketing, sales, and operations staff. Often included in LinkedIn Premium. Course quality is variable — look for ones with practical task focus, not just theory.</div>
+          <a class="uc-link" href="https://www.linkedin.com/learning/" target="_blank">linkedin.com/learning →</a>
+        </div>
+        <div class="upskill-card">
+          <span class="uc-tag free">Free</span>
+          <div class="uc-title">The best first step: just try something</div>
+          <div class="uc-body">Pick one task your team does repeatedly. Ask one team member to try Claude.ai or ChatGPT on it this week and report back in your next team meeting. That 15-minute experiment is often worth more than a full course.</div>
+          <a class="uc-link" href="https://claude.ai" target="_blank">claude.ai →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.2</div>
+      <div class="step-title">Build a simple AI policy for your team</div>
+    </div>
+    <div class="step-body">
+      <p>A team AI policy doesn't need to be a formal document. It needs to answer four questions clearly enough that your team knows what's expected. Fill in your answers below.</p>
+
+      <div class="policy-builder reveal">
+        <div class="pb-header">
+          <div class="pb-header-title">Our team AI policy</div>
+          <div class="pb-header-sub">Four questions. Plain language. One page maximum when you write it up.</div>
+        </div>
+
+        <div class="pb-section">
+          <div class="pb-section-label">Question 1</div>
+          <div class="pb-section-question">Which AI tools are we okay with staff using for work tasks?</div>
+          <textarea class="pb-field" placeholder="e.g. ChatGPT and Claude for writing and research tasks. Canva AI for graphics. We're not yet approved for anything that handles customer data."></textarea>
+        </div>
+
+        <div class="pb-section">
+          <div class="pb-section-label">Question 2</div>
+          <div class="pb-section-question">What information should never go into an AI tool?</div>
+          <textarea class="pb-field" placeholder="e.g. Customer names, contact details, payment information, staff personal details, or any information that's confidential to our business."></textarea>
+        </div>
+
+        <div class="pb-section">
+          <div class="pb-section-label">Question 3</div>
+          <div class="pb-section-question">What do we do with AI-generated work before it goes to a client or goes public?</div>
+          <div class="pb-options">
+            <label class="pb-opt"><input type="radio" name="review" value="always"> Always review and edit before use — AI output is a draft, not a final.</label>
+            <label class="pb-opt"><input type="radio" name="review" value="context"> Review depends on the context — some tasks need more checking than others.</label>
+            <label class="pb-opt"><input type="radio" name="review" value="our"> We'll decide case by case — we're still working this out.</label>
+          </div>
+        </div>
+
+        <div class="pb-section">
+          <div class="pb-section-label">Question 4</div>
+          <div class="pb-section-question">How do team members raise concerns or share things they've learned about AI?</div>
+          <textarea class="pb-field" placeholder="e.g. Bring it up in our fortnightly team meeting. Or message me directly — I want to hear what you're noticing."></textarea>
+        </div>
+      </div>
+
+      <div class="aha">
+        <div class="aha-lbl">Once you've filled this in</div>
+        Share it with your team as a draft, not a finished policy. Ask for their input before you finalise it. A policy your team helped shape is one they'll actually follow.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-upskill -->
+
+<hr class="div">
+
+<!-- CH 5: NEXT STEPS -->
+<div class="guide-chapter" id="ch-next" data-g-label="Next steps">
+  <div class="phase-hdr">
+    <div class="phase-num ph-5">5</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 5 &middot; Next steps</div>
+      <div class="phase-title">What to do in the next two weeks</div>
+      <div class="phase-sub">Three concrete actions that cover the most important ground for a Bay of Plenty employer right now.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.1</div>
+      <div class="step-title">Commit to three specific actions</div>
+    </div>
+    <div class="step-body">
+      <div class="note">
+        <div class="note-lbl">Action 1 — This week</div>
+        <strong>Have a 15-minute version of the conversation in Section 3 with your team.</strong> It doesn't need to be a formal meeting. It needs to be honest. Even a brief "I've been thinking about AI and I want to share where I'm at" signals that you're paying attention and that they can too.
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Action 2 — This week</div>
+        <strong>Identify one team member who's already curious about AI and give them space to explore it.</strong> Ask them to spend 30 minutes on a real work task using Claude or ChatGPT and report back what they found. This costs nothing and tells you more than most assessments.
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Action 3 — This month</div>
+        <strong>Write a one-page AI policy using the builder in Section 4.</strong> Share the draft with your team before finalising it. It doesn't need legal review for a first version. It needs to answer the four questions clearly.
+      </div>
+
+      <div class="warn" style="margin-top:16px;">
+        <div class="warn-lbl">One thing to avoid</div>
+        <strong>Don't use AI adoption as a cover for decisions you've already made about headcount.</strong> If you're planning to reduce a role and AI is part of the reason, that's a different conversation from this one — and your team will know the difference. Handle those conversations separately and with appropriate employment advice. <a href="https://www.employment.govt.nz" target="_blank">employment.govt.nz</a> has guidance on redundancy obligations.
+      </div>
+
+      <div class="tip" style="margin-top:14px;">
+        <div class="tip-lbl">Local support for employers</div>
+        <strong>Priority One</strong> — Regional economic development, AI advisory pilot co-funding. <a href="https://www.priorityone.co.nz" target="_blank">priorityone.co.nz</a><br>
+        <strong>Tauranga Business Chamber</strong> — Employer networks, AI capability events. <a href="https://www.tauranga.org.nz" target="_blank">tauranga.org.nz</a><br>
+        <strong>Toi Kai Rawa Trust</strong> — Māori workforce development in the BOP. Contact through Priority One.<br>
+        <strong>Employment NZ</strong> — Employment law guidance including change management. <a href="https://www.employment.govt.nz" target="_blank">employment.govt.nz</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY -->
+  <div class="journey-summary reveal">
+    <div class="journey-title">Your progress through this worksheet</div>
+    <div class="journey-pct" id="journeyPct">Work through each section to track your progress.</div>
+    <ul class="journey-list" id="journeyList"></ul>
+    <button class="journey-reset-btn" id="journeyReset">Reset checkmarks</button>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block reveal">
+    <div class="cta-eyebrow">Tauranga &middot; Bay of Plenty</div>
+    <div class="cta-title">Want someone in the room who's had this conversation before?</div>
+    <div class="cta-body">
+      The team conversation about AI is one of the more honest things a small business owner can do right now. It's also one of the more uncomfortable. I work with Bay of Plenty employers on exactly this — how to have it well, what your specific team roles look like against the current AI landscape, and how to build the kind of policy that actually works for a small team. A 30-minute call is a good place to start.
+    </div>
+    <div class="cta-actions">
+      <a class="cta-btn-primary" href="https://calendar.app.google/KKC9Bhhsb7XEYqvn7" target="_blank">Book a free 30-min call</a>
+      <a class="cta-btn-secondary" href="https://www.nathanielbaldock.com" target="_blank">See more free resources</a>
+    </div>
+  </div>
+
+</div><!-- /ch-next -->
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="foot">
+  <a class="foot-body" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="foot-brand">Nathaniel Baldock &mdash; nathanielbaldock.com</div>
+    <div class="foot-right">AI Consultant &middot; Tauranga, NZ &middot; 2026</div>
+  </a>
+</div>
+
+</div><!-- /page -->
+
+<!-- GUIDE DOCK -->
+<div class="guide-dock" role="navigation" aria-label="Worksheet navigation">
+  <div class="guide-dock-inner">
+    <div class="guide-mode" role="group" aria-label="View mode">
+      <button id="modeGuided" type="button" aria-pressed="true">Guided</button>
+      <button id="modeFull" type="button" aria-pressed="false">Full page</button>
+    </div>
+    <div class="guide-chapter-nav">
+      <button class="nav-ghost" id="chPrev" type="button">&larr; Back</button>
+      <div class="ch-dots" role="tablist" id="chDots"></div>
+      <button class="nav-primary" id="chNext" type="button">Next &rarr;</button>
+    </div>
+    <div class="guide-progress-label" id="guideProgressLabel">1 / 5</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var LS_KEY = 'nb-ws4-tga-2026';
+  var body = document.body;
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.guide-chapter'));
+  var totalCh = chapters.length;
+  var currentIndex = 0;
+  var state = loadState();
+
+  var chDots = document.getElementById('chDots');
+  var chPrev = document.getElementById('chPrev');
+  var chNext = document.getElementById('chNext');
+  var modeGuided = document.getElementById('modeGuided');
+  var modeFull = document.getElementById('modeFull');
+  var chLabel = document.getElementById('guideProgressLabel');
+  var journeyPct = document.getElementById('journeyPct');
+  var journeyList = document.getElementById('journeyList');
+
+  function initStepAccordion(){
+    if(!body.classList.contains('guided')) return;
+    var ch = chapters[currentIndex]; if(!ch) return;
+    var stepsInCh = ch.querySelectorAll('.step');
+    stepsInCh.forEach(function(s){ s.classList.remove('is-step-open'); });
+    var firstUndone = null;
+    stepsInCh.forEach(function(s){ var inp=s.querySelector('.step-check-input'); if(!firstUndone&&!(inp&&inp.checked)) firstUndone=s; });
+    if(firstUndone) firstUndone.classList.add('is-step-open');
+    else if(stepsInCh.length>0) stepsInCh[stepsInCh.length-1].classList.add('is-step-open');
+  }
+  function advanceStepAccordion(finished){
+    var ch=chapters[currentIndex]; if(!ch) return;
+    var list=Array.prototype.slice.call(ch.querySelectorAll('.step'));
+    var idx=list.indexOf(finished); if(idx<0) return;
+    var next=list[idx+1]; finished.classList.remove('is-step-open');
+    if(next){ window.setTimeout(function(){ list.forEach(function(s){s.classList.remove('is-step-open');}); next.classList.add('is-step-open'); try{next.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){next.scrollIntoView(true);} },200); }
+  }
+  function loadState(){ try{var r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):{mode:'guided',chapter:0,done:{}};}catch(x){return{mode:'guided',chapter:0,done:{}};} }
+  function saveState(){
+    try{
+      var done={};
+      document.querySelectorAll('.step .step-check-input').forEach(function(inp){ if(inp.checked) done[inp.getAttribute('data-step-id')]=true; });
+      state.done=done; state.chapter=currentIndex; state.mode=body.classList.contains('guided')?'guided':'full';
+      localStorage.setItem(LS_KEY,JSON.stringify(state));
+    }catch(x){}
+  }
+  function setMode(guided){
+    body.classList.toggle('guided',guided); document.documentElement.classList.toggle('guide-locked',guided);
+    if(modeGuided) modeGuided.setAttribute('aria-pressed',guided?'true':'false');
+    if(modeFull) modeFull.setAttribute('aria-pressed',guided?'false':'true');
+    if(guided) showChapter(currentIndex,true); else chapters.forEach(function(c){c.classList.remove('is-active');});
+    saveState();
+  }
+  function showChapter(i,noSave){
+    i=Math.max(0,Math.min(totalCh-1,i)); currentIndex=i;
+    if(body.classList.contains('guided')){
+      chapters.forEach(function(c,j){c.classList.toggle('is-active',j===i);});
+      if(chLabel) chLabel.textContent=(i+1)+' / '+totalCh;
+      if(chDots) Array.prototype.forEach.call(chDots.querySelectorAll('.ch-dot'),function(dot,j){ dot.setAttribute('aria-current',j===i?'true':'false'); dot.setAttribute('tabindex',j===i?'0':'-1'); });
+      if(chPrev) chPrev.disabled=i===0; if(chNext) chNext.disabled=i===totalCh-1;
+      var el=chapters[i]; if(el) el.scrollTop=0;
+      initStepAccordion(); if(!noSave) saveState();
+    }
+  }
+  function buildDots(){
+    if(!chDots) return; chDots.innerHTML='';
+    chapters.forEach(function(ch,i){
+      var t=ch.getAttribute('data-g-label')||('Part '+(i+1));
+      var b=document.createElement('button'); b.type='button'; b.className='ch-dot';
+      b.setAttribute('role','tab'); b.setAttribute('title',t); b.setAttribute('aria-label',t);
+      b.addEventListener('click',function(){showChapter(i);}); chDots.appendChild(b);
+    });
+  }
+  function steps(){ return document.querySelectorAll('.body .step'); }
+  function installStepChecks(){
+    steps().forEach(function(step,i){
+      var id='step-'+(i+1); var uid='chk-'+id;
+      var lab=document.createElement('label'); lab.className='step-check'; lab.setAttribute('for',uid);
+      lab.innerHTML='<input type="checkbox" class="step-check-input" id="'+uid+'" data-step-id="'+id+'" /><span class="step-check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="12" height="12" focusable="false"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="step-check-txt">Done</span>';
+      step.appendChild(lab);
+      var inp=document.getElementById(uid);
+      if(inp){
+        inp.addEventListener('change',function(){
+          step.classList.toggle('is-done',inp.checked);
+          if(inp.checked){ step.classList.add('just-marked'); window.setTimeout(function(){step.classList.remove('just-marked');},600); if(body.classList.contains('guided')) window.setTimeout(function(){advanceStepAccordion(step);},220); }
+          else{ initStepAccordion(); }
+          updateJourney(); saveState();
+        });
+        if(state.done&&state.done[id]){inp.checked=true;step.classList.add('is-done');}
+      }
+    });
+  }
+  function updateJourney(){
+    var n=0,tot=0,items=[];
+    steps().forEach(function(step,i){
+      var id='step-'+(i+1); tot++;
+      var titleEl=step.querySelector('.step-title'); var t=titleEl?titleEl.textContent.trim():'Step '+(i+1);
+      var inp=document.querySelector('input[data-step-id="'+id+'"]'); var done=inp&&inp.checked;
+      if(done) n++; items.push({id:id,title:t,done:done});
+    });
+    if(journeyPct){var p=tot?Math.round(100*n/tot):0; journeyPct.innerHTML='You\'ve completed <strong>'+p+'%</strong> of this worksheet ('+n+' of '+tot+' steps).';}
+    if(journeyList){ journeyList.innerHTML=items.map(function(it){return'<li class="'+(it.done?'jl-done':'')+'"><span class="jl-ico" aria-hidden="true">'+(it.done?'&#10003;':'&#9675;')+'</span> <span>'+escapeHtml(it.title)+'</span></li>';}).join(''); }
+  }
+  function escapeHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  if(chPrev) chPrev.addEventListener('click',function(){showChapter(currentIndex-1);});
+  if(chNext) chNext.addEventListener('click',function(){showChapter(currentIndex+1);});
+  if(modeGuided) modeGuided.addEventListener('click',function(){setMode(true);});
+  if(modeFull) modeFull.addEventListener('click',function(){setMode(false);});
+
+  var resetBtn=document.getElementById('journeyReset');
+  if(resetBtn) resetBtn.addEventListener('click',function(){
+    if(!confirm('Clear all checkmarks? This can\'t be undone.')) return;
+    document.querySelectorAll('.step .step-check-input').forEach(function(inp){inp.checked=false;var st=inp.closest('.step');if(st)st.classList.remove('is-done');});
+    state.done={}; localStorage.setItem(LS_KEY,JSON.stringify(state)); updateJourney(); initStepAccordion();
+  });
+
+  function initReveal(){
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var nodes=document.querySelectorAll('.hero,.body .step,.body .phase-hdr,.body .intro-para,.body .stat-callout,.body .exposure-grid,.body .convo-block,.body .maori-block,.body .upskill-grid,.body .policy-builder,.journey-summary,.cta-block');
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)en.target.classList.add('is-visible');});},{root:null,rootMargin:'0px 0px -6% 0px',threshold:.06});
+    Array.prototype.forEach.call(nodes,function(n){n.classList.add('reveal');io.observe(n);});
+  }
+
+  if(typeof state.chapter==='number'&&state.chapter>=0&&state.chapter<totalCh) currentIndex=state.chapter;
+  buildDots(); installStepChecks(); updateJourney();
+  if(state.mode==='full') setMode(false); else setMode(true);
+  initReveal();
+
+  document.addEventListener('keydown',function(e){
+    if(!body.classList.contains('guided')) return;
+    if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable)) return;
+    if(e.key==='ArrowRight'&&!e.shiftKey) showChapter(currentIndex+1);
+    if(e.key==='ArrowLeft'&&!e.shiftKey) showChapter(currentIndex-1);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 1 — Ready or Not? An Honest Tauranga AI Readiness Check · Nathaniel Baldock</title>
+<meta name="description" content="A 25-minute walk through the four questions every Bay of Plenty SME owner should be able to answer before booking the funded AI advisory call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/deck.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button class="arrow-btn" id="prev-btn" aria-label="Previous slide">&#8249;</button>
+<button class="arrow-btn" id="next-btn" aria-label="Next slide">&#8250;</button>
+<div id="nav-bar"></div>
+<div id="slide-counter"></div>
+
+<div id="modal-overlay" role="dialog" aria-modal="true">
+  <div id="modal-box">
+    <button id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-stat"></div>
+    <div id="modal-title"></div>
+    <div id="modal-body"></div>
+    <div id="modal-source"></div>
+    <div id="modal-link"></div>
+  </div>
+</div>
+
+<div id="deck">
+
+<!-- 01 — Hero -->
+<div class="slide active">
+  <div class="slide-inner session-div">
+    <div class="hero-bg"></div>
+    <div class="s-body center">
+      <div class="hero-badge"><span class="dot"></span> Session 01 of 04 · Tauranga · 2026</div>
+      <h1 class="s-title xl">Ready or <span class="lime">Not?</span><br><em>An honest Tauranga AI readiness check.</em></h1>
+      <div class="s-div" style="margin:1.4rem auto;"></div>
+      <p class="s-lead" style="max-width:720px;text-align:center">A 25-minute walk through the four questions every Bay of Plenty owner should be able to answer before booking the funded advisory call.</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock · nathanielbaldock.com</span><span>Session 1 of 4 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 02 — The moment NZ has reached -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">The moment</p>
+      <h2 class="s-title lg">New Zealand has reached an<br>AI <span class="lime">tipping point</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Two years ago, AI was an experiment. Today it is mainstream — and the SME gap is the most reliable signal of where the next five years of competitive disruption will land.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="nz_tipping_point">
+          <div class="s-num"><span class="count-up" data-target="87" data-suffix="%">0</span></div>
+          <div class="s-label">Of NZ businesses now using AI in some form</div>
+          <div class="s-source">AI New Zealand, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="large_business_67">
+          <div class="s-num"><span class="count-up" data-target="67" data-suffix="%">0</span></div>
+          <div class="s-label">Large business AI use, up from 48% in 2023</div>
+          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="nz_gdp_2038">
+          <div class="s-num">$76–108B</div>
+          <div class="s-label">Projected annual GDP contribution by 2038</div>
+          <div class="s-source">Microsoft / NZIER</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>02 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 03 — The SME gap -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">The gap</p>
+      <h2 class="s-title lg">The big story isn't <em>adoption</em>.<br>It's the <span style="color:var(--red)">SME gap</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Large businesses jumped 19 points in a single year. Two thirds of small businesses haven't started — and the largest blocker isn't cost. It's not knowing where to begin.</p>
+      <div class="stat-row">
+        <div class="stat-card red" data-modal="sme_gap_68">
+          <div class="s-num"><span class="count-up" data-target="68" data-suffix="%">0</span></div>
+          <div class="s-label">Of NZ small businesses have no plans to invest in AI</div>
+          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card amber" data-modal="expertise_gap_43">
+          <div class="s-num"><span class="count-up" data-target="43" data-suffix="%">0</span></div>
+          <div class="s-label">Of non-users cite lack of expertise as the primary blocker</div>
+          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card green" data-modal="pilot_funding">
+          <div class="s-num">$765k</div>
+          <div class="s-label">Government's AI Advisory Pilot — co-funds at least 51 SMEs</div>
+          <div class="s-source">Beehive, January 2026</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+      <div class="callout lime"><strong>What this means for you:</strong> The Government has identified the gap and is paying to close it. The pilot funds the deliverable — what's needed is your readiness to use the funded conversation well.</div>
+    </div>
+    <div class="s-footer"><span>03 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 04 — Tauranga in the middle of it -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Local context</p>
+      <h2 class="s-title lg">Tauranga is in the <span class="lime">middle</span> of it.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The Western Bay of Plenty hosts three live AI stories that most owners haven't connected to their own business. They are the leading indicators for what's about to happen across the regional supply chain.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="port_41pct">
+          <div class="s-num"><span class="count-up" data-target="41" data-suffix="%">0</span></div>
+          <div class="s-label">Of NZ's shipping containers handled by Port of Tauranga (2025)</div>
+          <div class="s-source">Investor Day 2026</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="planttech">
+          <div class="s-num">PlantTech</div>
+          <div class="s-label">Pooling AI from Zespri, Robotics Plus &amp; partners</div>
+          <div class="s-source">Callaghan Innovation</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="maori_workforce_44">
+          <div class="s-num"><span class="count-up" data-target="44" data-suffix="%">0</span></div>
+          <div class="s-label">Of the BoP's future workforce will be Māori</div>
+          <div class="s-source">Toi Kai Rawa / Priority One</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>04 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 05 — The Port -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Industry leadership · 1 of 3</p>
+      <h2 class="s-title lg">The Port is re-engineering around AI for <span style="color:var(--sky)">safety</span>, not jobs.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Australasia's most productive port is investing AI dollars where the highest-risk interaction in any logistics operation lives: the boundary between people and heavy plant. That's the case for AI in heavy industry — not headcount, safety.</p>
+      <div class="stat-row cols-2">
+        <div class="stat-card" data-modal="port_safety_ai">
+          <div class="s-num">H&amp;S</div>
+          <div class="s-label">AI deployed for 'people vs plant' risk mitigation across Port operations</div>
+          <div class="s-source">NZISM, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card green" data-modal="port_75">
+          <div class="s-num"><span class="count-up" data-target="75" data-suffix="%">0</span></div>
+          <div class="s-label">Carbon reduction at Stella Passage automated stacking cranes</div>
+          <div class="s-source">Royal HaskoningDHV</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+      <div class="callout"><strong>For your business:</strong> When the largest customer in your regional supply chain re-engineers around AI, supplier expectations follow. Your readiness conversation is downstream of theirs.</div>
+    </div>
+    <div class="s-footer"><span>05 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 06 — Horticulture / PlantTech -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Industry leadership · 2 of 3</p>
+      <h2 class="s-title lg">Horticulture is <span style="color:var(--lime-d)">already</span> the BoP's<br>AI laboratory.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">PlantTech (Tauranga) pools AI expertise from Zespri, Robotics Plus, and partners to tackle yield prediction and disease management. Scentian Bio's biosensor trial with Zespri is a representative example.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">PlantTech focus</p>
+          <h3 class="sc-title">Sector-grade AI deployment</h3>
+          <ul class="sc-list">
+            <li>Yield prediction and seasonality modelling</li>
+            <li>Automated disease detection and management</li>
+            <li>Robotics Plus partnership on field automation</li>
+            <li>Funded research with Callaghan Innovation</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-lime" data-modal="scentian_bio" style="cursor:pointer">
+          <p class="sc-tag">Scentian Bio + Zespri</p>
+          <h3 class="sc-title">AI biosensors trialled with the world's largest kiwifruit marketer</h3>
+          <ul class="sc-list">
+            <li>Real-time fruit quality detection</li>
+            <li>Reduces waste through earlier triage</li>
+            <li>Exportable IP — sensor + model</li>
+            <li>BoP-anchored, globally relevant</li>
+          </ul>
+          <p style="margin-top:1rem;font-size:.7rem;color:var(--lime-d);font-weight:700">CLICK FOR SOURCE</p>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>06 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 07 — Māori workforce -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Industry leadership · 3 of 3</p>
+      <h2 class="s-title lg">The future BoP workforce is heavily <span class="lime">Māori</span> — and the talent pipeline already exists.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Toi Kai Rawa Trust and the Toi Ki Tua internship programme bridge tertiary education and AI-intensive roles at Zespri and other regional employers. Practical Treaty partnership, not symbolism — and one of the highest-leverage hires available to BoP SMEs.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="maori_workforce_44">
+          <div class="s-num"><span class="count-up" data-target="44" data-suffix="%">0</span></div>
+          <div class="s-label">Of BoP's future workforce will be Māori</div>
+          <div class="s-source">Priority One</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="mds_taonga">
+          <div class="s-num">Taonga</div>
+          <div class="s-label">Māori data sovereignty — data treated as a treasure</div>
+          <div class="s-source">MDS principles</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="knowledge_intensive">
+          <div class="s-num">24.7%</div>
+          <div class="s-label">BoP knowledge-intensive employment vs NZ avg 32.1%</div>
+          <div class="s-source">Priority One regional analysis</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>07 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 08 — Skills shifting -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">The skills shift</p>
+      <h2 class="s-title lg">Skills demand is changing<br><span style="color:var(--amber)">66% faster</span> in AI-exposed roles.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">PwC's 2025 NZ analysis is the cleanest signal: in roles touched by AI, the skills required are turning over twice as fast as anywhere else in the economy. The half-life of any static training plan is collapsing.</p>
+      <div class="stat-row">
+        <div class="stat-card amber" data-modal="skills_change_66">
+          <div class="s-num"><span class="count-up" data-target="66" data-suffix="%">0</span></div>
+          <div class="s-label">Faster skills change in AI-exposed roles</div>
+          <div class="s-source">PwC AI Jobs Barometer 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card" data-modal="finance_skills_93">
+          <div class="s-num">9.3%</div>
+          <div class="s-label">Of NZ job postings demanding AI skills come from finance</div>
+          <div class="s-source">PwC, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card green" data-modal="asb_30">
+          <div class="s-num"><span class="count-up" data-target="30" data-suffix="%">0</span></div>
+          <div class="s-label">ASB customer satisfaction increase using AI virtual assistants</div>
+          <div class="s-source">FintechNZ — Future Bank</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>08 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 09 — The funded pathway -->
+<div class="slide">
+  <div class="slide-inner session-div">
+    <div class="s-body">
+      <p class="eyebrow">The funded pathway</p>
+      <h2 class="s-title lg">The Government will <span class="lime">co-fund</span><br>your AI adoption plan.</h2>
+      <div class="s-div"></div>
+      <p class="s-lead">The RBPN AI Advisory Pilot launched in January 2026. Priority One administers eligibility for the Bay of Plenty. Up to <strong style="color:var(--lime)">$5,000 NZD</strong> per qualifying SME.</p>
+      <div class="num-list" style="max-width:760px">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">Talk to Priority One</div><div class="num-body">Confirm eligibility for the AI Advisory Pilot rebate. They administer it locally.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle lime">2</div>
+          <div><div class="num-title">Have your readiness work done</div><div class="num-body">Walk in with the four worksheets completed so the funded hours go on implementation, not basics.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">Receive a written AI Adoption Plan</div><div class="num-body">The deliverable the pilot funds — same shape, regardless of who delivers it.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>09 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 10 — Four-question framework -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body center">
+      <p class="eyebrow">The framework</p>
+      <h2 class="s-title xl">Four questions.<br>One <span style="color:var(--lime-d)">honest</span> answer.</h2>
+      <div class="s-div" style="margin:1rem auto;"></div>
+      <p class="s-lead" style="text-align:center;max-width:720px">If you can answer these four with evidence, you are ready for the funded conversation. If you can't, you have your homework — and so does this session.</p>
+      <div class="action-band" style="grid-template-columns:repeat(4,1fr);max-width:1100px;margin:3vh auto 0">
+        <div class="action-tile" style="background:var(--white);border-color:var(--border)"><div class="num" style="color:var(--sky)">Q1</div><div class="txt" style="color:var(--sky-dark)">What tools are you already using?</div></div>
+        <div class="action-tile" style="background:var(--white);border-color:var(--border)"><div class="num" style="color:var(--lime-d)">Q2</div><div class="txt" style="color:var(--sky-dark)">Where does time leak each week?</div></div>
+        <div class="action-tile" style="background:var(--white);border-color:var(--border)"><div class="num" style="color:var(--amber)">Q3</div><div class="txt" style="color:var(--sky-dark)">What's actually stopping you?</div></div>
+        <div class="action-tile" style="background:var(--white);border-color:var(--border)"><div class="num" style="color:var(--gold)">Q4</div><div class="txt" style="color:var(--sky-dark)">Are you willing to invest?</div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>10 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 11 — Q1 tools -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Question 1</p>
+      <h2 class="s-title lg">What tools are you<br>already <span style="color:var(--sky)">using</span>?</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Most BoP owners are surprised when they list it out. The question isn't whether you have AI in your stack — it's whether you've named it, governed it, or measured what it's doing.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">Likely already in your stack</p>
+          <ul class="sc-list">
+            <li>Email writing / drafting (Outlook, Gmail, ChatGPT)</li>
+            <li>Spreadsheets with AI assistants (Copilot, Sheets)</li>
+            <li>Customer chat tools (Intercom, Zendesk)</li>
+            <li>Marketing copy generators</li>
+            <li>Image generation for social</li>
+            <li>Meeting transcription / summaries</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-lime">
+          <p class="sc-tag">What this means</p>
+          <ul class="sc-list">
+            <li>You probably already have unsanctioned AI use in your business</li>
+            <li>Your customer data may already be flowing through tools you haven't vetted</li>
+            <li>Your team is making private rules about what they will and won't use</li>
+            <li>Without a Tool Register, you can't make policy or claim ROI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>11 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 12 — Q2 time leaks -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">Question 2</p>
+      <h2 class="s-title lg">Where does <span class="lime">time leak</span><br>each week?</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">A 30-minute audit, done well, surfaces 10–15 hours of recoverable owner-operator time per fortnight. That's the basis of your three-task shortlist.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">List the top 10 tasks you, personally, did this week</div><div class="num-body">Not your team. You. Use Friday afternoon as the fixed measurement window — Session 2 deepens this with timing data.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle lime">2</div>
+          <div><div class="num-title">Mark each as 'mission-critical', 'admin', or 'creative'</div><div class="num-body">AI's real strength right now is admin compression. Mission-critical work and most creative work stay human; the audit shows where compression earns its keep.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">Pick three to pilot in the next 30 days</div><div class="num-body">Not all ten. Three. Bias toward repeatable, low-stakes admin where the cost of an AI mistake is visible and recoverable.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>12 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 13 — Q3 blockers -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Question 3</p>
+      <h2 class="s-title lg">What's actually <span style="color:var(--red)">stopping</span> you?</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Most owners say "time" or "cost". MBIE's data says it's mostly expertise. The honest answer for most BoP SMEs: a mix of fear of the wrong tool, no plan, and no peer who's done it.</p>
+      <div class="stat-row">
+        <div class="stat-card red" data-modal="expertise_gap_43">
+          <div class="s-num">43%</div>
+          <div class="s-label">Of NZ non-users cite lack of expertise as the primary blocker</div>
+          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card amber" data-modal="opc_ipps_13">
+          <div class="s-num">13</div>
+          <div class="s-label">Privacy Principles apply to all AI data collection</div>
+          <div class="s-source">OPC, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card gold" data-modal="nz_copyright_anomaly">
+          <div class="s-num">CGW</div>
+          <div class="s-label">NZ uniquely recognises 'computer-generated works' under copyright</div>
+          <div class="s-source">Bell Gully</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+      <div class="callout"><strong>Translation:</strong> The blockers are real but solvable. Privacy and copyright are baseline obligations — well-defined. The expertise gap is an information problem with a known fix: structured help.</div>
+    </div>
+    <div class="s-footer"><span>13 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 14 — Q4 willing to invest -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Question 4</p>
+      <h2 class="s-title lg">Are you willing to <span style="color:var(--gold)">invest</span>?</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The Pilot pays up to $5,000. Most quality AI adoption work for an SME comes in around $2,500–$10,000. The honest, non-pushy investment range is two slots:</p>
+      <div class="split-2">
+        <div class="split-card">
+          <p class="sc-tag">Self-pack range</p>
+          <h3 class="sc-title">$200–$500</h3>
+          <ul class="sc-list">
+            <li>Worksheets, deck, written guidance</li>
+            <li>You do the analysis yourself</li>
+            <li>Best for owners who want a structured weekend</li>
+            <li>Equivalent to one tradie's day of admin</li>
+          </ul>
+        </div>
+        <div class="split-card tinted">
+          <p class="sc-tag">Implementation range</p>
+          <h3 class="sc-title">$2,500–$5,000</h3>
+          <ul class="sc-list">
+            <li>Written AI Adoption Plan in your business name</li>
+            <li>1:1 strategy + check-ins + team workshop</li>
+            <li>Eligible for the RBPN co-funded rebate</li>
+            <li>Most qualifying SMEs net out at $0 cost</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout green"><strong>The honest test:</strong> If a $5,000 plan saves the business 10 hours/week of owner time, payback is roughly 3 months. If it doesn't, the plan was wrong — not AI.</div>
+    </div>
+    <div class="s-footer"><span>14 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 15 — Scoring -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Scoring your worksheet</p>
+      <h2 class="s-title lg">How to read your<br><span class="lime">readiness score</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The Readiness worksheet in your pack scores each of the four questions out of 5. Add them. The total tells you which conversation to book first.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle red">0–7</div>
+          <div><div class="num-title">Foundation tier</div><div class="num-body">Start with the four worksheets. Don't book the funded call until you have a Tool Register. The pilot hours are too valuable to spend on inventory.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">8–13</div>
+          <div><div class="num-title">Implementation tier</div><div class="num-body">Book the funded conversation. Bring the worksheets. Aim for an Adoption Plan that locks in three pilots and a 90-day review.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">14–20</div>
+          <div><div class="num-title">Acceleration tier</div><div class="num-body">You're past the readiness conversation. Push for a 6–12 month roadmap with measurable savings, named owners, and a Te Tiriti / MDS review.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>15 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 16 — Three-task shortlist -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">The three-task shortlist</p>
+      <h2 class="s-title lg">Pick three. Pilot for <span style="color:var(--lime-d)">30 days</span>.<br>Decide based on data.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Most owners try too many tools at once and then can't tell which one paid back. The shortlist constraint is the discipline.</p>
+      <div class="split-2">
+        <div class="split-card tinted-lime">
+          <p class="sc-tag">High-leverage starting tasks</p>
+          <ul class="sc-list">
+            <li>First-draft customer emails / quotes</li>
+            <li>Proposal and SOW drafting</li>
+            <li>Meeting notes → action items</li>
+            <li>Recruitment ad copy + first-pass screening rubrics</li>
+            <li>Website copy refresh</li>
+            <li>Social-media plan + monthly content batch</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-red">
+          <p class="sc-tag">Avoid as a first pilot</p>
+          <ul class="sc-list">
+            <li>Anything customer-facing without a human review gate</li>
+            <li>Financial advice, tax, or legal interpretation</li>
+            <li>Performance-management decisions</li>
+            <li>Pricing decisions without a control test</li>
+            <li>Anything touching health or safety-critical data</li>
+            <li>Anything bypassing the Privacy Act</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>16 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 17 — Risk frame -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">Three guardrails</p>
+      <h2 class="s-title lg">The legal frame, in <span class="lime">30 seconds</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">The full version is Session 4. Here's the minimum every BoP owner needs in their head before pressing 'on' on a new AI tool.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="opc_ipps_13">
+          <div class="s-num">Privacy</div>
+          <div class="s-label">Run a Privacy Impact Assessment before any tool that processes personal info</div>
+          <div class="s-source">OPC, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="nz_copyright_anomaly">
+          <div class="s-num">Copyright</div>
+          <div class="s-label">NZ explicitly protects 'computer-generated works' — but supplier contracts must reflect it</div>
+          <div class="s-source">Bell Gully / AJ Park</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="mds_taonga">
+          <div class="s-num">Te Tiriti</div>
+          <div class="s-label">Māori data is taonga — MDS principles require Māori governance over Māori data</div>
+          <div class="s-source">MDS principles</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+      <div class="callout dark-call"><strong>Practical:</strong> Three templates in the pack handle this — PIA, AI Use Policy, and the Te Tiriti checklist (Gold). They're the price of admission, not optional.</div>
+    </div>
+    <div class="s-footer"><span>17 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 18 — 12-month picture -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">The honest 12-month picture</p>
+      <h2 class="s-title lg">What <span style="color:var(--lime-d)">good</span> looks like<br>this time next year.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Specific, measurable, modest. The point is durable change for the business — not novelty for the owner.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">10 hrs/week of owner time recovered, with where measured</div><div class="num-body">Three pilots embedded in normal workflows, with a control week to measure against.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle lime">2</div>
+          <div><div class="num-title">A documented AI Use Policy and Tool Register</div><div class="num-body">Signed off by the senior person responsible. A baseline you can hand to a Priority One contact, an insurer, or a procurement audit.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">A team that's had the honest conversation</div><div class="num-body">Roles named, upskilling commitments made, redeployment plans drafted. Done in Session 3 — but the year-on result is calmer staff, not panicked staff.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle red">4</div>
+          <div><div class="num-title">A clean compliance posture</div><div class="num-body">PIA on file. Copyright statement in supplier contracts. MDS check on any tool touching Māori data.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>18 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 19 — Next 30 days -->
+<div class="slide">
+  <div class="slide-inner session-div">
+    <div class="s-body center">
+      <p class="eyebrow">Your next 30 days</p>
+      <h2 class="s-title xl">Three moves.<br><span class="lime">Today.</span></h2>
+      <div class="s-div" style="margin:1rem auto;"></div>
+      <div class="action-band" style="max-width:1100px;margin:3vh auto 0">
+        <div class="action-tile">
+          <div class="num">01</div>
+          <div class="txt">Fill the Readiness worksheet end-to-end this week.</div>
+          <div class="sub">Score yourself honestly. The worksheet is in your pack.</div>
+        </div>
+        <div class="action-tile">
+          <div class="num">02</div>
+          <div class="txt">Run the 30-minute Time Audit by Friday.</div>
+          <div class="sub">Pick three pilots. Schedule them with a 30-day review.</div>
+        </div>
+        <div class="action-tile">
+          <div class="num">03</div>
+          <div class="txt">Book the Priority One conversation for next month.</div>
+          <div class="sub">Bring the worksheets. The funded hours go on implementation.</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>19 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 20 — Priority One prep -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Priority One prep cheat-sheet</p>
+      <h2 class="s-title lg">Bring these <span style="color:var(--sky)">five things</span><br>to the funded call.</h2>
+      <div class="s-div"></div>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">Your Readiness score</div><div class="num-body">Out of 20, with the four sub-scores visible. Avoids spending the call's first 30 minutes on context.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">2</div>
+          <div><div class="num-title">Your three-task shortlist with hours estimated</div><div class="num-body">From the Time Audit. Picks the conversation up where the worksheet left off.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">3</div>
+          <div><div class="num-title">Your draft Tool Register</div><div class="num-body">Even if it's incomplete. The advisor will fill the gaps faster than you can.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">4</div>
+          <div><div class="num-title">A two-line statement of who decides</div><div class="num-body">"I sign off on AI tools that touch customer data. <Name> signs off internal-only tools." Saves arguments later.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">5</div>
+          <div><div class="num-title">A clear question you want answered</div><div class="num-body">"Will my plan qualify for the rebate?" or "Which tool fits sector X?" — one question they can act on, not a brain-dump.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>20 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 21 — Q&A / Discussion -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body center">
+      <p class="eyebrow">Discussion · 10 minutes</p>
+      <h2 class="s-title xl">What's your<br><span class="lime">honest</span> answer<br>to Q1–Q4?</h2>
+      <div class="s-div" style="margin:1rem auto;"></div>
+      <p class="s-lead" style="max-width:680px;text-align:center">If you're watching solo, write the four answers down. If you're with a team, share one each. The point isn't to be impressive — it's to be measurable.</p>
+      <div class="callout dark-call" style="margin-top:3vh;max-width:760px;margin-left:auto;margin-right:auto;text-align:left"><strong>Reply to the access email</strong> with one question. Bronze tier includes one written reply within 7 days. Silver and Gold get a live call.</div>
+    </div>
+    <div class="s-footer"><span>21 / 22</span><span>Session 1 — Readiness</span></div>
+  </div>
+</div>
+
+<!-- 22 — Bibliography -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">Sources · the full bibliography</p>
+      <h2 class="s-title md">All 41 primary sources are <span class="lime">linked below</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub" style="margin-bottom:1.4vh">Every stat in this deck opens its source on click. The full report and bibliography are also bundled with your pack.</p>
+      <div id="bib-host" class="bib-list"></div>
+    </div>
+    <div class="s-footer"><span>22 / 22</span><span>Session 1 — Readiness · Bibliography</span></div>
+  </div>
+</div>
+
+</div>
+
+<script src="../_shared/modal-db.js"></script>
+<script src="../_shared/deck.js"></script>
+</body>
+</html>

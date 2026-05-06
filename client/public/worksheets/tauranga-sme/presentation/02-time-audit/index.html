@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session 2 — Where Does AI Actually Save You Time? (Preview) · Nathaniel Baldock</title>
+<meta name="description" content="A preview frame for Session 2 of the Tauranga SME deck — Time Audit. Hero plus five live slides and a Coming Soon frame. Full release on launch.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/deck.css">
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button class="arrow-btn" id="prev-btn" aria-label="Previous slide">&#8249;</button>
+<button class="arrow-btn" id="next-btn" aria-label="Next slide">&#8250;</button>
+<div id="nav-bar"></div>
+<div id="slide-counter"></div>
+
+<div id="modal-overlay" role="dialog" aria-modal="true">
+  <div id="modal-box">
+    <button id="modal-close" aria-label="Close">&times;</button>
+    <div id="modal-stat"></div>
+    <div id="modal-title"></div>
+    <div id="modal-body"></div>
+    <div id="modal-source"></div>
+    <div id="modal-link"></div>
+  </div>
+</div>
+
+<div id="deck">
+
+<!-- 01 — Hero -->
+<div class="slide active">
+  <div class="slide-inner session-div">
+    <div class="hero-bg"></div>
+    <div class="s-body center">
+      <div class="hero-badge"><span class="dot"></span> Session 02 of 04 · Tauranga · 2026 · Preview</div>
+      <h1 class="s-title xl">Where Does AI Actually<br><span class="lime">Save You Time?</span></h1>
+      <div class="s-div" style="margin:1.4rem auto;"></div>
+      <p class="s-lead" style="max-width:720px;text-align:center">A 30-minute audit that turns owner-operator complaints about "no time" into a measured, three-task shortlist that pays back inside 30 days.</p>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock · nathanielbaldock.com</span><span>Session 2 of 4 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 02 — Why audit at all -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">The case for an audit</p>
+      <h2 class="s-title lg">"I'm too busy" is the<br>wrong starting point.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">If you can't name where the busy lives, you can't compress it. The 30-minute audit is the cheapest unit of work in this whole programme — and the highest-leverage.</p>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="expertise_gap_43">
+          <div class="s-num"><span class="count-up" data-target="43" data-suffix="%">0</span></div>
+          <div class="s-label">Of NZ non-users cite lack of expertise — not time — as the blocker</div>
+          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="skills_change_66">
+          <div class="s-num"><span class="count-up" data-target="66" data-suffix="%">0</span></div>
+          <div class="s-label">Faster skills change in AI-exposed roles — most owners haven't priced this in</div>
+          <div class="s-source">PwC, 2025</div><div class="click-hint">Source</div>
+        </div>
+        <div class="stat-card dark-stat" data-modal="bm_2026">
+          <div class="s-num">Plan</div>
+          <div class="s-label">A planning frame from Business Mentors NZ — useful pre-reading</div>
+          <div class="s-source">Business Mentors NZ</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>02 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 03 — The 4 categories -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">The taxonomy</p>
+      <h2 class="s-title lg">Every owner-operator hour falls into <span style="color:var(--sky)">one of four buckets</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Sort your week into these four. The ratio is your business model. The compression target lives almost entirely in the first two.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle">1</div>
+          <div><div class="num-title">Repeatable admin</div><div class="num-body">Quoting, invoicing, scheduling, reporting. AI's strongest current ground. 60–80% achievable compression.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle lime">2</div>
+          <div><div class="num-title">First-draft creative / writing</div><div class="num-body">Proposals, marketing copy, social posts. Big speed-up — human review still required.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">3</div>
+          <div><div class="num-title">Decisions / judgement</div><div class="num-body">Pricing, hiring, performance, customer escalations. AI assists, never decides.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle red">4</div>
+          <div><div class="num-title">Relationship / brand</div><div class="num-body">In-person sales, partner relationships, on-site presence. Stays human.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>03 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 04 — Where time actually goes (BoP-specific examples) -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Local examples</p>
+      <h2 class="s-title lg">Where BoP owners actually <span style="color:var(--lime-d)">find</span> the time.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Cross-section from Tauranga Business Chamber AI capability cohorts plus client work. Not exhaustive — illustrative.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">Trades / construction</p>
+          <ul class="sc-list">
+            <li>Quote drafting from job-site notes — saves 4–6 hrs/week</li>
+            <li>Auto-generated SOWs from photo + transcript</li>
+            <li>Subcontractor email triage</li>
+            <li>Compliance form first-drafts</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-lime">
+          <p class="sc-tag">Hospitality / tourism</p>
+          <ul class="sc-list">
+            <li>Roster scheduling assistance</li>
+            <li>Personalised follow-up after stays</li>
+            <li>Menu / promo copy in seconds</li>
+            <li>Multilingual customer responses</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout"><strong>The pattern:</strong> the wins are unglamorous. Repeatable admin, written tasks, follow-up. Not the launch features that get attention — the boring 70% of the week.</div>
+    </div>
+    <div class="s-footer"><span>04 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 05 — The 30-min audit -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">The audit, walked</p>
+      <h2 class="s-title lg">30 minutes. Three columns.<br>Three pilots.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Open the Time Audit worksheet (in your pack). Set a 30-minute timer. Don't optimise — answer the questions and move on. The compression goes on the second pass.</p>
+      <div class="num-list">
+        <div class="num-item">
+          <div class="num-circle lime">A</div>
+          <div><div class="num-title">List the top 10 tasks you did this week</div><div class="num-body">Owner only. Not the team. Use last Friday's calendar as a memory aid.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle">B</div>
+          <div><div class="num-title">Tag each: Admin / Creative / Decision / Relationship</div><div class="num-body">If you can't decide, default to Admin. The honest disagreement is the audit working.</div></div>
+        </div>
+        <div class="num-item">
+          <div class="num-circle gold">C</div>
+          <div><div class="num-title">Rank the Admin and Creative items by hours</div><div class="num-body">Top three are your pilots. Pick a tool for each and book a 30-day review on the calendar before you close the worksheet.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>05 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 06 — One worked example -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">A worked example</p>
+      <h2 class="s-title lg">A real BoP owner, three pilots, <span style="color:var(--lime-d)">12 hours</span> back.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Anonymised but representative. Trades business, 6 staff, owner-operator, December 2025 audit.</p>
+      <div class="split-2">
+        <div class="split-card tinted-red">
+          <p class="sc-tag">Before — owner's typical week</p>
+          <ul class="sc-list">
+            <li>11 hrs quoting, mostly evenings</li>
+            <li>4 hrs invoicing / reconciling</li>
+            <li>3 hrs subbie email triage</li>
+            <li>2 hrs writing job-completion reports</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-lime">
+          <p class="sc-tag">After — three pilots, 30 days in</p>
+          <ul class="sc-list">
+            <li>Quotes drafted from photos + voice notes (save 6 hrs)</li>
+            <li>Bank reconciliation auto-categorised (save 2 hrs)</li>
+            <li>Email triage rules + drafted replies (save 4 hrs)</li>
+            <li>Reports left as-is — already efficient</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout green"><strong>Net:</strong> 12 hrs/week recovered. Cost of tools ~$140 NZD/month. Owner now finishes evenings at home, not at the desk.</div>
+    </div>
+    <div class="s-footer"><span>06 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+  </div>
+</div>
+
+<!-- 07 — Coming soon -->
+<div class="slide">
+  <div class="slide-inner session-div">
+    <div class="hero-bg"></div>
+    <div class="cs-body">
+      <span class="cs-pill"><span class="dot"></span> Full session releases on launch</span>
+      <h2 class="cs-title">Coming soon. <em>Recording in progress.</em></h2>
+      <div class="cs-divider"></div>
+      <p class="cs-desc">Sessions 2–4 are being built. Buyers of any tier are notified the moment each one ships — no extra fee. Skip the line and book a 1:1 if you want this conversation now.</p>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.16em;font-weight:700">Email questions: hello@nathanielbaldock.com</p>
+    </div>
+    <div class="s-footer"><span>07 / preview · end of preview</span><span>Session 2 — Time Audit · Coming soon</span></div>
+  </div>
+</div>
+
+</div>
+
+<script src="../_shared/modal-db.js"></script>
+<script src="../_shared/deck.js"></script>
+</body>
+</html>

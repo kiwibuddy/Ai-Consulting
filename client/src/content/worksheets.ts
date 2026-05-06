@@ -374,6 +374,105 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Printable",
   },
+
+  // ── Tauranga SME ─────────────────────────────────────────────
+  // Free worksheets — lead magnets for the paid product line at /tauranga-sme.
+  {
+    id: "tauranga-sme-readiness",
+    title: "Is Your Business Ready for AI? A Tauranga SME Self-Assessment",
+    description:
+      "A scored self-assessment for Bay of Plenty owner-operators. Map your current tools, time drains, barriers, and willingness to invest — then walk into your Priority One conversation knowing exactly where you stand.",
+    url: "/resources/worksheet/tauranga-sme-readiness",
+    iframeSrc: "/worksheets/tauranga-sme/readiness.html",
+    date: "2026-05-05",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
+  {
+    id: "tauranga-sme-time-audit",
+    title: "Where Does AI Actually Save You Time? A 30-Minute Audit",
+    description:
+      "A practical task-mapping audit for Tauranga SMEs. Find exactly which of your weekly tasks AI can genuinely handle — and which ones it can't — then pick three to pilot in the next 30 days.",
+    url: "/resources/worksheet/tauranga-sme-time-audit",
+    iframeSrc: "/worksheets/tauranga-sme/time-audit.html",
+    date: "2026-05-05",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
+  {
+    id: "tauranga-sme-team",
+    title: "AI and Your Team — A Conversation Guide for BoP Employers",
+    description:
+      "A scripted conversation guide for an employer to run with their team on AI: role impacts, upskilling commitments, redeployment, and what stays human. Done honestly, without panic or denial.",
+    url: "/resources/worksheet/tauranga-sme-team",
+    iframeSrc: "/worksheets/tauranga-sme/team.html",
+    date: "2026-05-05",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
+  {
+    id: "tauranga-sme-legal",
+    title: "Staying Legal While Using AI — NZ Privacy & Copyright for BoP Businesses",
+    description:
+      "A plain-language guide to NZ's Privacy Act 2020 and Copyright Act obligations as they apply to AI tool use — data inputs, customer information, and output ownership. Know your obligations before you add the next tool.",
+    url: "/resources/worksheet/tauranga-sme-legal",
+    iframeSrc: "/worksheets/tauranga-sme/legal.html",
+    date: "2026-05-05",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
+
+  // Premium 4-part presentation (paid via /tauranga-sme; URLs are public so
+  // buyers can deep-link from the Stripe receipt email and previews can drive
+  // sales — gated assets like videos and templates live elsewhere).
+  {
+    id: "tauranga-sme-presentation-readiness",
+    title: "Session 1: Ready or Not? An Honest Tauranga AI Readiness Check",
+    description:
+      "The full 22-slide deck companion to the Readiness worksheet — local context (Port of Tauranga, PlantTech, Toi Kai Rawa), the SME gap, and the Priority One pathway. Every stat opens its source.",
+    url: "/resources/worksheet/tauranga-sme-presentation-readiness",
+    iframeSrc: "/worksheets/tauranga-sme/presentation/01-readiness/index.html",
+    date: "2026-05-06",
+    category: "Tauranga SME",
+    format: "Presentation",
+    displayMode: "fit-viewport",
+  },
+  {
+    id: "tauranga-sme-presentation-time-audit",
+    title: "Session 2: Where Does AI Actually Save You Time? (Preview)",
+    description:
+      "Preview frame for the Time Audit deck — hero plus the first five slides. Full release coming soon. Buyers of any tier are notified the moment it ships.",
+    url: "/resources/worksheet/tauranga-sme-presentation-time-audit",
+    iframeSrc: "/worksheets/tauranga-sme/presentation/02-time-audit/index.html",
+    date: "2026-05-06",
+    category: "Tauranga SME",
+    format: "Presentation",
+    displayMode: "fit-viewport",
+  },
+  {
+    id: "tauranga-sme-presentation-team",
+    title: "Session 3: AI and Your Team — The Conversation You Have to Have (Preview)",
+    description:
+      "Preview frame for the Team deck — hero plus the first five slides. Full release coming soon.",
+    url: "/resources/worksheet/tauranga-sme-presentation-team",
+    iframeSrc: "/worksheets/tauranga-sme/presentation/03-team/index.html",
+    date: "2026-05-06",
+    category: "Tauranga SME",
+    format: "Presentation",
+    displayMode: "fit-viewport",
+  },
+  {
+    id: "tauranga-sme-presentation-legal",
+    title: "Session 4: Staying Legal While Using AI — NZ Privacy & Copyright (Preview)",
+    description:
+      "Preview frame for the Legal deck — hero plus the first five slides. Full release coming soon.",
+    url: "/resources/worksheet/tauranga-sme-presentation-legal",
+    iframeSrc: "/worksheets/tauranga-sme/presentation/04-legal/index.html",
+    date: "2026-05-06",
+    category: "Tauranga SME",
+    format: "Presentation",
+    displayMode: "fit-viewport",
+  },
 ];
 
 export function getWorksheetById(id: string | undefined): WorksheetItem | undefined {

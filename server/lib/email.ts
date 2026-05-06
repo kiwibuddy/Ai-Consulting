@@ -734,6 +734,172 @@ function freeLatestResourceHtmlForEmail(): string {
 </p>`;
 }
 
+// ─────────────────────────────────────────────────────────────────
+// Tauranga SME — product access email
+// ─────────────────────────────────────────────────────────────────
+
+export interface TaurangaAccessEmailLinks {
+  worksheets: {
+    readiness: string;
+    timeAudit: string;
+    team: string;
+    legal: string;
+  };
+  presentation: {
+    session1: string;
+    session2: string;
+    session3: string;
+    session4: string;
+  };
+  templates: {
+    pia: string;
+    aiUsePolicy: string;
+    toolRegister: string;
+    teTiritiChecklist: string;
+  };
+  videoWalkthrough: string;
+  bookingUrl?: string;
+}
+
+/**
+ * Per-purchase access email for the Tauranga SME product.
+ *
+ * Sent from the Stripe webhook after `checkout.session.completed` matches
+ * `metadata.productSlug === "tauranga-sme"`. Tier-specific sections show only
+ * the assets the buyer paid for (Bronze = self-pack, Silver = +1:1 +
+ * templates, Gold = +adoption plan + check-ins + workshop).
+ */
+export function taurangaAccessEmail(
+  buyerEmail: string,
+  buyerName: string | undefined,
+  tier: "bronze" | "silver" | "gold",
+  links: TaurangaAccessEmailLinks
+): EmailOptions {
+  const logoUrl = emailLogoUrl;
+  const greeting = buyerName ? `Hi ${escapeHtmlForEmail(buyerName)},` : "Hi there,";
+
+  const tierMeta: Record<typeof tier, { name: string; line: string }> = {
+    bronze: {
+      name: "AI-Ready Self-Pack",
+      line: "You've got the four worksheets and Session 1 of the deck. Sessions 2–4 land soon — I'll email you the moment they ship.",
+    },
+    silver: {
+      name: "AI-Ready Implementation Pack",
+      line: "Everything in the Self-Pack, plus your 60-minute strategy call and the NZ-specific templates. Book your call below.",
+    },
+    gold: {
+      name: "Full AI Adoption Plan",
+      line: "Welcome aboard. I'll be in touch personally within 1–2 business days to schedule the kickoff and start drafting your written AI Adoption Plan.",
+    },
+  };
+  const meta = tierMeta[tier];
+
+  const showTemplates = tier === "silver" || tier === "gold";
+  const showBooking = tier === "silver" || tier === "gold";
+  const showVideo = true;
+
+  const linkRow = (label: string, href: string) =>
+    `<tr><td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+       <a href="${href}" style="color: ${emailPrimaryGreen}; font-weight: 600; text-decoration: none;">${label} →</a>
+     </td></tr>`;
+
+  const templatesBlock = showTemplates
+    ? `
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Your templates</h3>
+        <p style="margin: 0 0 12px; font-size: 14px; color: #525252;">Each link is unique to your purchase. Save them somewhere private.</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          ${linkRow("NZ Privacy Impact Assessment template (PDF)", links.templates.pia)}
+          ${linkRow("Internal AI Use Policy template (PDF)", links.templates.aiUsePolicy)}
+          ${linkRow("AI Tool Register template (XLSX)", links.templates.toolRegister)}
+          ${tier === "gold" ? linkRow("Te Tiriti / Māori Data Sovereignty checklist (PDF)", links.templates.teTiritiChecklist) : ""}
+        </table>`
+    : "";
+
+  const bookingBlock =
+    showBooking && links.bookingUrl
+      ? `
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Book your ${tier === "gold" ? "kickoff" : "1:1 strategy call"}</h3>
+        <p style="margin: 0 0 12px;"><a href="${links.bookingUrl}" class="btn" style="display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 8px; font-weight: 600;">Pick a time →</a></p>`
+      : "";
+
+  const videoBlock = showVideo
+    ? `
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Recorded walkthrough</h3>
+        <p style="margin: 0 0 8px;"><a href="${links.videoWalkthrough}" style="color: ${emailPrimaryGreen}; font-weight: 600; text-decoration: none;">Watch the four-session walkthrough →</a></p>
+        <p style="margin: 0; font-size: 13px; color: #737373;">Session 1 is live now. Sessions 2–4 are being recorded and will appear on this page automatically as they land.</p>`
+    : "";
+
+  return {
+    to: buyerEmail,
+    subject: `Your Tauranga SME ${meta.name} — access inside`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
+            .wrapper { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
+            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
+            .header h1 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+            .header .pill { display: inline-block; margin-top: 10px; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+            .content { padding: 28px 24px; }
+            .content p { margin: 0 0 1em; }
+            h3 { font-size: 1rem; font-weight: 700; }
+            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
+            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="card">
+              <div class="header">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" />
+                <h1>${meta.name}</h1>
+                <span class="pill">Tauranga SME · Tier: ${tier}</span>
+              </div>
+              <div class="content">
+                <p>${greeting}</p>
+                <p>Welcome to the <strong>${meta.name}</strong>. Payment received — receipt is in a separate email from Stripe.</p>
+                <p>${meta.line}</p>
+
+                <h3 style="margin: 28px 0 8px; color: #262626;">Start here — the four worksheets</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  ${linkRow("1. Readiness Self-Assessment", links.worksheets.readiness)}
+                  ${linkRow("2. Time Audit (30-minute)", links.worksheets.timeAudit)}
+                  ${linkRow("3. Team Conversation Guide", links.worksheets.team)}
+                  ${linkRow("4. Privacy & Copyright Basics", links.worksheets.legal)}
+                </table>
+
+                <h3 style="margin: 28px 0 8px; color: #262626;">The 4-session deck</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  ${linkRow("Session 1 — Ready or Not? (full 22-slide deck)", links.presentation.session1)}
+                  ${linkRow("Session 2 — Where AI Saves You Time (preview)", links.presentation.session2)}
+                  ${linkRow("Session 3 — AI and Your Team (preview)", links.presentation.session3)}
+                  ${linkRow("Session 4 — Staying Legal (preview)", links.presentation.session4)}
+                </table>
+
+                ${videoBlock}
+                ${templatesBlock}
+                ${bookingBlock}
+
+                <p style="margin-top: 28px; font-size: 14px; color: #525252;">If anything is missing or you have a question, just reply to this email. I read every one personally.</p>
+                <p style="margin: 0; font-size: 14px; color: #525252;">— Nathaniel</p>
+              </div>
+              <div class="footer">
+                <a href="${publicSiteUrl}/tauranga-sme">Nathaniel Baldock AI Consulting</a> · Tauranga SME programme
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
 /** One-time link to set password and access the client portal (7-day token). */
 export function portalActivationEmail(
   userEmail: string,

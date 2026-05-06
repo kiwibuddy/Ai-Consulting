@@ -42,6 +42,7 @@ const worksheetCategories = [
   "Education",
   "Working Professionals",
   "Presentations",
+  "Tauranga SME",
 ] as const;
 type WorksheetCategory = (typeof worksheetCategories)[number];
 type WorksheetFilter = "All" | WorksheetCategory;

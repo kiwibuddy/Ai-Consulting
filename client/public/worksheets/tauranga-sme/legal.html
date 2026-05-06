@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staying Legal While Using AI — NZ Privacy & Copyright Basics for BOP Businesses · Nathaniel Baldock</title>
+<meta name="description" content="A plain-language guide to NZ's privacy and copyright obligations for Bay of Plenty small businesses using AI tools. Know your obligations before you add the next tool.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:             #ffffff;
+  --bg-warm:        hsl(42, 40%, 98%);
+  --bg-mist:        hsl(210, 24%, 96%);
+  --bg-muted:       hsl(210, 16%, 94%);
+  --fg:             #0a0a0a;
+  --fg-med:         hsl(220, 8%, 30%);
+  --fg-muted:       hsl(220, 7%, 44%);
+  --border:         hsl(220, 12%, 88%);
+  --accent:         hsl(207, 58%, 34%);
+  --accent-mid:     hsl(200, 45%, 42%);
+  --accent-soft:    hsl(200, 40%, 94%);
+  --accent-bright:  hsl(198, 70%, 48%);
+  --sky-tint:       hsl(200, 45%, 88%);
+  --lime:           hsl(79, 82%, 50%);
+  --lime-deep:      hsl(79, 70%, 38%);
+  --lime-muted:     hsl(79, 40%, 92%);
+  --gold:           #C9A227;
+  --gold-bg:        hsl(40, 60%, 95%);
+  --green:          hsl(152, 45%, 36%);
+  --green-bg:       hsl(152, 40%, 94%);
+  --red-bg:         hsl(0, 40%, 95%);
+  --red:            hsl(0, 55%, 45%);
+  --purple:         hsl(265, 38%, 44%);
+  --purple-bg:      hsl(265, 35%, 95%);
+  --dark:           hsl(220, 18%, 8%);
+  --card-shadow:    0 1px 2px rgba(15,23,42,.04), 0 12px 32px -8px rgba(15,23,42,.08);
+  --p1:             hsl(205, 52%, 38%);
+  --p2:             hsl(195, 48%, 40%);
+  --p3:             hsl(175, 42%, 36%);
+  --p4:             hsl(230, 38%, 44%);
+  --p5:             hsl(265, 32%, 44%);
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+  --font-serif:     'Fraunces', 'Georgia', serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, monospace;
+  --r:              16px;
+  --r-sm:           10px;
+  --page-px:        clamp(1.25rem, 4.5vw, 4.25rem);
+  --prose-max:      min(70ch, 100%);
+}
+
+html{ background:var(--bg); min-height:100%; }
+html.guide-locked{ scroll-padding-bottom:max(5.25rem,env(safe-area-inset-bottom,0px)); }
+body{ font-family:var(--font-sans);color:var(--fg);margin:0;padding:0 0 100px;-webkit-font-smoothing:antialiased; }
+body:not(.guided) .ch-dots,
+body:not(.guided) .nav-ghost,
+body:not(.guided) .nav-primary,
+body:not(.guided) .guide-progress-label{ display:none; }
+body:not(.guided) .guide-dock .guide-dock-inner{ justify-content:center; }
+.page{ max-width:none;width:100%;margin:0;background:var(--bg);border-radius:0;overflow:hidden;box-shadow:none;border:none; }
+
+/* HEADER */
+.site-hdr{ background:var(--bg);padding:16px var(--page-px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border); }
+.logo-row{ display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;transition:opacity .2s; }
+a.logo-row:hover{ opacity:.78; }
+.logo-mark{ width:36px;height:36px;background:var(--fg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-serif);font-weight:600;color:var(--bg);font-size:15px;letter-spacing:-.02em; }
+.logo-name{ font-size:13px;font-weight:600;color:var(--fg);letter-spacing:-.01em; }
+.logo-sub{ font-size:9.5px;color:var(--fg-muted);letter-spacing:.08em; }
+.hdr-badge{ background:var(--bg-warm);border:1px solid var(--border);color:var(--fg-med);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:999px; }
+
+/* HERO */
+.hero{ background:linear-gradient(180deg,hsl(205,42%,91%) 0%,hsl(210,28%,96%) 38%,hsl(42,38%,98%) 72%,var(--bg) 100%);padding:clamp(2.5rem,5vw,3.5rem) var(--page-px) clamp(2.25rem,4.5vw,3rem);position:relative;overflow:hidden;border-bottom:1px solid var(--border); }
+.hero::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 100% -10%,hsl(200,55%,88%,.7) 0%,transparent 50%),radial-gradient(ellipse 60% 50% at 0% 100%,hsl(79,40%,90%,.35) 0%,transparent 45%);pointer-events:none; }
+.hero::after{ content:'';position:absolute;inset:0;opacity:.35;pointer-events:none;mix-blend-mode:multiply;background-image:radial-gradient(circle,hsl(220,10%,50%) .6px,transparent .6px);background-size:7px 7px; }
+.hero-category{ font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:22px;display:flex;align-items:center;gap:12px;position:relative;z-index:1; }
+.cat-rule{ flex:1;height:1px;background:var(--border);max-width:120px; }
+.hero-title{ font-family:var(--font-serif);font-size:clamp(1.9rem,4.5vw,2.55rem);font-weight:600;color:var(--fg);line-height:1.08;letter-spacing:-.03em;margin-bottom:12px;position:relative;z-index:1; }
+.hero-title em{ font-style:italic;font-weight:450;color:var(--fg-muted); }
+.hero-sub{ font-family:var(--font-sans);font-size:15px;font-weight:400;color:var(--fg-med);margin-bottom:28px;position:relative;z-index:1;max-width:var(--prose-max);line-height:1.5; }
+.hero-stats{ display:flex;gap:0;margin-bottom:28px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative;z-index:1;background:var(--bg);box-shadow:var(--card-shadow); }
+.hs{ padding:16px 18px;flex:1;border-right:1px solid var(--border); }
+.hs:last-child{ border-right:none; }
+.hs-num{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1;margin-bottom:6px;letter-spacing:-.02em; }
+.hs-text{ font-size:10px;font-weight:400;color:var(--fg-muted);line-height:1.5;letter-spacing:.02em; }
+.hero-desc{ font-size:14px;font-weight:400;color:var(--fg-med);line-height:1.7;max-width:var(--prose-max);margin-bottom:8px;position:relative;z-index:1; }
+.hero-desc strong{ color:var(--fg);font-weight:500; }
+.hero-meta{ display:flex;align-items:center;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap;gap:4px 0;position:relative;z-index:1;margin-top:18px; }
+.mi{ font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);padding:0 16px; }
+.mi:first-child{ padding-left:0; }
+.msep{ width:1px;height:11px;background:var(--border); }
+
+/* BODY */
+.body{ padding:clamp(2.5rem,4.5vw,3.25rem) var(--page-px) clamp(2rem,3.5vw,2.75rem);background:var(--bg); }
+.intro-para{ font-size:14px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:var(--prose-max); }
+.intro-para strong{ color:var(--fg);font-weight:500; }
+hr.div{ border:none;border-top:1px solid var(--border);margin:32px 0; }
+
+/* PHASE HDR */
+.phase-hdr{ display:flex;align-items:flex-start;gap:18px;margin:36px 0 18px; }
+.phase-num{ width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:#fff;flex-shrink:0;letter-spacing:-.02em; }
+.ph-1{ background:var(--p1); } .ph-2{ background:var(--p2); } .ph-3{ background:var(--p3); } .ph-4{ background:var(--p4); } .ph-5{ background:var(--p5); }
+.phase-text{ padding-top:2px; }
+.phase-kicker{ font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px; }
+.phase-title{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:5px;letter-spacing:-.02em; }
+.phase-sub{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.55;max-width:var(--prose-max); }
+
+/* STEP */
+.step{ position:relative;margin:24px 0 20px;padding-left:24px;border-left:2px solid var(--sky-tint);transition:background .35s,border-left-color .35s,opacity .25s; }
+.step-head{ display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap; }
+.step-num{ font-family:var(--font-sans);font-size:10px;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase; }
+.step-title{ font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);line-height:1.35;letter-spacing:-.02em; }
+.step-body{ font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.7;overflow:hidden; }
+.step-body p{ margin-bottom:10px; }
+.step-body p:last-child{ margin-bottom:0; }
+.step-body a{ color:var(--accent-mid);text-decoration:none;border-bottom:1px solid var(--accent-soft); }
+.step-body a:hover{ border-bottom-color:var(--accent-bright); }
+
+/* CALLOUT BLOCKS */
+.tip{ background:var(--gold-bg);border:1px solid hsl(38,50%,84%);border-left:3px solid var(--gold);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.tip-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px; }
+.tip strong{ color:var(--fg);font-weight:500; }
+.note{ background:var(--accent-soft);border:1px solid var(--sky-tint);border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.note-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px; }
+.note strong{ color:var(--fg);font-weight:500; }
+.aha{ background:linear-gradient(135deg,var(--lime-muted) 0%,var(--bg-warm) 100%);border:1px solid hsl(79,30%,82%);border-left:3px solid var(--lime-deep);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.aha-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--lime-deep);margin-bottom:5px; }
+.aha strong{ color:var(--fg);font-weight:500; }
+.warn{ background:var(--red-bg);border:1px solid hsl(0,30%,82%);border-left:3px solid var(--red);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.warn-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:5px; }
+.warn strong{ color:var(--fg);font-weight:500; }
+.maori-block{ background:hsl(265,25%,96%);border:1px solid hsl(265,20%,82%);border-left:3px solid var(--purple);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.maori-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:5px; }
+.maori-block strong{ color:var(--fg);font-weight:500; }
+
+/* PRINCIPLE GRID */
+.principle-grid{ display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin:16px 0 20px; }
+.principle-card{ background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px 16px; }
+.pc-num{ font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--accent);line-height:1;margin-bottom:6px;letter-spacing:-.02em; }
+.pc-title{ font-size:12.5px;font-weight:600;color:var(--fg);margin-bottom:4px;line-height:1.3; }
+.pc-body{ font-size:11.5px;font-weight:300;color:var(--fg-muted);line-height:1.55; }
+.pc-ai-flag{ display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:999px; }
+.flag-watch{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.flag-high{ background:hsl(0,30%,92%);color:var(--red); }
+.flag-ok{ background:var(--lime-muted);color:var(--lime-deep); }
+
+/* CHECKLIST */
+.checklist{ display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px;box-shadow:var(--card-shadow); }
+.cl-header{ background:var(--fg);padding:12px 16px;display:grid;grid-template-columns:1fr auto; }
+.cl-header span{ font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:hsl(210,15%,70%); }
+.cl-item{ display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s; }
+.cl-item:last-child{ border-bottom:none; }
+.cl-item:hover{ background:var(--bg-mist); }
+.cl-item.checked{ background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 18px); }
+.cl-checkbox{ width:20px;height:20px;border-radius:5px;border:2px solid var(--border);background:var(--bg);display:grid;place-items:center;flex-shrink:0;margin-top:1px;transition:border-color .2s,background .2s; }
+.cl-item.checked .cl-checkbox{ border-color:var(--lime-deep);background:var(--lime-muted); }
+.cl-check-svg{ opacity:0;transition:opacity .2s; }
+.cl-item.checked .cl-check-svg{ opacity:1; }
+.cl-text{ font-size:12.5px;line-height:1.6;color:var(--fg-med); }
+.cl-text strong{ color:var(--fg);font-weight:500; }
+.cl-item.checked .cl-text{ color:var(--fg-muted); }
+.cl-risk{ font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:999px;white-space:nowrap;align-self:flex-start;margin-top:2px; }
+.risk-high{ background:hsl(0,30%,92%);color:var(--red); }
+.risk-med{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.risk-low{ background:var(--lime-muted);color:var(--lime-deep); }
+.cl-progress{ padding:12px 16px;background:var(--bg-mist);display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--border); }
+.cl-progress-bar{ flex:1;height:6px;border-radius:999px;background:var(--bg-muted);overflow:hidden; }
+.cl-progress-fill{ height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent) 0%,var(--lime) 100%);transition:width .4s cubic-bezier(.22,1,.36,1);width:0%; }
+.cl-progress-label{ font-size:10px;font-weight:600;color:var(--fg-muted);white-space:nowrap; }
+
+/* SCENARIO CARDS */
+.scenario-grid{ display:flex;flex-direction:column;gap:10px;margin:14px 0 20px; }
+.scenario-card{ border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden; }
+.sc-head{ padding:11px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;background:var(--bg-warm); }
+.sc-icon{ font-size:14px;flex-shrink:0; }
+.sc-title{ font-size:13px;font-weight:600;color:var(--fg);flex:1; }
+.sc-badge{ font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:999px; }
+.sc-badge.ok{ background:var(--green-bg);color:var(--green); }
+.sc-badge.caution{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.sc-badge.stop{ background:hsl(0,30%,92%);color:var(--red); }
+.sc-toggle{ font-size:14px;color:var(--fg-muted);transition:transform .25s;flex-shrink:0; }
+.sc-body{ font-size:12.5px;line-height:1.7;color:var(--fg-med);padding:0 16px;max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s; }
+.sc-body.open{ max-height:400px;padding:12px 16px 14px; }
+.sc-body strong{ color:var(--fg);font-weight:500; }
+.scenario-card.open .sc-toggle{ transform:rotate(180deg); }
+
+/* STAT CALLOUT */
+.stat-callout{ display:grid;grid-template-columns:auto 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0;box-shadow:var(--card-shadow); }
+.stat-num-col{ background:var(--fg);padding:18px 20px;display:flex;align-items:center;justify-content:center;min-width:90px; }
+.stat-num-val{ font-family:var(--font-serif);font-size:1.8rem;font-weight:600;color:var(--lime);line-height:1;text-align:center;letter-spacing:-.03em; }
+.stat-num-unit{ font-size:10px;font-weight:500;color:hsl(210,15%,65%);text-align:center;letter-spacing:1px;margin-top:3px; }
+.stat-body-col{ padding:14px 18px; }
+.stat-body-text{ font-size:12.5px;font-weight:400;color:var(--fg-med);line-height:1.6; }
+.stat-body-text strong{ color:var(--fg);font-weight:500; }
+.stat-source{ font-size:9px;font-weight:500;color:var(--fg-muted);letter-spacing:.04em;margin-top:6px; }
+
+/* COPYRIGHT TABLE */
+.copyright-table{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:14px 0 20px;box-shadow:0 1px 0 rgba(15,23,42,.03); }
+.ct-row{ display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--border); }
+.ct-row:last-child{ border-bottom:none; }
+.ct-row:nth-child(odd){ background:var(--bg-mist); }
+.ct-key{ padding:11px 14px;font-size:12px;font-weight:500;color:var(--fg);border-right:1px solid var(--border);line-height:1.4; }
+.ct-val{ padding:11px 14px;font-size:12px;color:var(--fg-med);line-height:1.55; }
+.ct-val strong{ color:var(--fg);font-weight:500; }
+.ct-header-row{ background:var(--fg); }
+.ct-header-row .ct-key,.ct-header-row .ct-val{ color:hsl(210,15%,70%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase; }
+
+/* CTA */
+.cta-block{ background:linear-gradient(135deg,hsl(207,52%,18%) 0%,hsl(207,45%,24%) 100%);border-radius:var(--r);padding:32px clamp(1.5rem,3vw,2.5rem);margin:32px 0 0;color:#fff;position:relative;overflow:hidden; }
+.cta-block::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 110% -20%,hsl(79,60%,55%,.18) 0%,transparent 55%);pointer-events:none; }
+.cta-eyebrow{ font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(200,50%,70%);margin-bottom:10px;position:relative; }
+.cta-title{ font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:600;color:#fff;margin-bottom:10px;line-height:1.2;letter-spacing:-.02em;position:relative; }
+.cta-body{ font-size:13px;font-weight:300;line-height:1.7;color:hsl(210,30%,82%);max-width:55ch;margin-bottom:24px;position:relative; }
+.cta-body strong{ color:#fff;font-weight:500; }
+.cta-actions{ display:flex;flex-wrap:wrap;gap:10px;position:relative; }
+.cta-btn-primary{ display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--dark);font-family:var(--font-sans);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:999px;text-decoration:none;transition:background .2s,transform .15s;border:none;cursor:pointer; }
+.cta-btn-primary:hover{ background:hsl(79,82%,44%);transform:translateY(-1px); }
+.cta-btn-secondary{ display:inline-flex;align-items:center;background:transparent;color:#fff;font-family:var(--font-sans);font-size:12px;font-weight:500;padding:12px 22px;border-radius:999px;border:1px solid hsl(210,30%,50%);text-decoration:none;transition:border-color .2s,background .2s;cursor:pointer; }
+.cta-btn-secondary:hover{ border-color:#fff;background:hsl(207,45%,30%); }
+
+/* JOURNEY */
+.journey-summary{ background:var(--bg-mist);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:28px 0 0; }
+.journey-title{ font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:4px; }
+.journey-pct{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:14px; }
+.journey-list{ list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px; }
+.journey-list li{ display:flex;align-items:center;gap:10px;font-size:12px;font-weight:300;color:var(--fg-med); }
+.jl-ico{ font-size:11px;color:var(--fg-muted);width:14px;flex-shrink:0;text-align:center; }
+.jl-done .jl-ico{ color:var(--lime-deep); }
+.jl-done > span:last-child{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.journey-reset-btn{ margin-top:14px;background:none;border:1px solid var(--border);font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--fg-muted);padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .2s; }
+.journey-reset-btn:hover{ border-color:var(--fg-muted);color:var(--fg); }
+
+/* FOOTER */
+.foot{ padding:0;border:0;display:block;border-top:1px solid var(--border);background:var(--bg); }
+.foot-body{ position:relative;background:var(--bg-mist);padding:8px var(--page-px) 10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px; }
+.foot-brand{ font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--fg-muted); }
+.foot-right{ font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:9px;color:var(--fg-muted); }
+
+/* DOCK */
+.guide-dock{ position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;justify-content:center;padding:10px 12px max(10px,env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent 0%,rgba(255,255,255,.92) 18%,#fff 100%);border-top:1px solid var(--border);box-shadow:0 -4px 24px rgba(15,23,42,.08);pointer-events:none; }
+.guide-dock *{ pointer-events:auto; }
+.guide-dock-inner{ width:100%;max-width:none;padding:0 var(--page-px);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 12px; }
+.guide-dock .guide-mode{ display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--bg-mist); }
+.guide-dock .guide-mode button{ font-family:var(--font-sans);font-size:11px;font-weight:600;padding:8px 14px;border:none;background:transparent;color:var(--fg-muted);cursor:pointer;transition:background .2s,color .2s; }
+.guide-dock .guide-mode button[aria-pressed="true"]{ background:var(--fg);color:var(--bg); }
+.guide-dock .guide-mode button:not([aria-pressed="true"]):hover{ color:var(--fg); }
+.guide-chapter-nav{ display:flex;align-items:center;gap:8px;flex:1;min-width:0;justify-content:center; }
+.guide-dock .ch-dots{ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:min(100%,28rem); }
+.guide-dock .ch-dot{ width:8px;height:8px;border-radius:50%;border:1px solid var(--border);background:var(--bg);padding:0;cursor:pointer;transition:transform .22s cubic-bezier(.34,1.56,.64,1),background .2s,border-color .2s; }
+.guide-dock .ch-dot:hover{ transform:scale(1.14); }
+.guide-dock .ch-dot[aria-current="true"]{ background:var(--accent);border-color:var(--accent); }
+.guide-dock .ch-dot.done{ background:var(--lime);border-color:var(--lime-deep); }
+.guide-nav-btns{ display:flex;gap:6px;align-items:center; }
+.guide-dock .nav-ghost,.guide-dock .nav-primary{ font-family:var(--font-sans);font-size:12px;font-weight:600;padding:9px 18px;border-radius:999px;cursor:pointer;border:none;transition:background .2s,color .2s,opacity .2s; }
+.guide-dock .nav-ghost{ background:var(--bg-mist);color:var(--fg-muted);border:1px solid var(--border); }
+.guide-dock .nav-ghost:hover:not(:disabled){ color:var(--fg); }
+.guide-dock .nav-primary{ background:var(--fg);color:var(--bg); }
+.guide-dock .nav-primary:hover:not(:disabled){ background:var(--accent); }
+.guide-dock .nav-primary:disabled,.guide-dock .nav-ghost:disabled{ opacity:.35;cursor:not-allowed; }
+.guide-progress-label{ font-size:10px;font-weight:500;color:var(--fg-muted);letter-spacing:.06em; }
+
+/* GUIDED LAYOUT */
+body.guided .page{ display:flex;flex-direction:column;max-height:calc(100dvh - 68px);overflow:hidden; }
+body.guided .site-hdr{ flex:0 0 auto; }
+body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0; }
+body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
+body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
+body.guided .body > .guide-chapter{ min-height:0; }
+body.guided .body > .guide-chapter.is-active{ display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 0 20px;scroll-behavior:smooth;animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both; }
+body.guided .guide-chapter.is-active .phase-hdr{ position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;background:var(--bg);box-shadow:0 1px 0 0 var(--border),0 10px 12px -8px rgba(15,23,42,.08);transition:box-shadow .25s; }
+body.guided .foot{ flex:0 0 auto;margin:0; }
+body:not(.guided) .guide-chapter{ display:contents; }
+body.guided .hero{ border-radius:0; }
+
+/* STEP CHECKBOX */
+.step .step-check{ position:absolute;top:0;right:0;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted);cursor:pointer;user-select:none;z-index:2; }
+@media(min-width:700px){ .step{padding-top:4px;} .step .step-check{top:2px;} }
+.step .step-check-input{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.step .step-check-box{ width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--bg);display:grid;place-items:center;flex-shrink:0;transition:border-color .22s,background .25s,transform .35s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-box svg{ width:12px;height:12px;color:var(--lime-deep);opacity:0;transform:scale(.2) rotate(-12deg);transition:opacity .2s,transform .4s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-input:checked + .step-check-box{ border-color:var(--lime-deep);background:var(--lime-muted);animation:checkPop .5s cubic-bezier(.34,1.56,.64,1),checkRipple .65s ease-out .05s 1; }
+.step .step-check-input:checked + .step-check-box svg{ opacity:1;transform:scale(1) rotate(0deg);transition-delay:.06s; }
+.step .step-check-txt{ transition:color .25s; }
+.step .step-check-input:checked ~ .step-check-txt{ color:var(--lime-deep); }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-head{ margin-bottom:0; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-body{ max-height:0!important;opacity:0;transform:translateY(-3px);margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;pointer-events:none;transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .26s,transform .3s,margin .28s,padding .28s; }
+body.guided .guide-chapter.is-active .step.is-step-open .step-body{ max-height:80rem;opacity:1;transform:translateY(0);pointer-events:auto;transition:max-height .48s cubic-bezier(.4,0,.2,1),opacity .4s ease .08s,transform .4s ease .08s; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open){ margin:5px 0 8px; }
+body.guided .guide-chapter.is-active .step.is-step-open{ margin:20px 0 18px; }
+body:not(.guided) .step .step-body{ max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important; }
+body:not(.guided) .step{ margin:24px 0 20px; }
+.step.is-done{ opacity:.96;border-left-color:var(--lime)!important;background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);box-shadow:0 0 0 1px hsla(79,40%,80%,.35) inset; }
+.step.is-done .step-title{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.step.just-marked{ animation:stepFlash .55s ease 1; }
+.reveal{ opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s; }
+.reveal.is-visible{ opacity:1;transform:translateY(0); }
+
+@keyframes ch-enter{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+@keyframes checkPop{ 0%{transform:scale(.92);} 45%{transform:scale(1.06);} 100%{transform:scale(1);} }
+@keyframes checkRipple{ 0%{box-shadow:0 0 0 0 hsla(79,86%,52%,.45);} 100%{box-shadow:0 0 0 10px hsla(79,86%,52%,0);} }
+@keyframes stepFlash{ 0%{background:linear-gradient(90deg,hsla(79,55%,88%,.9) 0%,rgba(255,255,255,0) 20px);} 100%{background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);} }
+
+@media print{ .guide-dock,.site-hdr{display:none!important;} body{padding-bottom:0;} body.guided .guide-chapter .step .step-body{max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important;} }
+@media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} body.guided .guide-chapter.is-active{animation:none;} .step .step-check-input:checked + .step-check-box{animation:none;} }
+@media(max-width:640px){
+  .body{padding:1.5rem var(--page-px) 1.5rem;}
+  body.guided .body{padding:4px var(--page-px) 0;}
+  body.guided .page{max-height:calc(100dvh - 88px);}
+  .hero{padding:2rem var(--page-px) 2.25rem;}
+  .hero-title{font-size:30px;}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;}
+  .hs{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .hs:nth-child(2n){border-right:none;}
+  .hs:nth-child(3),.hs:nth-child(4){border-bottom:none;}
+  .principle-grid{grid-template-columns:1fr;}
+  .ct-row{grid-template-columns:1fr;}
+  .ct-key{border-right:none;border-bottom:1px solid var(--border);}
+  .stat-callout{grid-template-columns:1fr;}
+  .cl-item{grid-template-columns:auto 1fr;}
+  .cl-risk{display:none;}
+  .cta-actions{flex-direction:column;}
+}
+</style>
+</head>
+<body class="guided">
+<div class="page">
+
+<!-- HEADER -->
+<div class="site-hdr">
+  <a class="logo-row" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="logo-name">Nathaniel Baldock</div>
+      <div class="logo-sub">AI CONSULTANT &middot; TAURANGA</div>
+    </div>
+  </a>
+  <div class="hdr-badge">Worksheet 2 of 4</div>
+</div>
+
+<!-- HERO -->
+<div class="guide-chapter is-active" id="ch-welcome" data-g-label="Start here">
+<div class="hero">
+  <div class="hero-category">
+    <span>Bay of Plenty &middot; Legal Basics</span>
+    <div class="cat-rule"></div>
+    <span>30 minutes &middot; No legal background needed</span>
+  </div>
+  <div class="hero-title">Staying legal<br><em>while using AI.</em></div>
+  <div class="hero-sub">What every Bay of Plenty small business owner needs to know about NZ privacy law, copyright, and AI — before they add the next tool.</div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">13</div><div class="hs-text">Privacy Principles that apply<br>to any AI tool you use</div></div>
+    <div class="hs"><div class="hs-num">2025</div><div class="hs-text">Year OPC released updated<br>AI-specific guidance</div></div>
+    <div class="hs"><div class="hs-num">?</div><div class="hs-text">Who owns AI-generated content<br>in NZ — still legally unsettled</div></div>
+    <div class="hs"><div class="hs-num">30 min</div><div class="hs-text">Time to complete<br>this worksheet</div></div>
+  </div>
+
+  <div class="hero-desc">
+    Most small businesses using AI tools have no idea their privacy obligations extend to the tools they use every day. This worksheet doesn't require a lawyer. It gives you a plain-language picture of the two areas that matter most — <strong>privacy and copyright</strong> — and a practical checklist for what to do before you add any new AI tool to your business.
+  </div>
+
+  <div class="hero-meta">
+    <div class="mi">Office of the Privacy Commissioner NZ</div><div class="msep"></div>
+    <div class="mi">NZ Copyright Act 1994</div><div class="msep"></div>
+    <div class="mi">Not legal advice</div>
+  </div>
+</div>
+</div><!-- /ch-welcome -->
+
+<!-- BODY -->
+<div class="body">
+
+<!-- CH 1: WHY THIS MATTERS -->
+<div class="guide-chapter" id="ch-why" data-g-label="Why this matters">
+  <div class="phase-hdr">
+    <div class="phase-num ph-1">1</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 1 &middot; Context</div>
+      <div class="phase-title">The gap most small businesses don't know exists</div>
+      <div class="phase-sub">Understanding the landscape before you look at your own obligations.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    When you sign up for a free AI tool and start pasting customer information into it, you're making a decision with legal implications — whether you know it or not. Most of the business owners I've spoken to across the Bay of Plenty aren't doing anything reckless. They just haven't had anyone explain the basics in plain language.
+  </p>
+
+  <p class="intro-para">
+    This worksheet covers two distinct areas. Privacy law — which governs how you handle customer data when using AI tools. And copyright — which affects who owns what when AI creates something for your business. They're separate issues with separate rules.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.1</div>
+      <div class="step-title">Understand what changed in 2025</div>
+    </div>
+    <div class="step-body">
+      <p>NZ's Privacy Commissioner released updated AI-specific guidance in 2025. The core framework isn't new — the 13 Privacy Principles in the Privacy Act 2020 have always applied. What changed is that the OPC now provides explicit guidance on how those principles apply when you're using AI tools that process personal information.</p>
+
+      <div class="stat-callout reveal">
+        <div class="stat-num-col">
+          <div class="stat-num-val">13</div>
+          <div class="stat-num-unit">principles</div>
+        </div>
+        <div class="stat-body-col">
+          <div class="stat-body-text">The Privacy Act 2020 contains <strong>13 Information Privacy Principles</strong> that apply to any organisation collecting, storing, using, or sharing personal information — including through AI tools. They apply to sole traders and small businesses, not just large corporations.</div>
+          <div class="stat-source">Source: Office of the Privacy Commissioner NZ, privacy.org.nz</div>
+        </div>
+      </div>
+
+      <div class="warn">
+        <div class="warn-lbl">What this is not</div>
+        This worksheet is not legal advice. It's a plain-language overview to help you understand the landscape and ask the right questions. If you have specific concerns about your business's obligations, talk to a lawyer or contact the OPC directly at <a href="https://privacy.org.nz" target="_blank">privacy.org.nz</a>.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.2</div>
+      <div class="step-title">Know the two questions this worksheet answers</div>
+    </div>
+    <div class="step-body">
+      <p>Everything in this worksheet comes back to two practical questions:</p>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Question 1 — Privacy</div>
+        <strong>Am I handling customer data in a way that complies with the Privacy Act when I use AI tools?</strong>
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Question 2 — Copyright</div>
+        <strong>Who owns the content AI creates for my business, and am I allowed to use it commercially?</strong>
+      </div>
+      <p style="margin-top:12px;">Both are answerable. Neither requires a law degree. Let's work through them in order.</p>
+    </div>
+  </div>
+</div><!-- /ch-why -->
+
+<hr class="div">
+
+<!-- CH 2: PRIVACY -->
+<div class="guide-chapter" id="ch-privacy" data-g-label="Privacy basics">
+  <div class="phase-hdr">
+    <div class="phase-num ph-2">2</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 2 &middot; Privacy law</div>
+      <div class="phase-title">The Privacy Act and your AI tools</div>
+      <div class="phase-sub">Which of the 13 Privacy Principles you actually need to think about as a small business using AI — in plain language.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    You don't need to memorise all 13 principles. You need to know which ones are most likely to be triggered by how small businesses actually use AI tools today.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.1</div>
+      <div class="step-title">Review the principles most relevant to AI use</div>
+    </div>
+    <div class="step-body">
+      <p>These are the principles most likely to affect a small business using AI tools. The flag on each shows its typical risk level for AI use.</p>
+
+      <div class="principle-grid reveal">
+        <div class="principle-card">
+          <div class="pc-num">PP 1</div>
+          <div class="pc-title">Purpose of collection</div>
+          <div class="pc-body">Collect personal info only for a lawful purpose directly related to your business activity.</div>
+          <div class="pc-ai-flag flag-watch">Watch</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 2</div>
+          <div class="pc-title">Source of collection</div>
+          <div class="pc-body">Collect directly from the person where possible. Tell them you're collecting it and why.</div>
+          <div class="pc-ai-flag flag-ok">Lower risk</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 3</div>
+          <div class="pc-title">Collection from subject</div>
+          <div class="pc-body">Tell the person what you're collecting, why, and who will have access — including AI tools.</div>
+          <div class="pc-ai-flag flag-high">High relevance</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 5</div>
+          <div class="pc-title">Storage and security</div>
+          <div class="pc-body">Take reasonable steps to protect personal info from loss, access, or disclosure. Includes third-party AI tools.</div>
+          <div class="pc-ai-flag flag-high">High relevance</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 6</div>
+          <div class="pc-title">Access to personal info</div>
+          <div class="pc-body">Individuals have the right to access their own information held by you — including if it's been processed by AI.</div>
+          <div class="pc-ai-flag flag-watch">Watch</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 8</div>
+          <div class="pc-title">Accuracy</div>
+          <div class="pc-body">Take reasonable steps to ensure the info you hold is accurate. AI outputs about individuals must be reviewed before acting on them.</div>
+          <div class="pc-ai-flag flag-high">High relevance</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 10</div>
+          <div class="pc-title">Limits on use</div>
+          <div class="pc-body">Only use information for the purpose it was collected. Don't feed customer data into AI tools for unrelated purposes.</div>
+          <div class="pc-ai-flag flag-high">High relevance</div>
+        </div>
+        <div class="principle-card">
+          <div class="pc-num">PP 11</div>
+          <div class="pc-title">Limits on disclosure</div>
+          <div class="pc-body">Don't share personal info with third parties — including AI tools — without a lawful basis. Free AI tools may be considered disclosure.</div>
+          <div class="pc-ai-flag flag-high">High relevance</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-lbl">The practical takeaway</div>
+        The four principles most relevant to AI use are PP3, PP5, PP10, and PP11. Collectively they say: <strong>tell people if AI is involved in processing their data, keep that data secure, only use it for the purpose you collected it for, and treat sending data to a free AI tool as sharing it with a third party.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.2</div>
+      <div class="step-title">Understand what a Privacy Impact Assessment actually is</div>
+    </div>
+    <div class="step-body">
+      <p>The OPC's 2025 AI guidance recommends completing a Privacy Impact Assessment (PIA) before deploying AI in any customer-facing context. For a small business, this sounds more complicated than it is.</p>
+
+      <div class="note">
+        <div class="note-lbl">What a PIA actually is for a small business</div>
+        A PIA is a structured set of questions you ask yourself before adding a new AI tool. For a small business, it doesn't need to be a formal document. It needs to cover: <strong>what personal data will this tool touch, where will that data go, how is it secured, and do my customers know?</strong>
+      </div>
+
+      <p style="margin-top:12px;">The checklist in Section 4 of this worksheet is a simplified PIA. Work through it before adding any new AI tool that touches customer data.</p>
+
+      <div class="scenario-grid reveal">
+        <div class="scenario-card" id="sc1">
+          <div class="sc-head" onclick="toggleScenario('sc1')">
+            <span class="sc-icon">💬</span>
+            <span class="sc-title">Scenario: Using ChatGPT to draft customer emails</span>
+            <span class="sc-badge caution">Review needed</span>
+            <span class="sc-toggle">&#8964;</span>
+          </div>
+          <div class="sc-body">
+            <strong>What's the risk?</strong> If you paste a customer's name, contact details, or account information into a free ChatGPT account, that data may be used to train OpenAI's models. This is likely a disclosure under PP11 and may not meet your obligations under PP5.<br><br>
+            <strong>What to do:</strong> Use ChatGPT with placeholders instead of real names. For example: "Write a follow-up email to a client who hasn't responded in a week" rather than pasting their actual details. Or use a business-tier account (ChatGPT Teams or Enterprise) which has data handling agreements.
+          </div>
+        </div>
+        <div class="scenario-card" id="sc2">
+          <div class="sc-head" onclick="toggleScenario('sc2')">
+            <span class="sc-icon">📊</span>
+            <span class="sc-title">Scenario: Uploading a customer spreadsheet to an AI tool</span>
+            <span class="sc-badge stop">High risk</span>
+            <span class="sc-toggle">&#8964;</span>
+          </div>
+          <div class="sc-body">
+            <strong>What's the risk?</strong> Uploading a spreadsheet containing customer names, contact details, or purchase history to a free AI tool almost certainly violates PP5 and PP11. You're sending personal data to an overseas server with no data processing agreement in place.<br><br>
+            <strong>What to do:</strong> Either anonymise the data before uploading (replace names with IDs, remove contact details), use a business-tier tool with a data processing agreement, or don't use AI for this task unless you've confirmed the tool's data handling policy in writing.
+          </div>
+        </div>
+        <div class="scenario-card" id="sc3">
+          <div class="sc-head" onclick="toggleScenario('sc3')">
+            <span class="sc-icon">📝</span>
+            <span class="sc-title">Scenario: Using AI to summarise a contract or supplier document</span>
+            <span class="sc-badge ok">Generally fine</span>
+            <span class="sc-toggle">&#8964;</span>
+          </div>
+          <div class="sc-body">
+            <strong>Why this is lower risk:</strong> Summarising a supplier agreement or industry document that doesn't contain personal information about individuals isn't a privacy issue. The Privacy Act applies to personal information about identifiable individuals — not commercial contracts.<br><br>
+            <strong>Still worth checking:</strong> If the contract contains personal details of specific people (e.g. contact names, personal guarantors), treat those details with the same caution as any other personal data.
+          </div>
+        </div>
+        <div class="scenario-card" id="sc4">
+          <div class="sc-head" onclick="toggleScenario('sc4')">
+            <span class="sc-icon">🤖</span>
+            <span class="sc-title">Scenario: Adding a chatbot to your website</span>
+            <span class="sc-badge stop">Review required</span>
+            <span class="sc-toggle">&#8964;</span>
+          </div>
+          <div class="sc-body">
+            <strong>What's the risk?</strong> A customer-facing AI chatbot collects information directly from members of the public. PP3 requires you to tell them what you're collecting, why, and who has access to it — including the AI provider. If the chatbot makes decisions or recommendations, PP8 (accuracy) and human oversight requirements also apply.<br><br>
+            <strong>What to do:</strong> Add a clear disclosure to the chatbot interface ("This chat is powered by [tool]. Your conversation may be processed by [provider]."). Get a Data Processing Agreement with the provider before going live. The OPC recommends senior leadership sign off on customer-facing AI deployments.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.3</div>
+      <div class="step-title">Note the Māori data sovereignty dimension</div>
+    </div>
+    <div class="step-body">
+      <p>With 44% of the Bay of Plenty's future workforce being Māori, and a significant portion of the region's business community serving Māori customers and communities, this is worth understanding — not just as a compliance matter, but as a relational one.</p>
+
+      <div class="maori-block reveal">
+        <div class="maori-lbl">Māori Data Sovereignty</div>
+        Māori data — information about Māori individuals, whānau, hapū, and iwi — is considered a <strong>taonga</strong> under te Tiriti o Waitangi. The principle of Māori data sovereignty holds that Māori should have governance over how their data is collected, stored, and used. This isn't just an aspiration: the OPC's AI guidance specifically references the need to consult with Māori where AI systems may affect Māori communities. Local organisations like <strong>Toi Kai Rawa Trust</strong> can provide guidance on operating respectfully in this space.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-privacy -->
+
+<hr class="div">
+
+<!-- CH 3: COPYRIGHT -->
+<div class="guide-chapter" id="ch-copyright" data-g-label="Copyright basics">
+  <div class="phase-hdr">
+    <div class="phase-num ph-3">3</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 3 &middot; Copyright</div>
+      <div class="phase-title">Who owns what AI creates?</div>
+      <div class="phase-sub">NZ has an unusual legal position on AI-generated content. Here's what it means for your business in plain language.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    When you use AI to write a blog post, design a logo, or create marketing copy — who owns the result? In most countries, the answer is murky. In New Zealand, there's actually a specific provision in the Copyright Act 1994 that addresses it, though "addresses it" is doing some heavy lifting there.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.1</div>
+      <div class="step-title">Understand NZ's position on computer-generated works</div>
+    </div>
+    <div class="step-body">
+      <div class="copyright-table reveal">
+        <div class="ct-row ct-header-row">
+          <div class="ct-key">Situation</div>
+          <div class="ct-val">What NZ law says</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-key">You write something with AI assistance</div>
+          <div class="ct-val">You are the author. Your <strong>creative input</strong> (the prompts, editing, selection) establishes your authorship. Standard copyright applies.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-key">AI generates something with minimal human input</div>
+          <div class="ct-val">NZ's Copyright Act 1994 has a provision for "computer-generated works" with no human author. Copyright still exists, but it belongs to the person who <strong>"made the arrangements"</strong> for the work — likely the person or business using the tool. This must pass an "objective originality" test.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-key">You use AI to recreate something copyrighted</div>
+          <div class="ct-val"><strong>You're still liable.</strong> Asking AI to "write something like [copyrighted work]" or recreate copyrighted material doesn't transfer the legal risk to the AI provider. The risk stays with you.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-key">AI tool's own terms on your content</div>
+          <div class="ct-val">Most AI tools (OpenAI, Anthropic, Google) assign output ownership to the user in their terms of service. But this is contractual — not statutory. Read the terms for any tool you use commercially.</div>
+        </div>
+        <div class="ct-row">
+          <div class="ct-key">Using AI output commercially</div>
+          <div class="ct-val">Generally permitted under most AI tool terms. Check each tool. Some require attribution or have restrictions on certain content types.</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-lbl">The honest summary</div>
+        NZ law is ahead of most countries in having a statutory framework for computer-generated works, but it's still developing. The practical guidance from legal experts like Bell Gully and AJ Park is consistent: <strong>the more creative human input you put in, the clearer your ownership is.</strong> Don't use AI to replicate existing works. Document your process if you're creating something commercially significant.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.2</div>
+      <div class="step-title">Know the three things that actually matter for your business</div>
+    </div>
+    <div class="step-body">
+      <div class="note">
+        <div class="note-lbl">Copyright point 1</div>
+        <strong>AI-generated marketing content you create for your business is almost certainly usable commercially.</strong> The tool's terms of service typically grant you ownership of outputs. Keep a record of how you created it.
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Copyright point 2</div>
+        <strong>Don't use AI to replicate someone else's work.</strong> "Make this sound like [specific author/brand]" is lower risk than "copy this paragraph and rewrite it slightly." When in doubt, ask your AI tool to create something original on a topic rather than rewriting existing material.
+      </div>
+      <div class="warn" style="margin-top:10px;">
+        <div class="warn-lbl">Copyright point 3</div>
+        <strong>Images are higher risk than text.</strong> AI image generators may produce outputs that infringe on the training data used to build them. For business-critical or publicly visible imagery, use stock photo services or commission human-created work where the IP chain is clear. This is an evolving area — legal clarity is still developing globally and in NZ.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-copyright -->
+
+<hr class="div">
+
+<!-- CH 4: CHECKLIST -->
+<div class="guide-chapter" id="ch-checklist" data-g-label="Pre-tool checklist">
+  <div class="phase-hdr">
+    <div class="phase-num ph-4">4</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 4 &middot; Before you add a tool</div>
+      <div class="phase-title">The five-minute check you should run every time</div>
+      <div class="phase-sub">Work through this checklist before adding any new AI tool that touches customer data or creates content for your business.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    This isn't meant to slow you down. It's meant to catch the 20% of situations where something genuinely needs to be thought through before you click "sign up." Most tools will sail through this in five minutes. Some will prompt a useful question.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.1</div>
+      <div class="step-title">Work through the pre-deployment checklist</div>
+    </div>
+    <div class="step-body">
+      <p>Tick each item as you complete it. The checklist saves your progress in this browser.</p>
+
+      <div class="checklist reveal" id="mainChecklist">
+        <div class="cl-header">
+          <span>Item</span>
+          <span>Risk level</span>
+        </div>
+
+        <div class="cl-item" id="cli-0" onclick="toggleCheck('cli-0')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>Does this tool touch personal information about identifiable customers or staff?</strong> If yes, the Privacy Act applies. Move through the rest of this checklist carefully.</div>
+          <div class="cl-risk risk-high">Must check</div>
+        </div>
+
+        <div class="cl-item" id="cli-1" onclick="toggleCheck('cli-1')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>Have you read this tool's privacy policy and data handling terms?</strong> Specifically: does it use your inputs to train its models, and where is your data stored? Free tools often store data on overseas servers.</div>
+          <div class="cl-risk risk-high">Must check</div>
+        </div>
+
+        <div class="cl-item" id="cli-2" onclick="toggleCheck('cli-2')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>If this tool will be customer-facing, do you have a disclosure in place?</strong> Your customers should know if AI is processing information they share with your business. A short sentence in your privacy policy or at the point of interaction covers this.</div>
+          <div class="cl-risk risk-high">Must check</div>
+        </div>
+
+        <div class="cl-item" id="cli-3" onclick="toggleCheck('cli-3')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>Are you using this tool for tasks that could significantly affect individuals?</strong> Credit decisions, health assessments, hiring, or anything where an error has real consequences requires human review before acting on AI outputs. This is explicit in OPC guidance.</div>
+          <div class="cl-risk risk-high">Must check</div>
+        </div>
+
+        <div class="cl-item" id="cli-4" onclick="toggleCheck('cli-4')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>If this tool generates content for your business, have you checked the tool's terms on commercial use?</strong> Most major tools permit commercial use — but check. Some restrict certain content types or require attribution.</div>
+          <div class="cl-risk risk-med">Check</div>
+        </div>
+
+        <div class="cl-item" id="cli-5" onclick="toggleCheck('cli-5')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>Do you have a way to turn this tool off or remove it if needed?</strong> This is basic due diligence. Know how to stop using a tool cleanly, including requesting deletion of your data where the provider permits it.</div>
+          <div class="cl-risk risk-med">Check</div>
+        </div>
+
+        <div class="cl-item" id="cli-6" onclick="toggleCheck('cli-6')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>If your business serves a significant Māori community or holds Māori data, have you considered Māori data sovereignty implications?</strong> This is especially relevant for businesses in the Bay of Plenty. Contact Toi Kai Rawa Trust if you need guidance.</div>
+          <div class="cl-risk risk-med">Check</div>
+        </div>
+
+        <div class="cl-item" id="cli-7" onclick="toggleCheck('cli-7')">
+          <div class="cl-checkbox"><svg class="cl-check-svg" viewBox="0 0 24 24" fill="none" width="11" height="11"><path d="M5 13l4 4L19 7" stroke="hsl(79,70%,38%)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cl-text"><strong>Have you noted this tool in your business records?</strong> A simple list of what AI tools you use, what data they touch, and when you started using them is enough. It demonstrates due diligence if questions ever arise.</div>
+          <div class="cl-risk risk-low">Good practice</div>
+        </div>
+
+        <div class="cl-progress">
+          <div class="cl-progress-bar"><div class="cl-progress-fill" id="clFill"></div></div>
+          <div class="cl-progress-label" id="clLabel">0 / 8 completed</div>
+        </div>
+      </div>
+
+      <div class="aha">
+        <div class="aha-lbl">Key resource</div>
+        The OPC's full AI guidance document is freely available and written in plain language for businesses. It's 12 pages and worth 20 minutes of your time. <a href="https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" target="_blank">Download the OPC AI guidance PDF →</a>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-checklist -->
+
+<hr class="div">
+
+<!-- CH 5: NEXT STEPS -->
+<div class="guide-chapter" id="ch-next" data-g-label="Next steps">
+  <div class="phase-hdr">
+    <div class="phase-num ph-5">5</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 5 &middot; Next steps</div>
+      <div class="phase-title">Three things worth doing this week</div>
+      <div class="phase-sub">You don't need to fix everything at once. These three actions cover the most common gaps for Bay of Plenty small businesses.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.1</div>
+      <div class="step-title">Do the three things that matter most</div>
+    </div>
+    <div class="step-body">
+      <div class="note">
+        <div class="note-lbl">Action 1 — This week</div>
+        <strong>Update your privacy policy to mention AI.</strong> If you have a website privacy policy, add one sentence acknowledging that you may use AI tools to assist with business operations and that customer data is handled in accordance with the Privacy Act 2020. This is a five-minute update that covers a real gap.
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Action 2 — This week</div>
+        <strong>Stop pasting real customer data into free AI tools.</strong> Use placeholders or descriptions instead of actual names, contact details, or identifying information. If you need to work with real data at scale, look at business-tier accounts with data processing agreements.
+      </div>
+      <div class="note" style="margin-top:10px;">
+        <div class="note-lbl">Action 3 — This month</div>
+        <strong>Make a simple list of every AI tool your business uses.</strong> Include what it does, what data it touches, and a link to its terms of service. It takes 20 minutes and gives you a foundation for any future review.
+      </div>
+
+      <div class="tip" style="margin-top:16px;">
+        <div class="tip-lbl">Where to go for more</div>
+        <strong>privacy.org.nz</strong> — OPC guidance on AI and the Privacy Act, free and plain-language.<br>
+        <strong>business.govt.nz/ai</strong> — Government guidance on safe AI use for NZ businesses.<br>
+        <strong>bellgully.com</strong> and <strong>ajpark.com</strong> — Both publish free, accessible summaries of NZ AI and copyright developments.
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY -->
+  <div class="journey-summary reveal">
+    <div class="journey-title">Your progress through this worksheet</div>
+    <div class="journey-pct" id="journeyPct">Work through each section to track your progress.</div>
+    <ul class="journey-list" id="journeyList"></ul>
+    <button class="journey-reset-btn" id="journeyReset">Reset checkmarks</button>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block reveal">
+    <div class="cta-eyebrow">Tauranga &middot; Bay of Plenty</div>
+    <div class="cta-title">Not sure if your current AI use is compliant?</div>
+    <div class="cta-body">
+      Privacy and copyright obligations aren't reasons to avoid AI — they're reasons to use it with a bit more care than most guides suggest. A 30-minute conversation can help you work out which of your current tools warrant a closer look and which are fine as they are. No legal jargon. Just a practical review of your specific situation.
+    </div>
+    <div class="cta-actions">
+      <a class="cta-btn-primary" href="https://calendar.app.google/KKC9Bhhsb7XEYqvn7" target="_blank">Book a free 30-min call</a>
+      <a class="cta-btn-secondary" href="https://www.nathanielbaldock.com" target="_blank">See more free resources</a>
+    </div>
+  </div>
+
+</div><!-- /ch-next -->
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="foot">
+  <a class="foot-body" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="foot-brand">Nathaniel Baldock &mdash; nathanielbaldock.com</div>
+    <div class="foot-right">AI Consultant &middot; Tauranga, NZ &middot; 2026</div>
+  </a>
+</div>
+
+</div><!-- /page -->
+
+<!-- GUIDE DOCK -->
+<div class="guide-dock" role="navigation" aria-label="Worksheet navigation">
+  <div class="guide-dock-inner">
+    <div class="guide-mode" role="group" aria-label="View mode">
+      <button id="modeGuided" type="button" aria-pressed="true">Guided</button>
+      <button id="modeFull" type="button" aria-pressed="false">Full page</button>
+    </div>
+    <div class="guide-chapter-nav">
+      <button class="nav-ghost" id="chPrev" type="button">&larr; Back</button>
+      <div class="ch-dots" role="tablist" id="chDots"></div>
+      <button class="nav-primary" id="chNext" type="button">Next &rarr;</button>
+    </div>
+    <div class="guide-progress-label" id="guideProgressLabel">1 / 5</div>
+  </div>
+</div>
+
+<script>
+// Scenario toggles
+function toggleScenario(id){
+  var card = document.getElementById(id);
+  var body = card.querySelector('.sc-body');
+  var isOpen = body.classList.contains('open');
+  document.querySelectorAll('.sc-body').forEach(function(b){ b.classList.remove('open'); });
+  document.querySelectorAll('.scenario-card').forEach(function(c){ c.classList.remove('open'); });
+  if(!isOpen){ body.classList.add('open'); card.classList.add('open'); }
+}
+
+// Checklist
+var CL_KEY = 'nb-ws2-checklist-2026';
+function loadClState(){ try{ var r=localStorage.getItem(CL_KEY); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+function saveClState(state){ try{ localStorage.setItem(CL_KEY,JSON.stringify(state)); }catch(e){} }
+
+var clState = loadClState();
+var clCount = 8;
+
+function toggleCheck(id){
+  var item = document.getElementById(id);
+  var wasChecked = item.classList.contains('checked');
+  item.classList.toggle('checked', !wasChecked);
+  clState[id] = !wasChecked;
+  saveClState(clState);
+  updateClProgress();
+}
+
+function updateClProgress(){
+  var done = Object.values(clState).filter(Boolean).length;
+  var pct = Math.round((done / clCount) * 100);
+  var fill = document.getElementById('clFill');
+  var label = document.getElementById('clLabel');
+  if(fill) fill.style.width = pct + '%';
+  if(label) label.textContent = done + ' / ' + clCount + ' completed';
+}
+
+// Restore checklist state
+Object.keys(clState).forEach(function(id){
+  if(clState[id]){
+    var item = document.getElementById(id);
+    if(item) item.classList.add('checked');
+  }
+});
+updateClProgress();
+
+// Guide system
+(function(){
+  var LS_KEY = 'nb-ws2-tga-2026';
+  var body = document.body;
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.guide-chapter'));
+  var totalCh = chapters.length;
+  var currentIndex = 0;
+  var state = loadState();
+
+  var chDots = document.getElementById('chDots');
+  var chPrev = document.getElementById('chPrev');
+  var chNext = document.getElementById('chNext');
+  var modeGuided = document.getElementById('modeGuided');
+  var modeFull = document.getElementById('modeFull');
+  var chLabel = document.getElementById('guideProgressLabel');
+  var journeyPct = document.getElementById('journeyPct');
+  var journeyList = document.getElementById('journeyList');
+
+  function initStepAccordion(){
+    if(!body.classList.contains('guided')) return;
+    var ch = chapters[currentIndex]; if(!ch) return;
+    var stepsInCh = ch.querySelectorAll('.step');
+    stepsInCh.forEach(function(s){ s.classList.remove('is-step-open'); });
+    var firstUndone = null;
+    stepsInCh.forEach(function(s){ var inp=s.querySelector('.step-check-input'); if(!firstUndone&&!(inp&&inp.checked)) firstUndone=s; });
+    if(firstUndone) firstUndone.classList.add('is-step-open');
+    else if(stepsInCh.length>0) stepsInCh[stepsInCh.length-1].classList.add('is-step-open');
+  }
+  function advanceStepAccordion(finished){
+    var ch=chapters[currentIndex]; if(!ch) return;
+    var list=Array.prototype.slice.call(ch.querySelectorAll('.step'));
+    var idx=list.indexOf(finished); if(idx<0) return;
+    var next=list[idx+1]; finished.classList.remove('is-step-open');
+    if(next){ window.setTimeout(function(){ list.forEach(function(s){s.classList.remove('is-step-open');}); next.classList.add('is-step-open'); try{next.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){next.scrollIntoView(true);} },200); }
+  }
+  function loadState(){ try{var r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):{mode:'guided',chapter:0,done:{}};}catch(x){return{mode:'guided',chapter:0,done:{}};} }
+  function saveState(){
+    try{
+      var done={};
+      document.querySelectorAll('.step .step-check-input').forEach(function(inp){ if(inp.checked) done[inp.getAttribute('data-step-id')]=true; });
+      state.done=done; state.chapter=currentIndex; state.mode=body.classList.contains('guided')?'guided':'full';
+      localStorage.setItem(LS_KEY,JSON.stringify(state));
+    }catch(x){}
+  }
+  function setMode(guided){
+    body.classList.toggle('guided',guided); document.documentElement.classList.toggle('guide-locked',guided);
+    if(modeGuided) modeGuided.setAttribute('aria-pressed',guided?'true':'false');
+    if(modeFull) modeFull.setAttribute('aria-pressed',guided?'false':'true');
+    if(guided) showChapter(currentIndex,true); else chapters.forEach(function(c){c.classList.remove('is-active');});
+    saveState();
+  }
+  function showChapter(i,noSave){
+    i=Math.max(0,Math.min(totalCh-1,i)); currentIndex=i;
+    if(body.classList.contains('guided')){
+      chapters.forEach(function(c,j){c.classList.toggle('is-active',j===i);});
+      if(chLabel) chLabel.textContent=(i+1)+' / '+totalCh;
+      if(chDots) Array.prototype.forEach.call(chDots.querySelectorAll('.ch-dot'),function(dot,j){ dot.setAttribute('aria-current',j===i?'true':'false'); dot.setAttribute('tabindex',j===i?'0':'-1'); });
+      if(chPrev) chPrev.disabled=i===0; if(chNext) chNext.disabled=i===totalCh-1;
+      var el=chapters[i]; if(el) el.scrollTop=0;
+      initStepAccordion(); if(!noSave) saveState();
+    }
+  }
+  function buildDots(){
+    if(!chDots) return; chDots.innerHTML='';
+    chapters.forEach(function(ch,i){
+      var t=ch.getAttribute('data-g-label')||('Part '+(i+1));
+      var b=document.createElement('button'); b.type='button'; b.className='ch-dot';
+      b.setAttribute('role','tab'); b.setAttribute('title',t); b.setAttribute('aria-label',t);
+      b.addEventListener('click',function(){showChapter(i);}); chDots.appendChild(b);
+    });
+  }
+  function steps(){ return document.querySelectorAll('.body .step'); }
+  function installStepChecks(){
+    steps().forEach(function(step,i){
+      var id='step-'+(i+1); var uid='chk-'+id;
+      var lab=document.createElement('label'); lab.className='step-check'; lab.setAttribute('for',uid);
+      lab.innerHTML='<input type="checkbox" class="step-check-input" id="'+uid+'" data-step-id="'+id+'" /><span class="step-check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="12" height="12" focusable="false"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="step-check-txt">Done</span>';
+      step.appendChild(lab);
+      var inp=document.getElementById(uid);
+      if(inp){
+        inp.addEventListener('change',function(){
+          step.classList.toggle('is-done',inp.checked);
+          if(inp.checked){ step.classList.add('just-marked'); window.setTimeout(function(){step.classList.remove('just-marked');},600); if(body.classList.contains('guided')) window.setTimeout(function(){advanceStepAccordion(step);},220); }
+          else{ initStepAccordion(); }
+          updateJourney(); saveState();
+        });
+        if(state.done&&state.done[id]){inp.checked=true;step.classList.add('is-done');}
+      }
+    });
+  }
+  function updateJourney(){
+    var n=0,tot=0,items=[];
+    steps().forEach(function(step,i){
+      var id='step-'+(i+1); tot++;
+      var titleEl=step.querySelector('.step-title'); var t=titleEl?titleEl.textContent.trim():'Step '+(i+1);
+      var inp=document.querySelector('input[data-step-id="'+id+'"]'); var done=inp&&inp.checked;
+      if(done) n++; items.push({id:id,title:t,done:done});
+    });
+    if(journeyPct){var p=tot?Math.round(100*n/tot):0; journeyPct.innerHTML='You\'ve completed <strong>'+p+'%</strong> of this worksheet ('+n+' of '+tot+' steps).';}
+    if(journeyList){ journeyList.innerHTML=items.map(function(it){return'<li class="'+(it.done?'jl-done':'')+'"><span class="jl-ico" aria-hidden="true">'+(it.done?'&#10003;':'&#9675;')+'</span> <span>'+escapeHtml(it.title)+'</span></li>';}).join(''); }
+  }
+  function escapeHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  if(chPrev) chPrev.addEventListener('click',function(){showChapter(currentIndex-1);});
+  if(chNext) chNext.addEventListener('click',function(){showChapter(currentIndex+1);});
+  if(modeGuided) modeGuided.addEventListener('click',function(){setMode(true);});
+  if(modeFull) modeFull.addEventListener('click',function(){setMode(false);});
+
+  var resetBtn=document.getElementById('journeyReset');
+  if(resetBtn) resetBtn.addEventListener('click',function(){
+    if(!confirm('Clear all checkmarks? This can\'t be undone.')) return;
+    document.querySelectorAll('.step .step-check-input').forEach(function(inp){inp.checked=false;var st=inp.closest('.step');if(st)st.classList.remove('is-done');});
+    state.done={}; localStorage.setItem(LS_KEY,JSON.stringify(state)); updateJourney(); initStepAccordion();
+  });
+
+  function initReveal(){
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var nodes=document.querySelectorAll('.hero,.body .step,.body .phase-hdr,.body .intro-para,.body .stat-callout,.body .principle-grid,.body .copyright-table,.body .scenario-grid,.body .maori-block,.body .checklist,.journey-summary,.cta-block');
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting)en.target.classList.add('is-visible');});},{root:null,rootMargin:'0px 0px -6% 0px',threshold:.06});
+    Array.prototype.forEach.call(nodes,function(n){n.classList.add('reveal');io.observe(n);});
+  }
+
+  if(typeof state.chapter==='number'&&state.chapter>=0&&state.chapter<totalCh) currentIndex=state.chapter;
+  buildDots(); installStepChecks(); updateJourney();
+  if(state.mode==='full') setMode(false); else setMode(true);
+  initReveal();
+
+  document.addEventListener('keydown',function(e){
+    if(!body.classList.contains('guided')) return;
+    if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable)) return;
+    if(e.key==='ArrowRight'&&!e.shiftKey) showChapter(currentIndex+1);
+    if(e.key==='ArrowLeft'&&!e.shiftKey) showChapter(currentIndex-1);
+  });
+})();
+</script>
+</body>
+</html>

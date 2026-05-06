@@ -20,6 +20,8 @@ export const PUBLIC_ROUTES = [
   "/resources/discipleship-and-missions-in-an-ai-age",
   "/resources/outsourcing-the-holy-spirit-to-ai",
   "/pricing",
+  "/tauranga-sme",
+  "/tauranga-sme/welcome",
   "/intake",
   "/pay",
   "/privacy",

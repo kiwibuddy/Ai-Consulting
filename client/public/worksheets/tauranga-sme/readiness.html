@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Is Your Business Ready for AI? A Tauranga SME Self-Assessment — Nathaniel Baldock</title>
+<meta name="description" content="A plain-language self-assessment for Bay of Plenty small business owners. Work out where you actually sit with AI, what's available locally, and what to do next.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:             #ffffff;
+  --bg-warm:        hsl(42, 40%, 98%);
+  --bg-mist:        hsl(210, 24%, 96%);
+  --bg-muted:       hsl(210, 16%, 94%);
+  --fg:             #0a0a0a;
+  --fg-med:         hsl(220, 8%, 30%);
+  --fg-muted:       hsl(220, 7%, 44%);
+  --border:         hsl(220, 12%, 88%);
+
+  --accent:         hsl(207, 58%, 34%);
+  --accent-mid:     hsl(200, 45%, 42%);
+  --accent-soft:    hsl(200, 40%, 94%);
+  --accent-bright:  hsl(198, 70%, 48%);
+  --sky-tint:       hsl(200, 45%, 88%);
+
+  --lime:           hsl(79, 82%, 50%);
+  --lime-deep:      hsl(79, 70%, 38%);
+  --lime-muted:     hsl(79, 40%, 92%);
+
+  --gold:           #C9A227;
+  --gold-bg:        hsl(40, 60%, 95%);
+  --green:          hsl(152, 45%, 36%);
+  --green-bg:       hsl(152, 40%, 94%);
+  --dark:           hsl(220, 18%, 8%);
+  --card-shadow:    0 1px 2px rgba(15,23,42,.04), 0 12px 32px -8px rgba(15,23,42,.08);
+
+  --p1:             hsl(205, 52%, 38%);
+  --p2:             hsl(195, 48%, 40%);
+  --p3:             hsl(175, 42%, 36%);
+  --p4:             hsl(230, 38%, 44%);
+  --p5:             hsl(265, 32%, 44%);
+
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+  --font-serif:     'Fraunces', 'Georgia', serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, monospace;
+  --r:              16px;
+  --r-sm:           10px;
+  --page-px:        clamp(1.25rem, 4.5vw, 4.25rem);
+  --prose-max:      min(70ch, 100%);
+}
+
+html{ background: var(--bg); min-height: 100%; }
+html.guide-locked{ scroll-padding-bottom: max(5.25rem, env(safe-area-inset-bottom, 0px)); }
+body{
+  font-family: var(--font-sans);
+  color: var(--fg);
+  margin: 0;
+  padding: 0 0 100px;
+  -webkit-font-smoothing: antialiased;
+}
+body:not(.guided) .ch-dots,
+body:not(.guided) .nav-ghost,
+body:not(.guided) .nav-primary,
+body:not(.guided) .guide-progress-label{ display: none; }
+body:not(.guided) .guide-dock .guide-dock-inner{ justify-content: center; }
+
+.page{ max-width: none; width: 100%; margin: 0; background: var(--bg); border-radius: 0; overflow: hidden; box-shadow: none; border: none; }
+
+/* SITE HEADER */
+.site-hdr{
+  background: var(--bg);
+  padding: 16px var(--page-px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.logo-row{
+  display:flex;align-items:center;gap:12px;
+  text-decoration:none;color:inherit;
+  transition: opacity .2s ease;
+}
+a.logo-row:hover{ opacity: .78; }
+.logo-mark{
+  width:36px;height:36px;
+  background: var(--fg);
+  border-radius: 10px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:var(--font-serif);font-weight:600;color:var(--bg);font-size:15px;
+  letter-spacing: -0.02em;
+}
+.logo-name{font-size:13px;font-weight:600;color:var(--fg);letter-spacing:-0.01em;}
+.logo-sub{font-size:9.5px;color:var(--fg-muted);letter-spacing:.08em;}
+.hdr-badge{
+  background: var(--bg-warm);
+  border:1px solid var(--border);
+  color: var(--fg-med);
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  padding:6px 14px;border-radius:999px;
+}
+
+/* HERO */
+.hero{
+  background: linear-gradient(180deg,
+    hsl(205, 42%, 91%) 0%,
+    hsl(210, 28%, 96%) 38%,
+    hsl(42, 38%, 98%) 72%,
+    var(--bg) 100%
+  );
+  padding: clamp(2.5rem, 5vw, 3.5rem) var(--page-px) clamp(2.25rem, 4.5vw, 3rem);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 70% at 100% -10%, hsl(200, 55%, 88%, 0.7) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, hsl(79, 40%, 90%, 0.35) 0%, transparent 45%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;opacity:0.35;pointer-events:none;mix-blend-mode:multiply;
+  background-image: radial-gradient(circle, hsl(220, 10%, 50%) 0.6px, transparent 0.6px);
+  background-size: 7px 7px;
+}
+.hero-category{
+  font-size:9px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--fg-muted);margin-bottom:22px;
+  display:flex;align-items:center;gap:12px;position:relative;z-index:1;
+}
+.cat-rule{flex:1;height:1px;background:var(--border);max-width:120px;}
+.hero-title{
+  font-family:var(--font-serif);font-size:clamp(1.9rem, 4.5vw, 2.55rem);
+  font-weight:600;color:var(--fg);line-height:1.08;letter-spacing:-0.03em;
+  margin-bottom:12px;position:relative;z-index:1;
+}
+.hero-title em{font-style:italic;font-weight:450;color:var(--fg-muted);}
+.hero-sub{
+  font-family:var(--font-sans);font-size:15px;font-weight:400;
+  color:var(--fg-med);margin-bottom:28px;position:relative;z-index:1;max-width:var(--prose-max);
+  line-height:1.5;
+}
+.hero-stats{
+  display:flex;gap:0;margin-bottom:28px;
+  border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;position:relative;z-index:1;
+  background:var(--bg);
+  box-shadow: var(--card-shadow);
+}
+.hs{padding:16px 18px;flex:1;border-right:1px solid var(--border);}
+.hs:last-child{border-right:none;}
+.hs-num{
+  font-family:var(--font-serif);font-size:1.5rem;font-weight:600;
+  color:var(--fg);line-height:1;margin-bottom:6px;letter-spacing:-0.02em;
+}
+.hs-text{font-size:10px;font-weight:400;color:var(--fg-muted);line-height:1.5;letter-spacing:0.02em;}
+.hero-desc{
+  font-size:14px;font-weight:400;color:var(--fg-med);
+  line-height:1.7;max-width:var(--prose-max);margin-bottom:8px;position:relative;z-index:1;
+}
+.hero-desc strong{color:var(--fg);font-weight:500;}
+.hero-meta{
+  display:flex;align-items:center;padding-top:22px;
+  border-top:1px solid var(--border);
+  flex-wrap:wrap;gap:4px 0;position:relative;z-index:1;
+  margin-top: 18px;
+}
+.mi{ font-size:9.5px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase; color:var(--fg-muted);padding:0 16px; }
+.mi:first-child{padding-left:0;}
+.msep{width:1px;height:11px;background:var(--border);}
+
+/* BODY */
+.body{
+  padding: clamp(2.5rem, 4.5vw, 3.25rem) var(--page-px) clamp(2rem, 3.5vw, 2.75rem);
+  background: var(--bg);
+}
+.intro-para{font-size:14px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:var(--prose-max);}
+.intro-para strong{color:var(--fg);font-weight:500;}
+
+/* Section headers */
+.sec-lbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.sec-title{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg);margin-bottom:6px;letter-spacing:-0.02em;}
+.sec-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:var(--prose-max);margin-bottom:18px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+/* Phase header */
+.phase-hdr{display:flex;align-items:flex-start;gap:18px;margin:36px 0 18px;}
+.phase-num{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:#fff;flex-shrink:0;
+  letter-spacing:-0.02em;
+}
+.ph-1{background:var(--p1);}
+.ph-2{background:var(--p2);}
+.ph-3{background:var(--p3);}
+.ph-4{background:var(--p4);}
+.ph-5{background:var(--p5);}
+.phase-text{padding-top:2px;}
+.phase-kicker{font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;}
+.phase-title{font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:5px;letter-spacing:-0.02em;}
+.phase-sub{font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.55;max-width:var(--prose-max);}
+
+/* Step block */
+.step{
+  position: relative;
+  margin: 24px 0 20px;
+  padding-left: 24px;
+  border-left: 2px solid var(--sky-tint);
+  transition: background 0.35s ease, border-left-color 0.35s ease, box-shadow 0.35s ease, opacity 0.25s ease;
+}
+.step-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.step-num{font-family:var(--font-sans);font-size:10px;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase;}
+.step-title{font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);line-height:1.35;letter-spacing:-0.02em;}
+.step-body{
+  font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.7;
+  overflow: hidden;
+}
+.step-body p{margin-bottom:10px;}
+.step-body p:last-child{margin-bottom:0;}
+.step-body a{color:var(--accent-mid);text-decoration:none;border-bottom:1px solid var(--accent-soft);}
+.step-body a:hover{border-bottom-color:var(--accent-bright);}
+
+/* Sub-list */
+.sub-list{margin:10px 0 6px 0;padding:0;list-style:none;counter-reset:item;}
+.sub-list li{
+  position:relative;padding-left:22px;margin-bottom:8px;
+  font-size:12.5px;line-height:1.65;color:var(--fg-med);
+}
+.sub-list li::before{
+  content:counter(item);counter-increment:item;
+  position:absolute;left:0;top:1px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);
+  font-size:9px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+.bull{margin:8px 0 6px 0;padding-left:18px;}
+.bull li{font-size:12.5px;line-height:1.65;color:var(--fg-med);margin-bottom:5px;}
+.bull li::marker{color:var(--accent-bright);}
+
+/* Tip / Note / AHA blocks */
+.tip{
+  background: var(--gold-bg);
+  border:1px solid hsl(38, 50%, 84%);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--fg-med);
+}
+.tip-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.tip strong{color:var(--fg);font-weight:500;}
+
+.note{
+  background: var(--accent-soft);
+  border:1px solid var(--sky-tint);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--fg-med);
+}
+.note-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.note strong{color:var(--fg);font-weight:500;}
+
+.aha{
+  background: linear-gradient(135deg, var(--lime-muted) 0%, var(--bg-warm) 100%);
+  border:1px solid hsl(79, 30%, 82%);
+  border-left: 3px solid var(--lime-deep);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--fg-med);
+}
+.aha-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--lime-deep);margin-bottom:5px;}
+.aha strong{color:var(--fg);font-weight:500;}
+
+/* Self-assessment question block */
+.q-block{
+  background: var(--bg-warm);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 16px 18px;
+  margin: 12px 0;
+}
+.q-text{font-size:13px;font-weight:500;color:var(--fg);line-height:1.45;margin-bottom:12px;}
+.q-options{display:flex;flex-direction:column;gap:7px;}
+.q-opt{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--bg);
+  cursor:pointer;
+  transition: border-color .18s, background .18s;
+  font-size:12.5px;line-height:1.5;color:var(--fg-med);
+}
+.q-opt:hover{ border-color:var(--accent); background: var(--accent-soft); }
+.q-opt input[type="radio"]{ margin-top:2px; accent-color: var(--accent); flex-shrink:0; }
+.q-opt.selected{ border-color:var(--accent); background: var(--accent-soft); color: var(--fg); }
+.q-opt label{ cursor:pointer; }
+.q-score-tag{
+  display:inline-block;
+  font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:2px 7px;border-radius:10px;margin-left:6px;
+  vertical-align:middle;
+}
+.score-0{ background:hsl(0,30%,92%);color:hsl(0,45%,40%); }
+.score-1{ background:hsl(38,45%,90%);color:hsl(38,60%,35%); }
+.score-2{ background:hsl(79,35%,88%);color:var(--lime-deep); }
+
+/* Score result bar */
+.score-bar-wrap{margin:20px 0 8px;}
+.score-bar-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;}
+.score-bar-track{
+  height:10px;border-radius:999px;
+  background:var(--bg-muted);
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+.score-bar-fill{
+  height:100%;border-radius:999px;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--lime) 100%);
+  transition: width .6s cubic-bezier(.22,1,.36,1);
+  width:0%;
+}
+.score-display{
+  margin-top:14px;
+  padding:16px 18px;
+  background:var(--bg-warm);
+  border:1px solid var(--border);
+  border-radius:var(--r-sm);
+  display:none;
+}
+.score-display.visible{display:block;}
+.score-display-num{
+  font-family:var(--font-serif);font-size:2.2rem;font-weight:600;color:var(--fg);
+  line-height:1;margin-bottom:4px;letter-spacing:-0.03em;
+}
+.score-display-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
+.score-display-text{font-size:13px;font-weight:300;line-height:1.7;color:var(--fg-med);}
+.score-display-text strong{color:var(--fg);font-weight:500;}
+
+/* Cheat / comparison table */
+.cheat{
+  border:1px solid var(--border);
+  border-radius: var(--r);
+  overflow:hidden;
+  margin: 14px 0 20px;
+  box-shadow: 0 1px 0 rgba(15,23,42,.03);
+}
+.cheat-row{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--border);}
+.cheat-row:last-child{border-bottom:none;}
+.cheat-row:nth-child(odd){background: var(--bg-mist);}
+.cheat-key{
+  padding:10px 14px;font-family:var(--font-sans);font-size:12px;
+  color:var(--fg);font-weight:500;
+  border-right:1px solid var(--border);
+  display:flex;align-items:flex-start;
+  line-height:1.5;
+}
+.cheat-val{padding:10px 14px;font-size:12px;color:var(--fg-med);line-height:1.5;}
+
+/* CTA block */
+.cta-block{
+  background: linear-gradient(135deg, hsl(207,52%,18%) 0%, hsl(207,45%,24%) 100%);
+  border-radius: var(--r);
+  padding: 32px clamp(1.5rem, 3vw, 2.5rem);
+  margin: 32px 0 0;
+  color: #fff;
+  position:relative;overflow:hidden;
+}
+.cta-block::before{
+  content:'';position:absolute;inset:0;
+  background: radial-gradient(ellipse 80% 60% at 110% -20%, hsl(79,60%,55%,0.18) 0%, transparent 55%);
+  pointer-events:none;
+}
+.cta-eyebrow{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(200,50%,70%);margin-bottom:10px;position:relative;}
+.cta-title{font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:600;color:#fff;margin-bottom:10px;line-height:1.2;letter-spacing:-0.02em;position:relative;}
+.cta-body{font-size:13px;font-weight:300;line-height:1.7;color:hsl(210,30%,82%);max-width:55ch;margin-bottom:24px;position:relative;}
+.cta-body strong{color:#fff;font-weight:500;}
+.cta-actions{display:flex;flex-wrap:wrap;gap:10px;position:relative;}
+.cta-btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background: var(--lime);
+  color: var(--dark);
+  font-family:var(--font-sans);font-size:12px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:12px 22px;border-radius:999px;
+  text-decoration:none;
+  transition: background .2s, transform .15s;
+  border:none;cursor:pointer;
+}
+.cta-btn-primary:hover{ background: hsl(79,82%,44%); transform: translateY(-1px); }
+.cta-btn-secondary{
+  display:inline-flex;align-items:center;
+  background: transparent;
+  color: #fff;
+  font-family:var(--font-sans);font-size:12px;font-weight:500;
+  padding:12px 22px;border-radius:999px;
+  border:1px solid hsl(210,30%,50%);
+  text-decoration:none;
+  transition: border-color .2s, background .2s;
+  cursor:pointer;
+}
+.cta-btn-secondary:hover{ border-color:#fff; background: hsl(207,45%,30%); }
+
+/* Stat callout */
+.stat-callout{
+  display:grid;grid-template-columns:auto 1fr;gap:0;
+  border:1px solid var(--border);border-radius:var(--r);
+  overflow:hidden;margin:18px 0;
+  box-shadow: var(--card-shadow);
+}
+.stat-num-col{
+  background:var(--fg);
+  padding:18px 20px;
+  display:flex;align-items:center;justify-content:center;
+  min-width:90px;
+}
+.stat-num-val{
+  font-family:var(--font-serif);font-size:1.8rem;font-weight:600;color:var(--lime);
+  line-height:1;text-align:center;letter-spacing:-0.03em;
+}
+.stat-num-unit{font-size:10px;font-weight:500;color:hsl(210,15%,65%);text-align:center;letter-spacing:1px;margin-top:3px;}
+.stat-body-col{padding:14px 18px;}
+.stat-body-text{font-size:12.5px;font-weight:400;color:var(--fg-med);line-height:1.6;}
+.stat-body-text strong{color:var(--fg);font-weight:500;}
+.stat-source{font-size:9px;font-weight:500;color:var(--fg-muted);letter-spacing:.04em;margin-top:6px;}
+
+/* Pilot eligibility card */
+.eligibility-card{
+  background:var(--green-bg);
+  border:1px solid hsl(152,30%,78%);
+  border-left:3px solid var(--green);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:16px 20px;
+  margin:16px 0;
+}
+.eligibility-card-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+.eligibility-card-title{font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:8px;}
+.eligibility-card-body{font-size:12.5px;font-weight:300;line-height:1.65;color:var(--fg-med);}
+.eligibility-card-body strong{color:var(--fg);font-weight:500;}
+
+/* Journey / progress summary */
+.journey-summary{
+  background: var(--bg-mist);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 22px;
+  margin: 28px 0 0;
+}
+.journey-title{ font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:4px; }
+.journey-pct{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:14px; }
+.journey-list{ list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px; }
+.journey-list li{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:300;color:var(--fg-med);
+}
+.jl-ico{ font-size:11px;color:var(--fg-muted);width:14px;flex-shrink:0;text-align:center; }
+.jl-done .jl-ico{ color:var(--lime-deep); }
+.jl-done > span:last-child{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.journey-reset-btn{
+  margin-top:14px;
+  background:none;border:1px solid var(--border);
+  font-family:var(--font-sans);font-size:11px;font-weight:500;
+  color:var(--fg-muted);padding:7px 14px;border-radius:999px;
+  cursor:pointer;transition:all .2s;
+}
+.journey-reset-btn:hover{ border-color:var(--fg-muted); color:var(--fg); }
+
+/* Footer */
+.foot{ padding:0;border:0;display:block;border-top:1px solid var(--border);background:var(--bg); }
+.foot-body{
+  position:relative;background:var(--bg-mist);
+  padding:8px var(--page-px) 10px;
+  display:flex;flex-wrap:wrap;
+  justify-content:space-between;align-items:center;
+  gap:8px 20px;
+}
+.foot-brand{ font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--fg-muted); }
+.foot-right{ font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:9px;color:var(--fg-muted); }
+
+/* Guide dock */
+.guide-dock{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  display:flex;justify-content:center;
+  padding:10px 12px max(10px,env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,transparent 0%,rgba(255,255,255,.92) 18%,#fff 100%);
+  border-top:1px solid var(--border);
+  box-shadow:0 -4px 24px rgba(15,23,42,.08);
+  pointer-events:none;
+}
+.guide-dock *{ pointer-events:auto; }
+.guide-dock-inner{
+  width:100%;max-width:none;padding:0 var(--page-px);box-sizing:border-box;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 12px;
+}
+.guide-dock .guide-mode{
+  display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--bg-mist);
+}
+.guide-dock .guide-mode button{
+  font-family:var(--font-sans);font-size:11px;font-weight:600;
+  padding:8px 14px;border:none;background:transparent;color:var(--fg-muted);cursor:pointer;
+  transition:background .2s,color .2s;
+}
+.guide-dock .guide-mode button[aria-pressed="true"]{ background:var(--fg);color:var(--bg); }
+.guide-dock .guide-mode button:not([aria-pressed="true"]):hover{ color:var(--fg); }
+.guide-chapter-nav{ display:flex;align-items:center;gap:8px;flex:1;min-width:0;justify-content:center; }
+.guide-dock .ch-dots{ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:min(100%,28rem); }
+.guide-dock .ch-dot{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid var(--border);background:var(--bg);
+  padding:0;cursor:pointer;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),background .2s,border-color .2s;
+}
+.guide-dock .ch-dot:hover{ transform:scale(1.14); }
+.guide-dock .ch-dot[aria-current="true"]{ background:var(--accent);border-color:var(--accent); }
+.guide-dock .ch-dot.done{ background:var(--lime);border-color:var(--lime-deep); }
+.guide-nav-btns{ display:flex;gap:6px;align-items:center; }
+.guide-dock .nav-ghost,
+.guide-dock .nav-primary{
+  font-family:var(--font-sans);font-size:12px;font-weight:600;
+  padding:9px 18px;border-radius:999px;cursor:pointer;border:none;
+  transition:background .2s,color .2s,opacity .2s;
+}
+.guide-dock .nav-ghost{ background:var(--bg-mist);color:var(--fg-muted);border:1px solid var(--border); }
+.guide-dock .nav-ghost:hover:not(:disabled){ color:var(--fg); }
+.guide-dock .nav-primary{ background:var(--fg);color:var(--bg); }
+.guide-dock .nav-primary:hover:not(:disabled){ background:var(--accent); }
+.guide-dock .nav-primary:disabled, .guide-dock .nav-ghost:disabled{ opacity:.35;cursor:not-allowed; }
+.guide-progress-label{ font-size:10px;font-weight:500;color:var(--fg-muted);letter-spacing:.06em; }
+
+/* Guided layout */
+body.guided .page{ display:flex;flex-direction:column;max-height:calc(100dvh - 68px);overflow:hidden; }
+body.guided .site-hdr{ flex:0 0 auto; }
+body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0; }
+body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
+body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
+body.guided .body > .guide-chapter{ min-height:0; }
+body.guided .body > .guide-chapter.is-active{
+  display:flex;flex:1 1 auto;flex-direction:column;min-height:0;
+  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  padding:0 0 20px;scroll-behavior:smooth;
+  animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both;
+}
+body.guided .guide-chapter.is-active .phase-hdr{
+  position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;
+  background:var(--bg);
+  box-shadow:0 1px 0 0 var(--border),0 10px 12px -8px rgba(15,23,42,.08);
+  transition:box-shadow .25s ease,z-index 0s;
+}
+body.guided .foot{ flex:0 0 auto;margin:0; }
+body:not(.guided) .guide-chapter{ display:contents; }
+body.guided .hero{ border-radius:0; }
+
+/* Step checkbox */
+.step .step-check{
+  position:absolute;top:0;right:0;
+  display:flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--fg-muted);cursor:pointer;user-select:none;z-index:2;
+}
+@media(min-width:700px){ .step{padding-top:4px;} .step .step-check{top:2px;} }
+.step .step-check-input{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.step .step-check-input:focus{ outline:none; }
+.step .step-check-input:focus-visible + .step-check-box{ box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-bright); }
+.step .step-check-box{
+  width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--bg);
+  display:grid;place-items:center;flex-shrink:0;
+  transition:border-color .22s,background .25s,transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.step .step-check-box svg{ width:12px;height:12px;color:var(--lime-deep);opacity:0;transform:scale(.2) rotate(-12deg);transition:opacity .2s,transform .4s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-input:checked + .step-check-box{ border-color:var(--lime-deep);background:var(--lime-muted);animation:checkPop .5s cubic-bezier(.34,1.56,.64,1),checkRipple .65s ease-out .05s 1; }
+.step .step-check-input:checked + .step-check-box svg{ opacity:1;transform:scale(1) rotate(0deg);transition-delay:.06s; }
+.step .step-check-txt{ transition:color .25s,transform .2s; }
+.step .step-check-input:checked ~ .step-check-txt{ color:var(--lime-deep); }
+
+/* Guided step accordion */
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-head{ margin-bottom:0; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-body{ max-height:0!important;opacity:0;transform:translateY(-3px);margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;pointer-events:none;transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .26s,transform .3s,margin .28s,padding .28s; }
+body.guided .guide-chapter.is-active .step.is-step-open .step-body{ max-height:80rem;opacity:1;transform:translateY(0);pointer-events:auto;transition:max-height .48s cubic-bezier(.4,0,.2,1),opacity .4s ease .08s,transform .4s ease .08s; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open){ margin:5px 0 8px; }
+body.guided .guide-chapter.is-active .step.is-step-open{ margin:20px 0 18px; }
+body:not(.guided) .step .step-body{ max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important; }
+body:not(.guided) .step{ margin:24px 0 20px; }
+
+.step.is-done{ opacity:.96;border-left-color:var(--lime)!important;background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);box-shadow:0 0 0 1px hsla(79,40%,80%,.35) inset; }
+.step.is-done .step-title{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.step.just-marked{ animation:stepFlash .55s ease 1; }
+
+@keyframes ch-enter{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+@keyframes checkPop{ 0%{transform:scale(.92);} 45%{transform:scale(1.06);} 100%{transform:scale(1);} }
+@keyframes checkRipple{ 0%{box-shadow:0 0 0 0 hsla(79,86%,52%,.45);} 100%{box-shadow:0 0 0 10px hsla(79,86%,52%,0);} }
+@keyframes stepFlash{ 0%{background:linear-gradient(90deg,hsla(79,55%,88%,.9) 0%,rgba(255,255,255,0) 20px);} 100%{background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);} }
+
+/* Reveal animation */
+.reveal{ opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease; }
+.reveal.is-visible{ opacity:1;transform:translateY(0); }
+
+@media print{
+  .guide-dock,.site-hdr{ display:none!important; }
+  body{ padding-bottom:0; }
+  .step.is-done{ opacity:1; }
+  .step.is-done .step-title{ text-decoration:none; }
+  body.guided .guide-chapter .step .step-body,
+  body.guided .guide-chapter .step:not(.is-step-open) .step-body{ max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important; }
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{ opacity:1;transform:none;transition:none; }
+  body.guided .guide-chapter.is-active{ animation:none; }
+  .step .step-check-input:checked + .step-check-box{ animation:none; }
+}
+@media(max-width:640px){
+  .body{ padding:1.5rem var(--page-px) 1.5rem; }
+  body.guided .body{ padding:4px var(--page-px) 0; }
+  body.guided .page{ max-height:calc(100dvh - 88px); }
+  .hero{ padding:2rem var(--page-px) 2.25rem; }
+  .site-hdr{ padding:14px var(--page-px); }
+  .hero-title{ font-size:30px; }
+  .hero-stats{ display:grid;grid-template-columns:1fr 1fr; }
+  .hs{ border-right:1px solid var(--border);border-bottom:1px solid var(--border); }
+  .hs:nth-child(2n){ border-right:none; }
+  .hs:nth-child(3),.hs:nth-child(4){ border-bottom:none; }
+  .cheat-row{ grid-template-columns:130px 1fr; }
+  .stat-callout{ grid-template-columns:1fr; }
+  .stat-num-col{ padding:14px 18px; }
+  .cta-actions{ flex-direction:column; }
+}
+</style>
+</head>
+<body class="guided">
+<div class="page">
+
+<!-- SITE HEADER -->
+<div class="site-hdr">
+  <a class="logo-row" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener" aria-label="Nathaniel Baldock">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="logo-name">Nathaniel Baldock</div>
+      <div class="logo-sub">AI CONSULTANT &middot; TAURANGA</div>
+    </div>
+  </a>
+  <div class="hdr-badge">Worksheet 1 of 4</div>
+</div>
+
+<!-- HERO -->
+<div class="guide-chapter is-active" id="ch-welcome" data-g-label="Start here">
+<div class="hero">
+  <div class="hero-category">
+    <span>Bay of Plenty &middot; SME Self-Assessment</span>
+    <div class="cat-rule"></div>
+    <span>30 minutes &middot; No tech background needed</span>
+  </div>
+  <div class="hero-title">Is your business<br><em>actually ready for AI?</em></div>
+  <div class="hero-sub">A plain-language self-assessment for Tauranga and Bay of Plenty small business owners.</div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">68%</div><div class="hs-text">of NZ small businesses have<br>no AI plans at all</div></div>
+    <div class="hs"><div class="hs-num">43%</div><div class="hs-text">of non-users say they lack<br>the expertise to start</div></div>
+    <div class="hs"><div class="hs-num">$765K</div><div class="hs-text">Government co-funding now<br>available for BOP SMEs</div></div>
+    <div class="hs"><div class="hs-num">30 min</div><div class="hs-text">Time to complete<br>this worksheet</div></div>
+  </div>
+
+  <div class="hero-desc">
+    Most AI guides assume you're already onboard. This one doesn't. It starts with an honest question: <strong>where are you actually at?</strong> Work through the five sections and you'll finish with a clear picture of your readiness, what's holding you back, and what your most useful next step is.
+  </div>
+
+  <div class="hero-meta">
+    <div class="mi">Tauranga Business Chamber</div><div class="msep"></div>
+    <div class="mi">Priority One</div><div class="msep"></div>
+    <div class="mi">MBIE AI Advisory Pilot 2026</div>
+  </div>
+</div>
+</div><!-- /ch-welcome -->
+
+<!-- BODY -->
+<div class="body">
+
+<!-- CHAPTER 1: Context -->
+<div class="guide-chapter" id="ch-context" data-g-label="Why this matters">
+  <div class="phase-hdr">
+    <div class="phase-num ph-1">1</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 1 &middot; Context</div>
+      <div class="phase-title">What's actually happening in our region</div>
+      <div class="phase-sub">Before you assess yourself, it's worth knowing what's happening around you. The Bay of Plenty is not behind.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    The Port of Tauranga is already using AI for health and safety monitoring. Zespri and PlantTech are running AI-driven yield prediction trials. The Tauranga Business Chamber ran its first dedicated AI for Business session in 2025. Priority One has flagged AI adoption as central to the region's shift toward a higher-wage, knowledge-intensive economy.
+  </p>
+
+  <p class="intro-para">
+    None of that means you're behind. It means the conversation is real and local. What <strong>is</strong> true is that the gap between large businesses and small ones is wide, and the government has noticed.
+  </p>
+
+  <div class="stat-callout reveal">
+    <div class="stat-num-col">
+      <div class="stat-num-val">67%</div>
+      <div class="stat-num-unit">large biz</div>
+    </div>
+    <div class="stat-body-col">
+      <div class="stat-body-text">Large business AI usage jumped from 48% to <strong>67% in 2024</strong>. SME adoption is still in single digits in many sectors. That gap is exactly why the government launched a co-funded AI advisory programme this year.</div>
+      <div class="stat-source">Source: MBIE / AI New Zealand, 2024–2025</div>
+    </div>
+  </div>
+
+  <div class="eligibility-card reveal">
+    <div class="eligibility-card-lbl">Worth knowing</div>
+    <div class="eligibility-card-title">The AI Advisory Pilot — is your business eligible?</div>
+    <div class="eligibility-card-body">
+      In January 2026, the Government launched a <strong>$765,000 co-funded AI advisory pilot</strong> through the Regional Business Partner Network. At least 51 SMEs will receive funded support to develop an AI adoption plan. The entry point in our region is <strong>Priority One</strong>. This worksheet will help you get clear on where you stand before you have that conversation.
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.1</div>
+      <div class="step-title">Read the landscape and note your reaction</div>
+    </div>
+    <div class="step-body">
+      <p>Before moving into the self-assessment, spend two minutes thinking honestly about this question:</p>
+      <div class="q-block">
+        <div class="q-text">When you hear "AI for small business," what's your gut reaction?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="gut" value="curious"> Genuinely curious. I want to understand what's relevant to my business.</label>
+          <label class="q-opt"><input type="radio" name="gut" value="skeptical"> Skeptical. I've heard the hype and most of it doesn't apply to me.</label>
+          <label class="q-opt"><input type="radio" name="gut" value="behind"> Anxious. I feel like I'm already behind and I'm not sure where to start.</label>
+          <label class="q-opt"><input type="radio" name="gut" value="using"> Already using it. I want to know if I'm doing it well.</label>
+        </div>
+      </div>
+      <p style="margin-top:14px;">Your answer here doesn't change what you'll find in the worksheet. It just helps calibrate how you read the results.</p>
+      <div class="tip">
+        <div class="tip-lbl">Why this question first</div>
+        The biggest barrier to AI adoption in NZ isn't technology. MBIE's own research identifies <strong>lack of expertise and awareness</strong> as the primary blockers for small businesses. Your starting mindset matters more than your starting knowledge.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-context -->
+
+<hr class="div">
+
+<!-- CHAPTER 2: Current Tools -->
+<div class="guide-chapter" id="ch-tools" data-g-label="Your current tools">
+  <div class="phase-hdr">
+    <div class="phase-num ph-2">2</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 2 &middot; Tools audit</div>
+      <div class="phase-title">What are you already using?</div>
+      <div class="phase-sub">Many business owners are already using AI without labelling it that way. This section makes it visible.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    If you've used a chatbot on a website, asked Siri a question, had Facebook suggest who to tag in a photo, or used Google Translate, you've used AI. The question is whether you're using it intentionally for your business — and whether those tools are doing real work for you.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.1</div>
+      <div class="step-title">Check what's already in your toolkit</div>
+    </div>
+    <div class="step-body">
+      <p>Go through this list. Mark the ones that are actually part of how you work. Be honest — "I signed up once" doesn't count.</p>
+      <div class="cheat">
+        <div class="cheat-row"><div class="cheat-key">ChatGPT / Claude / Gemini</div><div class="cheat-val">General AI assistants. Used for writing, research, summarising, answering questions.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Canva AI / Adobe Firefly</div><div class="cheat-val">AI-assisted design tools. Useful for marketing content and social posts.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Xero / MYOB smart tools</div><div class="cheat-val">Both platforms now include AI-assisted expense categorisation and forecasting.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Google Analytics / Meta Ads</div><div class="cheat-val">AI is baked into how both platforms optimise and report. You're already using it.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Shopify / WooCommerce AI</div><div class="cheat-val">Product descriptions, pricing suggestions, inventory alerts — all AI-assisted.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Calendly / scheduling tools</div><div class="cheat-val">Smart scheduling and automated follow-up often includes AI components.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Zoom / Teams AI notes</div><div class="cheat-val">Meeting summaries and action item extraction. Increasingly the default.</div></div>
+      </div>
+      <div class="note">
+        <div class="note-lbl">What this tells you</div>
+        If you marked more than two of these, you're already an AI user. The question isn't whether to adopt AI — it's whether you're getting intentional value from what you've already got.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.2</div>
+      <div class="step-title">Rate your current usage honestly</div>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-text">How would you describe your current AI usage in your business?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="usage" value="0"> I don't use any AI tools in my business operations. <span class="q-score-tag score-0">0 pts</span></label>
+          <label class="q-opt"><input type="radio" name="usage" value="1"> I've experimented with one or two tools but nothing is regular yet. <span class="q-score-tag score-1">1 pt</span></label>
+          <label class="q-opt"><input type="radio" name="usage" value="2"> I use AI tools regularly for at least one specific task in my business. <span class="q-score-tag score-2">2 pts</span></label>
+          <label class="q-opt"><input type="radio" name="usage" value="2"> AI is part of multiple workflows and I'm actively looking to expand where I use it. <span class="q-score-tag score-2">2 pts</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-tools -->
+
+<hr class="div">
+
+<!-- CHAPTER 3: Pain Points -->
+<div class="guide-chapter" id="ch-pain" data-g-label="Time drains">
+  <div class="phase-hdr">
+    <div class="phase-num ph-3">3</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 3 &middot; Time drains</div>
+      <div class="phase-title">Where is your time actually going?</div>
+      <div class="phase-sub">AI is most useful when it replaces specific, repetitive tasks. This section helps you find where those are in your business.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    Most guides ask "what could AI help you with?" The better question is: what tasks do you do every week that you'd rather hand off? What takes you an hour that probably shouldn't? What do you dread because it's tedious, not because it's hard?
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.1</div>
+      <div class="step-title">Identify your biggest repetitive time costs</div>
+    </div>
+    <div class="step-body">
+      <p>Look at a typical week. Which of these consumes more time than it should? Tick all that apply.</p>
+      <div class="q-block">
+        <div class="q-text">Where does repetitive admin work eat your time?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="checkbox" name="drain1"> Writing emails, proposals, or quotes that follow similar patterns each time.</label>
+          <label class="q-opt"><input type="checkbox" name="drain2"> Creating social media content, captions, or marketing copy.</label>
+          <label class="q-opt"><input type="checkbox" name="drain3"> Answering the same customer questions repeatedly.</label>
+          <label class="q-opt"><input type="checkbox" name="drain4"> Summarising, sorting, or reporting on information from spreadsheets or documents.</label>
+          <label class="q-opt"><input type="checkbox" name="drain5"> Scheduling, calendar management, or following up on bookings.</label>
+          <label class="q-opt"><input type="checkbox" name="drain6"> Invoice processing, expense categorisation, or basic bookkeeping tasks.</label>
+          <label class="q-opt"><input type="checkbox" name="drain7"> Research — finding suppliers, comparing products, staying up to date in your industry.</label>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="aha-lbl">What this tells you</div>
+        Every box you ticked is a task where a current AI tool already has a reasonable solution. You don't need to build anything. You need to know which tool maps to which task — and that's exactly what Session 3 of this worksheet series covers.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.2</div>
+      <div class="step-title">Rate how much of your week is repetitive vs. high-judgment work</div>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-text">Roughly what percentage of your typical working week involves tasks that are genuinely repetitive (same thing each time) rather than requiring fresh judgment or relationship?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="repetitive" value="0"> Less than 20%. Most of what I do requires judgment, relationships, or fresh thinking. <span class="q-score-tag score-0">0 pts</span></label>
+          <label class="q-opt"><input type="radio" name="repetitive" value="1"> About 20–40%. There's repetitive work, but it's not the dominant part of my week. <span class="q-score-tag score-1">1 pt</span></label>
+          <label class="q-opt"><input type="radio" name="repetitive" value="2"> More than 40%. A significant part of my week is the same kind of work on repeat. <span class="q-score-tag score-2">2 pts</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-pain -->
+
+<hr class="div">
+
+<!-- CHAPTER 4: Barriers -->
+<div class="guide-chapter" id="ch-barriers" data-g-label="What's stopping you">
+  <div class="phase-hdr">
+    <div class="phase-num ph-4">4</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 4 &middot; Barriers</div>
+      <div class="phase-title">What's actually stopping you?</div>
+      <div class="phase-sub">The barriers to AI adoption for small businesses are well-documented. Knowing yours helps you find the right support.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    MBIE surveyed NZ small businesses about why they haven't adopted AI. The top answer — cited by 43% of non-users — was lack of expertise and awareness. Not cost. Not privacy. Not technology access. <strong>Just not knowing where to start.</strong>
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.1</div>
+      <div class="step-title">Name your actual barrier</div>
+    </div>
+    <div class="step-body">
+      <div class="q-block">
+        <div class="q-text">What is genuinely holding you back from using AI more deliberately in your business?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="barrier" value="knowledge"> I don't know enough to know where to start. The information landscape is overwhelming. <span class="q-score-tag score-0">0 pts</span></label>
+          <label class="q-opt"><input type="radio" name="barrier" value="time"> I don't have time to learn new tools. My plate is full running the business as it is. <span class="q-score-tag score-0">0 pts</span></label>
+          <label class="q-opt"><input type="radio" name="barrier" value="trust"> I'm not sure I trust AI outputs for anything that matters. There's too much risk of errors. <span class="q-score-tag score-1">1 pt</span></label>
+          <label class="q-opt"><input type="radio" name="barrier" value="relevant"> I'm genuinely not convinced it applies to my type of business. <span class="q-score-tag score-1">1 pt</span></label>
+          <label class="q-opt"><input type="radio" name="barrier" value="none"> I'm already using it. My main challenge is knowing if I'm using it well. <span class="q-score-tag score-2">2 pts</span></label>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-lbl">On the "it doesn't apply to me" response</div>
+        This is worth taking seriously rather than dismissing. The honest answer is: AI applies differently to different businesses. A Tauranga kiwifruit exporter, a Mount Maunganui hospitality operator, and a tradesperson working across the Western Bay have genuinely different use cases. The question is always <strong>which specific tasks</strong>, not whether AI "applies" in general.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.2</div>
+      <div class="step-title">Check your data and privacy awareness</div>
+    </div>
+    <div class="step-body">
+      <p>NZ's Privacy Commissioner released updated AI guidance in 2025. Most small businesses have no idea it exists. Two minutes here could save a headache later.</p>
+      <div class="q-block">
+        <div class="q-text">Are you aware of any privacy obligations that come with using AI tools in your business?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="privacy" value="0"> No. I haven't thought about it. <span class="q-score-tag score-0">0 pts</span></label>
+          <label class="q-opt"><input type="radio" name="privacy" value="1"> I know there are rules around customer data but I haven't looked into the AI-specific guidance. <span class="q-score-tag score-1">1 pt</span></label>
+          <label class="q-opt"><input type="radio" name="privacy" value="2"> Yes. I've reviewed the OPC guidance and I know what a Privacy Impact Assessment is. <span class="q-score-tag score-2">2 pts</span></label>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-lbl">Key thing to know</div>
+        NZ's 13 Privacy Principles apply to any AI tool that collects or processes customer data. The Office of the Privacy Commissioner recommends conducting a <strong>Privacy Impact Assessment</strong> before deploying AI in customer-facing contexts. Worksheet 2 in this series covers this in plain language. <a href="https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" target="_blank">OPC AI guidance PDF →</a>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-barriers -->
+
+<hr class="div">
+
+<!-- CHAPTER 5: Score + Next Steps -->
+<div class="guide-chapter" id="ch-score" data-g-label="Your results">
+  <div class="phase-hdr">
+    <div class="phase-num ph-5">5</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 5 &middot; Your readiness score</div>
+      <div class="phase-title">Where you sit and what to do next</div>
+      <div class="phase-sub">Add up your points from Sections 2, 3, and 4. Your score tells you which stage you're in and what the most useful next move is.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.1</div>
+      <div class="step-title">Calculate your readiness score</div>
+    </div>
+    <div class="step-body">
+      <p>Your scored questions were in Sections 2, 3, and 4. Maximum total is <strong>8 points</strong>. Add them up and press the button to see your stage.</p>
+      <div style="display:flex;align-items:center;gap:12px;margin:14px 0 10px;flex-wrap:wrap;">
+        <label style="font-size:12.5px;font-weight:500;color:var(--fg);">My total score:</label>
+        <input type="number" id="scoreInput" min="0" max="8" value="" placeholder="0–8"
+          style="width:72px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--fg);background:var(--bg-warm);text-align:center;">
+        <button id="scoreBtn" onclick="showScore()"
+          style="background:var(--fg);color:var(--bg);font-family:var(--font-sans);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;">
+          Show my stage
+        </button>
+      </div>
+
+      <div class="score-bar-wrap">
+        <div class="score-bar-label">Readiness</div>
+        <div class="score-bar-track"><div class="score-bar-fill" id="scoreFill"></div></div>
+      </div>
+
+      <div class="score-display" id="scoreResult">
+        <div class="score-display-num" id="scoreNum"></div>
+        <div class="score-display-label" id="scoreLabel"></div>
+        <div class="score-display-text" id="scoreText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.2</div>
+      <div class="step-title">Know your local support options</div>
+    </div>
+    <div class="step-body">
+      <p>Regardless of your score, these are the most relevant starting points for Bay of Plenty business owners right now.</p>
+      <div class="cheat">
+        <div class="cheat-row"><div class="cheat-key">Priority One</div><div class="cheat-val">Regional economic development agency. Entry point for the MBIE AI Advisory Pilot co-funding. <a href="https://www.priorityone.co.nz" target="_blank">priorityone.co.nz</a></div></div>
+        <div class="cheat-row"><div class="cheat-key">Tauranga Business Chamber</div><div class="cheat-val">Running an ongoing digital and AI capability programme for local businesses. <a href="https://www.tauranga.org.nz" target="_blank">tauranga.org.nz</a></div></div>
+        <div class="cheat-row"><div class="cheat-key">Business.govt.nz</div><div class="cheat-val">Government-run guide to safe and practical AI use for NZ businesses. <a href="https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use" target="_blank">business.govt.nz</a></div></div>
+        <div class="cheat-row"><div class="cheat-key">Regional Business Partners</div><div class="cheat-val">Funded advisory support across the Bay of Plenty region, including for AI capability building.</div></div>
+        <div class="cheat-row"><div class="cheat-key">OPC AI Guidance</div><div class="cheat-val">Privacy Commissioner's plain-language guide to AI and your obligations. <a href="https://privacy.org.nz" target="_blank">privacy.org.nz</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.3</div>
+      <div class="step-title">Decide on one concrete next action</div>
+    </div>
+    <div class="step-body">
+      <p>The most common mistake after completing something like this is doing nothing specific. Pick one of these before you close this tab.</p>
+      <div class="q-block">
+        <div class="q-text">What is your next step?</div>
+        <div class="q-options">
+          <label class="q-opt"><input type="radio" name="next"> I'm going to contact Priority One this week about the AI Advisory Pilot.</label>
+          <label class="q-opt"><input type="radio" name="next"> I'm going to pick one time drain from Section 3 and try one AI tool on it this week.</label>
+          <label class="q-opt"><input type="radio" name="next"> I'm going to read the OPC AI guidance before I add any new tools to my business.</label>
+          <label class="q-opt"><input type="radio" name="next"> I'm going to book a 30-minute call with Nathaniel to work through my specific situation.</label>
+        </div>
+      </div>
+      <div class="aha">
+        <div class="aha-lbl">One thing</div>
+        You don't need to overhaul how your business operates. You need one task, one tool, two weeks. That's how every business owner I've seen actually make progress has started.
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY SUMMARY -->
+  <div class="journey-summary reveal">
+    <div class="journey-title">Your progress through this worksheet</div>
+    <div class="journey-pct" id="journeyPct">Work through each section to track your progress.</div>
+    <ul class="journey-list" id="journeyList"></ul>
+    <button class="journey-reset-btn" id="journeyReset">Reset checkmarks</button>
+  </div>
+
+  <!-- CTA BLOCK -->
+  <div class="cta-block reveal">
+    <div class="cta-eyebrow">Tauranga &middot; Bay of Plenty</div>
+    <div class="cta-title">Want to work through this with someone who knows the local landscape?</div>
+    <div class="cta-body">
+      I've been using AI in my own work for years and I consult with businesses in the Bay of Plenty on how to adopt it without the hype. A 30-minute call costs nothing and usually ends with a clear picture of two or three things actually worth trying in your specific business.
+    </div>
+    <div class="cta-actions">
+      <a class="cta-btn-primary" href="https://calendar.app.google/KKC9Bhhsb7XEYqvn7" target="_blank">Book a free 30-min call</a>
+      <a class="cta-btn-secondary" href="https://www.nathanielbaldock.com" target="_blank">Learn more about my work</a>
+    </div>
+  </div>
+
+</div><!-- /ch-score -->
+
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="foot">
+  <a class="foot-body" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="foot-brand">Nathaniel Baldock &mdash; nathanielbaldock.com</div>
+    <div class="foot-right">AI Consultant &middot; Tauranga, NZ &middot; 2026</div>
+  </a>
+</div>
+
+</div><!-- /page -->
+
+<!-- GUIDE DOCK -->
+<div class="guide-dock" role="navigation" aria-label="Worksheet navigation">
+  <div class="guide-dock-inner">
+    <div class="guide-mode" role="group" aria-label="View mode">
+      <button id="modeGuided" type="button" aria-pressed="true">Guided</button>
+      <button id="modeFull" type="button" aria-pressed="false">Full page</button>
+    </div>
+    <div class="guide-chapter-nav">
+      <button class="nav-ghost" id="chPrev" type="button" aria-label="Previous section">&larr; Back</button>
+      <div class="ch-dots" role="tablist" aria-label="Sections" id="chDots"></div>
+      <button class="nav-primary" id="chNext" type="button" aria-label="Next section">Next &rarr;</button>
+    </div>
+    <div class="guide-progress-label" id="guideProgressLabel">1 / 5</div>
+  </div>
+</div>
+
+<script>
+// Score calculator
+function showScore(){
+  var val = parseInt(document.getElementById('scoreInput').value, 10);
+  var fill = document.getElementById('scoreFill');
+  var result = document.getElementById('scoreResult');
+  var num = document.getElementById('scoreNum');
+  var lbl = document.getElementById('scoreLabel');
+  var txt = document.getElementById('scoreText');
+  if(isNaN(val) || val < 0){ val = 0; }
+  if(val > 8){ val = 8; }
+  var pct = Math.round((val / 8) * 100);
+  fill.style.width = pct + '%';
+  result.classList.add('visible');
+  num.textContent = val + '/8';
+  if(val <= 2){
+    lbl.textContent = 'Stage 1 — Awareness';
+    txt.innerHTML = 'You\'re at the beginning, which is exactly where most BOP small businesses are right now. The most useful thing you can do is <strong>pick one small, low-stakes experiment</strong> — not a full adoption plan. The MBIE AI Advisory Pilot through Priority One exists specifically for businesses at this stage. That\'s a funded conversation worth having.';
+  } else if(val <= 5){
+    lbl.textContent = 'Stage 2 — Experimenting';
+    txt.innerHTML = 'You\'ve started but it hasn\'t become a real habit yet. That\'s common. The gap between "I\'ve tried it" and "it saves me two hours a week" is usually just <strong>one specific use case applied consistently</strong>. Work through Worksheet 3 in this series to map your time drains to the right tools.';
+  } else {
+    lbl.textContent = 'Stage 3 — Integrating';
+    txt.innerHTML = 'You\'re ahead of most small businesses in the region. The question now isn\'t whether to adopt AI but <strong>whether you\'re doing it safely and getting the most from it</strong>. Privacy obligations, team conversations, and workflow optimisation are where the value is at your stage. Worksheet 2 (privacy and legal) and Worksheet 4 (your team) are the most relevant next steps.';
+  }
+}
+
+// Guide system
+(function(){
+  var LS_KEY = 'nb-ws1-tga-2026';
+  var body = document.body;
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.guide-chapter'));
+  var totalCh = chapters.length;
+  var currentIndex = 0;
+  var state = loadState();
+
+  var chDots = document.getElementById('chDots');
+  var chPrev = document.getElementById('chPrev');
+  var chNext = document.getElementById('chNext');
+  var modeGuided = document.getElementById('modeGuided');
+  var modeFull = document.getElementById('modeFull');
+  var chLabel = document.getElementById('guideProgressLabel');
+  var journeyPct = document.getElementById('journeyPct');
+  var journeyList = document.getElementById('journeyList');
+
+  function bindScrollCollapse(){}
+  function unbindScrollCollapse(){}
+  function clearStepAccordion(){}
+  function initStepAccordion(){
+    if(!body.classList.contains('guided')) return;
+    var ch = chapters[currentIndex];
+    if(!ch) return;
+    var stepsInCh = ch.querySelectorAll('.step');
+    stepsInCh.forEach(function(s){ s.classList.remove('is-step-open'); });
+    var firstUndone = null;
+    stepsInCh.forEach(function(s){
+      var inp = s.querySelector('.step-check-input');
+      if(!firstUndone && !(inp && inp.checked)) firstUndone = s;
+    });
+    if(firstUndone) firstUndone.classList.add('is-step-open');
+    else if(stepsInCh.length > 0) stepsInCh[stepsInCh.length - 1].classList.add('is-step-open');
+  }
+  function advanceStepAccordion(finished){
+    var ch = chapters[currentIndex];
+    if(!ch) return;
+    var list = Array.prototype.slice.call(ch.querySelectorAll('.step'));
+    var idx = list.indexOf(finished);
+    if(idx < 0) return;
+    var next = list[idx + 1];
+    finished.classList.remove('is-step-open');
+    if(next){
+      window.setTimeout(function(){
+        list.forEach(function(s){ s.classList.remove('is-step-open'); });
+        next.classList.add('is-step-open');
+        var ni = next.querySelector('.step-check-input');
+        if(ni) ni.focus();
+        try{ next.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        catch(e){ next.scrollIntoView(true); }
+      }, 200);
+    }
+  }
+  function loadState(){
+    try{ var raw = localStorage.getItem(LS_KEY); if(!raw) return {mode:'guided',chapter:0,done:{}}; return JSON.parse(raw); }
+    catch(x){ return {mode:'guided',chapter:0,done:{}}; }
+  }
+  function saveState(){
+    try{
+      var done = {};
+      document.querySelectorAll('.step .step-check-input').forEach(function(inp){
+        if(inp.checked) done[inp.getAttribute('data-step-id')] = true;
+      });
+      state.done = done;
+      state.chapter = currentIndex;
+      state.mode = body.classList.contains('guided') ? 'guided' : 'full';
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }catch(x){}
+  }
+  function setMode(guided){
+    body.classList.toggle('guided', guided);
+    document.documentElement.classList.toggle('guide-locked', guided);
+    if(modeGuided) modeGuided.setAttribute('aria-pressed', guided ? 'true' : 'false');
+    if(modeFull) modeFull.setAttribute('aria-pressed', guided ? 'false' : 'true');
+    if(!guided){ unbindScrollCollapse(); clearStepAccordion(); }
+    if(guided) showChapter(currentIndex, true);
+    else chapters.forEach(function(c){ c.classList.remove('is-active'); });
+    saveState();
+  }
+  function showChapter(i, noSave){
+    i = Math.max(0, Math.min(totalCh - 1, i));
+    currentIndex = i;
+    if(body.classList.contains('guided')){
+      chapters.forEach(function(c, j){ c.classList.toggle('is-active', j === i); });
+      if(chLabel) chLabel.textContent = (i + 1) + ' / ' + totalCh;
+      if(chDots) Array.prototype.forEach.call(chDots.querySelectorAll('.ch-dot'), function(dot, j){
+        dot.setAttribute('aria-current', j === i ? 'true' : 'false');
+        dot.setAttribute('tabindex', j === i ? '0' : '-1');
+      });
+      if(chPrev) chPrev.disabled = i === 0;
+      if(chNext) chNext.disabled = i === totalCh - 1;
+      var el = chapters[i];
+      if(el) el.scrollTop = 0;
+      initStepAccordion();
+      if(!noSave) saveState();
+    }
+  }
+  function buildDots(){
+    if(!chDots) return;
+    chDots.innerHTML = '';
+    chapters.forEach(function(ch, i){
+      var t = ch.getAttribute('data-g-label') || ('Part ' + (i + 1));
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'ch-dot';
+      b.setAttribute('role', 'tab'); b.setAttribute('title', t);
+      b.setAttribute('aria-label', t);
+      b.addEventListener('click', function(){ showChapter(i); });
+      chDots.appendChild(b);
+    });
+  }
+  function steps(){ return document.querySelectorAll('.body .step'); }
+  function installStepChecks(){
+    steps().forEach(function(step, i){
+      var id = 'step-' + (i + 1);
+      var uid = 'chk-' + id;
+      var lab = document.createElement('label');
+      lab.className = 'step-check';
+      lab.setAttribute('for', uid);
+      lab.innerHTML = '' +
+        '<input type="checkbox" class="step-check-input" id="' + uid + '" data-step-id="' + id + '" />' +
+        '<span class="step-check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="12" height="12" focusable="false"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="step-check-txt">Done</span>';
+      step.appendChild(lab);
+      var inp = document.getElementById(uid);
+      if(inp){
+        inp.addEventListener('change', function(){
+          step.classList.toggle('is-done', inp.checked);
+          if(inp.checked){
+            step.classList.add('just-marked');
+            window.setTimeout(function(){ step.classList.remove('just-marked'); }, 600);
+            if(body.classList.contains('guided')){
+              window.setTimeout(function(){ advanceStepAccordion(step); }, 220);
+            }
+          } else { initStepAccordion(); }
+          updateJourney(); saveState();
+        });
+        if(state.done && state.done[id]){ inp.checked = true; step.classList.add('is-done'); }
+      }
+    });
+  }
+  function updateJourney(){
+    var n = 0, tot = 0, items = [];
+    steps().forEach(function(step, i){
+      var id = 'step-' + (i + 1);
+      tot++;
+      var titleEl = step.querySelector('.step-title');
+      var t = titleEl ? titleEl.textContent.trim() : 'Step ' + (i + 1);
+      var inp = document.querySelector('input[data-step-id="' + id + '"]');
+      var done = inp && inp.checked;
+      if(done) n++;
+      items.push({ id: id, title: t, done: done });
+    });
+    if(journeyPct){
+      var p = tot ? Math.round(100 * n / tot) : 0;
+      journeyPct.innerHTML = 'You\'ve completed <strong>' + p + '%</strong> of this worksheet (' + n + ' of ' + tot + ' steps).';
+    }
+    if(journeyList){
+      journeyList.innerHTML = items.map(function(it){
+        return '<li class="' + (it.done ? 'jl-done' : '') + '"><span class="jl-ico" aria-hidden="true">' + (it.done ? '&check;' : '&#9675;') + '</span> <span>' + escapeHtml(it.title) + '</span></li>';
+      }).join('');
+    }
+  }
+  function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  if(chPrev) chPrev.addEventListener('click', function(){ showChapter(currentIndex - 1); });
+  if(chNext) chNext.addEventListener('click', function(){ showChapter(currentIndex + 1); });
+  if(modeGuided) modeGuided.addEventListener('click', function(){ setMode(true); });
+  if(modeFull) modeFull.addEventListener('click', function(){ setMode(false); });
+
+  var resetBtn = document.getElementById('journeyReset');
+  if(resetBtn) resetBtn.addEventListener('click', function(){
+    if(!confirm('Clear all checkmarks? This can\'t be undone.')) return;
+    document.querySelectorAll('.step .step-check-input').forEach(function(inp){
+      inp.checked = false;
+      var st = inp.closest('.step'); if(st) st.classList.remove('is-done');
+    });
+    state.done = {};
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+    updateJourney(); initStepAccordion();
+  });
+
+  function initReveal(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var nodes = document.querySelectorAll('.hero, .body .step, .body .phase-hdr, .body .intro-para, .body .stat-callout, .body .eligibility-card, .journey-summary, .cta-block');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('is-visible'); });
+    }, { root:null, rootMargin:'0px 0px -6% 0px', threshold:0.06 });
+    Array.prototype.forEach.call(nodes, function(n){ n.classList.add('reveal'); io.observe(n); });
+  }
+
+  if(typeof state.chapter === 'number' && state.chapter >= 0 && state.chapter < totalCh){ currentIndex = state.chapter; }
+  buildDots();
+  installStepChecks();
+  updateJourney();
+  if(state.mode === 'full'){ setMode(false); } else { setMode(true); }
+  initReveal();
+
+  document.addEventListener('keydown', function(e){
+    if(!body.classList.contains('guided')) return;
+    if(e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable)) return;
+    if(e.key === 'ArrowRight' && !e.shiftKey) showChapter(currentIndex + 1);
+    if(e.key === 'ArrowLeft' && !e.shiftKey) showChapter(currentIndex - 1);
+  });
+})();
+</script>
+</body>
+</html>

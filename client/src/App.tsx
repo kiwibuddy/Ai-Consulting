@@ -33,6 +33,9 @@ import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
+import PresentationContactPage from "@/pages/presentation-contact";
+import TaurangaSmePage from "@/pages/tauranga-sme";
+import TaurangaSmeWelcomePage from "@/pages/tauranga-sme-welcome";
 
 // Client pages
 import ClientDashboard from "@/pages/client/dashboard";
@@ -315,6 +318,9 @@ function Router() {
       <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><ChristianProfessionalWorksheetPage /></PublicSiteLayout>} />
       <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
       <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
+      <Route path="/tauranga-sme/welcome" component={() => <PublicSiteLayout><TaurangaSmeWelcomePage /></PublicSiteLayout>} />
+      <Route path="/tauranga-sme" component={() => <PublicSiteLayout><TaurangaSmePage /></PublicSiteLayout>} />
+      <Route path="/presentations/contact" component={() => <PublicSiteLayout><PresentationContactPage /></PublicSiteLayout>} />
       <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />
       <Route path="/privacy" component={() => <PublicSiteLayout><PrivacyPage /></PublicSiteLayout>} />
       <Route path="/terms" component={() => <PublicSiteLayout><TermsPage /></PublicSiteLayout>} />

@@ -49,6 +49,7 @@ import {
   refundStripePayment,
   resendStripeInvoiceEmail,
 } from "./lib/payments";
+import { createProductCheckoutSession, type ProductTier } from "./lib/products";
 import {
   provisionPortalAfterIntake,
   provisionPortalFromCalendarClaim,
@@ -1401,6 +1402,47 @@ export async function registerRoutes(
   /** Public: which payment methods exist (no auth; for /pay/:token) */
   app.get("/api/public/payment-methods", (_req, res) => {
     res.json({ stripe: isStripeEnabled(), paypal: isPayPalEnabled() });
+  });
+
+  /**
+   * Public: Tauranga SME guest checkout (no auth, no account).
+   *
+   * Creates a Stripe Checkout Session against a pre-created Stripe Price ID
+   * (read from env: STRIPE_PRICE_TAURANGA_BRONZE/SILVER/GOLD). Returns the
+   * Stripe-hosted checkout URL. The webhook (`handleStripeWebhook` →
+   * `processProductCheckoutCompleted`) sends the access email after payment.
+   */
+  app.post("/api/public/products/checkout", async (req, res) => {
+    try {
+      if (!isStripeEnabled()) {
+        return res.status(503).json({ error: "Payments are not configured" });
+      }
+      const schema = z.object({
+        tier: z.enum(["bronze", "silver", "gold"]),
+      });
+      const { tier } = schema.parse(req.body);
+
+      const origin =
+        (typeof req.headers.origin === "string" && req.headers.origin) ||
+        `${req.protocol}://${req.get("host")}` ||
+        process.env.APP_URL ||
+        "";
+
+      const result = await createProductCheckoutSession({ tier: tier as ProductTier, origin });
+      if (!result) {
+        return res.status(503).json({
+          error:
+            "Checkout is temporarily unavailable. Stripe Price IDs may not be configured for this tier.",
+        });
+      }
+      return res.json({ url: result.url });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid tier" });
+      }
+      console.error("[tauranga-sme] checkout error", err);
+      return res.status(500).json({ error: "Could not start checkout" });
+    }
   });
 
   // Create Stripe checkout session — **invoiceId only; amount from server (invoice row)**

@@ -15,7 +15,8 @@ import {
   type Retainer,
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
-import { sendEmail, paymentReceivedEmail, invoiceSentEmail, invoicePaymentFailedEmail } from "./email";
+import { sendEmail, paymentReceivedEmail, invoiceSentEmail, invoicePaymentFailedEmail, taurangaAccessEmail } from "./email";
+import { isProductCheckoutSession, buildAccessLinks, type ProductTier } from "./products";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
@@ -311,6 +312,11 @@ export async function handleStripeWebhook(
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
+        // Tauranga SME guest checkout (no clientProfile) — handle separately.
+        if (isProductCheckoutSession(session.metadata)) {
+          await processProductCheckoutCompleted(session);
+          return { success: true, eventId: event.id };
+        }
         const result = await processCheckoutSessionCompleted(session, event.id);
         return { success: true, paymentId: result.paymentId, eventId: event.id };
       }
@@ -413,6 +419,62 @@ async function processCheckoutSessionCompleted(
 
   await sendPaymentNotifications(payment);
   return { paymentId: payment.id };
+}
+
+/**
+ * Tauranga SME — guest product checkout completion handler.
+ *
+ * Locked plan: Stripe receipts are the audit record; no DB row is written.
+ * We read the buyer's email from `session.customer_details` and send the
+ * tier-specific access email with unguessable per-purchase asset URLs.
+ *
+ * Idempotency: Stripe never delivers `checkout.session.completed` twice for
+ * the same session, so re-sending the access email on retry is safe enough
+ * for soft-launch volumes. (For higher volumes, swap to a `product_purchases`
+ * table — explicitly out of scope per the locked plan.)
+ */
+async function processProductCheckoutCompleted(
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  const tier = session.metadata?.tier as ProductTier | undefined;
+  if (!tier || (tier !== "bronze" && tier !== "silver" && tier !== "gold")) {
+    console.error("[tauranga-sme] webhook missing/invalid tier metadata", session.id);
+    return;
+  }
+
+  const buyerEmail =
+    session.customer_details?.email ||
+    session.customer_email ||
+    (typeof session.customer === "string" ? null : (session.customer as Stripe.Customer | null)?.email) ||
+    null;
+  if (!buyerEmail) {
+    console.error("[tauranga-sme] webhook missing buyer email", session.id);
+    return;
+  }
+
+  const buyerName =
+    session.customer_details?.name ||
+    (typeof session.customer === "string" ? null : (session.customer as Stripe.Customer | null)?.name) ||
+    undefined;
+
+  const links = buildAccessLinks(tier);
+
+  try {
+    await sendEmail(taurangaAccessEmail(buyerEmail, buyerName ?? undefined, tier, links));
+  } catch (e) {
+    console.error("[tauranga-sme] failed to send access email", e);
+  }
+
+  // BCC the operator so we always have a record of which links went out.
+  if (SITE_CONTACT_EMAIL && SITE_CONTACT_EMAIL !== buyerEmail) {
+    try {
+      const operatorCopy = taurangaAccessEmail(SITE_CONTACT_EMAIL, "Nathaniel", tier, links);
+      operatorCopy.subject = `[Tauranga SME · ${tier}] Sale to ${buyerEmail}`;
+      await sendEmail(operatorCopy);
+    } catch (e) {
+      console.error("[tauranga-sme] failed to send operator notification", e);
+    }
+  }
 }
 
 async function processStripeInvoicePaid(inv: Stripe.Invoice, _eventId: string): Promise<void> {

@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Does AI Actually Save You Time? A 30-Minute Audit — Nathaniel Baldock</title>
+<meta name="description" content="A practical task-mapping audit for Bay of Plenty small business owners. Find exactly which of your weekly tasks AI can genuinely handle — and which ones it can't.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:             #ffffff;
+  --bg-warm:        hsl(42, 40%, 98%);
+  --bg-mist:        hsl(210, 24%, 96%);
+  --bg-muted:       hsl(210, 16%, 94%);
+  --fg:             #0a0a0a;
+  --fg-med:         hsl(220, 8%, 30%);
+  --fg-muted:       hsl(220, 7%, 44%);
+  --border:         hsl(220, 12%, 88%);
+  --accent:         hsl(207, 58%, 34%);
+  --accent-mid:     hsl(200, 45%, 42%);
+  --accent-soft:    hsl(200, 40%, 94%);
+  --accent-bright:  hsl(198, 70%, 48%);
+  --sky-tint:       hsl(200, 45%, 88%);
+  --lime:           hsl(79, 82%, 50%);
+  --lime-deep:      hsl(79, 70%, 38%);
+  --lime-muted:     hsl(79, 40%, 92%);
+  --gold:           #C9A227;
+  --gold-bg:        hsl(40, 60%, 95%);
+  --green:          hsl(152, 45%, 36%);
+  --green-bg:       hsl(152, 40%, 94%);
+  --red-bg:         hsl(0, 40%, 95%);
+  --red:            hsl(0, 55%, 45%);
+  --dark:           hsl(220, 18%, 8%);
+  --card-shadow:    0 1px 2px rgba(15,23,42,.04), 0 12px 32px -8px rgba(15,23,42,.08);
+  --p1:             hsl(205, 52%, 38%);
+  --p2:             hsl(195, 48%, 40%);
+  --p3:             hsl(175, 42%, 36%);
+  --p4:             hsl(230, 38%, 44%);
+  --p5:             hsl(265, 32%, 44%);
+  --font-sans:      'DM Sans', system-ui, sans-serif;
+  --font-serif:     'Fraunces', 'Georgia', serif;
+  --font-mono:      'JetBrains Mono', ui-monospace, monospace;
+  --r:              16px;
+  --r-sm:           10px;
+  --page-px:        clamp(1.25rem, 4.5vw, 4.25rem);
+  --prose-max:      min(70ch, 100%);
+}
+
+html{ background:var(--bg); min-height:100%; }
+html.guide-locked{ scroll-padding-bottom: max(5.25rem, env(safe-area-inset-bottom,0px)); }
+body{ font-family:var(--font-sans);color:var(--fg);margin:0;padding:0 0 100px;-webkit-font-smoothing:antialiased; }
+body:not(.guided) .ch-dots,
+body:not(.guided) .nav-ghost,
+body:not(.guided) .nav-primary,
+body:not(.guided) .guide-progress-label{ display:none; }
+body:not(.guided) .guide-dock .guide-dock-inner{ justify-content:center; }
+.page{ max-width:none;width:100%;margin:0;background:var(--bg);border-radius:0;overflow:hidden;box-shadow:none;border:none; }
+
+/* HEADER */
+.site-hdr{ background:var(--bg);padding:16px var(--page-px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border); }
+.logo-row{ display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;transition:opacity .2s ease; }
+a.logo-row:hover{ opacity:.78; }
+.logo-mark{ width:36px;height:36px;background:var(--fg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-serif);font-weight:600;color:var(--bg);font-size:15px;letter-spacing:-.02em; }
+.logo-name{ font-size:13px;font-weight:600;color:var(--fg);letter-spacing:-.01em; }
+.logo-sub{ font-size:9.5px;color:var(--fg-muted);letter-spacing:.08em; }
+.hdr-badge{ background:var(--bg-warm);border:1px solid var(--border);color:var(--fg-med);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:999px; }
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,hsl(205,42%,91%) 0%,hsl(210,28%,96%) 38%,hsl(42,38%,98%) 72%,var(--bg) 100%);
+  padding:clamp(2.5rem,5vw,3.5rem) var(--page-px) clamp(2.25rem,4.5vw,3rem);
+  position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+}
+.hero::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 100% -10%,hsl(200,55%,88%,.7) 0%,transparent 50%),radial-gradient(ellipse 60% 50% at 0% 100%,hsl(79,40%,90%,.35) 0%,transparent 45%);pointer-events:none; }
+.hero::after{ content:'';position:absolute;inset:0;opacity:.35;pointer-events:none;mix-blend-mode:multiply;background-image:radial-gradient(circle,hsl(220,10%,50%) .6px,transparent .6px);background-size:7px 7px; }
+.hero-category{ font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:22px;display:flex;align-items:center;gap:12px;position:relative;z-index:1; }
+.cat-rule{ flex:1;height:1px;background:var(--border);max-width:120px; }
+.hero-title{ font-family:var(--font-serif);font-size:clamp(1.9rem,4.5vw,2.55rem);font-weight:600;color:var(--fg);line-height:1.08;letter-spacing:-.03em;margin-bottom:12px;position:relative;z-index:1; }
+.hero-title em{ font-style:italic;font-weight:450;color:var(--fg-muted); }
+.hero-sub{ font-family:var(--font-sans);font-size:15px;font-weight:400;color:var(--fg-med);margin-bottom:28px;position:relative;z-index:1;max-width:var(--prose-max);line-height:1.5; }
+.hero-stats{ display:flex;gap:0;margin-bottom:28px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative;z-index:1;background:var(--bg);box-shadow:var(--card-shadow); }
+.hs{ padding:16px 18px;flex:1;border-right:1px solid var(--border); }
+.hs:last-child{ border-right:none; }
+.hs-num{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1;margin-bottom:6px;letter-spacing:-.02em; }
+.hs-text{ font-size:10px;font-weight:400;color:var(--fg-muted);line-height:1.5;letter-spacing:.02em; }
+.hero-desc{ font-size:14px;font-weight:400;color:var(--fg-med);line-height:1.7;max-width:var(--prose-max);margin-bottom:8px;position:relative;z-index:1; }
+.hero-desc strong{ color:var(--fg);font-weight:500; }
+.hero-meta{ display:flex;align-items:center;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap;gap:4px 0;position:relative;z-index:1;margin-top:18px; }
+.mi{ font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-muted);padding:0 16px; }
+.mi:first-child{ padding-left:0; }
+.msep{ width:1px;height:11px;background:var(--border); }
+
+/* BODY */
+.body{ padding:clamp(2.5rem,4.5vw,3.25rem) var(--page-px) clamp(2rem,3.5vw,2.75rem);background:var(--bg); }
+.intro-para{ font-size:14px;font-weight:300;line-height:1.75;color:var(--fg-med);margin-bottom:16px;max-width:var(--prose-max); }
+.intro-para strong{ color:var(--fg);font-weight:500; }
+.sec-lbl{ font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:6px; }
+.sec-title{ font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg);margin-bottom:6px;letter-spacing:-.02em; }
+.sec-sub{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;max-width:var(--prose-max);margin-bottom:18px; }
+hr.div{ border:none;border-top:1px solid var(--border);margin:32px 0; }
+
+/* PHASE HDR */
+.phase-hdr{ display:flex;align-items:flex-start;gap:18px;margin:36px 0 18px; }
+.phase-num{ width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:#fff;flex-shrink:0;letter-spacing:-.02em; }
+.ph-1{ background:var(--p1); } .ph-2{ background:var(--p2); } .ph-3{ background:var(--p3); } .ph-4{ background:var(--p4); } .ph-5{ background:var(--p5); }
+.phase-text{ padding-top:2px; }
+.phase-kicker{ font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px; }
+.phase-title{ font-family:var(--font-serif);font-size:1.5rem;font-weight:600;color:var(--fg);line-height:1.2;margin-bottom:5px;letter-spacing:-.02em; }
+.phase-sub{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.55;max-width:var(--prose-max); }
+
+/* STEP */
+.step{ position:relative;margin:24px 0 20px;padding-left:24px;border-left:2px solid var(--sky-tint);transition:background .35s,border-left-color .35s,box-shadow .35s,opacity .25s; }
+.step-head{ display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap; }
+.step-num{ font-family:var(--font-sans);font-size:10px;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase; }
+.step-title{ font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);line-height:1.35;letter-spacing:-.02em; }
+.step-body{ font-size:13px;font-weight:300;color:var(--fg-med);line-height:1.7;overflow:hidden; }
+.step-body p{ margin-bottom:10px; }
+.step-body p:last-child{ margin-bottom:0; }
+.step-body a{ color:var(--accent-mid);text-decoration:none;border-bottom:1px solid var(--accent-soft); }
+.step-body a:hover{ border-bottom-color:var(--accent-bright); }
+
+/* LISTS */
+.bull{ margin:8px 0 6px 0;padding-left:18px; }
+.bull li{ font-size:12.5px;line-height:1.65;color:var(--fg-med);margin-bottom:5px; }
+.bull li::marker{ color:var(--accent-bright); }
+
+/* CALLOUT BLOCKS */
+.tip{ background:var(--gold-bg);border:1px solid hsl(38,50%,84%);border-left:3px solid var(--gold);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.tip-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px; }
+.tip strong{ color:var(--fg);font-weight:500; }
+.note{ background:var(--accent-soft);border:1px solid var(--sky-tint);border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.note-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px; }
+.note strong{ color:var(--fg);font-weight:500; }
+.aha{ background:linear-gradient(135deg,var(--lime-muted) 0%,var(--bg-warm) 100%);border:1px solid hsl(79,30%,82%);border-left:3px solid var(--lime-deep);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.aha-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--lime-deep);margin-bottom:5px; }
+.aha strong{ color:var(--fg);font-weight:500; }
+.warn{ background:var(--red-bg);border:1px solid hsl(0,30%,82%);border-left:3px solid var(--red);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:12px 0;font-size:12.5px;line-height:1.65;color:var(--fg-med); }
+.warn-lbl{ font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:5px; }
+.warn strong{ color:var(--fg);font-weight:500; }
+
+/* TASK AUDIT GRID */
+.task-grid{ display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px;box-shadow:var(--card-shadow); }
+.task-grid-header{ display:grid;grid-template-columns:1fr 130px 160px;background:var(--fg);padding:10px 14px;gap:8px; }
+.task-grid-header span{ font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:hsl(210,15%,70%); }
+.task-row{ display:grid;grid-template-columns:1fr 130px 160px;border-bottom:1px solid var(--border);gap:8px;align-items:center;padding:11px 14px;transition:background .15s; }
+.task-row:last-child{ border-bottom:none; }
+.task-row:nth-child(odd){ background:var(--bg-warm); }
+.task-row:hover{ background:var(--accent-soft); }
+.task-name{ font-size:12.5px;font-weight:500;color:var(--fg);line-height:1.4; }
+.task-name span{ display:block;font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.5;margin-top:2px; }
+.task-fit{ display:flex;align-items:center;gap:6px; }
+.fit-badge{ font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:999px; }
+.fit-high{ background:hsl(79,40%,88%);color:var(--lime-deep); }
+.fit-med{ background:hsl(38,50%,90%);color:hsl(38,60%,35%); }
+.fit-low{ background:hsl(0,30%,92%);color:var(--red); }
+.task-tool{ font-size:11.5px;font-weight:400;color:var(--fg-med);line-height:1.4; }
+.task-tool strong{ color:var(--fg);font-weight:600;font-size:12px; }
+
+/* TIME ESTIMATE CARD */
+.time-card{ display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px;box-shadow:var(--card-shadow); }
+.tc{ padding:14px 16px;border-right:1px solid var(--border); }
+.tc:last-child{ border-right:none; }
+.tc-label{ font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px; }
+.tc-num{ font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--fg);line-height:1;letter-spacing:-.02em;margin-bottom:4px; }
+.tc-sub{ font-size:11px;font-weight:300;color:var(--fg-muted);line-height:1.4; }
+
+/* INTERACTIVE TIME BUILDER */
+.time-builder{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0 20px; }
+.tb-header{ background:var(--bg-mist);padding:12px 16px;border-bottom:1px solid var(--border); }
+.tb-header-title{ font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--fg); }
+.tb-header-sub{ font-size:11px;font-weight:300;color:var(--fg-muted);margin-top:2px; }
+.tb-row{ display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border); }
+.tb-row:last-of-type{ border-bottom:none; }
+.tb-task-name{ font-size:12.5px;font-weight:400;color:var(--fg);line-height:1.4; }
+.tb-hrs{ display:flex;align-items:center;gap:6px; }
+.tb-hrs input[type=number]{ width:52px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:var(--font-sans);font-size:13px;font-weight:600;color:var(--fg);background:var(--bg);text-align:center; }
+.tb-hrs label{ font-size:10px;font-weight:400;color:var(--fg-muted);white-space:nowrap; }
+.tb-saveable{ font-size:11px;font-weight:500;color:var(--lime-deep);background:var(--lime-muted);padding:3px 8px;border-radius:6px;white-space:nowrap; }
+.tb-total-row{ background:var(--fg);padding:12px 16px;display:flex;justify-content:space-between;align-items:center; }
+.tb-total-label{ font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:hsl(210,15%,65%); }
+.tb-total-num{ font-family:var(--font-serif);font-size:1.4rem;font-weight:600;color:var(--lime);letter-spacing:-.02em; }
+.tb-total-sub{ font-size:10px;font-weight:300;color:hsl(210,15%,55%);margin-top:2px;text-align:right; }
+
+/* TWO-COLUMN COMPARISON */
+.compare-grid{ display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 20px; }
+.compare-col{ border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden; }
+.compare-col-head{ padding:10px 14px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase; }
+.compare-col-head.good{ background:var(--green-bg);color:var(--green); }
+.compare-col-head.bad{ background:var(--red-bg);color:var(--red); }
+.compare-items{ padding:0; }
+.compare-item{ display:flex;align-items:flex-start;gap:8px;padding:9px 14px;border-top:1px solid var(--border);font-size:12px;line-height:1.5;color:var(--fg-med); }
+.compare-item-icon{ font-size:11px;flex-shrink:0;margin-top:1px; }
+
+/* STAT CALLOUT */
+.stat-callout{ display:grid;grid-template-columns:auto 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0;box-shadow:var(--card-shadow); }
+.stat-num-col{ background:var(--fg);padding:18px 20px;display:flex;align-items:center;justify-content:center;min-width:90px; }
+.stat-num-val{ font-family:var(--font-serif);font-size:1.8rem;font-weight:600;color:var(--lime);line-height:1;text-align:center;letter-spacing:-.03em; }
+.stat-num-unit{ font-size:10px;font-weight:500;color:hsl(210,15%,65%);text-align:center;letter-spacing:1px;margin-top:3px; }
+.stat-body-col{ padding:14px 18px; }
+.stat-body-text{ font-size:12.5px;font-weight:400;color:var(--fg-med);line-height:1.6; }
+.stat-body-text strong{ color:var(--fg);font-weight:500; }
+.stat-source{ font-size:9px;font-weight:500;color:var(--fg-muted);letter-spacing:.04em;margin-top:6px; }
+
+/* TOOL MATCH TABLE */
+.tool-match{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:14px 0 20px;box-shadow:0 1px 0 rgba(15,23,42,.03); }
+.tm-row{ display:grid;grid-template-columns:180px 1fr 140px;border-bottom:1px solid var(--border); }
+.tm-row:last-child{ border-bottom:none; }
+.tm-row:nth-child(odd){ background:var(--bg-mist); }
+.tm-cell{ padding:10px 14px;font-size:12px;color:var(--fg-med);line-height:1.5; }
+.tm-cell:not(:last-child){ border-right:1px solid var(--border); }
+.tm-cell.tm-task{ font-weight:500;color:var(--fg); }
+.tm-cell.tm-tool{ font-weight:400; }
+.tm-cell.tm-tool strong{ color:var(--accent);font-weight:600; }
+.tm-cell.tm-effort{ display:flex;align-items:center; }
+.effort-dot{ width:8px;height:8px;border-radius:50%;margin-right:6px;flex-shrink:0; }
+.effort-low{ background:var(--lime); }
+.effort-med{ background:var(--gold); }
+.effort-high{ background:var(--red); }
+.tm-header-row{ background:var(--fg); }
+.tm-header-row .tm-cell{ color:hsl(210,15%,70%);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase; }
+
+/* ACTION PLAN */
+.action-plan{ border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0; }
+.ap-header{ background:var(--bg-mist);padding:14px 18px;border-bottom:1px solid var(--border); }
+.ap-header-title{ font-family:var(--font-serif);font-size:14px;font-weight:600;color:var(--fg); }
+.ap-header-sub{ font-size:11px;font-weight:300;color:var(--fg-muted);margin-top:3px; }
+.ap-row{ display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:flex-start;padding:12px 18px;border-bottom:1px solid var(--border); }
+.ap-row:last-child{ border-bottom:none; }
+.ap-num{ width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0; }
+.ap-content{ font-size:12.5px;line-height:1.6;color:var(--fg-med); }
+.ap-content strong{ color:var(--fg);font-weight:500; }
+.ap-field{ width:100%;margin-top:8px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-sans);font-size:12.5px;color:var(--fg);background:var(--bg-warm);resize:vertical;min-height:48px; }
+.ap-field:focus{ outline:none;border-color:var(--accent-mid);background:var(--bg); }
+
+/* CTA */
+.cta-block{ background:linear-gradient(135deg,hsl(207,52%,18%) 0%,hsl(207,45%,24%) 100%);border-radius:var(--r);padding:32px clamp(1.5rem,3vw,2.5rem);margin:32px 0 0;color:#fff;position:relative;overflow:hidden; }
+.cta-block::before{ content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 110% -20%,hsl(79,60%,55%,.18) 0%,transparent 55%);pointer-events:none; }
+.cta-eyebrow{ font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:hsl(200,50%,70%);margin-bottom:10px;position:relative; }
+.cta-title{ font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,1.7rem);font-weight:600;color:#fff;margin-bottom:10px;line-height:1.2;letter-spacing:-.02em;position:relative; }
+.cta-body{ font-size:13px;font-weight:300;line-height:1.7;color:hsl(210,30%,82%);max-width:55ch;margin-bottom:24px;position:relative; }
+.cta-body strong{ color:#fff;font-weight:500; }
+.cta-actions{ display:flex;flex-wrap:wrap;gap:10px;position:relative; }
+.cta-btn-primary{ display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--dark);font-family:var(--font-sans);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:12px 22px;border-radius:999px;text-decoration:none;transition:background .2s,transform .15s;border:none;cursor:pointer; }
+.cta-btn-primary:hover{ background:hsl(79,82%,44%);transform:translateY(-1px); }
+.cta-btn-secondary{ display:inline-flex;align-items:center;background:transparent;color:#fff;font-family:var(--font-sans);font-size:12px;font-weight:500;padding:12px 22px;border-radius:999px;border:1px solid hsl(210,30%,50%);text-decoration:none;transition:border-color .2s,background .2s;cursor:pointer; }
+.cta-btn-secondary:hover{ border-color:#fff;background:hsl(207,45%,30%); }
+
+/* JOURNEY */
+.journey-summary{ background:var(--bg-mist);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:28px 0 0; }
+.journey-title{ font-family:var(--font-serif);font-size:1rem;font-weight:600;color:var(--fg);margin-bottom:4px; }
+.journey-pct{ font-size:13px;font-weight:300;color:var(--fg-muted);line-height:1.6;margin-bottom:14px; }
+.journey-list{ list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px; }
+.journey-list li{ display:flex;align-items:center;gap:10px;font-size:12px;font-weight:300;color:var(--fg-med); }
+.jl-ico{ font-size:11px;color:var(--fg-muted);width:14px;flex-shrink:0;text-align:center; }
+.jl-done .jl-ico{ color:var(--lime-deep); }
+.jl-done > span:last-child{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.journey-reset-btn{ margin-top:14px;background:none;border:1px solid var(--border);font-family:var(--font-sans);font-size:11px;font-weight:500;color:var(--fg-muted);padding:7px 14px;border-radius:999px;cursor:pointer;transition:all .2s; }
+.journey-reset-btn:hover{ border-color:var(--fg-muted);color:var(--fg); }
+
+/* FOOTER */
+.foot{ padding:0;border:0;display:block;border-top:1px solid var(--border);background:var(--bg); }
+.foot-body{ position:relative;background:var(--bg-mist);padding:8px var(--page-px) 10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px; }
+.foot-brand{ font-family:var(--font-sans);font-size:12px;font-weight:500;color:var(--fg-muted); }
+.foot-right{ font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:9px;color:var(--fg-muted); }
+
+/* DOCK */
+.guide-dock{ position:fixed;bottom:0;left:0;right:0;z-index:500;display:flex;justify-content:center;padding:10px 12px max(10px,env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent 0%,rgba(255,255,255,.92) 18%,#fff 100%);border-top:1px solid var(--border);box-shadow:0 -4px 24px rgba(15,23,42,.08);pointer-events:none; }
+.guide-dock *{ pointer-events:auto; }
+.guide-dock-inner{ width:100%;max-width:none;padding:0 var(--page-px);box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 12px; }
+.guide-dock .guide-mode{ display:flex;border:1px solid var(--border);border-radius:999px;overflow:hidden;background:var(--bg-mist); }
+.guide-dock .guide-mode button{ font-family:var(--font-sans);font-size:11px;font-weight:600;padding:8px 14px;border:none;background:transparent;color:var(--fg-muted);cursor:pointer;transition:background .2s,color .2s; }
+.guide-dock .guide-mode button[aria-pressed="true"]{ background:var(--fg);color:var(--bg); }
+.guide-dock .guide-mode button:not([aria-pressed="true"]):hover{ color:var(--fg); }
+.guide-chapter-nav{ display:flex;align-items:center;gap:8px;flex:1;min-width:0;justify-content:center; }
+.guide-dock .ch-dots{ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:min(100%,28rem); }
+.guide-dock .ch-dot{ width:8px;height:8px;border-radius:50%;border:1px solid var(--border);background:var(--bg);padding:0;cursor:pointer;transition:transform .22s cubic-bezier(.34,1.56,.64,1),background .2s,border-color .2s; }
+.guide-dock .ch-dot:hover{ transform:scale(1.14); }
+.guide-dock .ch-dot[aria-current="true"]{ background:var(--accent);border-color:var(--accent); }
+.guide-dock .ch-dot.done{ background:var(--lime);border-color:var(--lime-deep); }
+.guide-nav-btns{ display:flex;gap:6px;align-items:center; }
+.guide-dock .nav-ghost,.guide-dock .nav-primary{ font-family:var(--font-sans);font-size:12px;font-weight:600;padding:9px 18px;border-radius:999px;cursor:pointer;border:none;transition:background .2s,color .2s,opacity .2s; }
+.guide-dock .nav-ghost{ background:var(--bg-mist);color:var(--fg-muted);border:1px solid var(--border); }
+.guide-dock .nav-ghost:hover:not(:disabled){ color:var(--fg); }
+.guide-dock .nav-primary{ background:var(--fg);color:var(--bg); }
+.guide-dock .nav-primary:hover:not(:disabled){ background:var(--accent); }
+.guide-dock .nav-primary:disabled,.guide-dock .nav-ghost:disabled{ opacity:.35;cursor:not-allowed; }
+.guide-progress-label{ font-size:10px;font-weight:500;color:var(--fg-muted);letter-spacing:.06em; }
+
+/* GUIDED LAYOUT */
+body.guided .page{ display:flex;flex-direction:column;max-height:calc(100dvh - 68px);overflow:hidden; }
+body.guided .site-hdr{ flex:0 0 auto; }
+body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:0; }
+body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
+body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
+body.guided .body > .guide-chapter{ min-height:0; }
+body.guided .body > .guide-chapter.is-active{ display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 0 20px;scroll-behavior:smooth;animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both; }
+body.guided .guide-chapter.is-active .phase-hdr{ position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;background:var(--bg);box-shadow:0 1px 0 0 var(--border),0 10px 12px -8px rgba(15,23,42,.08);transition:box-shadow .25s; }
+body.guided .foot{ flex:0 0 auto;margin:0; }
+body:not(.guided) .guide-chapter{ display:contents; }
+body.guided .hero{ border-radius:0; }
+
+/* STEP CHECKBOX */
+.step .step-check{ position:absolute;top:0;right:0;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted);cursor:pointer;user-select:none;z-index:2; }
+@media(min-width:700px){ .step{padding-top:4px;} .step .step-check{top:2px;} }
+.step .step-check-input{ position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+.step .step-check-box{ width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:var(--bg);display:grid;place-items:center;flex-shrink:0;transition:border-color .22s,background .25s,transform .35s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-box svg{ width:12px;height:12px;color:var(--lime-deep);opacity:0;transform:scale(.2) rotate(-12deg);transition:opacity .2s,transform .4s cubic-bezier(.34,1.56,.64,1); }
+.step .step-check-input:checked + .step-check-box{ border-color:var(--lime-deep);background:var(--lime-muted);animation:checkPop .5s cubic-bezier(.34,1.56,.64,1),checkRipple .65s ease-out .05s 1; }
+.step .step-check-input:checked + .step-check-box svg{ opacity:1;transform:scale(1) rotate(0deg);transition-delay:.06s; }
+.step .step-check-txt{ transition:color .25s; }
+.step .step-check-input:checked ~ .step-check-txt{ color:var(--lime-deep); }
+
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-head{ margin-bottom:0; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open) .step-body{ max-height:0!important;opacity:0;transform:translateY(-3px);margin-top:0!important;margin-bottom:0!important;padding-top:0!important;padding-bottom:0!important;pointer-events:none;transition:max-height .42s cubic-bezier(.4,0,.2,1),opacity .26s,transform .3s,margin .28s,padding .28s; }
+body.guided .guide-chapter.is-active .step.is-step-open .step-body{ max-height:80rem;opacity:1;transform:translateY(0);pointer-events:auto;transition:max-height .48s cubic-bezier(.4,0,.2,1),opacity .4s ease .08s,transform .4s ease .08s; }
+body.guided .guide-chapter.is-active .step:not(.is-step-open){ margin:5px 0 8px; }
+body.guided .guide-chapter.is-active .step.is-step-open{ margin:20px 0 18px; }
+body:not(.guided) .step .step-body{ max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important; }
+body:not(.guided) .step{ margin:24px 0 20px; }
+
+.step.is-done{ opacity:.96;border-left-color:var(--lime)!important;background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);box-shadow:0 0 0 1px hsla(79,40%,80%,.35) inset; }
+.step.is-done .step-title{ text-decoration:line-through;text-decoration-color:var(--fg-muted);text-decoration-thickness:1px; }
+.step.just-marked{ animation:stepFlash .55s ease 1; }
+.reveal{ opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease; }
+.reveal.is-visible{ opacity:1;transform:translateY(0); }
+
+@keyframes ch-enter{ from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+@keyframes checkPop{ 0%{transform:scale(.92);} 45%{transform:scale(1.06);} 100%{transform:scale(1);} }
+@keyframes checkRipple{ 0%{box-shadow:0 0 0 0 hsla(79,86%,52%,.45);} 100%{box-shadow:0 0 0 10px hsla(79,86%,52%,0);} }
+@keyframes stepFlash{ 0%{background:linear-gradient(90deg,hsla(79,55%,88%,.9) 0%,rgba(255,255,255,0) 20px);} 100%{background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);} }
+
+@media print{ .guide-dock,.site-hdr{display:none!important;} body{padding-bottom:0;} body.guided .guide-chapter .step .step-body{max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important;} }
+@media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} body.guided .guide-chapter.is-active{animation:none;} .step .step-check-input:checked + .step-check-box{animation:none;} }
+@media(max-width:640px){
+  .body{padding:1.5rem var(--page-px) 1.5rem;}
+  body.guided .body{padding:4px var(--page-px) 0;}
+  body.guided .page{max-height:calc(100dvh - 88px);}
+  .hero{padding:2rem var(--page-px) 2.25rem;}
+  .hero-title{font-size:30px;}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;}
+  .hs{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .hs:nth-child(2n){border-right:none;}
+  .hs:nth-child(3),.hs:nth-child(4){border-bottom:none;}
+  .task-grid-header,.task-row{grid-template-columns:1fr 90px;}
+  .task-grid-header span:last-child,.task-tool{display:none;}
+  .tm-row{grid-template-columns:1fr 1fr;}
+  .tm-cell.tm-effort{display:none;}
+  .compare-grid{grid-template-columns:1fr;}
+  .time-card{grid-template-columns:1fr 1fr;}
+  .tc:last-child{display:none;}
+  .stat-callout{grid-template-columns:1fr;}
+  .tb-row{grid-template-columns:1fr auto;}
+  .tb-saveable{display:none;}
+  .ap-row{grid-template-columns:28px 1fr;}
+  .cta-actions{flex-direction:column;}
+}
+</style>
+</head>
+<body class="guided">
+<div class="page">
+
+<!-- HEADER -->
+<div class="site-hdr">
+  <a class="logo-row" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="logo-mark">N</div>
+    <div>
+      <div class="logo-name">Nathaniel Baldock</div>
+      <div class="logo-sub">AI CONSULTANT &middot; TAURANGA</div>
+    </div>
+  </a>
+  <div class="hdr-badge">Worksheet 3 of 4</div>
+</div>
+
+<!-- HERO -->
+<div class="guide-chapter is-active" id="ch-welcome" data-g-label="Start here">
+<div class="hero">
+  <div class="hero-category">
+    <span>Bay of Plenty &middot; Time Audit</span>
+    <div class="cat-rule"></div>
+    <span>30 minutes &middot; Pen and paper welcome</span>
+  </div>
+  <div class="hero-title">Where does AI <em>actually</em><br>save you time?</div>
+  <div class="hero-sub">A practical task-mapping session for Tauranga and Bay of Plenty small business owners. No hype. Just your week on paper.</div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-num">66%</div><div class="hs-text">faster rate of skills change<br>in AI-exposed roles</div></div>
+    <div class="hs"><div class="hs-num">52 min</div><div class="hs-text">avg daily time recovered<br>by consistent AI users</div></div>
+    <div class="hs"><div class="hs-num">1</div><div class="hs-text">use case is all you need<br>to start seeing real value</div></div>
+    <div class="hs"><div class="hs-num">30 min</div><div class="hs-text">Time to complete<br>this audit</div></div>
+  </div>
+
+  <div class="hero-desc">
+    The conversation about AI in business moves fast. This worksheet doesn't. It slows down and asks a simpler question: <strong>what does your actual week look like?</strong> You'll leave with a short list of specific tasks where AI genuinely helps, the right tool for each one, and a one-week action plan that fits a business your size.
+  </div>
+
+  <div class="hero-meta">
+    <div class="mi">PwC AI Jobs Barometer 2025</div><div class="msep"></div>
+    <div class="mi">MBIE / AI New Zealand</div><div class="msep"></div>
+    <div class="mi">No prior AI experience needed</div>
+  </div>
+</div>
+</div><!-- /ch-welcome -->
+
+<!-- BODY -->
+<div class="body">
+
+<!-- CH 1: THE HONEST START -->
+<div class="guide-chapter" id="ch-honest" data-g-label="The honest start">
+  <div class="phase-hdr">
+    <div class="phase-num ph-1">1</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 1 &middot; Framing</div>
+      <div class="phase-title">Why most AI advice misses the point</div>
+      <div class="phase-sub">Before mapping your tasks, it helps to know what AI is actually good at — and what it isn't.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    Most AI for business content starts with tools. "Have you tried ChatGPT? What about Canva AI?" That's backwards. Tools are answers to questions. The question you need to answer first is: <strong>which parts of my week are genuinely worth handing off?</strong>
+  </p>
+
+  <p class="intro-para">
+    A hospitality operator in Mount Maunganui has different time drains than a kiwifruit exporter in Te Puke, a trades business running out of Bethlehem, or a retail shop on Devonport Road. The audit has to start with your week, not a generic list.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.1</div>
+      <div class="step-title">Understand what AI actually does well</div>
+    </div>
+    <div class="step-body">
+      <p>AI tools are pattern recognisers. They're trained on enormous amounts of text, so they're useful at anything that involves producing, summarising, sorting, or transforming text and information. They are not useful for judgment calls, original relationships, or anything that requires knowing your specific business context from the inside.</p>
+
+      <div class="compare-grid reveal">
+        <div class="compare-col">
+          <div class="compare-col-head good">AI handles this well</div>
+          <div class="compare-items">
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Writing first drafts of emails, proposals, and social content</div>
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Summarising long documents, reports, or meeting notes</div>
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Answering frequently asked questions from customers</div>
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Reformatting, cleaning, or categorising data in spreadsheets</div>
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Generating ideas, variations, and options quickly</div>
+            <div class="compare-item"><span class="compare-item-icon">✓</span> Research synthesis — pulling together what's already known</div>
+          </div>
+        </div>
+        <div class="compare-col">
+          <div class="compare-col-head bad">AI doesn't replace this</div>
+          <div class="compare-items">
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Client relationships that depend on trust and history</div>
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Judgment calls in complex or sensitive situations</div>
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Creative decisions that require taste and brand instinct</div>
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Physical or on-site work that requires your presence</div>
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Anything where being wrong has real consequences without review</div>
+            <div class="compare-item"><span class="compare-item-icon">✗</span> Strategic decisions about your business direction</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <div class="tip-lbl">The useful reframe</div>
+        Think of AI as a <strong>capable first-drafter</strong>. It produces a version that you then review, edit, and approve. The time saving isn't in removing your involvement — it's in reducing the blank-page problem. Starting from a draft takes minutes. Starting from nothing takes much longer.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 1.2</div>
+      <div class="step-title">Check the stat that actually matters for small businesses</div>
+    </div>
+    <div class="step-body">
+      <div class="stat-callout reveal">
+        <div class="stat-num-col">
+          <div class="stat-num-val">66%</div>
+          <div class="stat-num-unit">faster</div>
+        </div>
+        <div class="stat-body-col">
+          <div class="stat-body-text">Skills required in AI-exposed roles are changing <strong>66% faster</strong> than in non-AI roles. That's not a warning to panic — it's a signal that the businesses staying ahead are the ones building small, consistent AI habits now, not the ones doing a big overhaul later.</div>
+          <div class="stat-source">Source: PwC Global AI Jobs Barometer, 2025 · NZ Analysis</div>
+        </div>
+      </div>
+      <p>The most useful thing you can do today is find <strong>one task</strong> in your business where AI saves you 30 minutes a week. Not a new strategy. Not a new software subscription. One task.</p>
+    </div>
+  </div>
+</div><!-- /ch-honest -->
+
+<hr class="div">
+
+<!-- CH 2: MAP YOUR WEEK -->
+<div class="guide-chapter" id="ch-week" data-g-label="Map your week">
+  <div class="phase-hdr">
+    <div class="phase-num ph-2">2</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 2 &middot; Task mapping</div>
+      <div class="phase-title">What does your actual week look like?</div>
+      <div class="phase-sub">Work through a typical week task by task. Be specific. Vague categories don't tell you anything useful.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    This section works best if you think of a specific week — last week, ideally. Not a theoretical average. What did you actually spend time on? What ate more time than it should have?
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 2.1</div>
+      <div class="step-title">Score your weekly tasks against AI fit</div>
+    </div>
+    <div class="step-body">
+      <p>Go through this task grid. For each row, ask yourself: does this apply to my week? If yes, how well does AI actually fit that task?</p>
+
+      <div class="task-grid reveal">
+        <div class="task-grid-header">
+          <span>Task</span>
+          <span>AI fit</span>
+          <span>Best tool to try</span>
+        </div>
+        <!-- Writing -->
+        <div class="task-row">
+          <div class="task-name">Writing customer emails<span>Replies, follow-ups, proposals, complaints — anything that follows a pattern</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>ChatGPT / Claude</strong> — paste your draft, ask it to improve or write from a brief</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Social media captions and posts<span>Regular content for Facebook, Instagram, LinkedIn</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>ChatGPT / Canva AI</strong> — generate 5 variations, pick the best, edit to your voice</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Writing quotes and proposals<span>Scope-of-work documents, pricing summaries, job descriptions</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>Claude / ChatGPT</strong> — give it your notes and ask for a structured draft</div>
+        </div>
+        <!-- Research -->
+        <div class="task-row">
+          <div class="task-name">Researching suppliers, products, or competitors<span>Comparing options, finding contact details, staying current in your industry</span></div>
+          <div class="task-fit"><span class="fit-badge fit-med">Medium</span></div>
+          <div class="task-tool"><strong>ChatGPT / Perplexity</strong> — good for synthesis, always verify for NZ-specific facts</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Reading and summarising long documents<span>Contracts, reports, supplier T&Cs, industry updates</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>Claude / ChatGPT</strong> — paste the text and ask for a summary with key points</div>
+        </div>
+        <!-- Admin -->
+        <div class="task-row">
+          <div class="task-name">Sorting and categorising data in spreadsheets<span>Expense categories, customer lists, inventory — repetitive classification work</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>ChatGPT / Xero AI</strong> — describe the task; it can write a formula or sort logic for you</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Meeting notes and action items<span>Turning messy notes into a clear summary with follow-up tasks</span></div>
+          <div class="task-fit"><span class="fit-badge fit-high">High</span></div>
+          <div class="task-tool"><strong>Zoom AI / Teams / Otter.ai</strong> — records and transcribes, then summarises automatically</div>
+        </div>
+        <!-- Customer-facing -->
+        <div class="task-row">
+          <div class="task-name">Answering repetitive customer questions<span>FAQs by phone or email — the same 10 questions asked weekly</span></div>
+          <div class="task-fit"><span class="fit-badge fit-med">Medium</span></div>
+          <div class="task-tool"><strong>Website chatbot / FAQ page generated by AI</strong> — reduces volume, not a full replacement</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Creating marketing images or graphics<span>Flyers, promo posts, social media visuals</span></div>
+          <div class="task-fit"><span class="fit-badge fit-med">Medium</span></div>
+          <div class="task-tool"><strong>Canva AI / Adobe Firefly</strong> — good for basic graphics, watch brand consistency</div>
+        </div>
+        <!-- Low fit -->
+        <div class="task-row">
+          <div class="task-name">Client relationship management<span>The actual conversations, check-ins, and trust-building that keeps customers</span></div>
+          <div class="task-fit"><span class="fit-badge fit-low">Low</span></div>
+          <div class="task-tool">AI can help you prepare for conversations — it can't have them for you</div>
+        </div>
+        <div class="task-row">
+          <div class="task-name">Strategic decisions and planning<span>What direction to take your business, which opportunities to pursue</span></div>
+          <div class="task-fit"><span class="fit-badge fit-low">Low</span></div>
+          <div class="task-tool">AI is useful for research and options — judgment is still yours</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <div class="note-lbl">What to look for</div>
+        Any task marked <strong>High fit</strong> that you do at least once a week is a candidate for your first AI experiment. You don't need all of them. You need one, done consistently, for two weeks.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-week -->
+
+<hr class="div">
+
+<!-- CH 3: BUILD YOUR TIME ESTIMATE -->
+<div class="guide-chapter" id="ch-estimate" data-g-label="Estimate your time">
+  <div class="phase-hdr">
+    <div class="phase-num ph-3">3</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 3 &middot; Time builder</div>
+      <div class="phase-title">How much time could you actually recover?</div>
+      <div class="phase-sub">Put numbers on it. The estimate doesn't need to be precise — it needs to be real enough to motivate the first attempt.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    Skip this section if you want. But in my experience, the businesses that actually change something are the ones who did the 10 minutes of arithmetic first. Seeing "4.5 hours a week" written down is different from feeling vaguely busy.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 3.1</div>
+      <div class="step-title">Fill in your weekly time estimate</div>
+    </div>
+    <div class="step-body">
+      <p>For each task below, enter how long you currently spend on it in a typical week. The right column shows a realistic estimate of what AI assistance could recover. Your totals update automatically.</p>
+
+      <div class="time-builder reveal">
+        <div class="tb-header">
+          <div class="tb-header-title">Weekly time audit</div>
+          <div class="tb-header-sub">Enter your current time per task. AI typically saves 40–70% on high-fit tasks.</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Writing customer emails and follow-ups</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.55" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-0">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Social media content creation</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.60" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-1">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Writing quotes, proposals, or job briefs</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.50" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-2">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Reading and summarising documents or reports</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.65" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-3">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Data sorting and spreadsheet admin</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.60" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-4">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Research (suppliers, products, industry updates)</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.45" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-5">0 hrs recoverable</div>
+        </div>
+        <div class="tb-row">
+          <div class="tb-task-name">Meeting prep and note-taking</div>
+          <div class="tb-hrs"><input type="number" class="tb-input" data-rate="0.55" min="0" max="20" step="0.5" value="0" oninput="updateTotal()"> <label>hrs / week</label></div>
+          <div class="tb-saveable" id="save-6">0 hrs recoverable</div>
+        </div>
+        <div class="tb-total-row">
+          <div>
+            <div class="tb-total-label">Estimated weekly time recoverable</div>
+            <div class="tb-total-sub" id="totalSub">Fill in your tasks above</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="tb-total-num" id="totalNum">0 hrs</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="aha">
+        <div class="aha-lbl">Put it in perspective</div>
+        Even <strong>2 hours a week</strong> recovered is 8+ hours a month. For a sole trader or small team, that's a meaningful shift. The estimate above uses conservative recovery rates (45–65%) for realistic use — not best-case scenarios.
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-estimate -->
+
+<hr class="div">
+
+<!-- CH 4: TOOL MATCH -->
+<div class="guide-chapter" id="ch-tools" data-g-label="Match tasks to tools">
+  <div class="phase-hdr">
+    <div class="phase-num ph-4">4</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 4 &middot; Tool matching</div>
+      <div class="phase-title">The right tool for your specific tasks</div>
+      <div class="phase-sub">This is the most practical section. Match what you identified in Section 2 to a concrete tool and a starting point.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    Every tool listed below is free to start (some have paid tiers). None of them require technical knowledge to try. The goal here isn't to adopt all of them — it's to pick one and try it this week.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 4.1</div>
+      <div class="step-title">Review the task-to-tool reference guide</div>
+    </div>
+    <div class="step-body">
+      <div class="tool-match reveal">
+        <div class="tm-row tm-header-row">
+          <div class="tm-cell">Your task</div>
+          <div class="tm-cell">Recommended tool + how to start</div>
+          <div class="tm-cell">Learning effort</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Writing emails, proposals, content</div>
+          <div class="tm-cell tm-tool"><strong>Claude.ai or ChatGPT</strong> — type your request in plain English. "Write a follow-up email to a customer who hasn't responded in a week." Free to start.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Social media posts and captions</div>
+          <div class="tm-cell tm-tool"><strong>ChatGPT or Canva AI</strong> — ask for 5 post variations for a given topic or product. Edit one to your voice and post it.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Meeting notes and summaries</div>
+          <div class="tm-cell tm-tool"><strong>Otter.ai or Zoom AI Companion</strong> — records and transcribes automatically. Free tier available. Extracts action items without you typing anything.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Summarising long documents</div>
+          <div class="tm-cell tm-tool"><strong>Claude.ai</strong> — paste the document text and ask "summarise this in 5 bullet points" or "what are the key obligations in this contract?"</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Spreadsheet sorting and data work</div>
+          <div class="tm-cell tm-tool"><strong>ChatGPT or Excel Copilot</strong> — describe what you want in plain English. "Write a formula that categorises column B into these 4 groups..."</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-med"></span> Medium</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Invoice and expense categorisation</div>
+          <div class="tm-cell tm-tool"><strong>Xero or MYOB</strong> — both platforms now have AI-assisted categorisation built in. If you're already using either, check your settings.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Customer FAQ responses</div>
+          <div class="tm-cell tm-tool"><strong>ChatGPT</strong> — list your 10 most common questions and ask it to write clear, friendly answers. Use these as email templates or a FAQ page.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Research and supplier comparisons</div>
+          <div class="tm-cell tm-tool"><strong>Perplexity.ai</strong> — designed for research with sources cited. Better than Google for synthesis questions. Always verify NZ-specific claims.</div>
+          <div class="tm-cell tm-effort"><span class="effort-dot effort-low"></span> Low</div>
+        </div>
+      </div>
+
+      <div class="warn">
+        <div class="warn-lbl">Before you enter customer data</div>
+        Do not paste personal customer information (names, contact details, financial data) into free AI tools. These tools may use your input to train future models. If you're using AI with customer data, use business-tier accounts with data-handling agreements. <strong>Worksheet 2 in this series covers NZ privacy obligations in detail.</strong>
+      </div>
+    </div>
+  </div>
+</div><!-- /ch-tools -->
+
+<hr class="div">
+
+<!-- CH 5: ACTION PLAN -->
+<div class="guide-chapter" id="ch-action" data-g-label="Your action plan">
+  <div class="phase-hdr">
+    <div class="phase-num ph-5">5</div>
+    <div class="phase-text">
+      <div class="phase-kicker">Section 5 &middot; Action plan</div>
+      <div class="phase-title">One task. One tool. Two weeks.</div>
+      <div class="phase-sub">Write it down before you close this tab. Vague intentions don't become habits. Specific commitments sometimes do.</div>
+    </div>
+  </div>
+
+  <p class="intro-para">
+    Every business owner I've seen actually make progress with AI started the same way. Not with a strategy. Not with a subscription. They picked one specific, annoying task and tried one tool on it for two weeks straight. That's it.
+  </p>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.1</div>
+      <div class="step-title">Write your one-week commitment</div>
+    </div>
+    <div class="step-body">
+      <p>Use the plan below. Be specific. Vague answers ("I'll try AI for emails") don't stick. Specific answers do ("I'll use Claude to draft my Monday morning follow-up emails before I send them").</p>
+
+      <div class="action-plan reveal">
+        <div class="ap-header">
+          <div class="ap-header-title">My two-week AI experiment</div>
+          <div class="ap-header-sub">Fill this in now. Screenshot it or print it before you close the tab.</div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-num">1</div>
+          <div class="ap-content">
+            <strong>The specific task I'm going to use AI for:</strong><br>
+            (Be precise. "Customer emails" is vague. "Writing the first draft of quote follow-ups" is specific.)
+            <textarea class="ap-field" placeholder="e.g. Writing the first draft of my weekly social media posts for Facebook and Instagram"></textarea>
+          </div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-num">2</div>
+          <div class="ap-content">
+            <strong>The tool I'm going to use:</strong><br>
+            (Pick one from the table in Section 4. Don't pick two.)
+            <textarea class="ap-field" placeholder="e.g. Claude.ai — I'll go to claude.ai and type my request in plain English"></textarea>
+          </div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-num">3</div>
+          <div class="ap-content">
+            <strong>When I'm going to try it for the first time:</strong><br>
+            (A day and approximate time. This week, not "soon".)
+            <textarea class="ap-field" placeholder="e.g. Wednesday morning before I open my emails"></textarea>
+          </div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-num">4</div>
+          <div class="ap-content">
+            <strong>How I'll know it's working:</strong><br>
+            (A simple measure. Time saved, fewer re-drafts, less dread when you see that task on your list.)
+            <textarea class="ap-field" placeholder="e.g. The first draft takes 5 minutes instead of 20, and I'm not staring at a blank page"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="aha">
+        <div class="aha-lbl">What to do if it doesn't work the first time</div>
+        The first result from an AI tool is almost never the final one. The skill is in the follow-up prompt. If the first draft is off, don't give up — type back "make it shorter" or "make it more direct" or "that sounds too formal for my business." Three exchanges usually gets you something usable.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-head">
+      <div class="step-num">Step 5.2</div>
+      <div class="step-title">Know where to go from here</div>
+    </div>
+    <div class="step-body">
+      <p>This worksheet covers individual task automation. The other worksheets in this series go deeper on specific areas:</p>
+      <div class="tool-match">
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Worksheet 1</div>
+          <div class="tm-cell tm-tool">Is your business ready for AI? — Self-assessment and readiness score for BOP SMEs</div>
+          <div class="tm-cell tm-effort"><span style="font-size:11px;color:var(--accent);">nathanielbaldock.com</span></div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Worksheet 2</div>
+          <div class="tm-cell tm-tool">Staying legal while using AI — NZ privacy obligations and copyright basics for small businesses</div>
+          <div class="tm-cell tm-effort"><span style="font-size:11px;color:var(--accent);">nathanielbaldock.com</span></div>
+        </div>
+        <div class="tm-row">
+          <div class="tm-cell tm-task">Worksheet 4</div>
+          <div class="tm-cell tm-tool">AI and your team — A conversation guide for Bay of Plenty employers with staff</div>
+          <div class="tm-cell tm-effort"><span style="font-size:11px;color:var(--accent);">nathanielbaldock.com</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNEY -->
+  <div class="journey-summary reveal">
+    <div class="journey-title">Your progress through this worksheet</div>
+    <div class="journey-pct" id="journeyPct">Work through each section to track your progress.</div>
+    <ul class="journey-list" id="journeyList"></ul>
+    <button class="journey-reset-btn" id="journeyReset">Reset checkmarks</button>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block reveal">
+    <div class="cta-eyebrow">Tauranga &middot; Bay of Plenty</div>
+    <div class="cta-title">Want help turning this into a real plan for your business?</div>
+    <div class="cta-body">
+      A worksheet gets you clarity. A 30-minute conversation gets you specifics. I work with Bay of Plenty businesses on exactly this — finding the two or three AI applications that will actually change something in your week, and making sure you're doing it safely. No sales pitch. Just a practical conversation about your specific situation.
+    </div>
+    <div class="cta-actions">
+      <a class="cta-btn-primary" href="https://calendar.app.google/KKC9Bhhsb7XEYqvn7" target="_blank">Book a free 30-min call</a>
+      <a class="cta-btn-secondary" href="https://www.nathanielbaldock.com" target="_blank">See more free resources</a>
+    </div>
+  </div>
+
+</div><!-- /ch-action -->
+</div><!-- /body -->
+
+<!-- FOOTER -->
+<div class="foot">
+  <a class="foot-body" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener">
+    <div class="foot-brand">Nathaniel Baldock &mdash; nathanielbaldock.com</div>
+    <div class="foot-right">AI Consultant &middot; Tauranga, NZ &middot; 2026</div>
+  </a>
+</div>
+
+</div><!-- /page -->
+
+<!-- GUIDE DOCK -->
+<div class="guide-dock" role="navigation" aria-label="Worksheet navigation">
+  <div class="guide-dock-inner">
+    <div class="guide-mode" role="group" aria-label="View mode">
+      <button id="modeGuided" type="button" aria-pressed="true">Guided</button>
+      <button id="modeFull" type="button" aria-pressed="false">Full page</button>
+    </div>
+    <div class="guide-chapter-nav">
+      <button class="nav-ghost" id="chPrev" type="button" aria-label="Previous section">&larr; Back</button>
+      <div class="ch-dots" role="tablist" aria-label="Sections" id="chDots"></div>
+      <button class="nav-primary" id="chNext" type="button" aria-label="Next section">Next &rarr;</button>
+    </div>
+    <div class="guide-progress-label" id="guideProgressLabel">1 / 5</div>
+  </div>
+</div>
+
+<script>
+// Time builder
+function updateTotal(){
+  var inputs = document.querySelectorAll('.tb-input');
+  var total = 0;
+  inputs.forEach(function(inp, i){
+    var hrs = parseFloat(inp.value) || 0;
+    var rate = parseFloat(inp.getAttribute('data-rate')) || 0.5;
+    var saved = Math.round(hrs * rate * 10) / 10;
+    total += saved;
+    var el = document.getElementById('save-' + i);
+    if(el) el.textContent = saved.toFixed(1) + ' hrs recoverable';
+  });
+  var tot = document.getElementById('totalNum');
+  var sub = document.getElementById('totalSub');
+  if(tot) tot.textContent = total.toFixed(1) + ' hrs';
+  if(sub){
+    if(total === 0){ sub.textContent = 'Fill in your tasks above'; }
+    else if(total < 1){ sub.textContent = 'That\'s ' + Math.round(total * 60) + ' minutes a week — ' + Math.round(total * 60 * 52 / 60) + ' hours a year'; }
+    else { sub.textContent = 'That\'s ' + total.toFixed(1) + ' hrs/week — ' + Math.round(total * 52) + ' hours a year recovered'; }
+  }
+}
+
+// Guide system
+(function(){
+  var LS_KEY = 'nb-ws3-tga-2026';
+  var body = document.body;
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('.guide-chapter'));
+  var totalCh = chapters.length;
+  var currentIndex = 0;
+  var state = loadState();
+
+  var chDots = document.getElementById('chDots');
+  var chPrev = document.getElementById('chPrev');
+  var chNext = document.getElementById('chNext');
+  var modeGuided = document.getElementById('modeGuided');
+  var modeFull = document.getElementById('modeFull');
+  var chLabel = document.getElementById('guideProgressLabel');
+  var journeyPct = document.getElementById('journeyPct');
+  var journeyList = document.getElementById('journeyList');
+
+  function initStepAccordion(){
+    if(!body.classList.contains('guided')) return;
+    var ch = chapters[currentIndex];
+    if(!ch) return;
+    var stepsInCh = ch.querySelectorAll('.step');
+    stepsInCh.forEach(function(s){ s.classList.remove('is-step-open'); });
+    var firstUndone = null;
+    stepsInCh.forEach(function(s){
+      var inp = s.querySelector('.step-check-input');
+      if(!firstUndone && !(inp && inp.checked)) firstUndone = s;
+    });
+    if(firstUndone) firstUndone.classList.add('is-step-open');
+    else if(stepsInCh.length > 0) stepsInCh[stepsInCh.length-1].classList.add('is-step-open');
+  }
+  function advanceStepAccordion(finished){
+    var ch = chapters[currentIndex];
+    if(!ch) return;
+    var list = Array.prototype.slice.call(ch.querySelectorAll('.step'));
+    var idx = list.indexOf(finished);
+    if(idx < 0) return;
+    var next = list[idx + 1];
+    finished.classList.remove('is-step-open');
+    if(next){
+      window.setTimeout(function(){
+        list.forEach(function(s){ s.classList.remove('is-step-open'); });
+        next.classList.add('is-step-open');
+        try{ next.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){ next.scrollIntoView(true); }
+      }, 200);
+    }
+  }
+  function loadState(){
+    try{ var raw = localStorage.getItem(LS_KEY); if(!raw) return {mode:'guided',chapter:0,done:{}}; return JSON.parse(raw); }
+    catch(x){ return {mode:'guided',chapter:0,done:{}}; }
+  }
+  function saveState(){
+    try{
+      var done = {};
+      document.querySelectorAll('.step .step-check-input').forEach(function(inp){
+        if(inp.checked) done[inp.getAttribute('data-step-id')] = true;
+      });
+      state.done = done; state.chapter = currentIndex;
+      state.mode = body.classList.contains('guided') ? 'guided' : 'full';
+      localStorage.setItem(LS_KEY, JSON.stringify(state));
+    }catch(x){}
+  }
+  function setMode(guided){
+    body.classList.toggle('guided', guided);
+    document.documentElement.classList.toggle('guide-locked', guided);
+    if(modeGuided) modeGuided.setAttribute('aria-pressed', guided ? 'true' : 'false');
+    if(modeFull) modeFull.setAttribute('aria-pressed', guided ? 'false' : 'true');
+    if(guided) showChapter(currentIndex, true);
+    else chapters.forEach(function(c){ c.classList.remove('is-active'); });
+    saveState();
+  }
+  function showChapter(i, noSave){
+    i = Math.max(0, Math.min(totalCh-1, i));
+    currentIndex = i;
+    if(body.classList.contains('guided')){
+      chapters.forEach(function(c, j){ c.classList.toggle('is-active', j === i); });
+      if(chLabel) chLabel.textContent = (i+1) + ' / ' + totalCh;
+      if(chDots) Array.prototype.forEach.call(chDots.querySelectorAll('.ch-dot'), function(dot, j){
+        dot.setAttribute('aria-current', j === i ? 'true' : 'false');
+        dot.setAttribute('tabindex', j === i ? '0' : '-1');
+      });
+      if(chPrev) chPrev.disabled = i === 0;
+      if(chNext) chNext.disabled = i === totalCh-1;
+      var el = chapters[i]; if(el) el.scrollTop = 0;
+      initStepAccordion();
+      if(!noSave) saveState();
+    }
+  }
+  function buildDots(){
+    if(!chDots) return;
+    chDots.innerHTML = '';
+    chapters.forEach(function(ch, i){
+      var t = ch.getAttribute('data-g-label') || ('Part ' + (i+1));
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'ch-dot';
+      b.setAttribute('role','tab'); b.setAttribute('title',t); b.setAttribute('aria-label',t);
+      b.addEventListener('click', function(){ showChapter(i); });
+      chDots.appendChild(b);
+    });
+  }
+  function steps(){ return document.querySelectorAll('.body .step'); }
+  function installStepChecks(){
+    steps().forEach(function(step, i){
+      var id = 'step-' + (i+1);
+      var uid = 'chk-' + id;
+      var lab = document.createElement('label');
+      lab.className = 'step-check'; lab.setAttribute('for', uid);
+      lab.innerHTML = '<input type="checkbox" class="step-check-input" id="'+uid+'" data-step-id="'+id+'" />' +
+        '<span class="step-check-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="12" height="12" focusable="false"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span class="step-check-txt">Done</span>';
+      step.appendChild(lab);
+      var inp = document.getElementById(uid);
+      if(inp){
+        inp.addEventListener('change', function(){
+          step.classList.toggle('is-done', inp.checked);
+          if(inp.checked){
+            step.classList.add('just-marked');
+            window.setTimeout(function(){ step.classList.remove('just-marked'); }, 600);
+            if(body.classList.contains('guided')) window.setTimeout(function(){ advanceStepAccordion(step); }, 220);
+          } else { initStepAccordion(); }
+          updateJourney(); saveState();
+        });
+        if(state.done && state.done[id]){ inp.checked = true; step.classList.add('is-done'); }
+      }
+    });
+  }
+  function updateJourney(){
+    var n = 0, tot = 0, items = [];
+    steps().forEach(function(step, i){
+      var id = 'step-' + (i+1); tot++;
+      var titleEl = step.querySelector('.step-title');
+      var t = titleEl ? titleEl.textContent.trim() : 'Step ' + (i+1);
+      var inp = document.querySelector('input[data-step-id="'+id+'"]');
+      var done = inp && inp.checked;
+      if(done) n++;
+      items.push({id:id,title:t,done:done});
+    });
+    if(journeyPct){ var p = tot ? Math.round(100*n/tot) : 0; journeyPct.innerHTML = 'You\'ve completed <strong>'+p+'%</strong> of this worksheet ('+n+' of '+tot+' steps).'; }
+    if(journeyList){ journeyList.innerHTML = items.map(function(it){ return '<li class="'+(it.done?'jl-done':'')+'"><span class="jl-ico" aria-hidden="true">'+(it.done?'&#10003;':'&#9675;')+'</span> <span>'+escapeHtml(it.title)+'</span></li>'; }).join(''); }
+  }
+  function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+  if(chPrev) chPrev.addEventListener('click', function(){ showChapter(currentIndex-1); });
+  if(chNext) chNext.addEventListener('click', function(){ showChapter(currentIndex+1); });
+  if(modeGuided) modeGuided.addEventListener('click', function(){ setMode(true); });
+  if(modeFull) modeFull.addEventListener('click', function(){ setMode(false); });
+
+  var resetBtn = document.getElementById('journeyReset');
+  if(resetBtn) resetBtn.addEventListener('click', function(){
+    if(!confirm('Clear all checkmarks? This can\'t be undone.')) return;
+    document.querySelectorAll('.step .step-check-input').forEach(function(inp){
+      inp.checked = false; var st = inp.closest('.step'); if(st) st.classList.remove('is-done');
+    });
+    state.done = {}; localStorage.setItem(LS_KEY, JSON.stringify(state));
+    updateJourney(); initStepAccordion();
+  });
+
+  function initReveal(){
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var nodes = document.querySelectorAll('.hero,.body .step,.body .phase-hdr,.body .intro-para,.body .stat-callout,.body .compare-grid,.body .tool-match,.body .time-builder,.body .action-plan,.journey-summary,.cta-block');
+    var io = new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('is-visible'); }); }, {root:null,rootMargin:'0px 0px -6% 0px',threshold:.06});
+    Array.prototype.forEach.call(nodes, function(n){ n.classList.add('reveal'); io.observe(n); });
+  }
+
+  if(typeof state.chapter === 'number' && state.chapter >= 0 && state.chapter < totalCh) currentIndex = state.chapter;
+  buildDots(); installStepChecks(); updateJourney();
+  if(state.mode === 'full') setMode(false); else setMode(true);
+  initReveal();
+
+  document.addEventListener('keydown', function(e){
+    if(!body.classList.contains('guided')) return;
+    if(e.target && (e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.isContentEditable)) return;
+    if(e.key==='ArrowRight'&&!e.shiftKey) showChapter(currentIndex+1);
+    if(e.key==='ArrowLeft'&&!e.shiftKey) showChapter(currentIndex-1);
+  });
+})();
+</script>
+</body>
+</html>
