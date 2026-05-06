@@ -578,7 +578,7 @@ body.guided #ch-welcome:not(.is-active){ display:none!important; }
 .ws-begin-btn{
   font-family:var(--font-sans);font-size:14px;font-weight:600;
   padding:12px 28px;border-radius:999px;border:none;cursor:pointer;
-  background:var(--fg);color:var(--bg);transition:background .2s;
+  background:var(--fg);color:var(--bg);transition:background .2s,box-shadow .2s,transform .2s;
 }
 .ws-begin-btn:hover{ background:var(--accent); }
 .ws-begin-btn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-bright); }
@@ -589,10 +589,82 @@ body.guided:not(.ws-past-intro) #ch-welcome.guide-chapter.is-active{
   animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both;
 }
 body.guided:not(.ws-past-intro) #ch-welcome .hero{
-  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:flex-start;
+  gap:clamp(0.55rem,1.5vh,1.35rem);
   overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   border-bottom:none;
-  padding:clamp(1.5rem,4vh,3rem) max(1rem,env(safe-area-inset-left,0px)) clamp(1rem,3vh,2rem) max(1rem,env(safe-area-inset-right,0px));
+  padding:clamp(0.85rem,3.2vh,2.85rem) max(0.65rem,env(safe-area-inset-left,0px)) clamp(0.75rem,2.6vh,2rem) max(0.65rem,env(safe-area-inset-right,0px));
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero > *{
+  max-width:min(96vw,88rem);width:100%;margin-left:auto;margin-right:auto;box-sizing:border-box;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero-category{
+  font-size:clamp(9px,calc(0.5vmin + 0.55vw),12.5px);
+  margin-bottom:clamp(8px,1.5vh,20px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .cat-rule{ flex:1;max-width:min(150px,24vw); }
+body.guided:not(.ws-past-intro) #ch-welcome .hero-title{
+  font-size:clamp(1.85rem,calc(3.4vmin + 2.1vw),4.1rem);
+  line-height:1.05;
+  margin-bottom:clamp(6px,1.2vh,14px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero-sub{
+  font-size:clamp(15px,calc(0.85vmin + 1.1vw),24px);
+  line-height:1.42;
+  max-width:min(96vw,70rem);
+  margin-bottom:clamp(12px,2vh,30px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero-stats{
+  border-radius:clamp(12px,calc(0.9vmin + 0.6vw),22px);
+  min-height:clamp(88px,calc(10vh + 3vw),176px);
+  margin-bottom:clamp(12px,1.8vh,26px);
+  box-shadow:0 4px 32px -8px rgba(15,23,42,.16),var(--card-shadow);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hs{
+  padding:clamp(12px,calc(1.2vh + 0.5vw),28px) clamp(10px,calc(1.2vw + 0.4rem),26px);
+  display:flex;flex-direction:column;justify-content:center;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hs-num{
+  font-size:clamp(1.55rem,calc(3.2vmin + 1vw),3.15rem);
+  margin-bottom:clamp(5px,0.7vh,10px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hs-text{
+  font-size:clamp(10.5px,calc(0.55vmin + 0.6vw),15.5px);
+  line-height:1.4;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero-desc{
+  font-size:clamp(14px,calc(0.75vmin + 0.85vw),20.5px);
+  line-height:1.62;
+  max-width:min(96vw,70rem);
+  margin-bottom:clamp(6px,1vh,12px);
+  flex-shrink:0;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero-meta{
+  flex-shrink:0;
+  margin-top:clamp(6px,1.5vh,18px);
+  padding-top:clamp(10px,1.6vh,22px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .mi{
+  font-size:clamp(8.5px,calc(0.45vmin + 0.42vw),11.5px);
+  padding:0 clamp(6px,1.5vw,18px);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .mi:first-child{ padding-left:0; }
+body.guided:not(.ws-past-intro) #ch-welcome .ws-begin-wrap{
+  padding-top:clamp(0.65rem,1.8vh,1.65rem);
+  width:100%;
+  margin-top:auto;
+  flex-shrink:0;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .ws-begin-btn{
+  font-size:clamp(15px,calc(0.85vmin + 1.15vw),20px);
+  font-weight:600;
+  padding:clamp(14px,calc(1.8vh + 0.4vw),22px) clamp(36px,calc(5vw + 1.5rem),68px);
+  min-width:min(90vw,300px);
+  border-radius:999px;
+  box-shadow:0 8px 28px -6px rgba(15,23,42,.24);
+}
+body.guided:not(.ws-past-intro) #ch-welcome .ws-begin-btn:hover{
+  box-shadow:0 10px 32px -6px rgba(15,23,42,.28);
 }
 
 /* Step checkbox */
@@ -672,8 +744,11 @@ body:not(.guided) .step{ margin:24px 0 20px; }
   body.guided .page{ max-height:calc(100dvh - 88px); }
   .hero{ padding:2rem var(--page-px) 2.25rem; }
   body.guided:not(.ws-past-intro) #ch-welcome .hero{
-    padding:clamp(1.25rem,3vh,2rem) max(0.75rem,env(safe-area-inset-left,0px)) 1.25rem max(0.75rem,env(safe-area-inset-right,0px));
+    padding:clamp(0.65rem,2.6vh,1.6rem) max(0.45rem,env(safe-area-inset-left,0px)) clamp(0.55rem,2vh,1.35rem) max(0.45rem,env(safe-area-inset-right,0px));
+    gap:clamp(0.45rem,1.2vh,1rem);
   }
+  body.guided:not(.ws-past-intro) #ch-welcome .hero-stats{ min-height:clamp(78px,calc(8vh + 6vw),130px); }
+  body.guided:not(.ws-past-intro) #ch-welcome .ws-begin-btn{ min-width:min(94vw,260px); }
   .site-hdr{ padding:14px var(--page-px); }
   .hero-title{ font-size:30px; }
   .hero-stats{ display:grid;grid-template-columns:1fr 1fr; }
