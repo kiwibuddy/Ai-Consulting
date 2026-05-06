@@ -294,6 +294,30 @@ body.guided .guide-chapter.is-active .phase-hdr{ position:sticky;top:0;z-index:6
 body.guided .foot{ flex:0 0 auto;margin:0; }
 body:not(.guided) .guide-chapter{ display:contents; }
 body.guided .hero{ border-radius:0; }
+body.guided #ch-welcome:not(.is-active){ display:none!important; }
+.ws-begin-wrap{
+  position:relative;z-index:2;display:flex;justify-content:center;
+  padding-top:clamp(1rem,2.5vh,1.75rem);margin-top:auto;
+}
+.ws-begin-btn{
+  font-family:var(--font-sans);font-size:14px;font-weight:600;
+  padding:12px 28px;border-radius:999px;border:none;cursor:pointer;
+  background:var(--fg);color:var(--bg);transition:background .2s;
+}
+.ws-begin-btn:hover{ background:var(--accent); }
+.ws-begin-btn:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-bright); }
+body.guided:not(.ws-past-intro) .site-hdr,
+body.guided:not(.ws-past-intro) .foot{ display:none!important; }
+body.guided:not(.ws-past-intro) #ch-welcome.guide-chapter.is-active{
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both;
+}
+body.guided:not(.ws-past-intro) #ch-welcome .hero{
+  flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;
+  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  border-bottom:none;
+  padding:clamp(1.5rem,4vh,3rem) max(1rem,env(safe-area-inset-left,0px)) clamp(1rem,3vh,2rem) max(1rem,env(safe-area-inset-right,0px));
+}
 
 /* STEP CHECKBOX */
 .step .step-check{ position:absolute;top:0;right:0;display:flex;align-items:center;gap:8px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-muted);cursor:pointer;user-select:none;z-index:2; }
@@ -334,6 +358,7 @@ body:not(.guided) .step{ margin:24px 0 20px; }
   body.guided .body > .guide-chapter:not(.is-active),
   body.guided .body > .guide-chapter.is-active{display:block!important;flex:none!important;overflow:visible!important;min-height:0!important;}
   body.guided .body > hr.div{display:block!important;}
+  body.guided #ch-welcome:not(.is-active){ display:block!important; }
 }
 @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} body.guided .guide-chapter.is-active{animation:none;} .step .step-check-input:checked + .step-check-box{animation:none;} }
 @media(max-width:640px){
@@ -341,6 +366,9 @@ body:not(.guided) .step{ margin:24px 0 20px; }
   body.guided .body{padding:4px var(--page-px) 0;}
   body.guided .page{max-height:calc(100dvh - 88px);}
   .hero{padding:2rem var(--page-px) 2.25rem;}
+  body.guided:not(.ws-past-intro) #ch-welcome .hero{
+    padding:clamp(1.25rem,3vh,2rem) max(0.75rem,env(safe-area-inset-left,0px)) 1.25rem max(0.75rem,env(safe-area-inset-right,0px));
+  }
   .hero-title{font-size:30px;}
   .hero-stats{display:grid;grid-template-columns:1fr 1fr;}
   .hs{border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
@@ -395,6 +423,10 @@ body:not(.guided) .step{ margin:24px 0 20px; }
     <div class="mi">PwC AI Jobs Barometer 2025</div><div class="msep"></div>
     <div class="mi">RBNZ Labour Market Analysis</div><div class="msep"></div>
     <div class="mi">Priority One / Toi Kai Rawa Trust</div>
+  </div>
+
+  <div class="ws-begin-wrap">
+    <button type="button" class="ws-begin-btn" id="wsBeginBtn">Begin</button>
   </div>
 </div>
 </div><!-- /ch-welcome -->
@@ -889,6 +921,14 @@ body:not(.guided) .step{ margin:24px 0 20px; }
   var chLabel = document.getElementById('guideProgressLabel');
   var journeyPct = document.getElementById('journeyPct');
   var journeyList = document.getElementById('journeyList');
+  var WS_PAST_INTRO = 'ws-past-intro';
+  function syncWorksheetIntroState(){
+    if(!body.classList.contains('guided')){
+      body.classList.remove(WS_PAST_INTRO);
+      return;
+    }
+    body.classList.toggle(WS_PAST_INTRO, currentIndex > 0);
+  }
 
   function initStepAccordion(){
     if(!body.classList.contains('guided')) return;
@@ -920,6 +960,7 @@ body:not(.guided) .step{ margin:24px 0 20px; }
     body.classList.toggle('guided',guided); document.documentElement.classList.toggle('guide-locked',guided);
     if(modeGuided) modeGuided.setAttribute('aria-pressed',guided?'true':'false');
     if(modeFull) modeFull.setAttribute('aria-pressed',guided?'false':'true');
+    if(!guided) body.classList.remove(WS_PAST_INTRO);
     if(guided) showChapter(currentIndex,true); else chapters.forEach(function(c){c.classList.remove('is-active');});
     saveState();
   }
@@ -933,6 +974,7 @@ body:not(.guided) .step{ margin:24px 0 20px; }
       var el=chapters[i]; if(el) el.scrollTop=0;
       initStepAccordion(); if(!noSave) saveState();
     }
+    syncWorksheetIntroState();
   }
   function buildDots(){
     if(!chDots) return; chDots.innerHTML='';
@@ -979,6 +1021,8 @@ body:not(.guided) .step{ margin:24px 0 20px; }
   if(chNext) chNext.addEventListener('click',function(){showChapter(currentIndex+1);});
   if(modeGuided) modeGuided.addEventListener('click',function(){setMode(true);});
   if(modeFull) modeFull.addEventListener('click',function(){setMode(false);});
+  var wsBeginBtn=document.getElementById('wsBeginBtn');
+  if(wsBeginBtn) wsBeginBtn.addEventListener('click',function(){showChapter(1);});
 
   var resetBtn=document.getElementById('journeyReset');
   if(resetBtn) resetBtn.addEventListener('click',function(){
