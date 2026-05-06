@@ -1106,7 +1106,7 @@ function updateTotal(){
 
   function initReveal(){
     if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
-    var nodes = document.querySelectorAll('.hero,.body .step,.body .phase-hdr,.body .intro-para,.body .stat-callout,.body .compare-grid,.body .tool-match,.body .time-builder,.body .action-plan,.journey-summary,.cta-block');
+    var nodes = document.querySelectorAll('.hero,.body .step,.body .phase-hdr,.body .intro-para,.body .stat-callout,.body .compare-grid,.body .task-grid,.body .tool-match,.body .time-builder,.body .action-plan,.journey-summary,.cta-block');
     var io = new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(en.isIntersecting) en.target.classList.add('is-visible'); }); }, {root:null,rootMargin:'0px 0px -6% 0px',threshold:.06});
     Array.prototype.forEach.call(nodes, function(n){ n.classList.add('reveal'); io.observe(n); });
   }
