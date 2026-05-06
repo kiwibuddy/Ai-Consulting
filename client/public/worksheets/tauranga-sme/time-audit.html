@@ -296,6 +296,8 @@ body.guided .body{ flex:1 1 auto;min-height:0;display:flex;flex-direction:column
 body.guided .body:has(> .guide-chapter.is-active){ flex:1 1 auto;min-height:0; }
 body.guided .body:not(:has(> .guide-chapter.is-active)){ padding:0;flex:0 0 0;min-height:0;max-height:0;overflow:hidden; }
 body.guided .body > .guide-chapter{ min-height:0; }
+body.guided .body > .guide-chapter:not(.is-active){ display:none!important; }
+body.guided .body > hr.div{ display:none!important; }
 body.guided .body > .guide-chapter.is-active{ display:flex;flex:1 1 auto;flex-direction:column;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 0 20px;scroll-behavior:smooth;animation:ch-enter .4s cubic-bezier(.22,1,.36,1) both; }
 body.guided .guide-chapter.is-active .phase-hdr{ position:sticky;top:0;z-index:6;margin-top:0;margin-bottom:14px;padding:4px 0 10px;background:var(--bg);box-shadow:0 1px 0 0 var(--border),0 10px 12px -8px rgba(15,23,42,.08);transition:box-shadow .25s; }
 body.guided .foot{ flex:0 0 auto;margin:0; }
@@ -332,7 +334,17 @@ body:not(.guided) .step{ margin:24px 0 20px; }
 @keyframes checkRipple{ 0%{box-shadow:0 0 0 0 hsla(79,86%,52%,.45);} 100%{box-shadow:0 0 0 10px hsla(79,86%,52%,0);} }
 @keyframes stepFlash{ 0%{background:linear-gradient(90deg,hsla(79,55%,88%,.9) 0%,rgba(255,255,255,0) 20px);} 100%{background:linear-gradient(90deg,hsla(79,45%,92%,.65) 0%,rgba(255,255,255,0) 14px);} }
 
-@media print{ .guide-dock,.site-hdr{display:none!important;} body{padding-bottom:0;} body.guided .guide-chapter .step .step-body{max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important;} }
+@media print{
+  .guide-dock,.site-hdr{display:none!important;}
+  body{padding-bottom:0;}
+  body.guided .guide-chapter .step .step-body,
+  body.guided .guide-chapter .step:not(.is-step-open) .step-body{max-height:none!important;opacity:1!important;transform:none!important;pointer-events:auto!important;}
+  body.guided .page{max-height:none!important;overflow:visible!important;}
+  body.guided .body{overflow:visible!important;}
+  body.guided .body > .guide-chapter:not(.is-active),
+  body.guided .body > .guide-chapter.is-active{display:block!important;flex:none!important;overflow:visible!important;min-height:0!important;}
+  body.guided .body > hr.div{display:block!important;}
+}
 @media(prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;transition:none;} body.guided .guide-chapter.is-active{animation:none;} .step .step-check-input:checked + .step-check-box{animation:none;} }
 @media(max-width:640px){
   .body{padding:1.5rem var(--page-px) 1.5rem;}
