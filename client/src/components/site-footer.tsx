@@ -21,7 +21,8 @@ export function SiteFooter({ onNewsletterSubmit }: SiteFooterProps) {
     e.preventDefault();
     const form = e.currentTarget;
     const input = form.querySelector<HTMLInputElement>('input[type="email"]');
-    const email = input?.value?.trim();
+    if (!input) return;
+    const email = input.value?.trim();
     if (!email) return;
     if (onNewsletterSubmit) {
       await onNewsletterSubmit(email);

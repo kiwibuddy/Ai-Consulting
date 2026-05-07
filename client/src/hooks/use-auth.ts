@@ -46,6 +46,7 @@ export function useAuth() {
     isLoading,
     isAuthenticated: !!user,
     logout: logoutMutation.mutate,
+    logoutMutation,
     isLoggingOut: logoutMutation.isPending,
     loginWithGoogle,
   };

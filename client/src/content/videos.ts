@@ -16,7 +16,7 @@ export const videos: VideoItem[] = [
     title: "AI and Global Discipleship",
     description:
       "An honest look at how AI is reshaping work, learning, and faith across the world — and what global Christian discipleship needs to look like in response.",
-    url: "https://www.nathanielbaldock.com/worksheets/presentations/ai-and-global-discipleship.html",
+    url: "/worksheets/presentations/ai-and-global-discipleship.html",
     thumbnail: "/images/worksheets/presentations-global-discipleship.svg",
     date: "2026-04-22",
     category: "Presentations",
@@ -27,7 +27,7 @@ export const videos: VideoItem[] = [
     title: "Leveraging AI for Evangelism, Discipleship & Church Growth",
     description:
       "Practical ways churches and ministry leaders can use AI for evangelism, discipleship, and growth — without outsourcing the soul work that only people can do.",
-    url: "https://www.nathanielbaldock.com/worksheets/presentations/leveraging-ai-for-kingdom-impact.html",
+    url: "/worksheets/presentations/leveraging-ai-for-kingdom-impact.html",
     thumbnail: "/images/worksheets/presentations-leveraging-ai.svg",
     date: "2026-03-19",
     category: "Presentations",

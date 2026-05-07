@@ -132,6 +132,11 @@ Without this, file uploads will fail but the rest of the app will work.
 - Check your `DATABASE_URL` is correct
 - Make sure the database exists: `psql -l` to list databases
 
+### `[SessionReminders] Job failed` / `getaddrinfo ENOTFOUND` for Supabase
+- Your `DATABASE_URL` host does not resolve (wrong project, paused Supabase, or typo). Fix the URL or use a local Postgres URL.
+- In development, the hourly reminder scheduler is **off** by default so a bad URL does not spam errors. To run reminders locally, set `ENABLE_SESSION_REMINDERS=1` in `.env` after the DB is reachable.
+- To turn reminders off in any environment, set `DISABLE_SESSION_REMINDERS=1`.
+
 ### Module not found errors
 - Run `npm install` again
 - Delete `node_modules` and `package-lock.json`, then `npm install`

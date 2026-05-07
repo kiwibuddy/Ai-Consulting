@@ -138,6 +138,7 @@ export default function SurveyPage() {
       <PageSEO
         title="AI Knowledge Bank — Quick 3-Question Survey"
         description="Answer three short questions to share how you're feeling about AI and where you'd most love help."
+        canonicalPath="/survey"
       />
       <SiteHeader />
       <main className="pt-28 pb-16 px-4">
@@ -385,9 +386,9 @@ export default function SurveyPage() {
                     <Button
                       type="submit"
                       className="tesoro-cta-gradient text-neutral-900 font-semibold px-6"
-                      disabled={submitMutation.isLoading}
+                      disabled={submitMutation.isPending}
                     >
-                      {submitMutation.isLoading ? "Sending..." : "Submit survey"}
+                      {submitMutation.isPending ? "Sending..." : "Submit survey"}
                     </Button>
                   </div>
                 </form>

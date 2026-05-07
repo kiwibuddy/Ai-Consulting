@@ -26,6 +26,11 @@ export default function WorksheetSharePage() {
   const [iframeHeight, setIframeHeight] = useState(1200);
   const fitViewport =
     !isDeepDive && (worksheet?.displayMode === "fit-viewport");
+  /** Tauranga SME HTML decks — 16∶9 iframe so letterboxed slides match the host frame */
+  const cinematicPresentation =
+    worksheet != null &&
+    worksheet.displayMode === "fit-viewport" &&
+    worksheet.id.startsWith("tauranga-sme-presentation-");
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -152,18 +157,37 @@ export default function WorksheetSharePage() {
           </div>
         </section>
 
-        <section className="py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]">
-          <iframe
-            ref={iframeRef}
-            title={resource.title}
-            src={resource.iframeSrc}
-            className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
-            style={
-              fitViewport
-                ? { height: "clamp(600px, 88vh, 1080px)" }
-                : { height: iframeHeight, minHeight: 600 }
-            }
-          />
+        <section
+          className={
+            cinematicPresentation
+              ? "py-4 px-2 sm:px-4 md:py-6 bg-[hsl(218,20%,88%)]"
+              : "py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]"
+          }
+        >
+          {cinematicPresentation ? (
+            <div
+              className="relative mx-auto w-full max-sm:h-[min(92dvh,920px)] sm:aspect-[16/9] sm:w-[min(100%,calc((100dvh-11rem)*16/9))] sm:max-h-[92dvh] rounded-2xl shadow-lg border border-neutral-200/80 bg-[#090c14] overflow-hidden"
+            >
+              <iframe
+                ref={iframeRef}
+                title={resource.title}
+                src={resource.iframeSrc}
+                className="absolute inset-0 w-full h-full border-0 block bg-[#090c14]"
+              />
+            </div>
+          ) : (
+            <iframe
+              ref={iframeRef}
+              title={resource.title}
+              src={resource.iframeSrc}
+              className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
+              style={
+                fitViewport
+                  ? { height: "clamp(600px, 88vh, 1080px)" }
+                  : { height: iframeHeight, minHeight: 600 }
+              }
+            />
+          )}
         </section>
 
         <WorksheetLeadCTA

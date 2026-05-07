@@ -425,7 +425,7 @@ export const worksheets: WorksheetItem[] = [
     id: "tauranga-sme-legal",
     title: "Staying Legal While Using AI — NZ Privacy & Copyright Basics for BOP Businesses",
     description:
-      "A plain-language guide to NZ's Privacy Act 2020 and Copyright Act obligations as they apply to AI tool use — data inputs, customer information, and output ownership. Know your obligations before you add the next tool.",
+      "A plain-language guide to NZ's Privacy Act 2020 and Copyright Act obligations as they apply to AI tool use — data inputs, customer information, and output ownership.",
     url: "/resources/worksheet/tauranga-sme-legal",
     iframeSrc: "/worksheets/tauranga-sme/legal.html",
     shareImage: "/images/worksheets/tauranga-sme-legal.svg",
@@ -446,6 +446,8 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-05-07",
     category: "Tauranga SME",
     format: "Interactive",
+    /** Shown from the master-report flow when unlocked — not a public grid card. */
+    showInResources: false,
   },
   {
     id: "tauranga-sme-operators-playbook",

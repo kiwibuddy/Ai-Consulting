@@ -40,7 +40,8 @@ const taurangaResourcesByNewest = [...worksheets]
   .filter(
     (w) =>
       w.id.startsWith("tauranga-sme-") &&
-      w.id !== "tauranga-sme-operators-playbook"
+      w.id !== "tauranga-sme-operators-playbook" &&
+      w.showInResources !== false
   )
   .sort((a, b) => {
     const tb = new Date(b.date).getTime();
@@ -74,6 +75,29 @@ const deepDiveWaveHeights = [
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
+}
+
+function worksheetCtaLabel(format: string | undefined): string {
+  if (format === "Presentation") return "Start Presentation";
+  return "Open worksheet";
+}
+
+function formatBadgeClassName(format: string | undefined): string {
+  const base = "text-xs font-medium";
+  switch (format) {
+    case "Interactive":
+      return `${base} text-sky-700`;
+    case "Presentation":
+      return `${base} text-violet-700`;
+    case "Reflection":
+      return `${base} text-amber-800`;
+    case "Workflow":
+      return `${base} text-indigo-700`;
+    case "Printable":
+      return `${base} text-teal-800`;
+    default:
+      return `${base} text-neutral-600`;
+  }
 }
 
 function DeepDiveAnimatedThumb({ id }: { id: string }) {
@@ -159,11 +183,9 @@ export default function ResourcesPage() {
             {sheet.description}
           </p>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs text-neutral-500">
-              {sheet.format}
-            </span>
+            <span className={formatBadgeClassName(sheet.format)}>{sheet.format}</span>
             <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
-              Open worksheet
+              {worksheetCtaLabel(sheet.format)}
               <ArrowRight className="h-3.5 w-3.5" />
             </span>
           </div>

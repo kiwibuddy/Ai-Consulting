@@ -265,8 +265,11 @@ const CarouselDots = React.forwardRef<
   React.useEffect(() => {
     if (!api) return
     setSelectedIndex(api.selectedScrollSnap())
-    api.on("select", () => setSelectedIndex(api.selectedScrollSnap()))
-    return () => api.off("select")
+    const onSelect = () => setSelectedIndex(api.selectedScrollSnap())
+    api.on("select", onSelect)
+    return () => {
+      api.off("select", onSelect)
+    }
   }, [api])
 
   return (

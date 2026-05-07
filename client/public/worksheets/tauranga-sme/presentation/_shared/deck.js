@@ -29,6 +29,11 @@
   }
 
   function enterFullscreen() {
+    try {
+      if (window.self !== window.top) return;
+    } catch (e) {
+      return;
+    }
     const el = document.documentElement;
     if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();

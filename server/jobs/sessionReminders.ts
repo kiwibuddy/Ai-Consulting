@@ -116,7 +116,31 @@ export async function runSessionReminders(): Promise<{
 // Scheduler setup
 let reminderInterval: NodeJS.Timeout | null = null;
 
+function truthyEnv(v: string | undefined): boolean {
+  return v === "1" || /^true$/i.test(v || "");
+}
+
+/** Hourly reminder job: on in production by default; in development only if ENABLE_SESSION_REMINDERS=1; off if DISABLE_SESSION_REMINDERS=1. */
+export function isSessionReminderSchedulerEnabled(): boolean {
+  if (truthyEnv(process.env.DISABLE_SESSION_REMINDERS)) return false;
+  if (process.env.NODE_ENV === "development") {
+    return truthyEnv(process.env.ENABLE_SESSION_REMINDERS);
+  }
+  return true;
+}
+
 export function startSessionReminderScheduler(intervalMs: number = 60 * 60 * 1000): void {
+  if (!isSessionReminderSchedulerEnabled()) {
+    if (truthyEnv(process.env.DISABLE_SESSION_REMINDERS)) {
+      console.log("[SessionReminders] Scheduler disabled (DISABLE_SESSION_REMINDERS).");
+    } else if (process.env.NODE_ENV === "development") {
+      console.log(
+        "[SessionReminders] Scheduler off in development (no DB noise). Set ENABLE_SESSION_REMINDERS=1 to run hourly reminders."
+      );
+    }
+    return;
+  }
+
   // Default: run every hour
   if (reminderInterval) {
     console.warn("[SessionReminders] Scheduler already running");

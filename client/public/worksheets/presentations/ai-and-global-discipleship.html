@@ -52,15 +52,44 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--gray); backgr
   font-family: 'Montserrat', sans-serif; font-size: clamp(0.9rem, 1.4vw, 1.05rem);
   color: rgba(255,255,255,0.65); margin: 0 0 2rem; line-height: 1.4; font-weight: 500;
 }
-#play-overlay .play-overlay-hero .play-btn-wrap { margin: 0; }
-.play-btn {
-  width: clamp(160px, 18vw, 200px); height: clamp(160px, 18vw, 200px);
-  border-radius: 50%; background: var(--green-cta); border: none;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: transform 0.3s var(--ease); animation: pulse-play 2s ease-in-out infinite;
+/* Refined opener CTA — text-forward, no play-circle */
+.pres-start-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color .25s, background .25s, color .25s, transform .2s ease;
 }
-.play-btn:hover { transform: scale(1.08); }
-.play-btn svg { width: 28%; height: 28%; margin-left: 5%; fill: var(--white); }
+.pres-start-btn:hover {
+  border-color: rgba(212, 168, 67, 0.55);
+  background: rgba(212, 168, 67, 0.1);
+  color: var(--gold);
+  transform: translateY(-1px);
+}
+.pres-start-btn .pres-arrow {
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: transform .2s ease;
+}
+.pres-start-btn:hover .pres-arrow { transform: translateX(4px); }
+@media (prefers-reduced-motion: reduce) {
+  .pres-start-btn, .pres-start-btn .pres-arrow { transition: none; }
+}
+
+#play-overlay .play-overlay-hero .play-btn-wrap { margin: 0; }
 
 /* Footer: compact, fixed padding, secondary hierarchy */
 #play-overlay .play-overlay-footer {
@@ -71,7 +100,12 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--gray); backgr
   width: 56px; height: 56px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0;
 }
-#play-overlay .play-overlay-footer .logo-wrap img { width: 100%; height: 100%; object-fit: contain; }
+#play-overlay .play-overlay-footer .logo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 #play-overlay .play-overlay-footer .play-overlay-name {
   font-family: 'Montserrat', sans-serif; font-size: 0.875rem; font-weight: 700;
   color: rgba(255,255,255,0.9); letter-spacing: 0.02em; margin: 0; line-height: 1.3;
@@ -81,8 +115,6 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--gray); backgr
   font-family: 'Montserrat', sans-serif; font-size: 0.6875rem; color: rgba(255,255,255,0.45); margin: 0; letter-spacing: 0.03em;
 }
 
-@keyframes pulse-play { 0%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0.35)} 50%{box-shadow:0 0 0 18px rgba(13,148,136,0)} }
-@keyframes pulse-ring { 0%,100%{border-color:rgba(13,148,136,0.4)} 50%{border-color:rgba(13,148,136,0.9)} }
 
 /* VIDEO OVERLAY */
 #video-overlay {
@@ -682,7 +714,6 @@ html[data-theme="nocturne"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .play-btn { animation: none; }
   .float, .glow-pulse, .shimmer-text, .breathe { animation: none; }
   .particle { display: none; }
   .reflective-emphasis-one, .reflective-emphasis-two { animation: none !important; }
@@ -699,11 +730,11 @@ html[data-theme="nocturne"] {
     <h2>AI and Global Discipleship</h2>
     <p class="play-overlay-subtitle">Great Commission AI Global Impact Report · 2026</p>
     <div class="play-btn-wrap">
-      <button class="play-btn" id="start-btn" aria-label="Start"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+      <button type="button" class="pres-start-btn" id="start-btn" aria-label="Begin presentation"><span class="pres-start-label">Begin</span><span class="pres-arrow" aria-hidden="true">→</span></button>
     </div>
   </div>
   <div class="play-overlay-footer">
-    <div class="logo-wrap"><img src="assets/Logo_no_text.png" alt="" decoding="async" width="56" height="56"></div>
+    <div class="logo-wrap"><img src="/Nathaniel_Portrait.png" alt="" decoding="async" width="56" height="56"></div>
     <div class="play-overlay-name">Nathaniel Baldock <span class="date">· 2026</span></div>
     <div class="play-overlay-tagline">AI Discipleship and Consulting</div>
   </div>

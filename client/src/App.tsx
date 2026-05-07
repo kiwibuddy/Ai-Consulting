@@ -61,6 +61,8 @@ import CoachBilling from "@/pages/coach/billing";
 import CoachAnalytics from "@/pages/coach/analytics";
 import { OnboardingTour } from "@/components/onboarding-tour";
 import { CommandPalette } from "@/components/command-palette";
+import { QuickSessionModal } from "@/components/modals/quick-session-modal";
+import { QuickNoteModal } from "@/components/modals/quick-note-modal";
 import { useColorTheme } from "@/hooks/use-color-theme";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
 import { Analytics } from "@/components/analytics";
@@ -212,10 +214,6 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
     return <Redirect to="/consultant/setup" />;
   }
 
-  // Import quick modals lazily
-  const QuickSessionModal = React.lazy(() => import("@/components/modals/quick-session-modal").then(m => ({ default: m.QuickSessionModal })));
-  const QuickNoteModal = React.lazy(() => import("@/components/modals/quick-note-modal").then(m => ({ default: m.QuickNoteModal })));
-
   return (
     <div>
     <SidebarProvider style={sidebarStyle as React.CSSProperties}>
@@ -238,10 +236,8 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
         onScheduleSession={() => setSessionModalOpen(true)}
         onAddNote={() => setNoteModalOpen(true)}
       />
-      <React.Suspense fallback={null}>
-        <QuickSessionModal open={sessionModalOpen} onOpenChange={setSessionModalOpen} />
-        <QuickNoteModal open={noteModalOpen} onOpenChange={setNoteModalOpen} />
-      </React.Suspense>
+      <QuickSessionModal open={sessionModalOpen} onOpenChange={setSessionModalOpen} />
+      <QuickNoteModal open={noteModalOpen} onOpenChange={setNoteModalOpen} />
       <OnboardingTour role="coach" tourCompleted={userData?.onboardingCompleted} />
     </SidebarProvider>
     </div>
