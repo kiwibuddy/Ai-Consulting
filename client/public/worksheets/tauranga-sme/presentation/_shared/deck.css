@@ -67,6 +67,9 @@ body{font-family:var(--body);color:var(--fg);background:#090c14;}
 .slide-inner.warm{background:var(--bg-warm);}
 .slide-inner.session-div{background:var(--sky-dark);}
 .slide-inner.session-div::before{display:none;}
+/* Until “Begin”, keep slide stack out of the paint tree so it never shows through the opener */
+html:not(.deck-started) #deck{visibility:hidden;}
+html.deck-started #deck{visibility:visible;}
 
 .s-body{flex:1;padding:5vh 6vw 3vh;display:flex;flex-direction:column;position:relative;z-index:2;overflow-y:auto;justify-content:center;gap:2vh;}
 .s-body.center{align-items:center;justify-content:center;text-align:center;}
@@ -106,7 +109,12 @@ body{font-family:var(--body);color:var(--fg);background:#090c14;}
   content:'';position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--sky),var(--sky2) 55%,var(--lime));
 }
-#play-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+#play-overlay.hidden{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none;
+  display:none;
+}
 .po-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;max-width:46rem;margin:0 auto;gap:0;}
 .po-eyebrow{
   font-size:clamp(.58rem,.82vw,.72rem);font-weight:700;letter-spacing:.22em;text-transform:uppercase;
@@ -223,6 +231,7 @@ html.deck-started .arrow-btn{opacity:1;visibility:visible;}
     var(--deck-hero-photo);
   background-size:cover,cover,cover,cover;
   background-position:center;
+  background-repeat:no-repeat;
 }
 
 .action-band{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;margin:2vh 0;}
@@ -262,7 +271,7 @@ html.deck-started .arrow-btn{opacity:1;visibility:visible;}
 .cs-desc{font-size:clamp(.95rem,1.4vw,1.15rem);color:rgba(255,255,255,.55);line-height:1.7;max-width:600px;margin:0 auto 2.4rem;}
 .cs-divider{width:60px;height:3px;background:var(--lime);margin:1.4rem auto;}
 
-@media print{html,body{overflow:auto;}.slide{position:relative;opacity:1;visibility:visible;page-break-after:always;}.slide-inner{width:100%;height:auto;min-height:auto;aspect-ratio:auto;max-width:none;max-height:none;}#play-overlay,#nav-bar,#slide-counter,#progress-bar,.arrow-btn,#modal-overlay{display:none;}}
+@media print{html,body{overflow:auto;}#deck{visibility:visible!important;}.slide{position:relative;opacity:1;visibility:visible;page-break-after:always;}.slide-inner{width:100%;height:auto;min-height:auto;aspect-ratio:auto;max-width:none;max-height:none;}#play-overlay,#nav-bar,#slide-counter,#progress-bar,.arrow-btn,#modal-overlay{display:none;}}
 
 /* ── Insight / quote (premium typography) ─────────────────── */
 .quote-box{
@@ -296,7 +305,7 @@ html.deck-started .arrow-btn{opacity:1;visibility:visible;}
 .slide-inner.photo-legal.dark,.slide-inner.photo-legal.dark2{
   background-image:
     linear-gradient(165deg,rgba(14,22,34,.94) 0%,rgba(10,22,42,.91) 100%),
-    url("https://images.unsplash.com/photo-1505663912202-ae7c31a36624?auto=format&fit=crop&w=2400&q=85");
+    url("https://images.unsplash.com/photo-1589829545856-d10d557fad9e?auto=format&fit=crop&w=2400&q=85");
   background-size:cover,cover;background-position:center;
 }
 

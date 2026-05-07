@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
@@ -14,7 +13,7 @@ import {
   tesoroEase,
 } from "@/lib/animations";
 import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
-import { videos } from "@/content/videos";
+import { videos, type VideoItem } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
 import { worksheets } from "@/content/worksheets";
@@ -57,7 +56,6 @@ const generalWorksheetsByNewest = worksheetsByNewest.filter(
 
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
-const ctaLabel = "Book a free 30-min consultation";
 const worksheetCategories = [
   "AI & Family",
   "Christian Growth",
@@ -77,18 +75,26 @@ function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
 }
 
-function worksheetCtaLabel(format: string | undefined): string {
-  if (format === "Presentation") return "Start Presentation";
-  return "Open worksheet";
-}
+/** Green link row used on every resource card */
+const resourceCardCtaClass =
+  "text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1";
 
-function formatBadgeClassName(format: string | undefined): string {
+/** Left-foot “kind” label colour (matches worksheet format badges site-wide) */
+function resourceKindAccentClass(kind: string): string {
   const base = "text-xs font-medium";
-  switch (format) {
-    case "Interactive":
-      return `${base} text-sky-700`;
+  switch (kind) {
+    case "Article":
+      return `${base} text-rose-700`;
+    case "Podcast":
+      return `${base} text-fuchsia-800`;
     case "Presentation":
       return `${base} text-violet-700`;
+    case "YouTube":
+      return `${base} text-red-700`;
+    case "Video":
+      return `${base} text-orange-800`;
+    case "Interactive":
+      return `${base} text-sky-700`;
     case "Reflection":
       return `${base} text-amber-800`;
     case "Workflow":
@@ -98,6 +104,53 @@ function formatBadgeClassName(format: string | undefined): string {
     default:
       return `${base} text-neutral-600`;
   }
+}
+
+function formatResourceDate(iso: string): string {
+  try {
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString("en-NZ", { day: "numeric", month: "short", year: "numeric" });
+  } catch {
+    return iso;
+  }
+}
+
+function worksheetDisplayFormat(format: string | undefined): string {
+  return format?.trim() || "Interactive";
+}
+
+function worksheetCtaLabel(format: string | undefined): string {
+  switch (format) {
+    case "Presentation":
+      return "Start Presentation";
+    case "Reflection":
+      return "Open reflection";
+    case "Workflow":
+      return "Open workflow";
+    case "Printable":
+      return "Open printable";
+    default:
+      return "Open worksheet";
+  }
+}
+
+function videoFooterKind(video: VideoItem): string {
+  if (video.category === "Presentations") return "Presentation";
+  if (video.source === "youtube") return "YouTube";
+  return "Video";
+}
+
+function videoCtaLabel(video: VideoItem): string {
+  if (video.category === "Presentations") return "Start Presentation";
+  return "Watch";
+}
+
+function videoCategoryEyebrowClass(video: VideoItem): string {
+  const base = "text-xs font-medium uppercase tracking-wider mb-1 ";
+  if (video.category === "Presentations") return `${base}text-violet-700`;
+  if (video.source === "youtube") return `${base}text-red-700`;
+  return `${base}text-neutral-600`;
 }
 
 function DeepDiveAnimatedThumb({ id }: { id: string }) {
@@ -164,6 +217,7 @@ export default function ResourcesPage() {
   const renderWorksheetCard = (sheet: WorksheetCardItem) => {
     const sheetExternal = isExternalUrl(sheet.url);
     const thumbSrc = sheet.thumbnail ?? sheet.shareImage;
+    const fmt = worksheetDisplayFormat(sheet.format);
     const sheetCard = (
       <>
         {thumbSrc ? (
@@ -183,8 +237,12 @@ export default function ResourcesPage() {
             {sheet.description}
           </p>
           <div className="flex items-center justify-between gap-2">
-            <span className={formatBadgeClassName(sheet.format)}>{sheet.format}</span>
-            <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+            <span className="text-xs">
+              <span className={resourceKindAccentClass(fmt)}>{fmt}</span>
+              <span className="text-neutral-400"> · </span>
+              <span className="text-neutral-500">{formatResourceDate(sheet.date)}</span>
+            </span>
+            <span className={resourceCardCtaClass}>
               {worksheetCtaLabel(sheet.format)}
               <ArrowRight className="h-3.5 w-3.5" />
             </span>
@@ -290,7 +348,7 @@ export default function ResourcesPage() {
                   )}
                   <div className="p-5 flex-1 flex flex-col">
                     {article.category && (
-                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
+                      <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider mb-1">
                         {article.category}
                       </span>
                     )}
@@ -299,11 +357,15 @@ export default function ResourcesPage() {
                       {article.excerpt}
                     </p>
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-neutral-500">
-                        {article.readTime && `${article.readTime} · `}
-                        {article.date}
+                      <span className="text-xs">
+                        <span className={resourceKindAccentClass("Article")}>Article</span>
+                        <span className="text-neutral-400"> · </span>
+                        <span className="text-neutral-500">
+                          {article.readTime && `${article.readTime} · `}
+                          {formatResourceDate(article.date)}
+                        </span>
                       </span>
-                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+                      <span className={resourceCardCtaClass}>
                         Read full article
                         {isExternal ? (
                           <ExternalLink className="h-3.5 w-3.5" />
@@ -539,7 +601,7 @@ export default function ResourcesPage() {
                   <DeepDiveAnimatedThumb id={dive.id} />
                   <div className="p-5 flex-1 flex flex-col">
                     {dive.category && (
-                      <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
+                      <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider mb-1">
                         {dive.category}
                       </span>
                     )}
@@ -548,11 +610,15 @@ export default function ResourcesPage() {
                       {dive.description}
                     </p>
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs text-neutral-500">
-                        PODCAST · {dive.duration && `${dive.duration} · `}
-                        {dive.date}
+                      <span className="text-xs">
+                        <span className={resourceKindAccentClass("Podcast")}>Podcast</span>
+                        <span className="text-neutral-400"> · </span>
+                        <span className="text-neutral-500">
+                          {dive.duration && `${dive.duration} · `}
+                          {formatResourceDate(dive.date)}
+                        </span>
                       </span>
-                      <span className="text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1">
+                      <span className={resourceCardCtaClass}>
                         Listen
                         {isExternalUrl(dive.url) ? (
                           <ExternalLink className="h-3.5 w-3.5" />
@@ -588,59 +654,65 @@ export default function ResourcesPage() {
             viewport={landingViewportReveal}
             variants={cardSlideUpContainerVariants}
           >
-            {videos.map((video) => (
-              <motion.div
-                key={video.id}
-                variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <a
-                  href={video.url}
-                  target={isExternalUrl(video.url) ? "_blank" : undefined}
-                  rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
-                  className="block aspect-video bg-neutral-200 flex items-center justify-center shrink-0 relative group"
+            {videos.map((video) => {
+              const vExt = isExternalUrl(video.url);
+              return (
+                <motion.div
+                  key={video.id}
+                  variants={cardSlideUpItemVariants}
+                  whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
+                  className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
                 >
-                  {video.thumbnail ? (
-                    <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-neutral-600 transition-colors">
-                      <Play className="h-12 w-12" />
-                      {video.duration && <span className="text-xs font-medium">{video.duration}</span>}
-                    </div>
-                  )}
-                </a>
-                <div className="p-5 flex-1 flex flex-col">
-                  {video.category && (
-                    <span className="text-xs font-medium text-[hsl(142,76%,42%)] uppercase tracking-wider mb-1">
-                      {video.category}
-                    </span>
-                  )}
-                  <h3 className="font-semibold text-neutral-900 text-lg mb-2">{video.title}</h3>
-                  <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
-                    {video.description}
-                  </p>
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-neutral-500">
-                      {video.source === "youtube" ? "YouTube" : video.date}
-                    </span>
-                    <a
-                      href={video.url}
-                      target={isExternalUrl(video.url) ? "_blank" : undefined}
-                      rel={isExternalUrl(video.url) ? "noopener noreferrer" : undefined}
-                      className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
-                    >
-                      Watch
-                      {isExternalUrl(video.url) ? (
-                        <ExternalLink className="h-3.5 w-3.5" />
+                  <a
+                    href={video.url}
+                    target={vExt ? "_blank" : undefined}
+                    rel={vExt ? "noopener noreferrer" : undefined}
+                    className="flex flex-col flex-1 no-underline text-inherit cursor-pointer min-h-0"
+                  >
+                    <div className="aspect-video bg-neutral-200 flex items-center justify-center shrink-0 relative group">
+                      {video.thumbnail ? (
+                        <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                          <Play className="h-12 w-12" />
+                          {video.duration && (
+                            <span className="text-xs font-medium">{video.duration}</span>
+                          )}
+                        </div>
                       )}
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                    </div>
+                    <div className="p-5 flex-1 flex flex-col">
+                      {video.category && (
+                        <span className={videoCategoryEyebrowClass(video)}>
+                          {video.category}
+                        </span>
+                      )}
+                      <h3 className="font-semibold text-neutral-900 text-lg mb-2">{video.title}</h3>
+                      <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                        {video.description}
+                      </p>
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs">
+                          <span className={resourceKindAccentClass(videoFooterKind(video))}>
+                            {videoFooterKind(video)}
+                          </span>
+                          <span className="text-neutral-400"> · </span>
+                          <span className="text-neutral-500">{formatResourceDate(video.date)}</span>
+                        </span>
+                        <span className={resourceCardCtaClass}>
+                          {videoCtaLabel(video)}
+                          {vExt ? (
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          ) : (
+                            <ArrowRight className="h-3.5 w-3.5" />
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </section>

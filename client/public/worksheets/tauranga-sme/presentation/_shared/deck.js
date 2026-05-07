@@ -47,8 +47,8 @@
     function beginDeck() {
       if (started) return;
       started = true;
-      document.documentElement.classList.add("deck-started");
       if (playOverlay) playOverlay.classList.add("hidden");
+      document.documentElement.classList.add("deck-started");
       enterFullscreen();
       updNav();
     }
