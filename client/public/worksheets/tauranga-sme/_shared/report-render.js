@@ -218,6 +218,16 @@
     }
   }
 
+  function mountLockedState(root) {
+    if (!root) return;
+    root.hidden = false;
+    root.innerHTML =
+      '<div class="ws-report-inner"><div class="ws-report-body ws-report-lock">' +
+      "<h2>Your personalised report unlocks at 100%</h2>" +
+      "<p>Keep ticking <strong>Done</strong> on each step. Once you finish this worksheet, you'll get your custom summary, 30-day plan, PDF download, and email send.</p>" +
+      "</div></div>";
+  }
+
   var NB = {
     worksheetId: null,
     root: null,
@@ -256,7 +266,7 @@
           this.root.scrollIntoView(true);
         }
       } else {
-        this.root.hidden = true;
+        mountLockedState(this.root);
       }
     },
 
