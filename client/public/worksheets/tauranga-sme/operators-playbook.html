@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tauranga SME — Operator Playbook · Train yourself end-to-end</title>
+<meta name="description" content="Internal playbook for Nathaniel Baldock: market, tiers, Stripe flow, Pilot framing, fulfilment — styled like the Tauranga worksheets for self-training.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#ffffff; --bg-warm:hsl(42,40%,98%); --bg-mist:hsl(210,24%,96%);
+  --fg:#0a0a0a; --fg-med:hsl(220,8%,30%); --fg-muted:hsl(220,7%,44%); --border:hsl(220,12%,88%);
+  --accent:hsl(207,58%,34%); --accent-soft:hsl(200,40%,94%); --accent-bright:hsl(198,70%,48%); --sky-tint:hsl(200,45%,88%);
+  --lime:hsl(79,82%,50%); --lime-deep:hsl(79,70%,38%); --lime-muted:hsl(79,40%,92%);
+  --gold:#C9A227; --gold-bg:hsl(40,60%,95%); --green:hsl(152,45%,36%); --green-bg:hsl(152,40%,94%);
+  --p1:hsl(205,52%,38%); --p2:hsl(195,48%,40%); --p3:hsl(175,42%,36%); --p4:hsl(230,38%,44%); --p5:hsl(265,32%,44%);
+  --font-sans:'DM Sans',system-ui,sans-serif; --font-serif:'Fraunces','Georgia',serif; --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --r:16px; --r-sm:10px; --page-px:clamp(1.5rem,5vw,5.5rem); --prose-max:min(66ch,100%);
+  --deck-hero-photo:url("https://images.unsplash.com/photo-1718398892763-1695285c617d?auto=format&fit=crop&w=2400&q=85");
+}
+html{background:var(--bg);scroll-behavior:smooth;}
+body{font-family:var(--font-sans);color:var(--fg);margin:0;padding:0 0 4rem;-webkit-font-smoothing:antialiased;}
+.page{max-width:none;width:100%;background:var(--bg);}
+.site-hdr{background:var(--bg);padding:16px var(--page-px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.logo-row{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;}
+.logo-mark{width:36px;height:36px;background:var(--fg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-serif);font-weight:600;color:var(--bg);font-size:15px;}
+.logo-name{font-size:13px;font-weight:600;}
+.logo-sub{font-size:9.5px;color:var(--fg-muted);letter-spacing:.08em;}
+.hdr-badge{background:var(--bg-warm);border:1px solid var(--border);font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:999px;color:var(--fg-med);}
+.hero{background:var(--bg);padding:clamp(2.2rem,4.5vw,3.2rem) var(--page-px) clamp(1.8rem,3.5vw,2.75rem);position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+.hero::before{content:'';position:absolute;inset:0;z-index:0;background-image:radial-gradient(ellipse 90% 72% at 100% -8%,hsla(200,55%,97%,.94) 0%,transparent 52%),radial-gradient(ellipse 58% 48% at 0% 100%,hsla(79,45%,96%,.82) 0%,transparent 48%),linear-gradient(180deg,hsla(205,42%,97%,.9) 0%,hsla(210,28%,98%,.82) 45%,hsla(42,38%,99%,.92) 100%),var(--deck-hero-photo);background-size:cover;background-position:center;pointer-events:none;}
+.hero::after{content:'';position:absolute;inset:0;z-index:1;opacity:.28;mix-blend-mode:multiply;background-image:radial-gradient(circle,hsl(220,10%,50%) 0.6px,transparent 0.6px);background-size:7px 7px;pointer-events:none;}
+.hero-category{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:18px;display:flex;align-items:center;gap:12px;position:relative;z-index:2;}
+.cat-rule{flex:1;height:1px;background:var(--border);max-width:140px;}
+.hero-title{font-family:var(--font-serif);font-size:clamp(1.75rem,4vw,2.65rem);font-weight:600;line-height:1.08;margin-bottom:10px;position:relative;z-index:2;letter-spacing:-.03em;}
+.hero-title em{font-style:italic;color:var(--fg-muted);font-weight:450;}
+.hero-sub{font-size:15px;color:var(--fg-med);line-height:1.52;max-width:var(--prose-max);margin-bottom:22px;position:relative;z-index:2;}
+.playbook-toc{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px 16px;margin-top:14px;position:relative;z-index:2;font-size:11px;}
+.playbook-toc a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid var(--accent-soft);}
+.playbook-toc a:hover{border-bottom-color:var(--accent);}
+.body{padding:clamp(2rem,4vw,3rem) var(--page-px);background:var(--bg);}
+.intro-para{font-size:14px;line-height:1.78;color:var(--fg-med);margin-bottom:14px;max-width:var(--prose-max);}
+.intro-para strong{color:var(--fg);font-weight:500;}
+hr.div{border:none;border-top:1px solid var(--border);margin:32px 0;}
+.phase-hdr{display:flex;gap:18px;margin:44px 0 16px;align-items:flex-start;scroll-margin-top:20px;}
+.phase-num{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:1.45rem;font-weight:600;color:#fff;flex-shrink:0;}
+.ph-1{background:var(--p1);}.ph-2{background:var(--p2);}.ph-3{background:var(--p3);}.ph-4{background:var(--p4);}.ph-5{background:var(--p5);}
+.phase-kicker{font-size:9.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--fg-muted);margin-bottom:4px;}
+.phase-title{font-family:var(--font-serif);font-size:1.45rem;font-weight:600;color:var(--fg);line-height:1.22;margin-bottom:6px;}
+.phase-sub{font-size:13px;line-height:1.55;color:var(--fg-muted);max-width:var(--prose-max);}
+.manual-h4{font-family:var(--font-serif);font-size:1.06rem;color:var(--fg);margin:22px 0 8px;letter-spacing:-.02em;}
+.bull{margin:8px 0 8px 18px;}
+.bull li{font-size:13px;line-height:1.72;color:var(--fg-med);margin-bottom:6px;}
+.bull li::marker{color:var(--accent-bright);}
+.tip{background:var(--gold-bg);border:1px solid hsl(38,50%,84%);border-left:3px solid var(--gold);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:14px 0;font-size:12.8px;line-height:1.65;color:var(--fg-med);}
+.tip-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.note{background:var(--accent-soft);border:1px solid var(--sky-tint);border-left:3px solid var(--accent);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:12px 16px;margin:14px 0;font-size:12.8px;line-height:1.65;color:var(--fg-med);}
+.note-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.aha{background:linear-gradient(135deg,var(--lime-muted),var(--bg-warm));border:1px solid hsl(79,30%,82%);border-left:3px solid var(--lime-deep);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:14px 18px;margin:14px 0;font-size:12.8px;line-height:1.65;color:var(--fg-med);}
+.aha-lbl{font-size:8.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--lime-deep);margin-bottom:6px;}
+.cheat{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:16px 0;box-shadow:0 1px 0 rgba(15,23,42,.03);}
+.cheat-row{display:grid;grid-template-columns:minmax(140px,.35fr) 1fr;border-bottom:1px solid var(--border);}
+@media(max-width:640px){ .cheat-row{grid-template-columns:1fr;} .cheat-key{border-right:none;border-bottom:1px solid var(--border);}}
+.cheat-row:last-child{border-bottom:none;}
+.cheat-row:nth-child(odd){background:var(--bg-mist);}
+.cheat-key{padding:10px 14px;font-size:12px;color:var(--fg);font-weight:500;line-height:1.5;border-right:1px solid var(--border);}
+.cheat-val{padding:10px 14px;font-size:12px;color:var(--fg-med);line-height:1.55;}
+code, .mono{font-family:var(--font-mono);font-size:11.5px;background:var(--bg-mist);padding:2px 6px;border-radius:4px;color:var(--fg);}
+.stat-callout{display:grid;grid-template-columns:auto 1fr;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:18px 0;box-shadow:0 1px 2px rgba(15,23,42,.04),0 12px 32px -8px rgba(15,23,42,.08);}
+.stat-num-col{background:var(--fg);padding:16px;display:flex;align-items:center;justify-content:center;min-width:78px;}
+.stat-num-val{font-family:var(--font-serif);font-size:1.5rem;color:var(--lime);font-weight:600;line-height:1;text-align:center;}
+.stat-body-col{padding:14px 16px;font-size:12.8px;line-height:1.62;color:var(--fg-med);}
+.eligibility-card{background:var(--green-bg);border:1px solid hsl(152,30%,78%);border-left:3px solid var(--green);padding:14px 18px;margin:14px 0;border-radius:0 var(--r-sm) var(--r-sm) 0;}
+.eligibility-card-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.write-box{border:2px dashed var(--border);background:var(--bg-warm);border-radius:var(--r-sm);min-height:100px;margin:14px 0;padding:14px 16px;}
+.write-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--fg-muted);margin-bottom:8px;}
+.foot{border-top:1px solid var(--border);margin-top:40px;}
+.foot-body{padding:14px var(--page-px);background:var(--bg-mist);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:11px;color:var(--fg-muted);}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="site-hdr">
+  <a class="logo-row" href="https://www.nathanielbaldock.com" target="_blank" rel="noopener"><div class="logo-mark">N</div><div><div class="logo-name">Nathaniel Baldock</div><div class="logo-sub">AI CONSULTANT · TAURANGA</div></div></a>
+  <span class="hdr-badge">Operator playbook · Internal</span>
+</div>
+
+<div class="hero">
+  <div class="hero-category">
+    <span>Self-training workbook</span>
+    <span class="cat-rule"></span>
+    <span>For you, the operator · No client sees this unless you choose</span>
+  </div>
+  <div class="hero-title">Running the <em>Tauranga SME</em><br>Bronze, Silver &amp; Gold offers</div>
+  <p class="hero-sub">Treat this HTML page like Chapter 1 of a “for newcomers” textbook: verbose explanations so you genuinely understand what you sell, how the tech behaves, why the Pilot wording matters, who your buyer is—and what you still owe the customer after Stripe says “Paid.” Jump around with the shortcuts below.</p>
+  <nav class="playbook-toc">
+    <a href="#ch1">§1&nbsp;Who this playbook is for</a>
+    <a href="#ch2">§2&nbsp;What you sell in one coherent story</a>
+    <a href="#ch3">§3&nbsp;Market · Bay of Plenty &amp; beyond</a>
+    <a href="#ch4">§4&nbsp;Buyer psychology · Why they stall</a>
+    <a href="#ch5">§5&nbsp;The four curriculum lenses</a>
+    <a href="#ch6">§6&nbsp;Tiers unpacked (Bronze / Silver / Gold)</a>
+    <a href="#ch7">§7&nbsp;Government Pilot · What is &amp; isn’t wired in code</a>
+    <a href="#ch8">§8&nbsp;Money trail · Stripe vs advisory rebate</a>
+    <a href="#ch9">§9&nbsp;Technical spine · Request to email</a>
+    <a href="#ch10">§10&nbsp;Environment variables &amp; checklists</a>
+    <a href="#ch11">§11&nbsp;Fulfillment playbook</a>
+    <a href="#ch12">§12&nbsp;Partnerships &amp; logos</a>
+    <a href="#ch13">§13&nbsp;Messaging &amp; objections</a>
+    <a href="#ch14">§14&nbsp;Sources · Defending credibility</a>
+    <a href="#ch15">§15&nbsp;What’s built vs gaps</a>
+    <a href="#ch17">§17&nbsp;Access email anatomy</a>
+    <a href="#ch18">§18&nbsp;Silver · 60-minute run-of-show</a>
+    <a href="#ch19">§19&nbsp;Gold · eight-week scaffold</a>
+    <a href="#ch20">§20&nbsp;Who you compete with mentally</a>
+    <a href="#ch21">§21&nbsp;Refunds · what you promised aloud</a>
+    <a href="#ch22">§22&nbsp;Troubleshooting · Stripe &amp; email</a>
+    <a href="#ch23">§23&nbsp;Reflection drills</a>
+  </nav>
+</div>
+
+<div class="body">
+
+<div class="phase-hdr" id="ch1">
+  <div class="phase-num ph-1">1</div>
+  <div>
+    <div class="phase-kicker">Chapter 1</div>
+    <div class="phase-title">Who this playbook is for (and why it’s so long)</div>
+    <div class="phase-sub">You’re not selling a SaaS dashboard. You’re selling <strong>Pacific-time expertise</strong>, a <strong>locally salted curriculum</strong>, and <strong>tiered reassurance</strong>—with software doing only what’s worth automating: payment and emailed links.</div>
+  </div>
+</div>
+<p class="intro-para"><strong>You are the protagonist.</strong> Most “operator manuals” collapse because they assume you remember how Stripe metadata works three months later. This one doesn’t—it explains the causal chain slowly: buyer intent → Stripe Checkout → webhook → Resend → your calendar and your conscience.</p>
+<p class="intro-para">Read one chapter before bed, skim another before a stressful client call. The goal is durable mental models, not brute memorisation. When you genuinely understand why each tier exists, you’ll stop improvising dangerously about the Government Pilot—or selling yourself short on Silver upsides.</p>
+<div class="tip"><div class="tip-lbl">How to squeeze value from this workbook</div>Print to PDF (“Save as PDF” from browser) once a quarter after you annotate the <strong>reflection boxes</strong>. Keep highlights where you stumble—that’s where your standard operating procedure is weak.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch2">
+  <div class="phase-num ph-2">2</div>
+  <div>
+    <div class="phase-kicker">Chapter 2</div>
+    <div class="phase-title">What you sell—in one coherent story</div>
+    <div class="phase-sub">Every artefact hangs off a narrative: SMEs need <em>confidence</em> before they adopt AI; confidence comes from <em>truth about self</em> (readiness, time map, culture, consent &amp; law); delivered through <em>guided tools</em> + optional human translation.</div>
+  </div>
+</div>
+<p class="intro-para">Picture a worried owner staring at headlines about robots taking jobs. Their board member forwards an MBIE link. Someone mentions “Priority One” at Chamber breakfast. They feel late but don’t trust vendor demos. Your product intervenes exactly there: first with <strong>homework-like worksheets</strong> (emotionally manageable), then optional <strong>you</strong> who turns homework into commitments and tool choices—and at Gold tier, into a polished <strong>AI Adoption Plan</strong> that matches what funded advisory pathways expect as a tangible output.</p>
+<p class="intro-para">You are positioning three different <em>degrees of accompaniment</em>:</p>
+<ul class="bull">
+  <li><strong>Bronze (Self-Pack):</strong> “I'll do the introspection myself; mail me structured tools + Session 1’s evidence-rich deck.”</li>
+  <li><strong>Silver (Implementation Pack):</strong> “I'll pay for someone bilingual in tools <em>and</em> NZ privacy risk to shorten my experimentation cycle.”</li>
+  <li><strong>Gold (Adoption Plan):</strong> “I need institutional-grade documentation—and I likely want to finance part of your fee through Pilot alignment.”</li>
+</ul>
+<div class="note"><div class="note-lbl">Remember</div>The slides and worksheets are teaching devices; Stripe charges for <strong>assembled access + facilitation rights</strong> (recording, templates, drafting time)—not merely files they could pirate if they hunted URLs.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch3">
+  <div class="phase-num ph-3">3</div>
+  <div>
+    <div class="phase-kicker">Chapter 3</div>
+    <div class="phase-title">Market · Bay of Plenty &amp; New Zealand SMEs</div>
+    <div class="phase-sub">You’ve anchored artefacts in credible local colour (horticulture, logistics, regional workforce stats). Buyers outside BoP still get legal truth on Privacy/Copyright—they’re buying rigorous NZ scaffolding with familiar regional anecdotes.</div>
+  </div>
+</div>
+<p class="intro-para">NZ SME reality (qualitative truths you preach with): scarce management bandwidth, scepticism about hype-cycle AI, fragmented tool adoption (“someone bought ChatGPT Business on a whim”), fear of messing up Māori workforce conversations, latent awareness that Pilot-style supports exist—but confusion about pathways.</p>
+<h4 class="manual-h4">Who fits Bronze vs Silver?</h4>
+<ul class="bull">
+  <li><strong>Solo ops &amp; 1–10 staff:</strong> time-poor, needs speed and safety without meetings—Bronze shines if they honour self-guided follow-through.</li>
+  <li><strong>5–25 needing execution confidence:</strong> Silver’s 60 minutes compresses trial-and-error; email support turns edge-case fear into clarified next steps.</li>
+  <li><strong>10–50 with governance itch:</strong> board minutes will reference “risk register” someday—Gold legitimises experimentation with artefacts they can circulate internally.</li>
+</ul>
+<p class="intro-para"><strong>Craft &amp; construction micro-verticals.</strong> Trades often buy Bronze quietly (pride / “I'll figure tools myself”) unless a bookkeeper nags them—sell time saved in dollars, not jargon. Hospitality groups fear staff churn rumours if AI appears “replacement.” Professional services fret client confidentiality—that’s Legal worksheet territory before any Copilot rollout.</p>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key">Signal: price sensitivity</div><div class="cheat-val">They negotiate on Bronze only—offer clarity on Pilot upside <em>without</em> promising dollars; anchor value on advisory hours they'd otherwise buy blind.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Signal: compliance voice in room</div><div class="cheat-val">Invite Silver early; bring PIA/policy language so GC or external accountant sleeps better.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Signal: Māori-majority workforce</div><div class="cheat-val">Slow down; cite Team worksheet + eventual Te Tiriti checklist (Gold)—never tokenise urgency.</div></div>
+</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch4">
+  <div class="phase-num ph-4">4</div>
+  <div>
+    <div class="phase-kicker">Chapter 4</div>
+    <div class="phase-title">Buyer psychology · Why they stall—and how you help</div>
+    <div class="phase-sub">Fear hides inside rationalisations: “We'll wait till next quarter,” “We’re not techy,” “Staff will revolt.” Your materials label those avoidance patterns politely and give scripted progress.</div>
+  </div>
+</div>
+<div class="stat-callout"><div class="stat-num-col"><span class="stat-num-val">3</span></div><div class="stat-body-col"><strong>Unspoken stalls</strong> you should listen for:<br>&nbsp;(1) <strong>Reputation risk:</strong> “If we move wrong, Māori partnerships sour.” Counter: Te Tiriti checklist + humane language in Team worksheet.<br>&nbsp;(2) <strong>Invisible tasks:</strong> owners discount admin drag—Time Audit makes time visible.<br>&nbsp;(3) <strong>Compliance fog:</strong> Legal worksheet lowers panic by naming principles, not law school.</div></div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch5">
+  <div class="phase-num ph-5">5</div>
+  <div>
+    <div class="phase-kicker">Chapter 5</div>
+    <div class="phase-title">The four curriculum lenses (worksheets × decks)</div>
+    <div class="phase-sub">Each pillar answers a dominant anxiety; Session 1 is fully cited—later sessions aspire to parity.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>Readiness lens:</strong> “Where genuinely are we emotionally + operationally?” (score, barriers, aspiration vs fear).</li>
+  <li><strong>Time lens:</strong> “Which minutes leave the building weekly?” Turns AI into operational economics—not magic.</li>
+  <li><strong>Culture lens:</strong> “Who feels exposed &amp; honoured?” Gives managers guardrails vs performative inclusivity.</li>
+  <li><strong>Risk lens (Legal):</strong> “Which inputs violate privacy or IP assumptions?” Gives compliance-oriented owners permission to scrutinise SaaS—not block innovation.</li>
+</ul>
+<h4 class="manual-h4">Worksheets ↔ decks ↔ paid tiers · how learning stacks</h4>
+<p class="intro-para">The worksheet is slow, handwritten thinking space; the slide deck lectures with social proof via citations (Session 1 is the gold standard today). Buyers on Bronze must feel Session 1 <em>completes</em>—not duplicates—the Readiness worksheet. Silver calls should reference specific slide numbers/modals where clients got stuck—that bonds them to evidence. Gold workshops can literally project Session 4 legal frames when aligning leadership.</p>
+<p class="intro-para">When Session 2–4 decks grow to full bibliography parity, revise this playbook paragraph: parity means every bold stat survivors challenge you on has a clickable trail—your authority compounds.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch6">
+  <div class="phase-num ph-1">6</div>
+  <div>
+    <div class="phase-kicker">Chapter 6</div>
+    <div class="phase-title">Tiers unpacked—in buyer-outcome language</div>
+    <div class="phase-sub">Translate features into verbs the owner feels in their diary.</div>
+  </div>
+</div>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key">Bronze outcome sentence</div><div class="cheat-val">“I articulated my readiness, skimmed citations, queued questions for advisers, and exercised bounded email support.”</div></div>
+  <div class="cheat-row"><div class="cheat-key">Silver outcome sentence</div><div class="cheat-val">“I converted introspection into a tool shortlist tied to NZ privacy artefacts and left a documented strategy call artefact plus 30‑day reassurance.”</div></div>
+  <div class="cheat-row"><div class="cheat-key">Gold outcome sentence</div><div class="cheat-val">“I received a customised adoption dossier credible to leadership, Māori considerations addressed, fortnightly oversight, workshop alignment, Pilot framing clarity.”</div></div>
+</div>
+<h4 class="manual-h4">Explicit human obligations you owe</h4>
+<ul class="bull">
+  <li>Bronze: respond helpfully inside <strong>7-day email envelope</strong> (quality sets upsell).</li>
+  <li>Silver: <strong>record + transcript + written tool memo + Pilot primer</strong>; keep notes timestamped.</li>
+  <li>Gold: <strong>kick-off ≤2 business days</strong> signal; protect scope creep—Adoption Plan is the anchor deliverable.</li>
+</ul>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch7">
+  <div class="phase-num ph-2">7</div>
+  <div>
+    <div class="phase-kicker">Chapter 7</div>
+    <div class="phase-title">Government Pilot / Priority One framing</div>
+    <div class="phase-sub"><strong>In code:</strong> marketing copy only. No MBIE handshake. Understand that boundary so clients don’t think “purchase = grant.”</div>
+  </div>
+</div>
+<p class="intro-para">Regional Business Partner Network + AI Advisory Pilot narrative is contextual oxygen: it motivates urgency—“someone subsidised diligence.” But disbursement pipelines have rules you don’t authenticate here. Speak in conditional language externally: eligibility is determined by advisers (e.g. Priority One)—your Gold tier aligns <em>intellectually</em> with Adoption Plan artefacts they may reimburse.</p>
+<div class="eligibility-card"><div class="eligibility-card-lbl">Safe external phrasing cheat line</div>“Paid materials prepare you with evidence-backed orientation; subsidy eligibility sits with authorised regional partners—we don’t adjudicate eligibility in checkout.” Recite calmly when challenged.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch8">
+  <div class="phase-num ph-3">8</div>
+  <div>
+    <div class="phase-kicker">Chapter 8</div>
+    <div class="phase-title">Money trail · Stripe vs Pilot rebate</div>
+    <div class="phase-sub">Two parallel ledgers mentally: Stripe revenue certainty vs uncertain external reimbursement timelines.</div>
+  </div>
+</div>
+<p class="intro-para">Stripe deposits land fast; rebates or co-funds (if realised) reconcile later through your client’s application efforts. Pricing should already assume <strong>Pilot is not guaranteed</strong>—marketing may highlight upside, CFO brain must recognise cash still starts with your invoice.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch9">
+  <div class="phase-num ph-4">9</div>
+  <div>
+    <div class="phase-kicker">Chapter 9</div>
+    <div class="phase-title">Technical spine from click to inbox</div>
+    <div class="phase-sub">High-level map so debugging doesn’t feel mystical.</div>
+  </div>
+</div>
+<ol class="bull" style="list-style:decimal;padding-left:1.4rem;">
+  <li>React sales page posts <code>POST /api/public/products/checkout</code> with JSON body e.g. <code>{"tier":"silver"}</code> (tier is <code>bronze</code>, <code>silver</code>, or <code>gold</code>).</li>
+  <li>Server builds Checkout Session with metadata <code>productSlug=tauranga-sme</code> + tier; success URL hits <code>/tauranga-sme/welcome</code>.</li>
+  <li>Stripe webhook <code>checkout.session.completed</code> → <code>processProductCheckoutCompleted</code> reads email + builds access links.</li>
+  <li><code>taurangaAccessEmail</code> goes to buyer; BCC to <code>SITE_CONTACT_EMAIL</code>.</li>
+  <li>You react as human for higher tiers beyond template links.</li>
+</ol>
+<div class="note"><div class="note-lbl">No database purchase row yet</div>Operational audit relies on Stripe + your email archive.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch10">
+  <div class="phase-num ph-5">10</div>
+  <div>
+    <div class="phase-kicker">Chapter 10</div>
+    <div class="phase-title">Environment variables & operational checklists</div>
+    <div class="phase-sub">Copy from <strong>.env.example</strong>; never commit secrets.</div>
+  </div>
+</div>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key"><code>STRIPE_PRICE_TAURANGA_*</code></div><div class="cheat-val">Three Stripe Price IDs (NZD)—authoritative SKU binding.</div></div>
+  <div class="cheat-row"><div class="cheat-key"><code>STRIPE_SECRET_KEY</code> · <code>STRIPE_WEBHOOK_SECRET</code></div><div class="cheat-val">API auth + webhook signature verification.</div></div>
+  <div class="cheat-row"><div class="cheat-key"><code>APP_URL</code> · <code>PUBLIC_SITE_URL</code></div><div class="cheat-val">Returned link formation + email logos / absolute paths.</div></div>
+  <div class="cheat-row"><div class="cheat-key"><code>SILVER_BOOKING_URL</code> · <code>GOLD_BOOKING_URL</code></div><div class="cheat-val">Appear in fulfilment emails; fallback intake URL if unset.</div></div>
+  <div class="cheat-row"><div class="cheat-key"><code>RESEND_API_KEY</code> · From address</div><div class="cheat-val">Mandatory for transactional deliverability.</div></div>
+  <div class="cheat-row"><div class="cheat-key"><code>SITE_CONTACT_EMAIL</code></div><div class="cheat-val">Receipt of BCC copy for every sale audit.</div></div>
+</div>
+<h4 class="manual-h4">Go-live rehearsal checklist</h4>
+<ul class="bull">
+  <li>Create test-tier purchase; confirm webhook logs no errors.</li>
+  <li>Open every hyperlink in access email—including gated asset URLs.</li>
+  <li>If using random gated slugs, confirm hosting resolves files physically.</li>
+</ul>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch11">
+  <div class="phase-num ph-1">11</div>
+  <div>
+    <div class="phase-kicker">Chapter 11</div>
+    <div class="phase-title">Fulfillment playbook (post-sale choreography)</div>
+    <div class="phase-sub">Operational excellence is quieter than swaggering marketing.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>Hour 0:</strong> Celebrate quietly; skim BCC; tag CRM / spreadsheet entry (buyer tier, Stripe session id).</li>
+  <li><strong>Bronze:</strong> queue thoughtful template answers; watch for unanswered threads day 7.</li>
+  <li><strong>Silver:</strong> ensure booking scarcity doesn’t bottleneck—update calendar blackout early.</li>
+  <li><strong>Gold:</strong> templated onboarding email augmentation (beyond auto mail) reaffirming timelines & input requirements.</li>
+</ul>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch12">
+  <div class="phase-num ph-2">12</div>
+  <div>
+    <div class="phase-kicker">Chapter 12</div>
+    <div class="phase-title">Partnerships, branding, Chamber &amp; Council</div>
+    <div class="phase-sub">Escalate relationship complexity gradually; protect claims.</div>
+  </div>
+</div>
+<p class="intro-para">Start with <strong>informational accuracy</strong> passes: share your one-pager describing outcomes (not implied endorsement). Level 2: resource directory listing. Level 3: joint webinar (verify claims). Level 4: formal MOU / subcontract—legal template zone. Never deploy partner logos in PDFs or hero images until written permission & claim matrix signed.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch13">
+  <div class="phase-num ph-3">13</div>
+  <div>
+    <div class="phase-kicker">Chapter 13</div>
+    <div class="phase-title">Messaging &amp; objection handling</div>
+    <div class="phase-sub">Rehearse short, honest answers—authority without overclaim.</div>
+  </div>
+</div>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key">“Is this just ChatGPT tips?”</div><div class="cheat-val">No—structured NZ risk orientation + local economic stories + optional expert translation.</div></div>
+  <div class="cheat-row"><div class="cheat-key">“Why pay if Pilot might fund something?”</div><div class="cheat-val">Pilot doesn’t replace orientation + internal clarity; you compress calendar time & supply defensible documentation.</div></div>
+  <div class="cheat-row"><div class="cheat-key">“Will you implement tools for us?”</div><div class="cheat-val">Scope clarifier: strategy + guardrails; heavy integration is a different SOW unless you choose to expand.</div></div>
+</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch14">
+  <div class="phase-num ph-4">14</div>
+  <div>
+    <div class="phase-kicker">Chapter 14</div>
+    <div class="phase-title">Sources &amp; defending credibility</div>
+    <div class="phase-sub">Session 1 deck’s modals are your evidence spine; sales page lists external anchors.</div>
+  </div>
+</div>
+<p class="intro-para">Maintain a living spreadsheet: <strong>claim → citation URL → last verified date</strong>. When a partner challenges a stat, you open the deck modal or link—calm beats bluster.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch15">
+  <div class="phase-num ph-5">15</div>
+  <div>
+    <div class="phase-kicker">Chapter 15</div>
+    <div class="phase-title">What’s built vs product-copy gaps</div>
+    <div class="phase-sub">Honesty prevents refund disputes.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>Gated PDF/XLSX assets:</strong> paths generated at webhook time—ensure physical files or symlinks exist on host.</li>
+  <li><strong>Bronze cheat-sheet:</strong> promised in product bullets—confirm delivery channel (email section / PDF / worksheet annex).</li>
+  <li><strong>Sessions 2–4 decks:</strong> preview vs full parity—update marketing when depth matches Session 1.</li>
+  <li><strong>Silver human artefacts:</strong> tool stack memo &amp; Pilot prep doc are <em>you-produced</em>, not auto-generated.</li>
+  <li><strong>Recorded walkthrough block:</strong> access email promises a walkthrough link under <span class="mono">four-session-walkthrough/</span>; keep page honest about which MP4s exist.</li>
+  <li><strong>Marketing vs code drift:</strong> whenever you tweak <span class="mono">products.ts</span>, mirror <span class="mono">server/lib/products.ts</span> bullets so Stripe receipt mental model stays aligned.</li>
+</ul>
+<div class="aha"><div class="aha-lbl">Distilled checklist</div>A shorter markdown operator sheet lives at <span class="mono">client/public/tauranga-sme/assets/OWNERS_MANUAL.md</span> for print / quick scanning—this HTML is the expanded tutorial.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch17">
+  <div class="phase-num ph-2">17</div>
+  <div>
+    <div class="phase-kicker">Chapter 17</div>
+    <div class="phase-title">Anatomy of the buyer access email</div>
+    <div class="phase-sub">Generated by <span class="mono">taurangaAccessEmail()</span> — know each block so you can debug “missing section” confusion.</div>
+  </div>
+</div>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key">Header + tier pill</div><div class="cheat-val">Sets emotional tone (“Self-Pack”, “Implementation Pack”, “Full AI Adoption Plan”).</div></div>
+  <div class="cheat-row"><div class="cheat-key">Four worksheet links</div><div class="cheat-val">Always included—public iframe routes on your marketing domain.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Four session deck links</div><div class="cheat-val">Session 1 full; others may be preview shells—explain that proactively in onboarding if buyers expect 80 slides each.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Walkthrough strip</div><div class="cheat-val">Always rendered; honesty line about Sessions 2–4 recording protects trust.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Templates table</div><div class="cheat-val">Silver+ only—PIA PDF, AI use policy PDF, tool register XLSX; Gold adds Te Tiriti checklist link.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Booking CTA</div><div class="cheat-val">Silver+ if <span class="mono">SILVER_BOOKING_URL</span> / <span class="mono">GOLD_BOOKING_URL</span> resolves—otherwise button absent and you manually patch.</div></div>
+</div>
+<p class="intro-para">You also receive an operator BCC with subject <strong>[Tauranga SME · tier] Sale to buyer@...</strong>. Treat those threads as authoritative receipts—the random gated asset slug only exists inside that correspondence.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch18">
+  <div class="phase-num ph-3">18</div>
+  <div>
+    <div class="phase-kicker">Chapter 18</div>
+    <div class="phase-title">Silver · sixty-minute strategy call blueprint</div>
+    <div class="phase-sub">Protect the transcript promise—structure beats rambling empathy.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>Minutes 0–8 · Frame:</strong> confirm purchase expectations, confidentiality, consent to record.</li>
+  <li><strong>Minutes 9–22 · Evidence tour:</strong> have them screenshare quickest wins from Readiness + Time Audit (even rough notes)—you annotate blind spots.</li>
+  <li><strong>Minutes 23–40 · Tools &amp; data classes:</strong> map 3 pilots max; forbid scope explosion; tie each to NZ privacy sensitivities (“customer PII?” “Māori data?”).</li>
+  <li><strong>Minutes 41–52 · People plan:</strong> who must be persuaded internally; crib lines from Team worksheet.</li>
+  <li><strong>Minutes 53–60 · Next step &amp; Pilot:</strong> what they owe you for templates; clarify you don’t adjudicate subsidy—provide factual homework for Priority.</li>
+</ul>
+<p class="intro-para">Within 48 hours ship: transcript link, concise bullet memo (tool stack reco), Pilot prep doc scaffold (bullet outline is fine)—then commence 30‑day asynchronous support with response-time norms you declare once.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch19">
+  <div class="phase-num ph-4">19</div>
+  <div>
+    <div class="phase-kicker">Chapter 19</div>
+    <div class="phase-title">Gold · suggested eight-week delivery scaffold</div>
+    <div class="phase-sub">Adjust per client—but default rhythm prevents existential drift.</div>
+  </div>
+</div>
+<div class="cheat">
+  <div class="cheat-row"><div class="cheat-key">Week 0 · Kick-off</div><div class="cheat-val">Stakeholder map, data inventories, appetite for Māori governance review.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Week 1–2 · Draft backbone</div><div class="cheat-val">Adoption Plan outline circulated—exec summary first so leadership doesn’t drown.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Week 3–4 · Deep dives</div><div class="cheat-val">Operationalise pilots referenced in worksheets; annotate risk mitigations.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Week 5 · Workshop rehearsal</div><div class="cheat-val">Slides borrow from Sessions 3–4; tailor stories to attendee literacy.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Week 6 · Live workshop (~90&nbsp;min)</div><div class="cheat-val">Recording + attendee FAQ log becomes appendix.</div></div>
+  <div class="cheat-row"><div class="cheat-key">Week 7–8 · Hardening</div><div class="cheat-val">Final Adoption Plan pagination, appendix with Te Tiriti + copyright statements, sign-off rituals.</div></div>
+</div>
+<p class="intro-para">Fortnightly 30‑min check-ins should each end with captured decisions—“We committed to ___ by ___”—so Adoption Plan versioning isn’t ethereal.</p>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch20">
+  <div class="phase-num ph-5">20</div>
+  <div>
+    <div class="phase-kicker">Chapter 20</div>
+    <div class="phase-title">Competitive framing (mental models—not trash talk)</div>
+    <div class="phase-sub">Buyers silently compare you to substitutes; name them fairly.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>DIY YouTube binge:</strong> cheap, zero accountability, no NZ law stitching—stress ongoing Q&amp;A boundaries you enforce.</li>
+  <li><strong>Corporate LLM licences sold by AU/NZ VARs:</strong> strong on SSO, weaker on Māori workforce nuance—you own cultural fluency plus worksheet choreography.</li>
+  <li><strong>MBA-style strategy houses:</strong> expensive, slower; you occupy velocity + Pilot alignment niche if you defend documentation quality.</li>
+  <li><strong>In-house IT:</strong> sometimes allies—position yourself as accelerating their backlog, not replacing headcount narratives.</li>
+</ul>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch21">
+  <div class="phase-num ph-1">21</div>
+  <div>
+    <div class="phase-kicker">Chapter 21</div>
+    <div class="phase-title">Refunds · speak what the sales FAQ already promises</div>
+    <div class="phase-sub">Memorise windows so finance conversations stay calm (<span class="mono">client/src/pages/tauranga-sme.tsx</span> FAQ source).</div>
+  </div>
+</div>
+<p class="intro-para">Bronze/Silver advertise a bounded refund horizon if materials “don’t earn their keep”; Gold tightens refundability once bespoke Adoption Plan drafting begins—because your marginal cost spikes. Quote published policy verbatim; never improvise narrower windows mid-conflict—it erodes Stripe dispute evidence.</p>
+<div class="note"><div class="note-lbl">Operator habit</div>When refund requested, reconstruct timeline: Stripe session id → access email timestamps → buyer’s first substantive reply. Saves heartache.</div>
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch22">
+  <div class="phase-num ph-2">22</div>
+  <div>
+    <div class="phase-kicker">Chapter 22</div>
+    <div class="phase-title">Troubleshooting · payments &amp; transactional email</div>
+    <div class="phase-sub">When adrenaline spikes, walk this list top-to-bottom.</div>
+  </div>
+</div>
+<ul class="bull">
+  <li><strong>Checkout returns 503:</strong> Stripe keys or Price IDs missing—server logs cite which tier lacked <span class="mono">STRIPE_PRICE_TAURANGA_*</span>.</li>
+  <li><strong>Paid but no email:</strong> webhook not firing (endpoint URL, signing secret mismatch) OR Resend outage—Stripe dashboard event replay after fixing.</li>
+  <li><strong>404 on gated templates:</strong> random slug folders not deployed—see <span class="mono">assets/README.md</span> vs <span class="mono">buildAccessLinks()</span> actual URL shape.</li>
+  <li><strong>Buyer says link expired:</strong> It didn’t—they lost email; validate identity via Stripe customer email before re-sending artefacts manually.</li>
+</ul>
+
+<hr class="div">
+
+<hr class="div">
+
+<div class="phase-hdr" id="ch23">
+  <div class="phase-num ph-1">23</div>
+  <div>
+    <div class="phase-kicker">Chapter 23</div>
+    <div class="phase-title">Reflection drills · Make the knowledge stick</div>
+    <div class="phase-sub">Answer in a doc or below—revisit quarterly.</div>
+  </div>
+</div>
+<div class="write-box"><div class="write-label">Drill A · Tier clarity</div><p class="intro-para" style="margin-bottom:0">In one sentence each, without looking up, describe Bronze, Silver, Gold as <em>outcomes</em> not feature lists.</p></div>
+<div class="write-box"><div class="write-label">Drill B · Pilot boundaries</div><p class="intro-para" style="margin-bottom:0">Write the safest three-sentence explanation of Pilot co-funding you’d give a sceptical CFO.</p></div>
+<div class="write-box"><div class="write-label">Drill C · Failure mode</div><p class="intro-para" style="margin-bottom:0">If webhook emails fail tomorrow, what’s your manual recovery path? List concrete steps & tools.</p></div>
+<div class="write-box"><div class="write-label">Drill D · Upgrade path</div><p class="intro-para" style="margin-bottom:0">What observable signal during a Bronze support thread means you should gently invite Silver?</p></div>
+<div class="write-box"><div class="write-label">Drill E · Workshop design</div><p class="intro-para" style="margin-bottom:0">Sketch three interactive moments (not lectures) you'd run in Gold’s internal workshop for a fifteen-person SME.</p></div>
+<div class="write-box"><div class="write-label">Drill F · Credibility audit</div><p class="intro-para" style="margin-bottom:0">Pick three statistics you verbally quote most often — open Session 1 modals tonight and screenshot evidence rows into your register.</p></div>
+
+<div class="foot">
+  <div class="foot-body">
+    <span>Nathaniel Baldock — internal operator training · not indexed for search</span>
+    <span>AI CONSULTANT · TAURANGA · 2026</span>
+  </div>
+</div>
+
+</div><!-- /body -->
+</div><!-- /page -->
+</body>
+</html>

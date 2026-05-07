@@ -421,6 +421,17 @@ export const worksheets: WorksheetItem[] = [
     category: "Tauranga SME",
     format: "Interactive",
   },
+  {
+    id: "tauranga-sme-operators-playbook",
+    title: "Tauranga SME — Operators Playbook (internal training)",
+    description:
+      "A long-form, worksheet-styled playbook for running the Bronze / Silver / Gold product yourself: audience, tiers, Pilot framing, Stripe-to-email flow, fulfilment, objections, and reflection drills. Marked noindex; use for self-training and onboarding staff.",
+    url: "/resources/worksheet/tauranga-sme-operators-playbook",
+    iframeSrc: "/worksheets/tauranga-sme/operators-playbook.html",
+    date: "2026-05-06",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
 
   // Premium 4-part presentation (paid via /tauranga-sme; URLs are public so
   // buyers can deep-link from the Stripe receipt email and previews can drive
