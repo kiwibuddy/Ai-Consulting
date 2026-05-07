@@ -70,7 +70,9 @@ const featuredArticle = realArticles[0];
 
 const secondaryPool: LatestItem[] = [
   ...realArticles.map(articleToLatest),
-  ...worksheets.filter((w) => isRealContent(w.url)).map(worksheetToLatest),
+  ...worksheets
+    .filter((w) => isRealContent(w.url) && w.showInResources !== false)
+    .map(worksheetToLatest),
   ...videos.filter((v) => isRealContent(v.url)).map(videoToLatest),
 ]
   .slice()

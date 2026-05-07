@@ -26,12 +26,14 @@ const articlesByNewest = [...articles].sort(
 );
 
 /** Worksheets sorted newest first (carousel: left = newest, right = oldest). */
-const worksheetsByNewest = [...worksheets].sort((a, b) => {
-  const tb = new Date(b.date).getTime();
-  const ta = new Date(a.date).getTime();
-  if (tb !== ta) return tb - ta;
-  return a.id.localeCompare(b.id);
-});
+const worksheetsByNewest = [...worksheets]
+  .filter((w) => w.showInResources !== false)
+  .sort((a, b) => {
+    const tb = new Date(b.date).getTime();
+    const ta = new Date(a.date).getTime();
+    if (tb !== ta) return tb - ta;
+    return a.id.localeCompare(b.id);
+  });
 
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
