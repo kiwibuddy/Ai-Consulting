@@ -14,6 +14,8 @@ import {
   tesoroEase,
 } from "@/lib/animations";
 import { ArrowRight, Play, FileText, ExternalLink, ClipboardList } from "lucide-react";
+import { resolvePublicAssetUrl } from "@/lib/public-asset-url";
+import { cn } from "@/lib/utils";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
@@ -53,6 +55,37 @@ const deepDiveWaveHeights = [
   24, 36, 30, 48, 34, 58, 38, 52, 28, 46, 40, 32, 26, 42, 34, 30, 50, 36, 44, 30,
   28, 46, 34, 40, 30, 48, 32, 42,
 ];
+
+/** Robust worksheet card art: absolute prod URL + SVG-safe sizing + onError fallback */
+function WorksheetCardThumbnail({ src }: { src: string }) {
+  const [broken, setBroken] = useState(false);
+  const resolved = resolvePublicAssetUrl(src);
+  const isSvg = src.toLowerCase().endsWith(".svg");
+
+  if (broken) {
+    return (
+      <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
+        <ClipboardList className="h-12 w-12 text-neutral-300" />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={resolved}
+      alt=""
+      width={640}
+      height={360}
+      loading="lazy"
+      decoding="async"
+      className={cn(
+        "aspect-video w-full shrink-0 bg-[hsl(210,40%,96%)]",
+        isSvg ? "object-contain object-center p-4" : "object-cover"
+      )}
+      onError={() => setBroken(true)}
+    />
+  );
+}
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -124,11 +157,7 @@ export default function ResourcesPage() {
     const sheetCard = (
       <>
         {sheet.thumbnail ? (
-          <img
-            src={sheet.thumbnail}
-            alt=""
-            className="aspect-video w-full object-cover shrink-0"
-          />
+          <WorksheetCardThumbnail src={sheet.thumbnail} />
         ) : (
           <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
             <ClipboardList className="h-12 w-12 text-neutral-300" />

@@ -21,13 +21,26 @@ function bookingUrlFromEnv(mode: string): string {
   );
 }
 
+function publicSiteUrlFromEnv(mode: string): string {
+  const fromRoot = loadEnv(mode, projectRoot, "VITE_");
+  const fromClient = loadEnv(mode, clientRoot, "VITE_");
+  return (
+    process.env.VITE_PUBLIC_SITE_URL ??
+    fromRoot.VITE_PUBLIC_SITE_URL ??
+    fromClient.VITE_PUBLIC_SITE_URL ??
+    ""
+  );
+}
+
 export default defineConfig(({ mode }) => {
   const bookingUrl = bookingUrlFromEnv(mode);
+  const publicSiteUrl = publicSiteUrlFromEnv(mode);
 
   return {
     plugins: [react()],
     define: {
       "import.meta.env.VITE_BOOKING_URL": JSON.stringify(bookingUrl),
+      "import.meta.env.VITE_PUBLIC_SITE_URL": JSON.stringify(publicSiteUrl),
     },
     resolve: {
       alias: {

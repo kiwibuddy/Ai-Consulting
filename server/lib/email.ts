@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getNewestArticle } from "../../shared/content/featured-article";
+import { buyerFacingSiteOrigin } from "./products";
 
 // Only create Resend client when API key is set (constructor throws otherwise)
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -775,6 +776,11 @@ export function taurangaAccessEmail(
   tier: "bronze" | "silver" | "gold",
   links: TaurangaAccessEmailLinks
 ): EmailOptions {
+  const siteOrigin = buyerFacingSiteOrigin();
+  const heroImageUrl =
+    process.env.TAURANGA_EMAIL_HERO_IMAGE_URL ||
+    "https://images.unsplash.com/photo-1718398892763-1695285c617d?auto=format&fit=crop&w=1600&q=82";
+  const portraitUrl = `${siteOrigin}/images/email/nathaniel-baldock-portrait.png`;
   const logoUrl = emailLogoUrl;
   const greeting = buyerName ? `Hi ${escapeHtmlForEmail(buyerName)},` : "Hi there,";
 
@@ -794,18 +800,53 @@ export function taurangaAccessEmail(
   };
   const meta = tierMeta[tier];
 
+  const tierStyle = {
+    bronze: {
+      label: "Bronze",
+      accent: "#9a6230",
+      ring: "#c9a068",
+      bandFrom: "#b87333",
+      bandTo: "#7c4f28",
+      pillBorder: "#e8c9a8",
+      pillInner: "rgba(255, 248, 240, 0.95)",
+    },
+    silver: {
+      label: "Silver",
+      accent: "#3d556d",
+      ring: "#bcc6d4",
+      bandFrom: "#94a3b8",
+      bandTo: "#64748b",
+      pillBorder: "#e2e8f0",
+      pillInner: "rgba(248, 250, 252, 0.92)",
+    },
+    gold: {
+      label: "Gold",
+      accent: "#92400e",
+      ring: "#e8ca5c",
+      bandFrom: "#d4af37",
+      bandTo: "#996515",
+      pillBorder: "#fde68a",
+      pillInner: "rgba(255, 251, 235, 0.92)",
+    },
+  } satisfies Record<
+    typeof tier,
+    { label: string; accent: string; ring: string; bandFrom: string; bandTo: string; pillBorder: string; pillInner: string }
+  >;
+
+  const s = tierStyle[tier];
+
   const showTemplates = tier === "silver" || tier === "gold";
   const showBooking = tier === "silver" || tier === "gold";
   const showVideo = true;
 
   const linkRow = (label: string, href: string) =>
-    `<tr><td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
-       <a href="${href}" style="color: ${emailPrimaryGreen}; font-weight: 600; text-decoration: none;">${label} →</a>
+    `<tr><td style="padding: 10px 0; border-bottom: 1px solid #f0f0f0;">
+       <a href="${href}" style="color: ${s.accent}; font-weight: 600; text-decoration: none;">${escapeHtmlForEmail(label)} →</a>
      </td></tr>`;
 
   const templatesBlock = showTemplates
     ? `
-        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Your templates</h3>
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #172032; letter-spacing:-0.02em;">Your templates</h3>
         <p style="margin: 0 0 12px; font-size: 14px; color: #525252;">Each link is unique to your purchase. Save them somewhere private.</p>
         <table style="width: 100%; border-collapse: collapse;">
           ${linkRow("NZ Privacy Impact Assessment template (PDF)", links.templates.pia)}
@@ -818,14 +859,14 @@ export function taurangaAccessEmail(
   const bookingBlock =
     showBooking && links.bookingUrl
       ? `
-        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Book your ${tier === "gold" ? "kickoff" : "1:1 strategy call"}</h3>
-        <p style="margin: 0 0 12px;"><a href="${links.bookingUrl}" class="btn" style="display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, ${emailPrimaryGreen}, ${emailPrimaryGreenLime}); color: #fff !important; text-decoration: none; border-radius: 8px; font-weight: 600;">Pick a time →</a></p>`
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #172032; letter-spacing:-0.02em;">Book your ${tier === "gold" ? "kickoff" : "1:1 strategy call"}</h3>
+        <p style="margin: 0 0 12px;"><a href="${links.bookingUrl}" style="display: inline-block; padding: 12px 22px; background: linear-gradient(135deg, ${s.bandFrom}, ${s.bandTo}); color: #fff !important; text-decoration: none; border-radius: 10px; font-weight: 700; box-shadow: 0 2px 12px rgba(15,23,42,0.12);">Pick a time →</a></p>`
       : "";
 
   const videoBlock = showVideo
     ? `
-        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #262626;">Recorded walkthrough</h3>
-        <p style="margin: 0 0 8px;"><a href="${links.videoWalkthrough}" style="color: ${emailPrimaryGreen}; font-weight: 600; text-decoration: none;">Watch the four-session walkthrough →</a></p>
+        <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #172032; letter-spacing:-0.02em;">Recorded walkthrough</h3>
+        <p style="margin: 0 0 8px;"><a href="${links.videoWalkthrough}" style="color: ${s.accent}; font-weight: 600; text-decoration: none;">Watch the four-session walkthrough →</a></p>
         <p style="margin: 0; font-size: 13px; color: #737373;">Session 1 is live now. Sessions 2–4 are being recorded and will appear on this page automatically as they land.</p>`
     : "";
 
@@ -838,44 +879,47 @@ export function taurangaAccessEmail(
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #fafafa; }
-            .wrapper { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
-            .card { background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-            .header { background: ${emailHeaderBg}; color: #ffffff; padding: 28px 24px; text-align: center; }
-            .header img { display: block; margin: 0 auto 16px; height: 40px; width: auto; max-width: 180px; object-fit: contain; }
-            .header h1 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
-            .header .pill { display: inline-block; margin-top: 10px; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
-            .content { padding: 28px 24px; }
-            .content p { margin: 0 0 1em; }
-            h3 { font-size: 1rem; font-weight: 700; }
-            .footer { padding: 20px 24px; border-top: 1px solid #e5e5e5; font-size: 13px; color: #737373; text-align: center; }
-            .footer a { color: ${emailPrimaryGreen}; text-decoration: none; }
-          </style>
         </head>
-        <body>
-          <div class="wrapper">
-            <div class="card">
-              <div class="header">
-                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="180" height="40" />
-                <h1>${meta.name}</h1>
-                <span class="pill">Tauranga SME · Tier: ${tier}</span>
-              </div>
-              <div class="content">
-                <p>${greeting}</p>
-                <p>Welcome to the <strong>${meta.name}</strong>. Payment received — receipt is in a separate email from Stripe.</p>
-                <p>${meta.line}</p>
+        <body style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #f4f6f8;">
+          <div style="max-width: 640px; margin: 0 auto; padding: 24px 16px;">
+            <div style="background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15,23,42,0.08); border: 1px solid #e8eaef;">
+              <div style="height: 5px; background: linear-gradient(90deg, ${s.bandFrom}, ${s.bandTo});"></div>
 
-                <h3 style="margin: 28px 0 8px; color: #262626;">Start here — the four worksheets</h3>
-                <table style="width: 100%; border-collapse: collapse;">
+              <!-- Hero: Tauranga photography + readable overlay -->
+              <div style="background-color: #0f172a; background-image: url('${heroImageUrl}'); background-size: cover; background-position: center 38%;">
+                <div style="padding: 26px 22px 56px; text-align: center; background: linear-gradient(185deg, rgba(15,23,42,0.45) 0%, rgba(15,23,42,0.82) 100%);">
+                  <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="164" height="36" style="display: block; margin: 0 auto 14px; height: 36px; width: auto; max-width: 180px; opacity: 0.95;" />
+                  <div style="display: inline-block; margin-bottom: 10px; padding: 6px 18px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: #ffffff; border: 2px solid ${s.ring}; background: rgba(255,255,255,0.12); box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;">
+                    Tauranga SME · ${s.label}
+                  </div>
+                  <h1 style="margin: 0; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.025em; color: #ffffff; line-height: 1.25; text-shadow: 0 2px 20px rgba(0,0,0,0.35);">${meta.name}</h1>
+                </div>
+              </div>
+
+              <!-- Portrait overlaps hero (email-safe table) -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top: -40px;">
+                <tr>
+                  <td align="center" style="padding: 0 20px 6px;">
+                    <img src="${portraitUrl}" alt="Nathaniel Baldock" width="92" height="92" style="display: block; width: 92px; height: 92px; border-radius: 50%; object-fit: cover; border: 4px solid ${s.ring}; box-shadow: 0 12px 32px rgba(15,23,42,0.18); background: ${s.pillInner};" />
+                  </td>
+                </tr>
+              </table>
+
+              <div style="padding: 8px 26px 28px;">
+                <p style="margin: 0 0 12px; font-size: 15px;">${greeting}</p>
+                <p style="margin: 0 0 12px; font-size: 15px;">Welcome to your <strong style="color: ${s.accent};">${escapeHtmlForEmail(meta.name)}</strong>. Payment received — your Stripe receipt is in a separate email.</p>
+                <p style="margin: 0 0 8px; font-size: 15px;">${meta.line}</p>
+
+                <h3 style="margin: 28px 0 10px; font-size: 0.95rem; font-weight: 700; color: #172032; letter-spacing: -0.02em;">Start here — the four worksheets</h3>
+                <table role="presentation" style="width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden; border: 1px solid #eceef3;">
                   ${linkRow("1. Readiness Self-Assessment", links.worksheets.readiness)}
                   ${linkRow("2. Time Audit (30-minute)", links.worksheets.timeAudit)}
                   ${linkRow("3. Team Conversation Guide", links.worksheets.team)}
                   ${linkRow("4. Privacy & Copyright Basics", links.worksheets.legal)}
                 </table>
 
-                <h3 style="margin: 28px 0 8px; color: #262626;">The 4-session deck</h3>
-                <table style="width: 100%; border-collapse: collapse;">
+                <h3 style="margin: 26px 0 10px; font-size: 0.95rem; font-weight: 700; color: #172032; letter-spacing: -0.02em;">The 4-session deck</h3>
+                <table role="presentation" style="width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden; border: 1px solid #eceef3;">
                   ${linkRow("Session 1 — Ready or Not? (full 22-slide deck)", links.presentation.session1)}
                   ${linkRow("Session 2 — Where AI Saves You Time (preview)", links.presentation.session2)}
                   ${linkRow("Session 3 — AI and Your Team (preview)", links.presentation.session3)}
@@ -889,8 +933,9 @@ export function taurangaAccessEmail(
                 <p style="margin-top: 28px; font-size: 14px; color: #525252;">If anything is missing or you have a question, just reply to this email. I read every one personally.</p>
                 <p style="margin: 0; font-size: 14px; color: #525252;">— Nathaniel</p>
               </div>
-              <div class="footer">
-                <a href="${publicSiteUrl}/tauranga-sme">Nathaniel Baldock AI Consulting</a> · Tauranga SME programme
+
+              <div style="padding: 18px 24px; border-top: 1px solid #ebecef; font-size: 13px; color: #737373; text-align: center; background: #fafbfc;">
+                <a href="${siteOrigin}/tauranga-sme" style="color: ${s.accent}; font-weight: 600; text-decoration: none;">Nathaniel Baldock AI Consulting</a> · Tauranga SME programme
               </div>
             </div>
           </div>

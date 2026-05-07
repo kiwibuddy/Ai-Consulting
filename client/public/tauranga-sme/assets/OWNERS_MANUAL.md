@@ -2,7 +2,7 @@
 
 Internal runbook for **you** (or staff) delivering the Bronze / Silver / Gold line. Lives next to gated-asset notes in `[README.md](./README.md)`.
 
-**Tutorial-style playbook** (same visual language as Tauranga worksheets; long prose, reflection drills): on the deployed site open `**/resources/worksheet/tauranga-sme-operators-playbook`**. Source: `client/public/worksheets/tauranga-sme/operators-playbook.html` (registered in `client/src/content/worksheets.ts`). The HTML sets `**noindex, nofollow**` so it is omitted from typical search indexing.
+**Tutorial-style playbook** (same visual language as Tauranga worksheets; long prose, reflection drills): on the deployed site open `**/resources/worksheet/tauranga-sme-operators-playbook`**. Source: `client/public/worksheets/tauranga-sme/operators-playbook.html` (registered in `client/src/content/worksheets.ts`). The HTML sets `**noindex, nofollow`** so it is omitted from typical search indexing.
 
 ---
 
@@ -22,7 +22,7 @@ Display copy and bullets: `**client/src/content/products.ts`** (keep in sync wit
 
 ## Environment variables
 
-Set in production `.env` (never commit `.env`). Reference: `**.env.example**` Tauranga block.
+Set in production `.env` (never commit `.env`). Reference: `**.env.example`** Tauranga block.
 
 ### Required for paid checkout
 

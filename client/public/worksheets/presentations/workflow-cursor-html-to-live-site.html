@@ -893,6 +893,7 @@ body.guided .body{
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
+  justify-content: flex-start;
   min-height: 0;
   padding: 0 var(--page-px) 0;
   background: var(--bg);
@@ -914,9 +915,10 @@ body.guided .body > .guide-chapter{
 }
 body.guided .body > .guide-chapter.is-active{
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
   min-height: 0;
+  max-height: calc(100dvh - 120px);
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -1071,7 +1073,28 @@ body.guided .guide-chapter.is-active .step.is-step-open .step-body{
   transition: max-height 0.48s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease 0.08s, transform 0.4s ease 0.08s;
 }
 body.guided .guide-chapter.is-active .step:not(.is-step-open){ margin: 5px 0 8px; }
-body.guided .guide-chapter.is-active .step.is-step-open{ margin: 20px 0 18px; }
+body.guided .guide-chapter.is-active .step.is-step-open{
+  margin: 20px 0 18px;
+  display: flex;
+  flex-direction: column;
+}
+body.guided .guide-chapter.is-active .step.is-step-open .step-head{
+  width: 100%;
+}
+body.guided .guide-chapter.is-active .step.is-step-open .step-check{
+  position: static;
+  align-self: center;
+  width: 100%;
+  max-width: 17rem;
+  justify-content: center;
+  margin-top: clamp(14px, 2.2vw, 24px);
+  padding: 12px 16px 0;
+  border-top: 1px solid var(--border);
+  box-sizing: border-box;
+  top: auto !important;
+  right: auto !important;
+  z-index: 1;
+}
 body:not(.guided) .step .step-body{
   max-height: none !important;
   opacity: 1 !important;

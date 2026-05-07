@@ -106,6 +106,20 @@ function appBaseUrl(): string {
   return process.env.APP_URL || process.env.PUBLIC_SITE_URL || "http://localhost:3000";
 }
 
+/**
+ * Origin for URLs that appear in buyer emails (Stripe webhook, access links).
+ * Prefer PUBLIC_SITE_URL so links work when APP_URL is an internal dev host.
+ * In production without PUBLIC_SITE_URL, default to the live marketing domain.
+ */
+export function buyerFacingSiteOrigin(): string {
+  const strip = (s: string) => s.replace(/\/$/, "");
+  if (process.env.PUBLIC_SITE_URL) return strip(process.env.PUBLIC_SITE_URL);
+  if (process.env.NODE_ENV === "production") {
+    return strip(process.env.APP_URL || "https://www.nathanielbaldock.com");
+  }
+  return strip(process.env.APP_URL || "http://localhost:3000");
+}
+
 export interface CreateProductCheckoutOptions {
   tier: ProductTier;
   /** Origin from the inbound request — used to build success/cancel URLs. */
@@ -207,7 +221,7 @@ export interface AccessLinks {
 }
 
 export function buildAccessLinks(tier: ProductTier): AccessLinks {
-  const base = appBaseUrl().replace(/\/$/, "");
+  const base = buyerFacingSiteOrigin();
   const slug = () => randomBytes(24).toString("base64url");
   const product = getProductByTier(tier);
 
