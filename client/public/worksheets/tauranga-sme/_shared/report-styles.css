@@ -260,6 +260,69 @@
   border: 1px solid hsl(79, 30%, 82%);
 }
 
+.ws-report-reengage {
+  margin-top: 1rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, hsl(207, 52%, 18%) 0%, hsl(207, 45%, 24%) 100%);
+  color: #fff;
+  padding: 18px 18px 16px;
+  border: 1px solid hsl(210, 30%, 40%);
+}
+
+.ws-report-reengage-kicker {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(200, 48%, 74%);
+  margin-bottom: 8px;
+}
+
+.ws-report-reengage h4 {
+  margin: 0 0 8px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.ws-report-reengage p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: hsl(210, 30%, 84%);
+}
+
+.ws-report-reengage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ws-report-reengage-actions a {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ws-report-reengage-actions .primary {
+  background: hsl(79, 82%, 50%);
+  color: hsl(220, 18%, 8%);
+}
+
+.ws-report-reengage-actions .secondary {
+  border: 1px solid hsl(210, 30%, 52%);
+  color: #fff;
+  background: transparent;
+}
+
 .ws-report-actions {
   display: flex;
   flex-wrap: wrap;

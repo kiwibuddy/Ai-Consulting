@@ -14,6 +14,12 @@ export function resolvePublicAssetUrl(path: string): string {
       : "";
 
   if (fromEnv.length > 0) return `${fromEnv}${path}`;
-  if (import.meta.env.PROD) return `https://www.nathanielbaldock.com${path}`;
+  if (import.meta.env.PROD) {
+    // Prefer same-origin in production to avoid cross-host drift (apex vs www).
+    if (typeof window !== "undefined" && window.location?.origin) {
+      return `${window.location.origin}${path}`;
+    }
+    return `https://www.nathanielbaldock.com${path}`;
+  }
   return path;
 }

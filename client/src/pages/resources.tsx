@@ -37,6 +37,25 @@ const worksheetsByNewest = [...worksheets]
     return a.id.localeCompare(b.id);
   });
 
+/** Tauranga business collection (includes related presentations). */
+const taurangaResourcesByNewest = [...worksheets]
+  .filter(
+    (w) =>
+      w.id.startsWith("tauranga-sme-") &&
+      w.id !== "tauranga-sme-operators-playbook"
+  )
+  .sort((a, b) => {
+    const tb = new Date(b.date).getTime();
+    const ta = new Date(a.date).getTime();
+    if (tb !== ta) return tb - ta;
+    return a.id.localeCompare(b.id);
+  });
+
+/** General worksheet section excludes Tauranga business collection. */
+const generalWorksheetsByNewest = worksheetsByNewest.filter(
+  (w) => !w.id.startsWith("tauranga-sme-")
+);
+
 const contentMax = "max-w-6xl";
 const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 const ctaLabel = "Book a free 30-min consultation";
@@ -46,7 +65,6 @@ const worksheetCategories = [
   "Education",
   "Working Professionals",
   "Presentations",
-  "Tauranga SME",
 ] as const;
 type WorksheetCategory = (typeof worksheetCategories)[number];
 type WorksheetFilter = "All" | WorksheetCategory;
@@ -80,7 +98,7 @@ function WorksheetCardThumbnail({ src }: { src: string }) {
       decoding="async"
       className={cn(
         "aspect-video w-full shrink-0 bg-[hsl(210,40%,96%)]",
-        isSvg ? "object-contain object-center p-4" : "object-cover"
+        isSvg ? "object-cover object-center" : "object-cover"
       )}
       onError={() => setBroken(true)}
     />
@@ -133,7 +151,7 @@ export default function ResourcesPage() {
   const worksheetFilterOptions: WorksheetFilter[] = [
     "All",
     ...worksheetCategories.filter((cat) =>
-      worksheetsByNewest.some((sheet) => sheet.category === cat)
+      generalWorksheetsByNewest.some((sheet) => sheet.category === cat)
     ),
   ];
 
@@ -142,13 +160,13 @@ export default function ResourcesPage() {
       ? worksheetCategories
           .map((category) => ({
             category,
-            items: worksheetsByNewest.filter((sheet) => sheet.category === category),
+            items: generalWorksheetsByNewest.filter((sheet) => sheet.category === category),
           }))
           .filter((group) => group.items.length > 0)
       : [
           {
             category: worksheetFilter,
-            items: worksheetsByNewest.filter((sheet) => sheet.category === worksheetFilter),
+            items: generalWorksheetsByNewest.filter((sheet) => sheet.category === worksheetFilter),
           },
         ];
 
@@ -335,6 +353,43 @@ export default function ResourcesPage() {
         </div>
       </section>
 
+      {/* Tauranga businesses */}
+      <section className={`${sectionPadding} bg-neutral-50 border-y border-neutral-200/80`}>
+        <div className={`container mx-auto ${contentMax}`}>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={staggerRevealContainerVariants}
+            className="mb-8"
+          >
+            <motion.h2
+              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
+              variants={staggerRevealItemVariants}
+            >
+              Tauranga Businesses
+            </motion.h2>
+            <motion.p
+              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-3xl"
+              variants={staggerRevealItemVariants}
+            >
+              Tauranga SME resources mapped to Bronze, Silver, and Gold pathways — worksheets,
+              session decks, and the combined master report so local businesses can move from
+              assessment to implementation.
+            </motion.p>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={cardSlideUpContainerVariants}
+          >
+            {taurangaResourcesByNewest.map((sheet) => renderWorksheetCard(sheet))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Worksheets */}
       <section className={`${sectionPadding} bg-neutral-50`}>
         <div className={`container mx-auto ${contentMax}`}>
@@ -381,7 +436,7 @@ export default function ResourcesPage() {
                 viewport={landingViewportReveal}
                 variants={cardSlideUpContainerVariants}
               >
-                {worksheetsByNewest.map((sheet) => (
+                {generalWorksheetsByNewest.map((sheet) => (
                   <div
                     key={sheet.id}
                     className="snap-start shrink-0 basis-[85%] sm:basis-[48%] lg:basis-[calc((100%-3rem)/3)]"

@@ -1037,6 +1037,8 @@ export function worksheetReportEmail(
   const accent = "#2d5a7b";
   const bandFrom = "#2d5a7b";
   const bandTo = "#84cc16";
+  const bookingUrl = process.env.WORKSHEET_REPORT_BOOKING_URL || "https://calendar.app.google/KKC9Bhhsb7XEYqvn7";
+  const productUrl = `${siteOrigin}/tauranga-sme`;
   const greeting = recipientName ? `Hi ${escapeHtmlForEmail(recipientName)},` : "Hi there,";
   const title = escapeHtmlForEmail(report.worksheetTitle || "Your worksheet report");
   const headline = escapeHtmlForEmail(report.headline || "Your personalised summary");
@@ -1064,6 +1066,22 @@ export function worksheetReportEmail(
         ${escapeHtmlForEmail(report.coachNote).replace(/\n/g, "<br/>")}
        </div>`
     : "";
+
+  const reengageBlock = `
+    <div style="margin-top: 22px; border-radius: 14px; overflow: hidden; background: linear-gradient(135deg, #1f3f57 0%, #244b68 100%); border: 1px solid #2f5f82;">
+      <div style="padding: 16px 18px;">
+        <div style="font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: #9cc8de; margin-bottom: 8px;">Tauranga · Bay of Plenty</div>
+        <div style="font-family: Georgia, 'Times New Roman', serif; font-size: 1.12rem; color: #ffffff; font-weight: 700; line-height: 1.3; margin-bottom: 8px;">Want help turning this into a clear next step?</div>
+        <div style="font-size: 13px; color: #d8e7f0; line-height: 1.6; margin-bottom: 12px;">
+          A 30-minute strategy session helps you choose the right follow-on: governance/policy setup, team rollout support, or implementation planning based on your worksheet outcomes.
+        </div>
+        <div>
+          <a href="${bookingUrl}" style="display:inline-block;padding:10px 16px;border-radius:999px;background:#a3e635;color:#172032 !important;text-decoration:none;font-weight:700;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;margin-right:6px;">Book a strategy session</a>
+          <a href="${productUrl}" style="display:inline-block;padding:10px 16px;border-radius:999px;border:1px solid #7ea4ba;color:#ffffff !important;text-decoration:none;font-weight:700;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;">View Tauranga SME packages</a>
+        </div>
+      </div>
+    </div>
+  `;
 
   const coachBcc = process.env.WORKSHEET_REPORT_COACH_EMAIL?.trim() || SITE_CONTACT_EMAIL;
 
@@ -1122,6 +1140,7 @@ export function worksheetReportEmail(
 
                 ${recapBlock}
                 ${coach}
+                ${reengageBlock}
 
                 <p style="margin-top: 22px; font-size: 13px; color: #737373;">You can also use <strong>Print / Save as PDF</strong> from the worksheet report panel on the site.</p>
               </div>

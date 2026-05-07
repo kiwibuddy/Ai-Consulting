@@ -3,6 +3,9 @@
  * window.NBReport.init({ worksheetId: 'ws1' })
  */
 (function () {
+  var BOOKING_URL = "https://calendar.app.google/KKC9Bhhsb7XEYqvn7";
+  var PRODUCT_URL = "https://www.nathanielbaldock.com/tauranga-sme";
+
   function escapeHtml(s) {
     if (s == null) return "";
     return String(s)
@@ -138,6 +141,18 @@
       '<div class="ws-report-section"><h3>Note from Nathaniel</h3><div class="ws-report-coach">' +
       escapeHtml(report.coachNote || "").replace(/\n/g, "<br/>") +
       "</div></div>" +
+      '<div class="ws-report-section"><div class="ws-report-reengage">' +
+      '<div class="ws-report-reengage-kicker">Tauranga · Bay of Plenty</div>' +
+      "<h4>Want help turning this into a clear next step?</h4>" +
+      "<p>A 30-minute strategy session helps you choose the right follow-on: tighter governance/policy setup, team rollout support, or implementation planning aligned to your worksheet results.</p>" +
+      '<div class="ws-report-reengage-actions">' +
+      '<a class="primary" href="' +
+      BOOKING_URL +
+      '" target="_blank" rel="noopener">Book a strategy session</a>' +
+      '<a class="secondary" href="' +
+      PRODUCT_URL +
+      '" target="_blank" rel="noopener">View Tauranga SME packages</a>' +
+      "</div></div></div>" +
       '<label class="ws-report-hp" aria-hidden="true">Company <input type="text" name="company" class="js-rpt-company" tabindex="-1" autocomplete="off" /></label>' +
       '<div class="ws-report-actions">' +
       '<button type="button" class="ws-report-btn-primary js-rpt-print">Download PDF / Print</button>' +
@@ -284,7 +299,7 @@
             "<h2>Master report locked</h2>" +
             "<p>Complete at least <strong>two</strong> of the four Tauranga SME worksheets to generate your combined adoption snapshot. " +
             "Finish each worksheet to 100% — your summary saves automatically in this browser.</p>" +
-            '<p><a class="ws-report-btn ws-report-btn-secondary" style="padding:10px 18px;border-radius:999px;background:hsl(220,18%,12%);color:#fff;" href="https://www.nathanielbaldock.com/resources">Browse resources →</a></p>' +
+            '<p><a class="ws-report-btn ws-report-btn-secondary" style="padding:10px 18px;border-radius:999px;background:hsl(220,18%,12%);color:#fff;" href="https://www.nathanielbaldock.com/resources" target="_top" rel="noopener">Browse resources →</a></p>' +
             "</div></div>";
         }
         return;
