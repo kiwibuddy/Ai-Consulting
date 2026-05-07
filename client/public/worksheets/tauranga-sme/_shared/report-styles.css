@@ -1,0 +1,407 @@
+/* Tauranga SME — completion report panel + print */
+.ws-report {
+  margin: 2rem 0 3rem;
+  font-family: "DM Sans", system-ui, sans-serif;
+  color: #0a0a0a;
+}
+
+.ws-report[hidden] {
+  display: none !important;
+}
+
+.ws-report-inner {
+  max-width: 52rem;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid hsl(220, 12%, 88%);
+  box-shadow: 0 16px 48px -12px rgba(15, 23, 42, 0.12);
+  background: #fff;
+}
+
+.ws-report-band {
+  height: 5px;
+  background: linear-gradient(90deg, hsl(207, 52%, 34%), hsl(79, 82%, 42%));
+}
+
+.ws-report-hero {
+  padding: 1.75rem 1.75rem 1.25rem;
+  background: linear-gradient(180deg, hsl(210, 24%, 97%) 0%, #fff 55%);
+}
+
+.ws-report-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(207, 58%, 34%);
+  margin-bottom: 0.65rem;
+}
+
+.ws-report-headline {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.ws-report-sub {
+  font-size: 14px;
+  font-weight: 400;
+  color: hsl(220, 8%, 34%);
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.ws-report-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 1rem;
+}
+
+.ws-report-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.stage-awareness {
+  background: hsl(38, 55%, 92%);
+  color: hsl(38, 60%, 28%);
+  border: 1px solid hsl(38, 45%, 78%);
+}
+.stage-experimenting,
+.stage-exp {
+  background: hsl(200, 40%, 94%);
+  color: hsl(207, 58%, 30%);
+  border: 1px solid hsl(200, 35%, 82%);
+}
+.stage-integrating {
+  background: hsl(152, 40%, 92%);
+  color: hsl(152, 45%, 28%);
+  border: 1px solid hsl(152, 35%, 78%);
+}
+.stage-team {
+  background: hsl(265, 35%, 95%);
+  color: hsl(265, 32%, 36%);
+  border: 1px solid hsl(265, 25%, 82%);
+}
+.stage-legal {
+  background: hsl(220, 16%, 94%);
+  color: hsl(220, 18%, 22%);
+  border: 1px solid hsl(220, 12%, 82%);
+}
+.stage-master {
+  background: linear-gradient(135deg, hsl(207, 45%, 94%), hsl(79, 40%, 92%));
+  color: hsl(220, 18%, 18%);
+  border: 1px solid hsl(220, 12%, 80%);
+}
+
+.ws-report-confidence {
+  font-size: 12px;
+  color: hsl(220, 7%, 44%);
+}
+
+.ws-report-body {
+  padding: 0 1.75rem 1.75rem;
+}
+
+.ws-report-section {
+  margin-top: 1.5rem;
+}
+
+.ws-report-section h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.65rem;
+  letter-spacing: -0.02em;
+}
+
+.ws-report-list {
+  margin: 0;
+  padding-left: 1.15rem;
+  font-size: 13px;
+  line-height: 1.65;
+  color: hsl(220, 8%, 30%);
+}
+
+.ws-report-list li {
+  margin-bottom: 0.45rem;
+}
+
+.ws-report-cards {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .ws-report-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ws-report-card {
+  border: 1px solid hsl(220, 12%, 88%);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: hsl(42, 40%, 99%);
+}
+
+.ws-report-card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #0a0a0a;
+}
+
+.ws-report-card p {
+  font-size: 12px;
+  line-height: 1.55;
+  color: hsl(220, 8%, 32%);
+  margin: 0;
+}
+
+.ws-report-card .tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: hsl(207, 58%, 34%);
+}
+
+.ws-report-risks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ws-report-risk {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: hsl(0, 40%, 96%);
+  color: hsl(0, 55%, 36%);
+  border: 1px solid hsl(0, 30%, 85%);
+}
+
+.ws-report-timeline {
+  border-left: 2px solid hsl(200, 45%, 88%);
+  padding-left: 14px;
+  margin-left: 4px;
+}
+
+.ws-report-phase {
+  margin-bottom: 1rem;
+}
+
+.ws-report-phase strong {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: hsl(207, 58%, 34%);
+  margin-bottom: 6px;
+}
+
+.ws-report-phase ul {
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 13px;
+  line-height: 1.6;
+  color: hsl(220, 8%, 30%);
+}
+
+.ws-report-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ws-report-tool {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: hsl(210, 24%, 97%);
+  border: 1px solid hsl(220, 12%, 90%);
+}
+
+.ws-report-tool strong {
+  font-size: 12px;
+  display: block;
+  color: #0a0a0a;
+}
+
+.ws-report-tool span {
+  font-size: 11px;
+  color: hsl(220, 8%, 36%);
+  line-height: 1.5;
+}
+
+.ws-report-coach {
+  font-size: 13px;
+  line-height: 1.7;
+  color: hsl(220, 8%, 28%);
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, hsl(79, 40%, 95%) 0%, hsl(210, 30%, 97%) 100%);
+  border: 1px solid hsl(79, 30%, 82%);
+}
+
+.ws-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid hsl(220, 12%, 90%);
+}
+
+.ws-report-actions button,
+.ws-report-actions a.ws-report-btn {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.ws-report-actions button:hover,
+.ws-report-actions a.ws-report-btn:hover {
+  transform: translateY(-1px);
+}
+
+.ws-report-btn-primary {
+  background: hsl(79, 82%, 46%);
+  color: hsl(220, 18%, 8%);
+}
+
+.ws-report-btn-secondary {
+  background: hsl(220, 18%, 12%);
+  color: #fff;
+}
+
+.ws-report-btn-ghost {
+  background: transparent;
+  color: hsl(220, 8%, 36%);
+  border: 1px solid hsl(220, 12%, 82%) !important;
+}
+
+.ws-report-field {
+  width: 100%;
+  max-width: 22rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid hsl(220, 12%, 85%);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.ws-report-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.ws-report-msg {
+  font-size: 12px;
+  margin-top: 8px;
+  min-height: 1.25em;
+}
+
+.ws-report-msg.ok {
+  color: hsl(152, 45%, 32%);
+}
+.ws-report-msg.err {
+  color: hsl(0, 55%, 40%);
+}
+
+.ws-report-lock {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 16px;
+  border: 1px dashed hsl(220, 12%, 82%);
+  background: hsl(210, 24%, 98%);
+}
+
+.ws-report-lock h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.ws-report-lock p {
+  font-size: 14px;
+  color: hsl(220, 8%, 36%);
+  max-width: 36rem;
+  margin: 0 auto 1rem;
+}
+
+@media print {
+  @page {
+    margin: 12mm;
+    size: A4;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .ws-report,
+  .ws-report * {
+    visibility: visible;
+  }
+
+  .ws-report {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .guide-dock,
+  .site-hdr,
+  .foot {
+    display: none !important;
+  }
+
+  .ws-report-inner {
+    box-shadow: none;
+    border: none;
+  }
+
+  .ws-report-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .ws-report-actions {
+    display: none !important;
+  }
+}

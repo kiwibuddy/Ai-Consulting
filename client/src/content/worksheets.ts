@@ -435,6 +435,19 @@ export const worksheets: WorksheetItem[] = [
     format: "Interactive",
   },
   {
+    id: "tauranga-sme-master-report",
+    title: "Tauranga SME — Master completion report (2+ worksheets)",
+    description:
+      "Unlocks after you finish at least two of the four SME worksheets to 100% in the same browser. Combines your saved summaries into one portfolio snapshot — print, PDF, or email.",
+    url: "/resources/worksheet/tauranga-sme-master-report",
+    iframeSrc: "/worksheets/tauranga-sme/master-report.html",
+    shareImage: "/images/worksheets/tauranga-sme-readiness.svg",
+    thumbnail: "/images/worksheets/tauranga-sme-readiness.svg",
+    date: "2026-05-07",
+    category: "Tauranga SME",
+    format: "Interactive",
+  },
+  {
     id: "tauranga-sme-operators-playbook",
     title: "Tauranga SME — Operators Playbook (internal training)",
     description:

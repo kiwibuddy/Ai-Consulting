@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Tauranga SME Master Report — Nathaniel Baldock</title>
+<meta name="description" content="Combined AI readiness snapshot from your completed Bay of Plenty SME worksheets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared/report-styles.css" />
+<style>
+  body {
+    margin: 0;
+    font-family: "DM Sans", system-ui, sans-serif;
+    background: hsl(210, 24%, 96%);
+    color: #0a0a0a;
+    padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  .master-top {
+    max-width: 52rem;
+    margin: 0 auto 1.25rem;
+  }
+  .master-top a {
+    font-size: 13px;
+    font-weight: 600;
+    color: hsl(207, 58%, 34%);
+    text-decoration: none;
+    border-bottom: 1px solid hsl(200, 40%, 88%);
+  }
+  .master-top a:hover {
+    border-bottom-color: hsl(207, 58%, 34%);
+  }
+  .master-title {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0.75rem 0 0.35rem;
+  }
+  .master-lede {
+    font-size: 14px;
+    color: hsl(220, 8%, 34%);
+    line-height: 1.55;
+    max-width: 44rem;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="master-top">
+  <a href="https://www.nathanielbaldock.com/resources">← Back to resources</a>
+  <h1 class="master-title">Tauranga SME master report</h1>
+  <p class="master-lede">
+    This page combines summaries from worksheets you’ve completed to <strong>100%</strong> in this browser.
+    Complete at least two of the four worksheets to unlock the portfolio view — then print or email your report.
+  </p>
+</div>
+
+<div id="wsReportRoot" class="ws-report"></div>
+
+<script src="_shared/report-data.js"></script>
+<script src="_shared/report-engine.js"></script>
+<script src="_shared/report-render.js"></script>
+<script>
+  if (window.NBReport) {
+    window.NBReport.mountMaster(document.getElementById("wsReportRoot"));
+  }
+</script>
+</body>
+</html>

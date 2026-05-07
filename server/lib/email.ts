@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { SITE_CONTACT_EMAIL } from "@shared/constants";
 import { getNewestArticle } from "../../shared/content/featured-article";
 import { buyerFacingSiteOrigin } from "./products";
 
@@ -14,6 +15,8 @@ export interface EmailOptions {
   subject: string;
   html: string;
   from?: string;
+  /** Optional BCC (e.g. coach copy on worksheet completion reports). */
+  bcc?: string | string[];
 }
 
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
@@ -28,6 +31,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
       to: options.to,
       subject: options.subject,
       html: options.html,
+      ...(options.bcc ? { bcc: options.bcc } : {}),
     });
     return true;
   } catch (error) {
@@ -936,6 +940,193 @@ export function taurangaAccessEmail(
 
               <div style="padding: 18px 24px; border-top: 1px solid #ebecef; font-size: 13px; color: #737373; text-align: center; background: #fafbfc;">
                 <a href="${siteOrigin}/tauranga-sme" style="color: ${s.accent}; font-weight: 600; text-decoration: none;">Nathaniel Baldock AI Consulting</a> · Tauranga SME programme
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `,
+  };
+}
+
+/** Structured worksheet completion report (generated client-side, echoed in email). */
+export interface WorksheetReportEmailPayload {
+  kind?: string;
+  worksheetId?: string;
+  worksheetTitle?: string;
+  headline?: string;
+  subhead?: string;
+  stageLabel?: string;
+  confidence?: number;
+  generatedAt?: string;
+  keyFindings?: string[];
+  topOpportunities?: Array<{ title?: string; why?: string; effortLabel?: string }>;
+  next30DayPlan?: Array<{ phase?: string; items?: string[] }>;
+  recommendedTools?: Array<{ name?: string; note?: string }>;
+  coachNote?: string;
+  worksheetRecaps?: Array<{ shortTitle?: string; worksheetTitle?: string; headline?: string }>;
+}
+
+function worksheetReportBullets(items: string[]): string {
+  if (!items?.length) return "";
+  return `<ul style="margin: 8px 0 0; padding-left: 20px; font-size: 14px; color: #404040; line-height: 1.55;">
+    ${items.slice(0, 12).map((x) => `<li>${escapeHtmlForEmail(String(x))}</li>`).join("")}
+  </ul>`;
+}
+
+function worksheetReportOppsHtml(
+  opps: WorksheetReportEmailPayload["topOpportunities"]
+): string {
+  if (!opps?.length) return "";
+  return opps
+    .slice(0, 8)
+    .map((o) => {
+      const title = escapeHtmlForEmail(o?.title || "");
+      const why = escapeHtmlForEmail(o?.why || "");
+      const eff = o?.effortLabel ? `<span style="font-size: 12px; color: #737373;">${escapeHtmlForEmail(o.effortLabel)}</span>` : "";
+      return `<div style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #eceef3;">
+        <div style="font-weight: 700; color: #172032; margin-bottom: 4px;">${title}</div>
+        <div style="font-size: 14px; color: #525252; line-height: 1.5;">${why}</div>
+        ${eff}
+      </div>`;
+    })
+    .join("");
+}
+
+function worksheetReportPlanHtml(plan: WorksheetReportEmailPayload["next30DayPlan"]): string {
+  if (!plan?.length) return "";
+  return plan
+    .slice(0, 6)
+    .map((ph) => {
+      const phase = escapeHtmlForEmail(ph?.phase || "");
+      const items = (ph?.items || [])
+        .slice(0, 8)
+        .map((it) => `<li>${escapeHtmlForEmail(String(it))}</li>`)
+        .join("");
+      return `<div style="margin-bottom: 16px;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #64748b; margin-bottom: 6px;">${phase}</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: 14px; color: #404040; line-height: 1.55;">${items}</ul>
+      </div>`;
+    })
+    .join("");
+}
+
+function worksheetReportToolsHtml(tools: WorksheetReportEmailPayload["recommendedTools"]): string {
+  if (!tools?.length) return "";
+  return tools
+    .slice(0, 8)
+    .map(
+      (t) =>
+        `<div style="margin-bottom: 10px; font-size: 14px; color: #404040;"><strong style="color: #172032;">${escapeHtmlForEmail(t?.name || "")}</strong> — ${escapeHtmlForEmail(t?.note || "")}</div>`,
+    )
+    .join("");
+}
+
+/**
+ * Email copy of a completed Tauranga SME worksheet report (built in-browser).
+ */
+export function worksheetReportEmail(
+  recipientEmail: string,
+  recipientName: string | undefined,
+  report: WorksheetReportEmailPayload,
+  opts?: { ccNathaniel?: boolean }
+): EmailOptions {
+  const siteOrigin = buyerFacingSiteOrigin();
+  const portraitUrl = `${siteOrigin}/images/email/nathaniel-baldock-portrait.png`;
+  const logoUrl = emailLogoUrl;
+  const accent = "#2d5a7b";
+  const bandFrom = "#2d5a7b";
+  const bandTo = "#84cc16";
+  const greeting = recipientName ? `Hi ${escapeHtmlForEmail(recipientName)},` : "Hi there,";
+  const title = escapeHtmlForEmail(report.worksheetTitle || "Your worksheet report");
+  const headline = escapeHtmlForEmail(report.headline || "Your personalised summary");
+  const subhead = escapeHtmlForEmail(report.subhead || "");
+  const stage = escapeHtmlForEmail(report.stageLabel || "");
+  const conf =
+    report.confidence != null ? `Confidence ~${escapeHtmlForEmail(String(report.confidence))}% · ` : "";
+  const when = report.generatedAt
+    ? escapeHtmlForEmail(new Date(report.generatedAt).toLocaleString("en-NZ", { dateStyle: "medium", timeStyle: "short" }))
+    : "";
+
+  const recapBlock =
+    report.kind === "master" && report.worksheetRecaps?.length
+      ? `<h3 style="margin: 22px 0 8px; font-size: 1rem; color: #172032;">Worksheets included</h3>
+         ${report.worksheetRecaps
+           .map(
+             (w) =>
+               `<div style="font-size: 14px; color: #525252; margin-bottom: 8px;"><strong>${escapeHtmlForEmail(w.shortTitle || w.worksheetTitle || "")}</strong> — ${escapeHtmlForEmail(w.headline || "")}</div>`,
+           )
+           .join("")}`
+      : "";
+
+  const coach = report.coachNote
+    ? `<div style="margin-top: 22px; padding: 16px 18px; border-radius: 12px; background: linear-gradient(135deg, #f7faf3 0%, #eef6fb 100%); border: 1px solid #dbeafe; font-size: 14px; color: #404040; line-height: 1.65;">
+        ${escapeHtmlForEmail(report.coachNote).replace(/\n/g, "<br/>")}
+       </div>`
+    : "";
+
+  const coachBcc = process.env.WORKSHEET_REPORT_COACH_EMAIL?.trim() || SITE_CONTACT_EMAIL;
+
+  const subject =
+    report.kind === "master"
+      ? "Your Tauranga SME AI Adoption Master Report"
+      : `Your worksheet report — ${report.worksheetTitle || "Tauranga SME"}`;
+
+  return {
+    to: recipientEmail,
+    bcc: opts?.ccNathaniel ? coachBcc : undefined,
+    subject,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #262626; background-color: #f4f6f8;">
+          <div style="max-width: 640px; margin: 0 auto; padding: 24px 16px;">
+            <div style="background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(15,23,42,0.08); border: 1px solid #e8eaef;">
+              <div style="height: 5px; background: linear-gradient(90deg, ${bandFrom}, ${bandTo});"></div>
+              <div style="padding: 22px 22px 16px; text-align: center; border-bottom: 1px solid #f0f2f6;">
+                <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" width="164" height="36" style="display:block;margin:0 auto 12px;height:36px;width:auto;max-width:180px;" />
+                <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: ${accent};">Bay of Plenty · SME worksheet</div>
+              </div>
+              <div style="padding: 22px 24px 8px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:18px;">
+                  <tr>
+                    <td style="vertical-align:top;padding-right:14px;">
+                      <p style="margin: 0 0 12px; font-size: 15px;">${greeting}</p>
+                      <p style="margin: 0 0 8px; font-size: 14px; color: #525252;">Here's the structured summary from <strong style="color: #172032;">${title}</strong> — saved from your browser session.</p>
+                      <p style="margin: 0; font-size: 12px; color: #737373;">${conf}${when}</p>
+                    </td>
+                    <td style="width: 92px; vertical-align: top;">
+                      <img src="${portraitUrl}" alt="" width="88" height="88" style="display:block;border-radius: 14px;object-fit:cover;border:2px solid #e8eaef;" />
+                    </td>
+                  </tr>
+                </table>
+
+                <div style="padding: 16px 18px; border-radius: 14px; background: #fafbfc; border: 1px solid #eceef3;">
+                  <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #64748b; margin-bottom: 6px;">${stage}</div>
+                  <h1 style="margin: 0 0 8px; font-size: 1.35rem; font-weight: 700; color: #172032; letter-spacing: -0.02em;">${headline}</h1>
+                  <p style="margin: 0; font-size: 14px; color: #525252; line-height: 1.55;">${subhead}</p>
+                </div>
+
+                <h3 style="margin: 24px 0 8px; font-size: 1rem; color: #172032;">Key findings</h3>
+                ${worksheetReportBullets(report.keyFindings || [])}
+
+                <h3 style="margin: 24px 0 8px; font-size: 1rem; color: #172032;">Prioritised next moves</h3>
+                ${worksheetReportOppsHtml(report.topOpportunities)}
+
+                <h3 style="margin: 24px 0 8px; font-size: 1rem; color: #172032;">30-day rhythm</h3>
+                ${worksheetReportPlanHtml(report.next30DayPlan)}
+
+                <h3 style="margin: 24px 0 8px; font-size: 1rem; color: #172032;">Tools to consider</h3>
+                ${worksheetReportToolsHtml(report.recommendedTools)}
+
+                ${recapBlock}
+                ${coach}
+
+                <p style="margin-top: 22px; font-size: 13px; color: #737373;">You can also use <strong>Print / Save as PDF</strong> from the worksheet report panel on the site.</p>
+              </div>
+              <div style="padding: 16px 22px; border-top: 1px solid #ebecef; font-size: 12px; color: #737373; text-align: center; background: #fafbfc;">
+                <a href="${siteOrigin}" style="color: ${accent}; font-weight: 600; text-decoration: none;">nathanielbaldock.com</a> · AI consultant · Tauranga
               </div>
             </div>
           </div>

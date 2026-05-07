@@ -24,6 +24,8 @@ import {
   sessionScheduledEmail,
   sessionReminderEmail,
   resourceUploadedEmail,
+  worksheetReportEmail,
+  type WorksheetReportEmailPayload,
 } from "./lib/email";
 import {
   createCheckoutSessionForInvoice,
@@ -1444,6 +1446,76 @@ export async function registerRoutes(
       return res.status(500).json({ error: "Could not start checkout" });
     }
   });
+
+  const worksheetReportBurstLimiter = rateLimit({
+    windowMs: 30 * 1000,
+    max: 2,
+    message: { error: "Please wait a few seconds before sending another report email." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  const worksheetReportHourlyLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 12,
+    message: { error: "Too many worksheet report emails from this network. Try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  /**
+   * Public: email a copy of the client-generated Tauranga SME worksheet completion report.
+   * Honeypot field `company` must be empty. Payload built in-browser (rule-based summary).
+   */
+  app.post(
+    "/api/public/worksheet-report",
+    worksheetReportHourlyLimiter,
+    worksheetReportBurstLimiter,
+    async (req, res) => {
+      try {
+        if (req.body?.company != null && String(req.body.company).trim() !== "") {
+          return res.status(200).json({ ok: true });
+        }
+
+        const rawLen = JSON.stringify(req.body ?? {}).length;
+        if (rawLen > 120_000) {
+          return res.status(413).json({ error: "Payload too large" });
+        }
+
+        const schema = z.object({
+          worksheetId: z.enum(["ws1", "ws2", "ws3", "ws4", "master"]),
+          kind: z.enum(["worksheet", "master"]).optional(),
+          to: z.string().email(),
+          name: z.string().max(120).optional(),
+          ccNathaniel: z.boolean(),
+          report: z.record(z.unknown()),
+        });
+
+        const parsed = schema.parse(req.body);
+        const report = parsed.report as WorksheetReportEmailPayload;
+
+        if (!report?.headline || typeof report.headline !== "string") {
+          return res.status(400).json({ error: "Invalid report payload" });
+        }
+
+        const mail = worksheetReportEmail(parsed.to, parsed.name, report, {
+          ccNathaniel: parsed.ccNathaniel === true,
+        });
+
+        const ok = await sendEmail(mail);
+        if (!ok) {
+          return res.status(503).json({ error: "Email is not configured or sending failed." });
+        }
+        return res.json({ ok: true });
+      } catch (err) {
+        if (err instanceof z.ZodError) {
+          return res.status(400).json({ error: "Invalid request" });
+        }
+        console.error("[worksheet-report] send error", err);
+        return res.status(500).json({ error: "Could not send email" });
+      }
+    },
+  );
 
   // Create Stripe checkout session — **invoiceId only; amount from server (invoice row)**
   app.post("/api/payments/stripe/checkout", requireAuth, async (req, res) => {
