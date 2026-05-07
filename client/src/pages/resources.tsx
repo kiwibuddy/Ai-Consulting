@@ -77,7 +77,24 @@ const deepDiveWaveHeights = [
 /** Robust worksheet card art: absolute prod URL + SVG-safe sizing + onError fallback */
 function WorksheetCardThumbnail({ src }: { src: string }) {
   const [broken, setBroken] = useState(false);
-  const resolved = resolvePublicAssetUrl(src);
+  const buildCandidates = () => {
+    if (!src.startsWith("/")) return [src];
+    const out: string[] = [];
+    const push = (u: string) => {
+      if (!out.includes(u)) out.push(u);
+    };
+    push(resolvePublicAssetUrl(src));
+    if (typeof window !== "undefined" && window.location?.origin) {
+      push(`${window.location.origin}${src}`);
+    }
+    push(`https://www.nathanielbaldock.com${src}`);
+    push(`https://nathanielbaldock.com${src}`);
+    push(src);
+    return out;
+  };
+  const candidates = buildCandidates();
+  const [candidateIdx, setCandidateIdx] = useState(0);
+  const resolved = candidates[Math.min(candidateIdx, candidates.length - 1)];
   const isSvg = src.toLowerCase().endsWith(".svg");
 
   if (broken) {
@@ -100,7 +117,13 @@ function WorksheetCardThumbnail({ src }: { src: string }) {
         "aspect-video w-full shrink-0 bg-[hsl(210,40%,96%)]",
         isSvg ? "object-cover object-center" : "object-cover"
       )}
-      onError={() => setBroken(true)}
+      onError={() => {
+        if (candidateIdx < candidates.length - 1) {
+          setCandidateIdx((i) => i + 1);
+          return;
+        }
+        setBroken(true);
+      }}
     />
   );
 }
