@@ -28,16 +28,38 @@
     else document.addEventListener("DOMContentLoaded", fn);
   }
 
-  function enterFullscreen() {
-    try {
-      if (window.self !== window.top) return;
-    } catch (e) {
-      return;
-    }
-    const el = document.documentElement;
-    if (el.requestFullscreen) el.requestFullscreen().catch(function () {});
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  function fullscreenElement() {
+    return (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.msFullscreenElement ||
+      null
+    );
   }
+
+  function isDeckDocumentFullscreen() {
+    const fs = fullscreenElement();
+    return fs === document.documentElement || fs === document.body;
+  }
+
+  function enterFullscreen() {
+    const root = document.documentElement;
+    const req =
+      root.requestFullscreen ||
+      root.webkitRequestFullscreen ||
+      root.msRequestFullscreen;
+    if (req) req.call(root).catch(function () {});
+  }
+
+  function syncDeckFullscreenClass() {
+    document.documentElement.classList.toggle(
+      "deck-fs-document",
+      isDeckDocumentFullscreen()
+    );
+  }
+
+  document.addEventListener("fullscreenchange", syncDeckFullscreenClass);
+  document.addEventListener("webkitfullscreenchange", syncDeckFullscreenClass);
 
   ready(function () {
     const playOverlay = document.getElementById("play-overlay");
@@ -53,8 +75,26 @@
       updNav();
     }
 
+    const fsHud = document.createElement("div");
+    fsHud.id = "deck-fs-hud";
+    fsHud.setAttribute("role", "toolbar");
+    const fsBtn = document.createElement("button");
+    fsBtn.type = "button";
+    fsBtn.id = "deck-fs-btn";
+    fsBtn.setAttribute("aria-label", "Enter fullscreen");
+    fsBtn.innerHTML =
+      '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/></svg><span class="deck-fs-label">Fullscreen</span>';
+    fsHud.appendChild(fsBtn);
+    fsBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      enterFullscreen();
+    });
+    document.body.appendChild(fsHud);
+
     if (started) document.documentElement.classList.add("deck-started");
     else if (startBtn) startBtn.focus();
+
+    syncDeckFullscreenClass();
 
     if (startBtn)
       startBtn.addEventListener("click", function (e) {

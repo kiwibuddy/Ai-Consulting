@@ -173,6 +173,8 @@ export default function WorksheetSharePage() {
                 title={resource.title}
                 src={resource.iframeSrc}
                 className="absolute inset-0 w-full h-full border-0 block bg-[#090c14]"
+                allowFullScreen
+                allow="fullscreen"
               />
             </div>
           ) : (
@@ -181,6 +183,8 @@ export default function WorksheetSharePage() {
               title={resource.title}
               src={resource.iframeSrc}
               className="w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
+              allowFullScreen
+              allow="fullscreen"
               style={
                 fitViewport
                   ? { height: "clamp(600px, 88vh, 1080px)" }

@@ -211,6 +211,8 @@ export default function ChristianProfessionalWorksheetPage() {
             ref={iframeRef}
             title={meta.title}
             src={meta.iframeSrc}
+            allowFullScreen
+            allow="fullscreen"
             className={
               meta.seriesNumber != null
                 ? "w-full max-w-[900px] mx-auto block rounded-2xl shadow-lg border border-neutral-200/80 bg-white"
