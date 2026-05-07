@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" style="--deck-overlay-photo:url('https://images.unsplash.com/photo-1718398892763-1695285c617d?auto=format&fit=crop&w=2400&q=85');--deck-hero-photo:url('https://images.unsplash.com/photo-1588027216464-a3225f923383?auto=format&fit=crop&w=2400&q=85');--deck-dark-slide-photo:url('https://images.unsplash.com/photo-1594028019524-7ea8d97807d8?auto=format&fit=crop&w=2400&q=85');--deck-dark2-slide-photo:url('https://images.unsplash.com/photo-1661969164736-ab062dccb5a1?auto=format&fit=crop&w=2400&q=85')">
+<html lang="en" data-session-bib="s2" style="--deck-overlay-photo:url('https://images.unsplash.com/photo-1524758631624-e2822e851c53?auto=format&fit=crop&w=2400&q=85');--deck-hero-photo:url('https://images.unsplash.com/photo-1524758631624-e2822e851c53?auto=format&fit=crop&w=2400&q=85');--deck-dark-slide-photo:url('https://images.unsplash.com/photo-1661969164736-ab062dccb5a1?auto=format&fit=crop&w=2400&q=85');--deck-dark2-slide-photo:url('https://images.unsplash.com/photo-1594028019524-7ea8d97807d8?auto=format&fit=crop&w=2400&q=85')">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Session 2 — Where Does AI Actually Save You Time? (Preview) · Nathaniel Baldock</title>
-<meta name="description" content="A preview frame for Session 2 of the Tauranga SME deck — Time Audit. Hero plus five live slides and a Coming Soon frame. Full release on launch.">
+<title>Session 2 — Where Does AI Actually Save You Time? · Nathaniel Baldock</title>
+<meta name="description" content="A 30-minute audit lane for BoP owner-operators: augmentation vs automation, seven task families, three pilots in 30 days.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
@@ -12,13 +12,13 @@
 </head>
 <body>
 
-<!-- Photography: Bay of Plenty / Mount Maunganui region via Unsplash (Unsplash License). -->
+<!-- Office hero: SME workspace · Unsplash (Unsplash License). Port / orchard photos locked where referenced · see slide classes. -->
 
 <div id="play-overlay">
   <div class="po-hero">
-    <p class="po-eyebrow">Four-session series · Tauranga · 2026 &middot; Preview</p>
-    <h1 class="po-title">Session 2 — Where Does AI Save Time?<em>Turning &ldquo;no time&rdquo; into a three-task shortlist.</em></h1>
-    <p class="po-sub">A measured audit lane for busy owner-operators. Use Begin for fullscreen, then arrows or space to move through the preview slides.</p>
+    <p class="po-eyebrow">Four-session series · Tauranga · 2026</p>
+    <h1 class="po-title">Session 2 — Where Does AI Save Time?<em>Turning dread into a three-task pilot.</em></h1>
+    <p class="po-sub">A 25-minute walk that pairs with your Time Audit worksheet. Use Begin for fullscreen — arrows / space advance slides.</p>
     <button type="button" id="start-btn">Begin <span class="arr">&rarr;</span></button>
   </div>
   <div class="po-footer">
@@ -45,195 +45,537 @@
 </div>
 
 <div id="deck">
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <linearGradient id="deckRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="hsl(207,58%,34%)"/>
+      <stop offset="55%" stop-color="hsl(200,52%,44%)"/>
+      <stop offset="100%" stop-color="hsl(79,82%,50%)"/>
+    </linearGradient>
+  </defs>
+</svg>
 
-<!-- 01 — Hero -->
+<!-- 01 Hero -->
 <div class="slide active">
   <div class="slide-inner session-div">
     <div class="hero-bg"></div>
     <div class="s-body center">
-      <div class="hero-badge"><span class="dot"></span> Session 02 of 04 · Tauranga · 2026 · Preview</div>
+      <div class="hero-badge"><span class="dot"></span> Session 02 of 04 · Tauranga · 2026</div>
       <h1 class="s-title xl">Where Does AI Actually<br><span class="lime">Save You Time?</span></h1>
       <div class="s-div" style="margin:1.4rem auto;"></div>
-      <p class="s-lead" style="max-width:720px;text-align:center">A 30-minute audit that turns owner-operator complaints about "no time" into a measured, three-task shortlist that pays back inside 30 days.</p>
+      <p class="s-lead" style="max-width:720px;text-align:center">A disciplined audit lane for busy BoP SMEs — pairing this deck with your Time Audit worksheet so you ship <strong style="color:var(--lime)">three pilots</strong> in the next thirty days.</p>
     </div>
-    <div class="s-footer"><span>Nathaniel Baldock · nathanielbaldock.com</span><span>Session 2 of 4 — Time Audit · Preview</span></div>
+    <div class="s-footer"><span>Nathaniel Baldock · nathanielbaldock.com</span><span>Session 2 of 4 — Time Audit</span></div>
   </div>
 </div>
 
-<!-- 02 — Why audit at all -->
+<!-- 02 Wrong question -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Reframe</p>
+      <h2 class="s-title lg">Stop asking<br><span style="color:var(--amber)">&ldquo;What could AI do?&rdquo;</span></h2>
+      <div class="s-div"></div>
+      <div class="quote-box">Ask instead: &ldquo;What do I <em>dread</em> each week purely because it's tedious — and repeats?&rdquo;</div>
+      <p class="s-sub" style="margin-top:2vh">Tedium that repeats has structure. Structured work is compressible.</p>
+    </div>
+    <div class="s-footer"><span>02 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 03 ~60% wedge -->
 <div class="slide">
   <div class="slide-inner dark">
+    <div class="s-body" style="flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:3rem">
+      <div style="flex:1;min-width:280px">
+        <p class="eyebrow">The wedge</p>
+        <h2 class="s-title lg">Roughly<br><span class="lime">60%</span><br>of the week is coordination &amp; admin.</h2>
+        <div class="s-div"></div>
+        <p class="s-sub">Before you optimise tools, quantify the mundane. AI's honest strength today is reclaiming repeatable hours — not &ldquo;moonshots&rdquo;.</p>
+        <div class="stat-card dark-stat" data-modal="pwc_admin_60" style="margin-top:2vh">
+          <div class="s-num">PwC lens</div>
+          <div class="s-label">Professional week composition — NZ AI Jobs Barometer framing</div>
+          <div class="s-source">PwC AI Jobs Barometer 2025</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+      <div class="chart-ring" data-progress="60" data-ring-c="326.7256" aria-hidden="true" style="flex-shrink:0">
+        <svg class="chart-ring" viewBox="0 0 120 120" width="208" height="208" xmlns="http://www.w3.org/2000/svg">
+          <circle class="chart-ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+          <circle class="chart-ring-fill" cx="60" cy="60" r="52" fill="none" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)" stroke="url(#deckRingGrad)" stroke-dasharray="326.7256" stroke-dashoffset="326.7256"/>
+          <text x="60" y="56" class="ring-center-text" style="font-size:26px">~60%</text>
+          <text x="60" y="78" class="ring-sub-text" style="font-size:10px">&nbsp;COORD / ADMIN</text>
+        </svg>
+      </div>
+    </div>
+    <div class="s-footer"><span>03 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 04 Categories -->
+<div class="slide">
+  <div class="slide-inner">
     <div class="s-body">
-      <p class="eyebrow">The case for an audit</p>
-      <h2 class="s-title lg">"I'm too busy" is the<br>wrong starting point.</h2>
+      <p class="eyebrow">Two truths</p>
+      <h2 class="s-title lg">Augmentation<br><span style="color:var(--muted)">&amp;</span> automation.</h2>
       <div class="s-div"></div>
-      <p class="s-sub">If you can't name where the busy lives, you can't compress it. The 30-minute audit is the cheapest unit of work in this whole programme — and the highest-leverage.</p>
+      <p class="s-sub">Every AI win is either you moving faster — or machinery handling a loop. BoP SMEs need both; they fund different budget lines.</p>
+      <div class="split-2">
+        <div class="split-card tinted">
+          <p class="sc-tag">Augmentation</p>
+          <h3 class="sc-title">Think + draft alongside you</h3>
+          <ul class="sc-list">
+            <li>Email, proposals, tenders, scope notes</li>
+            <li>Human reviews before send</li>
+            <li>Fastest ROI; lowest IT drag</li>
+          </ul>
+        </div>
+        <div class="split-card tinted-lime">
+          <p class="sc-tag">Automation</p>
+          <h3 class="sc-title">Loop runs without babysitting</h3>
+          <ul class="sc-list">
+            <li>Posting, ingest, OCR, tagging, summaries</li>
+            <li>Needs guardrails + logging</li>
+            <li>Best after augmentation proves the workflow</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>04 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 05 Seven spheres -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Task families</p>
+      <h2 class="s-title lg">Seven families<br>BoP handles <span class="lime">reliably</span> today.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Use them as headings when you transcribe Last Friday's workload — not theology. Ring intensity is illustrative, not benchmarking.</p>
+      <div class="sphere-grid">
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="74" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Email&nbsp;&amp;<br/>quotes</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="68" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Social&nbsp;&amp;<br/>content</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="71" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">FAQ&nbsp;/<br/>knowledge</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="76" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Reports&nbsp;&amp;<br/>recaps</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="62" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Sched&shy;uling</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="65" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Book&amp;<br/>reconcile</div>
+        </div>
+        <div class="sphere-cell">
+          <svg class="mini-ring" viewBox="0 0 80 80" data-progress="79" data-ring-c="138.2301" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="40" cy="40" r="22" fill="none" stroke-width="7"/>
+            <circle class="mini-ring-fill chart-ring-fill" cx="40" cy="40" r="22" fill="none" stroke-width="7" stroke-linecap="round" transform="rotate(-90 40 40)" stroke="url(#deckRingGrad)" stroke-dasharray="138.2301" stroke-dashoffset="138.2301"/>
+          </svg>
+          <div class="sphere-label">Research<br/>gather</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>05 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 06 Weak spots -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Hard limits</p>
+      <h2 class="s-title lg">Three things AI still<br><span style="color:var(--red)">fumbles</span> for SMEs.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">If your pilot sits here, widen the human checkpoint — don't delete the pilot.</p>
       <div class="stat-row">
-        <div class="stat-card dark-stat" data-modal="expertise_gap_43">
+        <div class="stat-card red">
+          <div class="s-num">Judge</div>
+          <div class="s-label">Duty-of-care pricing, escalation calls, nuanced HR</div>
+          <div class="s-source">Keep human verdict</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="s-num">Trust</div>
+          <div class="s-label">Relationships you can't outsource to a autocomplete</div>
+          <div class="s-source">Brand lives here</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="s-num">Novel</div>
+          <div class="s-label">Brand-new engagements with ambiguous scope</div>
+          <div class="s-source">Prototype manually first</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>06 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 07 Divider -->
+<div class="slide">
+  <div class="slide-inner dark photo-port">
+    <div class="s-body center">
+      <p class="eyebrow">Your audit lane</p>
+      <h2 class="s-title xl">Now map<br><span class="lime">your</span> week.</h2>
+      <div class="s-div" style="margin:1.5rem auto;"></div>
+      <p class="s-lead" style="text-align:center;max-width:640px;color:rgba(255,255,255,.66)">When the harbour moves cargo this fast (Port of Tauranga context — supply chains compress), your quoting cadence has to compress too. Audit first.</p>
+    </div>
+    <div class="s-footer"><span>07 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 08 Bars -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">Step 1</p>
+      <h2 class="s-title lg">List repetitions —<br>start with NZ SME <span style="color:var(--sky)">averages</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Illustrative weighting — replace with your real hours from Friday's calendar scrape.</p>
+      <div class="chart-hbars">
+        <div class="chart-hbar"><span class="lab">Quotations&nbsp;&amp; proposals</span><div class="track"><div class="chart-hbar-fill" data-w="88"></div></div></div>
+        <div class="chart-hbar"><span class="lab">Inbox&nbsp;&amp; scheduling</span><div class="track"><div class="chart-hbar-fill" data-w="76"></div></div></div>
+        <div class="chart-hbar"><span class="lab">Finance prep</span><div class="track"><div class="chart-hbar-fill" data-w="62"></div></div></div>
+        <div class="chart-hbar"><span class="lab">Compliance forms</span><div class="track"><div class="chart-hbar-fill" data-w="54"></div></div></div>
+        <div class="chart-hbar"><span class="lab">Customer follow‑ups</span><div class="track"><div class="chart-hbar-fill" data-w="70"></div></div></div>
+      </div>
+      <div class="stat-row" style="margin-top:2vh">
+        <div class="stat-card amber" data-modal="expertise_gap_43">
           <div class="s-num"><span class="count-up" data-target="43" data-suffix="%">0</span></div>
-          <div class="s-label">Of NZ non-users cite lack of expertise — not time — as the blocker</div>
-          <div class="s-source">MBIE, 2025</div><div class="click-hint">Source</div>
+          <div class="s-label">Non‑users cite lack of expertise — not laziness — as blocker</div>
+          <div class="s-source">MBIE • 2025</div><div class="click-hint">Source</div>
         </div>
-        <div class="stat-card dark-stat" data-modal="skills_change_66">
-          <div class="s-num"><span class="count-up" data-target="66" data-suffix="%">0</span></div>
-          <div class="s-label">Faster skills change in AI-exposed roles — most owners haven't priced this in</div>
-          <div class="s-source">PwC, 2025</div><div class="click-hint">Source</div>
-        </div>
-        <div class="stat-card dark-stat" data-modal="bm_2026">
-          <div class="s-num">Plan</div>
-          <div class="s-label">A planning frame from Business Mentors NZ — useful pre-reading</div>
+        <div class="stat-card" data-modal="bm_2026">
+          <div class="s-num">Plan&nbsp;26</div>
+          <div class="s-label">BMNZ publishes an AI-aware planning scaffold — useful pre-reading</div>
           <div class="s-source">Business Mentors NZ</div><div class="click-hint">Source</div>
         </div>
       </div>
     </div>
-    <div class="s-footer"><span>02 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+    <div class="s-footer"><span>08 / 22</span><span>Session 2 — Time Audit</span></div>
   </div>
 </div>
 
-<!-- 03 — The 4 categories -->
-<div class="slide">
-  <div class="slide-inner">
-    <div class="s-body">
-      <p class="eyebrow">The taxonomy</p>
-      <h2 class="s-title lg">Every owner-operator hour falls into <span style="color:var(--sky)">one of four buckets</span>.</h2>
-      <div class="s-div"></div>
-      <p class="s-sub">Sort your week into these four. The ratio is your business model. The compression target lives almost entirely in the first two.</p>
-      <div class="num-list">
-        <div class="num-item">
-          <div class="num-circle">1</div>
-          <div><div class="num-title">Repeatable admin</div><div class="num-body">Quoting, invoicing, scheduling, reporting. AI's strongest current ground. 60–80% achievable compression.</div></div>
-        </div>
-        <div class="num-item">
-          <div class="num-circle lime">2</div>
-          <div><div class="num-title">First-draft creative / writing</div><div class="num-body">Proposals, marketing copy, social posts. Big speed-up — human review still required.</div></div>
-        </div>
-        <div class="num-item">
-          <div class="num-circle gold">3</div>
-          <div><div class="num-title">Decisions / judgement</div><div class="num-body">Pricing, hiring, performance, customer escalations. AI assists, never decides.</div></div>
-        </div>
-        <div class="num-item">
-          <div class="num-circle red">4</div>
-          <div><div class="num-title">Relationship / brand</div><div class="num-body">In-person sales, partner relationships, on-site presence. Stays human.</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="s-footer"><span>03 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
-  </div>
-</div>
-
-<!-- 04 — Where time actually goes (BoP-specific examples) -->
-<div class="slide">
-  <div class="slide-inner warm">
-    <div class="s-body">
-      <p class="eyebrow">Local examples</p>
-      <h2 class="s-title lg">Where BoP owners actually <span style="color:var(--lime-d)">find</span> the time.</h2>
-      <div class="s-div"></div>
-      <p class="s-sub">Cross-section from Tauranga Business Chamber AI capability cohorts plus client work. Not exhaustive — illustrative.</p>
-      <div class="split-2">
-        <div class="split-card tinted">
-          <p class="sc-tag">Trades / construction</p>
-          <ul class="sc-list">
-            <li>Quote drafting from job-site notes — saves 4–6 hrs/week</li>
-            <li>Auto-generated SOWs from photo + transcript</li>
-            <li>Subcontractor email triage</li>
-            <li>Compliance form first-drafts</li>
-          </ul>
-        </div>
-        <div class="split-card tinted-lime">
-          <p class="sc-tag">Hospitality / tourism</p>
-          <ul class="sc-list">
-            <li>Roster scheduling assistance</li>
-            <li>Personalised follow-up after stays</li>
-            <li>Menu / promo copy in seconds</li>
-            <li>Multilingual customer responses</li>
-          </ul>
-        </div>
-      </div>
-      <div class="callout"><strong>The pattern:</strong> the wins are unglamorous. Repeatable admin, written tasks, follow-up. Not the launch features that get attention — the boring 70% of the week.</div>
-    </div>
-    <div class="s-footer"><span>04 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
-  </div>
-</div>
-
-<!-- 05 — The 30-min audit -->
+<!-- 09 Sandwich -->
 <div class="slide">
   <div class="slide-inner dark2">
     <div class="s-body">
-      <p class="eyebrow">The audit, walked</p>
-      <h2 class="s-title lg">30 minutes. Three columns.<br>Three pilots.</h2>
+      <p class="eyebrow">Step 2</p>
+      <h2 class="s-title lg">Score AI suitability:<br><span class="lime">volume · variability · stakes</span>.</h2>
       <div class="s-div"></div>
-      <p class="s-sub">Open the Time Audit worksheet (in your pack). Set a 30-minute timer. Don't optimise — answer the questions and move on. The compression goes on the second pass.</p>
-      <div class="num-list">
-        <div class="num-item">
-          <div class="num-circle lime">A</div>
-          <div><div class="num-title">List the top 10 tasks you did this week</div><div class="num-body">Owner only. Not the team. Use last Friday's calendar as a memory aid.</div></div>
+      <p class="s-sub">High volume + low variability + low reputational stakes = textbook pilot tier.</p>
+      <div class="sandwich-stack">
+        <div class="sandwich-layer">
+          <div class="sandwich-num">V</div>
+          <div><div class="num-title">Volume</div><div class="num-body">Hours per fortnight wasted on the same keystrokes?</div></div>
         </div>
-        <div class="num-item">
-          <div class="num-circle">B</div>
-          <div><div class="num-title">Tag each: Admin / Creative / Decision / Relationship</div><div class="num-body">If you can't decide, default to Admin. The honest disagreement is the audit working.</div></div>
+        <div class="sandwich-layer">
+          <div class="sandwich-num" style="background:linear-gradient(135deg,var(--lime-d),var(--sky))">V</div>
+          <div><div class="num-title">Variability</div><div class="num-body">Does every instance look different or is pattern stable?</div></div>
         </div>
-        <div class="num-item">
-          <div class="num-circle gold">C</div>
-          <div><div class="num-title">Rank the Admin and Creative items by hours</div><div class="num-body">Top three are your pilots. Pick a tool for each and book a 30-day review on the calendar before you close the worksheet.</div></div>
+        <div class="sandwich-layer">
+          <div class="sandwich-num" style="background:linear-gradient(135deg,var(--amber),var(--red))">S</div>
+          <div><div class="num-title">Stakes</div><div class="num-body">If the draft is wrong badly, what's the fallout — reputational vs recoverable?</div></div>
         </div>
       </div>
     </div>
-    <div class="s-footer"><span>05 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+    <div class="s-footer"><span>09 / 22</span><span>Session 2 — Time Audit</span></div>
   </div>
 </div>
 
-<!-- 06 — One worked example -->
+<!-- 10 VBars -->
 <div class="slide">
   <div class="slide-inner">
     <div class="s-body">
-      <p class="eyebrow">A worked example</p>
-      <h2 class="s-title lg">A real BoP owner, three pilots, <span style="color:var(--lime-d)">12 hours</span> back.</h2>
+      <p class="eyebrow">Step 3</p>
+      <h2 class="s-title lg">Estimate <span style="color:var(--lime-d)">hours back</span> per pilot.</h2>
       <div class="s-div"></div>
-      <p class="s-sub">Anonymised but representative. Trades business, 6 staff, owner-operator, December 2025 audit.</p>
-      <div class="split-2">
-        <div class="split-card tinted-red">
-          <p class="sc-tag">Before — owner's typical week</p>
-          <ul class="sc-list">
-            <li>11 hrs quoting, mostly evenings</li>
-            <li>4 hrs invoicing / reconciling</li>
-            <li>3 hrs subbie email triage</li>
-            <li>2 hrs writing job-completion reports</li>
-          </ul>
-        </div>
-        <div class="split-card tinted-lime">
-          <p class="sc-tag">After — three pilots, 30 days in</p>
-          <ul class="sc-list">
-            <li>Quotes drafted from photos + voice notes (save 6 hrs)</li>
-            <li>Bank reconciliation auto-categorised (save 2 hrs)</li>
-            <li>Email triage rules + drafted replies (save 4 hrs)</li>
-            <li>Reports left as-is — already efficient</li>
-          </ul>
-        </div>
+      <p class="s-sub">Illustrative model — sanity-check totals against your workbook numbers.</p>
+      <div class="chart-vcols">
+        <div class="chart-vcol"><div class="chart-vbar"><div class="chart-vbar-fill" data-h="82"></div></div><span class="cv-lab">Quotes</span></div>
+        <div class="chart-vcol"><div class="chart-vbar"><div class="chart-vbar-fill" data-h="64"></div></div><span class="cv-lab">Inbox</span></div>
+        <div class="chart-vcol"><div class="chart-vbar"><div class="chart-vbar-fill" data-h="48"></div></div><span class="cv-lab">Reports</span></div>
+        <div class="chart-vcol"><div class="chart-vbar"><div class="chart-vbar-fill" data-h="71"></div></div><span class="cv-lab">Schedule</span></div>
+        <div class="chart-vcol"><div class="chart-vbar"><div class="chart-vbar-fill" data-h="56"></div></div><span class="cv-lab">Finance</span></div>
       </div>
-      <div class="callout green"><strong>Net:</strong> 12 hrs/week recovered. Cost of tools ~$140 NZD/month. Owner now finishes evenings at home, not at the desk.</div>
+      <div class="callout lime"><strong>Budget reality:</strong> multiply reclaimed hours × your billed hourly equiv to see revenue opportunity — keeps pilots honest vs toy shopping.</div>
     </div>
-    <div class="s-footer"><span>06 / preview</span><span>Session 2 — Time Audit · Preview</span></div>
+    <div class="s-footer"><span>10 / 22</span><span>Session 2 — Time Audit</span></div>
   </div>
 </div>
 
-<!-- 07 — Coming soon -->
+<!-- 11 52 min -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body" style="align-items:center">
+      <p class="eyebrow">Reality anchor</p>
+      <div class="chart-row">
+        <div class="chart-ring" data-progress="17" data-ring-c="326.7256">
+          <svg class="chart-ring" viewBox="0 0 120 120" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <circle class="chart-ring-track" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+            <circle class="chart-ring-fill" cx="60" cy="60" r="52" fill="none" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)" stroke="url(#deckRingGrad)" stroke-dasharray="326.7256" stroke-dashoffset="326.7256"/>
+            <text x="60" y="54" class="ring-center-text" style="font-size:21px">&asymp;1hr</text>
+            <text x="60" y="78" class="ring-sub-text">BACK / DAY · EARLY</text>
+          </svg>
+        </div>
+        <div style="max-width:520px;text-align:left">
+          <h2 class="s-title lg">PwC:&nbsp;reclaimed time shows up faster than CFO models predict.</h2>
+          <div class="s-div"></div>
+          <p class="s-sub">Think &ldquo;roughly one focused hour/day&rdquo; when pilots are framed + measured honestly — enough to defend the experiment to a sceptical spouse or board.</p>
+          <div class="stat-card dark-stat" data-modal="pwc_daily_reclaimed">
+            <div class="s-num">Evidence</div>
+            <div class="s-label">PwC NZ AI Jobs Barometer — reclaimed minutes in mature pilots</div>
+            <div class="s-source">PwC AI Jobs Barometer 2025</div><div class="click-hint">Source</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>11 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 12 Lever grid -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Starter stack · NZ-realistic</p>
+      <h2 class="s-title lg">Four levers BoP SMEs actually <span style="color:var(--lime-d)">touch</span> this quarter.</h2>
+      <div class="s-div"></div>
+      <div class="lever-grid">
+        <div class="lever-tile"><div class="lever-k">LLM workspace</div><div class="lever-t">ChatGPT / Claude workspace</div><div class="lever-d">Policy + prompts + reviewer — team chat stays out until governed.</div></div>
+        <div class="lever-tile"><div class="lever-k">Finance layer</div><div class="lever-t">Xero + bank rules + AI aids</div><div class="lever-d">Reconciliation first — automation second.</div></div>
+        <div class="lever-tile"><div class="lever-k">Creative velocity</div><div class="lever-t">Canva / Adobe generative tools</div><div class="lever-d">Marketing throughput without hiring an agency seat.</div></div>
+        <div class="lever-tile"><div class="lever-k">Meetings fabric</div><div class="lever-t">Zoom / Teams AI notes</div><div class="lever-d">Turn chatter into accountable tasks.</div></div>
+      </div>
+      <div class="stat-card gold" data-modal="biz_govt_safe_smart" style="cursor:pointer;margin-top:1vh">
+        <div class="s-num">Gov</div>
+        <div class="s-label">&ldquo;Safe &amp; Smart AI Use&rdquo; — baseline disclosure &amp; staff policy prompts</div>
+        <div class="s-source">business.govt.nz</div><div class="click-hint">Source</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>12 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 13 ASB -->
+<div class="slide">
+  <div class="slide-inner dark photo-port">
+    <div class="s-body">
+      <p class="eyebrow">Local signal · finance</p>
+      <div class="quote-box" style="border-left-color:rgba(147,217,17,.75);background:rgba(5,24,54,.72)">&ldquo;Virtual assistants materially moved CX scores when staffed as copilots, not replacements.&rdquo;<span class="quote-attrib">ASB rollout · cited via FintechNZ / RBNZ ecosystem reporting</span></div>
+      <div class="stat-row">
+        <div class="stat-card dark-stat" data-modal="asb_30">
+          <div class="s-num"><span class="count-up" data-target="30" data-suffix="%">0</span></div>
+          <div class="s-label">Increase in satisfaction post AI-assisted service experiments</div>
+          <div class="s-source">FintechNZ / ASB pilots</div><div class="click-hint">Source</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-footer"><span>13 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 14 Halter -->
+<div class="slide">
+  <div class="slide-inner warm photo-orchard" style="position:relative">
+    <div class="orchard-photo-layer" aria-hidden="true"></div>
+    <div class="s-body" style="position:relative;z-index:1">
+      <p class="eyebrow">Ag · BoP halo</p>
+      <h2 class="s-title lg">Halter proves capital still funds<br><span style="color:var(--lime-d)">NZ AI field ops</span>.</h2>
+      <div class="s-div"></div>
+      <p class="s-sub">Not every SME is agritech — but your suppliers are watching these rounds. Expect faster digitisation mandates downward through the BoP cluster.</p>
+      <div class="stat-card green" data-modal="halter_220m">
+        <div class="s-num">US $220M</div>
+        <div class="s-label">Series E for AI-augmented pastoral management</div>
+        <div class="s-source">Nucamp · Top AI startups NZ 2026</div><div class="click-hint">Source</div>
+      </div>
+      <div class="callout"><strong>For tradies feeding hort:</strong> if orchards tighten traceability AI, you'll see it in QA checklists inbound — preload your pilots.</div>
+    </div>
+    <div class="s-footer" style="position:relative;z-index:1"><span>14 / 22</span><span>Session 2 · Kiwifruit imagery</span></div>
+  </div>
+</div>
+
+<!-- 15 Scentian -->
+<div class="slide">
+  <div class="slide-inner dark2 photo-orchard" style="position:relative">
+    <div class="orchard-photo-layer" aria-hidden="true" style="opacity:.35"></div>
+    <div class="s-body" style="position:relative;z-index:1">
+      <p class="eyebrow">Zespri supply cluster</p>
+      <h2 class="s-title lg">Scentian + Zespri<br>brought <span class="lime">sensor AI</span> into real fruit trials.</h2>
+      <div class="s-div"></div>
+      <div class="split-card tinted-lime" data-modal="scentian_bio" style="cursor:pointer;background:rgba(20,42,62,.92);border-color:rgba(147,217,17,.38)">
+        <p class="sc-tag">AgFunder coverage</p>
+        <h3 class="sc-title" style="color:var(--white)">Biosensor deployments at global kiwifruit scale</h3>
+        <ul class="sc-list">
+          <li>Signals BoP exporters expect data-first QA</li>
+          <li>Smaller operators should mirror simplicity: log + classify + escalate</li>
+        </ul>
+        <p style="margin-top:1rem;font-size:.72rem;color:var(--lime);font-weight:700;text-transform:uppercase;letter-spacing:.12em">Tap for bibliography detail</p>
+      </div>
+    </div>
+    <div class="s-footer" style="position:relative;z-index:1"><span>15 / 22</span><span>Session 2 · Scentian + Zespri</span></div>
+  </div>
+</div>
+
+<!-- 16 ROI -->
+<div class="slide">
+  <div class="slide-inner">
+    <div class="s-body">
+      <p class="eyebrow">What good ROI looks like</p>
+      <h2 class="s-title lg">Hours &rarr; revenue &rarr;<br><span style="color:var(--sky)">headcount equivalent.</span></h2>
+      <div class="s-div"></div>
+      <div class="num-list">
+        <div class="num-item"><div class="num-circle">1</div><div><div class="num-title">Recover verifiable weekly hours per pilot</div><div class="num-body">Screenshot logs or calendar deltas — anecdotes don't survive board scrutiny.</div></div></div>
+        <div class="num-item"><div class="num-circle lime">2</div><div><div class="num-title">Convert time @ your effective billable rate</div><div class="num-body">Even internal admin uses a shadow rate so trade-offs vs hiring stay honest.</div></div></div>
+        <div class="num-item"><div class="num-circle gold">3</div><div><div class="num-title">Compare vs part-time wage you'd pay to brute-force the workload</div><div class="num-body">If AI + senior review beats 0.4 FTE, you have a capex narrative.</div></div></div>
+      </div>
+    </div>
+    <div class="s-footer"><span>16 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 17 Trap -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body center">
+      <p class="eyebrow">Discipline trap</p>
+      <div class="callout red" style="max-width:760px;text-align:left;margin:0 auto">
+        <strong>Small wins litter — none compound.</strong> If you're running eight toys at 8% adoption each, pause. Maximum <strong style="font-size:1.05em;color:var(--red)">three</strong> tasks for thirty days — then retrospective.
+      </div>
+      <div class="stat-card dark-stat" style="margin-top:3vh;max-width:640px;text-align:left" data-modal="skills_change_66">
+        <div class="s-num"><span class="count-up" data-target="66" data-suffix="%">0</span></div>
+        <div class="s-label">Skills demand velocity gap between AI-exposed vs insulated roles — your team feels this even if dashboards don't.</div>
+        <div class="s-source">PwC AI Jobs Barometer 2025</div><div class="click-hint">Source</div>
+      </div>
+    </div>
+    <div class="s-footer"><span>17 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 18 worksheet iframe -->
+<div class="slide">
+  <div class="slide-inner warm">
+    <div class="s-body">
+      <p class="eyebrow">Hands-on lane</p>
+      <h2 class="s-title lg">Open the worksheet —<br><span style="color:var(--lime-d)">live</span>.</h2>
+      <div class="s-div"></div>
+      <div class="worksheet-frame-wrap">
+        <iframe class="worksheet-frame" title="Time Audit worksheet — Tauranga SME" src="/worksheets/tauranga-sme/time-audit.html" loading="lazy"></iframe>
+      </div>
+      <p class="sf-note">Scroll inside the pane · data stays in your browser until you submit elsewhere.</p>
+    </div>
+    <div class="s-footer"><span>18 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 19 Food fibre -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body">
+      <p class="eyebrow">Food &amp; fibre cautions</p>
+      <h2 class="s-title lg">AI spend is exploding — but<br><span style="color:var(--amber)">CAPEX ages</span> faster than models.</h2>
+      <div class="s-div"></div>
+      <div class="stat-card amber" data-modal="food_fibre_cagr">
+        <div class="s-num"><span class="count-up" data-target="38" data-suffix="%">0</span></div>
+        <div class="s-label">Projected CAGR for AI tooling across food/bev stacks (international comps)</div>
+        <div class="s-source">MPI AI snapshot • 2025</div><div class="click-hint">Source</div>
+      </div>
+      <div class="callout gold"><strong>Translation:</strong> pair every software pilot with one maintenance KPI — downtime, defect rate or scrap hours — so capex defenders see the bottleneck.</div>
+    </div>
+    <div class="s-footer"><span>19 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 20 30-day plan -->
 <div class="slide">
   <div class="slide-inner session-div">
-    <div class="hero-bg"></div>
-    <div class="cs-body">
-      <span class="cs-pill"><span class="dot"></span> Full session releases on launch</span>
-      <h2 class="cs-title">Coming soon. <em>Recording in progress.</em></h2>
-      <div class="cs-divider"></div>
-      <p class="cs-desc">Sessions 2–4 are being built. Buyers of any tier are notified the moment each one ships — no extra fee. Skip the line and book a 1:1 if you want this conversation now.</p>
-      <p style="font-size:.78rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.16em;font-weight:700">Email questions: hello@nathanielbaldock.com</p>
+    <div class="s-body center">
+      <p class="eyebrow">Your 30‑day runway</p>
+      <div class="action-band" style="max-width:1000px;margin:2vh auto 0">
+        <div class="action-tile">
+          <div class="num">01</div>
+          <div class="txt">Lock three pilots with owners named.</div>
+          <div class="sub">No more net-new tools during the window.</div>
+        </div>
+        <div class="action-tile">
+          <div class="num">02</div>
+          <div class="txt">Instrument before/after hours.</div>
+          <div class="sub">Same week pattern pre/post avoids lying to yourself.</div>
+        </div>
+        <div class="action-tile">
+          <div class="num">03</div>
+          <div class="txt">Debrief Friday week four.</div>
+          <div class="sub">Keep / tweak / kill — evidence-led.</div>
+        </div>
+      </div>
+      <div class="stat-card" data-modal="pilot_funding" style="cursor:pointer;margin-top:3vh;max-width:640px;text-align:left;background:rgba(255,255,255,.08);border-color:rgba(147,217,17,.42)">
+        <div class="s-num">$765k Pilot</div>
+        <div class="s-label">RBPN-funded adoption planning — Priority One adjudicates eligibility. Bring this audit + Session 1 readiness pack.</div>
+        <div class="s-source">Beehive.govt.nz • Jan&nbsp;2026</div><div class="click-hint">Source</div>
+      </div>
     </div>
-    <div class="s-footer"><span>07 / preview · end of preview</span><span>Session 2 — Time Audit · Coming soon</span></div>
+    <div class="s-footer"><span>20 / 22</span><span>Session 2 — Time Audit</span></div>
+  </div>
+</div>
+
+<!-- 21 bibliography -->
+<div class="slide">
+  <div class="slide-inner dark">
+    <div class="s-body">
+      <p class="eyebrow">Sources · Session 2</p>
+      <h2 class="s-title md">Session-specific bibliography (<span class="lime">numbered fresh</span>).</h2>
+      <div class="s-div"></div>
+      <p class="s-sub" style="margin-bottom:1.4vh">Click any stat chip throughout the deck to open the citation modal.</p>
+      <div id="bib-host" class="bib-list"></div>
+    </div>
+    <div class="s-footer"><span>21 / 22</span><span>Session 2 · Bibliography</span></div>
+  </div>
+</div>
+
+<!-- 22 Bridge -->
+<div class="slide">
+  <div class="slide-inner dark2">
+    <div class="s-body center">
+      <p class="eyebrow">Up next · Session 3</p>
+      <h2 class="s-title xl">&ldquo;AI and Your Team — The Conversation You <span class="lime">Have</span> to Have.&rdquo;</h2>
+      <div class="s-div" style="margin:1.5rem auto;"></div>
+      <p class="s-lead" style="text-align:center;max-width:640px">You've mapped time — now steward morale, fairness, upskilling, and Māori-data respect before tools hit production.</p>
+    </div>
+    <div class="s-footer"><span>22 / 22</span><span>Session 2 · Bridge</span></div>
   </div>
 </div>
 
 </div>
 
 <script src="../_shared/modal-db.js"></script>
+<script src="../_shared/deck-charts.js"></script>
 <script src="../_shared/deck.js"></script>
 </body>
 </html>

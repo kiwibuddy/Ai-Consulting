@@ -87,22 +87,25 @@ const SESSIONS: SessionPreview[] = [
   {
     number: 2,
     title: "Where Does AI Actually Save You Time?",
-    blurb: "Hero + 5 slides preview. Full release on launch — buyers of any tier get notified the moment it ships.",
-    status: "preview",
+    blurb:
+      "Full 22 slides — augmentation vs automation, animated audit visuals, worksheet iframe slide, NZ tool stack lane, local cases (ASB, Halter, Zespri-era biosensor story), Pilot pathway.",
+    status: "live",
     href: "/resources/worksheet/tauranga-sme-presentation-time-audit",
   },
   {
     number: 3,
     title: "AI and Your Team — The Conversation",
-    blurb: "Hero + 5 slides preview. Full release on launch.",
-    status: "preview",
+    blurb:
+      "Employer scripting for stability, Māori workforce context & Toi Ki Tua, upskilling lever grid, Employment NZ good-faith escalation guardrails.",
+    status: "live",
     href: "/resources/worksheet/tauranga-sme-presentation-team",
   },
   {
     number: 4,
     title: "Staying Legal — NZ Privacy & Copyright",
-    blurb: "Hero + 5 slides preview. Full release on launch.",
-    status: "preview",
+    blurb:
+      "Privacy IPPs & PIAs, copyright + originality framing, Māori Data Sovereignty runway, CDR spillover, and when to brief counsel.",
+    status: "live",
     href: "/resources/worksheet/tauranga-sme-presentation-legal",
   },
 ];
@@ -126,7 +129,7 @@ const FAQ: FAQItem[] = [
   {
     question: "When do Sessions 2–4 actually land?",
     answer:
-      "Hero + 5 slides each are live now as a preview. Full sessions ship in waves over the following weeks. Buyers get an automatic email the moment each one is ready — no extra fee.",
+      "All four decks are shipping as full ~22-slide HTML sessions with clickable citations — Session 2 (Time Audit) includes animated audit charts plus an embedded worksheet slide. Your access email links to each deck.",
   },
   {
     question: "Are these prices in NZD? GST?",

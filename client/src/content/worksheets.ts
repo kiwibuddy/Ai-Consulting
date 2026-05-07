@@ -462,8 +462,7 @@ export const worksheets: WorksheetItem[] = [
     showInResources: false,
   },
 
-  // Full Session 1 deck is listed under Presentations; Sessions 2–4 remain
-  // routable from sales email but hidden from /resources until the full decks ship.
+  // Full-session HTML decks live under worksheets/tauranga-sme/presentation/* (22 slides each).
   {
     id: "tauranga-sme-presentation-readiness",
     title: "Session 1 — Ready or Not? An Honest Tauranga AI Readiness Check",
@@ -480,9 +479,9 @@ export const worksheets: WorksheetItem[] = [
   },
   {
     id: "tauranga-sme-presentation-time-audit",
-    title: "Session 2 — Where Does AI Actually Save You Time? (Preview)",
+    title: "Session 2 — Where Does AI Actually Save You Time?",
     description:
-      "Preview frame for the Time Audit deck — hero plus the first five slides. Full release coming soon. Buyers of any tier are notified the moment it ships.",
+      "Full 22-slide companion to the Time Audit worksheet — augmentation vs automation, seven task families, animated audit charts, local ASB/Halter/Zespri context, worksheet iframe slide, Pilot pathway. Every citation opens its source modal.",
     url: "/resources/worksheet/tauranga-sme-presentation-time-audit",
     iframeSrc: "/worksheets/tauranga-sme/presentation/02-time-audit/index.html",
     shareImage: "/images/worksheets/tauranga-sme-presentation-time-audit.svg",
@@ -491,13 +490,12 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
-    showInResources: false,
   },
   {
     id: "tauranga-sme-presentation-team",
-    title: "Session 3 — AI and Your Team — The Conversation You Have to Have (Preview)",
+    title: "Session 3 — AI and Your Team — The Conversation You Have to Have",
     description:
-      "Preview frame for the Team deck — hero plus the first five slides. Full release coming soon.",
+      "Full 22-slide employer script — skills velocity, RBNZ exposure context, BoP workforce stats, Te Ao Māori & Toi Ki Tua, privacy red lines, upskilling grid, Employment NZ good-faith anchor. Session-specific bibliography.",
     url: "/resources/worksheet/tauranga-sme-presentation-team",
     iframeSrc: "/worksheets/tauranga-sme/presentation/03-team/index.html",
     shareImage: "/images/worksheets/tauranga-sme-presentation-team.svg",
@@ -506,13 +504,12 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
-    showInResources: false,
   },
   {
     id: "tauranga-sme-presentation-legal",
-    title: "Session 4 — Staying Legal — NZ Privacy & Copyright (Preview)",
+    title: "Session 4 — Staying Legal — NZ Privacy & Copyright",
     description:
-      "Preview frame for the Legal deck — hero plus the first five slides. Full release coming soon.",
+      "Full 22-slide legal primer — thirteen IPPs, OPC expectations, PIAs, copyright & originality for AI outputs, Māori Data Sovereignty checklist runway, CDR spillover, Adoption Plan artefacts, when to escalate to counsel.",
     url: "/resources/worksheet/tauranga-sme-presentation-legal",
     iframeSrc: "/worksheets/tauranga-sme/presentation/04-legal/index.html",
     shareImage: "/images/worksheets/tauranga-sme-presentation-legal.svg",
@@ -521,7 +518,6 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
-    showInResources: false,
   },
 ];
 

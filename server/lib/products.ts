@@ -40,7 +40,7 @@ export const TAURANGA_PRODUCTS: ServerProduct[] = [
     includes: [
       "All 4 fillable worksheets (Readiness, Time Audit, Team, Legal)",
       "Session 1 — full 22-slide deck with citations",
-      "Sessions 2–4 — preview frames now, full release on launch",
+      "Sessions 2–4 — full 22-slide decks (time audit / team / legal)",
       "Priority One conversation cheat-sheet (1-page)",
       "1× email Q&A within 7 days of purchase",
     ],

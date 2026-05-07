@@ -20,7 +20,7 @@ const tierMeta: Record<Tier, { name: string; nextSteps: string[] }> = {
     name: "AI-Ready Self-Pack",
     nextSteps: [
       "Open the email and click through to the four worksheets in the order listed.",
-      "Watch Session 1 (the 22-slide deck) — it'll only take 25 minutes.",
+      "Work through the four-session HTML decks in order (~25 minutes each) — citations are clickable in every deck.",
       "Reply to the access email with your one Q&A question whenever you're ready.",
     ],
   },

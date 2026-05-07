@@ -13,7 +13,15 @@
   "use strict";
 
   const MD = (typeof window !== "undefined" && window.MODAL_DB) || {};
-  const BIB = (typeof window !== "undefined" && window.BIBLIOGRAPHY) || [];
+  const bibKey =
+    typeof document !== "undefined"
+      ? document.documentElement.getAttribute("data-session-bib")
+      : null;
+  const bibMap = (typeof window !== "undefined" && window.BIBLIOGRAPHY_BY_SESSION) || null;
+  const BIB =
+    bibKey && bibMap && bibMap[bibKey] && bibMap[bibKey].length
+      ? bibMap[bibKey]
+      : (typeof window !== "undefined" && window.BIBLIOGRAPHY) || [];
 
   function ready(fn) {
     if (document.readyState !== "loading") fn();
@@ -136,6 +144,9 @@
       cur = n;
       fireCountUps(slides[cur]);
       updNav();
+      if (typeof window.animateDeckCharts === "function") {
+        window.animateDeckCharts(slides[cur]);
+      }
     }
 
     // ── Modal ─────────────────────────────────────────────────
@@ -230,6 +241,9 @@
 
     // First slide
     fireCountUps(slides[0]);
+    if (typeof window.animateDeckCharts === "function") {
+      window.animateDeckCharts(slides[0]);
+    }
     updNav();
   });
 })();

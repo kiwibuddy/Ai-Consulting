@@ -14,7 +14,6 @@ import {
   tesoroEase,
 } from "@/lib/animations";
 import { ArrowRight, Play, FileText, ExternalLink, ClipboardList } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
@@ -74,13 +73,11 @@ const deepDiveWaveHeights = [
 ];
 
 /**
- * Worksheet hero art — same `<img>` pattern as Articles & essays (plain `/public` paths).
- * Avoids rewriting to absolute URLs / multi-origin retries that could fire `error` bursts
- * and prematurely show the clipboard placeholder via stale retry state.
+ * Worksheet hero art — same layout as Articles & essays: fixed aspect frame + full-bleed cover.
+ * Wrapper avoids odd flex/aspect interactions some browsers show with SVGs in an `<img>`.
  */
 function WorksheetCardThumbnail({ src }: { src: string }) {
   const [broken, setBroken] = useState(false);
-  const isSvg = src.toLowerCase().endsWith(".svg");
 
   if (broken) {
     return (
@@ -91,15 +88,14 @@ function WorksheetCardThumbnail({ src }: { src: string }) {
   }
 
   return (
-    <img
-      src={src}
-      alt=""
-      className={cn(
-        "aspect-video w-full shrink-0 bg-[hsl(210,40%,96%)]",
-        isSvg ? "object-cover object-center" : "object-cover"
-      )}
-      onError={() => setBroken(true)}
-    />
+    <div className="aspect-video w-full shrink-0 bg-neutral-100 overflow-hidden">
+      <img
+        src={src}
+        alt=""
+        className="h-full w-full object-cover"
+        onError={() => setBroken(true)}
+      />
+    </div>
   );
 }
 
@@ -170,10 +166,11 @@ export default function ResourcesPage() {
 
   const renderWorksheetCard = (sheet: WorksheetCardItem) => {
     const sheetExternal = isExternalUrl(sheet.url);
+    const thumbSrc = sheet.thumbnail ?? sheet.shareImage;
     const sheetCard = (
       <>
-        {sheet.thumbnail ? (
-          <WorksheetCardThumbnail src={sheet.thumbnail} />
+        {thumbSrc ? (
+          <WorksheetCardThumbnail src={thumbSrc} />
         ) : (
           <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
             <ClipboardList className="h-12 w-12 text-neutral-300" />

@@ -791,7 +791,8 @@ export function taurangaAccessEmail(
   const tierMeta: Record<typeof tier, { name: string; line: string }> = {
     bronze: {
       name: "AI-Ready Self-Pack",
-      line: "You've got the four worksheets and Session 1 of the deck. Sessions 2–4 land soon — I'll email you the moment they ship.",
+      line:
+        "You've got the four worksheets plus all four 22-slide HTML decks — citation modals on every stat. Watch the walkthrough when you're ready for a guided tour.",
     },
     silver: {
       name: "AI-Ready Implementation Pack",
@@ -871,7 +872,7 @@ export function taurangaAccessEmail(
     ? `
         <h3 style="margin: 28px 0 8px; font-size: 1rem; color: #172032; letter-spacing:-0.02em;">Recorded walkthrough</h3>
         <p style="margin: 0 0 8px;"><a href="${links.videoWalkthrough}" style="color: ${s.accent}; font-weight: 600; text-decoration: none;">Watch the four-session walkthrough →</a></p>
-        <p style="margin: 0; font-size: 13px; color: #737373;">Session 1 is live now. Sessions 2–4 are being recorded and will appear on this page automatically as they land.</p>`
+        <p style="margin: 0; font-size: 13px; color: #737373;">All four decks are live HTML sessions (22 slides each); the walkthrough page mirrors the same structure.</p>`
     : "";
 
   return {
@@ -925,9 +926,9 @@ export function taurangaAccessEmail(
                 <h3 style="margin: 26px 0 10px; font-size: 0.95rem; font-weight: 700; color: #172032; letter-spacing: -0.02em;">The 4-session deck</h3>
                 <table role="presentation" style="width: 100%; border-collapse: collapse; border-radius: 10px; overflow: hidden; border: 1px solid #eceef3;">
                   ${linkRow("Session 1 — Ready or Not? (full 22-slide deck)", links.presentation.session1)}
-                  ${linkRow("Session 2 — Where AI Saves You Time (preview)", links.presentation.session2)}
-                  ${linkRow("Session 3 — AI and Your Team (preview)", links.presentation.session3)}
-                  ${linkRow("Session 4 — Staying Legal (preview)", links.presentation.session4)}
+                  ${linkRow("Session 2 — Where AI Saves You Time (full deck)", links.presentation.session2)}
+                  ${linkRow("Session 3 — AI and Your Team (full deck)", links.presentation.session3)}
+                  ${linkRow("Session 4 — Staying Legal (full deck)", links.presentation.session4)}
                 </table>
 
                 ${videoBlock}

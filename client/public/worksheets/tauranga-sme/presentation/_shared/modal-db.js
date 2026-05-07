@@ -336,6 +336,63 @@
       source: "Priority One, 2025",
       link: "https://www.priorityone.co.nz/2025/08/21/energy-leadership-group-to-lead-the-western-bays-energy-transition/",
     },
+
+    pwc_admin_60: {
+      stat: "~60%",
+      title: "Admin, coordination & non-core work",
+      body:
+        "PwC's Barometer framing for NZ shows the majority of professional time disappearing into coordination, repetitive admin and work that doesn't grow the mission — the practical reason to audit before you vendor-shop.",
+      source: "PwC AI Jobs Barometer 2025 (NZ)",
+      link: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf",
+    },
+    pwc_daily_reclaimed: {
+      stat: "~52 min",
+      title: "Early adopters claw back roughly an hour a day",
+      body:
+        "PwC's analysis flags material time-back in early AI adoption — roughly an hour/day in reclaimed professional time when pilots are scoped and measured honestly. Translation: measure before you boast.",
+      source: "PwC AI Jobs Barometer 2025",
+      link: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf",
+    },
+    toi_ki_tua: {
+      stat: "Toi Ki Tua",
+      title: "Tertiary → AI-intensive internships in the BoP",
+      body:
+        "Toi Kai Rawa Trust's internship pathway bridges tertiary learners into AI-heavy roles alongside organisations like Zespri — concrete workforce development, not a slide slogan.",
+      source: "Priority One / Toi Kai Rawa Trust",
+      link: "https://www.priorityone.co.nz/2023/08/16/unlocking-pathways-to-success-empowering-maori-interns-for-a-thriving-region/",
+    },
+    young_values_trust: {
+      stat: "Values",
+      title: "Young NZ workforce expectations",
+      body:
+        "Survey research on young people's banking habits points to appetite for ethics-forward institutions. Applied to workplaces: ambiguous AI rollout erodes retention; framed, fair rollout builds it.",
+      source: "FintechNZ — The Future Bank",
+      link: "https://fintechnz.org.nz/reports/the-future-bank-starts-here/",
+    },
+    employment_good_faith: {
+      stat: "Good faith",
+      title: "Restructuring & conversation obligations",
+      body:
+        "When roles genuinely change, Employment NZ expects good-faith consultation, fair processes, and redundancy only where restructuring is substantive — AI doesn't suspend the Employment Relations Act.",
+      source: "Employment New Zealand",
+      link: "https://www.employment.govt.nz/ending-employment/redundancy/restructuring/",
+    },
+    originality_standard: {
+      stat: "Originality",
+      title: "Computer-generated works — the originality standard",
+      body:
+        "NZ law recognises some computer-generated works, but originality and contractual ownership remain live questions. Contracts and human review gates matter more than the logo on the AI tool.",
+      source: "AJ Park / Bell Gully summaries",
+      link: "https://www.bellgully.com/insights/do-you-own-your-ai-generated-content-a-summary-for-nz-businesses/",
+    },
+    bop_upskill_pathways: {
+      stat: "Upskill",
+      title: "Credentialed pathways in the BoP",
+      body:
+        "Pair local providers (e.g. Te Pūkenga / Toi Ohomai) with vendor micro-credentials and Priority One workforce programmes so each team member gets a named path, not ad-hoc TikTok tips.",
+      source: "Toi Ohomai Institute of Technology",
+      link: "https://www.toiohomai.ac.nz/",
+    },
   };
 
   const BIBLIOGRAPHY = [
@@ -382,6 +439,56 @@
     { n: 41, title: "Towards our intelligent future — AI Forum NZ", url: "https://aiforum.org.nz/wp-content/uploads/2019/09/Towards-Our-Intelligent-Future-AI-Roadmap-Report.pdf" },
   ];
 
+  const BIBLIOGRAPHY_S2 = [
+    { n: 1, title: "Addressing barriers to AI uptake in NZ — MBIE", url: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/addressing-barriers-to-ai-uptake-in-new-zealand" },
+    { n: 2, title: "PwC — AI Jobs Barometer 2025 (NZ Analysis)", url: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf" },
+    { n: 3, title: "Plan your 2026 business year with AI — Business Mentors NZ", url: "https://www.businessmentors.org.nz/strategic-planning-guide-nz-small-businesses-ai/" },
+    { n: 4, title: "Safe and smart AI use — business.govt.nz", url: "https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use" },
+    { n: 5, title: "The Future Bank starts here — FintechNZ", url: "https://fintechnz.org.nz/reports/the-future-bank-starts-here/" },
+    { n: 6, title: "Top 10 AI Startups to Watch in NZ — Nucamp", url: "https://www.nucamp.co/blog/top-10-ai-startups-nz-2026" },
+    { n: 7, title: "Scentian Bio + Zespri biosensor trial — AgFunderNews", url: "https://agfundernews.com/scentian-bio-deploys-ai-powered-biosensor-tech-in-trial-with-worlds-largest-kiwifruit-marketer" },
+    { n: 8, title: "MPI — AI snapshot across NZ food systems", url: "https://www.mpi.govt.nz/dmsdocument/68112-Artificial-Intelligence-A-snapshot-of-AI-in-New-Zealand-and-global-food-systems" },
+    { n: 9, title: "AI Advisory Pilot — Beehive.govt.nz", url: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai" },
+    { n: 10, title: "PlantTech & BoP horticulture AI — Callaghan Innovation", url: "https://www.callaghaninnovation.govt.nz/stories/research-collaboration-cultivating-growth-bay-plenty/" },
+    { n: 11, title: "NZ AI economy outlook — Microsoft Source", url: "https://news.microsoft.com/source/asia/features/nz-new-ai-economy-report-2025/" },
+  ];
+
+  const BIBLIOGRAPHY_S3 = [
+    { n: 1, title: "PwC — AI Jobs Barometer 2025 (NZ Analysis)", url: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf" },
+    { n: 2, title: "Assessing AI exposure in the NZ labour market — RBNZ Analytical Note", url: "https://www.rbnz.govt.nz/hub/publications/analytical-note/2026/assessing-ai-and-robotics-exposure-in-the-nz-labour-market-using-llms" },
+    { n: 3, title: "Addressing barriers to AI uptake in NZ — MBIE", url: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/addressing-barriers-to-ai-uptake-in-new-zealand" },
+    { n: 4, title: "Toi Ki Tua — empowering Māori interns — Priority One", url: "https://www.priorityone.co.nz/2023/08/16/unlocking-pathways-to-success-empowering-maori-interns-for-a-thriving-region/" },
+    { n: 5, title: "Supporting business and education — Tauranga City Council", url: "https://www.tauranga.govt.nz/Our-Future/Our-Direction/Supporting-business-and-education" },
+    { n: 6, title: "Guidance — AI & the Privacy Act IPPs — OPC", url: "https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" },
+    { n: 7, title: "The Future Bank starts here — FintechNZ", url: "https://fintechnz.org.nz/reports/the-future-bank-starts-here/" },
+    { n: 8, title: "Restructuring and redundancy — Employment New Zealand", url: "https://www.employment.govt.nz/ending-employment/redundancy/restructuring/" },
+    { n: 9, title: "Data sovereignty in NZ — Acronis", url: "https://www.acronis.com/en-nz/blog/posts/data-sovereignty-and-compliance-in-new-zealand/" },
+    { n: 10, title: "Chamber AI capability programme — Tauranga Business Chamber", url: "https://www.tauranga.org.nz/news/chamber-strengthening-digital-and-ai-capability-for-businesses/" },
+    { n: 11, title: "Priority One — regional business news", url: "https://www.priorityone.co.nz/news/" },
+    { n: 12, title: "Toi Ohomai Institute of Technology", url: "https://www.toiohomai.ac.nz/" },
+  ];
+
+  const BIBLIOGRAPHY_S4 = [
+    { n: 1, title: "Guidance — AI & the Privacy Act IPPs — OPC", url: "https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" },
+    { n: 2, title: "AI tools & privacy — Anderson Lloyd", url: "https://www.al.nz/updates/ai-tools-and-privacy-the-opc-releases-new-guidance/" },
+    { n: 3, title: "Do you own your AI-generated content? — Bell Gully", url: "https://www.bellgully.com/insights/do-you-own-your-ai-generated-content-a-summary-for-nz-businesses/" },
+    { n: 4, title: "NZ copyright and artificial intelligence — AJ Park", url: "https://www.ajpark.com/insights/new-zealand-copyright-and-artificial-intelligence/" },
+    { n: 5, title: "Data sovereignty in NZ — Acronis", url: "https://www.acronis.com/en-nz/blog/posts/data-sovereignty-and-compliance-in-new-zealand/" },
+    { n: 6, title: "Te Mana Raraunga — Māori Data Sovereignty Network", url: "https://www.temanararaunga.maori.nz/" },
+    { n: 7, title: "Safe and smart AI use — business.govt.nz", url: "https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use" },
+    { n: 8, title: "Consumer Data Right — MinterEllisonRuddWatts", url: "https://www.minterellison.co.nz/insights/consumer-data-rights-a-focus-on-open-banking-in-new-zealand" },
+    { n: 9, title: "Addressing barriers to AI uptake — MBIE", url: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/addressing-barriers-to-ai-uptake-in-new-zealand" },
+    { n: 10, title: "Towards our intelligent future — AI Forum NZ", url: "https://aiforum.org.nz/wp-content/uploads/2019/09/Towards-Our-Intelligent-Future-AI-Roadmap-Report.pdf" },
+    { n: 11, title: "AI Advisory Pilot — Beehive.govt.nz", url: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai" },
+    { n: 12, title: "NZ SME AI Advisory Pilot — eCommerceNews", url: "https://ecommercenews.co.nz/story/nz-launches-ai-advisory-pilot-for-small-businesses" },
+  ];
+
   global.MODAL_DB = MODAL_DB;
   global.BIBLIOGRAPHY = BIBLIOGRAPHY;
+  global.BIBLIOGRAPHY_BY_SESSION = {
+    s1: BIBLIOGRAPHY,
+    s2: BIBLIOGRAPHY_S2,
+    s3: BIBLIOGRAPHY_S3,
+    s4: BIBLIOGRAPHY_S4,
+  };
 })(typeof window !== "undefined" ? window : globalThis);

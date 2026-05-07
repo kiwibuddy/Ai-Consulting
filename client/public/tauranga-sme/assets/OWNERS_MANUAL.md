@@ -139,7 +139,7 @@ Registered in `**client/src/content/worksheets.ts`**:
 
 - **Bronze:** “Priority One conversation cheat-sheet (1-page)” is in `**products.ts`** / server mirror — ensure buyers receive it (email section, worksheet annex, or static link).
 - **Silver:** “Tool stack recommendation” and “Prep document for Pilot” are **consultant-produced**, not wired in repo.
-- **Sessions 2–4:** Product promises **preview now, full release on launch** — track parity with Session 1 (slides + citations) before marketing “complete programme.”
+- **Sessions 2–4:** Full 22-slide HTML decks are live alongside Session 1 (time-audit charts + worksheet iframe embed, team conversation, legal/MDS). Keep product copy aligned with Reality on `/tauranga-sme`.
 
 ---
 

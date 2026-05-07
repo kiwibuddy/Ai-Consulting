@@ -47,8 +47,8 @@ export const taurangaSmeProducts: Product[] = [
     ctaLabel: "Get the Self-Pack — $197",
     includes: [
       "All 4 fillable worksheets (Readiness, Time Audit, Team, Legal)",
-      "Session 1 — full 22-slide deck with citations",
-      "Sessions 2–4 — preview frames now, full release on launch",
+      "Session 1 — Ready or Not? · full deck with citations",
+      "Sessions 2–4 — full 22-slide decks (time audit charts + worksheet embed, team conversation, legal & MDS)",
       "Priority One conversation cheat-sheet (1-page)",
       "1× email Q&A within 7 days of purchase",
     ],
