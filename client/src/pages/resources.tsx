@@ -13,7 +13,7 @@ import {
   landingViewportReveal,
   tesoroEase,
 } from "@/lib/animations";
-import { ArrowRight, Play, FileText, ExternalLink, ClipboardList } from "lucide-react";
+import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
@@ -71,33 +71,6 @@ const deepDiveWaveHeights = [
   24, 36, 30, 48, 34, 58, 38, 52, 28, 46, 40, 32, 26, 42, 34, 30, 50, 36, 44, 30,
   28, 46, 34, 40, 30, 48, 32, 42,
 ];
-
-/**
- * Worksheet hero art — same layout as Articles & essays: fixed aspect frame + full-bleed cover.
- * Wrapper avoids odd flex/aspect interactions some browsers show with SVGs in an `<img>`.
- */
-function WorksheetCardThumbnail({ src }: { src: string }) {
-  const [broken, setBroken] = useState(false);
-
-  if (broken) {
-    return (
-      <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-        <ClipboardList className="h-12 w-12 text-neutral-300" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="aspect-video w-full shrink-0 bg-neutral-100 overflow-hidden">
-      <img
-        src={src}
-        alt=""
-        className="h-full w-full object-cover"
-        onError={() => setBroken(true)}
-      />
-    </div>
-  );
-}
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -170,10 +143,14 @@ export default function ResourcesPage() {
     const sheetCard = (
       <>
         {thumbSrc ? (
-          <WorksheetCardThumbnail src={thumbSrc} />
+          <img
+            src={thumbSrc}
+            alt=""
+            className="aspect-video w-full object-cover shrink-0"
+          />
         ) : (
-          <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center shrink-0">
-            <ClipboardList className="h-12 w-12 text-neutral-300" />
+          <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
+            <FileText className="h-12 w-12 text-neutral-300" />
           </div>
         )}
         <div className="p-5 flex-1 flex flex-col">
