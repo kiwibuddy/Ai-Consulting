@@ -14,7 +14,6 @@ import {
   tesoroEase,
 } from "@/lib/animations";
 import { ArrowRight, Play, FileText, ExternalLink, ClipboardList } from "lucide-react";
-import { resolvePublicAssetUrl } from "@/lib/public-asset-url";
 import { cn } from "@/lib/utils";
 import { videos } from "@/content/videos";
 import { articles } from "@/content/articles";
@@ -74,27 +73,13 @@ const deepDiveWaveHeights = [
   28, 46, 34, 40, 30, 48, 32, 42,
 ];
 
-/** Robust worksheet card art: absolute prod URL + SVG-safe sizing + onError fallback */
+/**
+ * Worksheet hero art — same `<img>` pattern as Articles & essays (plain `/public` paths).
+ * Avoids rewriting to absolute URLs / multi-origin retries that could fire `error` bursts
+ * and prematurely show the clipboard placeholder via stale retry state.
+ */
 function WorksheetCardThumbnail({ src }: { src: string }) {
   const [broken, setBroken] = useState(false);
-  const buildCandidates = () => {
-    if (!src.startsWith("/")) return [src];
-    const out: string[] = [];
-    const push = (u: string) => {
-      if (!out.includes(u)) out.push(u);
-    };
-    push(resolvePublicAssetUrl(src));
-    if (typeof window !== "undefined" && window.location?.origin) {
-      push(`${window.location.origin}${src}`);
-    }
-    push(`https://www.nathanielbaldock.com${src}`);
-    push(`https://nathanielbaldock.com${src}`);
-    push(src);
-    return out;
-  };
-  const candidates = buildCandidates();
-  const [candidateIdx, setCandidateIdx] = useState(0);
-  const resolved = candidates[Math.min(candidateIdx, candidates.length - 1)];
   const isSvg = src.toLowerCase().endsWith(".svg");
 
   if (broken) {
@@ -107,23 +92,13 @@ function WorksheetCardThumbnail({ src }: { src: string }) {
 
   return (
     <img
-      src={resolved}
+      src={src}
       alt=""
-      width={640}
-      height={360}
-      loading="lazy"
-      decoding="async"
       className={cn(
         "aspect-video w-full shrink-0 bg-[hsl(210,40%,96%)]",
         isSvg ? "object-cover object-center" : "object-cover"
       )}
-      onError={() => {
-        if (candidateIdx < candidates.length - 1) {
-          setCandidateIdx((i) => i + 1);
-          return;
-        }
-        setBroken(true);
-      }}
+      onError={() => setBroken(true)}
     />
   );
 }
