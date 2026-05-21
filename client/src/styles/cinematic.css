@@ -69,7 +69,12 @@ html[data-theme="public"].light {
   text-rendering: optimizeLegibility;
 }
 
-/* Site header nav — always light on dark cinematic shell */
+/* Site header — keep light text on the cinematic shell (incl. during route transitions) */
+[data-theme="public"] header,
+[data-public-site] header {
+  color: var(--nb-ink);
+}
+
 [data-theme="public"] .nb-site-nav-link,
 [data-public-site] .nb-site-nav-link {
   color: rgba(255, 255, 255, 0.78);
