@@ -17,49 +17,49 @@ const howIHelp = [
   {
     n: "01",
     title: "Clarity & guardrails",
-    body: "AI strategy grounded in your mission and values. Policies and guardrails for staff and leaders. Discernment around what not to use.",
+    body: "Typical engagements include AI strategy grounded in your mission and values, policies and guardrails for staff and leaders, and clear discernment around what not to use.",
   },
   {
     n: "02",
     title: "Practical systems",
-    body: "Internal AI tools that work with your own documents. Workflow improvements that save real time. Tools designed for your context — not Silicon Valley defaults.",
+    body: "Where it fits your context: tools that work with your own documents, workflow improvements that save real time, and systems designed for your organisation — not Silicon Valley defaults.",
   },
   {
     n: "03",
     title: "Training & adoption",
-    body: "Leadership briefings and staff training. Family- and student-safe guidance where relevant. Practical examples people can actually use.",
+    body: "Leadership briefings and staff training, family- and student-safe guidance where relevant, and practical examples your team can actually use.",
   },
 ];
 
 const whoThisIsFor = [
   {
     tag: "Faith & Mission Organisations",
-    title: "Equip your church for AI",
-    body: "Discover how AI can strengthen discipleship, deepen engagement, and create ministry tools — while understanding the real dangers to guard against.",
-    body2: "Equip your leaders and parents through keynotes, seminars, or courses on what AI means for the church, families, and faith.",
+    title: "For churches exploring AI wisely",
+    body: "Explore how AI might support discipleship and engagement — and understand the real dangers to guard against before adoption spreads by accident.",
+    body2: "Keynotes, seminars, or courses for leaders and parents on what AI means for the church, families, and faith — tailored to your size and maturity.",
     image: "/Teaching-2.png",
     alt: "Teaching and ministry context",
   },
   {
     tag: "Schools & Training",
-    title: "Prepare students for what's next",
-    body: "Learn what teachers should actually use AI for, how to manage student use wisely, and where it can free up real time in the classroom.",
-    body2: "Give your staff, parents, and students practical clarity through training days or assemblies that replace fear with confidence.",
+    title: "For schools preparing students for what's next",
+    body: "Clarity on what teachers should use AI for, how to manage student use wisely, and where it might free up real time in the classroom.",
+    body2: "Training days or assemblies for staff, parents, and students — practical framing that replaces fear with confidence.",
     image: "/School_Profile.png",
     alt: "School and training context",
   },
   {
     tag: "Nonprofits & NGOs",
-    title: "Multiply impact, not complexity",
-    body: "Streamline operations, strengthen marketing and engagement, and use AI to amplify the mission you're already doing well.",
-    body2: "Align your whole team through workshops or briefings that turn AI from a buzzword into a practical advantage.",
+    title: "For mission-driven teams",
+    body: "Explore where AI might streamline operations, strengthen engagement, and support the mission you already care about — without adding unnecessary complexity.",
+    body2: "Workshops or briefings that help your whole team move from buzzword to practical next steps.",
     image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
     alt: "Team collaboration",
   },
 ];
 
 const whyBullets = [
-  "20+ years in global missions, biblical education, and cross-cultural program development",
+  "23 years in global missions, NGO work, biblical education, and cross-cultural program development",
   "Experience building and shipping real digital products — mobile apps, web platforms, SaaS",
   "Strong theological, ethical, and safeguarding foundations",
   "I don't sell or reuse your data; I explain clearly where and how AI is used.",
@@ -67,9 +67,9 @@ const whyBullets = [
 ];
 
 const whyStats = [
-  ["20+", "Years in mission"],
+  ["23", "Years in mission & NGOs"],
   ["15+", "Countries served"],
-  ["400+", "Leaders trained"],
+  ["400+", "Leaders trained (YWAM)"],
   ["40k", "Research hours"],
   ["200+", "Contributors led"],
   ["48h", "Reply, always"],
@@ -147,7 +147,7 @@ export default function LandingPage() {
 
             <ScrollReveal delay={420}>
               <p className="nb-body-lg mt-10 mb-0 max-w-[620px]">
-                I help churches, schools, and mission-driven organisations adopt AI wisely —
+                I can help churches, schools, and mission-driven organisations adopt AI wisely —
                 without hype, without fear, and without losing what matters most.
               </p>
             </ScrollReveal>
@@ -199,7 +199,7 @@ export default function LandingPage() {
             </ScrollReveal>
             <ScrollReveal delay={220}>
               <p className="nb-body m-0">
-                I don&apos;t sell a stack. I help leaders take stock of what&apos;s already
+                I don&apos;t sell a stack. I work with leaders to take stock of what&apos;s already
                 happening, decide what&apos;s worth keeping, and design what comes next — with
                 safeguarding, theological integrity, and your specific constraints built in from
                 the start.
@@ -209,10 +209,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* §02 How I help */}
+      {/* §02 What I offer */}
       <section id="how-i-help" className="nb-section scroll-mt-24">
         <div className="nb-container px-0">
-          <SectionLabel num="02">How I help</SectionLabel>
+          <SectionLabel num="02">What I offer</SectionLabel>
           <ScrollReveal>
             <h2 className="nb-display nb-display-lg font-normal m-0 nb-h2-section max-w-[920px]">
               From confusion to clarity. From experiment to{" "}

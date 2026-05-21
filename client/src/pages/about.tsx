@@ -12,7 +12,7 @@ import {
 const aboutContent = [
   `I'm Nathaniel Baldock — a husband, father of three, and someone who's spent over 20 years in global missions trying to answer a persistent question: how do we help people live out what they believe in every area of life? That journey has taken me through 35+ countries with Youth With A Mission — directing training schools, leading teams in Papua New Guinea, developing a biblical worldview program for 400+ emerging leaders in Hawaii, and building Bible engagement tools like the SourceView Bible app and SourceView Together. I've always been an early adopter of new technology, eventually teaching myself to build apps and discovering that the intersection of faith and innovation is where I come most alive.`,
   `When it comes to AI, I'm not speaking from theory. I use these tools daily and have built real products with them — a full iOS and Android Bible app, a budgeting web application, a coaching portal, and e-commerce stores on Etsy. I work hands-on across image generation, voice and audio, coding, design, research, writing, and teaching resources. I've tested dozens of tools across these disciplines, so when I sit down with a church leader or school principal, I'm not guessing — I can show them what's possible and help them get there.`,
-  `Now I help churches, schools, and mission-minded organisations navigate AI and the bigger questions it raises about identity, purpose, and discipleship in a changing world. Through consulting and teaching, I bring together everything these past two decades have built — biblical worldview, cross-cultural leadership, youth discipleship, and hands-on technology — to equip leaders, parents, and teams with practical tools and the deeper framework to use them well. Whether it's a keynote, a workshop, a course, or a strategy session, my goal is the same: help you lead with clarity so you can focus on the work you were called to do.`,
+  `After 23 years in international missions and working with NGOs, I'm now building a consulting practice to help churches, schools, and mission-minded organisations navigate AI and the bigger questions it raises about identity, purpose, and discipleship in a changing world. Through consulting and teaching, I bring together biblical worldview, cross-cultural leadership, youth discipleship, and hands-on technology — to equip leaders, parents, and teams with practical tools and a deeper framework to use them well. Whether it's a keynote, a workshop, a course, or a strategy session, my goal is the same: help you lead with clarity so you can focus on the work you were called to do.`,
 ];
 
 export default function AboutPage() {
@@ -20,7 +20,7 @@ export default function AboutPage() {
     <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="About Nathaniel Baldock — AI Consultant for Faith-Based Organisations"
-        description="20+ years in global missions with YWAM, now helping churches, schools, and nonprofits navigate AI. Based in Tauranga, New Zealand — consulting globally on AI strategy, ethics, and discipleship."
+        description="23 years in global missions and NGO work with YWAM, now building an AI consulting practice for churches, schools, and nonprofits. Based in Tauranga, New Zealand."
         canonicalPath="/about"
       />
 
@@ -41,8 +41,8 @@ export default function AboutPage() {
               About Me
             </motion.h1>
             <motion.p className="nb-body-lg m-0 max-w-2xl" variants={staggerRevealItemVariants}>
-              AI consultant in Tauranga, New Zealand — strategy, training, and advisory for faith,
-              education, and mission-driven organisations.
+              Building an AI consulting practice in Tauranga, New Zealand — strategy, training, and
+              advisory for faith, education, and mission-driven organisations.
             </motion.p>
           </motion.div>
 

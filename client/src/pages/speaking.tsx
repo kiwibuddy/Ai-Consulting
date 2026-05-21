@@ -11,13 +11,12 @@ import {
   landingViewportReveal,
   cinematicEase,
 } from "@/lib/animations";
-import { ArrowRight, Quote, Mail, ChevronDown } from "lucide-react";
+import { ArrowRight, Mail, ChevronDown } from "lucide-react";
 import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
 import { CinematicPrimaryCTA, CinematicSecondaryCTA } from "@/components/public-cinematic/cinematic-cta";
 import { speakingTopics, speakingFormats } from "@/content/speakingTopics";
 import {
   speakingHero,
-  speakingTestimonials,
   speakingBooking,
   speakingAbout,
   speakingFaqs,
@@ -206,40 +205,6 @@ export default function SpeakingPage() {
                 <h3 className="nb-card-title mb-1">{format.name}</h3>
                 <p className="text-sm text-[var(--nb-ink-dim)] mb-2">{format.duration}</p>
                 <p className="text-sm text-[var(--nb-ink-soft)]">{format.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* What People Are Saying */}
-      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
-        <div className={contentMax}>
-          <motion.h2
-            className="nb-section-title mb-8 text-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={fadeUpRevealVariants}
-          >
-            What people are saying
-          </motion.h2>
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {speakingTestimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                variants={cardSlideUpItemVariants}
-                className="rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] p-6 shadow-sm"
-              >
-                <Quote className="h-8 w-8 text-[var(--nb-accent)]/40 mb-3" />
-                <p className="text-[var(--nb-ink-soft)] text-sm leading-relaxed italic mb-4">&ldquo;{t.quote}&rdquo;</p>
-                <p className="text-sm font-medium text-[var(--nb-ink)]">— {t.attribution}</p>
               </motion.div>
             ))}
           </motion.div>
