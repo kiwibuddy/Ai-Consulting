@@ -831,9 +831,10 @@ html[data-theme="public"].light {
     object-position: 50% 18%;
   }
 
+  /* Subject is on the right of the source frame — anchor right so they center in the mobile band */
   [data-theme="public"] .nb-hero--speaking .nb-hero-photo,
   [data-public-site] .nb-hero--speaking .nb-hero-photo {
-    object-position: 50% 22%;
+    object-position: 84% 28%;
   }
 
   [data-theme="public"] .nb-display-hero,
