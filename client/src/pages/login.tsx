@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, ApiError } from "@/lib/queryClient";
 import { useLocation, Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/ui/loading-button";
@@ -164,7 +163,6 @@ export default function LoginPage() {
 
   return (
     <div className="nb-page overflow-x-hidden">
-      <SiteHeader currentPage="login" />
 
       <main className="nb-inner-main">
         <div className={contentMax}>

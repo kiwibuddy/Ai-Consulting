@@ -27,7 +27,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { useToast } from "@/hooks/use-toast";
@@ -306,7 +305,6 @@ export default function TaurangaSmePage() {
         description="Three tiers built around the four Tauranga SME worksheets and a 4-session deck — get ready for the RBPN AI Advisory Pilot conversation. NZD pricing, locally researched."
         canonicalPath="/tauranga-sme"
       />
-      <SiteHeader />
 
       <div className="overflow-x-hidden pt-14 md:pt-16">
         {/* Hero */}

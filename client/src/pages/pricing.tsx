@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/page-seo";
@@ -45,7 +44,6 @@ export default function PricingPage() {
         description="Transparent pricing for AI consulting, workshops, and keynote speaking. Tailored for churches, Christian schools, nonprofits, and mission organisations. Free 30-minute discovery call available."
         canonicalPath="/pricing"
       />
-      <SiteHeader currentPage="pricing" />
 
       <main className="pt-28 pb-20 nb-section scroll-mt-24">
         <div className="nb-container px-0 max-w-[1240px]">

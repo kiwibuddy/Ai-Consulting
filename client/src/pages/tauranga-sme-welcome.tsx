@@ -9,7 +9,6 @@ import {
   landingViewportReveal,
 } from "@/lib/animations";
 import { Button } from "@/components/ui/button";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 
@@ -64,7 +63,6 @@ export default function TaurangaSmeWelcomePage() {
         description="Your purchase is confirmed. Check your inbox for the access email."
         canonicalPath="/tauranga-sme/welcome"
       />
-      <SiteHeader />
 
       <div className="pt-14 md:pt-16">
         <section className="px-6 md:px-8 py-20 md:py-28">

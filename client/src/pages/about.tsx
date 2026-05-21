@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/page-seo";
@@ -24,7 +23,6 @@ export default function AboutPage() {
         description="20+ years in global missions with YWAM, now helping churches, schools, and nonprofits navigate AI. Based in Tauranga, New Zealand — consulting globally on AI strategy, ethics, and discipleship."
         canonicalPath="/about"
       />
-      <SiteHeader currentPage="about" />
 
       <main className="pt-28 pb-20 nb-section scroll-mt-24">
         <div className="nb-container px-0 max-w-[1240px]">

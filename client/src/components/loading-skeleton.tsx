@@ -1,16 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-/** Lightweight full-width placeholder for lazy-loaded public (marketing) pages. */
-export function PublicPageFallback() {
-  return (
-    <div className="min-h-[50vh] w-full p-8 md:p-12 space-y-4 max-w-3xl mx-auto" aria-busy="true" aria-label="Loading page">
-      <Skeleton className="h-10 w-2/3 max-w-md rounded-md" />
-      <Skeleton className="h-4 w-full rounded-md" />
-      <Skeleton className="h-4 w-5/6 rounded-md" />
-      <Skeleton className="h-40 w-full rounded-md mt-8" />
-    </div>
-  );
-}
+export { PublicPageContentLoader as PublicPageFallback } from "@/components/public-page-loader";
 
 export function DashboardSkeleton() {
   return (

@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { SiteHeader } from "@/components/site-header";
 import { PageSEO } from "@/components/page-seo";
 import { CheckCircle } from "lucide-react";
 
@@ -97,7 +96,6 @@ export default function SurveyPage() {
   if (submitted) {
     return (
       <div className="nb-page overflow-x-hidden">
-        <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
             <CardContent className="p-8 text-center">
@@ -140,7 +138,6 @@ export default function SurveyPage() {
         description="Answer three short questions to share how you're feeling about AI and where you'd most love help."
         canonicalPath="/survey"
       />
-      <SiteHeader />
       <main className="pt-28 pb-16 px-4">
         <section className="max-w-3xl mx-auto">
           <div className="mb-8 text-center">

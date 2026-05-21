@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { apiRequest, ApiError } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { SiteHeader } from "@/components/site-header";
 import { PageSEO } from "@/components/page-seo";
 import { Loader2, CheckCircle, ExternalLink } from "lucide-react";
 type PublicInvoice = {
@@ -79,7 +78,6 @@ export default function PublicPayPage() {
   if (error || !inv) {
     return (
       <div className="nb-page">
-        <SiteHeader />
         <div className="pt-32 px-4 max-w-md mx-auto text-center">
           <p className="text-neutral-600">This invoice could not be found or the link is invalid.</p>
         </div>
@@ -95,7 +93,6 @@ export default function PublicPayPage() {
           description="Thank you — this invoice has been paid."
           canonicalPath="/pay"
         />
-        <SiteHeader />
         <main className="public-form-light max-w-lg mx-auto px-6 pt-28 pb-16 text-center">
           <div className="rounded-full bg-green-50 w-16 h-16 flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="h-8 w-8 text-green-600" />
@@ -111,7 +108,6 @@ export default function PublicPayPage() {
   if (spSuccess === "true" || spSuccess === "1") {
     return (
       <div className="nb-page">
-        <SiteHeader />
         <main className="pt-28 pb-16 px-4 max-w-md mx-auto text-center">
           <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-4" />
           <h1 className="text-2xl font-bold">Payment received</h1>
@@ -135,7 +131,6 @@ export default function PublicPayPage() {
         description="Secure payment for your invoice."
         canonicalPath="/pay"
       />
-      <SiteHeader />
       <main className="public-form-light max-w-lg mx-auto px-6 pt-28 pb-16">
         <Card className="border-0 shadow-lg bg-white">
           <CardHeader>

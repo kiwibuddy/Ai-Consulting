@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { trackEvent } from "@/lib/analytics";
-import { SiteHeader } from "@/components/site-header";
 import { PageSEO } from "@/components/page-seo";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -591,7 +590,6 @@ export default function IntakePage() {
   if (submittedForm === "consultation") {
     return (
       <div className="nb-page overflow-x-hidden">
-        <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
             <CardContent className="p-8 text-center">
@@ -629,7 +627,6 @@ export default function IntakePage() {
   if (submittedForm === "speaking") {
     return (
       <div className="nb-page overflow-x-hidden">
-        <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
             <CardContent className="p-8 text-center">
@@ -671,7 +668,6 @@ export default function IntakePage() {
         description="Book a free 30-minute AI consultation for your church, school, or nonprofit. Get practical guidance on AI strategy, policy, and implementation from a faith-based AI consultant."
         canonicalPath="/intake"
       />
-      <SiteHeader />
       <main
         className={cn(
           "nb-inner-main mx-auto",

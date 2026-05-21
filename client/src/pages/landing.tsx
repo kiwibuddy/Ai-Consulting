@@ -1,6 +1,5 @@
 import { useLayoutEffect } from "react";
 import { Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { HomepageJsonLd } from "@/components/json-ld";
@@ -95,7 +94,6 @@ export default function LandingPage() {
         canonicalPath="/"
       />
       <HomepageJsonLd />
-      <SiteHeader currentPage="landing" />
 
       {/* Hero — copy + portrait only; stable crop via nb-hero-photo */}
       <section id="top" className="nb-hero relative overflow-hidden pt-[76px]">

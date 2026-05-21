@@ -1,12 +1,10 @@
 import { Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
 
 export default function PrivacyPage() {
   return (
     <div className="nb-page overflow-x-hidden">
-      <SiteHeader />
       <main className="nb-inner-main">
         <div className="nb-container px-0 max-w-[1240px]">
           <h1 className="nb-page-title mb-8">Privacy Policy</h1>

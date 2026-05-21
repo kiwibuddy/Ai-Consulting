@@ -1,6 +1,5 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import {
@@ -37,7 +36,6 @@ export default function SpeakingPage() {
   return (
     <div className="nb-page overflow-x-hidden">
       <SpeakingPageJsonLd faqs={speakingFaqs} />
-      <SiteHeader currentPage="speaking" />
       <div className="overflow-x-hidden">
       {/* Hero — same shell as homepage */}
       <section id="top" className="nb-hero nb-hero--speaking relative overflow-hidden pt-[76px]">

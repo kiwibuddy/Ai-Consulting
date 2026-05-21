@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "wouter";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import {
@@ -294,7 +293,6 @@ export default function ResourcesPage() {
           answer: item.answer,
         }))}
       />
-      <SiteHeader currentPage="resources" />
 
       {/* Hero */}
       <section className={`nb-inner-main ${contentMax}`}>

@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "wouter";
 import { ArrowLeft, Printer } from "lucide-react";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ArticleShare } from "@/components/article-share";
@@ -82,7 +81,6 @@ export default function WorksheetSharePage() {
   if (!resource || !resource.iframeSrc) {
     return (
       <div className="nb-page overflow-x-hidden">
-        <SiteHeader currentPage="resources" />
         <div className="max-w-xl mx-auto px-6 py-24 text-center">
           <h1 className="text-2xl font-bold text-neutral-900 mb-4">Worksheet not found</h1>
           <Link
@@ -130,7 +128,6 @@ export default function WorksheetSharePage() {
           modifiedDate: resource.date,
         }}
       />
-      <SiteHeader currentPage="resources" />
 
       <main>
         <section className="bg-white border-b border-neutral-200 px-6 py-5">

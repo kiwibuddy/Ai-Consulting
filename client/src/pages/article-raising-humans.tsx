@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowLeft, FileText } from "lucide-react";
 import {
@@ -174,7 +173,6 @@ export default function ArticleRaisingHumans() {
         title={articleMeta.title}
         summary={articleSummary}
       />
-      <SiteHeader currentPage="resources" />
 
       <article>
         <ArticleHero />

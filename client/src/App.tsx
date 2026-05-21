@@ -10,7 +10,9 @@ import { NotificationBell } from "@/components/notification-bell";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
-import { DashboardSkeleton, PublicPageFallback } from "@/components/loading-skeleton";
+import { DashboardSkeleton } from "@/components/loading-skeleton";
+import { PublicRoute } from "@/components/public-route";
+import { PublicPageContentLoader } from "@/components/public-page-loader";
 import { OnboardingTour } from "@/components/onboarding-tour";
 import { CommandPalette } from "@/components/command-palette";
 import { QuickSessionModal } from "@/components/modals/quick-session-modal";
@@ -19,6 +21,7 @@ import { useColorTheme } from "@/hooks/use-color-theme";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
 import { Analytics } from "@/components/analytics";
 import { PublicSiteLayout } from "@/components/public-site-layout";
+import { SiteHeader } from "@/components/site-header";
 import { trackPageView } from "@/lib/analytics";
 
 const LandingPage = React.lazy(() => import("@/pages/landing"));
@@ -79,8 +82,11 @@ function PublicHome() {
 
   return (
     <PublicSiteLayout>
-      <Suspense fallback={<PublicPageFallback />}>
-        <LandingPage />
+      <SiteHeader currentPage="landing" />
+      <Suspense fallback={<PublicPageContentLoader />}>
+        <div className="nb-public-page-enter">
+          <LandingPage />
+        </div>
       </Suspense>
     </PublicSiteLayout>
   );
@@ -284,19 +290,19 @@ function Router() {
       <Switch>
       {/* Public routes — always wrapped in PublicSiteLayout so is never lost */}
       <Route path="/" component={PublicHome} />
-      <Route path="/intake" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><IntakePage /></Suspense></PublicSiteLayout>} />
-      <Route path="/pay/:token" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PublicPayPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/speaking/invite" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SpeakingInvitePage /></Suspense></PublicSiteLayout>} />
-      <Route path="/speaking" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SpeakingPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/survey" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SurveyPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/resources" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ResourcesPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/intake" component={() => <PublicRoute><IntakePage /></PublicRoute>} />
+      <Route path="/pay/:token" component={() => <PublicRoute><PublicPayPage /></PublicRoute>} />
+      <Route path="/speaking/invite" component={() => <PublicRoute><SpeakingInvitePage /></PublicRoute>} />
+      <Route path="/speaking" component={() => <PublicRoute><SpeakingPage /></PublicRoute>} />
+      <Route path="/survey" component={() => <PublicRoute><SurveyPage /></PublicRoute>} />
+      <Route path="/resources" component={() => <PublicRoute><ResourcesPage /></PublicRoute>} />
       {/* Redirect old /articles/... URLs to canonical /resources/... */}
       <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">
         <Redirect to="/resources/when-your-teens-best-friend-is-an-algorithm" />
       </Route>
-      <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleTeensAlgorithmFriend /></Suspense></PublicSiteLayout>} />
-      <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleSabbathRestAi /></Suspense></PublicSiteLayout>} />
-      <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleSoulNeedsStruggle /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicRoute><ArticleTeensAlgorithmFriend /></PublicRoute>} />
+      <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicRoute><ArticleSabbathRestAi /></PublicRoute>} />
+      <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicRoute><ArticleSoulNeedsStruggle /></PublicRoute>} />
       {/* Redirect old deep-dive worksheet slugs to canonical slugs */}
       <Route path="/resources/worksheet/protecting-kids-from-the-digital-god">
         <Redirect to="/resources/worksheet/the-digital-god-in-your-childs-pocket" />
@@ -304,18 +310,18 @@ function Router() {
       <Route path="/resources/worksheet/the-intimacy-trap-and-junior-job-crisis">
         <Redirect to="/resources/worksheet/the-broken-ladder-and-the-race-for-their-soul" />
       </Route>
-      <Route path="/resources/worksheet/:id" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><WorksheetSharePage /></Suspense></PublicSiteLayout>} />
-      <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ChristianProfessionalWorksheetPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/about" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><AboutPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/pricing" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PricingPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/tauranga-sme/welcome" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TaurangaSmeWelcomePage /></Suspense></PublicSiteLayout>} />
-      <Route path="/tauranga-sme" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TaurangaSmePage /></Suspense></PublicSiteLayout>} />
-      <Route path="/presentations/contact" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PresentationContactPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/login" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><LoginPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/privacy" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PrivacyPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/terms" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TermsPage /></Suspense></PublicSiteLayout>} />
-      <Route path="/forgot-password" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ForgotPassword /></Suspense></PublicSiteLayout>} />
-      <Route path="/reset-password" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ResetPassword /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources/worksheet/:id" component={() => <PublicRoute><WorksheetSharePage /></PublicRoute>} />
+      <Route path="/resources/christian-professional/:slug" component={() => <PublicRoute><ChristianProfessionalWorksheetPage /></PublicRoute>} />
+      <Route path="/about" component={() => <PublicRoute><AboutPage /></PublicRoute>} />
+      <Route path="/pricing" component={() => <PublicRoute><PricingPage /></PublicRoute>} />
+      <Route path="/tauranga-sme/welcome" component={() => <PublicRoute><TaurangaSmeWelcomePage /></PublicRoute>} />
+      <Route path="/tauranga-sme" component={() => <PublicRoute><TaurangaSmePage /></PublicRoute>} />
+      <Route path="/presentations/contact" component={() => <PublicRoute><PresentationContactPage /></PublicRoute>} />
+      <Route path="/login" component={() => <PublicRoute><LoginPage /></PublicRoute>} />
+      <Route path="/privacy" component={() => <PublicRoute><PrivacyPage /></PublicRoute>} />
+      <Route path="/terms" component={() => <PublicRoute><TermsPage /></PublicRoute>} />
+      <Route path="/forgot-password" component={() => <PublicRoute><ForgotPassword /></PublicRoute>} />
+      <Route path="/reset-password" component={() => <PublicRoute><ResetPassword /></PublicRoute>} />
 
       {/* Client routes */}
       <Route path="/client/complete-profile">
@@ -459,11 +465,9 @@ function Router() {
       {/* Fallback to 404 */}
       <Route
         component={() => (
-          <PublicSiteLayout>
-            <Suspense fallback={<PublicPageFallback />}>
-              <NotFound />
-            </Suspense>
-          </PublicSiteLayout>
+          <PublicRoute>
+            <NotFound />
+          </PublicRoute>
         )}
       />
     </Switch>
