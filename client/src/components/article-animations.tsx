@@ -225,7 +225,7 @@ export function HighlightQuote({
           }}
         />
         <motion.p
-          className="relative text-lg italic leading-relaxed py-3 pr-4 [text-wrap:balance] text-neutral-800 dark:text-neutral-200"
+          className="relative text-lg italic leading-relaxed py-3 pr-4 text-neutral-800 dark:text-neutral-200"
           initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 1.0, ease: "easeOut", delay: 0.6 }}
@@ -385,8 +385,12 @@ export function ShimmerHeading({
 /* ================================================================
    SHARED BLOCK RENDERER
    ================================================================ */
+/** Long-form body copy: avoid text-wrap:balance (causes ragged mid-thought line breaks). */
 const PARAGRAPH_CLS =
-  "text-neutral-700 leading-relaxed text-lg mb-8 [text-wrap:balance]";
+  "article-paragraph text-neutral-700 leading-relaxed text-lg mb-8";
+
+const PUNCHLINE_CLS =
+  "article-paragraph text-neutral-700 leading-relaxed text-lg mb-8 font-medium";
 
 export function AnimatedBlockContent({
   block,
@@ -407,10 +411,7 @@ export function AnimatedBlockContent({
 
     case "punchline":
       return (
-        <WordReveal
-          text={block.text}
-          className={`${PARAGRAPH_CLS} font-medium`}
-        />
+        <WordReveal text={block.text} className={PUNCHLINE_CLS} />
       );
 
     case "quote":

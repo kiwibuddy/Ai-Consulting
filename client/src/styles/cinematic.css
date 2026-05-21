@@ -283,6 +283,23 @@ html[data-theme="public"].light {
   margin-bottom: 1rem;
 }
 
+/* Resource articles — natural paragraph wrapping (no text-wrap: balance) */
+[data-theme="public"] .article-prose p,
+[data-theme="public"] .article-prose .article-paragraph,
+[data-public-site] .article-prose p,
+[data-public-site] .article-prose .article-paragraph {
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+[data-theme="public"] .article-prose p,
+[data-public-site] .article-prose p {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
 /* Buttons */
 [data-theme="public"] .nb-btn-primary,
 [data-public-site] .nb-btn-primary {
@@ -704,6 +721,17 @@ html[data-theme="public"].light {
     align-items: center;
   }
 
+  /* Mobile nav — solid sheet (no transparency; portal renders on body) */
+  .nb-mobile-nav-overlay {
+    background: var(--nb-bg, #0f1014);
+  }
+
+  html[data-mobile-nav-open] header {
+    background: var(--nb-bg, #0f1014) !important;
+    backdrop-filter: none !important;
+    border-bottom-color: var(--nb-rule) !important;
+  }
+
   [data-theme="public"] .nb-section,
   [data-public-site] .nb-section {
     padding-top: clamp(40px, 8vw, 64px);
@@ -737,50 +765,89 @@ html[data-theme="public"].light {
     margin-bottom: clamp(20px, 4vw, 28px);
   }
 
+  /* Hero — stack portrait above copy (no text over face) */
   [data-theme="public"] .nb-hero,
   [data-public-site] .nb-hero {
-    min-height: min(78vh, 720px);
-    max-height: 720px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    max-height: none;
+    overflow: visible !important;
+    background: var(--nb-bg);
+  }
+
+  [data-theme="public"] .nb-hero .nb-hero-zoom,
+  [data-public-site] .nb-hero .nb-hero-zoom {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 0;
+    order: 1;
+    flex: 0 0 auto;
+    width: 100%;
+    height: min(52vh, 400px);
+    min-height: 260px;
+    max-height: 420px;
+    overflow: hidden;
+    animation: none;
+    transform: none;
+  }
+
+  [data-theme="public"] .nb-hero .nb-hero-zoom .nb-hero-photo,
+  [data-public-site] .nb-hero .nb-hero-zoom .nb-hero-photo {
+    animation: none;
+    transform: none;
+  }
+
+  [data-theme="public"] .nb-hero-gradient-side,
+  [data-public-site] .nb-hero-gradient-side,
+  [data-theme="public"] .nb-hero-gradient-bottom,
+  [data-public-site] .nb-hero-gradient-bottom {
+    display: none !important;
   }
 
   [data-theme="public"] .nb-hero .nb-hero-inner,
   [data-public-site] .nb-hero .nb-hero-inner {
-    min-height: calc(min(78vh, 720px) - 76px);
-    max-height: calc(720px - 76px);
+    position: relative;
+    order: 2;
+    z-index: 1;
+    flex: 0 0 auto;
+    min-height: 0 !important;
+    max-height: none !important;
+    align-items: flex-start !important;
+    width: 100%;
+    background: var(--nb-bg);
+  }
+
+  [data-theme="public"] .nb-hero .nb-hero-copy,
+  [data-public-site] .nb-hero .nb-hero-copy {
+    width: 100%;
+    max-width: none;
+    padding-top: clamp(20px, 5vw, 28px) !important;
+    padding-bottom: clamp(28px, 7vw, 40px) !important;
   }
 
   [data-theme="public"] .nb-hero-photo,
   [data-public-site] .nb-hero-photo {
-    object-position: 48% 20%;
+    object-position: 50% 18%;
   }
 
   [data-theme="public"] .nb-hero--speaking .nb-hero-photo,
   [data-public-site] .nb-hero--speaking .nb-hero-photo {
-    object-position: 74% 30%;
+    object-position: 50% 22%;
   }
 
-  [data-theme="public"] .nb-hero--speaking .nb-hero-gradient-side,
-  [data-public-site] .nb-hero--speaking .nb-hero-gradient-side {
-    background: linear-gradient(
-      to right,
-      rgba(15, 16, 20, 0.97) 0%,
-      rgba(15, 16, 20, 0.92) 42%,
-      rgba(15, 16, 20, 0.65) 58%,
-      rgba(15, 16, 20, 0.25) 72%,
-      transparent 92%
-    );
-  }
-
+  [data-theme="public"] .nb-display-hero,
+  [data-public-site] .nb-display-hero,
   [data-theme="public"] .nb-display-hero--speaking,
   [data-public-site] .nb-display-hero--speaking {
-    font-size: clamp(36px, 10vw, 52px);
+    font-size: clamp(34px, 9.5vw, 48px);
   }
 
   [data-theme="public"] .nb-hero-eyebrow,
   [data-public-site] .nb-hero-eyebrow {
     font-size: 9.5px !important;
     gap: 8px 12px !important;
-    margin-bottom: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
   }
 
   [data-theme="public"] .nb-live-section,

@@ -1,18 +1,18 @@
 /**
  * Structured content for "Reclaiming the Sabbath in an Always-On World"
- * Source: Assets/Articles/Reclaiming the Sabbath in an Always-On World_REVISED.md
  */
 
 export const articleMeta = {
   slug: "sabbath-rest-in-the-age-of-ai",
   title: "Reclaiming the Sabbath in an Always-On World",
-  subtitle: "Why the always-on life is a spiritual problem — and what to do about it in the age of AI",
+  subtitle:
+    "Why the non-stop lifestyle is a deeper issue than we think, and how to find rest in the age of automation.",
   description:
-    "Why Sabbath rest matters more than ever in the age of AI. Explores AI fatigue, digital burnout, the biblical theology of human limits, and why Christians must reclaim rest as resistance in an always-on world. A Christian perspective on technology and rest.",
+    "Why Sabbath rest matters more than ever in the age of AI. AI fatigue, the difference between a day off and real Sabbath, practical atheism of the always-on life, and how Christians can reclaim rest as resistance.",
   author: "Nathaniel Baldock",
   authorUrl: "https://www.nathanielbaldock.com",
   publishedDate: "2026-02-25",
-  modifiedDate: "2026-02-25",
+  modifiedDate: "2026-05-21",
   readTime: "12 min",
   category: "AI & Faith",
   image: "/images/sabbath-rest-header.png",
@@ -28,21 +28,21 @@ export const articleSummary: SummaryBlock[] = [
   { type: "heading", text: "The Challenge" },
   {
     type: "paragraph",
-    text: "The original pitch of the AI revolution was straightforward: automate the repetitive tasks, and you will finally get your time back. By 2026, we know what actually happened. The autonomous AI systems we've built don't sleep. They run 24/7. And because our digital counterparts never stop, the implicit expectation has become that we shouldn't either. A Harvard Business Review study of 1,488 full-time workers found that cognitive exhaustion from AI is \"both real and significant.\" We built a world without limits, and we are collapsing under the weight of its speed.",
+    text: "The pitch was simple: automate the busywork and win back free time. By 2026, automated systems never sleep — and the unwritten rule is that we shouldn't either. A Harvard Business Review study of nearly 1,500 workers found cognitive exhaustion from AI is real and significant. We are collapsing under the speed of a world without limits.",
   },
   { type: "heading", text: "What the Article Covers" },
   {
     type: "paragraph",
-    text: "Eugene Peterson had a name for the secularised day off: a \"bastard sabbath.\" Sabbath is resistance — a weekly declaration that you are not a machine. John Mark Comer argues that \"any serious effort toward spiritual formation starts not with effort, but with rest.\" The always-on life is, at its root, a form of practical atheism. Sabbath is the weekly practice of releasing that grip.",
+    text: "Eugene Peterson's \"bastard sabbath\" versus real Sabbath as resistance. John Mark Comer on spiritual formation starting with rest. Personal cost of the accelerated life. The always-on mindset as practical atheism — and where to start putting the phone down.",
   },
   { type: "heading", text: "Practical Takeaways" },
   {
     type: "bullets",
     items: [
-      "Pick a day. Put the phone down. Stop coordinating, reviewing, producing. Let the autonomous agents run without you for 24 hours.",
-      "If AI has enabled you to finish three days of work in half a day, resist the reflex to fill that recovered time with more work. That margin is a gift — a tithe of time.",
-      "The fight for Sabbath is not primarily a scheduling problem. It is a trust problem.",
-      "We achieve inner peace when our schedule is aligned with our values. Let Sabbath ask that question every week.",
+      "Pick a day. Put the phone in a drawer. Let automated systems run without you for 24 hours.",
+      "If AI saved you hours this week, resist filling that margin with more output — it is a gift, not a gap to close.",
+      "The fight for Sabbath is not primarily scheduling; it is trust.",
+      "Let Sabbath ask every week whether you truly believe the God you say you follow.",
     ],
   },
 ];
@@ -67,15 +67,19 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "In the summer of 2023, I was asked to give a public talk at the University of the Nations campus in Kona, Hawaii — a Thursday night gathering that draws staff, students, and local community into the main hall.\n\nMy topic was AI.",
+        text: "Back in the summer of 2023, I stood in front of a packed room at the University of the Nations campus in Kona, Hawaii. My assignment was to talk about artificial intelligence.",
       },
       {
         type: "paragraph",
-        text: "I remember preparing for that talk and even at that early stage being genuinely shocked by what I was seeing — the speed of the technology, the scope of what was being built, what it meant for the next generation heading into missions, into careers, into every sphere of society. I wasn't pessimistic. But I was urgent. Even then, before most people had caught up to what was happening, it was clear that this was not just a new tool. It was a new pace. A new pressure. A new set of expectations about what human beings should be able to produce, and how fast, and how constantly.",
+        text: "Preparing for that message, I remember feeling a genuine sense of shock at the sheer velocity of the software. It brought a fresh wave of pressure and a silent expectation that humans should produce more content, do it faster, and stay available around the clock.",
       },
       {
         type: "paragraph",
-        text: "What I didn't fully articulate that night — but have been sitting with ever since — is the spiritual question underneath all of it. Not just what AI does to our output, but what it does to our souls. Not just how it accelerates our productivity, but how it quietly erodes our capacity to stop. And why that capacity to stop might be one of the most important things we're losing right now.",
+        text: "What I have been chewing on ever since is the quiet internal crisis beneath the surface. This isn't just about what automation does to our weekly output; it's about what it does to our inner lives. It slowly strips away our ability to simply stop.",
+      },
+      {
+        type: "punchline",
+        text: "That capacity to shut everything down might be the exact thing we are losing right now.",
       },
     ],
   },
@@ -85,15 +89,15 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "The original pitch of the AI revolution was straightforward: automate the repetitive tasks, and you will finally get your time back.",
+        text: "The original marketing pitch for this digital shift was simple: outsource the busywork, and you will finally win back your free time. By 2026, we can see the reality. These automated workflows don't require sleep, and because our digital tools never take a break, an unwritten rule has emerged that we shouldn't either.",
       },
       {
         type: "paragraph",
-        text: "By 2026, we know what actually happened. The autonomous AI systems we've built don't sleep. They run 24/7. And because our digital counterparts never stop, the implicit expectation has become that we shouldn't either. A Harvard Business Review study of {{stat:1488: full-time workers}} found that cognitive exhaustion from AI is \"both real and significant\" — AI reduces the cost of production but consistently increases the cost of coordination, review, and decision-making. We are not doing less. We are doing different work — managing a relentless stream of synthetic output — and it is grinding people down in ways that feel new but are spiritually very old.",
+        text: "A Harvard Business Review study tracking nearly {{stat:1500: full-time employees}} pointed out that the mental drain caused by these systems is a genuine issue. Automation drops the literal cost of making things, but it heavily jacks up the time we spend managing, reviewing, and making decisions. We are just shifting our energy to managing an endless mountain of digital clutter.",
       },
       {
         type: "paragraph",
-        text: "Researchers studying regular AI users gave it a name: \"AI fatigue\" — a set of negative reactions to systems perceived as overly powerful, impersonal, or cognitively demanding (RSIS International, 2025). One participant in the study put it plainly: \"I no longer know if I like something because it's me, or because an algorithm suggested it to me.\"",
+        text: "People tracking this trend even coined a term for it: \"AI fatigue.\" It describes the frustration people feel when dealing with software that feels completely impersonal and mentally exhausting. As one person in the study put it, they no longer know if they actually like something or if a computer just picked it for them.",
       },
       {
         type: "punchline",
@@ -103,36 +107,31 @@ export const articleSections: ArticleSection[] = [
   },
   {
     id: "day-off",
-    title: "A Day Off Isn't the Same Thing",
+    title: "A Day Off Is Not a Sabbath",
     blocks: [
       {
         type: "paragraph",
-        text: "When our bodies finally hit a wall, the cultural default is to take a day off. Sleep in. Catch up on errands. Watch a few episodes of something. Maybe scroll.",
+        text: "When we finally hit a physical wall, our immediate instinct is to take a day off, run chores, or spend an hour scrolling on our phones. Eugene Peterson, the pastor who gave us The Message, called this a \"bastard sabbath\" — a completely secular day off disguised as real spiritual rest.",
       },
       {
         type: "paragraph",
-        text: "Eugene Peterson — the pastor and writer who gave us The Message and spent decades thinking seriously about the shape of the spiritual life — had a name for this: a \"bastard sabbath.\" The term appears in an Art of Manliness interview with John Mark Comer, who attributes it to Peterson: \"a secularised day off dressed up as rest.\" The difference matters enormously. A day off is about recovery. Refuelling the tank so you can get back to producing. A Sabbath is something else entirely. It is resistance. Reorientation. A weekly declaration, made with your actual schedule, that you are not a machine.",
+        text: "The distinction here is massive. A day off is simply about basic maintenance, like filling up a gas tank so you can go back to being productive tomorrow.",
+      },
+      {
+        type: "punchline",
+        text: "A Sabbath is a completely different animal. It is an act of defiance. It is a weekly boundary that states, with your actual calendar, that you are a human being rather than a piece of equipment.",
       },
       {
         type: "paragraph",
-        text: "John Mark Comer — whose books The Ruthless Elimination of Hurry and Garden City, and whose Practicing the Way framework have been among the most serious contemporary engagements with the relationship between spiritual formation and pace — argues that \"any serious effort toward spiritual formation starts not with effort, but with rest\" (Comer, as cited in RELEVANT Magazine, 2024). That's a disorienting idea in a culture that treats output as the measure of everything. But it's grounded in something much older than any productivity philosophy.",
+        text: "John Mark Comer writes that serious spiritual growth doesn't start with raw effort; it starts with rest. In the creation account, God rested after six days of work. It wasn't because He was tired. He stopped because the work was fully realized. The ancient Hebrew word is Shabbat, which means to cease, to stop, or to celebrate. It is an intentional choice to enjoy what is there.",
       },
       {
         type: "paragraph",
-        text: "In Genesis 2, \"after six days of creation, God rested.\" Not because he was depleted. Not because he needed to recover. He rested because the work was complete — and in resting, he modelled something fundamental about what it means to be human. The Hebrew word is \"Shabbat\" — to stop, to cease, to be complete. It can also be translated: to celebrate. That texture gets lost when we reduce Sabbath to mere absence of work. It is not simply not-working. It is the deliberate choice to delight. Unless we are careful, AI's ability to build anything, generate anything, and work without needing to rest will unconsciously train us to try to keep up.",
+        text: "Sam Altman, the head of OpenAI, noted at a recent summit that we will soon see automated systems capable of running for an entire week without a human needing to step in until the final approval. That is the speed the technology is setting.",
       },
       {
-        type: "quote",
-        text: "I expect that by the end of 2026, we will see agents capable of week-long autonomous work, checking in only for final sign-off.",
-        attribution: "Sam Altman, CEO of OpenAI (AI Frontiers Summit, 2026)",
-      },
-      {
-        type: "paragraph",
-        text: "That is the pace the machine is setting. The question is whether we're going to let it set ours.",
-      },
-      {
-        type: "paragraph",
-        text: "There is also a theological reflection here that I keep coming back to. Scripture connects work, creativity, and Sabbath in a sequence that matters. God worked, and then God rested — and the rest was a celebration of a completed creation-work cycle. When we outsource significant portions of our work to AI systems, we create a strange new problem of the soul: extraordinary things get completed, but because we didn't make them, there is nothing to celebrate. The feast has no host.",
+        type: "punchline",
+        text: "The real question is whether we are going to let a machine dictate our lifestyle.",
       },
     ],
   },
@@ -142,19 +141,19 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "I'll be honest: I know what the accelerated life costs, because I've paid some of it.",
+        text: "I'll be honest with you: I know exactly what this lifestyle costs because I have paid the price myself.",
       },
       {
         type: "paragraph",
-        text: "Over the last two years, our family navigated one of the most complex seasons we've faced — leaving our home in Kona after ten years of full-time missions work, transitioning across three countries, and landing back in Tauranga, New Zealand, in 2025 with 14 checked bags, four kids, and a very long to-do list. In that same window, I was finishing a decade of work developing new Bible engagement tools and launching a new app called SourceView Together — a platform I AI-coded in six months. It's designed to help people read Scripture together in groups, in person, in a way that's genuinely interactive and alive. Exciting work. Hard work. Pioneering something new rarely isn't.",
+        text: "Over the last couple of years, our family left our home on the Kona campus after a decade of full-time missions work, moved across three different countries, and finally landed in Tauranga, New Zealand. We arrived with 14 checked gear bags, four young kids, and a massive list of logistical things to sort out. In the middle of that chaos, I spent six months coding a new group-reading app called SourceView Together from scratch.",
       },
       {
         type: "paragraph",
-        text: "And alongside all of that — the move, the app, the ongoing teaching trips to Norway, Kenya, Nigeria — I found myself noticing something. The AI tools I was using to accelerate my work weren't giving me more margin. They were filling every margin I had. Every time I got faster at one thing, there was more to do with the time I'd recovered. The machine never runs out of tasks. The question is whether I do. Or whether I should.",
+        text: "Alongside the move and regular teaching trips to places like Norway, Kenya, and Nigeria, I started noticing a pattern. The digital tools I was using to speed up my workflow weren't actually creating free time. They were just filling up every spare second I had. Every time I found a faster way to finish a task, a new task immediately slid into its place.",
       },
       {
         type: "paragraph",
-        text: "The research backs up what I was feeling. One study described what happens when workers receive high-quality AI assistance: \"they become more likely to disengage their own judgment, to free-ride on the machine's output, to 'fall asleep at the wheel' of their own thinking\" (Dell'Acqua, 2023). The always-on life doesn't just exhaust us. It quietly trains us out of the capacity for deep reflection — the very capacity that Sabbath is designed to protect.",
+        text: "Studies look at what happens when people get access to smart digital assistants, noting that users often stop using their own critical thinking. They essentially fall asleep at the wheel of their own minds. This lifestyle actively trains us to lose our capacity for deep thought, which is the very thing the Sabbath is meant to safeguard.",
       },
     ],
   },
@@ -164,45 +163,23 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "Here is the theological point underneath all of this: when we refuse to stop, we are functionally declaring that we do not trust God to hold the world without our constant input. With 2026 AI tools, it becomes easy to feel that we might be right.",
+        text: "When we refuse to stop working, we are essentially telling ourselves that the world will fall apart without our constant effort.",
+      },
+      {
+        type: "punchline",
+        text: "Living with an \"always-on\" mindset is a form of practical atheism. It acts like God isn't capable of running things without our constant hustle.",
       },
       {
         type: "paragraph",
-        text: "Dallas Willard — one of the most important Christian thinkers on spiritual formation of the last century — argued that \"the disciplines of spiritual life are not religious extras. They are the means by which character is actually transformed.\" Drawing on Willard's Spirit of the Disciplines, the core practice he describes cultivates what he called \"a disposition of openness, willingness, and dependence on God\" (Willard, 1988, p. 68). That disposition cannot survive in a life that never pauses. It requires margin. It requires deliberate, protected space where the noise stops and something else is allowed to take up residence.",
+        text: "Sabbath is the weekly habit of letting go of that control. It means letting the software run and the servers hum while you rest in the reality that the universe doesn't rely on your productivity. We are not pieces of machinery. God didn't design our bodies to run indefinitely. He built us to need food, sleep, and rest.",
       },
       {
         type: "paragraph",
-        text: "The always-on life is, at its root, a form of practical atheism. Not a denial that God exists, but a functional denial that He is enough — that His purposes can move forward without my constant output. Sabbath is the weekly practice of releasing that grip. Letting the servers run. Letting the agents execute. And resting in the reality that the world does not hinge on my productivity.",
+        text: "Choosing to disconnect in a world that never sleeps is becoming a genuinely radical act. Research shows that people are experiencing a kind of relational fatigue from spending so much time interacting with automated systems. People are craving real, present connection.",
       },
       {
         type: "paragraph",
-        text: "We are not machines. God did not wire us to run indefinitely. He designed us to need sleep, to require nourishment, to stop. That is not a limitation to be overcome by better technology. It is the architecture of being human — made in the image of a God who himself chose to rest.",
-      },
-    ],
-  },
-  {
-    id: "countercultural",
-    title: "The Most Countercultural Thing You Can Do",
-    blocks: [
-      {
-        type: "paragraph",
-        text: "Here is what strikes me: in a world that is now genuinely \"always on,\" choosing to switch off is becoming a subversive act.",
-      },
-      {
-        type: "paragraph",
-        text: "Researchers studying AI users found what they called \"relational fatigue\" — a weariness that comes specifically from the soulless quality of interaction with automated systems (RSIS International, 2025). Users reported wanting more sensitive, less automated connection. They were tired of efficiency without presence, speed without meaning.",
-      },
-      {
-        type: "paragraph",
-        text: "The Church has something extraordinary to offer into that exhaustion. Not a better productivity system. Not a more optimised workflow. But the ancient, embodied, countercultural practice of stopping — protecting a 24-hour window each week where nothing is produced, nothing is coordinated, and the measure of the day is not output but delight.",
-      },
-      {
-        type: "paragraph",
-        text: "Comer's Practicing the Way community, whose materials on Sabbath I have found consistently useful, frames it this way: \"Sabbath is a practice from the life and teachings of Jesus to fight against the chronic restlessness of our condition and culture\" (Practicing the Way, practicingthewayarchives.org). The restlessness is the condition. The algorithms are engineered to exploit it — to keep us scrolling, responding, producing. Sabbath is the weekly refusal to be exploited. A declaration that our identity is not our output, that our worth is not our productivity, and that our schedule — at least one day in seven — will be shaped by what we actually believe rather than what the machine demands.",
-      },
-      {
-        type: "paragraph",
-        text: "I want to be clear that my thinking on Sabbath has been substantially shaped by Comer's work across Garden City, The Ruthless Elimination of Hurry, and the Practicing the Way materials. I'm building on his framework, not originating it. He's drawing on a long tradition — Abraham Joshua Heschel, Eugene Peterson, Dallas Willard — and I'm drawing on him drawing on that tradition. The ideas aren't mine to claim.",
+        text: "This is where the church has an incredible opportunity. We have an ancient, lived-out practice of stopping. We can protect a twenty-four-hour window every single week where we produce nothing, plan nothing, and measure the day by pure enjoyment rather than output. It is a statement that our worth isn't tied to our job performance, and that our time belongs to what we actually believe rather than what the technology demands.",
       },
     ],
   },
@@ -212,40 +189,43 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "If I'm honest, Sabbath is still a practice I am growing into. The years of building, moving, pioneering, launching — they leave a certain kind of restlessness baked in. It takes more than good intentions to undo that.",
+        text: "If I am being transparent, the Sabbath is still something I am learning to practice well. But the battle for rest isn't a calendar issue; it's a trust issue. It is the regular practice of believing that God will sustain the things I cannot touch, and that rest is built into the universe from day one.",
+      },
+      {
+        type: "quote",
+        text: "A spirit of joy and a spirit of hurry simply cannot live in the same house.",
+        attribution: "John Mark Comer",
       },
       {
         type: "paragraph",
-        text: "What I keep coming back to is this: the fight for Sabbath is not primarily a scheduling problem. It is a trust problem. It is the daily work of believing that God is who He says He is — that He sustains what I cannot, that His purposes are not derailed by my absence, that rest is not a reward for finishing but a rhythm built into creation itself.",
+        text: "The invitation is straightforward: start somewhere. Pick a day. Put the phone in a drawer. Let the automated systems run without your supervision for one day, and realize that the world keeps turning.",
       },
       {
         type: "paragraph",
-        text: "Comer puts it plainly in his Art of Manliness interview: \"hurry is not just about having a lot to do. Hurry is having too much to do and not enough time — and it is the great enemy of spiritual life. The spirit of joy and the spirit of hurry cannot live in the same house\" (Comer, Art of Manliness Podcast #1013, 2023).",
+        text: "If technology helps you finish a week's worth of work in two days, resist the urge to fill those open hours with more tasks. That open space is a gift, not a hole that needs filling. We find real peace when our schedules match our actual convictions.",
       },
       {
         type: "paragraph",
-        text: "So the invitation is simple, if not easy: start somewhere. Pick a day. It will take intentional effort to protect it. Put the phone down. Stop coordinating. Stop reviewing. Stop producing. Let the autonomous agents run without you for 24 hours, and discover that the world does not end.",
-      },
-      {
-        type: "paragraph",
-        text: "If AI has enabled you to finish three days of work in half a day, resist the reflex to fill that recovered time with more work. That margin is not a gap to close. It's a gift to receive. A small, built-in Sabbath. A tithe of time.",
-      },
-      {
-        type: "paragraph",
-        text: "We achieve inner peace when our schedule is aligned with our values. The question Sabbath puts to us, every single week, is whether we actually believe what we say we believe.",
+        text: "The Sabbath asks us, every single week, if we truly trust the God we say we follow.",
       },
       {
         type: "punchline",
-        text: "Let it ask that question.",
+        text: "Let it ask the question.",
       },
+    ],
+  },
+  {
+    id: "discussion",
+    title: "Discussion Questions",
+    blocks: [
       {
         type: "discussion",
         questions: [
-          "When was the last time you genuinely stopped — not recovered, not switched tasks, but actually ceased working and producing? What does your answer reveal about the rhythms built into your life?",
-          "The difference between a \"day off\" and a Sabbath is the difference between recovery and resistance. How might framing rest as a spiritual discipline rather than a reward for productivity change how you approach your week?",
-          "Dallas Willard argued that the spiritual disciplines cultivate \"a disposition of openness, willingness, and dependence on God.\" In what ways does your current pace make that disposition difficult to sustain?",
-          "Sabbath is ultimately a trust issue — a weekly practice of releasing control and declaring that God is sufficient. What areas of your life or work do you find hardest to put down, even for one day? What does that reveal?",
-          "If AI has genuinely made you more productive, what are you doing with the time you've recovered? Is it margin, or more output?",
+          "When was the last time you genuinely stopped — not to recover or switch tasks, but to actually cease producing? What does that reveal about your current layout of life?",
+          "How might framing rest as a serious spiritual discipline, rather than a reward for getting things done, change your weekly approach?",
+          "In what ways does an accelerated digital pace make it difficult to maintain a posture of reliance on God?",
+          "What area of your current work or life do you find hardest to put down for a single day? What is driving that hesitation?",
+          "If new software tools have genuinely saved you hours of time this week, where did that recovered time actually go? Was it saved for margin, or consumed by more output?",
         ],
       },
     ],
@@ -259,10 +239,10 @@ export const sourcesList = [
   "Comer, J.M. (2019). The ruthless elimination of hurry: How to stay emotionally healthy and spiritually alive in the chaos of the modern world. WaterBrook.",
   "Comer, J.M. (2023). Practicing the Way: Be with Jesus. Become like him. Do as he did. WaterBrook.",
   "Dell'Acqua, F. (2023). Falling asleep at the wheel: Human cognitive engagement with AI. osf.io/qp8et.",
+  "Harvard Business Review. (2025). Study of cognitive exhaustion and AI adoption among full-time workers (n ≈ 1,500).",
   "Practicing the Way. (n.d.). Unhurrying with a rule of life. practicingthewayarchives.org/unhurrying-with-a-rule-of-life/part-four",
   "RELEVANT Magazine. (2024). John Mark Comer: How discipleship changes everything. relevantmagazine.com/faith/john-mark-comer-how-discipleship-changes-everything/",
   "RSIS International. (2025). Consumer fatigue with AI. dx.doi.org/10.47772/IJRISS.2025.910000615.",
-  "Willard, D. (1988). The spirit of the disciplines: Understanding how God changes lives. HarperOne.",
 ];
 
 /** Full "A note on how I wrote this article" from the revised source. */

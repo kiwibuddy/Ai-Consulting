@@ -74,21 +74,21 @@ const pages: Record<string, PageMeta> = {
   "/resources/when-your-teens-best-friend-is-an-algorithm": {
     title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
     description:
-      "Teens and AI companions: what Christian parents and youth leaders need to know. How Character.AI and AI chatbots affect teen mental health, why kids prefer algorithms to adults, and practical ways to out-human the technology. AI safety for families.",
+      "Teens and AI companions: what Christian parents and youth leaders need to know. Character.AI, the 2 a.m. conversation, social skill atrophy, AI deepfakes in schools, and practical ways to out-human the technology.",
     image: `${SITE}/images/teens-algorithm-header.png`,
     ogType: "article",
   },
   "/resources/sabbath-rest-in-the-age-of-ai": {
     title: "Reclaiming the Sabbath in an Always-On World",
     description:
-      "Why Sabbath rest matters more than ever in the age of AI. Explores AI fatigue, digital burnout, the biblical theology of human limits, and why Christians must reclaim rest as resistance in an always-on world. A Christian perspective on technology and rest.",
+      "Why Sabbath rest matters in the age of AI. AI fatigue, bastard sabbath vs real rest, practical atheism of the always-on life, and how to reclaim margin as trust.",
     image: `${SITE}/images/sabbath-rest-header.png`,
     ogType: "article",
   },
   "/resources/why-your-soul-needs-the-struggle": {
-    title: "The Danger of Frictionless Faith: Why the Soul Needs the Struggle",
+    title: "The Danger of an Effortless Faith: Why the Soul Needs the Struggle",
     description:
-      "The spiritual danger of letting AI remove all friction from life. Why struggle, effort, and limitation are essential to Christian formation. A faith-based reflection on AI dependence, human identity, and what we lose when we optimise away the hard parts of being human.",
+      "Why effortless AI is a Genesis 3 problem, not a productivity problem. Grace, effort, Peter's charcoal fire, and fighting for humanness in an always-on world.",
     image: `${SITE}/images/beach-coal-fire.jpg`,
     ogType: "article",
   },

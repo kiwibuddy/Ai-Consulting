@@ -13,19 +13,19 @@ import {
   sourcesList,
   authorNote,
 } from "@/content/article-teens-algorithm-friend";
-import { AnimatedBlockContent, ShimmerHeading } from "@/components/article-animations";
 import { ArticleSummaryModal } from "@/components/article-summary-modal";
 import { ArticleShare } from "@/components/article-share";
+import {
+  ArticleContentSection,
+  ArticleSourcesSection,
+  articleBodyClass,
+  articleContentMax,
+} from "@/components/article-page-shell";
 import { PageSEO } from "@/components/page-seo";
 import {
   staggerRevealContainerVariants,
   staggerRevealItemVariants,
-  landingViewportReveal,
-  tesoroEase,
 } from "@/lib/animations";
-
-const contentMax = "max-w-3xl";
-const sectionPadding = "py-8 md:py-12 px-6 md:px-8";
 
 function ReadingProgress() {
   const [progress, setProgress] = useState(0);
@@ -113,36 +113,6 @@ function ArticleHero() {
   );
 }
 
-function ArticleSection({ section, index }: { section: (typeof articleSections)[0]; index: number }) {
-  const reducedMotion = useReducedMotion();
-
-  return (
-    <motion.section
-      id={section.id}
-      className={`${sectionPadding} ${index % 2 === 0 ? "bg-white" : "bg-neutral-50"}`}
-      initial={reducedMotion ? false : { opacity: 0, y: 48 }}
-      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px 0px -80px 0px", amount: 0.1 }}
-      transition={{
-        duration: 0.7,
-        ease: tesoroEase,
-        delay: reducedMotion ? 0 : 0.08,
-      }}
-    >
-      <div className={`${contentMax} mx-auto prose prose-neutral prose-lg max-w-none`}>
-        <ShimmerHeading className="text-2xl md:text-3xl font-bold text-neutral-900 mb-8 tracking-tight not-prose">
-          {section.title}
-        </ShimmerHeading>
-        <div className="space-y-0">
-          {section.blocks.map((block, i) => (
-            <AnimatedBlockContent key={i} block={block} />
-          ))}
-        </div>
-      </div>
-    </motion.section>
-  );
-}
-
 export default function ArticleTeensAlgorithmFriend() {
   const [summaryOpen, setSummaryOpen] = useState(false);
   return (
@@ -171,10 +141,10 @@ export default function ArticleTeensAlgorithmFriend() {
         summary={articleSummary}
       />
 
-      <article>
+      <article className={articleBodyClass}>
         <ArticleHero />
-        <section className="bg-white border-b border-neutral-200 px-6 py-5">
-          <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-3">
+        <section className={`${articleBodyClass} border-b border-neutral-200 px-6 py-5`}>
+          <div className={`${articleContentMax} mx-auto flex flex-wrap items-center justify-center gap-3`}>
             <p className="text-sm text-neutral-600">
               Get a quick one page summary here
             </p>
@@ -188,51 +158,28 @@ export default function ArticleTeensAlgorithmFriend() {
             </button>
           </div>
         </section>
-        <section className="bg-white border-b border-neutral-200 px-6 py-4">
-          <div className="max-w-3xl mx-auto">
+        <section className={`${articleBodyClass} border-b border-neutral-200 px-6 py-4`}>
+          <div className={`${articleContentMax} mx-auto`}>
             <ArticleShare url={articleMeta.canonicalUrl} title={articleMeta.title} description={articleMeta.description} />
           </div>
         </section>
 
-        {articleSections.map((section, index) => (
-          <ArticleSection key={section.id} section={section} index={index} />
+        {articleSections.map((section) => (
+          <ArticleContentSection key={section.id} section={section} />
         ))}
 
-        <motion.section
-          className={`${sectionPadding} bg-white border-t border-neutral-200`}
-          initial="hidden"
-          whileInView="visible"
-          viewport={landingViewportReveal}
-          variants={staggerRevealContainerVariants}
-        >
-          <div className={`${contentMax} mx-auto`}>
-            <motion.h2
-              className="text-2xl font-bold text-neutral-900 mb-6"
-              variants={staggerRevealItemVariants}
-            >
-              Sources referenced
-            </motion.h2>
-            <motion.ul
-              className="text-neutral-600 space-y-2 text-sm"
-              variants={staggerRevealItemVariants}
-            >
-              {sourcesList.map((source, i) => (
-                <li key={i}>{source}</li>
-              ))}
-            </motion.ul>
-          </div>
-        </motion.section>
+        <ArticleSourcesSection sources={sourcesList} />
 
-        <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
-          <div className={`${contentMax} mx-auto`}>
+        <section className={`py-10 px-6 border-t border-neutral-200 ${articleBodyClass}`}>
+          <div className={`${articleContentMax} mx-auto`}>
             <p className="text-sm text-neutral-600 italic leading-relaxed [text-wrap:balance]">
               {authorNote}
             </p>
           </div>
         </section>
 
-        <section className="py-12 px-6 border-t border-neutral-200 bg-neutral-50">
-          <div className={`${contentMax} mx-auto flex flex-col sm:flex-row items-center justify-between gap-4`}>
+        <section className={`py-12 px-6 border-t border-neutral-200 ${articleBodyClass}`}>
+          <div className={`${articleContentMax} mx-auto flex flex-col sm:flex-row items-center justify-between gap-4`}>
             <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/resources"

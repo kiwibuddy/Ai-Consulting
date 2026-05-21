@@ -155,6 +155,8 @@ export function LiveAIPanel({
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<"q" | "a" | "hold">("q");
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
   const [dockHeights, setDockHeights] = useState({ q: 40, answer: 96 });
   const [cardHeights, setCardHeights] = useState({ q: 44, answer: 168 });
 
@@ -168,6 +170,25 @@ export function LiveAIPanel({
 
   useEffect(() => {
     setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  useEffect(() => {
+    const onVis = () => setPageVisible(document.visibilityState === "visible");
+    onVis();
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.12, rootMargin: "40px 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   useLayoutEffect(() => {
@@ -217,12 +238,24 @@ export function LiveAIPanel({
   }, [collapsed, compact, dock]);
 
   const cur = collapsed ? dialogue[0] : dialogue[idx];
-  const animate = !collapsed && !reducedMotion;
+  const canCycle = !collapsed && inView && pageVisible;
+  const typingActive = canCycle && !reducedMotion;
 
   useEffect(() => {
-    if (!animate) return;
+    if (!canCycle) return;
     let t: ReturnType<typeof setTimeout>;
-    if (phase === "q") {
+    if (reducedMotion) {
+      if (phase === "q") {
+        t = setTimeout(() => setPhase("a"), 2200);
+      } else if (phase === "a") {
+        t = setTimeout(() => setPhase("hold"), 3200);
+      } else {
+        t = setTimeout(() => {
+          setIdx((i) => (i + 1) % dialogue.length);
+          setPhase("q");
+        }, 1200);
+      }
+    } else if (phase === "q") {
       t = setTimeout(() => setPhase("a"), cur.q.length * 26 + 600);
     } else if (phase === "a") {
       t = setTimeout(() => setPhase("hold"), cur.a.length * 20 + 1800);
@@ -233,15 +266,15 @@ export function LiveAIPanel({
       }, 700);
     }
     return () => clearTimeout(t);
-  }, [idx, phase, cur, animate, dialogue.length]);
+  }, [idx, phase, cur, canCycle, reducedMotion, dialogue.length]);
 
-  const qTyped = useTyper(cur.q, 26, animate);
-  const aTyped = useTyper(cur.a, 20, animate && (phase === "a" || phase === "hold"));
+  const qTyped = useTyper(cur.q, 26, typingActive);
+  const aTyped = useTyper(cur.a, 20, typingActive && (phase === "a" || phase === "hold"));
   const qText = collapsed || reducedMotion ? cur.q : qTyped;
-  const aText = collapsed || reducedMotion ? cur.a : aTyped;
+  const aText = collapsed || reducedMotion ? (phase === "q" ? "" : cur.a) : aTyped;
 
-  const showQCaret = animate && phase === "q" && qText.length < cur.q.length;
-  const showACaret = animate && (phase === "a" || phase === "hold") && aText.length < cur.a.length;
+  const showQCaret = typingActive && phase === "q" && qText.length < cur.q.length;
+  const showACaret = typingActive && (phase === "a" || phase === "hold") && aText.length < cur.a.length;
   const showResourceLink =
     Boolean(cur.resourceHref && cur.resourceLabel) &&
     (collapsed ||
@@ -432,7 +465,23 @@ export function LiveAIPanel({
             </div>
           </div>
         </div>
-        <div className="shrink-0 self-end sm:self-start sm:pt-1">{allQuestionsLink}</div>
+        <div className="shrink-0 flex flex-col items-end gap-4 sm:self-start sm:pt-1 w-full sm:w-auto">
+          {!collapsed && (
+            <div className="flex gap-1.5 w-full sm:w-auto justify-start sm:justify-end">
+              {dialogue.map((_, i) => (
+                <span
+                  key={i}
+                  className="h-0.5 transition-all duration-280"
+                  style={{
+                    width: i === idx ? 22 : 6,
+                    background: i === idx ? "var(--nb-accent)" : "var(--nb-rule-strong)",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          {allQuestionsLink}
+        </div>
       </div>
     );
   }

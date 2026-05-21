@@ -165,9 +165,7 @@ export default function LandingPage() {
       {/* Live conversation — full width below hero */}
       <section id="live" className="nb-live-section scroll-mt-24" aria-label="Typical conversation">
         <div className="nb-container max-w-[1440px] px-0">
-          <ScrollReveal>
-            <LiveAIPanel variant="dock" hideLabel />
-          </ScrollReveal>
+          <LiveAIPanel variant="dock" hideLabel />
         </div>
       </section>
 
