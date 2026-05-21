@@ -133,7 +133,7 @@ interface UserData {
 }
 
 const APP_THEME = "app";
-const SITE_THEME = "site";
+const SITE_THEME = "public";
 
 /** Single source of truth: theme is driven only by the current path. Nothing else may change it. */
 function useThemeFromPath() {

@@ -18,8 +18,8 @@ interface SiteHeaderProps {
 
 const navLinkClass = (active: boolean) =>
   cn(
-    "text-[13.5px] transition-colors duration-200 no-underline",
-    active ? "text-white font-medium" : "text-white/78 hover:text-white"
+    "nb-site-nav-link text-[13.5px] transition-colors duration-200 no-underline",
+    active && "is-active"
   );
 
 export function SiteHeader({ currentPage }: SiteHeaderProps) {
@@ -28,11 +28,14 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
   const isHome = location === "/";
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setScrolled(false);
+
     const onScroll = () => setScrolled(window.scrollY > 50);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location]);
 
   const showSolid = scrolled || !isHome;
 

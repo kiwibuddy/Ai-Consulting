@@ -56,7 +56,9 @@ html[data-theme="public"].light {
   color: var(--nb-ink);
 }
 
-/* Page shell */
+/* Page shell — support .nb-page on the same node as [data-theme="public"] (layout wrapper) */
+[data-theme="public"].nb-page,
+[data-public-site].nb-page,
 [data-theme="public"] .nb-page,
 [data-public-site] .nb-page {
   min-height: 100vh;
@@ -65,6 +67,24 @@ html[data-theme="public"].light {
   font-family: var(--nb-font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Site header nav — always light on dark cinematic shell */
+[data-theme="public"] .nb-site-nav-link,
+[data-public-site] .nb-site-nav-link {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+[data-theme="public"] .nb-site-nav-link:hover,
+[data-public-site] .nb-site-nav-link:hover,
+[data-theme="public"] .nb-site-nav-link.is-active,
+[data-public-site] .nb-site-nav-link.is-active {
+  color: #fff;
+}
+
+[data-theme="public"] .nb-site-nav-link.is-active,
+[data-public-site] .nb-site-nav-link.is-active {
+  font-weight: 500;
 }
 
 [data-theme="public"] .nb-container,
