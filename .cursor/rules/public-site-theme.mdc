@@ -1,5 +1,5 @@
 ---
-description: Default theme is the site look (green CTA, dark header). Dashboard uses data-theme="app" for orange. Do not change :root back to orange.
+description: Public marketing site uses the cinematic dark theme (data-theme="public"). Dashboard uses data-theme="app" (orange). Do not revert public pages to light neutral-50 or orange CTAs.
 globs: 
   - client/src/pages/landing.tsx
   - client/src/pages/about.tsx
@@ -11,48 +11,40 @@ globs:
   - client/src/components/site-header.tsx
   - client/src/components/site-footer.tsx
   - client/src/components/public-site-layout.tsx
+  - client/src/components/public-cinematic/**
+  - client/src/styles/cinematic.css
   - client/src/index.css
   - client/src/App.tsx
 ---
 
-# Public site theme — do not break
+# Public site theme — cinematic
 
-The marketing site (landing, about, speaking, resources, pricing, login, intake, privacy, terms) uses a **separate theme** from the app’s default (Ember/orange). Edits to these areas must preserve it.
+The marketing site uses **`data-theme="public"`** via `PublicSiteLayout`. The coaching dashboard uses **`data-theme="app"`** (orange shadcn primary) — do not change dashboard styling when editing public pages.
 
-## Why it keeps “reverting”
+## Tokens and CSS
 
-- The correct look depends on **`data-theme="site"`** being on an ancestor of the header and all CTAs. If that wrapper is removed or a page is rendered outside it, CSS falls back to the default theme (orange buttons, wrong colors).
-- The theme is defined in **`client/src/index.css`** under `[data-theme="site"]`. CTA buttons use class **`tesoro-cta-gradient`** (green→yellow). The header uses **`bg-neutral-900`** and **`dark-header-logo`** for the logo.
+- Design tokens and utilities live in [client/src/styles/cinematic.css](client/src/styles/cinematic.css) (`--nb-bg`, `--nb-ink`, `--nb-accent`, etc.).
+- Page shell: `className="nb-page"` on the page root (layout also sets `nb-page`).
+- Primary CTA: **`nb-btn-primary`** (green gradient). Do **not** use shadcn `<Button variant="default">` alone on public CTAs (inherits orange from app theme).
+- Secondary CTA: **`nb-btn-secondary`** or `CinematicSecondaryCTA`.
+- Typography: `nb-display`, `nb-body`, `nb-mono-label`, `SectionLabel` from `@/components/public-cinematic/`.
 
-## What to preserve
+## Header and footer
 
-1. **PublicSiteLayout**  
-   All public routes are wrapped in `PublicSiteLayout` in `App.tsx`, which renders a div with **`data-theme="site"`**. Do not remove this wrapper from public routes; do not add public pages without wrapping them in `PublicSiteLayout`.
+- `SiteHeader`: fixed, scroll-aware blur; logo uses `nb-logo-invert`; nav links unchanged (`/`, `/about`, `/speaking`, `/resources`, `/pricing`, `/login`, `/intake`).
+- `SiteFooter`: dark cinematic three-column layout; newsletter + legal links.
 
-2. **CTA buttons**  
-   Any “Book a free 30-min consultation” or primary CTA on the public site must use class **`tesoro-cta-gradient`** (in addition to any Button variant). Do not remove this class or replace it with only `variant="default"` (which would use the default orange).
+## Forms on public routes
 
-3. **Header**  
-   - `SiteHeader` uses **dark background** (`bg-neutral-900`), **white text**, and logo class **`dark-header-logo`** (inverted for visibility).
-   - Nav items: **Home**, About Me, Speaking, Resources, Pricing, Sign In, and the CTA button. Keep “Home” in the nav; keep desktop nav visible from **`md`** up and hamburger **`md:hidden`**.
-   - Logo in the header must be **size-constrained** (e.g. fixed width) so it does not overlap the hero text and the nav has room for all links.
+- Intake and similar forms: wrap inputs in **`public-form-light`** so fields stay light/readable on the dark page shell.
 
-4. **Hero (landing)**  
-   The hero section must have **enough top padding** (e.g. `pt-32 md:pt-40`) so the first line of text does not sit under the fixed header/logo.
+## Removed (do not reintroduce)
 
-5. **CSS in index.css**  
-   Do not remove or weaken `[data-theme="site"]` rules, especially:
-   - `.tesoro-cta-gradient` (green→yellow gradient; uses `!important` so it wins over Tailwind).
-   - `.dark-header-logo` (logo invert on dark header).
-   - `.hero-accent-phrase` (gold accent text).
+- `tesoro-cta-gradient`, `hero-accent-phrase`, `problems-accent-shimmer`
+- Light marketing strips (`bg-neutral-50` as default page background)
+- `data-theme="site"` (renamed to `public`)
 
-## When adding or changing public pages
+## After changes
 
-- Wrap the route in **`PublicSiteLayout`** in `App.tsx`.
-- Keep **`data-theme="site"`** on the page root and/or rely on the layout wrapper.
-- Use **`tesoro-cta-gradient`** on primary CTAs.
-- Use **`SiteHeader`** and **`SiteFooter`** with the same pattern as existing public pages.
-
-## After any updates to the code
-
-- **Verify the public theme**: Load the homepage (e.g. `http://localhost:3000`) and confirm the CTA is **green** (not orange) and the header is dark. If it reverts to orange, the theme logic in `App.tsx`, `public-site-layout.tsx`, and/or `main.tsx` may need to be rechecked.
+- Load homepage: dark cinematic hero, lime accent, green CTA — not orange, not white full-page background.
+- Load `/consultant` or `/client`: dashboard still orange/ember.

@@ -81,7 +81,7 @@ export default function WorksheetSharePage() {
 
   if (!resource || !resource.iframeSrc) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <div className="nb-page overflow-x-hidden">
         <SiteHeader currentPage="resources" />
         <div className="max-w-xl mx-auto px-6 py-24 text-center">
           <h1 className="text-2xl font-bold text-neutral-900 mb-4">Worksheet not found</h1>
@@ -114,8 +114,8 @@ export default function WorksheetSharePage() {
 
   return (
     <div
-      data-theme="site"
-      className="min-h-screen bg-neutral-50 text-neutral-900 font-sans overflow-x-hidden"
+      
+      className="nb-page overflow-x-hidden overflow-x-hidden"
     >
       <PageSEO
         title={`${resource.title} — ${isDeepDive ? "Deep Dive" : "Worksheet"}`}

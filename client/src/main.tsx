@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import "./styles/cinematic.css";
 import { initAnalytics } from "./lib/analytics";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
@@ -11,7 +12,7 @@ function setThemeFromPath() {
   const path = typeof window !== "undefined" ? window.location.pathname || "/" : "/";
   const isDashboard = path.startsWith("/client") || path.startsWith("/consultant");
   const root = document.documentElement;
-  root.setAttribute("data-theme", isDashboard ? "app" : "site");
+  root.setAttribute("data-theme", isDashboard ? "app" : "public");
   if (!isDashboard) {
     root.removeAttribute("data-color-theme");
   }

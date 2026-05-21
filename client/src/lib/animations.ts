@@ -152,12 +152,34 @@ export const smoothTransition = {
   ease: [0.25, 0.4, 0.25, 1],
 };
 
-// ——— Tesoro-style: smoother eases and reveal animations ———
+// ——— Cinematic / editorial: smoother eases and reveal animations ———
 
-/** Easing curve similar to Tesoro/Webflow: smooth deceleration at end */
-export const tesoroEase = [0.22, 1, 0.36, 1] as const;
-export const tesoroTransition = { duration: 0.6, ease: tesoroEase };
-export const tesoroTransitionLong = { duration: 0.85, ease: tesoroEase };
+/** Smooth deceleration at end */
+export const cinematicEase = [0.22, 1, 0.36, 1] as const;
+/** @deprecated Use cinematicEase */
+export const tesoroEase = cinematicEase;
+export const cinematicTransition = { duration: 0.6, ease: cinematicEase };
+export const tesoroTransition = cinematicTransition;
+export const cinematicTransitionLong = { duration: 0.85, ease: cinematicEase };
+export const tesoroTransitionLong = cinematicTransitionLong;
+
+/** Horizontal slide for audience carousel (custom = direction: 1 | -1) */
+export const audienceSlideVariants: Variants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    x: direction * 48,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.65, ease: cinematicEase },
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction * -48,
+    transition: { duration: 0.5, ease: cinematicEase },
+  }),
+};
 
 /** Section headline / big text: fade up with more travel and longer duration */
 export const fadeUpRevealVariants: Variants = {
@@ -165,7 +187,7 @@ export const fadeUpRevealVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.75, ease: tesoroEase },
+    transition: { duration: 0.75, ease: cinematicEase },
   },
 };
 
@@ -187,7 +209,7 @@ export const staggerRevealItemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: tesoroEase },
+    transition: { duration: 0.6, ease: cinematicEase },
   },
 };
 
@@ -208,7 +230,7 @@ export const cardSlideUpItemVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: tesoroEase },
+    transition: { duration: 0.65, ease: cinematicEase },
   },
 };
 
@@ -218,7 +240,7 @@ export const lineRevealVariants: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: tesoroEase },
+    transition: { delay: i * 0.08, duration: 0.5, ease: cinematicEase },
   }),
 };
 

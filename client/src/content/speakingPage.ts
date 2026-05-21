@@ -1,11 +1,16 @@
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
 
 export const speakingHero = {
-  title: "Equipping the Church for the AI Age",
-  intro:
-    "Nathaniel brings 20+ years of global missions leadership and cutting-edge AI expertise to help Christian leaders, parents, and organizations navigate the most significant cultural shift of our generation. Through biblical foundations and practical wisdom, he equips audiences to move from confusion to clarity—helping people discover their God-given purpose in a world where AI is redefining what it means to be human.",
+  eyebrow: "Speaking & Workshops",
+  titleLine1: "Keynotes & workshops",
+  titleLine2: "on faith, AI &",
+  titleAccent: "discipleship",
+  /** Single hero line — homepage-style; fuller bio lives in speakingAbout below the fold */
+  subtitle:
+    "Workshops on faith, discipleship, worldview, AI, and practical guardrails for churches, schools, and businesses. A free 30-minute call is the easiest way to match topic and format to your audience.",
+  heroCtaLabel: "Book a free 30-min call",
   availableFor:
-    "Keynotes · Seminars · Workshops · Multi-Session Courses · Church Services · School Assemblies · Leadership Retreats",
+    "Keynotes · Seminars · Workshops · Multi-Session Courses · Church Services · School Assemblies · Leadership Retreats · Tauranga SME programmes",
 };
 
 export interface Testimonial {
@@ -52,7 +57,7 @@ export const speakingBooking = {
 
 export const speakingAbout = {
   blurb:
-    "Nathaniel Baldock is an AI consultant, speaker, and strategist specializing in faith-based organizations at the intersection of technology, theology, and purpose. With 20+ years of global missions leadership (including training 400+ leaders across 15+ countries with YWAM), technical experience building platforms for churches and nonprofits, and deep expertise in AI capabilities and limitations, he bridges technical knowledge with biblical foundations. He lives in Tauranga, New Zealand, with his wife Alicia and their three children.",
+    "Nathaniel Baldock is an AI consultant, speaker, and strategist for faith-based organisations at the intersection of technology, theology, and purpose. He brings 20+ years in global missions, speaks and teaches internationally across 15+ nations, and has led intensive training programmes (including 400+ leaders as a YWAM course leader). He also builds digital tools for churches and nonprofits. He lives in Tauranga, New Zealand, with his wife Alicia and their three children.",
 };
 
 export interface FAQItem {

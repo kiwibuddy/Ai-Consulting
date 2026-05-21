@@ -70,7 +70,7 @@ export default function PublicPayPage() {
 
   if (isLoading) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="nb-page overflow-x-hidden flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-neutral-500" />
       </div>
     );
@@ -78,7 +78,7 @@ export default function PublicPayPage() {
 
   if (error || !inv) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50">
+      <div className="nb-page">
         <SiteHeader />
         <div className="pt-32 px-4 max-w-md mx-auto text-center">
           <p className="text-neutral-600">This invoice could not be found or the link is invalid.</p>
@@ -89,7 +89,7 @@ export default function PublicPayPage() {
 
   if (inv.isPaid || inv.status === "paid") {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <div className="nb-page overflow-x-hidden">
         <PageSEO
           title="Invoice paid"
           description="Thank you — this invoice has been paid."
@@ -110,7 +110,7 @@ export default function PublicPayPage() {
   const spSuccess = sp.get("success");
   if (spSuccess === "true" || spSuccess === "1") {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50">
+      <div className="nb-page">
         <SiteHeader />
         <main className="pt-28 pb-16 px-4 max-w-md mx-auto text-center">
           <CheckCircle className="h-12 w-12 text-green-600 mx-auto mb-4" />
@@ -129,7 +129,7 @@ export default function PublicPayPage() {
   }
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title={`Pay invoice ${inv.invoiceNumber}`}
         description="Secure payment for your invoice."
@@ -159,7 +159,7 @@ export default function PublicPayPage() {
             <div className="flex flex-col sm:flex-row gap-3">
               {methods?.stripe && (
                 <Button
-                  className="tesoro-cta-gradient font-semibold flex-1"
+                  className="nb-btn-primary font-semibold flex-1"
                   size="lg"
                   disabled={payMutation.isPending}
                   onClick={() => payMutation.mutate("stripe")}

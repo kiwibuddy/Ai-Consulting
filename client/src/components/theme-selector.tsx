@@ -120,7 +120,7 @@ const DATA_COLOR = "data-color-theme";
 
 /**
  * Apply dashboard **accent** color (ember, ocean, …) on the `html` element only.
- * Must not touch `data-theme` — that is reserved for public **site** vs **app** shell (useThemeFromPath).
+ * Must not touch `data-theme` — that is reserved for marketing **public** vs dashboard **app** shell (set in main.tsx / PublicSiteLayout).
  */
 export function applyColorTheme(theme: ColorTheme | null | undefined) {
   if (typeof document === "undefined") return;

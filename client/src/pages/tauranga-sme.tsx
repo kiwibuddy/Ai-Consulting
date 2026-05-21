@@ -223,7 +223,7 @@ function PricingCard({ product, onCheckout, isLoading, loadingTier }: PricingCar
           variant={featured ? "default" : "outline"}
           className={
             featured
-              ? "tesoro-cta-gradient w-full rounded-xl font-semibold"
+              ? "nb-btn-primary w-full rounded-xl font-semibold"
               : "w-full rounded-xl font-semibold border-neutral-300"
           }
           onClick={() => onCheckout(product.tier)}
@@ -300,7 +300,7 @@ export default function TaurangaSmePage() {
   const goldProduct = taurangaSmeProducts.find((p) => p.tier === "gold");
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="AI-Ready Tauranga: prep for the Government's AI Advisory Pilot"
         description="Three tiers built around the four Tauranga SME worksheets and a 4-session deck — get ready for the RBPN AI Advisory Pilot conversation. NZD pricing, locally researched."
@@ -622,7 +622,7 @@ export default function TaurangaSmePage() {
                   variant={p.featured ? "default" : "outline"}
                   className={
                     p.featured
-                      ? "tesoro-cta-gradient rounded-xl font-semibold"
+                      ? "nb-btn-primary rounded-xl font-semibold"
                       : "rounded-xl font-semibold border-neutral-300"
                   }
                   onClick={() => onCheckout(p.tier)}

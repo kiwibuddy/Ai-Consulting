@@ -3,14 +3,12 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/page-seo";
+import { SectionLabel } from "@/components/public-cinematic/section-label";
 import {
   staggerRevealContainerVariants,
   staggerRevealItemVariants,
   landingViewportReveal,
 } from "@/lib/animations";
-
-const contentMax = "max-w-6xl";
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
 
 const aboutContent = [
   `I'm Nathaniel Baldock — a husband, father of three, and someone who's spent over 20 years in global missions trying to answer a persistent question: how do we help people live out what they believe in every area of life? That journey has taken me through 35+ countries with Youth With A Mission — directing training schools, leading teams in Papua New Guinea, developing a biblical worldview program for 400+ emerging leaders in Hawaii, and building Bible engagement tools like the SourceView Bible app and SourceView Together. I've always been an early adopter of new technology, eventually teaching myself to build apps and discovering that the intersection of faith and innovation is where I come most alive.`,
@@ -20,7 +18,7 @@ const aboutContent = [
 
 export default function AboutPage() {
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="About Nathaniel Baldock — AI Consultant for Faith-Based Organisations"
         description="20+ years in global missions with YWAM, now helping churches, schools, and nonprofits navigate AI. Based in Tauranga, New Zealand — consulting globally on AI strategy, ethics, and discipleship."
@@ -28,8 +26,9 @@ export default function AboutPage() {
       />
       <SiteHeader currentPage="about" />
 
-      <main className={`pt-28 pb-20 ${sectionPadding}`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <main className="pt-28 pb-20 nb-section scroll-mt-24">
+        <div className="nb-container px-0 max-w-[1240px]">
+          <SectionLabel num="01">About Me</SectionLabel>
           <motion.div
             className="mb-12"
             initial="hidden"
@@ -38,16 +37,14 @@ export default function AboutPage() {
             variants={staggerRevealContainerVariants}
           >
             <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-2 [text-wrap:balance]"
+              className="nb-display nb-display-lg font-normal m-0 mb-3"
               variants={staggerRevealItemVariants}
             >
               About Me
             </motion.h1>
-            <motion.p
-              className="text-lg text-neutral-600 mb-6"
-              variants={staggerRevealItemVariants}
-            >
-              AI consultant in Tauranga, New Zealand — strategy, training, and advisory for faith, education, and mission-driven organisations.
+            <motion.p className="nb-body-lg m-0 max-w-2xl" variants={staggerRevealItemVariants}>
+              AI consultant in Tauranga, New Zealand — strategy, training, and advisory for faith,
+              education, and mission-driven organisations.
             </motion.p>
           </motion.div>
 
@@ -62,16 +59,12 @@ export default function AboutPage() {
               <img
                 src="/about-me.jpeg"
                 alt="Nathaniel Baldock with family"
-                className="w-full rounded-2xl shadow-lg object-cover aspect-[3/4]"
+                className="w-full rounded-md border border-[var(--nb-rule)] object-cover aspect-[3/4]"
               />
             </motion.div>
             <motion.div className="md:col-span-3 space-y-6" variants={staggerRevealContainerVariants}>
               {aboutContent.map((paragraph, i) => (
-                <motion.p
-                  key={i}
-                  className="text-neutral-700 leading-relaxed text-lg"
-                  variants={staggerRevealItemVariants}
-                >
+                <motion.p key={i} className="nb-body text-[17px] m-0" variants={staggerRevealItemVariants}>
                   {paragraph}
                 </motion.p>
               ))}
@@ -79,7 +72,7 @@ export default function AboutPage() {
           </motion.div>
 
           <p className="mt-12">
-            <Link href="/" className="text-[hsl(142,76%,42%)] hover:underline">
+            <Link href="/" className="nb-btn-secondary">
               ← Back to home
             </Link>
           </p>

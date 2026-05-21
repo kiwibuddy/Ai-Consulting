@@ -96,7 +96,7 @@ export default function SurveyPage() {
 
   if (submitted) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <div className="nb-page overflow-x-hidden">
         <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
@@ -134,7 +134,7 @@ export default function SurveyPage() {
   const showOtherField = selectedLearning.includes("other");
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="AI Knowledge Bank — Quick 3-Question Survey"
         description="Answer three short questions to share how you're feeling about AI and where you'd most love help."
@@ -385,7 +385,7 @@ export default function SurveyPage() {
                     </p>
                     <Button
                       type="submit"
-                      className="tesoro-cta-gradient text-neutral-900 font-semibold px-6"
+                      className="nb-btn-primary text-neutral-900 font-semibold px-6"
                       disabled={submitMutation.isPending}
                     >
                       {submitMutation.isPending ? "Sending..." : "Submit survey"}

@@ -1,7 +1,7 @@
 // Service Worker for PWA
 // Enhanced with better caching strategies and offline support
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE = `holger-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `holger-dynamic-${CACHE_VERSION}`;
 const API_CACHE = `holger-api-${CACHE_VERSION}`;

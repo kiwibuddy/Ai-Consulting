@@ -68,14 +68,14 @@ export function WorksheetLeadCTA({
             {primaryExternal ? (
               <a
                 href={primaryHref}
-                className="tesoro-cta-gradient inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold tracking-[0.14em] uppercase text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[hsl(92,82%,55%)]/60"
+                className="nb-btn-primary inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold tracking-[0.14em] uppercase text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[hsl(92,82%,55%)]/60"
               >
                 {primaryLabel}
               </a>
             ) : (
               <Link
                 href={primaryHref}
-                className="tesoro-cta-gradient inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold tracking-[0.14em] uppercase text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[hsl(92,82%,55%)]/60"
+                className="nb-btn-primary inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold tracking-[0.14em] uppercase text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[hsl(92,82%,55%)]/60"
               >
                 {primaryLabel}
               </Link>

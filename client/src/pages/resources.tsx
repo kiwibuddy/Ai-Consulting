@@ -10,7 +10,7 @@ import {
   cardSlideUpContainerVariants,
   cardSlideUpItemVariants,
   landingViewportReveal,
-  tesoroEase,
+  cinematicEase,
 } from "@/lib/animations";
 import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
 import { videos, type VideoItem } from "@/content/videos";
@@ -18,6 +18,9 @@ import { articles } from "@/content/articles";
 import { deepDives } from "@/content/deep-dives";
 import { worksheets } from "@/content/worksheets";
 import { PageSEO } from "@/components/page-seo";
+import { FaqPageJsonLd } from "@/components/json-ld";
+import { PublicFaqSection } from "@/components/public-cinematic/public-faq-section";
+import { publicFaqItems } from "@/content/public-faq";
 
 /** Articles sorted newest first for display. */
 const articlesByNewest = [...articles].sort(
@@ -54,8 +57,7 @@ const generalWorksheetsByNewest = worksheetsByNewest.filter(
   (w) => !w.id.startsWith("tauranga-sme-")
 );
 
-const contentMax = "max-w-6xl";
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+const contentMax = "nb-container max-w-6xl px-0 mx-auto";
 const worksheetCategories = [
   "AI & Family",
   "Christian Growth",
@@ -77,7 +79,7 @@ function isExternalUrl(url: string) {
 
 /** Green link row used on every resource card */
 const resourceCardCtaClass =
-  "text-sm font-medium text-[hsl(142,76%,42%)] inline-flex items-center gap-1";
+  "text-sm font-medium text-[var(--nb-accent)] inline-flex items-center gap-1";
 
 /** Left-foot “kind” label colour (matches worksheet format badges site-wide) */
 function resourceKindAccentClass(kind: string): string {
@@ -102,7 +104,7 @@ function resourceKindAccentClass(kind: string): string {
     case "Printable":
       return `${base} text-teal-800`;
     default:
-      return `${base} text-neutral-600`;
+      return `${base} text-[var(--nb-ink-soft)]`;
   }
 }
 
@@ -147,10 +149,10 @@ function videoCtaLabel(video: VideoItem): string {
 }
 
 function videoCategoryEyebrowClass(video: VideoItem): string {
-  const base = "text-xs font-medium uppercase tracking-wider mb-1 ";
+  const base = "nb-mono-label mb-1 ";
   if (video.category === "Presentations") return `${base}text-violet-700`;
   if (video.source === "youtube") return `${base}text-red-700`;
-  return `${base}text-neutral-600`;
+  return `${base}text-[var(--nb-ink-soft)]`;
 }
 
 function DeepDiveAnimatedThumb({ id }: { id: string }) {
@@ -227,13 +229,13 @@ export default function ResourcesPage() {
             className="aspect-video w-full object-cover shrink-0"
           />
         ) : (
-          <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
+          <div className="aspect-video bg-[var(--nb-bg-panel)] flex items-center justify-center shrink-0">
             <FileText className="h-12 w-12 text-neutral-300" />
           </div>
         )}
         <div className="p-5 flex-1 flex flex-col">
-          <h4 className="font-semibold text-neutral-900 text-lg mb-2">{sheet.title}</h4>
-          <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+          <h4 className="nb-card-title text-[clamp(18px,1.6vw,22px)] mb-2">{sheet.title}</h4>
+          <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
             {sheet.description}
           </p>
           <div className="flex items-center justify-between gap-2">
@@ -255,8 +257,8 @@ export default function ResourcesPage() {
       <motion.div
         key={sheet.id}
         variants={cardSlideUpItemVariants}
-        whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-        className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 h-full"
+        whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+        className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 h-full"
       >
         {sheetExternal ? (
           <a
@@ -280,16 +282,22 @@ export default function ResourcesPage() {
   };
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="AI & Faith Resources — Articles on AI for Churches, Christian Education & Missions"
-        description="Articles and essays on artificial intelligence from a Christian perspective. AI ethics for churches, digital discipleship, AI in education, parenting in the age of AI, and more. By Nathaniel Baldock."
+        description="Articles and essays on artificial intelligence from a Christian perspective. AI ethics for churches, digital discipleship, AI in education, parenting in the age of AI, FAQs, and free worksheets. By Nathaniel Baldock."
         canonicalPath="/resources"
+      />
+      <FaqPageJsonLd
+        faqs={publicFaqItems.map((item) => ({
+          question: item.question,
+          answer: item.answer,
+        }))}
       />
       <SiteHeader currentPage="resources" />
 
       {/* Hero */}
-      <section className={`pt-28 pb-16 md:pt-36 md:pb-24 px-6 md:px-8 ${contentMax} mx-auto`}>
+      <section className={`nb-inner-main ${contentMax}`}>
         <motion.div
           className="max-w-3xl"
           initial="hidden"
@@ -298,13 +306,13 @@ export default function ResourcesPage() {
           variants={staggerRevealContainerVariants}
         >
           <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-6 [text-wrap:balance]"
+            className="nb-page-title mb-6 [text-wrap:balance]"
             variants={staggerRevealItemVariants}
           >
             Resources
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-neutral-600 leading-relaxed [text-wrap:balance]"
+            className="nb-body-lg text-[var(--nb-ink-soft)] leading-relaxed [text-wrap:balance]"
             variants={staggerRevealItemVariants}
           >
             Articles and essays on AI, faith, and leadership — from an AI consultant perspective. New Zealand and global.
@@ -313,10 +321,10 @@ export default function ResourcesPage() {
       </section>
 
       {/* Articles & essays */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
+        <div className={contentMax}>
           <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8"
+            className="nb-section-title mb-8"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -342,18 +350,18 @@ export default function ResourcesPage() {
                       className="aspect-video w-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="aspect-video bg-neutral-100 flex items-center justify-center shrink-0">
+                    <div className="aspect-video bg-[var(--nb-bg-panel)] flex items-center justify-center shrink-0">
                       <FileText className="h-12 w-12 text-neutral-300" />
                     </div>
                   )}
                   <div className="p-5 flex-1 flex flex-col">
                     {article.category && (
-                      <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider mb-1">
+                      <span className="text-xs font-medium text-[var(--nb-ink-soft)] uppercase tracking-wider mb-1">
                         {article.category}
                       </span>
                     )}
-                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{article.title}</h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                    <h3 className="nb-card-title mb-2">{article.title}</h3>
+                    <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
                       {article.excerpt}
                     </p>
                     <div className="flex items-center justify-between gap-2">
@@ -382,8 +390,8 @@ export default function ResourcesPage() {
                 <motion.div
                   key={article.id}
                   variants={cardSlideUpItemVariants}
-                  whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                  className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                  whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+                  className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
                 >
                   {isExternal ? (
                     <a
@@ -410,8 +418,8 @@ export default function ResourcesPage() {
       </section>
 
       {/* Tauranga businesses */}
-      <section className={`${sectionPadding} bg-neutral-50 border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)] border-y border-[var(--nb-rule)]/80">
+        <div className={contentMax}>
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -420,7 +428,7 @@ export default function ResourcesPage() {
             className="mb-8"
           >
             <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
+              className="nb-section-title mb-3"
               variants={staggerRevealItemVariants}
             >
               Tauranga Businesses
@@ -447,8 +455,8 @@ export default function ResourcesPage() {
       </section>
 
       {/* Worksheets */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)]">
+        <div className={contentMax}>
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -458,7 +466,7 @@ export default function ResourcesPage() {
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
               <motion.h2
-                className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900"
+                className="nb-section-title"
                 variants={staggerRevealItemVariants}
               >
                 Worksheets
@@ -470,7 +478,7 @@ export default function ResourcesPage() {
                   setWorksheetFilter("All");
                 }}
                 variants={staggerRevealItemVariants}
-                className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-white px-4 py-2 text-sm font-medium text-neutral-700 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] transition"
+                className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-[var(--nb-bg-raised)] px-4 py-2 text-sm font-medium text-[var(--nb-ink-soft)] hover:border-[hsl(142,76%,42%)]/50 hover:text-[var(--nb-accent)] transition"
               >
                 {showAllWorksheets ? "Back to carousel" : "Show all"}
               </motion.button>
@@ -518,7 +526,7 @@ export default function ResourcesPage() {
                       className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
                         active
                           ? "border-[hsl(142,76%,42%)] bg-[hsl(142,76%,42%)] text-white"
-                          : "border-neutral-300 bg-white text-neutral-700 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)]"
+                          : "border-neutral-300 bg-[var(--nb-bg-raised)] text-[var(--nb-ink-soft)] hover:border-[hsl(142,76%,42%)]/50 hover:text-[var(--nb-accent)]"
                       }`}
                     >
                       {filter}
@@ -530,7 +538,7 @@ export default function ResourcesPage() {
                 <div key={group.category} className="mb-14 last:mb-0">
                   {worksheetFilter === "All" && (
                     <motion.h3
-                      className="text-lg md:text-xl font-semibold text-neutral-800 mb-5"
+                      className="nb-card-title mb-5"
                       initial="hidden"
                       whileInView="visible"
                       viewport={landingViewportReveal}
@@ -556,8 +564,8 @@ export default function ResourcesPage() {
       </section>
 
       {/* Deep-Dives (NotebookLM podcasts) */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
+        <div className={contentMax}>
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -566,7 +574,7 @@ export default function ResourcesPage() {
             className="mb-8"
           >
             <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3"
+              className="nb-section-title mb-3"
               variants={staggerRevealItemVariants}
             >
               Deep-Dives
@@ -589,8 +597,8 @@ export default function ResourcesPage() {
               <motion.div
                 key={dive.id}
                 variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+                className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
                 <a
                   href={dive.url}
@@ -601,12 +609,12 @@ export default function ResourcesPage() {
                   <DeepDiveAnimatedThumb id={dive.id} />
                   <div className="p-5 flex-1 flex flex-col">
                     {dive.category && (
-                      <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider mb-1">
+                      <span className="text-xs font-medium text-[var(--nb-ink-soft)] uppercase tracking-wider mb-1">
                         {dive.category}
                       </span>
                     )}
-                    <h3 className="font-semibold text-neutral-900 text-lg mb-2">{dive.title}</h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                    <h3 className="nb-card-title mb-2">{dive.title}</h3>
+                    <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
                       {dive.description}
                     </p>
                     <div className="flex items-center justify-between gap-2">
@@ -636,10 +644,10 @@ export default function ResourcesPage() {
       </section>
 
       {/* Videos & talks */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)]">
+        <div className={contentMax}>
           <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8"
+            className="nb-section-title mb-8"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -660,8 +668,8 @@ export default function ResourcesPage() {
                 <motion.div
                   key={video.id}
                   variants={cardSlideUpItemVariants}
-                  whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                  className="flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                  whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+                  className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
                 >
                   <a
                     href={video.url}
@@ -673,7 +681,7 @@ export default function ResourcesPage() {
                       {video.thumbnail ? (
                         <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-neutral-600 transition-colors">
+                        <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-[var(--nb-ink-soft)] transition-colors">
                           <Play className="h-12 w-12" />
                           {video.duration && (
                             <span className="text-xs font-medium">{video.duration}</span>
@@ -687,8 +695,8 @@ export default function ResourcesPage() {
                           {video.category}
                         </span>
                       )}
-                      <h3 className="font-semibold text-neutral-900 text-lg mb-2">{video.title}</h3>
-                      <p className="text-sm text-neutral-600 leading-relaxed flex-1 mb-4">
+                      <h3 className="nb-card-title mb-2">{video.title}</h3>
+                      <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
                         {video.description}
                       </p>
                       <div className="flex items-center justify-between gap-2">
@@ -716,6 +724,8 @@ export default function ResourcesPage() {
           </motion.div>
         </div>
       </section>
+
+      <PublicFaqSection className="bg-[var(--nb-bg-raised)]" />
 
       <SiteFooter />
     </div>

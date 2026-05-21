@@ -10,9 +10,11 @@ import {
   cardSlideUpContainerVariants,
   cardSlideUpItemVariants,
   landingViewportReveal,
-  tesoroEase,
+  cinematicEase,
 } from "@/lib/animations";
-import { ArrowRight, Mic2, Quote, Mail, ChevronDown } from "lucide-react";
+import { ArrowRight, Quote, Mail, ChevronDown } from "lucide-react";
+import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
+import { CinematicPrimaryCTA, CinematicSecondaryCTA } from "@/components/public-cinematic/cinematic-cta";
 import { speakingTopics, speakingFormats } from "@/content/speakingTopics";
 import {
   speakingHero,
@@ -28,53 +30,95 @@ import {
 } from "@/components/ui/collapsible";
 import { SpeakingPageJsonLd } from "@/components/json-ld";
 
-const contentMax = "max-w-6xl";
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+const contentMax = "nb-container max-w-6xl px-0 mx-auto";
 const ctaLabel = "Book a free 30-min consultation";
 
 export default function SpeakingPage() {
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <SpeakingPageJsonLd faqs={speakingFaqs} />
       <SiteHeader currentPage="speaking" />
       <div className="overflow-x-hidden">
-      {/* Hero */}
-      <section className={`pt-28 pb-16 md:pt-36 md:pb-24 px-6 md:px-8 ${contentMax} mx-auto`}>
-        <motion.div
-          className="max-w-3xl"
-          initial="hidden"
-          whileInView="visible"
-          viewport={landingViewportReveal}
-          variants={staggerRevealContainerVariants}
-        >
-          <motion.div className="flex items-center gap-2 text-[hsl(142,76%,42%)] mb-4" variants={staggerRevealItemVariants}>
-            <Mic2 className="h-5 w-5" />
-            <span className="text-sm font-medium uppercase tracking-wider">Speaking & Workshops</span>
-          </motion.div>
-          <motion.h1
-            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-6 [text-wrap:balance]"
-            variants={staggerRevealItemVariants}
-          >
-            {speakingHero.title}
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-xl text-neutral-600 leading-relaxed [text-wrap:balance] mb-6"
-            variants={staggerRevealItemVariants}
-          >
-            {speakingHero.intro}
-          </motion.p>
-          <motion.p
-            className="text-sm font-medium text-neutral-500 uppercase tracking-wider"
-            variants={staggerRevealItemVariants}
-          >
-            Available for: {speakingHero.availableFor}
-          </motion.p>
-        </motion.div>
+      {/* Hero — same shell as homepage */}
+      <section id="top" className="nb-hero nb-hero--speaking relative overflow-hidden pt-[76px]">
+        <div className="absolute inset-0 z-0 overflow-hidden nb-hero-zoom">
+          <img
+            src="/speaking-hero.jpg"
+            alt=""
+            className="nb-hero-photo w-full h-full object-cover"
+          />
+        </div>
+        <div className="nb-hero-gradient-side absolute inset-0 z-[1]" aria-hidden />
+        <div className="nb-hero-gradient-bottom absolute inset-0 z-[1]" aria-hidden />
+
+        <div className="nb-hero-inner relative z-[5] max-w-[1440px] mx-auto flex items-center px-[var(--nb-section-x)]">
+          <div className="nb-hero-copy w-full max-w-[820px] py-[clamp(56px,8vw,88px)]">
+            <ScrollReveal>
+              <div className="nb-hero-eyebrow flex flex-wrap items-center gap-3.5 mb-10 nb-mono-label">
+                <span
+                  className="inline-block w-[7px] h-[7px] rounded-full shrink-0"
+                  style={{
+                    background: "var(--nb-accent)",
+                    boxShadow: "0 0 0 4px color-mix(in srgb, var(--nb-accent) 22%, transparent)",
+                  }}
+                />
+                <span>{speakingHero.eyebrow}</span>
+                <span className="w-[18px] h-px bg-[var(--nb-rule)]" />
+                <span>Tauranga · Aotearoa · Global</span>
+              </div>
+            </ScrollReveal>
+
+            <h1 className="nb-display nb-display-hero nb-display-hero--speaking m-0 pb-[0.08em]">
+              <ScrollReveal delay={50}>
+                <span className="block">{speakingHero.titleLine1}</span>
+              </ScrollReveal>
+              <ScrollReveal delay={200}>
+                <span className="block">
+                  {speakingHero.titleLine2}{" "}
+                  <em
+                    className="nb-italic-accent not-italic font-light underline decoration-[color-mix(in_srgb,var(--nb-accent)_45%,transparent)] decoration-[0.07em] underline-offset-[0.05em]"
+                    style={{ fontStyle: "italic" }}
+                  >
+                    {speakingHero.titleAccent}
+                  </em>
+                  <span className="text-[var(--nb-accent)]">.</span>
+                </span>
+              </ScrollReveal>
+            </h1>
+
+            <ScrollReveal delay={420}>
+              <p className="nb-body-lg mt-10 mb-0 max-w-[620px]">
+                {speakingHero.subtitle}
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={580}>
+              <div className="flex flex-wrap items-center gap-4 mt-8">
+                <CinematicPrimaryCTA href="/speaking/invite">
+                  {speakingHero.heroCtaLabel}
+                </CinematicPrimaryCTA>
+                <CinematicSecondaryCTA href="#topics">Speaking topics →</CinematicSecondaryCTA>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={660}>
+              <p
+                className="nb-mono-label mt-7 mb-0 max-w-[620px] text-[var(--nb-ink-dim)]"
+                style={{ fontSize: 10, letterSpacing: "0.14em", lineHeight: 1.65 }}
+              >
+                Available for: {speakingHero.availableFor}
+              </p>
+            </ScrollReveal>
+          </div>
+        </div>
       </section>
 
       {/* Speaking topics — cards */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section
+        id="topics"
+        className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80 scroll-mt-24"
+      >
+        <div className={contentMax}>
           <motion.div
             className="text-center mb-12"
             initial="hidden"
@@ -82,10 +126,10 @@ export default function SpeakingPage() {
             viewport={landingViewportReveal}
             variants={fadeUpRevealVariants}
           >
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
+            <h2 className="nb-section-title mb-3">
               Speaking topics
             </h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
+            <p className="text-[var(--nb-ink-soft)] max-w-2xl mx-auto">
               Each topic can be tailored to your audience and format — from a single keynote to a multi-session course.
             </p>
           </motion.div>
@@ -100,24 +144,24 @@ export default function SpeakingPage() {
               <motion.div
                 key={topic.id}
                 variants={cardSlideUpItemVariants}
-                whileHover={{ y: -6, transition: { duration: 0.3, ease: tesoroEase } }}
-                className="rounded-2xl border border-neutral-200 bg-white p-6 md:p-8 shadow-sm hover:shadow-lg transition-shadow duration-300"
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+                className="rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 md:p-8 shadow-sm hover:shadow-lg transition-shadow duration-300"
               >
-                <h3 className="text-xl font-bold text-neutral-900 mb-2">{topic.title}</h3>
-                <p className="text-neutral-600 text-sm md:text-base leading-relaxed mb-4">
+                <h3 className="nb-card-title mb-2">{topic.title}</h3>
+                <p className="text-[var(--nb-ink-soft)] text-sm md:text-base leading-relaxed mb-4">
                   {topic.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {topic.formats.map((f) => (
                     <span
                       key={f}
-                      className="inline-flex items-center rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700"
+                      className="inline-flex items-center rounded-full bg-[var(--nb-bg-panel)] px-3 py-1 text-xs font-medium text-[var(--nb-ink-soft)]"
                     >
                       {f}
                     </span>
                   ))}
                 </div>
-                <p className="text-sm text-neutral-500">
+                <p className="text-sm text-[var(--nb-ink-dim)]">
                   <span className="font-medium">For:</span> {topic.forAudience}
                 </p>
                 {topic.outlineUrl && (
@@ -125,7 +169,7 @@ export default function SpeakingPage() {
                     href={topic.outlineUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-block text-sm font-medium text-[hsl(142,76%,42%)] hover:underline"
+                    className="mt-3 inline-block text-sm font-medium text-[var(--nb-accent)] hover:underline"
                   >
                     View outline →
                   </a>
@@ -137,10 +181,10 @@ export default function SpeakingPage() {
       </section>
 
       {/* Formats */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)]">
+        <div className={contentMax}>
           <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8 text-center"
+            className="nb-section-title mb-8 text-center"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -159,11 +203,11 @@ export default function SpeakingPage() {
               <motion.div
                 key={format.name}
                 variants={staggerRevealItemVariants}
-                className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm"
+                className="rounded-xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-5 shadow-sm"
               >
-                <h3 className="font-bold text-neutral-900 mb-1">{format.name}</h3>
-                <p className="text-sm text-neutral-500 mb-2">{format.duration}</p>
-                <p className="text-sm text-neutral-600">{format.description}</p>
+                <h3 className="nb-card-title mb-1">{format.name}</h3>
+                <p className="text-sm text-[var(--nb-ink-dim)] mb-2">{format.duration}</p>
+                <p className="text-sm text-[var(--nb-ink-soft)]">{format.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -171,10 +215,10 @@ export default function SpeakingPage() {
       </section>
 
       {/* What People Are Saying */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
+        <div className={contentMax}>
           <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8 text-center"
+            className="nb-section-title mb-8 text-center"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -193,11 +237,11 @@ export default function SpeakingPage() {
               <motion.div
                 key={i}
                 variants={cardSlideUpItemVariants}
-                className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6 shadow-sm"
+                className="rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] p-6 shadow-sm"
               >
-                <Quote className="h-8 w-8 text-[hsl(142,76%,42%)]/40 mb-3" />
-                <p className="text-neutral-700 text-sm leading-relaxed italic mb-4">&ldquo;{t.quote}&rdquo;</p>
-                <p className="text-sm font-medium text-neutral-900">— {t.attribution}</p>
+                <Quote className="h-8 w-8 text-[var(--nb-accent)]/40 mb-3" />
+                <p className="text-[var(--nb-ink-soft)] text-sm leading-relaxed italic mb-4">&ldquo;{t.quote}&rdquo;</p>
+                <p className="text-sm font-medium text-[var(--nb-ink)]">— {t.attribution}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -205,8 +249,8 @@ export default function SpeakingPage() {
       </section>
 
       {/* Booking CTA */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)]">
+        <div className={contentMax}>
           <motion.div
             className="max-w-2xl mx-auto space-y-6"
             initial="hidden"
@@ -215,24 +259,24 @@ export default function SpeakingPage() {
             variants={staggerRevealContainerVariants}
           >
             <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 text-center"
+              className="nb-section-title text-center"
               variants={staggerRevealItemVariants}
             >
               {speakingBooking.heading}
             </motion.h2>
-            <motion.p className="text-neutral-600 text-center" variants={staggerRevealItemVariants}>
+            <motion.p className="text-[var(--nb-ink-soft)] text-center" variants={staggerRevealItemVariants}>
               {speakingBooking.body}
             </motion.p>
-            <motion.p className="text-sm text-neutral-500 text-center" variants={staggerRevealItemVariants}>
+            <motion.p className="text-sm text-[var(--nb-ink-dim)] text-center" variants={staggerRevealItemVariants}>
               {speakingBooking.availability}
             </motion.p>
-            <motion.h3 className="text-xl font-semibold text-neutral-900 pt-4" variants={staggerRevealItemVariants}>
+            <motion.h3 className="nb-card-title pt-4" variants={staggerRevealItemVariants}>
               {speakingBooking.ctaHeading}
             </motion.h3>
-            <motion.p className="text-neutral-600" variants={staggerRevealItemVariants}>
+            <motion.p className="text-[var(--nb-ink-soft)]" variants={staggerRevealItemVariants}>
               {speakingBooking.ctaBody}
             </motion.p>
-            <motion.ul className="list-disc list-inside text-neutral-600 text-sm space-y-1" variants={staggerRevealItemVariants}>
+            <motion.ul className="list-disc list-inside text-[var(--nb-ink-soft)] text-sm space-y-1" variants={staggerRevealItemVariants}>
               {speakingBooking.whatToExpect.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -241,7 +285,7 @@ export default function SpeakingPage() {
               <Button
                 variant="default"
                 size="lg"
-                className="tesoro-cta-gradient rounded-xl font-semibold px-8"
+                className="nb-btn-primary rounded-xl font-semibold px-8"
                 asChild
               >
                 <Link href="/intake">
@@ -262,7 +306,7 @@ export default function SpeakingPage() {
               </Button>
               <a
                 href={`mailto:${speakingBooking.email}?subject=${encodeURIComponent(speakingBooking.mailtoSubject ?? "Inquiry - nathanielbaldock.com")}`}
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-white px-6 py-3 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-300 bg-[var(--nb-bg-raised)] px-6 py-3 text-sm font-medium text-[var(--nb-ink-soft)] hover:bg-[var(--nb-bg)] transition-colors"
               >
                 <Mail className="h-4 w-4" />
                 {speakingBooking.email}
@@ -273,10 +317,10 @@ export default function SpeakingPage() {
       </section>
 
       {/* FAQ */}
-      <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
+        <div className={contentMax}>
           <motion.h2
-            className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8 text-center"
+            className="nb-section-title mb-8 text-center"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -294,12 +338,12 @@ export default function SpeakingPage() {
             {speakingFaqs.map((faq, i) => (
               <Collapsible key={i}>
                 <motion.div variants={staggerRevealItemVariants}>
-                  <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-left text-sm font-medium text-neutral-900 hover:bg-neutral-100 transition-colors [&[data-state=open]>svg]:rotate-180">
+                  <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-[var(--nb-rule)] bg-[var(--nb-bg)] px-4 py-3 text-left text-sm font-medium text-[var(--nb-ink)] hover:bg-[var(--nb-bg-panel)] transition-colors [&[data-state=open]>svg]:rotate-180">
                     {faq.question}
                     <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                   </CollapsibleTrigger>
                   <CollapsibleContent>
-                    <p className="rounded-b-lg border border-t-0 border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-600">
+                    <p className="rounded-b-lg border border-t-0 border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] px-4 py-3 text-sm text-[var(--nb-ink-soft)]">
                       {faq.answer}
                     </p>
                   </CollapsibleContent>
@@ -311,8 +355,8 @@ export default function SpeakingPage() {
       </section>
 
       {/* About Nathaniel */}
-      <section className={`${sectionPadding} bg-neutral-50`}>
-        <div className={`container mx-auto ${contentMax}`}>
+      <section className="nb-inner-section bg-[var(--nb-bg)]">
+        <div className={contentMax}>
           <motion.div
             className="max-w-2xl mx-auto text-center"
             initial="hidden"
@@ -321,18 +365,18 @@ export default function SpeakingPage() {
             variants={staggerRevealContainerVariants}
           >
             <motion.h2
-              className="text-xl font-bold tracking-tight text-neutral-900 mb-3"
+              className="nb-card-title mb-3"
               variants={staggerRevealItemVariants}
             >
               About Nathaniel
             </motion.h2>
-            <motion.p className="text-neutral-600 text-sm leading-relaxed" variants={staggerRevealItemVariants}>
+            <motion.p className="text-[var(--nb-ink-soft)] text-sm leading-relaxed" variants={staggerRevealItemVariants}>
               {speakingAbout.blurb}
             </motion.p>
             <motion.div className="mt-4" variants={staggerRevealItemVariants}>
               <Link
                 href="/#who-and-why"
-                className="text-sm font-medium text-[hsl(142,76%,42%)] hover:underline inline-flex items-center gap-1"
+                className="text-sm font-medium text-[var(--nb-accent)] hover:underline inline-flex items-center gap-1"
               >
                 Learn more about consulting services
                 <ArrowRight className="h-3.5 w-3.5" />

@@ -58,7 +58,7 @@ export default function TaurangaSmeWelcomePage() {
   const meta = tierMeta[tier];
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="Welcome to the Tauranga SME programme"
         description="Your purchase is confirmed. Check your inbox for the access email."
@@ -123,7 +123,7 @@ export default function TaurangaSmeWelcomePage() {
             </motion.div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button asChild size="lg" className="tesoro-cta-gradient rounded-xl font-semibold">
+              <Button asChild size="lg" className="nb-btn-primary rounded-xl font-semibold">
                 <Link href="/resources/worksheet/tauranga-sme-presentation-readiness">
                   Open Session 1 deck now
                   <ArrowRight className="ml-2 h-4 w-4" />

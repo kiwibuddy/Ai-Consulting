@@ -151,8 +151,8 @@ export default function ArticleRaisingHumans() {
   const [summaryOpen, setSummaryOpen] = useState(false);
   return (
     <div
-      data-theme="site"
-      className="min-h-screen bg-neutral-50 text-neutral-900 font-sans overflow-x-hidden"
+      
+      className="nb-page overflow-x-hidden overflow-x-hidden"
     >
       <PageSEO
         title={articleMeta.title}
@@ -258,7 +258,7 @@ export default function ArticleRaisingHumans() {
             <Button asChild>
               <a
                 href="https://www.nathanielbaldock.com/#contact"
-                className="tesoro-cta-gradient"
+                className="nb-btn-primary"
               >
                 Book a free 30-min consultation
               </a>

@@ -122,7 +122,7 @@ export default function ResetPassword() {
       <button
         type="submit"
         disabled={resetMutation.isPending || !password || !confirmPassword}
-        className="tesoro-cta-gradient w-full py-3 px-6 rounded-full font-semibold text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="nb-btn-primary w-full py-3 px-6 rounded-full font-semibold text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {resetMutation.isPending ? (
           <>
@@ -159,7 +159,7 @@ export default function ResetPassword() {
               This link is invalid or has expired. Request a new one below.
             </p>
             <Link href="/forgot-password">
-              <button className="tesoro-cta-gradient px-6 py-3 rounded-full font-semibold text-white text-sm">
+              <button className="nb-btn-primary px-6 py-3 rounded-full font-semibold text-white text-sm">
                 Request new link
               </button>
             </Link>
@@ -173,7 +173,7 @@ export default function ResetPassword() {
     return (
       <div className="min-h-screen bg-stone-50">
         {/* Green accent bar */}
-        <div className="h-1 tesoro-cta-gradient" />
+        <div className="h-1 nb-btn-primary" />
         {/* Header */}
         <header className="bg-white border-b border-stone-100">
           <div className="container mx-auto px-6 h-16 flex items-center">

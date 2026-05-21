@@ -52,8 +52,8 @@ export function HomepageJsonLd() {
   );
 }
 
-export function SpeakingPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
-  const faqSchema = {
+function buildFaqPageSchema(faqs: FAQItem[]) {
+  return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((item) => ({
@@ -65,6 +65,20 @@ export function SpeakingPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
       },
     })),
   };
+}
+
+/** FAQPage JSON-LD for /resources (and other static FAQ pages). */
+export function FaqPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageSchema(faqs)) }}
+    />
+  );
+}
+
+export function SpeakingPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
+  const faqSchema = buildFaqPageSchema(faqs);
 
   const personSchema = {
     "@context": "https://schema.org",

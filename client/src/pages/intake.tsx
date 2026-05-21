@@ -537,7 +537,7 @@ export default function IntakePage() {
         type="submit"
         size="lg"
         disabled={submitMutation.isPending}
-        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+        className="nb-btn-primary w-full rounded-xl font-semibold px-8 text-white"
         data-testid="button-submit"
       >
         {submitMutation.isPending ? (
@@ -565,7 +565,7 @@ export default function IntakePage() {
         type="submit"
         size="lg"
         disabled={submitMutation.isPending}
-        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+        className="nb-btn-primary w-full rounded-xl font-semibold px-8 text-white"
         data-testid="button-submit-intake-modal"
       >
         {submitMutation.isPending ? (
@@ -590,7 +590,7 @@ export default function IntakePage() {
   // Success state: show the card for whichever form was submitted
   if (submittedForm === "consultation") {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <div className="nb-page overflow-x-hidden">
         <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
@@ -628,7 +628,7 @@ export default function IntakePage() {
 
   if (submittedForm === "speaking") {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+      <div className="nb-page overflow-x-hidden">
         <SiteHeader />
         <div className="pt-28 min-h-screen flex items-center justify-center p-4">
           <Card className="max-w-md w-full border-0 shadow-lg bg-white">
@@ -665,7 +665,7 @@ export default function IntakePage() {
   }
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="Book a Free AI Consultation — Nathaniel Baldock AI Consulting"
         description="Book a free 30-minute AI consultation for your church, school, or nonprofit. Get practical guidance on AI strategy, policy, and implementation from a faith-based AI consultant."
@@ -674,15 +674,15 @@ export default function IntakePage() {
       <SiteHeader />
       <main
         className={cn(
-          "public-form-light mx-auto px-6 pt-28 pb-12 md:pb-16",
+          "nb-inner-main mx-auto",
           formType === "consultation" && BOOKING_URL ? "max-w-6xl" : "max-w-3xl"
         )}
       >
         {/* Sliding switcher: same green as CTA, other option plain text; pill slides on click */}
-        <div className="mb-8">
-          <div className="relative flex rounded-xl border border-neutral-200 bg-neutral-100 p-1.5">
+        <div className="mb-8 public-form-light">
+          <div className="nb-intake-switcher relative flex rounded-xl border border-neutral-200 bg-neutral-100 p-1.5">
             <div
-              className="absolute top-1.5 bottom-1.5 w-[calc(50%-3px)] rounded-lg tesoro-cta-gradient transition-all duration-300 ease-out"
+              className="nb-intake-switcher-pill absolute top-1.5 bottom-1.5 w-[calc(50%-3px)] rounded-lg nb-btn-primary transition-all duration-300 ease-out"
               style={{ left: formType === "consultation" ? 6 : "calc(50% + 3px)" }}
             />
             <button
@@ -691,9 +691,12 @@ export default function IntakePage() {
                 setFormType("consultation");
                 setLocation("/intake");
               }}
-              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
+              className={cn(
+                "nb-intake-switcher-btn relative z-10 flex-1 py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium leading-tight rounded-lg transition-colors duration-200",
+                formType === "consultation" && "is-active"
+              )}
             >
-              <span className={formType === "consultation" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
+              <span className={formType === "consultation" ? "text-white max-[400px]:text-white" : "text-neutral-600 hover:text-neutral-900"}>
                 Request a free discovery call
               </span>
             </button>
@@ -703,9 +706,12 @@ export default function IntakePage() {
                 setFormType("speaking");
                 setLocation("/intake?form=speaking");
               }}
-              className="relative z-10 flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-colors duration-200"
+              className={cn(
+                "nb-intake-switcher-btn relative z-10 flex-1 py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium leading-tight rounded-lg transition-colors duration-200",
+                formType === "speaking" && "is-active"
+              )}
             >
-              <span className={formType === "speaking" ? "text-white" : "text-neutral-600 hover:text-neutral-900"}>
+              <span className={formType === "speaking" ? "text-white max-[400px]:text-white" : "text-neutral-600 hover:text-neutral-900"}>
                 Invite me to speak
               </span>
             </button>
@@ -713,14 +719,16 @@ export default function IntakePage() {
         </div>
 
         {formType === "speaking" ? (
-          <SpeakingFormContent onSuccess={() => setSubmittedForm("speaking")} />
+          <div className="public-form-light">
+            <SpeakingFormContent onSuccess={() => setSubmittedForm("speaking")} />
+          </div>
         ) : (
           <>
         <div className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-3">
+          <h1 className="nb-page-title mb-3">
             {BOOKING_URL ? "Free 30-minute discovery call" : "Request a free discovery call"}
           </h1>
-          <p className="text-lg text-neutral-600 max-w-2xl leading-relaxed">
+          <p className="nb-body-lg max-w-2xl m-0">
             {BOOKING_URL ? (
               <>
                 <span className="text-neutral-800 font-medium">Pick one step below: </span>
@@ -738,7 +746,7 @@ export default function IntakePage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-6 mb-10 text-sm text-neutral-500">
+        <div className="flex flex-wrap gap-4 sm:gap-6 mb-10 text-sm text-[var(--nb-ink-soft)]">
           <span className="flex items-center gap-1.5">
             <Clock className="h-4 w-4 text-neutral-400" />
             30 min · free · no obligation
@@ -765,7 +773,7 @@ export default function IntakePage() {
                     resources you can explore.
                   </p>
                   <div className="mt-4 flex flex-wrap items-center gap-2">
-                    <Button size="sm" className="tesoro-cta-gradient font-medium" asChild>
+                    <Button size="sm" className="nb-btn-primary font-medium" asChild>
                       <Link href="/resources">
                         View latest resources
                         <ArrowRight className="ml-1.5 h-4 w-4" />
@@ -850,7 +858,7 @@ export default function IntakePage() {
                         type="submit"
                         size="sm"
                         disabled={claimPortalMutation.isPending || !claimEmail.trim()}
-                        className="tesoro-cta-gradient"
+                        className="nb-btn-primary"
                       >
                         {claimPortalMutation.isPending ? (
                           <>
@@ -869,6 +877,7 @@ export default function IntakePage() {
           </Card>
         )}
 
+        <div className="public-form-light">
         <Form {...form}>
           {BOOKING_URL ? (
             <>
@@ -909,7 +918,7 @@ export default function IntakePage() {
                       <Button
                         type="button"
                         size="lg"
-                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+                        className="nb-btn-primary w-full rounded-xl font-semibold px-8 text-white"
                         onClick={handleStartBooking}
                         data-testid="button-open-booking-modal"
                       >
@@ -962,7 +971,7 @@ export default function IntakePage() {
                       <Button
                         type="button"
                         size="lg"
-                        className="tesoro-cta-gradient w-full rounded-xl font-semibold px-8 text-white"
+                        className="nb-btn-primary w-full rounded-xl font-semibold px-8 text-white"
                         onClick={() => {
                           setIntakeFormModalOpen(true);
                           trackEvent("intake", { action: "open_intake_modal" });
@@ -1067,6 +1076,7 @@ export default function IntakePage() {
             </form>
           )}
         </Form>
+        </div>
 
         {BOOKING_URL && !bookingUsesExternalWindow && (
           <Dialog open={bookingModalOpen} onOpenChange={setBookingModalOpen}>
@@ -1110,7 +1120,7 @@ export default function IntakePage() {
                     <Button
                       type="button"
                       size="lg"
-                      className="tesoro-cta-gradient w-full max-w-sm rounded-xl font-semibold text-white"
+                      className="nb-btn-primary w-full max-w-sm rounded-xl font-semibold text-white"
                       onClick={openBookingPage}
                     >
                       Book in Google Calendar
@@ -1131,7 +1141,7 @@ export default function IntakePage() {
                     <iframe
                       title="Book a 30-minute call"
                       src={BOOKING_URL}
-                      className="w-full min-h-[50vh] flex-1 border-0 bg-white"
+                      className="w-full min-h-[40svh] max-h-[70svh] md:min-h-[50vh] md:max-h-none flex-1 border-0 bg-white"
                       allow="camera; microphone; fullscreen; payment; clipboard-read; clipboard-write"
                       referrerPolicy="no-referrer-when-downgrade"
                     />
@@ -1159,7 +1169,7 @@ export default function IntakePage() {
                     </Button>
                     <Button
                       type="button"
-                      className="tesoro-cta-gradient font-medium"
+                      className="nb-btn-primary font-medium"
                       onClick={handleFinishedBooking}
                     >
                       I&apos;ve finished booking
@@ -1171,12 +1181,12 @@ export default function IntakePage() {
           </Dialog>
         )}
 
-        <footer className="border-t border-neutral-200 py-8 mt-12 text-center text-sm text-neutral-400">
+        <footer className="border-t border-[var(--nb-rule)] py-8 mt-12 text-center text-sm text-[var(--nb-ink-dim)]">
           <p>
             Prefer to email directly?{" "}
             <a
               href="mailto:nathanielbaldock@gmail.com"
-              className="text-neutral-600 hover:text-neutral-900 transition-colors underline"
+              className="text-[var(--nb-ink-soft)] hover:text-[var(--nb-ink)] transition-colors underline"
             >
               nathanielbaldock@gmail.com
             </a>

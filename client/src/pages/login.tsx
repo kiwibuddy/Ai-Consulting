@@ -14,8 +14,7 @@ import { Loader2, Lock, Mail, CheckCircle } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { Redirect } from "wouter";
 
-const contentMax = "max-w-md";
-const sectionPadding = "py-16 md:py-24 px-6 md:px-8";
+const contentMax = "nb-container max-w-md px-0 mx-auto";
 
 export default function LoginPage() {
   const { isAuthenticated, isLoading: authLoading, user } = useAuth();
@@ -153,7 +152,7 @@ export default function LoginPage() {
 
   if (authLoading) {
     return (
-      <div data-theme="site" className="min-h-screen bg-neutral-50 flex items-center justify-center">
+      <div className="nb-page overflow-x-hidden flex items-center justify-center">
         <div className="animate-pulse text-neutral-500">Loading...</div>
       </div>
     );
@@ -164,14 +163,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div data-theme="site" className="min-h-screen bg-neutral-50 overflow-x-hidden text-neutral-900 font-sans">
+    <div className="nb-page overflow-x-hidden">
       <SiteHeader currentPage="login" />
 
-      <main className={`pt-28 pb-20 ${sectionPadding}`}>
-        <div className={`container mx-auto ${contentMax}`}>
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">Sign In</h1>
-          <p className="text-neutral-600 mb-6">Sign in with Google or use your email and password.</p>
+      <main className="nb-inner-main">
+        <div className={contentMax}>
+          <h1 className="nb-page-title mb-2">Sign In</h1>
+          <p className="nb-body mb-6">Sign in with Google or use your email and password.</p>
 
+          <div className="public-form-light rounded-xl border border-[var(--nb-rule)] bg-white p-6 md:p-8 shadow-sm">
           <Tabs defaultValue="signin" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
               <TabsTrigger value="signin">Sign in</TabsTrigger>
@@ -375,9 +375,10 @@ export default function LoginPage() {
               )}
             </TabsContent>
           </Tabs>
+          </div>
 
           <p className="mt-6 text-center">
-            <Link href="/" className="text-[hsl(142,76%,42%)] hover:underline">
+            <Link href="/" className="nb-btn-secondary">
               ← Back to home
             </Link>
           </p>

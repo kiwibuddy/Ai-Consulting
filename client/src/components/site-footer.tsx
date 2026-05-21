@@ -2,12 +2,9 @@
 
 import { useState } from "react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { SITE_CONTACT_EMAIL, MAILTO_SUBJECT_INQUIRY } from "@shared/constants";
-
-const contentMax = "max-w-6xl";
 
 export interface SiteFooterProps {
   onNewsletterSubmit?: (email: string) => void | Promise<void>;
@@ -42,71 +39,73 @@ export function SiteFooter({ onNewsletterSubmit }: SiteFooterProps) {
     }
   }
 
+  const footerLink =
+    "text-sm text-[var(--nb-ink-soft)] hover:text-[var(--nb-ink)] no-underline transition-colors";
+
   return (
-    <footer className="border-t border-neutral-200 py-16 px-6 md:px-10 bg-neutral-100">
-      <div className={`container mx-auto ${contentMax}`}>
-        <div className="flex flex-col gap-12">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-            <div className="flex flex-col gap-6">
-              <Link href="/" className="inline-flex items-center w-fit">
-                <img
-                  src="/logo.png?v=2"
-                  alt="Nathaniel Baldock — AI Consulting"
-                  className="h-14 md:h-16 w-auto object-contain"
-                />
-              </Link>
-            <div>
-              <p className="text-sm font-medium text-neutral-900 mb-2">Sign up for updates</p>
-              <form
-                className="flex gap-2 max-w-md"
-                onSubmit={handleNewsletterSubmit}
-              >
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  className="flex-1 min-w-0 rounded-lg border border-neutral-300 bg-white px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]"
-                />
-<Button type="submit" variant="default" size="default" className="tesoro-cta-gradient rounded-lg shrink-0" disabled={submitting}>
-                    {submitting ? "Submitting…" : "Submit"}
-                  </Button>
-              </form>
-            </div>
-            </div>
-            <div className="text-sm text-neutral-600">
-              <p>Tauranga, NZ · Working NZ + Global (Zoom)</p>
-              <p className="mt-1">
-                Contact:{" "}
-                <a
-                  href={`mailto:${SITE_CONTACT_EMAIL}?subject=${MAILTO_SUBJECT_INQUIRY}`}
-                  className="hover:text-neutral-900 transition-colors duration-300"
-                >
-                  {SITE_CONTACT_EMAIL}
-                </a>
-              </p>
-            </div>
+    <footer className="border-t border-[var(--nb-rule)] py-12 md:py-16" style={{ paddingLeft: "var(--nb-section-x)", paddingRight: "var(--nb-section-x)" }}>
+      <div className="nb-container max-w-[1340px] px-0">
+        <div className="flex flex-wrap justify-between items-start gap-8">
+          <div className="max-w-[360px]">
+            <Link href="/">
+              <img src="/logo.png?v=2" alt="Nathaniel Baldock" className="h-9 nb-logo-invert mb-4" />
+            </Link>
+            <p className="text-[13.5px] leading-relaxed text-[var(--nb-ink-soft)] m-0">
+              AI Consulting for Faith, Education &amp; Mission-Driven Leaders.
+              <br />
+              Based in Tauranga, Aotearoa — serving NZ &amp; globally.
+            </p>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-neutral-200">
-            <p className="text-sm text-neutral-600">© 2026 Nathaniel Baldock</p>
-            <div className="flex items-center gap-6">
-              <Link href="/speaking" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                Speaking
-              </Link>
-              <Link href="/resources" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                Resources
-              </Link>
-              <a href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                Credits
+
+          <div className="flex flex-wrap gap-8 md:gap-14">
+            <FooterCol title="Site">
+              <Link href="/" className={footerLink}>Home</Link>
+              <Link href="/about" className={footerLink}>About Me</Link>
+              <Link href="/speaking" className={footerLink}>Speaking</Link>
+              <Link href="/resources" className={footerLink}>Resources</Link>
+              <Link href="/pricing" className={footerLink}>Pricing</Link>
+            </FooterCol>
+            <FooterCol title="Connect">
+              <a href={`mailto:${SITE_CONTACT_EMAIL}?subject=${MAILTO_SUBJECT_INQUIRY}`} className={footerLink}>
+                Email
               </a>
-              <Link href="/terms" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                Terms
-              </Link>
-              <Link href="/privacy" className="text-sm text-neutral-600 hover:text-neutral-900 transition-colors duration-300">
-                Privacy
-              </Link>
-            </div>
+              <Link href="/intake" className={footerLink}>Book a call</Link>
+            </FooterCol>
+            <FooterCol title="Legal">
+              <Link href="/privacy" className={footerLink}>Privacy</Link>
+              <Link href="/terms" className={footerLink}>Terms</Link>
+            </FooterCol>
           </div>
         </div>
+
+        <div className="mt-10 pt-6 border-t border-[var(--nb-rule)] flex flex-wrap justify-between gap-4 nb-mono-label" style={{ fontSize: 10.5 }}>
+          <span>© 2026 Nathaniel Baldock</span>
+          <span>Designed with discernment in Tauranga · NZ</span>
+        </div>
+
+        <form className="nb-footer-newsletter flex gap-2 max-w-md mt-10" onSubmit={handleNewsletterSubmit}>
+          <input
+            type="email"
+            placeholder="Email for updates"
+            required
+            className="flex-1 min-w-0 rounded-lg border border-[var(--nb-rule-strong)] bg-[var(--nb-bg-raised)] px-4 py-2.5 text-sm text-[var(--nb-ink)] placeholder:text-[var(--nb-ink-dim)] focus:outline-none focus:ring-2 focus:ring-[var(--nb-accent)]"
+          />
+          <button type="submit" className="nb-btn-primary nb-btn-primary--sm shrink-0" disabled={submitting}>
+            {submitting ? "…" : "Submit"}
+          </button>
+        </form>
       </div>
     </footer>
+  );
+}
+
+function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2.5 min-w-[120px]">
+      <span className="nb-mono-label mb-1" style={{ color: "var(--nb-ink-dim)", fontSize: 10.5 }}>
+        {title}
+      </span>
+      {children}
+    </div>
   );
 }

@@ -36,7 +36,7 @@ export function ThemeProvider({
     function applyTheme() {
       const siteTheme = root.getAttribute("data-theme");
 
-      if (siteTheme === "site") {
+      if (siteTheme === "public" || siteTheme === "site") {
         root.classList.remove("light", "dark");
         return;
       }

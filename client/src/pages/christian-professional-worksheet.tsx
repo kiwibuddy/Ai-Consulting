@@ -80,8 +80,8 @@ export default function ChristianProfessionalWorksheetPage() {
   if (!meta) {
     return (
       <div
-        data-theme="site"
-        className="min-h-screen bg-neutral-50 text-neutral-900 font-sans"
+        
+        className="nb-page overflow-x-hidden"
       >
         <SiteHeader currentPage="resources" />
         <div className="max-w-xl mx-auto px-6 py-24 text-center">
@@ -117,8 +117,8 @@ export default function ChristianProfessionalWorksheetPage() {
 
   return (
     <div
-      data-theme="site"
-      className="min-h-screen bg-neutral-50 text-neutral-900 font-sans overflow-x-hidden"
+      
+      className="nb-page overflow-x-hidden overflow-x-hidden"
     >
       <PageSEO
         title={`${meta.title} — Worksheet`}

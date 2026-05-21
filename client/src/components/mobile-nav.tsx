@@ -1,20 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { Menu, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const ctaLabel = "Book a free 30-min consultation";
 
-/** When true (e.g. Vercel marketing-only), hide Sign In so app stays dormant. */
 const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
 
 const navLinks: { href: string; label: string }[] = [
@@ -29,52 +20,53 @@ const navLinks: { href: string; label: string }[] = [
 export function MobileNav() {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <button
-          type="button"
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-white/90 hover:text-white hover:bg-white/10 transition-colors"
-          aria-label="Open menu"
-        >
-          <Menu className="h-6 w-6" />
-        </button>
-      </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="w-[min(100vw-2rem,320px)] bg-neutral-900 border-neutral-700 text-white"
+    <>
+      <button
+        type="button"
+        className="nb-mobile-toggle border-0 bg-transparent text-white cursor-pointer p-2"
+        aria-label={open ? "Close menu" : "Open menu"}
+        onClick={() => setOpen(!open)}
       >
-        <SheetHeader>
-          <SheetTitle className="text-left text-white sr-only">
-            Navigation
-          </SheetTitle>
-        </SheetHeader>
-        <nav className="flex flex-col gap-1 pt-6">
+        {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+
+      {open && (
+        <div
+          className="fixed top-16 left-0 right-0 bottom-0 z-[99] flex flex-col gap-1 p-8 backdrop-blur-xl md:hidden"
+          style={{
+            background: "rgba(15, 16, 20, 0.96)",
+            paddingBottom: "max(2rem, env(safe-area-inset-bottom))",
+          }}
+          onClick={() => setOpen(false)}
+        >
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className="block py-3 px-3 rounded-lg text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+              className="block py-3.5 px-1 text-[22px] font-[family-name:var(--nb-font-display)] text-[var(--nb-ink)] no-underline border-b border-[var(--nb-rule)]"
             >
               {label}
             </Link>
           ))}
-          <div className="mt-4 pt-4 border-t border-white/10">
-            <Button
-              size="sm"
-              variant="default"
-              className="tesoro-cta-gradient w-full rounded-lg font-medium text-white justify-center"
-              asChild
-            >
-              <Link href="/intake" onClick={() => setOpen(false)}>
-                {ctaLabel}
-                <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-              </Link>
-            </Button>
+          <div className="mt-6">
+            <Link href="/intake" className="nb-btn-primary w-full max-w-[360px]" onClick={() => setOpen(false)}>
+              {ctaLabel}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-        </nav>
-      </SheetContent>
-    </Sheet>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,14 +1,13 @@
 "use client";
 
-import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/mobile-nav";
+import { cn } from "@/lib/utils";
 
-const contentMax = "max-w-6xl";
 const ctaLabel = "Book a free 30-min consultation";
 
-/** When true (e.g. Vercel marketing-only), hide Sign In so app stays dormant. */
 const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
 
 export type PublicPage = "landing" | "about" | "speaking" | "resources" | "pricing" | "login";
@@ -17,54 +16,83 @@ interface SiteHeaderProps {
   currentPage?: PublicPage;
 }
 
+const navLinkClass = (active: boolean) =>
+  cn(
+    "text-[13.5px] transition-colors duration-200 no-underline",
+    active ? "text-white font-medium" : "text-white/78 hover:text-white"
+  );
+
 export function SiteHeader({ currentPage }: SiteHeaderProps) {
+  const [scrolled, setScrolled] = useState(false);
+  const [location] = useLocation();
+  const isHome = location === "/";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const showSolid = scrolled || !isHome;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-neutral-900 backdrop-blur-xl isolate overflow-visible">
-      <div className={`container mx-auto ${contentMax} px-4 md:px-10 h-14 md:h-16 flex items-center justify-between gap-3 md:gap-4 min-w-0`}>
-        <Link href="/" className="flex items-center shrink-0 h-9 md:h-11 w-[140px] md:w-[160px] min-w-0">
-          <img
-            src="/logo.png?v=2"
-            alt="Nathaniel Baldock — AI Consulting"
-            className="h-full w-full max-h-9 md:max-h-11 object-contain object-left dark-header-logo"
-          />
-        </Link>
-        <nav className="hidden md:flex items-center gap-4 xl:gap-6 flex-shrink-0 whitespace-nowrap">
-          <Link href="/" className={`text-sm transition-colors duration-300 ${currentPage === "landing" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            Home
-          </Link>
-          <Link href="/about" className={`text-sm transition-colors duration-300 ${currentPage === "about" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            About Me
-          </Link>
-          <Link href="/speaking" className={`text-sm transition-colors duration-300 ${currentPage === "speaking" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            Speaking
-          </Link>
-          <Link href="/resources" className={`text-sm transition-colors duration-300 ${currentPage === "resources" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            Resources
-          </Link>
-          <Link href="/pricing" className={`text-sm transition-colors duration-300 ${currentPage === "pricing" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-            Pricing
-          </Link>
-        </nav>
-        <div className="flex items-center gap-3 flex-shrink-0 text-white/90 [&_button]:text-white/90 [&_button:hover]:text-white [&_a]:text-white/90 [&_a:hover]:text-white">
-          <MobileNav />
-          {!MARKETING_MODE && (
-            <Link href="/login" className={`text-sm transition-colors duration-300 ${currentPage === "login" ? "font-medium text-white" : "text-white/90 hover:text-white"}`}>
-              Sign In
-            </Link>
+    <header
+      className={cn(
+        "fixed top-0 left-0 right-0 z-[100] flex items-center justify-between isolate transition-all duration-240",
+        showSolid
+          ? "h-16 border-b border-[var(--nb-rule)] backdrop-blur-xl"
+          : "h-[76px] border-b border-transparent"
+      )}
+      style={{
+        padding: "0 clamp(20px, 4vw, 56px)",
+        background: showSolid
+          ? "rgba(15, 16, 20, 0.78)"
+          : isHome
+            ? "linear-gradient(to bottom, rgba(0,0,0,0.55), transparent)"
+            : "rgba(15, 16, 20, 0.78)",
+      }}
+    >
+      <Link href="/" className="flex items-center shrink-0 no-underline">
+        <img
+          src="/logo.png?v=2"
+          alt="Nathaniel Baldock — AI Consulting"
+          className={cn(
+            "nb-logo-invert object-contain object-left transition-all duration-240",
+            showSolid ? "h-8 max-h-8" : "h-[38px] max-h-[38px]"
           )}
-          <Button
-            size="sm"
-            variant="default"
-            className="tesoro-cta-gradient rounded-lg font-medium text-white"
-            data-testid="button-get-started"
-            asChild
-          >
-            <Link href="/intake">
-              {ctaLabel}
-              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-            </Link>
-          </Button>
-        </div>
+        />
+      </Link>
+
+      <nav className="nb-desktop-nav items-center gap-7" style={{ display: "flex" }}>
+        <Link href="/" className={navLinkClass(currentPage === "landing")}>
+          Home
+        </Link>
+        <Link href="/about" className={navLinkClass(currentPage === "about")}>
+          About Me
+        </Link>
+        <Link href="/speaking" className={navLinkClass(currentPage === "speaking")}>
+          Speaking
+        </Link>
+        <Link href="/resources" className={navLinkClass(currentPage === "resources")}>
+          Resources
+        </Link>
+        <Link href="/pricing" className={navLinkClass(currentPage === "pricing")}>
+          Pricing
+        </Link>
+        {!MARKETING_MODE && (
+          <Link href="/login" className={cn(navLinkClass(currentPage === "login"), "ml-2")}>
+            Sign In
+          </Link>
+        )}
+        <Link href="/intake" className="nb-btn-primary nb-btn-primary--sm" data-testid="button-get-started">
+          {ctaLabel}
+          <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </nav>
+
+      <div className="flex md:hidden items-center gap-2">
+        <MobileNav />
       </div>
     </header>
   );

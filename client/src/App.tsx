@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { Suspense, useLayoutEffect } from "react";
 import { Switch, Route, useLocation, Redirect } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
@@ -10,55 +10,7 @@ import { NotificationBell } from "@/components/notification-bell";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/use-auth";
-import { DashboardSkeleton } from "@/components/loading-skeleton";
-import NotFound from "@/pages/not-found";
-
-// Public pages
-import LandingPage from "@/pages/landing";
-import IntakePage from "@/pages/intake";
-import PublicPayPage from "@/pages/pay";
-import SpeakingPage from "@/pages/speaking";
-import SpeakingInvitePage from "@/pages/speaking-invite";
-import ResourcesPage from "@/pages/resources";
-import ArticleSabbathRestAi from "@/pages/article-sabbath-rest-ai";
-import ArticleSoulNeedsStruggle from "@/pages/article-soul-needs-struggle";
-import ArticleTeensAlgorithmFriend from "@/pages/article-teens-algorithm-friend";
-import ChristianProfessionalWorksheetPage from "@/pages/christian-professional-worksheet";
-import WorksheetSharePage from "@/pages/worksheet-share";
-import AboutPage from "@/pages/about";
-import SurveyPage from "@/pages/survey";
-import PricingPage from "@/pages/pricing";
-import LoginPage from "@/pages/login";
-import PrivacyPage from "@/pages/privacy";
-import TermsPage from "@/pages/terms";
-import ForgotPassword from "@/pages/forgot-password";
-import ResetPassword from "@/pages/reset-password";
-import PresentationContactPage from "@/pages/presentation-contact";
-import TaurangaSmePage from "@/pages/tauranga-sme";
-import TaurangaSmeWelcomePage from "@/pages/tauranga-sme-welcome";
-
-// Client pages
-import ClientDashboard from "@/pages/client/dashboard";
-import ClientCompleteProfile from "@/pages/client/complete-profile";
-import ClientSessions from "@/pages/client/sessions";
-import ClientSessionDetail from "@/pages/client/session-detail";
-import ClientActions from "@/pages/client/actions";
-import ClientResources from "@/pages/client/resources";
-import ClientProfile from "@/pages/client/profile";
-import ClientBilling from "@/pages/client/billing";
-
-// Coach pages
-import CoachDashboard from "@/pages/coach/dashboard";
-import CoachSetup from "@/pages/coach/setup";
-import CoachClients from "@/pages/coach/clients";
-import CoachClientDetail from "@/pages/coach/client-detail";
-import CoachSessions from "@/pages/coach/sessions";
-import CoachSessionDetail from "@/pages/coach/session-detail";
-import CoachIntake from "@/pages/coach/intake";
-import CoachResources from "@/pages/coach/resources";
-import CoachCalculator from "@/pages/coach/calculator";
-import CoachBilling from "@/pages/coach/billing";
-import CoachAnalytics from "@/pages/coach/analytics";
+import { DashboardSkeleton, PublicPageFallback } from "@/components/loading-skeleton";
 import { OnboardingTour } from "@/components/onboarding-tour";
 import { CommandPalette } from "@/components/command-palette";
 import { QuickSessionModal } from "@/components/modals/quick-session-modal";
@@ -68,6 +20,71 @@ import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
 import { Analytics } from "@/components/analytics";
 import { PublicSiteLayout } from "@/components/public-site-layout";
 import { trackPageView } from "@/lib/analytics";
+
+const LandingPage = React.lazy(() => import("@/pages/landing"));
+const IntakePage = React.lazy(() => import("@/pages/intake"));
+const PublicPayPage = React.lazy(() => import("@/pages/pay"));
+const SpeakingPage = React.lazy(() => import("@/pages/speaking"));
+const SpeakingInvitePage = React.lazy(() => import("@/pages/speaking-invite"));
+const ResourcesPage = React.lazy(() => import("@/pages/resources"));
+const ArticleSabbathRestAi = React.lazy(() => import("@/pages/article-sabbath-rest-ai"));
+const ArticleSoulNeedsStruggle = React.lazy(() => import("@/pages/article-soul-needs-struggle"));
+const ArticleTeensAlgorithmFriend = React.lazy(() => import("@/pages/article-teens-algorithm-friend"));
+const ChristianProfessionalWorksheetPage = React.lazy(() => import("@/pages/christian-professional-worksheet"));
+const WorksheetSharePage = React.lazy(() => import("@/pages/worksheet-share"));
+const AboutPage = React.lazy(() => import("@/pages/about"));
+const SurveyPage = React.lazy(() => import("@/pages/survey"));
+const PricingPage = React.lazy(() => import("@/pages/pricing"));
+const LoginPage = React.lazy(() => import("@/pages/login"));
+const PrivacyPage = React.lazy(() => import("@/pages/privacy"));
+const TermsPage = React.lazy(() => import("@/pages/terms"));
+const ForgotPassword = React.lazy(() => import("@/pages/forgot-password"));
+const ResetPassword = React.lazy(() => import("@/pages/reset-password"));
+const PresentationContactPage = React.lazy(() => import("@/pages/presentation-contact"));
+const TaurangaSmePage = React.lazy(() => import("@/pages/tauranga-sme"));
+const TaurangaSmeWelcomePage = React.lazy(() => import("@/pages/tauranga-sme-welcome"));
+
+const ClientDashboard = React.lazy(() => import("@/pages/client/dashboard"));
+const ClientCompleteProfile = React.lazy(() => import("@/pages/client/complete-profile"));
+const ClientSessions = React.lazy(() => import("@/pages/client/sessions"));
+const ClientSessionDetail = React.lazy(() => import("@/pages/client/session-detail"));
+const ClientActions = React.lazy(() => import("@/pages/client/actions"));
+const ClientResources = React.lazy(() => import("@/pages/client/resources"));
+const ClientProfile = React.lazy(() => import("@/pages/client/profile"));
+const ClientBilling = React.lazy(() => import("@/pages/client/billing"));
+
+const CoachDashboard = React.lazy(() => import("@/pages/coach/dashboard"));
+const CoachSetup = React.lazy(() => import("@/pages/coach/setup"));
+const CoachClients = React.lazy(() => import("@/pages/coach/clients"));
+const CoachClientDetail = React.lazy(() => import("@/pages/coach/client-detail"));
+const CoachSessions = React.lazy(() => import("@/pages/coach/sessions"));
+const CoachSessionDetail = React.lazy(() => import("@/pages/coach/session-detail"));
+const CoachIntake = React.lazy(() => import("@/pages/coach/intake"));
+const CoachResources = React.lazy(() => import("@/pages/coach/resources"));
+const CoachCalculator = React.lazy(() => import("@/pages/coach/calculator"));
+const CoachBilling = React.lazy(() => import("@/pages/coach/billing"));
+const CoachAnalytics = React.lazy(() => import("@/pages/coach/analytics"));
+const NotFound = React.lazy(() => import("@/pages/not-found"));
+
+/** Logged-in users visiting `/` may briefly see the marketing page before redirect (faster anonymous first paint). */
+function PublicHome() {
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  if (!isLoading && isAuthenticated && user) {
+    if (user.role === "coach") {
+      return <Redirect to="/consultant" />;
+    }
+    return <Redirect to="/client" />;
+  }
+
+  return (
+    <PublicSiteLayout>
+      <Suspense fallback={<PublicPageFallback />}>
+        <LandingPage />
+      </Suspense>
+    </PublicSiteLayout>
+  );
+}
 
 // Route ownership: see client/src/config/routes.ts (PUBLIC_ROUTES vs APP_ROUTES for Marketing vs Full App mode).
 
@@ -85,12 +102,12 @@ function ProtectedRoute({ children, role }: { children: React.ReactNode; role?: 
   // Check role if specified
   if (role) {
     const userRole = user?.role;
-    
+
     if (role === "coach" && userRole !== "coach") {
       // Only coaches can access coach routes
       return <Redirect to="/client" />;
     }
-    
+
     if (role === "client" && userRole === "coach") {
       // Consultants cannot access client routes
       return <Redirect to="/consultant" />;
@@ -244,29 +261,6 @@ function CoachLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PublicHome() {
-  const { isAuthenticated, isLoading, user } = useAuth();
-
-  if (isLoading) {
-    return <DashboardSkeleton />;
-  }
-
-  if (isAuthenticated && user) {
-    // Redirect based on user role
-    if (user.role === "coach") {
-      return <Redirect to="/consultant" />;
-    } else {
-      return <Redirect to="/client" />;
-    }
-  }
-
-  return (
-    <PublicSiteLayout>
-      <LandingPage />
-    </PublicSiteLayout>
-  );
-}
-
 function ThemeSync() {
   useThemeFromPath();
   return null;
@@ -288,21 +282,21 @@ function Router() {
       <ThemeSync />
       <GAPageViewTracker />
       <Switch>
-      {/* Public routes — always wrapped in PublicSiteLayout so data-theme="site" is never lost */}
+      {/* Public routes — always wrapped in PublicSiteLayout so is never lost */}
       <Route path="/" component={PublicHome} />
-      <Route path="/intake" component={() => <PublicSiteLayout><IntakePage /></PublicSiteLayout>} />
-      <Route path="/pay/:token" component={() => <PublicSiteLayout><PublicPayPage /></PublicSiteLayout>} />
-      <Route path="/speaking/invite" component={() => <PublicSiteLayout><SpeakingInvitePage /></PublicSiteLayout>} />
-      <Route path="/speaking" component={() => <PublicSiteLayout><SpeakingPage /></PublicSiteLayout>} />
-      <Route path="/survey" component={() => <PublicSiteLayout><SurveyPage /></PublicSiteLayout>} />
-      <Route path="/resources" component={() => <PublicSiteLayout><ResourcesPage /></PublicSiteLayout>} />
+      <Route path="/intake" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><IntakePage /></Suspense></PublicSiteLayout>} />
+      <Route path="/pay/:token" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PublicPayPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/speaking/invite" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SpeakingInvitePage /></Suspense></PublicSiteLayout>} />
+      <Route path="/speaking" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SpeakingPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/survey" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><SurveyPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ResourcesPage /></Suspense></PublicSiteLayout>} />
       {/* Redirect old /articles/... URLs to canonical /resources/... */}
       <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">
         <Redirect to="/resources/when-your-teens-best-friend-is-an-algorithm" />
       </Route>
-      <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><ArticleTeensAlgorithmFriend /></PublicSiteLayout>} />
-      <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><ArticleSabbathRestAi /></PublicSiteLayout>} />
-      <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><ArticleSoulNeedsStruggle /></PublicSiteLayout>} />
+      <Route path="/resources/when-your-teens-best-friend-is-an-algorithm" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleTeensAlgorithmFriend /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleSabbathRestAi /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources/why-your-soul-needs-the-struggle" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ArticleSoulNeedsStruggle /></Suspense></PublicSiteLayout>} />
       {/* Redirect old deep-dive worksheet slugs to canonical slugs */}
       <Route path="/resources/worksheet/protecting-kids-from-the-digital-god">
         <Redirect to="/resources/worksheet/the-digital-god-in-your-childs-pocket" />
@@ -310,71 +304,73 @@ function Router() {
       <Route path="/resources/worksheet/the-intimacy-trap-and-junior-job-crisis">
         <Redirect to="/resources/worksheet/the-broken-ladder-and-the-race-for-their-soul" />
       </Route>
-      <Route path="/resources/worksheet/:id" component={() => <PublicSiteLayout><WorksheetSharePage /></PublicSiteLayout>} />
-      <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><ChristianProfessionalWorksheetPage /></PublicSiteLayout>} />
-      <Route path="/about" component={() => <PublicSiteLayout><AboutPage /></PublicSiteLayout>} />
-      <Route path="/pricing" component={() => <PublicSiteLayout><PricingPage /></PublicSiteLayout>} />
-      <Route path="/tauranga-sme/welcome" component={() => <PublicSiteLayout><TaurangaSmeWelcomePage /></PublicSiteLayout>} />
-      <Route path="/tauranga-sme" component={() => <PublicSiteLayout><TaurangaSmePage /></PublicSiteLayout>} />
-      <Route path="/presentations/contact" component={() => <PublicSiteLayout><PresentationContactPage /></PublicSiteLayout>} />
-      <Route path="/login" component={() => <PublicSiteLayout><LoginPage /></PublicSiteLayout>} />
-      <Route path="/privacy" component={() => <PublicSiteLayout><PrivacyPage /></PublicSiteLayout>} />
-      <Route path="/terms" component={() => <PublicSiteLayout><TermsPage /></PublicSiteLayout>} />
-      <Route path="/forgot-password" component={() => <PublicSiteLayout><ForgotPassword /></PublicSiteLayout>} />
-      <Route path="/reset-password" component={() => <PublicSiteLayout><ResetPassword /></PublicSiteLayout>} />
+      <Route path="/resources/worksheet/:id" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><WorksheetSharePage /></Suspense></PublicSiteLayout>} />
+      <Route path="/resources/christian-professional/:slug" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ChristianProfessionalWorksheetPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/about" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><AboutPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/pricing" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PricingPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/tauranga-sme/welcome" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TaurangaSmeWelcomePage /></Suspense></PublicSiteLayout>} />
+      <Route path="/tauranga-sme" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TaurangaSmePage /></Suspense></PublicSiteLayout>} />
+      <Route path="/presentations/contact" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PresentationContactPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/login" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><LoginPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/privacy" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><PrivacyPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/terms" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><TermsPage /></Suspense></PublicSiteLayout>} />
+      <Route path="/forgot-password" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ForgotPassword /></Suspense></PublicSiteLayout>} />
+      <Route path="/reset-password" component={() => <PublicSiteLayout><Suspense fallback={<PublicPageFallback />}><ResetPassword /></Suspense></PublicSiteLayout>} />
 
       {/* Client routes */}
       <Route path="/client/complete-profile">
         <ProtectedRoute role="client">
-          <ClientCompleteProfile />
+          <Suspense fallback={<DashboardSkeleton />}>
+            <ClientCompleteProfile />
+          </Suspense>
         </ProtectedRoute>
       </Route>
       <Route path="/client">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientDashboard />
+            <Suspense fallback={<DashboardSkeleton />}><ClientDashboard /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/sessions">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientSessions />
+            <Suspense fallback={<DashboardSkeleton />}><ClientSessions /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/sessions/:id">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientSessionDetail />
+            <Suspense fallback={<DashboardSkeleton />}><ClientSessionDetail /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/actions">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientActions />
+            <Suspense fallback={<DashboardSkeleton />}><ClientActions /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/resources">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientResources />
+            <Suspense fallback={<DashboardSkeleton />}><ClientResources /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/profile">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientProfile />
+            <Suspense fallback={<DashboardSkeleton />}><ClientProfile /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/client/billing">
         <ProtectedRoute role="client">
           <ClientLayout>
-            <ClientBilling />
+            <Suspense fallback={<DashboardSkeleton />}><ClientBilling /></Suspense>
           </ClientLayout>
         </ProtectedRoute>
       </Route>
@@ -383,7 +379,7 @@ function Router() {
       <Route path="/consultant/setup">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachSetup />
+            <Suspense fallback={<DashboardSkeleton />}><CoachSetup /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
@@ -391,7 +387,7 @@ function Router() {
         <ProtectedRoute role="coach">
           <CoachLayout>
             <DashboardErrorBoundary fallbackTitle="Consultant dashboard error">
-              <CoachDashboard />
+              <Suspense fallback={<DashboardSkeleton />}><CoachDashboard /></Suspense>
             </DashboardErrorBoundary>
           </CoachLayout>
         </ProtectedRoute>
@@ -399,63 +395,63 @@ function Router() {
       <Route path="/consultant/clients">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachClients />
+            <Suspense fallback={<DashboardSkeleton />}><CoachClients /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/clients/:id">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachClientDetail />
+            <Suspense fallback={<DashboardSkeleton />}><CoachClientDetail /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/sessions/:id">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachSessionDetail />
+            <Suspense fallback={<DashboardSkeleton />}><CoachSessionDetail /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/sessions">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachSessions />
+            <Suspense fallback={<DashboardSkeleton />}><CoachSessions /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/intake">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachIntake />
+            <Suspense fallback={<DashboardSkeleton />}><CoachIntake /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/resources">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachResources />
+            <Suspense fallback={<DashboardSkeleton />}><CoachResources /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/calculator">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachCalculator />
+            <Suspense fallback={<DashboardSkeleton />}><CoachCalculator /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/billing">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachBilling />
+            <Suspense fallback={<DashboardSkeleton />}><CoachBilling /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
       <Route path="/consultant/analytics">
         <ProtectedRoute role="coach">
           <CoachLayout>
-            <CoachAnalytics />
+            <Suspense fallback={<DashboardSkeleton />}><CoachAnalytics /></Suspense>
           </CoachLayout>
         </ProtectedRoute>
       </Route>
@@ -464,7 +460,9 @@ function Router() {
       <Route
         component={() => (
           <PublicSiteLayout>
-            <NotFound />
+            <Suspense fallback={<PublicPageFallback />}>
+              <NotFound />
+            </Suspense>
           </PublicSiteLayout>
         )}
       />

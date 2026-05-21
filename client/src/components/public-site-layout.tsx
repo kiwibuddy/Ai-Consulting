@@ -2,47 +2,22 @@
 
 import React, { useLayoutEffect } from "react";
 
-const SITE_THEME = "site";
+const PUBLIC_THEME = "public";
 
-/**
- * Single theme for the public website: dark header, green CTA (Tesoro).
- * We lock data-theme="site" so no other code can change it while public pages are visible.
- */
-function useLockSiteTheme() {
-  const root = document.documentElement;
-
+/** Sets cinematic public theme on document root for public routes. */
+function usePublicTheme() {
   useLayoutEffect(() => {
-    const apply = () => {
-      root.setAttribute("data-theme", SITE_THEME);
-      root.removeAttribute("data-color-theme");
-    };
-    apply();
-
-    const observer = new MutationObserver(() => {
-      if (root.getAttribute("data-theme") !== SITE_THEME) {
-        apply();
-      }
-    });
-    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
-
-    // Re-apply after paint so we win any race with other effects (e.g. dashboard unmount)
-    const rafId = requestAnimationFrame(() => {
-      apply();
-      requestAnimationFrame(apply);
-    });
-
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(rafId);
-    };
+    const root = document.documentElement;
+    root.setAttribute("data-theme", PUBLIC_THEME);
+    root.removeAttribute("data-color-theme");
   }, []);
 }
 
 export function PublicSiteLayout({ children }: { children: React.ReactNode }) {
-  useLockSiteTheme();
+  usePublicTheme();
 
   return (
-    <div data-theme="site" data-public-site className="min-h-screen">
+    <div data-theme="public" data-public-site className="min-h-screen nb-page">
       {children}
     </div>
   );

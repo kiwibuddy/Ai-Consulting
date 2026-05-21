@@ -672,7 +672,7 @@ export function SpeakingFormContent({ onSuccess }: { onSuccess: () => void }) {
                 type="submit"
                 size="lg"
                 disabled={submitMutation.isPending}
-                className="tesoro-cta-gradient text-white font-medium rounded-lg w-full sm:w-auto"
+                className="nb-btn-primary text-white font-medium rounded-lg w-full sm:w-auto"
               >
                 {submitMutation.isPending ? (
                   <>
