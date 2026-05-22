@@ -10,6 +10,12 @@ import { WhoThisIsForCarousel } from "@/components/public-cinematic/who-this-is-
 import { LiveAIPanel } from "@/components/public-cinematic/live-ai-panel";
 import { CinematicPrimaryCTA, CinematicSecondaryCTA } from "@/components/public-cinematic/cinematic-cta";
 import { SITE_CONTACT_EMAIL, MAILTO_SUBJECT_INQUIRY } from "@shared/constants";
+import { articles } from "@/content/articles";
+import { worksheets } from "@/content/worksheets";
+
+/** Matches public items on /resources: articles + listed worksheets (excludes internal-only worksheets). */
+const publicResourceCount =
+  articles.length + worksheets.filter((w) => w.showInResources !== false).length;
 
 const ctaLabel = "Book a free 30-min consultation";
 
@@ -66,14 +72,17 @@ const whyBullets = [
   "AI should serve people and mission — not replace wisdom, responsibility, or relationship.",
 ];
 
-const whyStats = [
-  ["23", "Years in mission & NGOs"],
-  ["15+", "Countries served"],
-  ["400+", "Leaders trained (YWAM)"],
-  ["40k", "Research hours"],
-  ["200+", "Contributors led"],
-  ["48h", "Reply, always"],
-] as const;
+const whyStats: ReadonlyArray<readonly [string, string]> = [
+  ["23", "Years with international missions, churches & NGOs"],
+  ["15+", "Nations — ministry & speaking"],
+  ["400+", "Leaders trained over 9-month YWAM courses"],
+  [String(publicResourceCount), "Free articles, worksheets & tools"],
+];
+
+const whyStatsResearchNote = {
+  title: "7 Spheres Bible research",
+  body: "Co-led 200+ researchers across 50 nations; ~40k hours of crowdsourced biblical research; new methods & tools for distributed scholarship.",
+};
 
 function formatLatestTag(item: (typeof latestFromNathaniel)[number]) {
   if (item.readTime) return `AI & Faith · ${item.readTime}`;
@@ -285,11 +294,16 @@ export default function LandingPage() {
             <ScrollReveal delay={200}>
               <div className="border border-[var(--nb-rule)] bg-[var(--nb-bg)] p-8 grid grid-cols-2 gap-8">
                 {whyStats.map(([n, l]) => (
-                  <div key={l} className="flex flex-col gap-1.5">
+                  <div key={`${n}-${l}`} className="flex flex-col gap-1.5">
                     <span className="nb-stat-value text-[clamp(32px,3vw,42px)]">{n}</span>
                     <span className="nb-stat-label">{l}</span>
                   </div>
                 ))}
+                <p className="col-span-2 text-sm leading-relaxed text-[var(--nb-ink-soft)] m-0 pt-2">
+                  <span className="font-medium text-[var(--nb-ink)]">{whyStatsResearchNote.title}</span>
+                  {" — "}
+                  {whyStatsResearchNote.body}
+                </p>
                 <div className="col-span-2 flex flex-wrap gap-2 mt-2 pt-6 border-t border-[var(--nb-rule)]">
                   {["NZ + Global", "Faith · Education · Nonprofit", "Builder + Strategist + Trainer"].map(
                     (t) => (
