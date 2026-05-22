@@ -68,9 +68,9 @@ export const publicFaqItems: PublicFaqItem[] = [
     category: "faith",
     question: "When did I last make a hard decision without asking AI first?",
     answer:
-      "Track one week. Some things should stay prayer-shaped, not prompt-shaped.",
-    resourceHref: "/resources/worksheet/christian-think-without-assistance",
-    resourceLabel: "Think without assistance worksheet",
+      "Notice what your hand reaches for in the first four seconds — that shapes what you trust most. Some things should stay prayer-shaped, not prompt-shaped.",
+    resourceHref: "/resources/the-garden-and-the-tree-of-knowledge-in-your-pocket",
+    resourceLabel: "Read the article",
   },
   {
     id: "teens-ai-friend",

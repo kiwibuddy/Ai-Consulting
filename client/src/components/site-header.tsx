@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
+import { PrefetchLink } from "@/components/prefetch-link";
 import { ArrowRight } from "lucide-react";
 import { MobileNav } from "@/components/mobile-nav";
 import { cn } from "@/lib/utils";
@@ -56,7 +57,7 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
             : "rgba(15, 16, 20, 0.78)",
       }}
     >
-      <Link href="/" className="flex items-center shrink-0 no-underline">
+      <PrefetchLink href="/" className="flex items-center shrink-0 no-underline">
         <img
           src="/logo.png?v=2"
           alt="Nathaniel Baldock — AI Consulting"
@@ -65,33 +66,33 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
             showSolid ? "h-8 max-h-8" : "h-[38px] max-h-[38px]"
           )}
         />
-      </Link>
+      </PrefetchLink>
 
       <nav className="nb-desktop-nav items-center gap-7" style={{ display: "flex" }}>
-        <Link href="/" className={navLinkClass(currentPage === "landing")}>
+        <PrefetchLink href="/" className={navLinkClass(currentPage === "landing")}>
           Home
-        </Link>
-        <Link href="/about" className={navLinkClass(currentPage === "about")}>
+        </PrefetchLink>
+        <PrefetchLink href="/about" className={navLinkClass(currentPage === "about")}>
           About Me
-        </Link>
-        <Link href="/speaking" className={navLinkClass(currentPage === "speaking")}>
+        </PrefetchLink>
+        <PrefetchLink href="/speaking" className={navLinkClass(currentPage === "speaking")}>
           Speaking
-        </Link>
-        <Link href="/resources" className={navLinkClass(currentPage === "resources")}>
+        </PrefetchLink>
+        <PrefetchLink href="/resources" className={navLinkClass(currentPage === "resources")}>
           Resources
-        </Link>
-        <Link href="/pricing" className={navLinkClass(currentPage === "pricing")}>
+        </PrefetchLink>
+        <PrefetchLink href="/pricing" className={navLinkClass(currentPage === "pricing")}>
           Pricing
-        </Link>
+        </PrefetchLink>
         {!MARKETING_MODE && (
-          <Link href="/login" className={cn(navLinkClass(currentPage === "login"), "ml-2")}>
+          <PrefetchLink href="/login" className={cn(navLinkClass(currentPage === "login"), "ml-2")}>
             Sign In
-          </Link>
+          </PrefetchLink>
         )}
-        <Link href="/intake" className="nb-btn-primary nb-btn-primary--sm" data-testid="button-get-started">
+        <PrefetchLink href="/intake" className="nb-btn-primary nb-btn-primary--sm" data-testid="button-get-started">
           {ctaLabel}
           <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
+        </PrefetchLink>
       </nav>
 
       <div className="flex md:hidden items-center gap-2">

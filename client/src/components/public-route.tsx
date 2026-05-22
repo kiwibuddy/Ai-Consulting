@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { useLocation } from "wouter";
 import { PublicSiteLayout } from "@/components/public-site-layout";
 import { SiteHeader, type PublicPage } from "@/components/site-header";
-import { PublicPageContentLoader } from "@/components/public-page-loader";
+import { DelayedPublicSuspenseFallback } from "@/components/suspense-fallback";
 
 export function getPublicPageFromPath(path: string): PublicPage | undefined {
   const p = (path || "/").split("?")[0];
@@ -27,7 +27,7 @@ export function PublicRoute({ children }: { children: React.ReactNode }) {
   return (
     <PublicSiteLayout>
       <SiteHeader currentPage={currentPage} />
-      <Suspense fallback={<PublicPageContentLoader />}>
+      <Suspense fallback={<DelayedPublicSuspenseFallback />}>
         <PublicPageEnter>{children}</PublicPageEnter>
       </Suspense>
     </PublicSiteLayout>

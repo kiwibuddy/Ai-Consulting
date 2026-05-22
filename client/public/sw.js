@@ -1,7 +1,7 @@
 // Service Worker for PWA
 // Enhanced with better caching strategies and offline support
 
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const STATIC_CACHE = `holger-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `holger-dynamic-${CACHE_VERSION}`;
 const API_CACHE = `holger-api-${CACHE_VERSION}`;
@@ -78,6 +78,12 @@ function isApiRequest(request) {
 function isStaticAsset(request) {
   const url = new URL(request.url);
   return url.pathname.match(/\.(js|css|woff2?|png|jpg|jpeg|gif|svg|ico)$/);
+}
+
+// Vite build output — always network-first so deploys never serve stale hashed chunks
+function isViteBuildAsset(request) {
+  const url = new URL(request.url);
+  return url.pathname.startsWith('/assets/');
 }
 
 // Helper: Network-first strategy with cache fallback
@@ -171,7 +177,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Static assets: stale-while-revalidate (ensures fresh CSS/JS after deploys)
+  // Hashed Vite bundles: network-first (prevents stale chunk / dynamic import failures after deploy)
+  if (isViteBuildAsset(request)) {
+    event.respondWith(
+      networkFirst(request, STATIC_CACHE).catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // Other static assets (images, fonts): stale-while-revalidate
   if (isStaticAsset(request)) {
     event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
     return;

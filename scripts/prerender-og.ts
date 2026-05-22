@@ -71,6 +71,13 @@ const pages: Record<string, PageMeta> = {
   },
 
   // Articles
+  "/resources/the-garden-and-the-tree-of-knowledge-in-your-pocket": {
+    title: "The Garden and the Tree of Knowledge in Your Pocket",
+    description:
+      "Genesis 3, AI companions, and the oldest temptation in a new interface: wisdom without the walk, companionship without the Paraclete. Protect the slow conversation with God.",
+    image: `${SITE}/images/garden-tree-knowledge-header.png`,
+    ogType: "article",
+  },
   "/resources/when-your-teens-best-friend-is-an-algorithm": {
     title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
     description:

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
+import { PrefetchLink } from "@/components/prefetch-link";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const ctaLabel = "Book a free 30-min consultation";
@@ -56,24 +57,24 @@ export function MobileNav() {
           onClick={(e) => e.stopPropagation()}
         >
           {navLinks.map(({ href, label }) => (
-            <Link
+            <PrefetchLink
               key={href}
               href={href}
               onClick={() => setOpen(false)}
               className="block border-b border-[var(--nb-rule)] px-1 py-3.5 font-[family-name:var(--nb-font-display)] text-[22px] text-[var(--nb-ink)] no-underline"
             >
               {label}
-            </Link>
+            </PrefetchLink>
           ))}
           <div className="mt-6">
-            <Link
+            <PrefetchLink
               href="/intake"
               className="nb-btn-primary w-full max-w-[360px]"
               onClick={() => setOpen(false)}
             >
               {ctaLabel}
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </PrefetchLink>
           </div>
         </nav>
       </div>,

@@ -18,6 +18,8 @@ Each article’s content lives in a single file. You can edit it in the browser 
      `client/src/content/article-discipleship-missions-ai.ts`
    - **Outsourcing the Holy Spirit to AI**  
      `client/src/content/article-outsourcing-holy-spirit.ts`
+   - **The Garden and the Tree of Knowledge in Your Pocket**  
+     `client/src/content/article-garden-tree-knowledge.ts`
 3. Click the **pencil (Edit)** icon.
 4. Edit the text. Keep the structure the same:
    - `articleMeta` — title, subtitle, description, dates, image, etc.
@@ -39,6 +41,7 @@ Same files as above, but you edit locally:
 - `client/src/content/article-raising-humans.ts`
 - `client/src/content/article-discipleship-missions-ai.ts`
 - `client/src/content/article-outsourcing-holy-spirit.ts`
+- `client/src/content/article-garden-tree-knowledge.ts`
 
 Then commit and push as usual. This is the same as Option 1, just from your machine.
 

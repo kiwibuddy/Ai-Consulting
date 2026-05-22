@@ -11,6 +11,17 @@ export interface ArticleItem {
 
 export const articles: ArticleItem[] = [
   {
+    id: "garden-tree-knowledge",
+    title: "The Garden and the Tree of Knowledge in Your Pocket",
+    excerpt:
+      "AI is genuinely brilliant — and quietly offering itself as the source for things meant to come from a relationship. Genesis 3, the attachment economy, and protecting the walk with God.",
+    url: "/resources/the-garden-and-the-tree-of-knowledge-in-your-pocket",
+    date: "2026-05-22",
+    readTime: "20 min",
+    category: "AI & Faith",
+    image: "/images/garden-tree-knowledge-header.png",
+  },
+  {
     id: "teens-algorithm-friend",
     title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
     excerpt:
