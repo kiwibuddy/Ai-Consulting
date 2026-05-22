@@ -195,7 +195,7 @@ export const articleSections: ArticleSection[] = [
   },
   {
     id: "the-reach",
-    title: "The reach",
+    title: "When she reached",
     blocks: [
       {
         type: "paragraph",
@@ -249,7 +249,7 @@ export const articleSections: ArticleSection[] = [
   },
   {
     id: "the-hiding",
-    title: "The hiding",
+    title: "Hiding from God",
     blocks: [
       {
         type: "paragraph",
@@ -320,7 +320,7 @@ export const articleSections: ArticleSection[] = [
   },
   {
     id: "the-gift",
-    title: "The gift Jesus thought was worth dying to give",
+    title: "The Holy Spirit Jesus Promised",
     blocks: [
       {
         type: "paragraph",
