@@ -216,6 +216,194 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* AI Use Audit — free diagnostic lead magnet (unnumbered, sits between §01 and §02) */}
+      <section
+        id="audit"
+        aria-labelledby="audit-cta-heading"
+        className="nb-section scroll-mt-24"
+      >
+        <div className="nb-container px-0 max-w-[1240px]">
+          <ScrollReveal>
+            <div
+              className="nb-audit-cta relative overflow-hidden"
+              style={{
+                borderRadius: 14,
+                border: "1px solid var(--nb-rule-strong)",
+                background:
+                  "linear-gradient(135deg, color-mix(in srgb, var(--nb-accent) 7%, var(--nb-bg)) 0%, var(--nb-bg) 55%)",
+                padding: "clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px)",
+              }}
+            >
+              {/* soft accent glow */}
+              <div
+                aria-hidden
+                className="absolute pointer-events-none"
+                style={{
+                  top: "-40%",
+                  right: "-10%",
+                  width: "55%",
+                  aspectRatio: "1 / 1",
+                  background:
+                    "radial-gradient(ellipse at center, color-mix(in srgb, var(--nb-accent) 22%, transparent), transparent 60%)",
+                  filter: "blur(70px)",
+                }}
+              />
+
+              <div
+                className="nb-audit-grid relative grid items-center"
+                style={{
+                  gridTemplateColumns: "minmax(0, 1.35fr) minmax(0, 1fr)",
+                  gap: "clamp(28px, 4vw, 56px)",
+                }}
+              >
+                <div>
+                  <div className="nb-mono-label text-[var(--nb-accent)] mb-4">
+                    — Free diagnostic · 10 minutes · No sales call
+                  </div>
+                  <h2
+                    id="audit-cta-heading"
+                    className="nb-display font-normal m-0 mb-5"
+                    style={{
+                      fontSize: "clamp(30px, 4vw, 48px)",
+                      lineHeight: 1.05,
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    Get{" "}
+                    <em className="nb-italic-accent italic font-light">clarity</em> on every AI
+                    tool already in your business.
+                  </h2>
+                  <p
+                    className="m-0 mb-6 text-[var(--nb-ink-soft)]"
+                    style={{ fontSize: "clamp(15px, 1.2vw, 17px)", lineHeight: 1.6, maxWidth: 560 }}
+                  >
+                    A 10-minute walk-through that maps what your team is actually using, flags what's
+                    risky, and tells you exactly what to change today — in plain English, with no
+                    jargon and no fear-mongering.
+                  </p>
+
+                  <ul className="list-none p-0 m-0 mb-7 flex flex-col gap-2.5">
+                    {[
+                      "10 minutes, on your phone or laptop",
+                      "Optional anonymous survey for your team",
+                      "Personalised PDF results emailed to you and us",
+                      "Built for owners, pastors, principals & boards",
+                    ].map((b) => (
+                      <li
+                        key={b}
+                        className="flex items-start gap-3 text-[14.5px] leading-snug text-[var(--nb-ink-soft)]"
+                      >
+                        <span
+                          aria-hidden
+                          className="mt-[7px] shrink-0 inline-block"
+                          style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: 999,
+                            background: "var(--nb-accent)",
+                          }}
+                        />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="flex flex-wrap items-center gap-4">
+                    <a
+                      href="/audit"
+                      className="nb-btn-primary"
+                      data-event="homepage-audit-cta"
+                    >
+                      Start the free AI audit →
+                    </a>
+                    <span
+                      className="nb-mono-label text-[var(--nb-ink-dim)]"
+                      style={{ fontSize: 11 }}
+                    >
+                      No credit card · No spam · Skip the team step if you prefer
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right-hand decorative panel — mock result chip stack */}
+                <div className="nb-audit-mock hidden md:block">
+                  <div
+                    className="relative"
+                    style={{
+                      border: "1px solid var(--nb-rule)",
+                      borderRadius: 12,
+                      background: "var(--nb-bg)",
+                      padding: 20,
+                      boxShadow:
+                        "0 1px 0 color-mix(in srgb, var(--nb-accent) 14%, transparent), 0 20px 40px -24px rgba(0,0,0,0.25)",
+                    }}
+                  >
+                    <div
+                      className="nb-mono-label mb-3"
+                      style={{ fontSize: 10, color: "var(--nb-ink-dim)" }}
+                    >
+                      SAMPLE RESULT · ACME LTD
+                    </div>
+                    <div className="flex flex-col gap-2.5">
+                      {[
+                        { tool: "ChatGPT Plus", verdict: "Amber · 1 setting to change", tone: "amber" },
+                        { tool: "Microsoft 365 Copilot", verdict: "Green · safe as-is", tone: "green" },
+                        { tool: "Otter.ai (free)", verdict: "Red · move to enterprise tier", tone: "red" },
+                        { tool: "Canva AI (free)", verdict: "Amber · opt out of training", tone: "amber" },
+                      ].map((row) => {
+                        const dot =
+                          row.tone === "green"
+                            ? "var(--nb-accent)"
+                            : row.tone === "amber"
+                              ? "#e3a93b"
+                              : "#d9534f";
+                        return (
+                          <div
+                            key={row.tool}
+                            className="flex items-center justify-between gap-3"
+                            style={{
+                              borderBottom: "1px solid var(--nb-rule)",
+                              padding: "6px 0",
+                            }}
+                          >
+                            <span className="text-[13px] font-medium text-[var(--nb-ink)]">
+                              {row.tool}
+                            </span>
+                            <span
+                              className="flex items-center gap-2 text-[12px] text-[var(--nb-ink-soft)]"
+                            >
+                              <span
+                                aria-hidden
+                                style={{
+                                  width: 7,
+                                  height: 7,
+                                  borderRadius: 999,
+                                  background: dot,
+                                }}
+                              />
+                              {row.verdict}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div
+                      className="mt-4 pt-3 text-[11.5px] italic"
+                      style={{
+                        borderTop: "1px dashed var(--nb-rule)",
+                        color: "var(--nb-ink-dim)",
+                      }}
+                    >
+                      Plus a plain-English explanation and direct policy links for every tool.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* §02 What I offer */}
       <section id="how-i-help" className="nb-section scroll-mt-24">
         <div className="nb-container px-0">
@@ -363,6 +551,22 @@ export default function LandingPage() {
                 Or email me directly
               </CinematicSecondaryCTA>
             </div>
+          </ScrollReveal>
+          <ScrollReveal delay={500}>
+            <p
+              className="m-0 mt-6 text-[var(--nb-ink-dim)]"
+              style={{ fontSize: 13.5, lineHeight: 1.6 }}
+            >
+              Not ready for a call?{" "}
+              <a
+                href="/audit"
+                className="underline underline-offset-4 decoration-[color-mix(in_srgb,var(--nb-accent)_50%,transparent)] hover:decoration-[var(--nb-accent)] text-[var(--nb-ink-soft)] hover:text-[var(--nb-ink)] transition-colors"
+                data-event="homepage-audit-cta-footer"
+              >
+                Take the free 10-minute AI use audit
+              </a>{" "}
+              and get a clear picture first.
+            </p>
           </ScrollReveal>
         </div>
       </section>
