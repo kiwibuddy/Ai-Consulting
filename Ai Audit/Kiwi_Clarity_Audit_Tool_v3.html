@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Survey — Kiwi Clarity AI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#fff;--bg-warm:hsl(42,40%,98%);--bg-mist:hsl(210,24%,96%);
+  --fg:#0a0a0a;--fg-med:hsl(220,8%,30%);--fg-muted:hsl(220,7%,46%);
+  --border:hsl(220,12%,88%);
+  --accent:hsl(205,58%,38%);--accent-light:hsl(200,40%,94%);
+  --lime:hsl(78,82%,46%);--lime-deep:hsl(78,70%,34%);--lime-bg:hsl(78,50%,93%);
+  --green:hsl(152,45%,36%);--green-bg:hsl(152,40%,93%);--green-border:hsl(152,35%,78%);
+  --amber:hsl(38,90%,40%);--amber-bg:hsl(40,80%,93%);--amber-border:hsl(38,60%,78%);
+  --red:hsl(4,68%,40%);--red-bg:hsl(4,70%,94%);--red-border:hsl(4,55%,78%);
+  --font-serif:'Fraunces','Georgia',serif;--font-sans:'Inter',system-ui,sans-serif;
+  --r:16px;--r-sm:10px;--shadow:0 1px 3px rgba(15,23,42,.04),0 8px 24px -4px rgba(15,23,42,.07);
+}
+html{min-height:100%;background:var(--bg-mist);}
+body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100vh;}
+.shell{max-width:680px;margin:0 auto;padding:0 0 80px;}
+.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:32px;height:32px;background:var(--fg);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--bg);font-family:var(--font-serif);font-size:13px;font-weight:700;}
+.logo-text{font-size:13px;font-weight:600;}
+.logo-sub{font-size:9px;color:var(--fg-muted);letter-spacing:.06em;text-transform:uppercase;}
+.step-counter{font-size:11px;font-weight:600;color:var(--fg-muted);}
+.progress-bar{height:3px;background:var(--border);position:sticky;top:61px;z-index:99;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--lime));transition:width .4s ease;width:0%;}
+.card{background:var(--bg);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);margin:20px 16px;}
+.card-hero{padding:28px 28px 0;}
+.card-body{padding:24px 28px 28px;}
+.step-kicker{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.step-title{font-family:var(--font-serif);font-size:1.6rem;font-weight:600;color:var(--fg);line-height:1.15;letter-spacing:-.02em;margin-bottom:8px;}
+.step-title em{font-style:italic;font-weight:400;color:var(--fg-muted);}
+.step-sub{font-size:13.5px;color:var(--fg-muted);line-height:1.6;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
+.field input,.field select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:14px;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+
+/* ── INVITE SECTION ── */
+.invite-section{background:hsl(205,45%,96%);border:1.5px solid hsl(205,45%,82%);border-radius:var(--r-sm);padding:18px;margin-bottom:16px;}
+.invite-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.invite-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+.invite-count-pill{font-size:11px;font-weight:600;color:var(--accent);background:var(--bg);border:1px solid hsl(205,45%,78%);padding:3px 10px;border-radius:999px;}
+.invite-desc{font-size:12px;color:var(--fg-muted);line-height:1.55;margin-bottom:12px;}
+.invite-add-row{display:flex;gap:8px;}
+.invite-add-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;}
+.invite-add-row input:focus{border-color:var(--accent);}
+.invite-add-row button{padding:9px 16px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.invite-add-row button:hover{background:hsl(205,58%,30%);}
+.invite-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.invite-tag{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:11.5px;color:var(--fg-med);}
+.invite-tag-x{background:none;border:none;cursor:pointer;color:var(--fg-muted);font-size:14px;line-height:1;padding:0;transition:color .12s;}
+.invite-tag-x:hover{color:var(--red);}
+
+/* ── PRIVACY + CONSENT ── */
+.privacy-box{background:var(--bg-mist);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin-bottom:20px;}
+.privacy-box-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.privacy-box p{font-size:11.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:6px;}
+.privacy-box p:last-child{margin-bottom:0;}
+.consent-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--lime-bg);border:1px solid hsl(78,35%,80%);border-radius:var(--r-sm);margin-bottom:20px;cursor:pointer;user-select:none;}
+.consent-check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;background:var(--bg);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.consent-check.checked{background:var(--lime-deep);border-color:var(--lime-deep);}
+.consent-check svg{opacity:0;transition:opacity .15s;}
+.consent-check.checked svg{opacity:1;}
+.consent-text{font-size:12px;color:var(--fg-med);line-height:1.55;}
+
+/* ── BUTTONS ── */
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;background:var(--fg);color:var(--bg);font-family:var(--font-sans);font-size:14px;font-weight:600;border:none;border-radius:999px;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:var(--accent);}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+.btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;background:var(--bg);color:var(--fg-med);font-family:var(--font-sans);font-size:13px;font-weight:500;border:1px solid var(--border);border-radius:999px;cursor:pointer;transition:all .15s;}
+.btn-secondary:hover{border-color:var(--fg-muted);color:var(--fg);}
+.btn-row{display:flex;gap:10px;margin-top:24px;}
+.btn-row .btn-primary{flex:1;}
+.spinner{width:18px;height:18px;border:2px solid transparent;border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.error-msg{font-size:12px;color:var(--red);padding:8px 0;}
+
+/* ── S1b TRANSITION ── */
+.s1b-inner{text-align:center;padding:32px 24px;}
+.s1b-icon{width:60px;height:60px;background:linear-gradient(135deg,var(--accent),var(--lime));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.s1b-icon svg{width:26px;height:26px;color:#fff;}
+.s1b-count{font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.s1b-note{font-size:13px;color:var(--fg-muted);line-height:1.6;max-width:340px;margin:0 auto 24px;}
+
+/* ── TOOL GRID ── */
+.cat-title{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:20px;}
+.tool-card{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 10px;text-align:center;cursor:pointer;transition:all .18s;background:var(--bg);position:relative;user-select:none;}
+.tool-card:hover{border-color:var(--accent);background:var(--accent-light);}
+.tool-card.selected{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 3px hsla(205,58%,38%,.12);}
+.tool-card-check{position:absolute;top:7px;right:7px;width:18px;height:18px;border-radius:50%;background:var(--accent);display:none;align-items:center;justify-content:center;}
+.tool-card.selected .tool-card-check{display:flex;}
+.tool-card-check svg{width:10px;height:10px;color:#fff;}
+.tool-card-icon{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;overflow:hidden;padding:6px;}
+.tool-card-icon img{width:100%;height:100%;object-fit:contain;display:block;border-radius:4px;}
+.tool-logo-fb{font-size:20px;line-height:1;display:none;align-items:center;justify-content:center;}
+.tool-card-name{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:2px;}
+.tool-card-vendor{font-size:10px;color:var(--fg-muted);}
+.add-custom .tool-card-icon{font-size:18px;color:var(--fg-muted);}
+
+/* ── PER-TOOL QUESTIONS ── */
+.tool-q-header{display:flex;align-items:center;gap:14px;padding:20px 28px 18px;border-bottom:1px solid var(--border);}
+.tool-q-icon{width:48px;height:48px;border-radius:12px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;padding:7px;}
+.tool-q-icon img{width:100%;height:100%;object-fit:contain;}
+.tool-q-name{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;letter-spacing:-.02em;}
+.tool-q-vendor{font-size:11px;color:var(--fg-muted);}
+.q-section{margin-bottom:22px;}
+.q-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.q-options{display:flex;flex-direction:column;gap:7px;}
+.q-option{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .15s;background:var(--bg);}
+.q-option:hover,.q-option.selected{border-color:var(--accent);background:var(--accent-light);}
+.q-option-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s;}
+.q-option.selected .q-option-dot{background:var(--accent);border-color:var(--accent);}
+.q-option-label{font-size:13px;font-weight:500;color:var(--fg);}
+.q-option-note{font-size:11px;color:var(--fg-muted);margin-top:1px;}
+.q-options-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;}
+.q-opt-sm{padding:10px 8px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;text-align:center;transition:all .15s;background:var(--bg);}
+.q-opt-sm:hover,.q-opt-sm.selected{border-color:var(--accent);background:var(--accent-light);}
+.q-opt-sm-label{font-size:12px;font-weight:600;color:var(--fg);display:block;}
+.q-opt-sm-note{font-size:10px;color:var(--fg-muted);margin-top:2px;line-height:1.3;}
+.live-rag-bar{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-sm);background:var(--bg-mist);border:1px solid var(--border);margin-top:20px;transition:all .3s;}
+.live-rag-bar.rag-green{background:var(--green-bg);border-color:var(--green-border);}
+.live-rag-bar.rag-amber{background:var(--amber-bg);border-color:var(--amber-border);}
+.live-rag-bar.rag-red{background:var(--red-bg);border-color:var(--red-border);}
+.rag-dot{width:14px;height:14px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.live-rag-bar.rag-green .rag-dot{background:var(--green);}
+.live-rag-bar.rag-amber .rag-dot{background:var(--amber);}
+.live-rag-bar.rag-red .rag-dot{background:var(--red);}
+.rag-text{font-size:12px;font-weight:500;color:var(--fg-muted);}
+.live-rag-bar.rag-green .rag-text{color:var(--green);}
+.live-rag-bar.rag-amber .rag-text{color:var(--amber);}
+.live-rag-bar.rag-red .rag-text{color:var(--red);}
+.rag-flags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.rag-flag{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:2px 7px;border-radius:999px;}
+
+/* ── HOW HELPS (team mode only) ── */
+.how-helps-section{background:linear-gradient(135deg,var(--lime-bg),hsl(42,40%,97%));border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);padding:16px;margin-top:20px;}
+.how-helps-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:6px;}
+.how-helps-sub{font-size:12px;color:var(--fg-muted);line-height:1.5;margin-bottom:10px;}
+.how-helps-input{width:100%;padding:10px 12px;border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:#fff;outline:none;resize:vertical;min-height:64px;transition:border-color .15s;}
+.how-helps-input:focus{border-color:var(--lime-deep);}
+
+/* ── REVIEW ── */
+.review-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;}
+.rs-cell{border-radius:var(--r-sm);padding:14px;text-align:center;}
+.rs-cell.green{background:var(--green-bg);border:1px solid var(--green-border);}
+.rs-cell.amber{background:var(--amber-bg);border:1px solid var(--amber-border);}
+.rs-cell.red{background:var(--red-bg);border:1px solid var(--red-border);}
+.rs-num{font-family:var(--font-serif);font-size:1.8rem;font-weight:600;line-height:1;}
+.rs-cell.green .rs-num{color:var(--green);}
+.rs-cell.amber .rs-num{color:var(--amber);}
+.rs-cell.red .rs-num{color:var(--red);}
+.rs-label{font-size:10px;color:var(--fg-muted);margin-top:3px;}
+.review-tool-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.review-tool-row:last-child{border-bottom:none;}
+.review-rag{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.review-rag.green{background:var(--green);}
+.review-rag.amber{background:var(--amber);}
+.review-rag.red{background:var(--red);}
+.review-tool-name{font-size:13px;font-weight:500;flex:1;}
+.review-tool-plan{font-size:11px;color:var(--fg-muted);}
+.review-edit-btn{background:none;border:none;font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;}
+.email-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.email-tag{display:flex;align-items:center;gap:5px;background:var(--bg-mist);border:1px solid var(--border);border-radius:999px;padding:4px 10px 4px 12px;font-size:12px;color:var(--fg-med);}
+.email-tag-remove{background:none;border:none;cursor:pointer;color:var(--fg-muted);font-size:14px;line-height:1;padding:0;}
+.email-add-row{display:flex;gap:8px;}
+.email-add-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg);outline:none;}
+.email-add-row input:focus{border-color:var(--accent);}
+.email-add-row button{padding:9px 16px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;}
+hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
+
+/* ── DONE SCREEN ── */
+.done-hero{text-align:center;padding:32px 24px 24px;}
+.done-check{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--lime-deep));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.done-check svg{width:28px;height:28px;color:#fff;}
+.cal-card{background:linear-gradient(135deg,var(--lime-bg),var(--bg-warm));border:1px solid hsl(78,35%,80%);border-radius:var(--r);padding:20px;text-align:center;margin-top:16px;}
+.cal-title{font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);margin-bottom:6px;letter-spacing:-.01em;}
+.cal-sub{font-size:12.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:16px;}
+.cal-btn{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--fg);text-decoration:none;font-size:14px;font-weight:700;padding:13px 26px;border-radius:999px;box-shadow:0 4px 16px hsla(78,80%,46%,.3);transition:all .2s;}
+.cal-btn:hover{background:var(--lime-deep);color:#fff;transform:translateY(-1px);}
+.qw-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
+.qw-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--fg-med);line-height:1.5;}
+.qw-item:last-child{border-bottom:none;}
+.qw-num{font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;background:var(--amber-bg);color:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.qw-num.red{background:var(--red-bg);color:var(--red);}
+
+/* ── TEAM WELCOME (ts1) ── */
+.team-biz-badge{display:inline-block;background:var(--accent-light);border:1px solid hsl(205,45%,78%);color:var(--accent);font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:16px;}
+.anon-box{background:hsl(78,45%,96%);border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);padding:16px;margin-bottom:20px;}
+.anon-box-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:6px;}
+.anon-box p{font-size:12px;color:var(--fg-med);line-height:1.6;}
+.anon-toggle{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--bg);margin-bottom:16px;cursor:pointer;user-select:none;transition:border-color .15s;}
+.anon-toggle:hover{border-color:var(--lime-deep);}
+.anon-toggle.named{border-color:var(--accent);}
+.toggle-dot{width:36px;height:20px;border-radius:999px;background:var(--lime);position:relative;flex-shrink:0;transition:background .2s;}
+.toggle-dot::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.anon-toggle.named .toggle-dot{background:var(--accent);}
+.anon-toggle.named .toggle-dot::after{left:18px;}
+.toggle-label{font-size:13px;font-weight:500;color:var(--fg);}
+.toggle-note{font-size:11px;color:var(--fg-muted);margin-top:2px;}
+
+/* ── TEAM DONE OVERLAY ── */
+.overlay{position:fixed;inset:0;background:rgba(10,10,10,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;}
+.overlay.show{display:flex;}
+.overlay-card{background:var(--bg);border-radius:var(--r);padding:36px 32px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.25);text-align:center;animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.overlay-check{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--lime-deep));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.overlay-check svg{width:24px;height:24px;color:#fff;}
+.overlay-title{font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--fg);margin-bottom:10px;letter-spacing:-.01em;}
+.overlay-body{font-size:13px;color:var(--fg-med);line-height:1.7;margin-bottom:16px;}
+.overlay-note{font-size:11.5px;color:var(--fg-muted);line-height:1.6;padding:12px 14px;background:var(--bg-mist);border-radius:var(--r-sm);margin-bottom:20px;text-align:left;}
+.overlay-note strong{color:var(--fg-med);}
+
+/* ── STEP DOTS ── */
+.step-dots{display:flex;align-items:center;justify-content:center;gap:5px;padding:12px 0 4px;}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--border);}
+.step-dot.active{background:var(--accent);width:18px;border-radius:3px;}
+.step-dot.done{background:var(--lime-deep);}
+
+@media(max-width:480px){
+  .card-hero,.card-body{padding:20px 20px 20px;}
+  .tool-q-header{padding:16px 20px;}
+  .step-title{font-size:1.4rem;}
+  .tool-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));}
+  .q-options-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-mark">KC</div>
+    <div>
+      <div class="logo-text">Kiwi Clarity AI</div>
+      <div class="logo-sub">AI Advisory · Tauranga NZ</div>
+    </div>
+  </div>
+  <div class="step-counter" id="stepCounter"></div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ═══ OWNER APP ═══ -->
+<div id="ownerApp">
+
+<!-- S1: Welcome + Invite -->
+<div class="card" id="s1">
+  <div class="card-hero">
+    <div class="step-kicker">AI Use Survey</div>
+    <div class="step-title">Let's see what AI<br><em>is really in your business</em></div>
+    <div class="step-sub" style="margin-bottom:24px;">Takes about 10 minutes. Invite your team first — their anonymous answers reveal what's actually happening in the business, not just what you know about.</div>
+  </div>
+  <div class="card-body">
+    <div class="field-row">
+      <div class="field">
+        <label>Business name</label>
+        <input type="text" id="bizName" placeholder="e.g. Tauranga Plumbing Ltd">
+      </div>
+      <div class="field">
+        <label>Sector</label>
+        <select id="bizSector">
+          <option value="">Select sector</option>
+          <option>Professional services</option>
+          <option>Trades and construction</option>
+          <option>Retail and hospitality</option>
+          <option>Health and wellness</option>
+          <option>Real estate and property</option>
+          <option>Creative and marketing</option>
+          <option>Not-for-profit</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Team size</label>
+      <select id="bizSize">
+        <option value="">Select size</option>
+        <option>1–5 staff</option>
+        <option>6–10 staff</option>
+        <option>11–20 staff</option>
+        <option>20+ staff</option>
+      </select>
+    </div>
+
+    <div class="invite-section">
+      <div class="invite-section-hdr">
+        <div class="invite-label">Invite your team</div>
+        <div class="invite-count-pill" id="inviteCountPill" style="display:none;">0 added</div>
+      </div>
+      <div class="invite-desc">Add your team members' email addresses. They'll each receive a short anonymous survey asking how AI is helping their work. You'll get the full picture on the follow-up call.</div>
+      <div class="invite-add-row">
+        <input type="email" id="inviteInput" placeholder="team.member@yourbusiness.co.nz" onkeydown="inviteKeydown(event)">
+        <button onclick="addInviteEmail()">Add</button>
+      </div>
+      <div class="invite-tags" id="inviteTags"></div>
+    </div>
+
+    <div class="privacy-box">
+      <div class="privacy-box-title">Your privacy</div>
+      <p>Your audit data and your team's survey responses are <strong>emailed directly to you and your consultant</strong> via Resend (a US-based email service). Nothing is stored in any database.</p>
+      <p>Team member surveys are anonymous by default. Individual responses are never shared with you — only a summary on your follow-up call.</p>
+      <p>This constitutes a cross-border disclosure under IPP 12 of the NZ Privacy Act 2020. By consenting, you authorise this for the purpose of receiving your audit results.</p>
+    </div>
+    <div class="consent-row" onclick="toggleConsent()">
+      <div class="consent-check" id="consentCheck">
+        <svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="consent-text">I've read the privacy notice and I'm happy for my audit data and team surveys to be processed as described above.</div>
+    </div>
+    <button class="btn-primary" id="s1Btn" onclick="sendInvitesAndStart()" disabled>
+      <span id="s1BtnText">Start my survey &rarr;</span>
+      <div class="spinner" id="s1Spinner" style="display:none;"></div>
+    </button>
+    <div class="error-msg" id="s1Error" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- S1b: Surveys Sent Transition -->
+<div class="card" id="s1b" style="display:none;">
+  <div class="s1b-inner">
+    <div class="s1b-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="s1b-count" id="s1bCount">0 surveys sent</div>
+    <div class="step-title" style="font-size:1.3rem;margin-bottom:10px;">Your team has been invited</div>
+    <div class="s1b-note" id="s1bNote">They have 2 days to complete their survey and will receive a gentle reminder if they haven't. You'll hear the full picture on your follow-up call.</div>
+    <button class="btn-primary" onclick="goStep(2)">Now let's do yours &rarr;</button>
+  </div>
+</div>
+
+<!-- S4: Review and Send -->
+<div class="card" id="s4" style="display:none;">
+  <div class="card-hero">
+    <div class="step-kicker">Step 4 — Review</div>
+    <div class="step-title">Here's what<br><em>we found</em></div>
+  </div>
+  <div class="card-body">
+    <div class="review-summary" id="reviewSummary"></div>
+    <div id="reviewToolList"></div>
+    <hr class="div">
+    <div class="step-kicker" style="margin-bottom:10px;">Who should receive the results?</div>
+    <p style="font-size:12.5px;color:var(--fg-muted);margin-bottom:12px;">Your consultant is pre-filled. Add your own email and anyone else who should have a copy.</p>
+    <div class="email-tags" id="emailTags"></div>
+    <div class="email-add-row">
+      <input type="email" id="emailInput" placeholder="you@yourbusiness.co.nz" onkeydown="emailKeydown(event)">
+      <button onclick="addEmail()">Add</button>
+    </div>
+    <div class="error-msg" id="emailError" style="display:none;"></div>
+    <hr class="div">
+    <p style="font-size:11.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;">Your results will be emailed instantly. Nothing is stored on any server.</p>
+    <button class="btn-primary" id="submitBtn" onclick="submitAudit()">
+      <span id="submitBtnText">Send my results &rarr;</span>
+      <div class="spinner" id="submitSpinner" style="display:none;"></div>
+    </button>
+    <div class="error-msg" id="submitError" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- S5: Owner Done -->
+<div class="card" id="s5" style="display:none;">
+  <div class="done-hero">
+    <div class="done-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step-title" style="font-size:1.4rem;">Done — results sent</div>
+    <div class="step-sub" id="doneSub" style="margin-top:8px;"></div>
+  </div>
+  <div class="card-body">
+    <div id="quickWins"></div>
+    <div class="cal-card">
+      <div class="cal-title">Ready to talk through what this means?</div>
+      <div class="cal-sub">Book a free 30-minute follow-up call. Your consultant will walk through your findings — and share what your team's anonymous surveys revealed.</div>
+      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener" class="cal-btn">Book a follow-up call &rarr;</a>
+    </div>
+    <p style="font-size:11px;color:var(--fg-muted);text-align:center;margin-top:16px;line-height:1.6;">Prepared by Kiwi Clarity AI (working name) · nathanielbaldock.com<br>Drafted with AI assistance (Claude, NotebookLM). Reviewed and approved by Nathaniel Baldock.</p>
+  </div>
+</div>
+</div><!-- end ownerApp -->
+
+<!-- ═══ SHARED SCREENS ═══ -->
+
+<!-- S2: Tool Grid -->
+<div class="card" id="s2" style="display:none;">
+  <div class="card-hero">
+    <div class="step-kicker" id="s2Kicker">Step 2 — Tools</div>
+    <div class="step-title" id="s2Title">Which tools does<br><em>your team use?</em></div>
+    <div class="step-sub" id="s2Sub" style="margin-bottom:24px;">Tick everything, including tools used on personal accounts.</div>
+  </div>
+  <div class="card-body" id="toolGridBody"></div>
+</div>
+
+<!-- S3: Per-tool questions -->
+<div class="card" id="s3" style="display:none;">
+  <div class="tool-q-header">
+    <div class="tool-q-icon" id="qToolIcon"></div>
+    <div>
+      <div class="step-kicker" id="qProgress">Tool 1 of 3</div>
+      <div class="tool-q-name" id="qToolName">ChatGPT</div>
+      <div class="tool-q-vendor" id="qToolVendor">OpenAI</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="q-section">
+      <div class="q-label">Which plan does your team use?</div>
+      <div class="q-options" id="qTierOptions"></div>
+    </div>
+    <div class="q-section">
+      <div class="q-label">What kind of information goes into it?</div>
+      <div class="q-options">
+        <div class="q-option" data-q="data" data-v="public" onclick="selectQ(this,'data')">
+          <div class="q-option-dot"></div>
+          <div><div class="q-option-label">Just public stuff — drafts, ideas, general questions</div><div class="q-option-note">Marketing copy, general research, nothing confidential</div></div>
+        </div>
+        <div class="q-option" data-q="data" data-v="internal" onclick="selectQ(this,'data')">
+          <div class="q-option-dot"></div>
+          <div><div class="q-option-label">Internal business info — plans, notes, operations</div><div class="q-option-note">Strategy docs, internal comms, financial plans</div></div>
+        </div>
+        <div class="q-option" data-q="data" data-v="personal" onclick="selectQ(this,'data')">
+          <div class="q-option-dot"></div>
+          <div><div class="q-option-label">Customer or staff personal details</div><div class="q-option-note">Names, emails, orders, health info, HR records</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="q-section">
+      <div class="q-label">Does someone review the output before it's used?</div>
+      <div class="q-options-grid">
+        <div class="q-opt-sm" data-q="review" data-v="always" onclick="selectQSm(this,'review')"><span class="q-opt-sm-label">Always</span><span class="q-opt-sm-note">Every output checked</span></div>
+        <div class="q-opt-sm" data-q="review" data-v="usually" onclick="selectQSm(this,'review')"><span class="q-opt-sm-label">Usually</span><span class="q-opt-sm-note">Most of the time</span></div>
+        <div class="q-opt-sm" data-q="review" data-v="rarely" onclick="selectQSm(this,'review')"><span class="q-opt-sm-label">Often not</span><span class="q-opt-sm-note">Goes straight out</span></div>
+      </div>
+    </div>
+    <!-- HOW HELPS: only shown in team mode -->
+    <div class="how-helps-section" id="howHelpsSection" style="display:none;">
+      <div class="how-helps-label">How is this helping your work? (optional)</div>
+      <div class="how-helps-sub">This is the most useful part. If this tool is genuinely saving you time or improving what you do, we'd love to know how — so the business can support it properly.</div>
+      <textarea class="how-helps-input" id="howHelpsInput" placeholder="e.g. saves me 30 mins on meeting notes, helps me write better client emails, makes research so much faster..." rows="2" oninput="setHowHelps(this.value)"></textarea>
+    </div>
+    <div class="live-rag-bar" id="liveRagBar">
+      <div class="rag-dot" id="liveRagDot"></div>
+      <div><div class="rag-text" id="liveRagText">Answer the questions above to see the risk level</div><div class="rag-flags" id="liveRagFlags"></div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="prevTool()">Back</button>
+      <button class="btn-primary" id="qNextBtn" onclick="nextTool()" disabled>Next tool &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TEAM APP ═══ -->
+<div id="teamApp" style="display:none;">
+<div class="card" id="ts1">
+  <div class="card-hero">
+    <div class="team-biz-badge" id="teamBizBadge">Team Survey</div>
+    <div class="step-title">How is AI<br><em>helping your work?</em></div>
+    <div class="step-sub" style="margin-bottom:24px;">Your employer is building a picture of how AI tools are being used across the business — what's already working well, and where a little care could help. Takes about 5 minutes.</div>
+  </div>
+  <div class="card-body">
+    <div class="anon-box">
+      <div class="anon-box-title">This survey is anonymous by default</div>
+      <p>We won't collect your name or email address unless you choose to share them. The results go directly to an independent consultant — not to your employer. Individual responses are never shown to the business owner. Only a summary.</p>
+    </div>
+    <div class="anon-toggle" id="anonToggle" onclick="toggleAnon()">
+      <div class="toggle-dot" id="toggleDot"></div>
+      <div>
+        <div class="toggle-label" id="toggleLabel">Staying anonymous</div>
+        <div class="toggle-note" id="toggleNote">Your name won't be included</div>
+      </div>
+    </div>
+    <div class="field" id="nameFieldWrap" style="display:none;">
+      <label>Your name (optional)</label>
+      <input type="text" id="teamMemberName" placeholder="e.g. Sarah" oninput="teamState.memberName=this.value">
+    </div>
+    <button class="btn-primary" onclick="startTeamSurvey()">Start the survey &rarr;</button>
+  </div>
+</div>
+</div><!-- end teamApp -->
+
+<!-- ═══ TEAM DONE OVERLAY ═══ -->
+<div class="overlay" id="teamDoneOverlay">
+  <div class="overlay-card">
+    <div class="overlay-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="overlay-title">Survey complete — thank you</div>
+    <div class="overlay-body">Your responses have been recorded. They'll help the business understand what's genuinely working with AI, and make sure the team is properly covered.</div>
+    <div class="overlay-note">
+      <strong>Why you didn't get an email confirmation:</strong> genuine anonymity means no trail. We haven't collected your email address or any identifying information. That's by design — we can only get honest answers when people feel completely safe.<br><br>
+      Your results go directly to the consultant, not to your employer. Individual responses are never shared with the business owner. Only a summary appears on their follow-up call.
+    </div>
+    <button class="btn-primary" onclick="closeTeamDone()">Done</button>
+  </div>
+</div>
+
+<div class="step-dots" id="stepDots"></div>
+</div><!-- end shell -->
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────
+var API_SUBMIT = 'https://nathanielbaldock.com/api/audit/submit';
+var API_INVITE = 'https://nathanielbaldock.com/api/audit/invite';
+var CONSULTANT_EMAIL = 'nathanielbaldock@gmail.com';
+var CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-';
+
+// ── MODE DETECTION ──────────────────────────────────────────────
+var params = new URLSearchParams(location.search);
+var IS_TEAM = params.has('team');
+var TEAM_TOKEN = params.get('team') || '';
+var BIZ_FROM_URL = decodeURIComponent(params.get('biz') || '');
+
+// ── TOOLS DATABASE ──────────────────────────────────────────────
+var TOOLS = [
+  {id:'chatgpt',name:'ChatGPT',vendor:'OpenAI',icon:'💬',logo:'https://logo.clearbit.com/openai.com',cat:'assistants',tiers:[
+    {id:'free',label:'Free account',note:'Standard free',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Data Controls › toggle off "Improve the model for everyone"',warning:'Consumer data used for training by default.'},
+    {id:'plus',label:'Plus ($20/month)',note:'Paid personal plan',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Data Controls › toggle off "Improve the model for everyone"',warning:'Same training exposure as free tier.'},
+    {id:'team',label:'Team or business plan',note:'Shared workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Workspace Settings › confirm data sharing disabled.',warning:'No model training on workspace data.'},
+  ]},
+  {id:'copilot',name:'Microsoft Copilot',vendor:'Microsoft',icon:'🔷',logo:'https://logo.clearbit.com/microsoft.com',cat:'assistants',tiers:[
+    {id:'standalone',label:'Standalone / free Copilot',note:'copilot.microsoft.com',vendorRisk:2,trainingOn:true,ipp12:true,action:'Profile › Settings › Privacy › turn off training.',warning:'Consumer version trains on data by default.'},
+    {id:'m365',label:'Microsoft 365 Copilot',note:'Business subscription',vendorRisk:1,trainingOn:false,ipp12:true,action:'Apply Purview sensitivity labels to tenant.',warning:'Enterprise Data Protection. No model training.'},
+  ]},
+  {id:'gemini',name:'Google Gemini',vendor:'Google',icon:'🔮',logo:'https://logo.clearbit.com/google.com',cat:'assistants',tiers:[
+    {id:'consumer',label:'Free or personal account',note:'gemini.google.com',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Gemini Apps Activity › turn off.',warning:'Human-reviewed conversations retained up to 3 years.'},
+    {id:'workspace',label:'Gemini for Workspace',note:'Business Google account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › set regional data residency.',warning:'No human review. No model training.'},
+  ]},
+  {id:'claude',name:'Claude',vendor:'Anthropic',icon:'🤖',logo:'https://logo.clearbit.com/anthropic.com',cat:'assistants',tiers:[
+    {id:'consumer',label:'Free or Pro account',note:'claude.ai personal',vendorRisk:2,trainingOn:true,ipp12:true,action:'Settings › Privacy › turn off "Help improve Claude".',warning:'Since Sept 2025 consumer accounts train on conversations by default.'},
+    {id:'team',label:'Claude Team / for Work',note:'claude.ai/work',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Settings › Data and Privacy › confirm training off.',warning:'Commercial workspace isolation. No model training.'},
+  ]},
+  {id:'perplexity',name:'Perplexity',vendor:'Perplexity AI',icon:'🔍',logo:'https://logo.clearbit.com/perplexity.ai',cat:'assistants',tiers:[
+    {id:'consumer',label:'Free or Pro',note:'Personal account',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Preferences › AI Data Retention › toggle off.',warning:'Consumer data used for model improvement.'},
+    {id:'enterprise',label:'Enterprise Pro',note:'Business plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'API Dashboard › restrict debug logging metrics.',warning:'Zero-retention framework.'},
+  ]},
+  {id:'grammarly',name:'Grammarly',vendor:'Grammarly',icon:'✍️',logo:'https://logo.clearbit.com/grammarly.com',cat:'writing',tiers:[
+    {id:'consumer',label:'Free or individual',note:'Personal account',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Security & Privacy › toggle off "Product Improvement and Training".',warning:'Text inputs used for training by default.'},
+    {id:'business',label:'Business or Enterprise',note:'Team account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › verify training toggles off.',warning:'Training off by default.'},
+  ]},
+  {id:'notion',name:'Notion AI',vendor:'Notion',icon:'📓',logo:'https://logo.clearbit.com/notion.so',cat:'writing',tiers:[
+    {id:'plus',label:'Plus or Free with AI',note:'Personal workspace',vendorRisk:2,trainingOn:false,ipp12:true,action:'Workspace Settings › Notion AI › disable web search.',warning:'Verify current sub-processor terms.'},
+    {id:'business',label:'Business or Enterprise',note:'Admin workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin settings › verify sub-processor handling.',warning:'Workspace embeddings isolated.'},
+  ]},
+  {id:'hubspot',name:'HubSpot AI',vendor:'HubSpot',icon:'🧡',logo:'https://logo.clearbit.com/hubspot.com',cat:'writing',tiers:[
+    {id:'standard',label:'Standard account',note:'Default CRM',vendorRisk:2,trainingOn:true,ipp12:true,action:'Settings › AI › Access tab › toggle off "AI Model Training".',warning:'Uses CRM data for training by default.'},
+    {id:'sensitive',label:'Sensitive Data enabled',note:'With opt-out configured',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enable Sensitive Data setting and confirm training off.',warning:'Opted out of training by default.'},
+  ]},
+  {id:'notebooklm',name:'NotebookLM',vendor:'Google',icon:'📔',logo:'https://logo.clearbit.com/notebooklm.google',cat:'writing',tiers:[
+    {id:'consumer',label:'Personal Google account',note:'notebooklm.google.com',vendorRisk:2,trainingOn:false,ipp12:true,action:'Avoid thumbs-up/down ratings — trigger human review.',warning:'Feedback triggers human review, retained up to 3 years.'},
+    {id:'workspace',label:'Workspace Core',note:'Business Google account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › turn on NotebookLM for specific org units.',warning:'No human review. Enterprise-grade.'},
+  ]},
+  {id:'canva',name:'Canva AI',vendor:'Canva',icon:'🎨',logo:'https://logo.clearbit.com/canva.com',cat:'creative',tiers:[
+    {id:'free-pro',label:'Free or Pro',note:'Personal creator',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Privacy Controls › toggle off AI training.',warning:'AI training enabled by default as of November 2025.'},
+    {id:'teams',label:'Teams or Business',note:'Shared workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Settings › Security › Data and Privacy.',warning:'Content never used for training.'},
+  ]},
+  {id:'adobe',name:'Adobe Firefly',vendor:'Adobe',icon:'🔥',logo:'https://logo.clearbit.com/adobe.com',cat:'creative',tiers:[
+    {id:'individual',label:'Individual or personal',note:'Creative Cloud personal',vendorRisk:2,trainingOn:true,ipp12:true,action:'Adobe Account Privacy Settings › toggle off "Content analysis".',warning:'Analyses creations for model training unless opted out.'},
+    {id:'business',label:'Firefly for Business',note:'Enterprise Creative Cloud',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enterprise Admin Console › restrict custom model permissions.',warning:'Trained on licensed content only.'},
+  ]},
+  {id:'midjourney',name:'Midjourney',vendor:'Midjourney',icon:'🖼️',logo:'https://logo.clearbit.com/midjourney.com',cat:'creative',tiers:[
+    {id:'basic',label:'Basic or Standard',note:'Standard subscription',vendorRisk:3,trainingOn:true,ipp12:true,action:'No safe configuration available. Do not use for business assets.',warning:'All outputs PUBLIC by default. No training opt-out.'},
+    {id:'pro',label:'Pro or Mega (Stealth)',note:'Higher tier',vendorRisk:2,trainingOn:true,ipp12:true,action:'Type /settings in Discord › enable Stealth Mode.',warning:'Stealth hides outputs but prompts still used for training.'},
+  ]},
+  {id:'otter',name:'Otter.ai',vendor:'Otter.ai',icon:'🦦',logo:'https://logo.clearbit.com/otter.ai',cat:'meetings',tiers:[
+    {id:'basic-pro',label:'Basic or Pro',note:'Personal plan',vendorRisk:3,trainingOn:true,ipp12:true,action:'Email support@otter.ai to request deletion.',warning:'Trains on audio files by default.'},
+    {id:'business',label:'Business plan',note:'Team admin',vendorRisk:2,trainingOn:false,ipp12:true,action:'Admin Panel › enable mandatory participant notifications.',warning:'Excludes from third-party training.'},
+  ]},
+  {id:'fathom',name:'Fathom',vendor:'Fathom Video',icon:'🎙️',logo:'https://logo.clearbit.com/fathom.video',cat:'meetings',tiers:[
+    {id:'free',label:'Free account',note:'Individual free',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › training controls › toggle off.',warning:'De-identified meeting assets used for training by default.'},
+    {id:'team',label:'Team Edition',note:'Paid team plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Panel › enable global training opt-out.',warning:'SOC 2 Type II. No training on meeting content.'},
+  ]},
+  {id:'granola',name:'Granola AI',vendor:'Granola',icon:'🌾',logo:'https://logo.clearbit.com/granola.ai',cat:'meetings',tiers:[
+    {id:'any',label:'Personal or Enterprise',note:'Any plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Settings › Profile › toggle off "Model Training".',warning:'On-device transcription. Raw audio deleted immediately. SOC 2 Type II.'},
+  ]},
+  {id:'fireflies',name:'Fireflies.ai',vendor:'Fireflies.ai',icon:'✨',logo:'https://logo.clearbit.com/fireflies.ai',cat:'meetings',tiers:[
+    {id:'any',label:'Any plan',note:'Free, Pro, or Business',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Settings › force zero-data-retention.',warning:'Restricts API providers from training on meeting data.'},
+  ]},
+  {id:'zoom-ai',name:'Zoom AI Companion',vendor:'Zoom',icon:'📹',logo:'https://logo.clearbit.com/zoom.us',cat:'meetings',tiers:[
+    {id:'consumer',label:'Basic or Pro Zoom',note:'Standard Zoom plan',vendorRisk:2,trainingOn:true,ipp12:true,action:'Zoom Settings › AI Companion › disable data improvement.',warning:'Consumer AI features may be used for model improvement.'},
+    {id:'business',label:'Zoom Business or Enterprise',note:'Business account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Admin › AI Companion › confirm training exclusions.',warning:'Business accounts excluded from AI training by default.'},
+  ]},
+];
+var CATS = [
+  {id:'assistants',label:'AI Assistants',note:'Chat and analysis tools'},
+  {id:'writing',label:'Writing and Work Tools',note:'AI inside everyday apps'},
+  {id:'creative',label:'Creative Tools',note:'Design, image and video'},
+  {id:'meetings',label:'Meetings and Voice',note:'Recording and transcription'},
+];
+
+// ── STATE ───────────────────────────────────────────────────────
+var OWNER_LS = 'kca-owner-v3';
+var ST = {step:1,bizName:'',bizSector:'',bizSize:'',selected:[],queueIdx:0,
+  currentQ:{tierId:null,data:null,review:null},emails:[CONSULTANT_EMAIL],consent:false};
+var inviteEmails = [];
+var inviteToken = null;
+var teamState = {memberName:'',anonymous:true};
+
+function saveState(){try{localStorage.setItem(OWNER_LS,JSON.stringify(ST));}catch(e){}}
+function loadState(){try{var r=localStorage.getItem(OWNER_LS);if(r)ST=JSON.parse(r);}catch(e){}}
+
+// ── SCORING ─────────────────────────────────────────────────────
+function scoreEntry(toolId,tierId,dataType,reviewHabit){
+  var tool=TOOLS.find(function(t){return t.id===toolId;});
+  if(!tool) return null;
+  var tier=tool.tiers.find(function(t){return t.id===tierId;})||tool.tiers[0];
+  var ds={public:1,internal:2,personal:3}[dataType]||1;
+  var ho={always:1,usually:2,rarely:3}[reviewHabit]||2;
+  var vr=tier.vendorRisk;
+  var pe=(ds===3&&(tier.ipp12||vr>=2))?3:(ds>=2&&tier.ipp12)?2:1;
+  var ai=(ds===3&&ho===3)?3:(ds>=2&&ho>=2)?2:1;
+  var overall=Math.max(ds,ho,vr,pe,ai);
+  var rag=overall===3?'red':overall===2?'amber':'green';
+  var flags=[];
+  if(ds===3&&vr===3) flags.push('Sensitive data in an unsafe tool');
+  if(pe===3&&ho===3) flags.push('Personal data — unreviewed output');
+  if(ai===3&&ho===3) flags.push('High-impact use with little oversight');
+  if(tier.trainingOn&&ds>=2) flags.push('Tool may train on this data by default');
+  return {toolId,tierId,dataType,reviewHabit,tool,tier,scores:{ds,ho,vr,pe,ai},overall,rag,flags};
+}
+function ragWord(r){return r==='red'?'Act now':r==='amber'?'Check this':'Good to go';}
+
+// ── LOGO RENDERING ──────────────────────────────────────────────
+function imgErr(el){
+  el.style.display='none';
+  var fb=el.parentElement&&el.parentElement.querySelector('.tool-logo-fb');
+  if(fb) fb.style.display='flex';
+}
+function logoTag(t){
+  if(!t.logo) return '<span class="tool-logo-fb">'+t.icon+'</span>';
+  return '<img src="'+t.logo+'" alt="" class="tool-logo-img" onerror="imgErr(this)">'+
+    '<span class="tool-logo-fb">'+t.icon+'</span>';
+}
+
+// ── STEP NAVIGATION ─────────────────────────────────────────────
+function showOnly(id){
+  ['s1','s1b','s2','s3','s4','s5','ts1'].forEach(function(sid){
+    var el=document.getElementById(sid);
+    if(el) el.style.display=sid===id?'block':'none';
+  });
+}
+function goStep(n){
+  if(IS_TEAM){
+    goStepTeam(n); return;
+  }
+  var screen={1:'s1',11:'s1b',2:'s2',3:'s3',4:'s4',5:'s5'}[n]||'s1';
+  showOnly(screen);
+  ST.step=n; saveState();
+  updateProgress();
+  if(n===2) renderToolGrid();
+  if(n===4) renderReview();
+  var el=document.getElementById(screen);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function goStepTeam(n){
+  var screen={1:'ts1',2:'s2',3:'s3'}[n]||'ts1';
+  showOnly(screen);
+  updateProgressTeam(n);
+  var el=document.getElementById(screen);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  if(n===2) renderToolGrid(true);
+}
+function updateProgress(){
+  var pct={1:10,11:22,2:35,3:65,4:82,5:100}[ST.step]||10;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('stepCounter').textContent=ST.step<=1?'Step 1 of 5':ST.step===11?'Step 2 of 5':'Step '+Math.min(ST.step,5)+' of 5';
+  renderDots([1,2,3,4,5],ST.step<=1?1:ST.step===11?1:ST.step);
+}
+function updateProgressTeam(n){
+  var pct={1:20,2:45,3:80}[n]||20;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('stepCounter').textContent='Step '+n+' of 3';
+  renderDots([1,2,3],n);
+}
+function renderDots(steps,current){
+  var dots=document.getElementById('stepDots');
+  dots.innerHTML='';
+  steps.forEach(function(s){
+    var d=document.createElement('div');
+    d.className='step-dot'+(s===current?' active':s<current?' done':'');
+    dots.appendChild(d);
+  });
+}
+
+// ── OWNER S1 ─────────────────────────────────────────────────────
+function toggleConsent(){
+  ST.consent=!ST.consent;
+  document.getElementById('consentCheck').classList.toggle('checked',ST.consent);
+  checkS1();
+}
+function checkS1(){
+  var biz=document.getElementById('bizName').value.trim();
+  var ok=!!(biz&&ST.consent);
+  var btn=document.getElementById('s1Btn');
+  if(btn) btn.disabled=!ok;
+  // Update button text
+  var txt=document.getElementById('s1BtnText');
+  if(txt){
+    txt.textContent=inviteEmails.length>0?
+      'Send '+inviteEmails.length+' survey'+(inviteEmails.length===1?'':'s')+' and start mine \u2192':
+      'Start my survey \u2192';
+  }
+}
+
+// Invite email management
+function addInviteEmail(){
+  var inp=document.getElementById('inviteInput');
+  var v=inp.value.trim().toLowerCase();
+  if(!v||!v.includes('@')) return;
+  if(inviteEmails.includes(v)) return;
+  inviteEmails.push(v);
+  inp.value='';
+  renderInviteTags();
+  checkS1();
+}
+function removeInviteEmail(i){
+  inviteEmails.splice(i,1);
+  renderInviteTags();
+  checkS1();
+}
+function inviteKeydown(e){if(e.key==='Enter'){e.preventDefault();addInviteEmail();}}
+function renderInviteTags(){
+  var pill=document.getElementById('inviteCountPill');
+  var tags=document.getElementById('inviteTags');
+  if(inviteEmails.length===0){
+    pill.style.display='none';
+    tags.innerHTML='';
+  } else {
+    pill.style.display='block';
+    pill.textContent=inviteEmails.length+' added';
+    tags.innerHTML=inviteEmails.map(function(e,i){
+      return '<div class="invite-tag">'+e+'<button class="invite-tag-x" onclick="removeInviteEmail('+i+')" title="Remove">&times;</button></div>';
+    }).join('');
+  }
+}
+
+async function sendInvitesAndStart(){
+  var btn=document.getElementById('s1Btn');
+  var spinner=document.getElementById('s1Spinner');
+  var txt=document.getElementById('s1BtnText');
+  var err=document.getElementById('s1Error');
+  ST.bizName=document.getElementById('bizName').value.trim();
+  ST.bizSector=document.getElementById('bizSector').value;
+  ST.bizSize=document.getElementById('bizSize').value;
+  if(!ST.bizName){err.style.display='block';err.textContent='Please enter your business name.';return;}
+  btn.disabled=true; err.style.display='none';
+  if(inviteEmails.length>0){
+    txt.style.display='none'; spinner.style.display='flex';
+    try{
+      var resp=await fetch(API_INVITE,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({bizName:ST.bizName,bizSector:ST.bizSector,bizSize:ST.bizSize,emails:inviteEmails})});
+      var data=await resp.json();
+      inviteToken=data.token||null;
+      txt.style.display='flex'; spinner.style.display='none';
+      // Show transition screen
+      document.getElementById('s1bCount').textContent=inviteEmails.length+' survey'+(inviteEmails.length===1?'':'s')+' sent';
+      document.getElementById('s1bNote').textContent='Your team has 2 days to complete theirs and will get a gentle reminder tomorrow if they haven\'t. You\'ll hear the full picture on your follow-up call.';
+      goStep(11);
+    } catch(e){
+      txt.style.display='flex'; spinner.style.display='none'; btn.disabled=false;
+      err.style.display='block';
+      err.textContent='Could not send invites. You can still start your survey and invite your team later.';
+      goStep(2); // proceed anyway
+    }
+  } else {
+    goStep(2);
+  }
+  saveState();
+}
+
+// ── TEAM S1 ──────────────────────────────────────────────────────
+function toggleAnon(){
+  teamState.anonymous=!teamState.anonymous;
+  var toggle=document.getElementById('anonToggle');
+  var dot=document.getElementById('toggleDot');
+  var lbl=document.getElementById('toggleLabel');
+  var note=document.getElementById('toggleNote');
+  var nameWrap=document.getElementById('nameFieldWrap');
+  toggle.classList.toggle('named',!teamState.anonymous);
+  if(teamState.anonymous){
+    lbl.textContent='Staying anonymous';
+    note.textContent='Your name won\'t be included';
+    nameWrap.style.display='none';
+  } else {
+    lbl.textContent='Including my name';
+    note.textContent='Your name will appear on your response';
+    nameWrap.style.display='block';
+  }
+}
+function startTeamSurvey(){
+  ST.selected=[];
+  goStepTeam(2);
+}
+
+// ── TOOL GRID ────────────────────────────────────────────────────
+function renderToolGrid(teamMode){
+  var body=document.getElementById('toolGridBody');
+  var kicker=document.getElementById('s2Kicker');
+  var title=document.getElementById('s2Title');
+  var sub=document.getElementById('s2Sub');
+  if(teamMode||IS_TEAM){
+    if(kicker) kicker.textContent='Step 2 — Your tools';
+    if(title) title.innerHTML='Which AI tools do<br><em>you personally use?</em>';
+    if(sub) sub.textContent='Tick every tool you use at work, including ones on your personal accounts.';
+  } else {
+    if(kicker) kicker.textContent='Step 2 — Tools';
+    if(title) title.innerHTML='Which tools does<br><em>your team use?</em>';
+    if(sub) sub.textContent='Tick everything, including tools used on personal accounts.';
+  }
+  var html='';
+  CATS.forEach(function(cat){
+    var tools=TOOLS.filter(function(t){return t.cat===cat.id;});
+    html+='<div class="cat-title">'+cat.label+'<span style="font-weight:400;margin-left:6px;text-transform:none;letter-spacing:0;font-size:9px;"> — '+cat.note+'</span></div>';
+    html+='<div class="tool-grid">';
+    tools.forEach(function(t){
+      var sel=ST.selected.some(function(s){return s.toolId===t.id;});
+      html+='<div class="tool-card'+(sel?' selected':'')+'" data-tid="'+t.id+'" onclick="toggleToolSel(\''+t.id+'\')">'
+        +'<div class="tool-card-check"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+        +'<div class="tool-card-icon">'+logoTag(t)+'</div>'
+        +'<div class="tool-card-name">'+t.name+'</div>'
+        +'<div class="tool-card-vendor">'+t.vendor+'</div>'
+        +'</div>';
+    });
+    html+='<div class="tool-card add-custom" onclick="addCustomTool()"><div class="tool-card-icon"><span class="tool-logo-fb" style="display:flex;">+</span></div><div class="tool-card-name">Add other</div><div class="tool-card-vendor">Not listed</div></div>';
+    html+='</div>';
+  });
+  var nextFn=IS_TEAM?'startTeamQuestions()':'startQuestions()';
+  html+='<div class="btn-row"><button class="btn-secondary" onclick="goStep(IS_TEAM?1:1)">Back</button><button class="btn-primary" id="s2Btn" onclick="'+nextFn+'" '+(ST.selected.length?'':'disabled')+'>Rate selected &rarr;</button></div>';
+  body.innerHTML=html;
+}
+function toggleToolSel(id){
+  var idx=ST.selected.findIndex(function(s){return s.toolId===id;});
+  if(idx>=0) ST.selected.splice(idx,1);
+  else ST.selected.push({toolId:id,tierId:null,dataType:null,reviewHabit:null,howHelps:''});
+  saveState();
+  var card=document.querySelector('.tool-card[data-tid="'+id+'"]');
+  if(card) card.classList.toggle('selected',ST.selected.some(function(s){return s.toolId===id;}));
+  var btn=document.getElementById('s2Btn');
+  if(btn) btn.disabled=ST.selected.length===0;
+}
+function addCustomTool(){
+  var name=window.prompt('Tool name?','');
+  if(!name||!name.trim()) return;
+  var id='custom-'+Date.now();
+  TOOLS.push({id,name:name.trim(),vendor:'Other',icon:'🔧',cat:'other',
+    tiers:[{id:'any',label:'Any plan',note:'',vendorRisk:2,trainingOn:true,ipp12:true,
+      action:'Check this tool\'s privacy settings and data handling terms.',
+      warning:'Unknown vendor. Verify before using with sensitive data.'}]});
+  ST.selected.push({toolId:id,tierId:null,dataType:null,reviewHabit:null,howHelps:''});
+  saveState(); renderToolGrid(IS_TEAM);
+}
+function startQuestions(){if(ST.selected.length===0)return;ST.queueIdx=0;loadQuestion();goStep(3);}
+function startTeamQuestions(){if(ST.selected.length===0)return;ST.queueIdx=0;loadQuestion();goStepTeam(3);}
+
+// ── PER-TOOL QUESTIONS ───────────────────────────────────────────
+function loadQuestion(){
+  var entry=ST.selected[ST.queueIdx];
+  if(!entry) return;
+  var tool=TOOLS.find(function(t){return t.id===entry.toolId;});
+  if(!tool) return;
+  document.getElementById('qToolIcon').innerHTML=logoTag(tool);
+  document.getElementById('qToolName').textContent=tool.name;
+  document.getElementById('qToolVendor').textContent=tool.vendor;
+  document.getElementById('qProgress').textContent='Tool '+(ST.queueIdx+1)+' of '+ST.selected.length;
+  document.getElementById('qNextBtn').textContent=(ST.queueIdx===ST.selected.length-1)?'Review results \u2192':'Next tool \u2192';
+  // Tier options
+  document.getElementById('qTierOptions').innerHTML=tool.tiers.map(function(tier){
+    return '<div class="q-option'+(entry.tierId===tier.id?' selected':'')+'" data-q="tier" data-v="'+tier.id+'" onclick="selectQ(this,\'tier\')">'
+      +'<div class="q-option-dot"></div>'
+      +'<div><div class="q-option-label">'+tier.label+'</div>'+(tier.note?'<div class="q-option-note">'+tier.note+'</div>':'')+'</div>'
+      +'</div>';
+  }).join('');
+  // Restore data/review
+  document.querySelectorAll('.q-option[data-q="data"]').forEach(function(o){o.classList.remove('selected');});
+  document.querySelectorAll('.q-opt-sm[data-q="review"]').forEach(function(o){o.classList.remove('selected');});
+  if(entry.dataType) document.querySelector('.q-option[data-q="data"][data-v="'+entry.dataType+'"]')?.classList.add('selected');
+  if(entry.reviewHabit) document.querySelector('.q-opt-sm[data-q="review"][data-v="'+entry.reviewHabit+'"]')?.classList.add('selected');
+  // How helps (team mode)
+  var hhs=document.getElementById('howHelpsSection');
+  var hhi=document.getElementById('howHelpsInput');
+  if(hhs) hhs.style.display=IS_TEAM?'block':'none';
+  if(hhi) hhi.value=entry.howHelps||'';
+  ST.currentQ={tierId:entry.tierId,data:entry.dataType,review:entry.reviewHabit};
+  updateLiveRag();
+  checkQNext();
+}
+function selectQ(el,q){
+  var v=el.getAttribute('data-v');
+  document.querySelectorAll('.q-option[data-q="'+q+'"]').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  if(q==='tier') ST.currentQ.tierId=v;
+  else if(q==='data') ST.currentQ.data=v;
+  updateLiveRag(); checkQNext();
+}
+function selectQSm(el,q){
+  var v=el.getAttribute('data-v');
+  document.querySelectorAll('.q-opt-sm[data-q="'+q+'"]').forEach(function(o){o.classList.remove('selected');});
+  el.classList.add('selected');
+  ST.currentQ.review=v;
+  updateLiveRag(); checkQNext();
+}
+function setHowHelps(v){
+  var entry=ST.selected[ST.queueIdx];
+  if(entry) entry.howHelps=v;
+}
+function checkQNext(){
+  document.getElementById('qNextBtn').disabled=!(ST.currentQ.tierId&&ST.currentQ.data&&ST.currentQ.review);
+}
+function updateLiveRag(){
+  if(!ST.currentQ.tierId||!ST.currentQ.data||!ST.currentQ.review) return;
+  var entry=ST.selected[ST.queueIdx];
+  var result=scoreEntry(entry.toolId,ST.currentQ.tierId,ST.currentQ.data,ST.currentQ.review);
+  if(!result) return;
+  var bar=document.getElementById('liveRagBar');
+  bar.className='live-rag-bar rag-'+result.rag;
+  var msgs={green:'Good to go — this use is well managed.',amber:'Check this — one quick change would lower the risk.',red:'Act now — this needs prompt attention.'};
+  document.getElementById('liveRagText').textContent=msgs[result.rag];
+  document.getElementById('liveRagFlags').innerHTML=result.flags.map(function(f){return '<span class="rag-flag">'+f+'</span>';}).join('');
+}
+function saveCurrentQ(){
+  var entry=ST.selected[ST.queueIdx];
+  entry.tierId=ST.currentQ.tierId;
+  entry.dataType=ST.currentQ.data;
+  entry.reviewHabit=ST.currentQ.review;
+  // howHelps saved via oninput
+  saveState();
+}
+function nextTool(){
+  saveCurrentQ();
+  if(ST.queueIdx<ST.selected.length-1){
+    ST.queueIdx++;
+    loadQuestion();
+    document.getElementById('s3').scrollTop=0;
+  } else {
+    IS_TEAM?submitTeamSurvey():goStep(4);
+  }
+}
+function prevTool(){
+  saveCurrentQ();
+  if(ST.queueIdx>0){ST.queueIdx--;loadQuestion();}
+  else{IS_TEAM?goStepTeam(2):goStep(2);}
+}
+
+// ── OWNER REVIEW ─────────────────────────────────────────────────
+function renderReview(){
+  var results=ST.selected.map(function(e){return scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit);}).filter(Boolean);
+  var red=results.filter(function(r){return r.rag==='red';}).length;
+  var amber=results.filter(function(r){return r.rag==='amber';}).length;
+  var green=results.filter(function(r){return r.rag==='green';}).length;
+  document.getElementById('reviewSummary').innerHTML=
+    '<div class="rs-cell green"><div class="rs-num">'+green+'</div><div class="rs-label">Good to go</div></div>'+
+    '<div class="rs-cell amber"><div class="rs-num">'+amber+'</div><div class="rs-label">Check this</div></div>'+
+    '<div class="rs-cell red"><div class="rs-num">'+red+'</div><div class="rs-label">Act now</div></div>';
+  document.getElementById('reviewToolList').innerHTML=results.slice().sort(function(a,b){return b.overall-a.overall;}).map(function(r,i){
+    return '<div class="review-tool-row"><div class="review-rag '+r.rag+'"></div>'
+      +'<div class="review-tool-name">'+r.tool.name+' <span style="font-weight:400;color:var(--fg-muted);">— '+r.tier.label+'</span></div>'
+      +'<button class="review-edit-btn" onclick="editTool('+i+')">Edit</button></div>';
+  }).join('');
+  renderEmailTags();
+}
+function editTool(i){
+  var sorted=ST.selected.map(function(e,idx){return{entry:e,result:scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit),origIdx:idx};}).filter(function(x){return x.result;}).sort(function(a,b){return b.result.overall-a.result.overall;});
+  ST.queueIdx=sorted[i].origIdx;
+  loadQuestion(); goStep(3);
+}
+function renderEmailTags(){
+  var tags=document.getElementById('emailTags');
+  if(!tags) return;
+  tags.innerHTML=ST.emails.map(function(e,i){
+    return '<div class="email-tag">'+e+(i===0?'':' <button class="email-tag-remove" onclick="removeEmail('+i+')">&times;</button>')+'</div>';
+  }).join('');
+}
+function removeEmail(i){ST.emails.splice(i,1);saveState();renderEmailTags();}
+function addEmail(){
+  var inp=document.getElementById('emailInput');
+  var v=inp.value.trim();
+  var err=document.getElementById('emailError');
+  if(!v||!v.includes('@')){err.style.display='block';err.textContent='Please enter a valid email.';return;}
+  if(ST.emails.includes(v)){err.style.display='block';err.textContent='Already added.';return;}
+  ST.emails.push(v);inp.value='';err.style.display='none';saveState();renderEmailTags();
+}
+function emailKeydown(e){if(e.key==='Enter'){e.preventDefault();addEmail();}}
+
+// ── OWNER SUBMIT ─────────────────────────────────────────────────
+function buildPayload(){
+  var results=ST.selected.map(function(e){return scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit);}).filter(Boolean);
+  return{bizName:ST.bizName||'(not provided)',bizSector:ST.bizSector,bizSize:ST.bizSize,
+    submittedAt:new Date().toISOString(),emails:ST.emails,inviteToken:inviteToken,inviteCount:inviteEmails.length,
+    tools:results.map(function(r){
+      return{toolId:r.toolId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
+        tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
+        rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
+        trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,action:r.tier.action,warning:r.tier.warning};
+    }),
+    summary:{green:results.filter(function(r){return r.rag==='green';}).length,
+      amber:results.filter(function(r){return r.rag==='amber';}).length,
+      red:results.filter(function(r){return r.rag==='red';}).length}};
+}
+async function submitAudit(){
+  var btn=document.getElementById('submitBtn');
+  var txt=document.getElementById('submitBtnText');
+  var spinner=document.getElementById('submitSpinner');
+  var err=document.getElementById('submitError');
+  txt.textContent='Sending...';spinner.style.display='flex';btn.disabled=true;err.style.display='none';
+  try{
+    var payload=buildPayload();
+    var resp=await fetch(API_SUBMIT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!resp.ok) throw new Error('Server error '+resp.status);
+    renderDone(payload);goStep(5);
+    try{localStorage.removeItem(OWNER_LS);}catch(e){}
+  }catch(e){
+    txt.textContent='Send my results \u2192';spinner.style.display='none';btn.disabled=false;
+    err.style.display='block';err.textContent='Something went wrong. Please try again or email nathanielbaldock@gmail.com directly.';
+  }
+}
+function renderDone(payload){
+  var clientEmails=payload.emails.filter(function(e){return e!==CONSULTANT_EMAIL;});
+  document.getElementById('doneSub').textContent=
+    payload.summary.red+' red, '+payload.summary.amber+' amber, '+payload.summary.green+' green across '+payload.tools.length+' tools.'
+    +(clientEmails.length?' Sent to '+clientEmails.join(', ')+'.'
+      +(payload.inviteCount>0?' Your team\'s '+payload.inviteCount+' surveys will be shared on your call.':''):'');
+  var wins=payload.tools.filter(function(t){return t.rag==='red'||(t.rag==='amber'&&t.trainingOn);}).slice(0,3);
+  var html='<div class="qw-title">Your top quick wins</div>';
+  wins.forEach(function(t){html+='<div class="qw-item"><div class="qw-num'+(t.rag==='red'?' red':'')+'">!</div><strong>'+t.toolName+':</strong>&nbsp;'+t.action+'</div>';});
+  if(!wins.length) html+='<div class="qw-item"><div class="qw-num" style="background:var(--green-bg);color:var(--green);">&#10003;</div>All your tools look well managed. Record them as sanctioned uses.</div>';
+  document.getElementById('quickWins').innerHTML=html;
+}
+
+// ── TEAM SUBMIT ──────────────────────────────────────────────────
+async function submitTeamSurvey(){
+  var results=ST.selected.map(function(e){return scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit);}).filter(Boolean);
+  var payload={
+    isTeam:true,teamToken:TEAM_TOKEN,
+    bizName:BIZ_FROM_URL||'Unknown business',
+    memberName:teamState.anonymous?'Anonymous':teamState.memberName||'Anonymous',
+    anonymous:teamState.anonymous,
+    submittedAt:new Date().toISOString(),
+    tools:results.map(function(r,i){
+      var entry=ST.selected[i]||{};
+      return{toolId:r.toolId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
+        tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
+        rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
+        trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,
+        howHelps:entry.howHelps||''};
+    }),
+    summary:{green:results.filter(function(r){return r.rag==='green';}).length,
+      amber:results.filter(function(r){return r.rag==='amber';}).length,
+      red:results.filter(function(r){return r.rag==='red';}).length}
+  };
+  try{
+    await fetch(API_SUBMIT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  }catch(e){/* fail silently — show done overlay regardless */}
+  showTeamDone();
+}
+function showTeamDone(){
+  document.getElementById('teamDoneOverlay').classList.add('show');
+}
+function closeTeamDone(){
+  document.getElementById('teamDoneOverlay').classList.remove('show');
+  showOnly('ts1');
+  ST.selected=[];
+  var biz=document.getElementById('teamBizBadge');
+  if(biz) biz.textContent=BIZ_FROM_URL||'Team Survey';
+  updateProgressTeam(1);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded',function(){
+  if(IS_TEAM){
+    document.getElementById('ownerApp').style.display='none';
+    document.getElementById('teamApp').style.display='block';
+    var badge=document.getElementById('teamBizBadge');
+    if(badge&&BIZ_FROM_URL) badge.textContent=BIZ_FROM_URL+' — Team Survey';
+    showOnly('ts1');
+    updateProgressTeam(1);
+  } else {
+    document.getElementById('ownerApp').style.display='block';
+    document.getElementById('teamApp').style.display='none';
+    loadState();
+    var bn=document.getElementById('bizName');
+    var bs=document.getElementById('bizSector');
+    var bz=document.getElementById('bizSize');
+    if(bn&&ST.bizName) bn.value=ST.bizName;
+    if(bs&&ST.bizSector) bs.value=ST.bizSector;
+    if(bz&&ST.bizSize) bz.value=ST.bizSize;
+    if(ST.consent) document.getElementById('consentCheck').classList.add('checked');
+    bn.addEventListener('input',function(){ST.bizName=this.value;checkS1();saveState();});
+    bs.addEventListener('change',function(){ST.bizSector=this.value;saveState();});
+    bz.addEventListener('change',function(){ST.bizSize=this.value;saveState();});
+    checkS1(); updateProgress();
+    showOnly('s1');
+  }
+});
+</script>
+</body>
+</html>

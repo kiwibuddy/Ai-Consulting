@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html><head>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+</head><body><pre id="out"></pre><script>
+window.addEventListener('load', async () => {
+  const files = ['app.jsx', 'marks.jsx', 'tweaks-panel.jsx'];
+  const out = document.getElementById('out');
+  for (const f of files) {
+    try {
+      const r = await fetch(f);
+      const src = await r.text();
+      try {
+        Babel.transform(src, { presets: ['react'] });
+        out.textContent += f + ': OK (' + src.length + ' bytes)\n';
+      } catch (e) {
+        out.textContent += f + ': ' + e.message + '\n\n';
+      }
+    } catch (e) {
+      out.textContent += f + ': FETCH ' + e.message + '\n';
+    }
+  }
+});
+</script></body></html>

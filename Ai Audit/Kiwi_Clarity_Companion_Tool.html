@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Call Briefing — Kiwi Clarity AI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#fff;--bg-warm:hsl(42,40%,98%);--bg-mist:hsl(210,24%,96%);
+  --fg:#0a0a0a;--fg-med:hsl(220,8%,30%);--fg-muted:hsl(220,7%,46%);
+  --border:hsl(220,12%,88%);--accent:hsl(205,58%,38%);
+  --green:hsl(152,45%,36%);--green-bg:hsl(152,40%,93%);--green-border:hsl(152,35%,78%);
+  --amber:hsl(38,90%,40%);--amber-bg:hsl(40,80%,93%);--amber-border:hsl(38,60%,78%);
+  --red:hsl(4,68%,40%);--red-bg:hsl(4,70%,94%);--red-border:hsl(4,55%,78%);
+  --font-serif:'Fraunces','Georgia',serif;--font-sans:'Inter',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --r:14px;--r-sm:9px;--shadow:0 1px 3px rgba(15,23,42,.05),0 6px 20px -3px rgba(15,23,42,.08);
+}
+body{font-family:var(--font-sans);color:var(--fg);background:var(--bg-mist);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.shell{max-width:900px;margin:0 auto;padding:24px 20px 80px;}
+.hdr{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;box-shadow:var(--shadow);}
+.logo-row{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:32px;height:32px;background:var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--bg);font-family:var(--font-serif);font-size:13px;font-weight:700;}
+.logo-text{font-size:13px;font-weight:600;}
+.logo-sub{font-size:9px;color:var(--fg-muted);letter-spacing:.06em;text-transform:uppercase;}
+.hdr-badge{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--bg-mist);border:1px solid var(--border);color:var(--fg-muted);}
+
+/* Paste panel */
+.paste-panel{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);text-align:center;}
+.paste-title{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;margin-bottom:6px;letter-spacing:-.02em;}
+.paste-sub{font-size:13px;color:var(--fg-muted);margin-bottom:20px;}
+.paste-area{width:100%;min-height:120px;padding:14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11.5px;color:var(--fg-med);background:var(--bg-mist);outline:none;resize:vertical;transition:border-color .15s;}
+.paste-area:focus{border-color:var(--accent);}
+.load-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:var(--fg);color:var(--bg);font-family:var(--font-sans);font-size:13px;font-weight:600;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;transition:all .2s;}
+.load-btn:hover{background:var(--accent);}
+.error-msg{margin-top:10px;font-size:12px;color:var(--red);}
+
+/* Briefing */
+.briefing{display:none;}
+.briefing-hdr{background:var(--fg);color:var(--bg);border-radius:var(--r);padding:24px 28px;margin-bottom:16px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:var(--shadow);}
+.biz-name{font-family:var(--font-serif);font-size:1.6rem;font-weight:700;letter-spacing:-.02em;}
+.biz-meta{font-size:12px;color:hsl(220,8%,65%);margin-top:3px;}
+.summary-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.s-pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;}
+.s-pill.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.s-pill.amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
+.s-pill.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.s-dot{width:10px;height:10px;border-radius:50%;}
+.s-pill.red .s-dot{background:var(--red);}
+.s-pill.amber .s-dot{background:var(--amber);}
+.s-pill.green .s-dot{background:var(--green);}
+
+/* Two-col layout */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:640px){.cols{grid-template-columns:1fr;}}
+.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);}
+.card-title{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+
+/* Tool finding card */
+.tool-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
+.tc-bar{height:4px;}
+.tc-bar.red{background:var(--red);}
+.tc-bar.amber{background:var(--amber);}
+.tc-bar.green{background:var(--green);}
+.tc-body{padding:18px 20px;}
+.tc-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
+.tc-icon{width:36px;height:36px;border-radius:8px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:5px;flex-shrink:0;}.tc-icon img{width:100%;height:100%;object-fit:contain;border-radius:2px;}.tc-icon-fb{font-size:18px;display:none;align-items:center;justify-content:center;}.tc-icon img{width:100%;height:100%;object-fit:contain;border-radius:2px;}.tc-icon-fb{font-size:18px;}
+.tc-name{font-family:var(--font-serif);font-size:1rem;font-weight:600;letter-spacing:-.01em;}
+.tc-plan{font-size:11px;color:var(--fg-muted);}
+.tc-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;}
+.tc-badge.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
+.tc-badge.amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
+.tc-badge.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
+.tc-flags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.tc-flag{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:2px 7px;border-radius:999px;}
+.tc-action{background:hsl(210,40%,96%);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;color:var(--fg-med);margin-bottom:12px;line-height:1.55;}
+.tc-action strong{color:var(--accent);font-weight:600;}
+
+/* Interview prompts */
+.q-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.q-item:last-child{border-bottom:none;}
+.q-num{width:22px;height:22px;border-radius:50%;background:var(--bg-mist);border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--fg-muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.q-num.red{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
+.q-num.amber{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
+.q-text{font-size:13px;color:var(--fg-med);line-height:1.55;}
+.q-rationale{font-size:11px;color:var(--fg-muted);margin-top:3px;font-style:italic;}
+
+/* Policy gaps */
+.gap-row{padding:9px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.gap-row:last-child{border-bottom:none;}
+.gap-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.gap-text{font-size:12.5px;color:var(--fg-med);line-height:1.5;}
+
+/* Print */
+@media print{
+  .paste-panel,.load-btn,.print-btn{display:none!important;}
+  body{background:#fff;}
+  .briefing{display:block!important;}
+}
+.print-btn{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--fg-med);font-family:var(--font-sans);font-size:12px;font-weight:500;padding:8px 16px;border-radius:999px;cursor:pointer;margin-left:10px;transition:all .15s;}
+.print-btn:hover{border-color:var(--accent);color:var(--accent);}
+.reset-btn{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--fg-muted);font-family:var(--font-sans);font-size:12px;padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .15s;}
+.reset-btn:hover{border-color:var(--red);color:var(--red);}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo-row">
+    <div class="logo-mark">KC</div>
+    <div>
+      <div class="logo-text">Pre-Call Briefing Tool</div>
+      <div class="logo-sub">Kiwi Clarity AI · Consultant only</div>
+    </div>
+  </div>
+  <div class="hdr-badge">Internal · Not for clients</div>
+</div>
+
+<!-- PASTE PANEL -->
+<div class="paste-panel" id="pastePanel">
+  <div class="paste-title">Load an audit</div>
+  <div class="paste-sub">Copy the JSON payload from your notification email and paste it here, then click Load.</div>
+  <textarea class="paste-area" id="jsonInput" placeholder='Paste audit JSON here...
+{"bizName":"...", "tools":[...]}'></textarea>
+  <div><button class="load-btn" onclick="loadBriefing()">Load briefing &rarr;</button></div>
+  <div class="error-msg" id="loadError" style="display:none;"></div>
+</div>
+
+<!-- BRIEFING OUTPUT -->
+<div class="briefing" id="briefingOut">
+  <div class="briefing-hdr">
+    <div>
+      <div class="biz-name" id="bizNameOut"></div>
+      <div class="biz-meta" id="bizMetaOut"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div class="summary-pills" id="summaryPills"></div>
+      <button class="print-btn" onclick="window.print()">Print</button>
+      <button class="reset-btn" onclick="resetBriefing()">Load another</button>
+    </div>
+  </div>
+
+  <!-- Conversation sequence -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-title">Recommended conversation sequence</div>
+    <div id="convSequence"></div>
+  </div>
+
+  <div class="cols">
+    <!-- Policy gaps -->
+    <div class="card">
+      <div class="card-title">Policy gaps to address</div>
+      <div id="policyGaps"></div>
+    </div>
+    <!-- Quick wins -->
+    <div class="card">
+      <div class="card-title">Quick wins to propose</div>
+      <div id="quickWinsOut"></div>
+    </div>
+  </div>
+
+  <!-- Per-tool findings -->
+  <div style="margin-bottom:8px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:12px;">Per-tool findings and interview prompts</div>
+    <div id="toolFindings"></div>
+  </div>
+
+  <!-- Team Innovation Insights -->
+  <div class="card" id="teamInsightsCard" style="display:none;margin-bottom:16px;">
+    <div class="card-title">Team innovation — what staff are already doing well</div>
+    <div id="teamInsightsOut"></div>
+  </div>
+
+  <!-- Context notes -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">Session notes</div>
+    <textarea style="width:100%;min-height:140px;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px;font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg-mist);outline:none;resize:vertical;" placeholder="Your notes from the call..."></textarea>
+  </div>
+
+</div><!-- end briefingOut -->
+
+</div><!-- end shell -->
+
+<script>
+// ── DETERMINISTIC INSIGHT ENGINE ────────────────────────────────
+// Interview question banks keyed by scenario
+var QUESTIONS = {
+  shadow: [
+    {q:"How does [TOOL] typically get used — is it on a business account or personal accounts?",
+     r:"Their answer tells you whether this is sanctioned use or shadow AI. If they're not sure, that itself is significant."},
+    {q:"Who set up the [TOOL] account? Is it tied to the business email or a personal one?",
+     r:"Business email tied to a business plan = likely safe. Personal email = likely consumer tier."},
+  ],
+  consumer_sensitive: [
+    {q:"What kind of information does your team typically paste into [TOOL]?",
+     r:"You need to know the exact data types. 'Customer emails' or 'staff details' changes the risk profile immediately."},
+    {q:"Does anyone paste customer names, order information, or email conversations into [TOOL]?",
+     r:"This is the Privacy Act IPP 12 question — you're establishing whether personal data crosses the border."},
+    {q:"Do your customers know their information might pass through [TOOL]?",
+     r:"Most businesses haven't thought about this. It's not a gotcha — it's a genuine gap to solve."},
+  ],
+  training_on: [
+    {q:"Has anyone checked the privacy settings inside [TOOL] to see whether the team's data trains the AI model?",
+     r:"The answer is almost always no. This question opens the door to the settings walk-through."},
+    {q:"If I told you [TOOL]'s free/Plus plan uses your conversations to improve the AI by default, what would be your reaction?",
+     r:"Watch for the reaction. Surprise means they didn't know. Acceptance means they've thought about it."},
+  ],
+  oversight_low: [
+    {q:"When [TOOL] produces a result that goes to a customer, who checks it before it's sent?",
+     r:"You're testing whether there's a human in the loop. 'Usually' is a policy gap. 'Nobody' is a red flag."},
+    {q:"Has the team ever had a situation where AI-generated content went out and turned out to be wrong?",
+     r:"Personal stories land harder than theory. If they have one, build the review policy around it."},
+  ],
+  ipp12: [
+    {q:"Are you aware that when your team uses [TOOL], the data goes to servers in the United States?",
+     r:"This is the cross-border disclosure question. Under IPP 12, they need to have considered this."},
+    {q:"Do any of your contracts with customers restrict where their data can be processed or stored?",
+     r:"Health, legal, and financial sector clients often have data residency clauses. Worth checking."},
+  ],
+  green: [
+    {q:"[TOOL] looks well managed based on what you've shared. How did you end up on the business plan?",
+     r:"Positive reinforcement. Understanding their decision process helps you replicate it for other tools."},
+  ],
+};
+
+var POLICY_GAPS = {
+  consumer_personal: "Acceptable Use Policy clause: which tools are approved and which require manager sign-off before use with customer or staff personal data.",
+  shadow: "Shadow AI clause: staff must seek approval before using personal AI accounts for any work purpose.",
+  training_on: "Data entry rule: staff must check and disable model training before using any consumer-tier AI tool for internal content.",
+  meeting_nobot: "Meeting disclosure protocol: all participants must be told at the start of any call where AI transcription is active.",
+  ipp12_undisclosed: "Privacy notice update: if personal data enters AI tools that process data overseas, customers should be informed.",
+  oversight: "Human review requirement: a named person must review AI-generated content before it is sent to customers or used in a decision.",
+};
+
+var QUICK_WINS = {
+  disable_training: (toolName) => "Turn off model training in "+toolName+" settings today — takes two minutes.",
+  upgrade_team: (toolName) => "Move "+toolName+" from a personal/free account to a Team plan — one admin account covers everyone.",
+  remove_personal_data: (toolName) => "Brief staff to remove customer names before pasting content into "+toolName+".",
+  check_settings: (toolName) => "Run through the privacy settings in "+toolName+" with the admin — the toggle is buried but it's there.",
+  add_verbal_disclosure: () => "Add a verbal script to the start of any meeting where AI transcription is active: 'This call is being transcribed by AI — let me know if you'd prefer we turn that off.'",
+};
+
+function loadBriefing(){
+  var raw = document.getElementById('jsonInput').value.trim();
+  var err = document.getElementById('loadError');
+  err.style.display='none';
+  if(!raw){err.style.display='block';err.textContent='Please paste the audit JSON first.';return;}
+  try{
+    var data = JSON.parse(raw);
+    if(!data.tools||!Array.isArray(data.tools)){throw new Error('Missing tools array');}
+    renderBriefing(data);
+    document.getElementById('pastePanel').style.display='none';
+    document.getElementById('briefingOut').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  } catch(e){
+    err.style.display='block';
+    err.textContent='Could not parse JSON. Make sure you copied the full payload from the email. Error: '+(e.message||e);
+  }
+}
+
+function resetBriefing(){
+  document.getElementById('pastePanel').style.display='block';
+  document.getElementById('briefingOut').style.display='none';
+  document.getElementById('jsonInput').value='';
+}
+
+function ragWord(r){return r==='red'?'Act now':r==='amber'?'Check this':'Good to go';}
+function ragColor(r){return r==='red'?'var(--red)':r==='amber'?'var(--amber)':'var(--green)';}
+
+
+function imgErrC(el){
+  el.style.display='none';
+  var fb=el.parentElement&&el.parentElement.querySelector('.tc-icon-fb');
+  if(fb) fb.style.display='flex';
+}
+
+function renderBriefing(data){
+  var tools = data.tools || [];
+  var biz = data.bizName || 'Unknown business';
+  var meta = [data.bizSector, data.bizSize, new Date(data.submittedAt||Date.now()).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})].filter(Boolean).join(' · ');
+  document.getElementById('bizNameOut').textContent = biz;
+  document.getElementById('bizMetaOut').textContent = meta;
+
+  var s = data.summary || {};
+  var pillsHtml = '';
+  if(s.red) pillsHtml += '<div class="s-pill red"><div class="s-dot"></div>'+s.red+' act now</div>';
+  if(s.amber) pillsHtml += '<div class="s-pill amber"><div class="s-dot"></div>'+s.amber+' check this</div>';
+  if(s.green) pillsHtml += '<div class="s-pill green"><div class="s-dot"></div>'+s.green+' good to go</div>';
+  document.getElementById('summaryPills').innerHTML = pillsHtml;
+
+  var sorted = tools.slice().sort(function(a,b){
+    var rank={red:0,amber:1,green:2};
+    return rank[a.rag]-rank[b.rag];
+  });
+
+  // ── Conversation sequence ──────────────────────────────────────
+  var seqHtml = '<ol style="padding-left:20px;">';
+  seqHtml += '<li style="font-size:13px;color:var(--fg-med);line-height:1.6;margin-bottom:8px;"><strong>Open with affirmation.</strong> Acknowledge that completing the audit takes self-awareness most businesses don\'t have. Set a collaborative tone before discussing any risks.</li>';
+
+  var redTools = sorted.filter(function(t){return t.rag==='red';});
+  var amberTools = sorted.filter(function(t){return t.rag==='amber';});
+
+  if(redTools.length){
+    seqHtml += '<li style="font-size:13px;color:var(--fg-med);line-height:1.6;margin-bottom:8px;"><strong>Address red tools first.</strong> Start with '+redTools.map(function(t){return t.toolName;}).join(', ')+'. These are the highest-risk and will set the seriousness of the conversation appropriately.</li>';
+  }
+  if(amberTools.length){
+    seqHtml += '<li style="font-size:13px;color:var(--fg-med);line-height:1.6;margin-bottom:8px;"><strong>Cover amber tools briefly.</strong> '+amberTools.map(function(t){return t.toolName;}).join(', ')+' — these usually have one specific setting change. Keep it practical.</li>';
+  }
+  seqHtml += '<li style="font-size:13px;color:var(--fg-med);line-height:1.6;margin-bottom:8px;"><strong>Introduce the AUP.</strong> Once they understand the risk landscape, explain that the Acceptable Use Policy gives staff clarity rather than adding restrictions.</li>';
+  seqHtml += '<li style="font-size:13px;color:var(--fg-med);line-height:1.6;margin-bottom:8px;"><strong>Close with quick wins.</strong> End on a practical, achievable note — 2–3 actions they can do this week without waiting for the full policy.</li>';
+  seqHtml += '</ol>';
+  document.getElementById('convSequence').innerHTML = seqHtml;
+
+  // ── Policy gaps ────────────────────────────────────────────────
+  var gaps = new Set();
+  tools.forEach(function(t){
+    if(t.flags && t.flags.some(function(f){return f.toLowerCase().includes('shadow')})) gaps.add('shadow');
+    if(t.rag==='red' && t.dataType==='personal') gaps.add('consumer_personal');
+    if(t.trainingOn) gaps.add('training_on');
+    if(t.rag!=='green' && t.reviewHabit==='rarely') gaps.add('oversight');
+    if(t.ipp12 && t.dataType==='personal' && t.rag!=='green') gaps.add('ipp12_undisclosed');
+    if(['otter','fathom','granola','fireflies','zoom-ai'].includes(t.toolId)) gaps.add('meeting_nobot');
+  });
+  var gapsHtml = '';
+  gaps.forEach(function(g){
+    if(POLICY_GAPS[g]){
+      gapsHtml += '<div class="gap-row"><div class="gap-icon">📋</div><div class="gap-text">'+POLICY_GAPS[g]+'</div>'+
+      (t.howHelps&&t.howHelps.trim()?
+        '<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,hsl(78,50%,95%),hsl(42,40%,97%));border:1.5px solid hsl(78,35%,78%);border-radius:8px;">'+
+        '<div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:4px;">Staff said</div>'+
+        '<div style="font-size:13px;color:var(--fg-med);font-style:italic;">&ldquo;'+t.howHelps+'&rdquo;</div>'+
+        '<div style="font-size:11px;color:var(--fg-muted);margin-top:4px;">Use this on the call: validate the tool, show the safer tier, or help the business adopt it properly.</div>'+
+        '</div>':'')+
+      '</div></div>';
+    }
+  });
+  if(!gapsHtml) gapsHtml = '<div class="gap-row"><div class="gap-icon">✅</div><div class="gap-text">No critical policy gaps identified. Recommend reviewing the Acceptable Use Policy for completeness.</div></div>';
+  document.getElementById('policyGaps').innerHTML = gapsHtml;
+
+  // ── Quick wins ─────────────────────────────────────────────────
+  var wins = [];
+  tools.forEach(function(t){
+    if(t.trainingOn && t.rag!=='green') wins.push(QUICK_WINS.disable_training(t.toolName));
+    if(t.rag==='red' && t.dataType!=='public') wins.push(QUICK_WINS.upgrade_team(t.toolName));
+    if(t.rag!=='green' && t.dataType==='personal' && t.rag!=='green') wins.push(QUICK_WINS.remove_personal_data(t.toolName));
+  });
+  if(gaps.has('meeting_nobot')) wins.push(QUICK_WINS.add_verbal_disclosure());
+  // Deduplicate and take top 4
+  var seen = new Set();
+  var uniqueWins = wins.filter(function(w){if(seen.has(w)) return false; seen.add(w); return true;}).slice(0,4);
+  var winsHtml = uniqueWins.map(function(w,i){
+    return '<div class="gap-row"><div class="gap-icon" style="color:var(--accent);font-weight:700;">'+(i+1)+'.</div><div class="gap-text">'+w+'</div>'+
+      (t.howHelps&&t.howHelps.trim()?
+        '<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,hsl(78,50%,95%),hsl(42,40%,97%));border:1.5px solid hsl(78,35%,78%);border-radius:8px;">'+
+        '<div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:4px;">Staff said</div>'+
+        '<div style="font-size:13px;color:var(--fg-med);font-style:italic;">&ldquo;'+t.howHelps+'&rdquo;</div>'+
+        '<div style="font-size:11px;color:var(--fg-muted);margin-top:4px;">Use this on the call: validate the tool, show the safer tier, or help the business adopt it properly.</div>'+
+        '</div>':'')+
+      '</div></div>';
+  }).join('');
+  if(!winsHtml) winsHtml = '<div class="gap-row"><div class="gap-icon">✅</div><div class="gap-text">This business is well set up. Frame the conversation around maintaining good practice as AI tools evolve.</div></div>';
+  document.getElementById('quickWinsOut').innerHTML = winsHtml;
+
+  // ── Per-tool findings ──────────────────────────────────────────
+  var findingsHtml = '';
+  sorted.forEach(function(t){
+    // Build interview questions deterministically
+    var qs = [];
+    if(t.flags && t.flags.some(function(f){return f.toLowerCase().includes('shadow')})) qs = qs.concat(QUESTIONS.shadow);
+    if(t.rag==='red' && t.dataType==='personal') qs = qs.concat(QUESTIONS.consumer_sensitive);
+    if(t.trainingOn && t.dataType!=='public') qs = qs.concat(QUESTIONS.training_on);
+    if(t.reviewHabit==='rarely') qs = qs.concat(QUESTIONS.oversight_low);
+    if(t.ipp12 && t.dataType==='personal') qs = qs.concat(QUESTIONS.ipp12);
+    if(t.rag==='green') qs = QUESTIONS.green;
+    // Limit to 3 most relevant
+    qs = qs.slice(0,3);
+
+    var qsHtml = qs.map(function(qo,i){
+      return '<div class="q-item">'+
+        '<div class="q-num '+(t.rag==='red'?'red':t.rag==='amber'?'amber':'')+'">'+String.fromCharCode(65+i)+'</div>'+
+        '<div><div class="q-text">&ldquo;'+qo.q.replace('[TOOL]',t.toolName)+'&rdquo;</div>'+
+        '<div class="q-rationale">'+qo.r+'</div></div></div>';
+    }).join('');
+
+    findingsHtml += '<div class="tool-card">'+
+      '<div class="tc-bar '+t.rag+'"></div>'+
+      '<div class="tc-body">'+
+        '<div class="tc-hdr">'+
+          '<div class="tc-icon">'+(t.logo?'<img src="'+t.logo+'" alt="" onerror="imgErrC(this)"><span class="tc-icon-fb">'+t.icon+'</span>':t.icon)+'</div>'+
+          '<div><div class="tc-name">'+t.toolName+'</div><div class="tc-plan">'+t.tierLabel+'</div></div>'+
+          '<div class="tc-badge '+t.rag+'">'+ragWord(t.rag)+'</div>'+
+        '</div>'+
+        (t.flags&&t.flags.length?'<div class="tc-flags">'+t.flags.map(function(f){return '<span class="tc-flag">'+f+'</span>';}).join('')+'</div>':'') +
+        '<div class="tc-action"><strong>Action to recommend:</strong> '+t.action+'</div>'+
+        (t.warning?'<div style="font-size:11.5px;color:var(--fg-muted);margin-bottom:12px;line-height:1.55;padding-bottom:12px;border-bottom:1px solid var(--border);">'+t.warning+'</div>':'')+
+        (qsHtml?'<div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:8px;">Interview prompts</div>'+qsHtml:'')+
+      '</div>'+
+      (t.howHelps&&t.howHelps.trim()?
+        '<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,hsl(78,50%,95%),hsl(42,40%,97%));border:1.5px solid hsl(78,35%,78%);border-radius:8px;">'+
+        '<div style="font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:4px;">Staff said</div>'+
+        '<div style="font-size:13px;color:var(--fg-med);font-style:italic;">&ldquo;'+t.howHelps+'&rdquo;</div>'+
+        '<div style="font-size:11px;color:var(--fg-muted);margin-top:4px;">Use this on the call: validate the tool, show the safer tier, or help the business adopt it properly.</div>'+
+        '</div>':'')+
+      '</div></div>';
+  });
+  document.getElementById('toolFindings').innerHTML = findingsHtml;
+
+  // Team insights summary
+  var allInsights = tools.filter(function(t){ return t.howHelps && t.howHelps.trim(); });
+  var insightsCard = document.getElementById('teamInsightsCard');
+  var insightsOut = document.getElementById('teamInsightsOut');
+  if(allInsights.length && insightsCard && insightsOut){
+    insightsCard.style.display = 'block';
+    insightsOut.innerHTML = allInsights.map(function(t){
+      return '<div class="gap-row">'+
+        '<div class="gap-icon">&#128161;</div>'+
+        '<div><div style="font-size:13px;font-weight:500;color:var(--fg);">'+t.toolName+'</div>'+
+        '<div style="font-size:12.5px;color:var(--fg-med);font-style:italic;margin-top:2px;">&ldquo;'+t.howHelps+'&rdquo;</div>'+
+        '<div style="font-size:11px;color:var(--fg-muted);margin-top:3px;">'+
+          (t.rag==='red'||t.rag==='amber'?'Staff are already using this — the conversation is about making it safer, not stopping it.':'Keep this. Staff have validated it works.')+
+        '</div></div></div>';
+    }).join('');
+  } else if(insightsCard){
+    insightsCard.style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>

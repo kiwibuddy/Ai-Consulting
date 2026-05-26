@@ -1,0 +1,8 @@
+
+<!DOCTYPE html>
+<html><head></head><body>
+<pre id="out">loading...</pre>
+<script>window.__loaded = [];</script>
+<script src="marks.jsx" onload="window.__loaded.push('marks ok')" onerror="window.__loaded.push('marks fail')"></script>
+<script>setTimeout(() => { document.getElementById('out').textContent = JSON.stringify(window.__loaded); }, 1000);</script>
+</body></html>

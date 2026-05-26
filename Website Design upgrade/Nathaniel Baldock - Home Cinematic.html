@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nathaniel Baldock — Practical AI for leaders with discernment</title>
+<meta name="description" content="AI consulting for churches, schools, and mission-driven organisations. Wisdom over hype. People over margins." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background: #0F1014;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(124, 204, 30, 0.30); color: #F4EFE2; }
+
+  @keyframes nb-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  @keyframes nb-slowzoom {
+    0%   { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  /* ────── RESPONSIVE BREAKPOINTS ──────
+     Inline React styles can't be media-queried, so we target via class
+     names and structural selectors with !important. */
+
+  /* Tablet — collapse 2-col layouts, soften padding */
+  @media (max-width: 1024px) {
+    .nb-hero-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+    .nb-hero-panel { max-width: 520px; }
+    .nb-approach-paras { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .nb-how-grid { grid-template-columns: 1fr !important; }
+    .nb-why-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+    .nb-latest-grid { grid-template-columns: 1fr 1fr !important; }
+    .nb-audience-row { grid-template-columns: 1fr !important; gap: 28px !important; }
+    .nb-audience-row > div:first-child { order: 1 !important; }
+    .nb-audience-row > div:last-child { order: 2 !important; }
+  }
+
+  /* Phone — hide desktop nav, show hamburger, scale everything down */
+  @media (max-width: 720px) {
+    .nb-desktop-nav { display: none !important; }
+    .nb-mobile-toggle { display: inline-flex !important; align-items: center; }
+    .nb-hero-eyebrow { font-size: 9.5px !important; gap: 8px 12px !important; }
+    .nb-hero-stats { gap: 24px 36px !important; margin-top: 56px !important; }
+    .nb-latest-grid { grid-template-columns: 1fr !important; }
+    .nb-final-ctas { flex-direction: column !important; }
+    .nb-final-ctas > * { width: 100%; max-width: 360px; }
+    .twk-panel { width: 240px !important; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Asset data URIs (logo + portrait + audience images) -->
+<script src="directions/assets.js"></script>
+
+<script type="text/babel" data-presets="react">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "palette": ["#D97757", "#29261b", "#f6f4ef"],
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        options={['#D97757', '#2A6FDB', '#1F8A5B', '#7A5AE0']}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakColor  label="Palette" value={t.palette}
+//                        options={[['#D97757', '#29261b', '#f6f4ef'],
+//                                  ['#475569', '#0f172a', '#f1f5f9']]}
+//                        onChange={(v) => setTweak('palette', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;box-sizing:border-box;min-width:0;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);
+    transition:transform .12s cubic-bezier(.3,.7,.4,1),box-shadow .12s}
+  .twk-chip:hover{transform:translateY(-1px);
+    box-shadow:0 0 0 .5px rgba(0,0,0,.18),0 4px 10px rgba(0,0,0,.12)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),
+    0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;
+    display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1;box-shadow:0 -1px 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i:first-child{box-shadow:none}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+    // Same-window signal so in-page listeners (deck-stage rail thumbnails)
+    // can react — the parent message only reaches the host, not peers.
+    window.dispatchEvent(new CustomEvent('tweakchange', { detail: edits }));
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  // Auto-inject a rail toggle when a <deck-stage> is on the page. The
+  // toggle drives the deck's per-viewer _railVisible via window message;
+  // state is mirrored from the same localStorage key the deck reads so
+  // the control reflects reality across reloads. The mechanism is the
+  // message — authors who want custom placement can post it directly
+  // and pass noDeckControls to suppress this one.
+  const hasDeckStage = React.useMemo(
+    () => typeof document !== 'undefined' && !!document.querySelector('deck-stage'),
+    [],
+  );
+  // deck-stage enables its rail in connectedCallback, but this panel can
+  // mount before that element has upgraded. The initial read catches the
+  // common case; the listener covers mounting first. (Older deck-stage.js
+  // copies still wait for the host's __omelette_rail_enabled postMessage —
+  // same listener handles those.)
+  const [railEnabled, setRailEnabled] = React.useState(
+    () => hasDeckStage && !!document.querySelector('deck-stage')?._railEnabled,
+  );
+  React.useEffect(() => {
+    if (!hasDeckStage || railEnabled) return undefined;
+    const onMsg = (e) => {
+      if (e.data && e.data.type === '__omelette_rail_enabled') setRailEnabled(true);
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, [hasDeckStage, railEnabled]);
+  const [railVisible, setRailVisible] = React.useState(() => {
+    try { return localStorage.getItem('deck-stage.railVisible') !== '0'; } catch (e) { return true; }
+  });
+  const toggleRail = (on) => {
+    setRailVisible(on);
+    window.postMessage({ type: '__deck_rail_visible', on }, '*');
+  };
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" data-noncommentable=""
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">
+          {children}
+          {hasDeckStage && railEnabled && !noDeckControls && (
+            <TweakSection label="Deck">
+              <TweakToggle label="Thumbnail rail" value={railVisible} onChange={toggleRail} />
+            </TweakSection>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  // Segments wrap mid-word once per-segment width runs out. The track is
+  // ~248px (280 panel − 28 body pad − 4 seg pad), each button loses 12px
+  // to its own padding, and 11.5px system-ui averages ~6.3px/char — so 2
+  // options fit ~16 chars each, 3 fit ~10. Past that (or >3 options), fall
+  // back to a dropdown rather than wrap.
+  const labelLen = (o) => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) {
+    // <select> emits strings — map back to the original option value so the
+    // fallback stays type-preserving (numbers, booleans) like the segment path.
+    const resolve = (s) => {
+      const m = options.find((o) => String(typeof o === 'object' ? o.value : o) === s);
+      return m === undefined ? s : typeof m === 'object' ? m.value : m;
+    };
+    return <TweakSelect label={label} value={value} options={options}
+                        onChange={(s) => onChange(resolve(s))} />;
+  }
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+// Relative-luminance contrast pick — checkmarks drawn over a swatch need to
+// read on both #111 and #fafafa without per-option configuration. Hex input
+// only (#rgb / #rrggbb); named or rgb()/hsl() colors fall through to "light".
+function __twkIsLight(hex) {
+  const h = String(hex).replace('#', '');
+  const x = h.length === 3 ? h.replace(/./g, (c) => c + c) : h.padEnd(6, '0');
+  const n = parseInt(x.slice(0, 6), 16);
+  if (Number.isNaN(n)) return true;
+  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  return r * 299 + g * 587 + b * 114 > 148000;
+}
+
+const __TwkCheck = ({ light }) => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2"
+          strokeLinecap="round" strokeLinejoin="round"
+          stroke={light ? 'rgba(0,0,0,.78)' : '#fff'} />
+  </svg>
+);
+
+// TweakColor — curated color/palette picker. Each option is either a single
+// hex string or an array of 1-5 hex strings; the card adapts — a lone color
+// renders solid, a palette renders colors[0] as the hero (left ~2/3) with the
+// rest stacked in a sharp column on the right. onChange emits the
+// option in the shape it was passed (string stays string, array stays array).
+// Without options it falls back to the native color input for back-compat.
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" className="twk-swatch" value={value}
+               onChange={(e) => onChange(e.target.value)} />
+      </div>
+    );
+  }
+  // Native <input type=color> emits lowercase hex per the HTML spec, so
+  // compare case-insensitively. String() guards JSON.stringify(undefined),
+  // which returns the primitive undefined (no .toLowerCase).
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const sup = rest.slice(0, 4);
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" role="radio"
+                    aria-checked={on} data-on={on ? '1' : '0'}
+                    aria-label={colors.join(', ')} title={colors.join(' · ')}
+                    style={{ background: hero }}
+                    onClick={() => onChange(o)}>
+              {sup.length > 0 && (
+                <span>
+                  {sup.map((c, j) => <i key={j} style={{ background: c }} />)}
+                </span>
+              )}
+              {on && <__TwkCheck light={__twkIsLight(hero)} />}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+// ─── Helpers and primitives for the Cinematic Hybrid home page ──────────────
+
+const { useState, useEffect, useRef, useLayoutEffect } = React;
+
+// Tesoro brand tokens — extracted from client/src/index.css
+const TESORO = {
+  green:       "#11C25C",
+  greenBright: "#7CCC1E",
+  gold:        "#FCA10A",
+  ink:         "#0F1014",
+  inkSoft:     "#16181D",
+  cream:       "#F4EFE2",
+};
+
+const CTA_GRADIENT = `linear-gradient(135deg, ${TESORO.green}, ${TESORO.greenBright})`;
+
+// Theme object — themed via tweaks. All section components read from CSS vars
+// declared on the root element so tweaks live-update without re-render.
+const PALETTE = {
+  bg:        TESORO.ink,
+  bgRaised:  TESORO.inkSoft,
+  bgPanel:   "rgba(255,255,255,0.04)",
+  ink:       TESORO.cream,
+  inkSoft:   "rgba(244,239,226,0.65)",
+  inkDim:    "rgba(244,239,226,0.40)",
+  rule:      "rgba(244,239,226,0.14)",
+  ruleStrong:"rgba(244,239,226,0.24)",
+  accent:    TESORO.greenBright,
+  accent2:   TESORO.green,
+  accentDim: "rgba(124,204,30,0.16)",
+};
+
+const FONT = {
+  display: `"Newsreader", "Source Serif Pro", Georgia, serif`,
+  italic:  `"Instrument Serif", "Newsreader", Georgia, serif`,
+  body:    `"Inter", system-ui, sans-serif`,
+  mono:    `"IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace`,
+};
+
+// ─── Scroll-reveal hook ────────────────────────────────────────────────
+// Returns [ref, shown] — flips shown to true the first time the element
+// is in (or scrolls into) view. Above-the-fold elements get triggered
+// synchronously on next frame so the CSS transition still runs from
+// opacity:0 → 1 — IntersectionObserver alone won't fire if the page
+// scrolls before the observer registers.
+const useReveal = (threshold = 0.15) => {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    // Already in viewport — animate in immediately on next frame.
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      const id = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(id);
+    }
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } },
+      { threshold, rootMargin: "0px 0px -8% 0px" }
+    );
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, [threshold]);
+  return [ref, shown];
+};
+
+const Reveal = ({ children, delay = 0, distance = 18, as: Tag = "div", style = {}, ...rest }) => {
+  const [ref, shown] = useReveal();
+  return (
+    <Tag
+      ref={ref}
+      style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? "translateY(0)" : `translateY(${distance}px)`,
+        transition: `opacity 900ms cubic-bezier(.2,.7,.2,1) ${delay}ms, transform 900ms cubic-bezier(.2,.7,.2,1) ${delay}ms`,
+        ...style,
+      }}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  );
+};
+
+// ─── Live AI dialogue panel ────────────────────────────────────────────
+// A "show, don't tell" signature element. Cycles through realistic consulting
+// Q&A pairs, types each one out, demonstrates AI without leaning on clichés.
+const DIALOGUE = [
+  { q: "Can AI write our donor newsletter?",     a: "It can. The harder question is what makes you worth writing about in the first place." },
+  { q: "Should we let students use ChatGPT?",    a: "Yes — with three guardrails. Let's talk through them before you draft a policy." },
+  { q: "How do we grade essays faster with AI?", a: "First: what is grading actually for? If it's feedback, AI helps. If it's judgment, slow down." },
+  { q: "Which AI tools should we buy?",          a: "Probably fewer than you think. Start with one workflow. Get it right. Then expand." },
+];
+
+const useTyper = (text, speed = 22) => {
+  const [out, setOut] = useState("");
+  useEffect(() => {
+    setOut("");
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setOut(text.slice(0, i));
+      if (i >= text.length) clearInterval(id);
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return out;
+};
+
+const Caret = ({ color = "currentColor" }) => (
+  <span
+    aria-hidden="true"
+    style={{
+      display: "inline-block",
+      width: "0.45ch",
+      height: "1em",
+      background: color,
+      marginLeft: 2,
+      verticalAlign: "-3px",
+      animation: "nb-blink 1s steps(2) infinite",
+    }}
+  />
+);
+
+const LiveAIPanel = ({ compact = false, label = "Live · A typical conversation" }) => {
+  const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState("q");
+
+  useEffect(() => {
+    let t;
+    const cur = DIALOGUE[idx];
+    if (phase === "q")
+      t = setTimeout(() => setPhase("a"), cur.q.length * 26 + 600);
+    else if (phase === "a")
+      t = setTimeout(() => setPhase("hold"), cur.a.length * 20 + 1800);
+    else
+      t = setTimeout(() => { setIdx((i) => (i + 1) % DIALOGUE.length); setPhase("q"); }, 700);
+    return () => clearTimeout(t);
+  }, [idx, phase]);
+
+  const cur = DIALOGUE[idx];
+  const qText = useTyper(cur.q, 26);
+  const aText = useTyper(phase === "a" || phase === "hold" ? cur.a : "", 20);
+
+  return (
+    <div style={{
+      position: "relative",
+      background: "var(--bg-panel)",
+      border: "1px solid var(--rule-strong)",
+      borderRadius: 6,
+      padding: compact ? "20px 22px 22px" : "24px 26px 28px",
+      backdropFilter: "blur(8px)",
+      WebkitBackdropFilter: "blur(8px)",
+    }}>
+      {/* Corner label */}
+      <div style={{
+        position: "absolute", top: -10, left: 18,
+        background: "var(--bg-raised)",
+        padding: "2px 10px",
+        fontFamily: FONT.mono, fontSize: 10,
+        letterSpacing: "0.16em", textTransform: "uppercase",
+        color: "var(--ink-soft)",
+        display: "inline-flex", alignItems: "center", gap: 8,
+      }}>
+        <span style={{
+          display: "inline-block", width: 7, height: 7, borderRadius: "50%",
+          background: "var(--accent)",
+          boxShadow: "0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent)",
+        }} />
+        {label}
+      </div>
+
+      {/* Q */}
+      <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: 4 }}>
+        <span style={{ fontFamily: FONT.mono, fontSize: 11, marginTop: 6, color: "var(--accent)", letterSpacing: "0.1em" }}>Q.</span>
+        <div style={{ fontFamily: FONT.mono, fontSize: 14, lineHeight: 1.55, color: "var(--ink-soft)", minHeight: "1.55em" }}>
+          {qText}
+          {phase === "q" && qText.length < cur.q.length && <Caret color="var(--ink-soft)" />}
+        </div>
+      </div>
+
+      {/* A */}
+      <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginTop: 14 }}>
+        <span style={{ fontFamily: FONT.mono, fontSize: 11, marginTop: 9, color: "var(--ink)", letterSpacing: "0.1em" }}>A.</span>
+        <div style={{
+          fontFamily: FONT.display, fontStyle: "italic", fontWeight: 400,
+          fontSize: 19, lineHeight: 1.4, color: "var(--ink)",
+          letterSpacing: "-0.01em", minHeight: "1.4em",
+        }}>
+          {aText}
+          {(phase === "a" || phase === "hold") && aText.length < cur.a.length && <Caret color="var(--ink)" />}
+        </div>
+      </div>
+
+      {/* Progress dots */}
+      <div style={{ display: "flex", gap: 5, marginTop: 20 }}>
+        {DIALOGUE.map((_, i) => (
+          <span key={i} style={{
+            width: i === idx ? 22 : 6, height: 2,
+            background: i === idx ? "var(--accent)" : "var(--rule-strong)",
+            transition: "width 280ms ease, background-color 280ms ease",
+          }} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ─── Section label (mono eyebrow used throughout) ──────────────────────
+const SectionLabel = ({ num, children }) => (
+  <Reveal>
+    <div style={{
+      display: "flex", alignItems: "center", gap: 16, marginBottom: 56,
+      fontFamily: FONT.mono, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase",
+      color: "var(--ink-soft)",
+    }}>
+      <span style={{ color: "var(--accent)" }}>—</span>
+      <span style={{ color: "var(--accent)" }}>{num}</span>
+      <span>{children}</span>
+    </div>
+  </Reveal>
+);
+
+// ─── Buttons ────────────────────────────────────────────────────────────
+const CTAPrimary = ({ children, href = "#contact", subtle = false, fullWidth = false }) => (
+  <a href={href} style={{
+    background: subtle ? "transparent" : CTA_GRADIENT,
+    border: subtle ? "1px solid var(--rule-strong)" : "none",
+    color: "white",
+    padding: "16px 26px",
+    borderRadius: 10,
+    fontSize: 14.5,
+    fontWeight: 600,
+    letterSpacing: "-0.005em",
+    textDecoration: "none",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 10,
+    justifyContent: fullWidth ? "center" : "flex-start",
+    width: fullWidth ? "100%" : "auto",
+    boxShadow: subtle ? "none" : "0 16px 40px color-mix(in srgb, var(--accent) 25%, transparent)",
+    transition: "transform 200ms ease, box-shadow 200ms ease, filter 200ms ease",
+  }}
+  onMouseOver={(e) => { if (!subtle) { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.filter = "brightness(1.05)"; } }}
+  onMouseOut={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.filter = "brightness(1)"; }}
+  >
+    {children}
+    <span style={{ display: "inline-block", transition: "transform 200ms ease" }}>→</span>
+  </a>
+);
+
+const CTASecondary = ({ children, href = "#" }) => (
+  <a href={href} style={{
+    color: "var(--ink)",
+    fontSize: 14, fontWeight: 500,
+    textDecoration: "none",
+    borderBottom: "1px solid var(--ink-soft)",
+    paddingBottom: 2,
+    letterSpacing: "-0.005em",
+    transition: "border-color 200ms ease",
+  }}
+  onMouseOver={(e) => e.currentTarget.style.borderBottomColor = "var(--accent)"}
+  onMouseOut={(e) => e.currentTarget.style.borderBottomColor = "var(--ink-soft)"}
+  >
+    {children}
+  </a>
+);
+
+Object.assign(window, {
+  TESORO, PALETTE, FONT, CTA_GRADIENT,
+  useReveal, Reveal, useTyper, Caret,
+  LiveAIPanel, SectionLabel,
+  CTAPrimary, CTASecondary, DIALOGUE,
+});
+
+// ─── All home page sections — Cinematic Hybrid ─────────────────────────────
+// Each section is self-contained, reads from CSS vars, and animates on
+// scroll via the Reveal primitive from helpers.jsx.
+// (Helpers — Reveal, SectionLabel, LiveAIPanel, CTAPrimary, CTASecondary,
+// FONT, CTA_GRADIENT — are already in scope from helpers.jsx which is
+// concatenated above us in the bundled HTML.)
+
+// ─── Header ───────────────────────────────────────────────────────────────
+const Header = () => {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      height: scrolled ? 64 : 76,
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "0 clamp(20px, 4vw, 56px)",
+      background: scrolled ? "rgba(15,16,20,0.78)" : "linear-gradient(to bottom, rgba(0,0,0,0.55), transparent)",
+      backdropFilter: scrolled ? "blur(20px) saturate(150%)" : "none",
+      WebkitBackdropFilter: scrolled ? "blur(20px) saturate(150%)" : "none",
+      borderBottom: scrolled ? "1px solid var(--rule)" : "1px solid transparent",
+      transition: "height 240ms ease, background 240ms ease, border-color 240ms ease",
+    }}>
+      <a href="#top" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+        <img src={window.ASSETS.logo} alt="Nathaniel Baldock" style={{
+          height: 38, maxHeight: scrolled ? 32 : 38,
+          filter: "brightness(0) invert(1)",
+          transition: "max-height 240ms ease",
+        }} />
+      </a>
+
+      {/* Desktop nav */}
+      <nav className="nb-desktop-nav" style={{
+        display: "flex", gap: 28, alignItems: "center", fontSize: 13.5,
+        color: "rgba(255,255,255,0.85)",
+      }}>
+        <a href="#" style={{ color: "white", fontWeight: 500, textDecoration: "none" }}>Home</a>
+        <a href="#approach" style={navLinkStyle}>About</a>
+        <a href="#speaking" style={navLinkStyle}>Speaking</a>
+        <a href="#latest" style={navLinkStyle}>Resources</a>
+        <a href="#pricing" style={navLinkStyle}>Pricing</a>
+        <a href="#signin" style={{ ...navLinkStyle, marginLeft: 8 }}>Sign In</a>
+        <a href="#contact" style={{
+          background: CTA_GRADIENT, color: "white",
+          padding: "10px 18px", borderRadius: 8,
+          fontSize: 13, fontWeight: 600, letterSpacing: "-0.005em",
+          textDecoration: "none",
+          display: "inline-flex", alignItems: "center", gap: 8,
+        }}>Book a free 30-min call →</a>
+      </nav>
+
+      {/* Mobile menu button */}
+      <button className="nb-mobile-toggle" aria-label="Menu" onClick={() => setMobileOpen(!mobileOpen)} style={{
+        display: "none", border: "none", background: "transparent",
+        color: "white", cursor: "pointer", padding: 8,
+      }}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          {mobileOpen ? (
+            <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>
+          ) : (
+            <><line x1="3" y1="7" x2="21" y2="7" /><line x1="3" y1="17" x2="21" y2="17" /></>
+          )}
+        </svg>
+      </button>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div style={{
+          position: "fixed", top: 64, left: 0, right: 0, bottom: 0,
+          background: "rgba(15,16,20,0.96)",
+          backdropFilter: "blur(20px)",
+          zIndex: 99,
+          padding: "32px 24px",
+          display: "flex", flexDirection: "column", gap: 4,
+        }} onClick={() => setMobileOpen(false)}>
+          {[
+            ["Home", "#top"], ["About", "#approach"], ["Speaking", "#speaking"],
+            ["Resources", "#latest"], ["Pricing", "#pricing"], ["Sign In", "#signin"],
+          ].map(([t, h]) => (
+            <a key={t} href={h} style={{
+              color: "var(--ink)", fontSize: 22, fontFamily: FONT.display,
+              padding: "14px 4px", textDecoration: "none",
+              borderBottom: "1px solid var(--rule)",
+            }}>{t}</a>
+          ))}
+          <div style={{ marginTop: 24 }}>
+            <CTAPrimary href="#contact" fullWidth>Book a free 30-min call</CTAPrimary>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+const navLinkStyle = {
+  color: "rgba(255,255,255,0.78)",
+  textDecoration: "none",
+  fontWeight: 400,
+  transition: "color 200ms ease",
+};
+
+// ─── Hero ─────────────────────────────────────────────────────────────────
+const Hero = ({ showAI = true }) => {
+  return (
+    <section id="top" className="nb-hero" style={{
+      position: "relative",
+      minHeight: "min(900px, 100vh)",
+      overflow: "hidden",
+      paddingTop: 76,
+    }}>
+      {/* Background photo */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0,
+        animation: "nb-slowzoom 14s ease-out forwards",
+      }}>
+        <img src={window.ASSETS.hero} alt="" style={{
+          width: "100%", height: "100%", objectFit: "cover", objectPosition: "30% center",
+        }} />
+      </div>
+
+      {/* Dark gradients */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(to right, rgba(15,16,20,0.94) 0%, rgba(15,16,20,0.82) 30%, rgba(15,16,20,0.48) 58%, rgba(15,16,20,0.18) 100%)",
+      }} />
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(to top, rgba(15,16,20,0.92) 0%, transparent 32%, transparent 70%, rgba(15,16,20,0.35) 100%)",
+      }} />
+
+      {/* Content */}
+      <div className="nb-hero-content" style={{
+        position: "relative", zIndex: 5,
+        maxWidth: 1440, margin: "0 auto",
+        padding: "120px clamp(20px, 4vw, 64px) 80px",
+      }}>
+        {/* Eyebrow */}
+        <Reveal>
+          <div className="nb-hero-eyebrow" style={{
+            display: "flex", alignItems: "center", gap: 14, marginBottom: 56,
+            fontFamily: FONT.mono, fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
+            color: "var(--ink-soft)",
+            flexWrap: "wrap",
+          }}>
+            <span style={{
+              display: "inline-block", width: 7, height: 7, borderRadius: "50%",
+              background: "var(--accent)",
+              boxShadow: "0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent)",
+            }} />
+            <span>AI Consulting</span>
+            <span style={{ width: 18, height: 1, background: "var(--rule)" }} />
+            <span>Tauranga · Aotearoa · Global</span>
+          </div>
+        </Reveal>
+
+        {/* Headline + supporting copy + live AI panel layout */}
+        <div className="nb-hero-grid" style={{
+          display: "grid",
+          gridTemplateColumns: "1.4fr 1fr",
+          gap: 64,
+          alignItems: "end",
+        }}>
+          <div>
+            {/* Sculptural italic serif headline */}
+            <h1 className="nb-hero-h1" style={{
+              margin: 0,
+              fontFamily: FONT.display,
+              fontWeight: 300,
+              fontSize: "clamp(48px, 8.4vw, 108px)",
+              lineHeight: 0.92,
+              letterSpacing: "-0.035em",
+              color: "var(--ink)",
+              textWrap: "balance",
+              paddingBottom: "0.08em",
+            }}>
+              <Reveal delay={50}>
+                <span style={{ display: "block" }}>Practical AI for</span>
+              </Reveal>
+              <Reveal delay={200}>
+                <span style={{ display: "block" }}>
+                  people who lead with{" "}
+                  <em style={{
+                    fontStyle: "italic", fontWeight: 300,
+                    fontFamily: FONT.italic,
+                    color: "var(--accent)",
+                    // text-decoration stays within text flow — an
+                    // absolute-positioned underline bar would bleed
+                    // into the subtitle below at this font size.
+                    textDecoration: "underline",
+                    textDecorationColor: "color-mix(in srgb, var(--accent) 45%, transparent)",
+                    textDecorationThickness: "0.07em",
+                    textUnderlineOffset: "0.05em",
+                  }}>
+                    discernment
+                  </em>
+                  <span style={{ color: "var(--accent)" }}>.</span>
+                </span>
+              </Reveal>
+            </h1>
+
+            <Reveal delay={420}>
+              <p className="nb-hero-sub" style={{
+                margin: "48px 0 0",
+                fontSize: "clamp(17px, 1.4vw, 20px)",
+                lineHeight: 1.55,
+                color: "rgba(244,239,226,0.85)",
+                maxWidth: 620,
+                letterSpacing: "-0.005em",
+              }}>
+                I help churches, schools, and mission-driven organisations adopt AI wisely —
+                without hype, without fear, and without losing what matters most.
+              </p>
+            </Reveal>
+
+            <Reveal delay={580}>
+              <div className="nb-hero-ctas" style={{
+                display: "flex", alignItems: "center", gap: 18, marginTop: 36, flexWrap: "wrap",
+              }}>
+                <CTAPrimary href="#contact">Book a free 30-min consultation</CTAPrimary>
+                <CTASecondary href="#approach">See how I work</CTASecondary>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right column — live AI dialogue panel */}
+          {showAI && (
+            <Reveal delay={650} className="nb-hero-panel">
+              <LiveAIPanel compact label="Live · A typical conversation" />
+            </Reveal>
+          )}
+        </div>
+
+        {/* Mini stats */}
+        <Reveal delay={800}>
+          <div className="nb-hero-stats" style={{
+            display: "flex", gap: 56, marginTop: 80, paddingTop: 28,
+            borderTop: "1px solid var(--rule)",
+            flexWrap: "wrap",
+          }}>
+            {[
+              ["20+", "Years in mission"],
+              ["15+", "Countries served"],
+              ["400+", "Leaders trained"],
+              ["48h", "Reply, every time"],
+            ].map(([n, l]) => (
+              <div key={l} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{
+                  fontFamily: FONT.display, fontSize: "clamp(24px, 2.2vw, 32px)",
+                  fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1,
+                  color: "var(--ink)",
+                }}>{n}</span>
+                <span style={{
+                  fontFamily: FONT.mono, fontSize: 10.5,
+                  letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: "var(--ink-soft)",
+                }}>{l}</span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+// ─── Section 01 — Approach / Pull Quote ──────────────────────────────────
+const Approach = () => (
+  <section id="approach" style={{
+    padding: "clamp(80px, 12vw, 160px) clamp(20px, 4vw, 64px) clamp(60px, 8vw, 100px)",
+    background: "var(--bg)",
+  }}>
+    <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+      <SectionLabel num="01">The real challenge leaders are facing</SectionLabel>
+
+      <Reveal>
+        <blockquote style={{
+          margin: 0,
+          fontFamily: FONT.display, fontWeight: 400,
+          fontSize: "clamp(38px, 6.2vw, 88px)",
+          lineHeight: 1.02,
+          letterSpacing: "-0.028em",
+          color: "var(--ink)",
+          maxWidth: 1100,
+          textWrap: "balance",
+        }}>
+          The risk isn&rsquo;t AI{" "}
+          <em style={{ fontStyle: "italic", fontWeight: 300, color: "var(--ink-soft)" }}>adoption</em>.
+          <br />
+          The risk is{" "}
+          <em style={{ fontStyle: "italic", fontWeight: 300, color: "var(--accent)" }}>accidental</em>{" "}
+          adoption, without discernment.
+        </blockquote>
+      </Reveal>
+
+      <div className="nb-approach-paras" style={{
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(36px, 5vw, 72px)",
+        marginTop: "clamp(48px, 6vw, 88px)",
+      }}>
+        <Reveal delay={120}>
+          <p style={paraStyle}>
+            AI is already inside your organisation. Right now. Interns drafting emails,
+            teachers grading essays, volunteers writing the newsletter — usually without
+            policy, shared understanding, or a coherent view of where it should and
+            shouldn&rsquo;t show up.
+          </p>
+        </Reveal>
+        <Reveal delay={220}>
+          <p style={paraStyle}>
+            I don&rsquo;t sell a stack. I help leaders take stock of what&rsquo;s already
+            happening, decide what&rsquo;s worth keeping, and design what comes next — with
+            safeguarding, theological integrity, and your specific constraints built in
+            from the start.
+          </p>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
+
+const paraStyle = {
+  fontSize: "clamp(15px, 1.2vw, 17px)",
+  lineHeight: 1.7,
+  color: "var(--ink-soft)",
+  margin: 0,
+};
+
+// ─── Section 02 — How I Help ─────────────────────────────────────────────
+const HowIHelp = () => (
+  <section id="how" style={{
+    padding: "clamp(60px, 8vw, 100px) clamp(20px, 4vw, 64px) clamp(80px, 10vw, 120px)",
+    background: "var(--bg)",
+  }}>
+    <div style={{ maxWidth: 1340, margin: "0 auto" }}>
+      <SectionLabel num="02">How I help</SectionLabel>
+
+      <Reveal>
+        <h2 style={{
+          fontFamily: FONT.display,
+          fontSize: "clamp(32px, 4.4vw, 60px)",
+          lineHeight: 1.04,
+          letterSpacing: "-0.028em",
+          fontWeight: 400,
+          color: "var(--ink)",
+          margin: "0 0 64px",
+          maxWidth: 920,
+          textWrap: "balance",
+        }}>
+          From confusion to clarity. From experiment to{" "}
+          <em style={{ fontStyle: "italic", color: "var(--accent)" }}>responsible practice</em>.
+        </h2>
+      </Reveal>
+
+      <div className="nb-how-grid" style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 1,
+        background: "var(--rule)",
+      }}>
+        {[
+          { n: "01", title: "Clarity & guardrails", body: "AI strategy grounded in your mission and values. Policies and guardrails for staff and leaders. Discernment around what not to use." },
+          { n: "02", title: "Practical systems", body: "Internal AI tools that work with your own documents. Workflow improvements that save real time. Tools designed for your context — not Silicon Valley defaults." },
+          { n: "03", title: "Training & adoption", body: "Leadership briefings and staff training. Family- and student-safe guidance where relevant. Practical examples people can actually use." },
+        ].map((c, i) => (
+          <Reveal key={c.n} delay={i * 100}>
+            <div className="nb-how-card" style={{
+              background: "var(--bg)",
+              padding: "clamp(32px, 4vw, 48px) clamp(28px, 3vw, 40px) clamp(40px, 5vw, 56px)",
+              borderTop: "1px solid var(--accent)",
+              height: "100%",
+              boxSizing: "border-box",
+            }}>
+              <div style={{
+                fontFamily: FONT.mono, fontSize: 11, letterSpacing: "0.2em",
+                textTransform: "uppercase", color: "var(--accent)",
+                marginBottom: 28,
+              }}>{c.n}</div>
+              <h3 style={{
+                fontFamily: FONT.display,
+                fontSize: "clamp(22px, 2.2vw, 30px)",
+                fontWeight: 400, letterSpacing: "-0.02em",
+                color: "var(--ink)", margin: "0 0 18px", lineHeight: 1.1,
+              }}>{c.title}</h3>
+              <p style={{
+                fontSize: 15.5, lineHeight: 1.7, color: "var(--ink-soft)", margin: 0,
+              }}>{c.body}</p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      <Reveal delay={300}>
+        <p style={{
+          fontFamily: FONT.display, fontStyle: "italic", fontWeight: 300,
+          fontSize: "clamp(18px, 1.6vw, 22px)",
+          lineHeight: 1.45, color: "var(--ink-soft)",
+          margin: "56px 0 0",
+          maxWidth: 780,
+          textWrap: "balance",
+        }}>
+          &mdash; Everything is designed to respect the authority of Scripture, preserve
+          human discernment, and protect trust.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+);
+
+// ─── Section 03 — Who This Is For ────────────────────────────────────────
+const AUDIENCES = [
+  {
+    tag: "Faith & Mission Organisations",
+    title: "Equip your church for AI",
+    body: "Discover how AI can strengthen discipleship, deepen engagement, and create ministry tools — while understanding the real dangers to guard against.",
+    body2: "Equip your leaders and parents through keynotes, seminars, or courses on what AI means for the church, families, and faith.",
+    image: window.ASSETS.teaching,
+    alt: "Teaching and ministry context",
+  },
+  {
+    tag: "Schools & Training",
+    title: "Prepare students for what's next",
+    body: "Learn what teachers should actually use AI for, how to manage student use wisely, and where it can free up real time in the classroom.",
+    body2: "Give your staff, parents, and students practical clarity through training days or assemblies that replace fear with confidence.",
+    image: window.ASSETS.school,
+    alt: "School and training context",
+  },
+  {
+    tag: "Nonprofits & NGOs",
+    title: "Multiply impact, not complexity",
+    body: "Streamline operations, strengthen marketing and engagement, and use AI to amplify the mission you're already doing well.",
+    body2: "Align your whole team through workshops or briefings that turn AI from a buzzword into a practical advantage.",
+    image: null, // we'll draw a placeholder
+    alt: "Team collaboration",
+  },
+];
+
+const Audiences = ({ showImages = true }) => (
+  <section id="who" style={{
+    padding: "clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px)",
+    background: "var(--bg)",
+    borderTop: "1px solid var(--rule)",
+  }}>
+    <div style={{ maxWidth: 1340, margin: "0 auto" }}>
+      <SectionLabel num="03">Who this is for</SectionLabel>
+      <Reveal>
+        <h2 style={{
+          fontFamily: FONT.display,
+          fontSize: "clamp(32px, 4.4vw, 60px)",
+          lineHeight: 1.04, letterSpacing: "-0.028em",
+          fontWeight: 400, color: "var(--ink)",
+          margin: "0 0 80px", maxWidth: 920, textWrap: "balance",
+        }}>
+          Three audiences. <em style={{ fontStyle: "italic", color: "var(--accent)" }}>One belief</em>:
+          AI should serve your people, not replace them.
+        </h2>
+      </Reveal>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "clamp(60px, 8vw, 100px)" }}>
+        {AUDIENCES.map((a, i) => (
+          <Reveal key={a.tag} delay={i * 60}>
+            <div className="nb-audience-row" style={{
+              display: "grid",
+              gridTemplateColumns: i % 2 === 0 ? "1.1fr 1fr" : "1fr 1.1fr",
+              gap: "clamp(36px, 5vw, 80px)",
+              alignItems: "center",
+            }}>
+              {/* Text */}
+              <div style={{ order: i % 2 === 0 ? 1 : 2 }}>
+                <div style={{
+                  fontFamily: FONT.mono, fontSize: 11,
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                  color: "var(--accent)", marginBottom: 16,
+                }}>
+                  0{i + 1} · {a.tag}
+                </div>
+                <h3 style={{
+                  fontFamily: FONT.display,
+                  fontSize: "clamp(28px, 3.6vw, 48px)",
+                  fontWeight: 400, letterSpacing: "-0.025em",
+                  color: "var(--ink)", margin: "0 0 24px", lineHeight: 1.06,
+                  textWrap: "balance",
+                }}>{a.title}</h3>
+                <p style={{
+                  fontSize: 16.5, lineHeight: 1.7, color: "var(--ink-soft)",
+                  margin: "0 0 14px",
+                }}>{a.body}</p>
+                <p style={{
+                  fontSize: 16.5, lineHeight: 1.7, color: "var(--ink-soft)", margin: 0,
+                }}>{a.body2}</p>
+                <div style={{ marginTop: 32 }}>
+                  <CTASecondary href="#contact">Talk about this →</CTASecondary>
+                </div>
+              </div>
+
+              {/* Image */}
+              <div style={{
+                order: i % 2 === 0 ? 2 : 1,
+                aspectRatio: "4 / 3",
+                overflow: "hidden",
+                position: "relative",
+                background: "var(--bg-raised)",
+                border: "1px solid var(--rule)",
+              }}>
+                {showImages && a.image ? (
+                  <img src={a.image} alt={a.alt} style={{
+                    width: "100%", height: "100%", objectFit: "cover",
+                    filter: "saturate(0.85) contrast(1.05) brightness(0.92)",
+                  }} />
+                ) : (
+                  // Placeholder block for missing imagery — labelled, not faked
+                  <div style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(135deg, rgba(124,204,30,0.05), rgba(17,194,92,0.08))",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    flexDirection: "column", gap: 10,
+                  }}>
+                    <span style={{
+                      fontFamily: FONT.mono, fontSize: 10, letterSpacing: "0.22em",
+                      textTransform: "uppercase", color: "var(--accent)",
+                    }}>Image placeholder</span>
+                    <span style={{
+                      fontFamily: FONT.display, fontStyle: "italic", fontWeight: 300,
+                      fontSize: 22, color: "var(--ink-soft)",
+                    }}>{a.alt}</span>
+                  </div>
+                )}
+                {/* Caption ribbon */}
+                <div style={{
+                  position: "absolute", left: 16, bottom: 16,
+                  background: "rgba(15,16,20,0.78)",
+                  backdropFilter: "blur(10px)",
+                  padding: "8px 14px",
+                  fontFamily: FONT.mono, fontSize: 10,
+                  letterSpacing: "0.16em", textTransform: "uppercase",
+                  color: "var(--ink-soft)",
+                  border: "1px solid var(--rule-strong)",
+                }}>
+                  Fig. 0{i + 1}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// ─── Section 04 — Why Work With Me ───────────────────────────────────────
+const WhyMe = () => (
+  <section id="why" style={{
+    padding: "clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px)",
+    background: "var(--bg-raised)",
+    borderTop: "1px solid var(--rule)",
+    position: "relative",
+  }}>
+    <div style={{ maxWidth: 1340, margin: "0 auto" }}>
+      <SectionLabel num="04">Why work with me</SectionLabel>
+
+      <div className="nb-why-grid" style={{
+        display: "grid",
+        gridTemplateColumns: "1.1fr 1fr",
+        gap: "clamp(40px, 6vw, 96px)",
+        alignItems: "start",
+      }}>
+        <div>
+          <Reveal>
+            <h2 style={{
+              fontFamily: FONT.display,
+              fontSize: "clamp(34px, 4.6vw, 60px)",
+              lineHeight: 1.04, letterSpacing: "-0.028em",
+              fontWeight: 400, color: "var(--ink)",
+              margin: "0 0 32px", textWrap: "balance",
+            }}>
+              Deep <em style={{ fontStyle: "italic", color: "var(--accent)" }}>faith context</em>.
+              Real <em style={{ fontStyle: "italic", color: "var(--accent)" }}>technology experience</em>.
+            </h2>
+          </Reveal>
+
+          <Reveal delay={100}>
+            <ul style={{
+              margin: 0, padding: 0, listStyle: "none",
+              display: "flex", flexDirection: "column", gap: 18,
+            }}>
+              {[
+                "20+ years in global missions, biblical education, and cross-cultural program development",
+                "Experience building and shipping real digital products — mobile apps, web platforms, SaaS",
+                "Strong theological, ethical, and safeguarding foundations",
+                "I don't sell or reuse your data; I explain clearly where and how AI is used.",
+                "AI should serve people and mission — not replace wisdom, responsibility, or relationship.",
+              ].map((b, i) => (
+                <li key={i} style={{
+                  display: "flex", gap: 16, alignItems: "baseline",
+                  fontSize: 16, lineHeight: 1.65, color: "var(--ink-soft)",
+                }}>
+                  <span style={{
+                    fontFamily: FONT.mono, fontSize: 11,
+                    color: "var(--accent)", flexShrink: 0,
+                    minWidth: 24,
+                  }}>0{i + 1}</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+
+        <Reveal delay={200}>
+          <div className="nb-why-stats" style={{
+            background: "var(--bg)",
+            border: "1px solid var(--rule)",
+            padding: "clamp(28px, 3vw, 40px)",
+            display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px 24px",
+          }}>
+            {[
+              ["20+", "Years in mission"],
+              ["15+", "Countries served"],
+              ["400+", "Leaders trained"],
+              ["40k", "Research hours"],
+              ["200+", "Contributors led"],
+              ["48h", "Reply, always"],
+            ].map(([n, l]) => (
+              <div key={l} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <span style={{
+                  fontFamily: FONT.display,
+                  fontSize: "clamp(32px, 3vw, 42px)",
+                  fontWeight: 500, letterSpacing: "-0.025em", lineHeight: 1,
+                  color: "var(--ink)",
+                }}>{n}</span>
+                <span style={{
+                  fontFamily: FONT.mono, fontSize: 10,
+                  letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: "var(--ink-soft)",
+                }}>{l}</span>
+              </div>
+            ))}
+
+            {/* Tags row */}
+            <div style={{
+              gridColumn: "1 / -1",
+              display: "flex", flexWrap: "wrap", gap: 8,
+              marginTop: 8, paddingTop: 24, borderTop: "1px solid var(--rule)",
+            }}>
+              {["NZ + Global", "Faith · Education · Nonprofit", "Builder + Strategist + Trainer"].map((t) => (
+                <span key={t} style={{
+                  fontFamily: FONT.mono, fontSize: 10,
+                  letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: "var(--ink-soft)",
+                  padding: "5px 10px",
+                  border: "1px solid var(--rule-strong)",
+                }}>{t}</span>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
+
+// ─── Section 05 — Latest from Nathaniel (NEW) ────────────────────────────
+const LATEST = [
+  {
+    id: "teens-algorithm",
+    tag: "AI & Faith · 16 min read",
+    title: "When Your Teen's Best Friend Is an Algorithm",
+    excerpt: "One in eight teens use AI for mental health advice. Two in three call it a friend. The 2am conversation is changing — and so must we.",
+    date: "26 Feb 2026",
+  },
+  {
+    id: "sabbath-rest",
+    tag: "AI & Faith · 12 min read",
+    title: "Reclaiming the Sabbath in an Always-On World",
+    excerpt: "AI hasn't just made us faster. It has trained us to live at a pace our souls cannot sustain. On AI fatigue, human limits, and rest as radical trust.",
+    date: "25 Feb 2026",
+  },
+  {
+    id: "frictionless-faith",
+    tag: "AI & Faith · 14 min read",
+    title: "The Danger of Frictionless Faith",
+    excerpt: "AI promises to smooth out every rough edge of life — but the friction it removes is the very space where God forms us. On hurry, effort, and formation.",
+    date: "25 Feb 2026",
+  },
+];
+
+const LatestSection = () => (
+  <section id="latest" style={{
+    padding: "clamp(80px, 10vw, 140px) clamp(20px, 4vw, 64px)",
+    background: "var(--bg)",
+    borderTop: "1px solid var(--rule)",
+  }}>
+    <div style={{ maxWidth: 1340, margin: "0 auto" }}>
+      <div className="nb-latest-head" style={{
+        display: "flex", alignItems: "baseline", justifyContent: "space-between",
+        gap: 32, marginBottom: 64, flexWrap: "wrap",
+      }}>
+        <div>
+          <SectionLabel num="05">Latest from Nathaniel</SectionLabel>
+          <Reveal>
+            <h2 style={{
+              fontFamily: FONT.display,
+              fontSize: "clamp(32px, 4.4vw, 60px)",
+              lineHeight: 1.04, letterSpacing: "-0.028em",
+              fontWeight: 400, color: "var(--ink)",
+              margin: 0, maxWidth: 880, textWrap: "balance",
+            }}>
+              Articles on AI, faith, formation,{" "}
+              <em style={{ fontStyle: "italic", color: "var(--accent)" }}>and what matters next</em>.
+            </h2>
+          </Reveal>
+        </div>
+        <Reveal>
+          <CTASecondary href="#resources">See all resources</CTASecondary>
+        </Reveal>
+      </div>
+
+      <div className="nb-latest-grid" style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 1,
+        background: "var(--rule)",
+      }}>
+        {LATEST.map((a, i) => (
+          <Reveal key={a.id} delay={i * 80}>
+            <a href={"#" + a.id} className="nb-latest-card" style={{
+              display: "flex", flexDirection: "column",
+              background: "var(--bg)",
+              padding: "clamp(28px, 3vw, 40px)",
+              minHeight: 360,
+              textDecoration: "none",
+              color: "inherit",
+              borderTop: "1px solid var(--accent)",
+              position: "relative",
+              transition: "background 240ms ease",
+            }}
+            onMouseOver={(e) => e.currentTarget.style.background = "var(--bg-raised)"}
+            onMouseOut={(e) => e.currentTarget.style.background = "var(--bg)"}
+            >
+              <div style={{
+                fontFamily: FONT.mono, fontSize: 10.5,
+                letterSpacing: "0.16em", textTransform: "uppercase",
+                color: "var(--accent)", marginBottom: 32,
+              }}>{a.tag}</div>
+
+              <h3 style={{
+                fontFamily: FONT.display,
+                fontSize: "clamp(22px, 1.8vw, 27px)",
+                fontWeight: 400, letterSpacing: "-0.018em",
+                color: "var(--ink)", margin: "0 0 16px",
+                lineHeight: 1.12, textWrap: "balance",
+              }}>{a.title}</h3>
+
+              <p style={{
+                fontSize: 15, lineHeight: 1.65, color: "var(--ink-soft)",
+                margin: "0 0 32px",
+                display: "-webkit-box", WebkitLineClamp: 4,
+                WebkitBoxOrient: "vertical", overflow: "hidden",
+              }}>{a.excerpt}</p>
+
+              <div style={{
+                marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between",
+                paddingTop: 20, borderTop: "1px solid var(--rule)",
+              }}>
+                <span style={{
+                  fontFamily: FONT.mono, fontSize: 10.5,
+                  letterSpacing: "0.16em", textTransform: "uppercase",
+                  color: "var(--ink-dim)",
+                }}>{a.date}</span>
+                <span style={{
+                  color: "var(--accent)", fontSize: 13.5, fontWeight: 500,
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                }}>
+                  Read <span>→</span>
+                </span>
+              </div>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// ─── Section 06 — Final CTA ──────────────────────────────────────────────
+const FinalCTA = () => (
+  <section id="contact" style={{
+    padding: "clamp(100px, 14vw, 180px) clamp(20px, 4vw, 64px)",
+    background: "var(--bg-raised)",
+    borderTop: "1px solid var(--rule)",
+    position: "relative", overflow: "hidden",
+  }}>
+    {/* Subtle accent glow */}
+    <div aria-hidden style={{
+      position: "absolute",
+      top: "-30%", left: "50%", transform: "translateX(-50%)",
+      width: "70%", aspectRatio: "1 / 1",
+      background: "radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%)",
+      filter: "blur(60px)",
+      pointerEvents: "none",
+    }} />
+
+    <div style={{ maxWidth: 980, margin: "0 auto", textAlign: "center", position: "relative" }}>
+      <Reveal>
+        <div style={{
+          fontFamily: FONT.mono, fontSize: 11,
+          letterSpacing: "0.22em", textTransform: "uppercase",
+          color: "var(--accent)", marginBottom: 28,
+        }}>— Get started</div>
+      </Reveal>
+      <Reveal delay={100}>
+        <h2 style={{
+          fontFamily: FONT.display, fontWeight: 300,
+          fontSize: "clamp(40px, 6.4vw, 88px)",
+          lineHeight: 1.0, letterSpacing: "-0.032em",
+          color: "var(--ink)", margin: "0 0 32px", textWrap: "balance",
+        }}>
+          If you&rsquo;re unsure where AI fits —{" "}
+          <em style={{
+            fontStyle: "italic", fontWeight: 300, fontFamily: FONT.italic,
+            color: "var(--accent)",
+          }}>start with a conversation</em>.
+        </h2>
+      </Reveal>
+      <Reveal delay={250}>
+        <p style={{
+          fontFamily: FONT.body,
+          fontSize: "clamp(16px, 1.3vw, 19px)",
+          lineHeight: 1.55, color: "var(--ink-soft)",
+          margin: "0 auto 48px", maxWidth: 620,
+        }}>
+          Honest assessment of fit. No sales pitch. Response within 48 hours.
+        </p>
+      </Reveal>
+      <Reveal delay={400}>
+        <div className="nb-final-ctas" style={{
+          display: "flex", gap: 16, justifyContent: "center", alignItems: "center", flexWrap: "wrap",
+        }}>
+          <CTAPrimary href="#contact">Book a free 30-min consultation</CTAPrimary>
+          <CTASecondary href="mailto:nathanielbaldock@gmail.com">Or email me directly</CTASecondary>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
+
+// ─── Footer ──────────────────────────────────────────────────────────────
+const Footer = () => (
+  <footer style={{
+    padding: "clamp(40px, 6vw, 64px) clamp(20px, 4vw, 64px) clamp(32px, 4vw, 40px)",
+    background: "var(--bg)",
+    borderTop: "1px solid var(--rule)",
+  }}>
+    <div style={{
+      maxWidth: 1340, margin: "0 auto",
+      display: "flex", justifyContent: "space-between", alignItems: "flex-start",
+      gap: 32, flexWrap: "wrap",
+    }}>
+      <div style={{ maxWidth: 360 }}>
+        <img src={window.ASSETS.logo} alt="Nathaniel Baldock" style={{
+          height: 36, filter: "brightness(0) invert(1)", marginBottom: 16,
+        }} />
+        <p style={{
+          fontFamily: FONT.body, fontSize: 13.5, lineHeight: 1.65,
+          color: "var(--ink-soft)", margin: 0,
+        }}>
+          AI Consulting for Faith, Education &amp; Mission-Driven Leaders.
+          <br />Based in Tauranga, Aotearoa &mdash; serving NZ &amp; globally.
+        </p>
+      </div>
+      <div style={{
+        display: "flex", gap: "clamp(28px, 4vw, 56px)", flexWrap: "wrap",
+      }}>
+        <FooterCol title="Site">
+          <a href="#" style={footerLinkStyle}>Home</a>
+          <a href="#approach" style={footerLinkStyle}>About</a>
+          <a href="#speaking" style={footerLinkStyle}>Speaking</a>
+          <a href="#latest" style={footerLinkStyle}>Resources</a>
+          <a href="#pricing" style={footerLinkStyle}>Pricing</a>
+        </FooterCol>
+        <FooterCol title="Connect">
+          <a href="mailto:nathanielbaldock@gmail.com" style={footerLinkStyle}>Email</a>
+          <a href="#" style={footerLinkStyle}>LinkedIn</a>
+          <a href="#contact" style={footerLinkStyle}>Book a call</a>
+        </FooterCol>
+        <FooterCol title="Legal">
+          <a href="#" style={footerLinkStyle}>Privacy</a>
+          <a href="#" style={footerLinkStyle}>Terms</a>
+        </FooterCol>
+      </div>
+    </div>
+    <div style={{
+      maxWidth: 1340, margin: "48px auto 0",
+      paddingTop: 24, borderTop: "1px solid var(--rule)",
+      display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16,
+      fontFamily: FONT.mono, fontSize: 10.5,
+      letterSpacing: "0.16em", textTransform: "uppercase",
+      color: "var(--ink-dim)",
+    }}>
+      <span>© 2026 Nathaniel Baldock</span>
+      <span>Designed with discernment in Tauranga · NZ</span>
+    </div>
+  </footer>
+);
+
+const FooterCol = ({ title, children }) => (
+  <div style={{ display: "flex", flexDirection: "column", gap: 10, minWidth: 120 }}>
+    <span style={{
+      fontFamily: FONT.mono, fontSize: 10.5,
+      letterSpacing: "0.18em", textTransform: "uppercase",
+      color: "var(--ink-dim)", marginBottom: 4,
+    }}>{title}</span>
+    {children}
+  </div>
+);
+
+const footerLinkStyle = {
+  fontFamily: FONT.body, fontSize: 14,
+  color: "var(--ink-soft)", textDecoration: "none",
+};
+
+Object.assign(window, {
+  Header, Hero, Approach, HowIHelp, Audiences, WhyMe, LatestSection, FinalCTA, Footer,
+});
+
+// ─── Root App + Tweaks + render ─────────────────────────────────────────
+// All identifiers below are already in scope from helpers.jsx + sections.jsx
+// + tweaks-panel.jsx (concatenated above us in the bundled HTML).
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "lime",
+  "showAIPanel": true,
+  "density": "regular",
+  "showAudienceImages": true
+}/*EDITMODE-END*/;
+
+const ACCENTS = {
+  lime:   { main: TESORO.greenBright, soft: TESORO.green,      label: "Lime"  },
+  green:  { main: TESORO.green,        soft: TESORO.greenBright, label: "Green" },
+  gold:   { main: TESORO.gold,         soft: "#F8C24A",          label: "Gold"  },
+};
+
+const DENSITY = {
+  compact:  { scale: 0.85, label: "Compact"  },
+  regular:  { scale: 1.0,  label: "Regular"  },
+  spacious: { scale: 1.15, label: "Spacious" },
+};
+
+const App = () => {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const accent = ACCENTS[t.accent] || ACCENTS.lime;
+  const density = DENSITY[t.density] || DENSITY.regular;
+
+  // CSS variables drive ALL styling — tweaks live-update without React re-mounting
+  // any section. Density is applied via a multiplier on a custom property.
+  const cssVars = {
+    "--bg":          TESORO.ink,
+    "--bg-raised":   "#16181D",
+    "--bg-panel":    "rgba(255,255,255,0.04)",
+    "--ink":         "#F4EFE2",
+    "--ink-soft":    "rgba(244,239,226,0.66)",
+    "--ink-dim":     "rgba(244,239,226,0.40)",
+    "--rule":        "rgba(244,239,226,0.14)",
+    "--rule-strong": "rgba(244,239,226,0.24)",
+    "--accent":      accent.main,
+    "--accent-soft": accent.soft,
+    "--density":     density.scale,
+  };
+
+  return (
+    <div style={{
+      ...cssVars,
+      background: "var(--bg)",
+      color: "var(--ink)",
+      minHeight: "100vh",
+      fontFamily: `"Inter", system-ui, sans-serif`,
+    }}>
+      <Header />
+      <Hero showAI={t.showAIPanel} />
+      <Approach />
+      <HowIHelp />
+      <Audiences showImages={t.showAudienceImages} />
+      <WhyMe />
+      <LatestSection />
+      <FinalCTA />
+      <Footer />
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Accent color">
+          <TweakColor
+            label="Accent"
+            value={accent.main}
+            options={[
+              [TESORO.greenBright, TESORO.green],
+              [TESORO.green, TESORO.greenBright],
+              [TESORO.gold, "#F8C24A"],
+            ]}
+            onChange={(palette) => {
+              const main = Array.isArray(palette) ? palette[0] : palette;
+              const key = main === TESORO.green ? "green" : main === TESORO.gold ? "gold" : "lime";
+              setTweak("accent", key);
+            }}
+          />
+        </TweakSection>
+        <TweakSection label="Density">
+          <TweakRadio
+            label="Spacing"
+            value={t.density}
+            options={[
+              { value: "compact",  label: "Compact"  },
+              { value: "regular",  label: "Regular"  },
+              { value: "spacious", label: "Spacious" },
+            ]}
+            onChange={(v) => setTweak("density", v)}
+          />
+        </TweakSection>
+        <TweakSection label="Elements">
+          <TweakToggle
+            label="Live AI panel in hero"
+            value={t.showAIPanel}
+            onChange={(v) => setTweak("showAIPanel", v)}
+          />
+          <TweakToggle
+            label="Audience photos"
+            value={t.showAudienceImages}
+            onChange={(v) => setTweak("showAudienceImages", v)}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("app"));
+root.render(<App />);
+
+</script>
+
+</body>
+
+
+
+
+</html>
