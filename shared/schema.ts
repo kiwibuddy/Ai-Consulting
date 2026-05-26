@@ -467,3 +467,20 @@ export type InsertUserOAuthToken = z.infer<typeof insertUserOAuthTokenSchema>;
 
 export type SurveyResponse = typeof surveyResponses.$inferSelect;
 export type InsertSurveyResponse = z.infer<typeof insertSurveyResponseSchema>;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AI USE AUDIT (Kiwi Clarity AI)
+// Tracks team invite sessions for the AI Use Audit tool.
+// Stores NO personal data — only counts. Audit content itself is transient
+// (processed in memory, sent via email, discarded).
+// ─────────────────────────────────────────────────────────────────────────────
+export const auditSessions = pgTable("audit_sessions", {
+  token: text("token").primaryKey(),
+  bizName: text("biz_name").notNull().default(""),
+  invitedCount: integer("invited_count").notNull().default(0),
+  respondedCount: integer("responded_count").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type AuditSession = typeof auditSessions.$inferSelect;
+export type NewAuditSession = typeof auditSessions.$inferInsert;

@@ -1,7 +1,10 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import rateLimit from "express-rate-limit";
 import { createServer, type Server } from "http";
+import path from "path";
+import fs from "fs";
 import { storage } from "./storage";
+import auditRouter from "./routes/audit";
 import { z } from "zod";
 import {
   insertIntakeFormSchema,
@@ -132,6 +135,14 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // ============================================================
+  // KIWI CLARITY AI — AI USE AUDIT (Phase 1)
+  // Static HTML tools served at /audit and /companion + JSON API
+  // mounted at /api/audit. Registered first so the clean URLs
+  // resolve before the Vite/static SPA fallback.
+  // ============================================================
+  registerKiwiClarityAudit(app);
+
   // ============================================================
   // AUTH ROUTES
   // ============================================================
@@ -2207,4 +2218,47 @@ export async function registerRoutes(
   });
 
   return httpServer;
+}
+
+// ============================================================
+// KIWI CLARITY AI — Static HTML tools + JSON API
+// ============================================================
+function registerKiwiClarityAudit(app: Express): void {
+  // Mount the audit JSON API (POST /api/audit/invite, /api/audit/submit)
+  app.use("/api/audit", auditRouter);
+
+  // Resolve where the static HTML lives. In production (esbuild bundle in
+  // dist/index.cjs) the files sit alongside the server in dist/public/. In
+  // development they live in client/public/ (vite serves them via middleware,
+  // but we still want the clean /audit and /companion URLs to resolve).
+  // Use process.cwd() to stay agnostic between ESM (tsx dev) and CJS (prod).
+  const candidates = [
+    path.resolve(process.cwd(), "dist", "public"), // production
+    path.resolve(process.cwd(), "client", "public"), // development
+  ];
+
+  function resolveHtml(filename: string): string | null {
+    for (const dir of candidates) {
+      const full = path.join(dir, filename);
+      if (fs.existsSync(full)) return full;
+    }
+    return null;
+  }
+
+  function serveHtml(filename: string) {
+    return (_req: Request, res: Response) => {
+      const file = resolveHtml(filename);
+      if (!file) {
+        return res.status(404).type("text/plain").send(`Not found: ${filename}`);
+      }
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.setHeader("Cache-Control", "no-cache");
+      res.sendFile(file);
+    };
+  }
+
+  // Client-facing audit tool (also used by team members with ?team=TOKEN&biz=…)
+  app.get("/audit", serveHtml("audit.html"));
+  // Nathaniel's internal pre-call briefing tool — paste JSON from consultant email
+  app.get("/companion", serveHtml("companion.html"));
 }
