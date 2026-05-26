@@ -44,12 +44,14 @@ body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antiali
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
 
-/* ── INVITE SECTION ── */
-.invite-section{background:hsl(205,45%,96%);border:1.5px solid hsl(205,45%,82%);border-radius:var(--r-sm);padding:18px;margin-bottom:16px;}
-.invite-section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.invite-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
-.invite-count-pill{font-size:11px;font-weight:600;color:var(--accent);background:var(--bg);border:1px solid hsl(205,45%,78%);padding:3px 10px;border-radius:999px;}
-.invite-desc{font-size:12px;color:var(--fg-muted);line-height:1.55;margin-bottom:12px;}
+/* ── INVITE SECTION (optional add-on, deliberately understated) ── */
+.invite-section{background:var(--bg-warm);border:1px dashed var(--border);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:16px;}
+.invite-section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;}
+.invite-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);}
+.invite-label .invite-label-strong{color:var(--accent);}
+.invite-count-pill{font-size:11px;font-weight:600;color:var(--accent);background:var(--bg);border:1px solid var(--border);padding:3px 10px;border-radius:999px;}
+.invite-desc{font-size:12.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:12px;}
+.invite-desc strong{color:var(--fg-med);font-weight:600;}
 .invite-add-row{display:flex;gap:8px;}
 .invite-add-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;}
 .invite-add-row input:focus{border-color:var(--accent);}
@@ -255,9 +257,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
 <!-- S1: Welcome + Invite -->
 <div class="card" id="s1">
   <div class="card-hero">
-    <div class="step-kicker">AI Use Survey</div>
-    <div class="step-title">Let's see what AI<br><em>is really doing in your business</em></div>
-    <div class="step-sub" style="margin-bottom:24px;">Takes about 10 minutes. Invite your team first — their anonymous answers reveal what's actually happening in the business, not just what you know about.</div>
+    <div class="step-kicker">AI Use Audit · 10 minutes</div>
+    <div class="step-title">Clarity on AI<br><em>across your business</em></div>
+    <div class="step-sub" style="margin-bottom:24px;">A simple walk-through to see what AI tools are in use, what's safe to keep doing, and what needs a small adjustment. No jargon, no scare tactics, no tech knowledge required — just clear answers you can act on.</div>
   </div>
   <div class="card-body">
     <div class="field-row">
@@ -293,10 +295,10 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
 
     <div class="invite-section">
       <div class="invite-section-hdr">
-        <div class="invite-label">Invite your team</div>
+        <div class="invite-label">Optional · <span class="invite-label-strong">Invite your team for a fuller picture</span></div>
         <div class="invite-count-pill" id="inviteCountPill" style="display:none;">0 added</div>
       </div>
-      <div class="invite-desc">Add your team members' email addresses. They'll each receive a short anonymous survey asking how AI is helping their work. You'll get the full picture on the follow-up call.</div>
+      <div class="invite-desc"><strong>Totally optional — most owners do this audit alone first.</strong> But if you'd like to see which AI tools your team is using (especially the ones you might not know about), a few of them can fill in a quick anonymous 5-minute survey. Add as many or as few as you like, or skip this entirely and come back later.</div>
       <div class="invite-add-row">
         <input type="email" id="inviteInput" placeholder="team.member@yourbusiness.co.nz" onkeydown="inviteKeydown(event)">
         <button onclick="addInviteEmail()">Add</button>
