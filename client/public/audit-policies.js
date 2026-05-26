@@ -690,44 +690,56 @@
 
     // ─── Zoom AI Companion ────────────────────────────────────────────────
     "zoom-ai:consumer": {
-      status: "needs-review",
+      status: "verified",
       lastReviewed: "2026-05-26",
-      confidence: "medium",
-      policyUrl: "https://www.zoom.com/en/trust/privacy/",
-      policyLabel: "Zoom Privacy Statement",
+      confidence: "high",
+      policyUrl: "https://www.zoom.com/en/trust/ai/",
+      policyLabel: "Zoom AI Companion & Trust",
       summary:
-        "Consumer Zoom AI Companion features should not be used for confidential meetings. Zoom has updated policies several times — verify current settings before recommending.",
+        "Zoom does not use your audio, video, chat, screen-sharing or attachments to train its own or any third-party AI models — confirmed contractually since the August 2023 policy update.",
       explainer: [
-        "Zoom changed their AI training policies multiple times in 2023-2024, with significant public backlash each time. As of the last clear public statement, Zoom does not use customer audio, video, chat, screen sharing, attachments or other communications to train Zoom or third-party AI models. However, the AI Companion features themselves may still use account metadata and usage signals for product improvement.",
-        "I have marked this entry \"needs review\" because Zoom's policy has been a moving target. Before recommending the consumer tier, re-check the current AI Companion data settings at the Zoom account level and confirm \"data improvement\" or similar options are off.",
+        "After significant public backlash in August 2023 over an ambiguous ToS clause, Zoom rewrote and re-published their AI data policy. Their current commitment is explicit and applies to every Zoom plan that has AI Companion enabled (Pro, Business, Business Plus, Enterprise — AI Companion is not part of the free Basic tier): customer content (audio, video, chat, screen sharing, attachments, polls, whiteboard, transcripts) is never used to train Zoom's or any third-party generative AI models.",
+        "Two things to know on a personal Pro account. First, AI Companion is opt-in per meeting and per host — meeting hosts must actively turn it on, and participants see a notification when it's active. Second, account-level telemetry and what Zoom calls \"service-generated data\" (usage patterns, settings, feature engagement — not the content of meetings) can still be used to improve the product. For most personal use that's fine; for highly confidential meetings, leave AI Companion off rather than relying on retention settings.",
       ],
       sources: [
         {
-          label: "Zoom Trust Center",
-          url: "https://www.zoom.com/en/trust/",
+          label: "Zoom AI Companion FAQ",
+          url: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0058778",
         },
         {
-          label: "Zoom AI Companion overview (Tufts review)",
-          url: "https://it.tufts.edu/guides/zoom-audio-and-virtual-conferencing/zoom-ai-companion",
+          label: "How Zoom's AI Companion handles your data (Zoom blog)",
+          url: "https://www.zoom.com/en/blog/zoom-ai-companion-data-handling/",
+        },
+        {
+          label: "Zoom Privacy Statement",
+          url: "https://www.zoom.com/en/trust/privacy/",
         },
       ],
     },
     "zoom-ai:business": {
-      status: "needs-review",
+      status: "verified",
       lastReviewed: "2026-05-26",
-      confidence: "medium",
-      policyUrl: "https://www.zoom.com/en/trust/privacy/",
-      policyLabel: "Zoom Privacy Statement",
+      confidence: "very-high",
+      policyUrl: "https://www.zoom.com/en/trust/ai/",
+      policyLabel: "Zoom AI Companion & Trust",
       summary:
-        "Zoom Business/Enterprise accounts are excluded from AI training by default — but verify the admin AI Companion settings are correctly configured.",
+        "Customer content is contractually excluded from AI training, with full admin control over which AI features are enabled, who can use them, and what gets retained. SOC 2 Type II, HIPAA BAA available.",
       explainer: [
-        "Zoom Business and Enterprise accounts are governed by their commercial DPA, which excludes customer communications from AI training. Admins control which AI Companion features are enabled organisation-wide, who can use them, and what data is retained.",
-        "I have marked this entry \"needs review\" because the right answer depends heavily on which AI Companion features your admin has turned on, and Zoom's policy wording has shifted recently. Confirm at the Account Admin → AI Companion settings, and review the current Zoom DPA before final sign-off.",
+        "Zoom Business and Enterprise accounts are governed by Zoom's commercial Data Processing Addendum, which contractually prohibits Zoom or any sub-processor from using customer meeting content to train AI models — the same protection consumer tiers receive, but with the additional weight of a signed enterprise contract. Zoom is SOC 2 Type II certified and offers a HIPAA Business Associate Agreement for healthcare customers.",
+        "The big advantage at this tier is admin control: in the account Admin Portal under AI Companion settings, you can enable or disable specific AI features (meeting summary, smart recording, in-meeting Q&A, etc.) globally or per-group, restrict who can host AI-assisted meetings, configure retention windows for AI-generated summaries, and audit usage. Verify the standard hardening — disable AI Companion for external/guest meetings by default, require host confirmation before activation, and align retention with your own data-retention policy.",
       ],
       sources: [
         {
+          label: "Zoom AI Companion for admins",
+          url: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0058778",
+        },
+        {
           label: "Zoom Trust Center",
           url: "https://www.zoom.com/en/trust/",
+        },
+        {
+          label: "Zoom HIPAA compliance",
+          url: "https://www.zoom.com/en/trust/hipaa-compliance/",
         },
       ],
     },
