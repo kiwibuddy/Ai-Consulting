@@ -20,7 +20,8 @@ const router = Router();
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const CONSULTANT_EMAIL = process.env.AUDIT_CONSULTANT_EMAIL || "nathanielbaldock@gmail.com";
 const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || "Kiwi Clarity AI <noreply@nathanielbaldock.com>";
+  process.env.RESEND_FROM_EMAIL ||
+  "Nathaniel Baldock AI Consulting <noreply@nathanielbaldock.com>";
 const SITE_URL = process.env.PUBLIC_SITE_URL || "https://nathanielbaldock.com";
 const AUDIT_URL = process.env.AUDIT_TOOL_URL || `${SITE_URL}/audit`;
 const CALENDAR_URL =
@@ -255,7 +256,7 @@ function buildTeamInviteEmail(bizName: string, surveyUrl: string): string {
     </div>
   </div>
   <div style="padding:14px 28px;border-top:1px solid #f0f0f0;font-size:11px;color:#9ca3af;">
-    Sent on behalf of ${esc(bizName)} by <a href="${SITE_URL}" style="color:${ACCENT};">Kiwi Clarity AI</a>. If you don't want to participate, simply ignore this email.
+    Sent on behalf of ${esc(bizName)} by <a href="${SITE_URL}" style="color:${ACCENT};">Nathaniel Baldock AI Consulting</a>. If you don't want to participate, simply ignore this email.
   </div>
 </div>
 </div>
@@ -396,7 +397,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   <div style="height:5px;background:linear-gradient(90deg,${ACCENT},#84cc16);"></div>
   <div style="background:#171717;padding:28px 24px 52px;text-align:center;">
-    <img src="${logoUrl}" alt="Kiwi Clarity AI" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;opacity:.95;">
+    <img src="${logoUrl}" alt="Nathaniel Baldock AI Consulting" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;opacity:.95;">
     <div style="display:inline-block;margin-bottom:10px;padding:5px 16px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;border:1.5px solid #84cc16;">AI Use Survey</div>
     <h1 style="margin:0;font-size:1.4rem;font-weight:700;color:#fff;letter-spacing:-.02em;">${esc(p.bizName)}</h1>
     <div style="font-size:12px;color:#94a3b8;margin-top:4px;">${when}</div>
@@ -427,7 +428,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
     </div>
   </div>
   <div style="padding:16px 24px;border-top:1px solid #ebecef;font-size:12px;color:#94a3b8;text-align:center;background:#fafbfc;">
-    <a href="${SITE_URL}" style="color:${ACCENT};font-weight:600;text-decoration:none;">Kiwi Clarity AI</a> &middot; nathanielbaldock.com &middot; Not legal advice.
+    <a href="${SITE_URL}" style="color:${ACCENT};font-weight:600;text-decoration:none;">Nathaniel Baldock AI Consulting</a> &middot; nathanielbaldock.com &middot; Not legal advice.
   </div>
 </div>
 </div>
