@@ -181,21 +181,50 @@ export default function LandingPage() {
                 from { opacity: 0; transform: translateY(-6px); }
                 to   { opacity: 1; transform: translateY(0); }
               }
+              /* Gentle accent-tinted breathing — kicks in AFTER the entry
+                 animation finishes so the entrance still reads as a clean
+                 fade-in. Low amplitude so it pulls the eye on first glance
+                 without being a distraction on subsequent scroll. */
+              @keyframes nbHeroFloatBreathe {
+                0%, 100% {
+                  box-shadow:
+                    0 20px 40px -14px rgba(0,0,0,0.50),
+                    0 0 28px -6px color-mix(in srgb, var(--nb-accent) 26%, transparent),
+                    0 0 0 1px rgba(255,255,255,0.05) inset;
+                }
+                50% {
+                  box-shadow:
+                    0 26px 52px -12px rgba(0,0,0,0.58),
+                    0 0 44px -2px color-mix(in srgb, var(--nb-accent) 42%, transparent),
+                    0 0 0 1px rgba(255,255,255,0.08) inset;
+                }
+              }
               .nb-hero-float {
                 opacity: 0;
-                animation: nbHeroFloatIn 700ms cubic-bezier(.2,.7,.3,1) 1100ms forwards;
+                animation:
+                  nbHeroFloatIn 700ms cubic-bezier(.2,.7,.3,1) 1100ms forwards,
+                  nbHeroFloatBreathe 3.6s ease-in-out 1900ms infinite;
               }
               .nb-hero-float:hover {
                 transform: translateY(-2px);
-                border-color: color-mix(in srgb, var(--nb-accent) 65%, transparent) !important;
-                box-shadow: 0 24px 48px -14px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06) inset !important;
+                border-color: color-mix(in srgb, var(--nb-accent) 75%, transparent) !important;
+                box-shadow:
+                  0 28px 54px -14px rgba(0,0,0,0.60),
+                  0 0 56px -4px color-mix(in srgb, var(--nb-accent) 50%, transparent),
+                  0 0 0 1px rgba(255,255,255,0.08) inset !important;
+                animation-play-state: paused !important;
               }
               .nb-hero-float:hover .nb-hero-float-arrow {
-                transform: translateX(3px);
+                transform: translateX(4px);
               }
               .nb-hero-float:focus-visible {
                 outline: 2px solid var(--nb-accent);
                 outline-offset: 3px;
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .nb-hero-float {
+                  animation: nbHeroFloatIn 700ms cubic-bezier(.2,.7,.3,1) 1100ms forwards;
+                }
               }
             `,
           }}
@@ -204,40 +233,43 @@ export default function LandingPage() {
           href="/audit"
           data-event="hero-floating-audit"
           aria-label="Take the free 10-minute AI use audit"
-          className="nb-hero-float hidden lg:inline-flex absolute z-[6] items-center gap-3"
+          className="nb-hero-float hidden lg:inline-flex absolute z-[6] items-center gap-3.5"
           style={{
-            top: "clamp(110px, 16vh, 180px)",
+            top: "clamp(108px, 15.5vh, 176px)",
             right: "clamp(28px, 4vw, 64px)",
-            padding: "11px 18px 11px 14px",
+            padding: "14px 22px 14px 18px",
             borderRadius: 999,
-            background: "color-mix(in srgb, #0a0a0a 68%, transparent)",
-            backdropFilter: "blur(16px) saturate(140%)",
-            WebkitBackdropFilter: "blur(16px) saturate(140%)",
-            border: "1px solid color-mix(in srgb, var(--nb-accent) 40%, transparent)",
-            boxShadow:
-              "0 18px 36px -12px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04) inset",
+            background: "color-mix(in srgb, #0a0a0a 70%, transparent)",
+            backdropFilter: "blur(18px) saturate(150%)",
+            WebkitBackdropFilter: "blur(18px) saturate(150%)",
+            border: "1px solid color-mix(in srgb, var(--nb-accent) 55%, transparent)",
             color: "#fff",
             textDecoration: "none",
             transition:
               "transform .25s ease, border-color .25s ease, box-shadow .25s ease",
           }}
         >
-          <span aria-hidden className="relative flex h-2.5 w-2.5">
+          <span aria-hidden className="relative flex h-3 w-3">
             <span
               className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
               style={{ background: "var(--nb-accent)" }}
             />
             <span
-              className="relative inline-flex h-2.5 w-2.5 rounded-full"
-              style={{ background: "var(--nb-accent)" }}
+              className="relative inline-flex h-3 w-3 rounded-full"
+              style={{
+                background: "var(--nb-accent)",
+                boxShadow:
+                  "0 0 12px 2px color-mix(in srgb, var(--nb-accent) 55%, transparent)",
+              }}
             />
           </span>
           <span
             className="nb-mono-label"
             style={{
-              fontSize: 9.5,
+              fontSize: 10.5,
               color: "var(--nb-accent)",
               letterSpacing: "0.18em",
+              fontWeight: 700,
             }}
           >
             NEW
@@ -246,13 +278,13 @@ export default function LandingPage() {
             aria-hidden
             style={{
               width: 1,
-              height: 14,
-              background: "rgba(255,255,255,0.18)",
+              height: 18,
+              background: "rgba(255,255,255,0.22)",
             }}
           />
           <span
             style={{
-              fontSize: 13,
+              fontSize: 14.5,
               fontWeight: 600,
               letterSpacing: "-0.005em",
               whiteSpace: "nowrap",
@@ -264,10 +296,11 @@ export default function LandingPage() {
             className="nb-hero-float-arrow"
             aria-hidden
             style={{
-              fontSize: 14,
+              fontSize: 16,
               color: "var(--nb-accent)",
               marginLeft: 2,
               transition: "transform .25s ease",
+              lineHeight: 1,
             }}
           >
             →
