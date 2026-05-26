@@ -110,17 +110,17 @@ body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antiali
 .tool-card-check{position:absolute;top:7px;right:7px;width:18px;height:18px;border-radius:50%;background:var(--accent);display:none;align-items:center;justify-content:center;}
 .tool-card.selected .tool-card-check{display:flex;}
 .tool-card-check svg{width:10px;height:10px;color:#fff;}
-.tool-card-icon{width:44px;height:44px;border-radius:10px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;overflow:hidden;padding:6px;}
-.tool-card-icon img{width:100%;height:100%;object-fit:contain;display:block;border-radius:4px;}
-.tool-logo-fb{font-size:20px;line-height:1;display:none;align-items:center;justify-content:center;}
+.tool-card-icon{width:48px;height:48px;border-radius:11px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;overflow:hidden;padding:6px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);}
+.tool-card-icon img{width:100%;height:100%;object-fit:contain;display:block;}
+.tool-logo-fb{font-size:22px;line-height:1;display:none;align-items:center;justify-content:center;}
 .tool-card-name{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:2px;}
 .tool-card-vendor{font-size:10px;color:var(--fg-muted);}
 .add-custom .tool-card-icon{font-size:18px;color:var(--fg-muted);}
 
 /* ── PER-TOOL QUESTIONS ── */
 .tool-q-header{display:flex;align-items:center;gap:14px;padding:20px 28px 18px;border-bottom:1px solid var(--border);}
-.tool-q-icon{width:48px;height:48px;border-radius:12px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;padding:7px;}
-.tool-q-icon img{width:100%;height:100%;object-fit:contain;}
+.tool-q-icon{width:52px;height:52px;border-radius:12px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden;padding:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);}
+.tool-q-icon img{width:100%;height:100%;object-fit:contain;display:block;}
 .tool-q-name{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;letter-spacing:-.02em;}
 .tool-q-vendor{font-size:11px;color:var(--fg-muted);}
 .q-section{margin-bottom:22px;}
@@ -579,70 +579,70 @@ var BIZ_FROM_URL = decodeURIComponent(params.get('biz') || '');
 
 // ── TOOLS DATABASE ──────────────────────────────────────────────
 var TOOLS = [
-  {id:'chatgpt',name:'ChatGPT',vendor:'OpenAI',icon:'💬',logo:'https://logo.clearbit.com/openai.com',cat:'assistants',tiers:[
+  {id:'chatgpt',name:'ChatGPT',vendor:'OpenAI',icon:'💬',logo:'/logos/chatgpt.svg',cat:'assistants',tiers:[
     {id:'free',label:'Free account',note:'Standard free',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Data Controls › toggle off "Improve the model for everyone"',warning:'Consumer data used for training by default.'},
     {id:'plus',label:'Plus ($20/month)',note:'Paid personal plan',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Data Controls › toggle off "Improve the model for everyone"',warning:'Same training exposure as free tier.'},
     {id:'team',label:'Team or business plan',note:'Shared workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Workspace Settings › confirm data sharing disabled.',warning:'No model training on workspace data.'},
   ]},
-  {id:'copilot',name:'Microsoft Copilot',vendor:'Microsoft',icon:'🔷',logo:'https://logo.clearbit.com/microsoft.com',cat:'assistants',tiers:[
+  {id:'copilot',name:'Microsoft Copilot',vendor:'Microsoft',icon:'🔷',logo:'/logos/copilot.svg',cat:'assistants',tiers:[
     {id:'standalone',label:'Standalone / free Copilot',note:'copilot.microsoft.com',vendorRisk:2,trainingOn:true,ipp12:true,action:'Profile › Settings › Privacy › turn off training.',warning:'Consumer version trains on data by default.'},
     {id:'m365',label:'Microsoft 365 Copilot',note:'Business subscription',vendorRisk:1,trainingOn:false,ipp12:true,action:'Apply Purview sensitivity labels to tenant.',warning:'Enterprise Data Protection. No model training.'},
   ]},
-  {id:'gemini',name:'Google Gemini',vendor:'Google',icon:'🔮',logo:'https://logo.clearbit.com/google.com',cat:'assistants',tiers:[
+  {id:'gemini',name:'Google Gemini',vendor:'Google',icon:'🔮',logo:'/logos/gemini.svg',cat:'assistants',tiers:[
     {id:'consumer',label:'Free or personal account',note:'gemini.google.com',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Gemini Apps Activity › turn off.',warning:'Human-reviewed conversations retained up to 3 years.'},
     {id:'workspace',label:'Gemini for Workspace',note:'Business Google account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › set regional data residency.',warning:'No human review. No model training.'},
   ]},
-  {id:'claude',name:'Claude',vendor:'Anthropic',icon:'🤖',logo:'https://logo.clearbit.com/anthropic.com',cat:'assistants',tiers:[
+  {id:'claude',name:'Claude',vendor:'Anthropic',icon:'🤖',logo:'/logos/claude.svg',cat:'assistants',tiers:[
     {id:'consumer',label:'Free or Pro account',note:'claude.ai personal',vendorRisk:2,trainingOn:true,ipp12:true,action:'Settings › Privacy › turn off "Help improve Claude".',warning:'Since Sept 2025 consumer accounts train on conversations by default.'},
     {id:'team',label:'Claude Team / for Work',note:'claude.ai/work',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Settings › Data and Privacy › confirm training off.',warning:'Commercial workspace isolation. No model training.'},
   ]},
-  {id:'perplexity',name:'Perplexity',vendor:'Perplexity AI',icon:'🔍',logo:'https://logo.clearbit.com/perplexity.ai',cat:'assistants',tiers:[
+  {id:'perplexity',name:'Perplexity',vendor:'Perplexity AI',icon:'🔍',logo:'/logos/perplexity.svg',cat:'assistants',tiers:[
     {id:'consumer',label:'Free or Pro',note:'Personal account',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Preferences › AI Data Retention › toggle off.',warning:'Consumer data used for model improvement.'},
     {id:'enterprise',label:'Enterprise Pro',note:'Business plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'API Dashboard › restrict debug logging metrics.',warning:'Zero-retention framework.'},
   ]},
-  {id:'grammarly',name:'Grammarly',vendor:'Grammarly',icon:'✍️',logo:'https://logo.clearbit.com/grammarly.com',cat:'writing',tiers:[
+  {id:'grammarly',name:'Grammarly',vendor:'Grammarly',icon:'✍️',logo:'/logos/grammarly.svg',cat:'writing',tiers:[
     {id:'consumer',label:'Free or individual',note:'Personal account',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Security & Privacy › toggle off "Product Improvement and Training".',warning:'Text inputs used for training by default.'},
     {id:'business',label:'Business or Enterprise',note:'Team account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › verify training toggles off.',warning:'Training off by default.'},
   ]},
-  {id:'notion',name:'Notion AI',vendor:'Notion',icon:'📓',logo:'https://logo.clearbit.com/notion.so',cat:'writing',tiers:[
+  {id:'notion',name:'Notion AI',vendor:'Notion',icon:'📓',logo:'/logos/notion.svg',cat:'writing',tiers:[
     {id:'plus',label:'Plus or Free with AI',note:'Personal workspace',vendorRisk:2,trainingOn:false,ipp12:true,action:'Workspace Settings › Notion AI › disable web search.',warning:'Verify current sub-processor terms.'},
     {id:'business',label:'Business or Enterprise',note:'Admin workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin settings › verify sub-processor handling.',warning:'Workspace embeddings isolated.'},
   ]},
-  {id:'hubspot',name:'HubSpot AI',vendor:'HubSpot',icon:'🧡',logo:'https://logo.clearbit.com/hubspot.com',cat:'writing',tiers:[
+  {id:'hubspot',name:'HubSpot AI',vendor:'HubSpot',icon:'🧡',logo:'/logos/hubspot.svg',cat:'writing',tiers:[
     {id:'standard',label:'Standard account',note:'Default CRM',vendorRisk:2,trainingOn:true,ipp12:true,action:'Settings › AI › Access tab › toggle off "AI Model Training".',warning:'Uses CRM data for training by default.'},
     {id:'sensitive',label:'Sensitive Data enabled',note:'With opt-out configured',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enable Sensitive Data setting and confirm training off.',warning:'Opted out of training by default.'},
   ]},
-  {id:'notebooklm',name:'NotebookLM',vendor:'Google',icon:'📔',logo:'https://logo.clearbit.com/notebooklm.google',cat:'writing',tiers:[
+  {id:'notebooklm',name:'NotebookLM',vendor:'Google',icon:'📔',logo:'/logos/notebooklm.svg',cat:'writing',tiers:[
     {id:'consumer',label:'Personal Google account',note:'notebooklm.google.com',vendorRisk:2,trainingOn:false,ipp12:true,action:'Avoid thumbs-up/down ratings — trigger human review.',warning:'Feedback triggers human review, retained up to 3 years.'},
     {id:'workspace',label:'Workspace Core',note:'Business Google account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › turn on NotebookLM for specific org units.',warning:'No human review. Enterprise-grade.'},
   ]},
-  {id:'canva',name:'Canva AI',vendor:'Canva',icon:'🎨',logo:'https://logo.clearbit.com/canva.com',cat:'creative',tiers:[
+  {id:'canva',name:'Canva AI',vendor:'Canva',icon:'🎨',logo:'/logos/canva.png',cat:'creative',tiers:[
     {id:'free-pro',label:'Free or Pro',note:'Personal creator',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › Privacy Controls › toggle off AI training.',warning:'AI training enabled by default as of November 2025.'},
     {id:'teams',label:'Teams or Business',note:'Shared workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Settings › Security › Data and Privacy.',warning:'Content never used for training.'},
   ]},
-  {id:'adobe',name:'Adobe Firefly',vendor:'Adobe',icon:'🔥',logo:'https://logo.clearbit.com/adobe.com',cat:'creative',tiers:[
+  {id:'adobe',name:'Adobe Firefly',vendor:'Adobe',icon:'🔥',logo:'/logos/adobe-firefly.svg',cat:'creative',tiers:[
     {id:'individual',label:'Individual or personal',note:'Creative Cloud personal',vendorRisk:2,trainingOn:true,ipp12:true,action:'Adobe Account Privacy Settings › toggle off "Content analysis".',warning:'Analyses creations for model training unless opted out.'},
     {id:'business',label:'Firefly for Business',note:'Enterprise Creative Cloud',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enterprise Admin Console › restrict custom model permissions.',warning:'Trained on licensed content only.'},
   ]},
-  {id:'midjourney',name:'Midjourney',vendor:'Midjourney',icon:'🖼️',logo:'https://logo.clearbit.com/midjourney.com',cat:'creative',tiers:[
+  {id:'midjourney',name:'Midjourney',vendor:'Midjourney',icon:'🖼️',logo:'/logos/midjourney.svg',cat:'creative',tiers:[
     {id:'basic',label:'Basic or Standard',note:'Standard subscription',vendorRisk:3,trainingOn:true,ipp12:true,action:'No safe configuration available. Do not use for business assets.',warning:'All outputs PUBLIC by default. No training opt-out.'},
     {id:'pro',label:'Pro or Mega (Stealth)',note:'Higher tier',vendorRisk:2,trainingOn:true,ipp12:true,action:'Type /settings in Discord › enable Stealth Mode.',warning:'Stealth hides outputs but prompts still used for training.'},
   ]},
-  {id:'otter',name:'Otter.ai',vendor:'Otter.ai',icon:'🦦',logo:'https://logo.clearbit.com/otter.ai',cat:'meetings',tiers:[
+  {id:'otter',name:'Otter.ai',vendor:'Otter.ai',icon:'🦦',logo:'/logos/otter.png',cat:'meetings',tiers:[
     {id:'basic-pro',label:'Basic or Pro',note:'Personal plan',vendorRisk:3,trainingOn:true,ipp12:true,action:'Email support@otter.ai to request deletion.',warning:'Trains on audio files by default.'},
     {id:'business',label:'Business plan',note:'Team admin',vendorRisk:2,trainingOn:false,ipp12:true,action:'Admin Panel › enable mandatory participant notifications.',warning:'Excludes from third-party training.'},
   ]},
-  {id:'fathom',name:'Fathom',vendor:'Fathom Video',icon:'🎙️',logo:'https://logo.clearbit.com/fathom.video',cat:'meetings',tiers:[
+  {id:'fathom',name:'Fathom',vendor:'Fathom Video',icon:'🎙️',logo:'/logos/fathom.png',cat:'meetings',tiers:[
     {id:'free',label:'Free account',note:'Individual free',vendorRisk:2,trainingOn:true,ipp12:true,action:'Account Settings › training controls › toggle off.',warning:'De-identified meeting assets used for training by default.'},
     {id:'team',label:'Team Edition',note:'Paid team plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Panel › enable global training opt-out.',warning:'SOC 2 Type II. No training on meeting content.'},
   ]},
-  {id:'granola',name:'Granola AI',vendor:'Granola',icon:'🌾',logo:'https://logo.clearbit.com/granola.ai',cat:'meetings',tiers:[
+  {id:'granola',name:'Granola AI',vendor:'Granola',icon:'🌾',logo:'/logos/granola.png',cat:'meetings',tiers:[
     {id:'any',label:'Personal or Enterprise',note:'Any plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Settings › Profile › toggle off "Model Training".',warning:'On-device transcription. Raw audio deleted immediately. SOC 2 Type II.'},
   ]},
-  {id:'fireflies',name:'Fireflies.ai',vendor:'Fireflies.ai',icon:'✨',logo:'https://logo.clearbit.com/fireflies.ai',cat:'meetings',tiers:[
+  {id:'fireflies',name:'Fireflies.ai',vendor:'Fireflies.ai',icon:'✨',logo:'/logos/fireflies.png',cat:'meetings',tiers:[
     {id:'any',label:'Any plan',note:'Free, Pro, or Business',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Settings › force zero-data-retention.',warning:'Restricts API providers from training on meeting data.'},
   ]},
-  {id:'zoom-ai',name:'Zoom AI Companion',vendor:'Zoom',icon:'📹',logo:'https://logo.clearbit.com/zoom.us',cat:'meetings',tiers:[
+  {id:'zoom-ai',name:'Zoom AI Companion',vendor:'Zoom',icon:'📹',logo:'/logos/zoom.svg',cat:'meetings',tiers:[
     {id:'consumer',label:'Basic or Pro Zoom',note:'Standard Zoom plan',vendorRisk:2,trainingOn:true,ipp12:true,action:'Zoom Settings › AI Companion › disable data improvement.',warning:'Consumer AI features may be used for model improvement.'},
     {id:'business',label:'Zoom Business or Enterprise',note:'Business account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Admin › AI Companion › confirm training exclusions.',warning:'Business accounts excluded from AI training by default.'},
   ]},
