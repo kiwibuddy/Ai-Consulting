@@ -262,6 +262,50 @@ function loadBriefing(){
   }
 }
 
+/**
+ * Auto-load the briefing when the consultant follows a link from their
+ * email containing the audit data in the URL fragment, e.g.
+ *   /companion#d=<base64url-of-JSON>
+ * Fragments stay client-side (never sent to the server) so this preserves
+ * the privacy-first design: nothing is logged, nothing is stored.
+ *
+ * Falls back silently to the paste UI if no fragment is present or the
+ * fragment can't be decoded.
+ */
+function tryAutoLoadFromUrl(){
+  try{
+    var hash = location.hash || '';
+    var m = hash.match(/[#&]d=([^&]+)/);
+    if(!m) return;
+    var b64 = decodeURIComponent(m[1]).replace(/-/g,'+').replace(/_/g,'/');
+    // Re-pad to multiple of 4 (base64url drops trailing '=')
+    while(b64.length % 4) b64 += '=';
+    var binary = atob(b64);
+    // Decode UTF-8 bytes (handles unicode like macron a, em-dash)
+    var bytes = new Uint8Array(binary.length);
+    for(var i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+    var json = new TextDecoder('utf-8').decode(bytes);
+    document.getElementById('jsonInput').value = json;
+    loadBriefing();
+    // Strip the fragment so reload doesn't replay & it doesn't sit in history
+    if(history && history.replaceState){
+      history.replaceState(null,'',location.pathname+location.search);
+    }
+  } catch(e){
+    // Surface a soft notice but don't block the manual paste workflow
+    var err = document.getElementById('loadError');
+    if(err){
+      err.style.display='block';
+      err.textContent='Could not auto-load from the email link. Paste the JSON manually below. ('+(e.message||e)+')';
+    }
+  }
+}
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', tryAutoLoadFromUrl);
+} else {
+  tryAutoLoadFromUrl();
+}
+
 function resetBriefing(){
   document.getElementById('pastePanel').style.display='block';
   document.getElementById('briefingOut').style.display='none';

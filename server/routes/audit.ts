@@ -489,6 +489,23 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
 }
 
 // ── CONSULTANT NOTIFICATION (owner submission) ────────────────────────────────
+/**
+ * Encode the payload as base64url and build a /companion URL that includes
+ * it in the *fragment* (#d=…). Fragments stay client-side — they are never
+ * sent to the server — so this preserves the privacy-first design while
+ * letting the consultant open a pre-loaded briefing in one click.
+ */
+function buildCompanionUrl(p: OwnerPayload): string {
+  const json = JSON.stringify(p);
+  // Node 18+: Buffer handles UTF-8 cleanly so things like macrons survive
+  const b64 = Buffer.from(json, "utf-8")
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+  return `${SITE_URL}/companion#d=${b64}`;
+}
+
 function buildConsultantEmail(p: OwnerPayload, when: string): string {
   const sorted = [...p.tools].sort((a, b) => {
     const rank = { red: 0, amber: 1, green: 2 } as Record<string, number>;
@@ -500,6 +517,12 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
         `<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 6px;font-size:13px;">${esc(t.icon)} ${esc(t.toolName)}</td><td style="padding:8px 6px;font-size:12px;color:#64748b;">${esc(t.tierLabel)}</td><td style="padding:8px 6px;"><span style="background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragWord(t.rag)}</span></td><td style="padding:8px 6px;font-size:11.5px;color:#374151;">${esc(t.action)}</td></tr>`,
     )
     .join("");
+
+  const companionUrl = buildCompanionUrl(p);
+  const jsonString = JSON.stringify(p, null, 2);
+  // Some mail clients (and Gmail's truncation banner) cap URLs around ~10k.
+  // Below that we trust the button; above we still ship the link but warn.
+  const urlIsHuge = companionUrl.length > 10000;
 
   const sectorLine = [
     p.bizSector || "",
@@ -539,10 +562,23 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
       <tbody>${toolRows}</tbody>
     </table>
 
-    <div style="background:#0f172a;border-radius:12px;padding:18px;overflow-x:auto;">
-      <div style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px;">Full JSON — paste into companion tool</div>
-      <pre style="margin:0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:10.5px;color:#e2e8f0;white-space:pre-wrap;word-break:break-word;">${esc(JSON.stringify(p, null, 2))}</pre>
+    <!-- ONE-CLICK: opens /companion with the briefing already loaded -->
+    <div style="background:linear-gradient(135deg,#f7fee7,#f0fdf4);border:1px solid ${GREEN_BORDER};border-radius:12px;padding:22px;text-align:center;margin-bottom:18px;">
+      <div style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:6px;">Ready for the owner call?</div>
+      <p style="font-size:13.5px;color:#374151;margin:0 0 16px;line-height:1.6;">One click opens the Pre-Call Briefing Tool with this audit already loaded — interview prompts, talking points, the lot.</p>
+      <a href="${companionUrl}" style="display:inline-block;background:linear-gradient(135deg,${ACCENT},#15803d);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 30px;border-radius:999px;box-shadow:0 2px 12px rgba(15,23,42,.12);">Open in Companion Tool &rarr;</a>
+      ${
+        urlIsHuge
+          ? `<p style="font-size:11px;color:${AMBER};margin:12px 0 0;">Heads up: this payload is large — if the button doesn't auto-load, copy the JSON manually from the block below.</p>`
+          : ""
+      }
     </div>
+
+    <!-- Fallback: raw JSON, collapsed-by-default visual treatment -->
+    <details style="background:#0f172a;border-radius:12px;padding:14px 18px;overflow-x:auto;">
+      <summary style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#94a3b8;cursor:pointer;outline:none;">Manual fallback — show raw JSON</summary>
+      <pre style="margin:10px 0 0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:10.5px;color:#e2e8f0;white-space:pre-wrap;word-break:break-word;">${esc(jsonString)}</pre>
+    </details>
   </div>
   ${brandedFooter("Internal · consultant only")}
 </div>
