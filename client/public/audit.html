@@ -171,6 +171,42 @@ body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antiali
 .review-tool-name{font-size:13px;font-weight:500;flex:1;}
 .review-tool-plan{font-size:11px;color:var(--fg-muted);}
 .review-edit-btn{background:none;border:none;font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;}
+.review-policy-btn{background:none;border:1px solid var(--border);font-size:11px;color:var(--fg-med);cursor:pointer;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;transition:all .15s;}
+.review-policy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--bg-warm);}
+.review-policy-btn .policy-info-i{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--fg-muted);color:#fff;font-size:9px;font-weight:700;font-style:italic;font-family:Georgia,serif;}
+.review-policy-btn:hover .policy-info-i{background:var(--accent);}
+
+/* ── POLICY MODAL ── */
+.policy-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;z-index:9000;padding:5vh 16px 16px;overflow-y:auto;}
+.policy-modal-overlay.open{display:flex;animation:policyFadeIn .2s ease;}
+@keyframes policyFadeIn{from{opacity:0;}to{opacity:1;}}
+.policy-modal{background:#fff;width:100%;max-width:640px;border-radius:14px;box-shadow:0 30px 80px rgba(15,23,42,.35);overflow:hidden;position:relative;animation:policySlideUp .25s ease;}
+@keyframes policySlideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.policy-modal-close{position:absolute;top:14px;right:14px;background:rgba(15,23,42,.06);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#475569;font-size:18px;line-height:1;transition:all .15s;}
+.policy-modal-close:hover{background:rgba(15,23,42,.12);color:#0f172a;}
+.policy-modal-hdr{padding:22px 26px 14px;background:linear-gradient(135deg,var(--bg-warm),#fff);border-bottom:1px solid var(--border);}
+.policy-modal-kicker{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.policy-modal-title{font-family:var(--font-display);font-size:22px;font-weight:600;line-height:1.2;color:var(--fg);margin:0 0 4px;letter-spacing:-.01em;}
+.policy-modal-tier{font-size:13px;color:var(--fg-muted);margin:0;}
+.policy-modal-status{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:10px;}
+.policy-modal-status.verified{background:hsl(135,55%,93%);color:hsl(135,55%,28%);border:1px solid hsl(135,55%,78%);}
+.policy-modal-status.needs-review{background:hsl(38,80%,93%);color:hsl(38,70%,30%);border:1px solid hsl(38,60%,75%);}
+.policy-modal-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
+.policy-modal-body{padding:18px 26px 6px;}
+.policy-modal-summary{font-size:14px;line-height:1.55;color:var(--fg-med);margin:0 0 16px;padding:12px 14px;background:var(--bg-warm);border-radius:8px;border-left:3px solid var(--accent);}
+.policy-modal-section-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);margin:18px 0 8px;}
+.policy-modal-explainer p{font-size:14px;line-height:1.65;color:var(--fg);margin:0 0 12px;}
+.policy-modal-link{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);font-size:13.5px;font-weight:500;margin-bottom:8px;transition:all .15s;}
+.policy-modal-link:hover{border-color:var(--accent);background:var(--bg-warm);}
+.policy-modal-link .pml-arrow{margin-left:auto;color:var(--accent);font-size:14px;}
+.policy-modal-sources{list-style:none;padding:0;margin:0;}
+.policy-modal-sources li{margin-bottom:6px;}
+.policy-modal-sources a{font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);}
+.policy-modal-sources a:hover{border-bottom-style:solid;}
+.policy-modal-footer{padding:14px 26px 20px;font-size:11.5px;color:var(--fg-muted);line-height:1.5;border-top:1px solid var(--border);background:#fafbfc;}
+.policy-modal-footer strong{color:var(--fg-med);}
+.policy-modal-empty{padding:30px 26px;text-align:center;color:var(--fg-muted);font-size:14px;line-height:1.6;}
+.policy-modal-empty a{color:var(--accent);text-decoration:underline;}
 .email-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
 .email-tag{display:flex;align-items:center;gap:5px;background:var(--bg-mist);border:1px solid var(--border);border-radius:999px;padding:4px 10px 4px 12px;font-size:12px;color:var(--fg-med);}
 .email-tag-remove{background:none;border:none;cursor:pointer;color:var(--fg-muted);font-size:14px;line-height:1;padding:0;}
@@ -498,6 +534,18 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
 
 <div class="step-dots" id="stepDots"></div>
 </div><!-- end shell -->
+
+<!-- ═══ POLICY MODAL ═══ -->
+<div class="policy-modal-overlay" id="policyModal" onclick="closePolicyModalIfBackdrop(event)" role="dialog" aria-modal="true" aria-labelledby="policyModalTitle" aria-hidden="true">
+  <div class="policy-modal" role="document">
+    <button class="policy-modal-close" onclick="closePolicyModal()" aria-label="Close">&times;</button>
+    <div id="policyModalContent"><!-- filled by openPolicyModal() --></div>
+  </div>
+</div>
+
+<!-- Policy data — keep this <script> BEFORE the main inline script below
+     so window.AUDIT_POLICIES is available when audit JS runs. -->
+<script src="/audit-policies.js"></script>
 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
@@ -955,12 +1003,102 @@ function renderReview(){
     '<div class="rs-cell amber"><div class="rs-num">'+amber+'</div><div class="rs-label">Check this</div></div>'+
     '<div class="rs-cell red"><div class="rs-num">'+red+'</div><div class="rs-label">Act now</div></div>';
   document.getElementById('reviewToolList').innerHTML=results.slice().sort(function(a,b){return b.overall-a.overall;}).map(function(r,i){
+    var hasPolicy = !!(window.getPolicyForTier && window.getPolicyForTier(r.tool.id, r.tier.id));
+    var policyBtn = hasPolicy
+      ? '<button class="review-policy-btn" onclick="openPolicyModal(\''+esc(r.tool.id)+'\',\''+esc(r.tier.id)+'\')" title="Why this verdict?"><span class="policy-info-i">i</span> Why</button>'
+      : '';
     return '<div class="review-tool-row"><div class="review-rag '+r.rag+'"></div>'
       +'<div class="review-tool-name">'+r.tool.name+' <span style="font-weight:400;color:var(--fg-muted);">— '+r.tier.label+'</span></div>'
+      +policyBtn
       +'<button class="review-edit-btn" onclick="editTool('+i+')">Edit</button></div>';
   }).join('');
   renderEmailTags();
 }
+
+// Tiny HTML-attribute escaper for the inline onclick handlers above.
+// Centralised here so future tool/tier ids with quotes don't break things.
+function esc(s){return String(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+
+// ── POLICY MODAL ─────────────────────────────────────────────────
+// Looks up window.AUDIT_POLICIES via getPolicyForTier (defined in
+// /audit-policies.js), renders the modal body, and shows it. If no
+// policy data exists for the tier, render an "in progress" placeholder
+// rather than failing silently — that way the user still sees a clear
+// link to the vendor.
+function openPolicyModal(toolId, tierId){
+  var modal = document.getElementById('policyModal');
+  var content = document.getElementById('policyModalContent');
+  if(!modal || !content) return;
+  var tool = (TOOLS||[]).find(function(t){return t.id===toolId;});
+  var tier = tool && tool.tiers.find(function(x){return x.id===tierId;});
+  if(!tool || !tier){return;}
+  var policy = (window.getPolicyForTier && window.getPolicyForTier(toolId, tierId)) || null;
+
+  var statusClass = policy && policy.status === 'verified' ? 'verified' : 'needs-review';
+  var statusLabel = policy && policy.status === 'verified' ? 'Verified · ' + (policy.lastReviewed || '') : 'Needs review · ' + ((policy && policy.lastReviewed) || '');
+
+  if(!policy){
+    content.innerHTML =
+      '<div class="policy-modal-hdr">'
+        +'<div class="policy-modal-kicker">Policy details</div>'
+        +'<h2 class="policy-modal-title" id="policyModalTitle">'+escHtml(tool.name)+'</h2>'
+        +'<p class="policy-modal-tier">'+escHtml(tier.label)+'</p>'
+        +'<span class="policy-modal-status needs-review">Coming soon</span>'
+      +'</div>'
+      +'<div class="policy-modal-empty">'
+        +'<p>I&rsquo;m still finalising the policy explainer for this tier. In the meantime, here&rsquo;s what informed the verdict in your audit:</p>'
+        +'<p style="margin-top:14px;font-size:13px;background:var(--bg-warm);padding:10px 14px;border-radius:8px;text-align:left;"><strong>What to do:</strong> '+escHtml(tier.action||'')+'</p>'
+        +(tier.warning?'<p style="margin-top:10px;font-size:12.5px;color:var(--fg-muted);">'+escHtml(tier.warning)+'</p>':'')
+      +'</div>';
+  } else {
+    var explainerHtml = (policy.explainer || []).map(function(p){return '<p>'+escHtml(p)+'</p>';}).join('');
+    var sourcesHtml = (policy.sources || []).map(function(s){
+      return '<li><a href="'+escAttr(s.url)+'" target="_blank" rel="noopener noreferrer">'+escHtml(s.label)+' &nearr;</a></li>';
+    }).join('');
+    content.innerHTML =
+      '<div class="policy-modal-hdr">'
+        +'<div class="policy-modal-kicker">Why this verdict</div>'
+        +'<h2 class="policy-modal-title" id="policyModalTitle">'+escHtml(tool.name)+'</h2>'
+        +'<p class="policy-modal-tier">'+escHtml(tier.label)+'</p>'
+        +'<span class="policy-modal-status '+statusClass+'">'+escHtml(statusLabel)+'</span>'
+      +'</div>'
+      +'<div class="policy-modal-body">'
+        +'<p class="policy-modal-summary">'+escHtml(policy.summary||'')+'</p>'
+        +'<div class="policy-modal-section-label">In plain English</div>'
+        +'<div class="policy-modal-explainer">'+explainerHtml+'</div>'
+        +'<div class="policy-modal-section-label">Official vendor policy</div>'
+        +'<a class="policy-modal-link" href="'+escAttr(policy.policyUrl||'#')+'" target="_blank" rel="noopener noreferrer">'
+          +'<span>'+escHtml(policy.policyLabel||'Vendor policy')+'</span>'
+          +'<span class="pml-arrow">&nearr;</span>'
+        +'</a>'
+        +(sourcesHtml ? '<div class="policy-modal-section-label">Further reading</div><ul class="policy-modal-sources">'+sourcesHtml+'</ul>' : '')
+      +'</div>'
+      +'<div class="policy-modal-footer">'
+        +(policy.status === 'needs-review'
+          ? '<strong>Needs review:</strong> this entry was drafted from secondary sources and is awaiting Nathaniel&rsquo;s final review against vendor docs. Treat the verdict as indicative; check the vendor policy directly before acting on it.'
+          : '<strong>Verified ' + escHtml(policy.lastReviewed||'') + '.</strong> Policy details can change without notice &mdash; always confirm against the vendor link above before relying on this for compliance decisions.')
+      +'</div>';
+  }
+
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closePolicyModal(){
+  var modal = document.getElementById('policyModal');
+  if(!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+function closePolicyModalIfBackdrop(event){
+  if(event.target && event.target.id === 'policyModal') closePolicyModal();
+}
+function escHtml(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return escHtml(s).replace(/"/g,'&quot;');}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){var m=document.getElementById('policyModal');if(m&&m.classList.contains('open')) closePolicyModal();}
+});
 function editTool(i){
   var sorted=ST.selected.map(function(e,idx){return{entry:e,result:scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit),origIdx:idx};}).filter(function(x){return x.result;}).sort(function(a,b){return b.result.overall-a.result.overall;});
   ST.queueIdx=sorted[i].origIdx;
@@ -990,7 +1128,7 @@ function buildPayload(){
   return{bizName:ST.bizName||'(not provided)',bizSector:ST.bizSector,bizSize:ST.bizSize,
     submittedAt:new Date().toISOString(),emails:ST.emails,inviteToken:inviteToken,inviteCount:inviteEmails.length,
     tools:results.map(function(r){
-      return{toolId:r.toolId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
+      return{toolId:r.toolId,tierId:r.tierId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
         tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
         rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
         trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,action:r.tier.action,warning:r.tier.warning};
@@ -1040,7 +1178,7 @@ async function submitTeamSurvey(){
     submittedAt:new Date().toISOString(),
     tools:results.map(function(r,i){
       var entry=ST.selected[i]||{};
-      return{toolId:r.toolId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
+      return{toolId:r.toolId,tierId:r.tierId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
         tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
         rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
         trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,

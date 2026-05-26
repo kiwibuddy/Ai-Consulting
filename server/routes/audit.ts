@@ -11,6 +11,9 @@
 
 import { Router } from "express";
 import crypto from "crypto";
+import fs from "node:fs";
+import path from "node:path";
+import vm from "node:vm";
 import { Resend } from "resend";
 import { eq, sql } from "drizzle-orm";
 import { db } from "../db";
@@ -31,6 +34,7 @@ const CALENDAR_URL =
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface AuditTool {
   toolId: string;
+  tierId: string;
   toolName: string;
   vendor: string;
   icon: string;
@@ -146,6 +150,83 @@ function brandedHero(opts: {
       <img src="${brandPortraitUrl()}" alt="Nathaniel Baldock" width="88" height="88" style="display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:4px solid ${ring};box-shadow:0 12px 32px rgba(15,23,42,.18);background:#fff;">
     </td></tr>
   </table>`;
+}
+
+// ── POLICY DATA LOADER ────────────────────────────────────────────────────────
+// Canonical policy data lives at client/public/audit-policies.js (one file the
+// browser can <script src=> directly and the server can re-execute). We load it
+// here through Node's `vm` module, with mtime-based caching so Nathaniel can
+// edit the policy file and the changes pick up on the next request — no
+// server restart, no rebuild.
+
+interface PolicySource {
+  label: string;
+  url: string;
+}
+interface AuditPolicy {
+  status: "verified" | "needs-review";
+  lastReviewed: string;
+  confidence?: "low" | "medium" | "high" | "very-high";
+  policyUrl: string;
+  policyLabel: string;
+  summary: string;
+  explainer: string[];
+  sources?: PolicySource[];
+}
+
+let AUDIT_POLICIES: Record<string, AuditPolicy> = {};
+let policiesLoadedAtMs = 0;
+
+function loadAuditPolicies(): Record<string, AuditPolicy> {
+  const filePath = path.resolve(process.cwd(), "client/public/audit-policies.js");
+  try {
+    const stat = fs.statSync(filePath);
+    if (stat.mtimeMs <= policiesLoadedAtMs && Object.keys(AUDIT_POLICIES).length > 0) {
+      return AUDIT_POLICIES;
+    }
+    const code = fs.readFileSync(filePath, "utf-8");
+    const sandboxWindow: { AUDIT_POLICIES?: Record<string, AuditPolicy> } = {};
+    const sandboxModule: { exports: { AUDIT_POLICIES?: Record<string, AuditPolicy> } } = {
+      exports: {},
+    };
+    const context = vm.createContext({ window: sandboxWindow, module: sandboxModule });
+    vm.runInContext(code, context, { filename: "audit-policies.js" });
+    AUDIT_POLICIES = sandboxWindow.AUDIT_POLICIES || sandboxModule.exports.AUDIT_POLICIES || {};
+    policiesLoadedAtMs = stat.mtimeMs;
+  } catch (err) {
+    console.error("[audit] Failed to load audit-policies.js:", err);
+  }
+  return AUDIT_POLICIES;
+}
+
+/** Look up the policy entry for a tool+tier, or null if not present. */
+function getPolicyForTier(toolId: string, tierId: string): AuditPolicy | null {
+  const all = loadAuditPolicies();
+  return all[`${toolId}:${tierId}`] || null;
+}
+
+/**
+ * Inline "Why this verdict?" block for client-facing emails.
+ * Emails can't run JS reliably, so instead of a modal we render a small
+ * summary + direct link to the vendor policy + (optionally) a one-line
+ * "needs review" disclaimer matching the audit UI modal footer.
+ */
+function policyLinkBlock(toolId: string, tierId: string): string {
+  const policy = getPolicyForTier(toolId, tierId);
+  if (!policy) return "";
+  const reviewNote =
+    policy.status === "needs-review"
+      ? `<div style="font-size:11px;color:#92400e;margin-top:6px;font-style:italic;">&#9432; This policy entry is still being verified — confirm against the vendor link before acting on it.</div>`
+      : "";
+  return `
+    <div style="margin-top:10px;padding:9px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+      <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Why this verdict</div>
+      <p style="font-size:12.5px;color:#374151;line-height:1.55;margin:0 0 6px;">${esc(policy.summary)}</p>
+      <a href="${esc(policy.policyUrl)}" style="font-size:12px;color:${ACCENT};text-decoration:none;font-weight:600;" target="_blank" rel="noopener">
+        Read ${esc(policy.policyLabel)} &nearr;
+      </a>
+      ${reviewNote}
+    </div>`;
 }
 
 /** Shared minimal footer for client-facing emails. */
@@ -446,6 +527,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
         ${t.warning ? `<p style="font-size:12.5px;color:#374151;line-height:1.55;margin:0 0 8px;">${esc(t.warning)}</p>` : ""}
         ${t.flags.length ? `<div style="margin-bottom:8px;">${t.flags.map((f) => `<span style="display:inline-block;font-size:10px;color:${AMBER};background:${AMBER_BG};border:1px solid ${AMBER_BORDER};padding:2px 8px;border-radius:999px;margin:2px 3px 2px 0;">${esc(f)}</span>`).join("")}</div>` : ""}
         <div style="font-size:12px;color:#1e40af;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 10px;"><strong>What to do:</strong> ${esc(t.action)}</div>
+        ${policyLinkBlock(t.toolId, t.tierId)}
         ${t.ipp12 ? `<div style="font-size:11px;color:#64748b;margin-top:6px;">&#9432; This tool sends data to overseas servers — cross-border disclosure under IPP 12, NZ Privacy Act 2020.</div>` : ""}
       </div>`,
       )
