@@ -39,10 +39,21 @@ body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antiali
 .step-sub{font-size:13.5px;color:var(--fg-muted);line-height:1.6;}
 .field{margin-bottom:16px;}
 .field label{display:block;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
-.field input,.field select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:14px;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;}
+.field label .field-opt{font-weight:500;letter-spacing:.1em;color:var(--fg-muted);opacity:.7;margin-left:6px;text-transform:lowercase;}
+.field input,.field select{width:100%;box-sizing:border-box;height:42px;padding:0 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:14px;line-height:1.2;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;-webkit-appearance:none;-moz-appearance:none;appearance:none;}
+.field select{padding-right:36px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5l5 5 5-5' stroke='%2364748b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;}
 .field input:focus,.field select:focus{border-color:var(--accent);}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+
+/* ── TRANSPARENCY CALLOUT (upfront "what happens to your data") ── */
+.transparency-callout{margin:0 0 22px;padding:14px 16px;background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--r-sm);}
+.transparency-hdr{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.transparency-hdr svg{flex-shrink:0;}
+.transparency-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+.transparency-list li{display:flex;gap:10px;font-size:12.5px;line-height:1.55;color:var(--fg-med);}
+.transparency-list li strong{color:var(--fg);font-weight:600;}
+.transparency-list li::before{content:'';flex-shrink:0;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:8px;}
 
 /* ── INVITE SECTION (optional add-on, deliberately understated) ── */
 .invite-section{background:var(--bg-warm);border:1px dashed var(--border);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:16px;}
@@ -298,9 +309,20 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
     <div class="step-sub" style="margin-bottom:24px;">A simple walk-through to see what AI tools are in use, what's safe to keep doing, and what needs a small adjustment. No jargon, no scare tactics, no tech knowledge required — just clear answers you can act on.</div>
   </div>
   <div class="card-body">
+    <div class="transparency-callout" role="note" aria-label="How your data is handled">
+      <div class="transparency-hdr">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>How this works</span>
+      </div>
+      <ul class="transparency-list">
+        <li><span><strong>Stays on your device as you go.</strong> Your answers live in this browser tab only — nothing is saved to a database, and closing the tab clears everything.</span></li>
+        <li><span><strong>Two emails on submit.</strong> One to you (and anyone you add) with your personalised results, and one to Nathaniel so he can prepare for your follow-up call. That's it — no advertising, no third-party sharing.</span></li>
+        <li><span><strong>Team responses are anonymous.</strong> If you invite teammates, their individual answers are never shown to you — only a combined summary on your follow-up call. Nathaniel sees the responses but not who wrote which.</span></li>
+      </ul>
+    </div>
     <div class="field-row">
       <div class="field">
-        <label>Business name</label>
+        <label>Business name <span class="field-opt">(optional)</span></label>
         <input type="text" id="bizName" placeholder="e.g. Tauranga Plumbing Ltd">
       </div>
       <div class="field">
@@ -740,8 +762,8 @@ function toggleConsent(){
   checkS1();
 }
 function checkS1(){
-  var biz=document.getElementById('bizName').value.trim();
-  var ok=!!(biz&&ST.consent);
+  // Business name is now optional — only consent is required to start.
+  var ok=!!ST.consent;
   var btn=document.getElementById('s1Btn');
   if(btn) btn.disabled=!ok;
   // Update button text
