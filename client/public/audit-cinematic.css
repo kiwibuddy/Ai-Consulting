@@ -249,15 +249,15 @@ body.companion-shell {
 /* Per-slide crop tuning */
 .audit-hero-slide:nth-child(1) img {
   /* Library / team — bring faces toward top of band */
-  object-position: 50% 12%;
+  object-position: 50% 32%;
 }
 .audit-hero-slide:nth-child(2) img {
   /* Speaker — was losing top of head; bias toward upper area of photo */
-  object-position: 44% 28%;
+  object-position: 46% 16%;
 }
 .audit-hero-slide:nth-child(3) img {
   /* NZ coastal — kids on slope low in frame; show lower third */
-  object-position: 50% 58%;
+  object-position: 50% 78%;
 }
 .audit-hero-slide:nth-child(5) img {
   object-position: 50% 40%;
