@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pre-Call Briefing — Nathaniel Baldock AI Consulting</title>
-<link rel="stylesheet" href="/audit-cinematic.css?v=20260527">
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260528c">
 
 </head>
 <body class="companion-shell">
@@ -12,13 +12,13 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="logo-row">
+  <a href="/" class="logo-row" aria-label="Back to main site" style="text-decoration:none;color:inherit;">
     <div class="logo-mark">NB</div>
     <div>
       <div class="logo-text">Pre-Call Briefing Tool</div>
       <div class="logo-sub">Nathaniel Baldock AI Consulting · Consultant only</div>
     </div>
-  </div>
+  </a>
   <div class="hdr-badge">Internal · Not for clients</div>
 </div>
 
@@ -87,7 +87,18 @@
 
 </div><!-- end shell -->
 
+<div class="shell-footer" role="contentinfo">
+  <div class="shell-footer-links">
+    <a href="/" aria-label="Home">Home</a>
+    <a href="/#services">Services</a>
+    <a href="/#contact">Contact</a>
+  </div>
+  <div class="shell-footer-note">© <span id="footerYear"></span> Nathaniel Baldock AI Consulting</div>
+</div>
+
 <script>
+var fy=document.getElementById('footerYear');
+if(fy) fy.textContent=String(new Date().getFullYear());
 // ── DETERMINISTIC INSIGHT ENGINE ────────────────────────────────
 // Interview question banks keyed by scenario
 var QUESTIONS = {

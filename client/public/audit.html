@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Use Survey — Nathaniel Baldock AI Consulting</title>
-<link rel="stylesheet" href="/audit-cinematic.css?v=20260528b">
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260528c">
 <script defer src="/audit-hero-carousel.js?v=20260528a"></script>
 
 </head>
 <body class="audit-shell">
 <div class="shell">
 <div class="hdr">
-  <a href="/" class="logo">
+  <a href="/" class="logo" aria-label="Back to main site">
     <div class="logo-mark">NB</div>
     <div>
       <div class="logo-text">Nathaniel Baldock</div>
@@ -152,14 +152,27 @@
     </div>
     <div class="error-msg" id="emailError" style="display:none;"></div>
     <hr class="div">
-    <p style="font-size:11.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:16px;">Your results will be emailed instantly. Nothing is stored on any server.</p>
-    <button class="btn-primary" id="submitBtn" onclick="submitAudit()">
-      <span id="submitBtnText">Send my results &rarr;</span>
-      <div class="spinner" id="submitSpinner" style="display:none;"></div>
-    </button>
-    <div class="error-msg" id="submitError" style="display:none;"></div>
+    <div class="audit-send-card" role="region" aria-label="Free report (included)">
+      <div class="audit-send-card-hdr">
+        <div>
+          <div class="audit-send-card-kicker">Free</div>
+          <div class="audit-send-card-title">Included</div>
+        </div>
+        <div class="audit-send-card-meta">Report sent instantly · no server storage</div>
+      </div>
+      <div class="audit-send-card-body">
+        <div class="audit-send-card-copy">
+          Your results will be emailed instantly. Nothing is stored on any server.
+        </div>
+        <button class="btn-primary audit-send-card-btn" id="submitBtn" onclick="submitAudit()">
+          <span id="submitBtnText">Send my results &rarr;</span>
+          <div class="spinner" id="submitSpinner" style="display:none;"></div>
+        </button>
+      </div>
+      <div class="error-msg" id="submitError" style="display:none;margin-top:10px;"></div>
+    </div>
 
-    <div id="auditPricingMountS4"></div>
+    <div id="auditPaidPricingMountS4"></div>
   </div>
 </div>
 
@@ -172,13 +185,31 @@
   </div>
   <div class="card-body">
     <div id="quickWins"></div>
-    <div id="auditPricingMountS5"></div>
+    <div id="auditPaidPricingMountS5"></div>
     <div class="cal-card">
       <div class="cal-title">Ready to talk through what this means?</div>
       <div class="cal-sub">Book a free 30-minute follow-up call. Your consultant will walk through your findings — and share what your team's anonymous surveys revealed.</div>
       <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener" class="cal-btn">Book a follow-up call &rarr;</a>
     </div>
     <p style="font-size:11px;color:var(--fg-muted);text-align:center;margin-top:16px;line-height:1.6;">Prepared by Nathaniel Baldock AI Consulting · nathanielbaldock.com<br>Drafted with AI assistance (Claude, NotebookLM). Reviewed and approved by Nathaniel Baldock.</p>
+  </div>
+</div>
+
+<!-- S5u: Upgrade (after results sent) -->
+<div class="card" id="s5u" style="display:none;">
+  <div class="done-hero">
+    <div class="done-check"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="step-title" style="font-size:1.35rem;">Report sent — upgrade selected</div>
+    <div class="step-sub" id="upgradeSub" style="margin-top:8px;"></div>
+  </div>
+  <div class="card-body">
+    <div class="upgrade-card">
+      <div class="upgrade-kicker">Next step</div>
+      <div class="upgrade-title" id="upgradeTierTitle">AI Basic</div>
+      <div class="upgrade-desc" id="upgradeTierDesc">Complete payment to lock in this package and get the paid deliverables.</div>
+      <a class="audit-pricing-cta upgrade-pay-btn" id="upgradePayLink" href="#" target="_blank" rel="noopener">Continue to payment</a>
+      <button class="btn-secondary" style="margin-top:10px;width:100%;" onclick="goStep(5)">Back</button>
+    </div>
   </div>
 </div>
 </div><!-- end ownerApp -->
@@ -308,6 +339,15 @@
   </div>
 </div>
 
+<div class="shell-footer" role="contentinfo">
+  <div class="shell-footer-links">
+    <a href="/" aria-label="Home">Home</a>
+    <a href="/#services">Services</a>
+    <a href="/#contact">Contact</a>
+  </div>
+  <div class="shell-footer-note">© <span id="footerYear"></span> Nathaniel Baldock AI Consulting</div>
+</div>
+
 <div class="step-dots" id="stepDots"></div>
 </div><!-- end shell -->
 
@@ -319,25 +359,14 @@
   </div>
 </div>
 
-<!-- Cloned into #auditPricingMountS4 and #auditPricingMountS5 on load (single source of truth). -->
-<template id="auditPricingTemplate">
-  <div class="audit-pricing" role="region" aria-label="Optional next steps and package pricing">
+<!-- Cloned into #auditPaidPricingMountS4 and #auditPaidPricingMountS5 on load. -->
+<template id="auditPaidPricingTemplate">
+  <div class="audit-pricing" role="region" aria-label="Need more help? Paid upgrades">
     <div class="audit-pricing-hdr">
-      <div class="step-kicker">Optional next steps</div>
-      <p class="audit-pricing-lead">Your free report and 30-minute review call are included. Choose a package if you want team insights, policy work, or hands-on training.</p>
+      <div class="step-kicker">Need more help?</div>
+      <p class="audit-pricing-lead">Make sure you and your team are AI compliant with professional insights, policy work, or hands-on training. Choose a package below.</p>
     </div>
-    <div class="audit-pricing-grid">
-      <article class="audit-pricing-card">
-        <div class="audit-pricing-card-hdr">
-          <h3 class="audit-pricing-name">Free</h3>
-          <p class="audit-pricing-price">Included</p>
-        </div>
-        <ul class="audit-pricing-list">
-          <li>Emailed result report</li>
-          <li>Free 30-minute call to review results</li>
-        </ul>
-        <a class="audit-pricing-cta audit-pricing-cta--muted" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener">Book your free call</a>
-      </article>
+    <div class="audit-pricing-grid audit-pricing-grid--3">
       <article class="audit-pricing-card">
         <div class="audit-pricing-card-hdr">
           <h3 class="audit-pricing-name">AI Basic</h3>
@@ -348,7 +377,7 @@
           <li>Free 30-minute call to review results</li>
           <li>Custom AI policy / governance document</li>
         </ul>
-        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)">Enquire about AI Basic</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="basic" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)">Upgrade to AI Basic</a>
       </article>
       <article class="audit-pricing-card audit-pricing-card--featured">
         <div class="audit-pricing-card-hdr">
@@ -362,7 +391,7 @@
           <li>45-minute Zoom policy walkthrough and Q&amp;A</li>
           <li>4 custom website, email footer, and document AI usage statements</li>
         </ul>
-        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)">Enquire about Ai Plus</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="plus" href="mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)">Upgrade to Ai Plus</a>
       </article>
       <article class="audit-pricing-card">
         <div class="audit-pricing-card-hdr">
@@ -379,7 +408,7 @@
           <li>90-minute team implementation / best-practices training</li>
           <li>6-month AI tool privacy and regulation review and policy update</li>
         </ul>
-        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)">Enquire about AI Premium</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="premium" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)">Upgrade to AI Premium</a>
       </article>
     </div>
     <p class="audit-pricing-note">Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.</p>
@@ -531,7 +560,7 @@ function logoTag(t){
 
 // ── STEP NAVIGATION ─────────────────────────────────────────────
 function showOnly(id){
-  ['s1','s1b','s2','s3','s4','s5','ts1'].forEach(function(sid){
+  ['s1','s1b','s2','s3','s4','s5','s5u','ts1'].forEach(function(sid){
     var el=document.getElementById(sid);
     if(el) el.style.display=sid===id?'block':'none';
   });
@@ -956,7 +985,8 @@ function renderEmailTags(){
   var tags=document.getElementById('emailTags');
   if(!tags) return;
   tags.innerHTML=ST.emails.map(function(e,i){
-    return '<div class="email-tag">'+e+(i===0?'':' <button class="email-tag-remove" onclick="removeEmail('+i+')">&times;</button>')+'</div>';
+    var removable = ST.emails.length>1; // allow removing consultant *if* another recipient exists
+    return '<div class="email-tag">'+e+(removable?' <button class="email-tag-remove" onclick="removeEmail('+i+')" aria-label="Remove email">&times;</button>':'')+'</div>';
   }).join('');
 }
 function removeEmail(i){ST.emails.splice(i,1);saveState();renderEmailTags();}
@@ -990,6 +1020,13 @@ async function submitAudit(){
   var txt=document.getElementById('submitBtnText');
   var spinner=document.getElementById('submitSpinner');
   var err=document.getElementById('submitError');
+  // Require at least one non-consultant recipient so the owner actually receives the report.
+  var hasOwnerEmail = (ST.emails||[]).some(function(e){ return e && e.includes('@') && e !== CONSULTANT_EMAIL; });
+  if(!hasOwnerEmail){
+    err.style.display='block';
+    err.textContent='Please add your email address so you receive the report. (You can remove the consultant email if you prefer.)';
+    return;
+  }
   txt.textContent='Sending...';spinner.style.display='flex';btn.disabled=true;err.style.display='none';
   try{
     var payload=buildPayload();
@@ -1008,11 +1045,44 @@ function renderDone(payload){
     payload.summary.red+' red, '+payload.summary.amber+' amber, '+payload.summary.green+' green across '+payload.tools.length+' tools.'
     +(clientEmails.length?' Sent to '+clientEmails.join(', ')+'.'
       +(payload.inviteCount>0?' Your team\'s '+payload.inviteCount+' surveys will be shared on your call.':''):'');
+  var up=document.getElementById('upgradeSub');
+  if(up) up.textContent='Your report was sent successfully. Complete payment to lock in a package (optional).';
   var wins=payload.tools.filter(function(t){return t.rag==='red'||(t.rag==='amber'&&t.trainingOn);}).slice(0,3);
   var html='<div class="qw-title">Your top quick wins</div>';
   wins.forEach(function(t){html+='<div class="qw-item"><div class="qw-num'+(t.rag==='red'?' red':'')+'">!</div><strong>'+t.toolName+':</strong>&nbsp;'+t.action+'</div>';});
   if(!wins.length) html+='<div class="qw-item"><div class="qw-num" style="background:var(--green-bg);color:var(--green);">&#10003;</div>All your tools look well managed. Record them as sanctioned uses.</div>';
   document.getElementById('quickWins').innerHTML=html;
+}
+
+function openUpgradeForTier(tierId, href){
+  try{localStorage.setItem('kca-audit-upgrade-tier', tierId||'');}catch(e){}
+  var title=document.getElementById('upgradeTierTitle');
+  var desc=document.getElementById('upgradeTierDesc');
+  var link=document.getElementById('upgradePayLink');
+  var map={
+    basic:{t:'AI Basic',d:'Team insights and a custom AI policy / governance document.'},
+    plus:{t:'Ai Plus',d:'Policy walkthrough + AI usage statements for website, email footers, and documents.'},
+    premium:{t:'AI Premium',d:'Team training + implementation session, plus a 6‑month policy refresh.'},
+  };
+  var x=map[tierId]||{t:'Upgrade',d:'Complete payment to lock in this package.'};
+  if(title) title.textContent=x.t;
+  if(desc) desc.textContent=x.d;
+  if(link){
+    link.href=href||'#';
+    link.textContent=(href&&String(href).toLowerCase().indexOf('mailto:')===0)?('Enquire about '+x.t):('Continue to payment');
+  }
+  showOnly('s5u');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function bindUpgradeCtas(root){
+  if(!root) return;
+  root.querySelectorAll('.audit-upgrade-cta').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      openUpgradeForTier(a.getAttribute('data-tier')||'', a.getAttribute('href')||'');
+    });
+  });
 }
 
 // ── TEAM SUBMIT ──────────────────────────────────────────────────
@@ -1054,17 +1124,19 @@ function closeTeamDone(){
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
-function mountAuditPricingFromTemplate(){
-  var tpl=document.getElementById('auditPricingTemplate');
-  var m4=document.getElementById('auditPricingMountS4');
-  var m5=document.getElementById('auditPricingMountS5');
+function mountPaidPricingFromTemplate(){
+  var tpl=document.getElementById('auditPaidPricingTemplate');
+  var m4=document.getElementById('auditPaidPricingMountS4');
+  var m5=document.getElementById('auditPaidPricingMountS5');
   if(!tpl||!m4||!m5||tpl.tagName!=='TEMPLATE') return;
-  if(!m4.firstChild) m4.appendChild(document.importNode(tpl.content,true));
-  if(!m5.firstChild) m5.appendChild(document.importNode(tpl.content,true));
+  if(!m4.firstChild){ m4.appendChild(document.importNode(tpl.content,true)); bindUpgradeCtas(m4); }
+  if(!m5.firstChild){ m5.appendChild(document.importNode(tpl.content,true)); bindUpgradeCtas(m5); }
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-  mountAuditPricingFromTemplate();
+  var fy=document.getElementById('footerYear');
+  if(fy) fy.textContent=String(new Date().getFullYear());
+  mountPaidPricingFromTemplate();
   if(IS_TEAM){
     document.getElementById('ownerApp').style.display='none';
     document.getElementById('teamApp').style.display='block';

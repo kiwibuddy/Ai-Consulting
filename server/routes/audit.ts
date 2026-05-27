@@ -441,29 +441,32 @@ router.post("/submit", async (req, res) => {
 
   // ── OWNER SUBMISSION ─────────────────────────────────────────────────────────
   const op = payload as OwnerPayload;
+  const includeConsultant = (op.emails || []).includes(CONSULTANT_EMAIL);
   const clientEmails = (op.emails || []).filter(
     (e) => e && e !== CONSULTANT_EMAIL && e.includes("@"),
   );
 
   const sendJobs = [
-    // Client results email (+ BCC consultant)
+    // Client results email (+ optional BCC consultant)
     clientEmails.length > 0
       ? resend.emails.send({
           from: FROM_EMAIL,
           to: clientEmails,
-          bcc: CONSULTANT_EMAIL,
+          ...(includeConsultant ? { bcc: CONSULTANT_EMAIL } : {}),
           subject: `Your AI Use Survey — ${esc(op.bizName)}`,
           html: buildOwnerResultEmail(op, when),
         })
       : null,
 
-    // Consultant notification with full JSON
-    resend.emails.send({
-      from: FROM_EMAIL,
-      to: CONSULTANT_EMAIL,
-      subject: `[Owner Audit] ${esc(op.bizName)} — ${op.summary.red} red, ${op.summary.amber} amber, ${op.summary.green} green`,
-      html: buildConsultantEmail(op, when),
-    }),
+    // Consultant notification with full JSON (only if included)
+    includeConsultant
+      ? resend.emails.send({
+          from: FROM_EMAIL,
+          to: CONSULTANT_EMAIL,
+          subject: `[Owner Audit] ${esc(op.bizName)} — ${op.summary.red} red, ${op.summary.amber} amber, ${op.summary.green} green`,
+          html: buildConsultantEmail(op, when),
+        })
+      : null,
   ].filter(Boolean);
 
   await Promise.allSettled(sendJobs as Promise<unknown>[]);
