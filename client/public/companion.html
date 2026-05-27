@@ -242,7 +242,7 @@ function imgErrC(el){
 function renderBriefing(data){
   var tools = data.tools || [];
   var biz = data.bizName || 'Unknown business';
-  var meta = [data.bizSector, data.bizSize, new Date(data.submittedAt||Date.now()).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})].filter(Boolean).join(' · ');
+  var meta = [data.bizCountry, data.bizSector, data.bizSize, new Date(data.submittedAt||Date.now()).toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'})].filter(Boolean).join(' · ');
   document.getElementById('bizNameOut').textContent = biz;
   document.getElementById('bizMetaOut').textContent = meta;
 

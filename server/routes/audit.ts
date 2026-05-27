@@ -66,6 +66,7 @@ interface AuditTool {
 interface OwnerPayload {
   isTeam?: false;
   bizName: string;
+  bizCountry?: string;
   bizSector: string;
   bizSize: string;
   submittedAt: string;
@@ -138,6 +139,72 @@ function pricingCtaLabel(url: string, fallback: string): string {
   return url.trim().toLowerCase().startsWith("mailto:") ? fallback : "Buy now";
 }
 
+/** True when the owner left business name blank or the client sent a placeholder. */
+function ownerOrgDetailsHtml(p: OwnerPayload): string {
+  const rows: [string, string][] = [];
+  if (isBizNameProvided(p.bizName)) rows.push(["Business", String(p.bizName).trim()]);
+  const country = String(p.bizCountry || "").trim();
+  if (country) rows.push(["Country", country]);
+  if (p.bizSector) rows.push(["Sector", p.bizSector]);
+  if (p.bizSize) rows.push(["Team size", p.bizSize]);
+  if (!rows.length) return "";
+  const cells = rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:6px 10px 6px 0;font-size:11px;font-weight:700;color:#64748b;white-space:nowrap;vertical-align:top;">${esc(label)}</td><td style="padding:6px 0;font-size:13px;color:#0f172a;">${esc(value)}</td></tr>`,
+    )
+    .join("");
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;margin:0 0 18px;border:1px solid ${BORDER_SOFT};border-radius:10px;background:#fafbfc;padding:4px 14px;">${cells}</table>`;
+}
+
+function ownerOrgSubline(p: OwnerPayload): string {
+  return [
+    p.bizCountry || "",
+    p.bizSector || "",
+    p.bizSize || "",
+    p.inviteCount ? `${p.inviteCount} team surveys sent` : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+}
+
+function isBizNameProvided(raw: unknown): boolean {
+  const s = String(raw || "").trim();
+  if (!s) return false;
+  const lower = s.toLowerCase();
+  return lower !== "(not provided)" && lower !== "unknown" && lower !== "unknown business";
+}
+
+function ownerEmailCopy(
+  p: OwnerPayload,
+  when: string,
+): {
+  hasBiz: boolean;
+  biz: string;
+  greeting: string;
+  heroHeadline: string;
+  heroSubline: string;
+  intro: string;
+} {
+  const biz = isBizNameProvided(p.bizName) ? String(p.bizName).trim() : "";
+  const hasBiz = biz.length > 0;
+  const first = hasBiz ? biz.split(/\s+/)[0] : "";
+  const toolN = p.tools.length;
+  const toolWord = toolN === 1 ? "tool" : "tools";
+  return {
+    hasBiz,
+    biz,
+    greeting: hasBiz && first ? `Hi ${esc(first)},` : "Hello,",
+    heroHeadline: hasBiz ? esc(biz) : "Your AI Use Survey results",
+    heroSubline: hasBiz
+      ? ""
+      : `Personalised report · ${when} · Nathaniel Baldock AI Consulting`,
+    intro: hasBiz
+      ? `Here's your AI Use Survey results. I mapped ${toolN} ${toolWord} across your organisation.`
+      : `Thank you for completing the AI Use Survey. Below is your personalised report based on the ${toolN} ${toolWord} you told us about.`,
+  };
+}
+
 function pricingBlock(): string {
   const bodyFont = `Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif`;
   const displayFont = `'Newsreader','Georgia','Times New Roman',serif`;
@@ -152,56 +219,49 @@ function pricingBlock(): string {
     `display:inline-block;margin-top:14px;padding:12px 14px;border-radius:10px;` +
     `font-weight:800;font-size:12px;text-decoration:none;font-family:${bodyFont};`;
 
-  const ctaMuted =
-    ctaBase + `background:#fff;border:1px solid ${BORDER_SOFT};color:${EMAIL_LINK};`;
   const ctaPrimary =
     ctaBase + `background:${CTA_GRADIENT};border:1px solid ${NB_GREEN};color:#fff;`;
 
-  const basicCta = pricingCtaLabel(PRICING_BASIC_URL, "Enquire");
-  const plusCta = pricingCtaLabel(PRICING_PLUS_URL, "Enquire");
-  const premiumCta = pricingCtaLabel(PRICING_PREMIUM_URL, "Enquire");
+  const basicCta = pricingCtaLabel(PRICING_BASIC_URL, "Upgrade to");
+  const plusCta = pricingCtaLabel(PRICING_PLUS_URL, "Upgrade to");
+  const premiumCta = pricingCtaLabel(PRICING_PREMIUM_URL, "Upgrade to");
 
   return `
   <div style="margin-top:22px;border-top:1px solid ${BORDER_SOFT};padding-top:22px;">
-    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:${NB_GREEN};font-family:${bodyFont};margin:0 0 10px;">Optional next steps</div>
+    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:${NB_GREEN};font-family:${bodyFont};margin:0 0 10px;">Need more help?</div>
     <p style="margin:0 0 14px;font-size:13px;line-height:1.6;color:#475569;font-family:${bodyFont};max-width:54ch;">
-      Your free report and 30-minute review call are included. Choose a package if you want team insights, policy work, or hands-on training.
+      Make sure you and your team are AI compliant with professional insights, policy work, or hands-on training. Choose a package below.
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:10px 10px;margin:0 -10px;">
       <tr>
-        <td width="25%" style="${cardStyle}">
-          <div style="${nameStyle}">Free</div>
-          <div style="${priceStyle}">Included</div>
-          <ul style="${listStyle}">
-            <li>Emailed result report</li>
-            <li>Free 30-minute call to review results</li>
-          </ul>
-          <a href="${CALENDAR_URL}" style="${ctaMuted}">Book your free call</a>
-        </td>
-        <td width="25%" style="${cardStyle}">
+        <td width="33%" style="${cardStyle}">
           <div style="${nameStyle}">AI Basic</div>
           <div style="${priceStyle}">$500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
             <li>Emailed result report plus team results</li>
+            <li>30-minute call to review results</li>
             <li>Custom AI policy / governance document</li>
           </ul>
           <a href="${esc(PRICING_BASIC_URL)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
         </td>
-        <td width="25%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
+        <td width="33%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
           <div style="${nameStyle}">Ai Plus</div>
           <div style="${priceStyle}">$1,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
-            <li>Policy walkthrough + Q&amp;A</li>
-            <li>4 custom AI usage statements (web/email/docs)</li>
+            <li>Everything in AI Basic</li>
+            <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
+            <li>4 custom website, email footer, and document AI usage statements</li>
           </ul>
           <a href="${esc(PRICING_PLUS_URL)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
         </td>
-        <td width="25%" style="${cardStyle}">
+        <td width="33%" style="${cardStyle}">
           <div style="${nameStyle}">AI Premium</div>
           <div style="${priceStyle}">$2,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
-            <li>Team training + implementation session</li>
-            <li>6‑month policy + regulation review update</li>
+            <li>Everything in Ai Plus</li>
+            <li>Custom team member specific AI usage document</li>
+            <li>90-minute Zoom/in-person team implementation / best-practices training</li>
+            <li>6-month AI tool, privacy and regulation and your team policy review call</li>
           </ul>
           <a href="${esc(PRICING_PREMIUM_URL)}" style="${ctaPrimary}">${premiumCta} AI Premium</a>
         </td>
@@ -245,7 +305,7 @@ function brandedHero(opts: {
   return `
   <div style="height:5px;background:linear-gradient(90deg,${NB_GREEN},${NB_LIME});"></div>
   <div style="background:#171717;padding:28px 24px 52px;text-align:center;">
-    <img src="${brandLogoUrl()}" alt="Nathaniel Baldock AI Consulting" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;opacity:.95;">
+    <a href="${SITE_URL}" style="text-decoration:none;"><img src="${brandLogoUrl()}" alt="Nathaniel Baldock AI Consulting" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;opacity:.95;border:0;"></a>
     <div style="display:inline-block;margin-bottom:10px;padding:5px 16px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#fff;border:1.5px solid ${ring};font-family:${bodyFont};">${esc(opts.kicker)}</div>
     <h1 style="margin:0;font-family:${displayFont};font-size:1.45rem;font-weight:600;color:#fff;letter-spacing:-.02em;line-height:1.25;">${esc(opts.headline)}</h1>
     ${sub}
@@ -336,10 +396,20 @@ function policyLinkBlock(toolId: string, tierId: string): string {
 
 /** Shared minimal footer for client-facing emails. */
 function brandedFooter(extra?: string): string {
+  const linkStyle = `color:${EMAIL_LINK};font-weight:600;text-decoration:none;`;
   return `
-  <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:12px;color:#94a3b8;text-align:center;background:#fafbfc;">
-    <a href="${SITE_URL}" style="color:${EMAIL_LINK};font-weight:600;text-decoration:none;">Nathaniel Baldock AI Consulting</a>
-    &middot; nathanielbaldock.com${extra ? ` &middot; ${extra}` : ""}
+  <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:12px;color:#94a3b8;text-align:center;background:#fafbfc;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;">
+    <p style="margin:0 0 10px;">
+      <a href="${SITE_URL}" style="${linkStyle}">Home</a>
+      &nbsp;&middot;&nbsp;
+      <a href="${SITE_URL}/#services" style="${linkStyle}">Services</a>
+      &nbsp;&middot;&nbsp;
+      <a href="${SITE_URL}/#contact" style="${linkStyle}">Contact</a>
+    </p>
+    <p style="margin:0;">
+      <a href="${SITE_URL}" style="${linkStyle}">Nathaniel Baldock AI Consulting</a>
+      ${extra ? ` &middot; ${extra}` : ""}
+    </p>
   </div>`;
 }
 
@@ -453,7 +523,9 @@ router.post("/submit", async (req, res) => {
           from: FROM_EMAIL,
           to: clientEmails,
           ...(includeConsultant ? { bcc: CONSULTANT_EMAIL } : {}),
-          subject: `Your AI Use Survey — ${esc(op.bizName)}`,
+          subject: isBizNameProvided(op.bizName)
+            ? `Your AI Use Survey — ${esc(String(op.bizName).trim())}`
+            : "Your AI Use Survey results",
           html: buildOwnerResultEmail(op, when),
         })
       : null,
@@ -609,6 +681,8 @@ function buildTeamResultEmail(p: TeamPayload, when: string): string {
 
 // ── OWNER RESULT EMAIL (to client) ────────────────────────────────────────────
 function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
+  const copy = ownerEmailCopy(p, when);
+  const heroSubline = copy.heroSubline || when;
   const sorted = [...p.tools].sort((a, b) => {
     const rank = { red: 0, amber: 1, green: 2 } as Record<string, number>;
     return rank[a.rag] - rank[b.rag];
@@ -648,12 +722,12 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
     kicker: "AI Use Survey",
-    headline: esc(p.bizName),
-    subline: when,
+    headline: copy.heroHeadline,
+    subline: heroSubline,
   })}
   <div style="padding:8px 26px 28px;">
-    <p style="font-size:15px;margin:0 0 10px;">Hi ${esc(p.bizName.split(" ")[0])},</p>
-    <p style="font-size:14px;color:#525252;margin:0 0 16px;">Here's your AI Use Survey results. I mapped ${p.tools.length} tool${p.tools.length !== 1 ? "s" : ""} across your business.</p>
+    <p style="font-size:15px;margin:0 0 10px;">${copy.greeting}</p>
+    <p style="font-size:14px;color:#525252;margin:0 0 16px;">${copy.intro}</p>
     ${teamLine}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${BORDER_SOFT};border-radius:12px;overflow:hidden;margin-bottom:24px;">
       <tr>
@@ -715,13 +789,7 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
   // Below that we trust the button; above we still ship the link but warn.
   const urlIsHuge = companionUrl.length > 10000;
 
-  const sectorLine = [
-    p.bizSector || "",
-    p.bizSize ? esc(p.bizSize) : "",
-    p.inviteCount ? `${p.inviteCount} team surveys sent` : "",
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  const orgSubline = ownerOrgSubline(p);
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
@@ -730,10 +798,11 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
   ${brandedHero({
     kicker: `Owner Audit · ${p.bizName}`,
     headline: `${p.summary.red} red · ${p.summary.amber} amber · ${p.summary.green} green`,
-    subline: `${when}${sectorLine ? ` · ${sectorLine}` : ""}`,
+    subline: `${when}${orgSubline ? ` · ${esc(orgSubline)}` : ""}`,
   })}
   <div style="padding:8px 26px 28px;">
     <p style="font-size:13px;color:#525252;margin:0 0 16px;text-align:center;font-style:italic;">Owner submission — your pre-call briefing follows. Full JSON at the bottom for the companion tool.</p>
+    ${ownerOrgDetailsHtml(p)}
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${BORDER_SOFT};border-radius:12px;overflow:hidden;margin-bottom:20px;border-collapse:collapse;">
       <tr>

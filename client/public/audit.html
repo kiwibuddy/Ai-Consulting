@@ -59,6 +59,14 @@
         <input type="text" id="bizName" placeholder="e.g. Tauranga Plumbing Ltd">
       </div>
       <div class="field">
+        <label>Country</label>
+        <select id="bizCountry" aria-label="Country">
+          <option selected>New Zealand</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
         <label>Sector</label>
         <select id="bizSector">
           <option value="">Select sector</option>
@@ -77,16 +85,16 @@
           <option>Other</option>
         </select>
       </div>
-    </div>
-    <div class="field">
-      <label>Team size</label>
-      <select id="bizSize">
-        <option value="">Select size</option>
-        <option>1–5 staff</option>
-        <option>6–10 staff</option>
-        <option>11–20 staff</option>
-        <option>20+ staff</option>
-      </select>
+      <div class="field">
+        <label>Team size</label>
+        <select id="bizSize">
+          <option value="">Select size</option>
+          <option>1–5 staff</option>
+          <option>6–10 staff</option>
+          <option>11–20 staff</option>
+          <option>20+ staff</option>
+        </select>
+      </div>
     </div>
 
     <div class="invite-section">
@@ -144,7 +152,7 @@
     <div id="reviewToolList"></div>
     <hr class="div">
     <div class="step-kicker" style="margin-bottom:10px;">Who should receive the results?</div>
-    <p style="font-size:12.5px;color:var(--fg-muted);margin-bottom:12px;">Your consultant is pre-filled. Add your own email and anyone else who should have a copy.</p>
+    <p style="font-size:12.5px;color:var(--fg-muted);margin-bottom:12px;">Your consultant is pre-filled — use <strong>×</strong> to remove that address if you don't want a copy sent there. Add your own email and anyone else who should have a copy.</p>
     <div class="email-tags" id="emailTags"></div>
     <div class="email-add-row">
       <input type="email" id="emailInput" placeholder="you@yourbusiness.co.nz" onkeydown="emailKeydown(event)">
@@ -185,12 +193,12 @@
   </div>
   <div class="card-body">
     <div id="quickWins"></div>
-    <div id="auditPaidPricingMountS5"></div>
     <div class="cal-card">
       <div class="cal-title">Ready to talk through what this means?</div>
       <div class="cal-sub">Book a free 30-minute follow-up call. Your consultant will walk through your findings — and share what your team's anonymous surveys revealed.</div>
       <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener" class="cal-btn">Book a follow-up call &rarr;</a>
     </div>
+    <div id="auditPaidPricingMountS5"></div>
     <p style="font-size:11px;color:var(--fg-muted);text-align:center;margin-top:16px;line-height:1.6;">Prepared by Nathaniel Baldock AI Consulting · nathanielbaldock.com<br>Drafted with AI assistance (Claude, NotebookLM). Reviewed and approved by Nathaniel Baldock.</p>
   </div>
 </div>
@@ -374,7 +382,7 @@
         </div>
         <ul class="audit-pricing-list">
           <li>Emailed result report plus team results</li>
-          <li>Free 30-minute call to review results</li>
+          <li>30-minute call to review results</li>
           <li>Custom AI policy / governance document</li>
         </ul>
         <a class="audit-pricing-cta audit-upgrade-cta" data-tier="basic" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)">Upgrade to AI Basic</a>
@@ -386,9 +394,9 @@
         </div>
         <ul class="audit-pricing-list">
           <li>Emailed result report plus team results</li>
-          <li>Free 30-minute call to review results</li>
+          <li>30-minute call to review results</li>
           <li>Custom AI policy / governance document</li>
-          <li>45-minute Zoom policy walkthrough and Q&amp;A</li>
+          <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
           <li>4 custom website, email footer, and document AI usage statements</li>
         </ul>
         <a class="audit-pricing-cta audit-upgrade-cta" data-tier="plus" href="mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)">Upgrade to Ai Plus</a>
@@ -400,13 +408,13 @@
         </div>
         <ul class="audit-pricing-list">
           <li>Emailed result report plus team results</li>
-          <li>Free 30-minute call to review results</li>
+          <li>30-minute call to review results</li>
           <li>Custom AI policy / governance document</li>
-          <li>45-minute Zoom policy walkthrough and Q&amp;A</li>
+          <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
           <li>4 custom website, email footer, and document AI usage statements</li>
-          <li>Custom AI team member tool training</li>
-          <li>90-minute team implementation / best-practices training</li>
-          <li>6-month AI tool privacy and regulation review and policy update</li>
+          <li>Custom team member specific AI usage document</li>
+          <li>90-minute Zoom/in-person team implementation / best-practices training</li>
+          <li>6-month AI tool, privacy and regulation and your team policy review call</li>
         </ul>
         <a class="audit-pricing-cta audit-upgrade-cta" data-tier="premium" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)">Upgrade to AI Premium</a>
       </article>
@@ -418,6 +426,7 @@
 <!-- Policy data — keep this <script> BEFORE the main inline script below
      so window.AUDIT_POLICIES is available when audit JS runs. -->
 <script src="/audit-policies.js?v=20260528a"></script>
+<script src="/audit-countries.js?v=20260528a"></script>
 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
@@ -512,8 +521,8 @@ var CATS = [
 ];
 
 // ── STATE ───────────────────────────────────────────────────────
-var OWNER_LS = 'kca-owner-v3';
-var ST = {step:1,bizName:'',bizSector:'',bizSize:'',selected:[],queueIdx:0,
+var OWNER_LS = 'kca-owner-v4';
+var ST = {step:1,bizName:'',bizCountry:'New Zealand',bizSector:'',bizSize:'',selected:[],queueIdx:0,
   currentQ:{tierId:null,data:null,review:null},emails:[CONSULTANT_EMAIL],consent:false};
 var inviteEmails = [];
 var inviteToken = null;
@@ -666,6 +675,7 @@ async function sendInvitesAndStart(){
   var txt=document.getElementById('s1BtnText');
   var err=document.getElementById('s1Error');
   ST.bizName=document.getElementById('bizName').value.trim();
+  ST.bizCountry=document.getElementById('bizCountry').value;
   ST.bizSector=document.getElementById('bizSector').value;
   ST.bizSize=document.getElementById('bizSize').value;
   btn.disabled=true; err.style.display='none';
@@ -673,7 +683,7 @@ async function sendInvitesAndStart(){
     txt.style.display='none'; spinner.style.display='flex';
     try{
       var resp=await fetch(API_INVITE,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({bizName:ST.bizName,bizSector:ST.bizSector,bizSize:ST.bizSize,emails:inviteEmails})});
+        body:JSON.stringify({bizName:ST.bizName,bizCountry:ST.bizCountry,bizSector:ST.bizSector,bizSize:ST.bizSize,emails:inviteEmails})});
       var data=await resp.json();
       inviteToken=data.token||null;
       txt.style.display='flex'; spinner.style.display='none';
@@ -981,12 +991,21 @@ function editTool(i){
   ST.queueIdx=sorted[i].origIdx;
   loadQuestion(); goStep(3);
 }
+function populateBizCountrySelect(){
+  var sel=document.getElementById('bizCountry');
+  if(!sel||!window.AUDIT_COUNTRIES||!window.AUDIT_COUNTRIES.length) return;
+  var saved=ST.bizCountry||'New Zealand';
+  var list=window.AUDIT_COUNTRIES.slice();
+  if(saved&&list.indexOf(saved)<0) list.unshift(saved);
+  sel.innerHTML=list.map(function(c){
+    return '<option'+(c===saved?' selected':'')+'>'+c+'</option>';
+  }).join('');
+}
 function renderEmailTags(){
   var tags=document.getElementById('emailTags');
   if(!tags) return;
   tags.innerHTML=ST.emails.map(function(e,i){
-    var removable = ST.emails.length>1; // allow removing consultant *if* another recipient exists
-    return '<div class="email-tag">'+e+(removable?' <button class="email-tag-remove" onclick="removeEmail('+i+')" aria-label="Remove email">&times;</button>':'')+'</div>';
+    return '<div class="email-tag">'+escHtml(e)+' <button type="button" class="email-tag-remove" onclick="removeEmail('+i+')" aria-label="Remove '+escAttr(e)+'">&times;</button></div>';
   }).join('');
 }
 function removeEmail(i){ST.emails.splice(i,1);saveState();renderEmailTags();}
@@ -1003,7 +1022,7 @@ function emailKeydown(e){if(e.key==='Enter'){e.preventDefault();addEmail();}}
 // ── OWNER SUBMIT ─────────────────────────────────────────────────
 function buildPayload(){
   var results=ST.selected.map(function(e){return scoreEntry(e.toolId,e.tierId,e.dataType,e.reviewHabit);}).filter(Boolean);
-  return{bizName:ST.bizName||'(not provided)',bizSector:ST.bizSector,bizSize:ST.bizSize,
+  return{bizName:ST.bizName||'(not provided)',bizCountry:ST.bizCountry||'New Zealand',bizSector:ST.bizSector,bizSize:ST.bizSize,
     submittedAt:new Date().toISOString(),emails:ST.emails,inviteToken:inviteToken,inviteCount:inviteEmails.length,
     tools:results.map(function(r){
       return{toolId:r.toolId,tierId:r.tierId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
@@ -1148,7 +1167,10 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('ownerApp').style.display='block';
     document.getElementById('teamApp').style.display='none';
     loadState();
+    if(!ST.bizCountry) ST.bizCountry='New Zealand';
+    populateBizCountrySelect();
     var bn=document.getElementById('bizName');
+    var bc=document.getElementById('bizCountry');
     var bs=document.getElementById('bizSector');
     var bz=document.getElementById('bizSize');
     if(bn&&ST.bizName) bn.value=ST.bizName;
@@ -1156,6 +1178,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(bz&&ST.bizSize) bz.value=ST.bizSize;
     if(ST.consent) document.getElementById('consentCheck').classList.add('checked');
     bn.addEventListener('input',function(){ST.bizName=this.value;checkS1();saveState();});
+    bc.addEventListener('change',function(){ST.bizCountry=this.value;saveState();});
     bs.addEventListener('change',function(){ST.bizSector=this.value;saveState();});
     bz.addEventListener('change',function(){ST.bizSize=this.value;saveState();});
     checkS1(); updateProgress();

@@ -1489,13 +1489,23 @@ body.companion-shell {
   color: var(--fg-med);
 }
 .email-tag-remove {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 999px;
   cursor: pointer;
-  color: var(--fg-muted);
-  font-size: 14px;
+  color: var(--fg);
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1;
-  padding: 0;
+  min-width: 22px;
+  min-height: 22px;
+  padding: 0 6px;
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+.email-tag-remove:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .email-add-row input {
   flex: 1;
