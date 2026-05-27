@@ -9,6 +9,7 @@ import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
 import { WhoThisIsForCarousel } from "@/components/public-cinematic/who-this-is-for-carousel";
 import { LiveAIPanel } from "@/components/public-cinematic/live-ai-panel";
 import { CinematicPrimaryCTA, CinematicSecondaryCTA } from "@/components/public-cinematic/cinematic-cta";
+import { HeroAuditPill } from "@/components/public-cinematic/hero-audit-pill";
 import { SITE_CONTACT_EMAIL, MAILTO_SUBJECT_INQUIRY } from "@shared/constants";
 import { articles } from "@/content/articles";
 import { worksheets } from "@/content/worksheets";
@@ -162,150 +163,14 @@ export default function LandingPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={580}>
-              <div className="flex flex-wrap items-center gap-4 mt-8">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-8">
                 <CinematicPrimaryCTA href="/intake">{ctaLabel}</CinematicPrimaryCTA>
                 <CinematicSecondaryCTA href="#live">A typical question →</CinematicSecondaryCTA>
+                <HeroAuditPill className="w-full sm:w-auto justify-center sm:justify-start" />
               </div>
             </ScrollReveal>
           </div>
         </div>
-
-        {/* Floating audit badge — desktop only.
-            Lives inside the hero so it sits above the portrait but below the
-            fixed header (which is z-50). Fades in after the main copy settles
-            so it catches attention without competing for the first-look. */}
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              @keyframes nbHeroFloatIn {
-                from { opacity: 0; transform: translateY(-6px); }
-                to   { opacity: 1; transform: translateY(0); }
-              }
-              /* Gentle accent-tinted breathing — kicks in AFTER the entry
-                 animation finishes so the entrance still reads as a clean
-                 fade-in. Low amplitude so it pulls the eye on first glance
-                 without being a distraction on subsequent scroll. */
-              @keyframes nbHeroFloatBreathe {
-                0%, 100% {
-                  box-shadow:
-                    0 20px 40px -14px rgba(0,0,0,0.50),
-                    0 0 28px -6px color-mix(in srgb, var(--nb-accent) 26%, transparent),
-                    0 0 0 1px rgba(255,255,255,0.05) inset;
-                }
-                50% {
-                  box-shadow:
-                    0 26px 52px -12px rgba(0,0,0,0.58),
-                    0 0 44px -2px color-mix(in srgb, var(--nb-accent) 42%, transparent),
-                    0 0 0 1px rgba(255,255,255,0.08) inset;
-                }
-              }
-              .nb-hero-float {
-                opacity: 0;
-                animation:
-                  nbHeroFloatIn 700ms cubic-bezier(.2,.7,.3,1) 1100ms forwards,
-                  nbHeroFloatBreathe 3.6s ease-in-out 1900ms infinite;
-              }
-              .nb-hero-float:hover {
-                transform: translateY(-2px);
-                border-color: color-mix(in srgb, var(--nb-accent) 75%, transparent) !important;
-                box-shadow:
-                  0 28px 54px -14px rgba(0,0,0,0.60),
-                  0 0 56px -4px color-mix(in srgb, var(--nb-accent) 50%, transparent),
-                  0 0 0 1px rgba(255,255,255,0.08) inset !important;
-                animation-play-state: paused !important;
-              }
-              .nb-hero-float:hover .nb-hero-float-arrow {
-                transform: translateX(4px);
-              }
-              .nb-hero-float:focus-visible {
-                outline: 2px solid var(--nb-accent);
-                outline-offset: 3px;
-              }
-              @media (prefers-reduced-motion: reduce) {
-                .nb-hero-float {
-                  animation: nbHeroFloatIn 700ms cubic-bezier(.2,.7,.3,1) 1100ms forwards;
-                }
-              }
-            `,
-          }}
-        />
-        <a
-          href="/audit"
-          data-event="hero-floating-audit"
-          aria-label="Take the free 10-minute AI use audit"
-          className="nb-hero-float hidden lg:inline-flex absolute z-[6] items-center gap-3.5"
-          style={{
-            top: "clamp(108px, 15.5vh, 176px)",
-            right: "clamp(28px, 4vw, 64px)",
-            padding: "14px 22px 14px 18px",
-            borderRadius: 999,
-            background: "color-mix(in srgb, #0a0a0a 70%, transparent)",
-            backdropFilter: "blur(18px) saturate(150%)",
-            WebkitBackdropFilter: "blur(18px) saturate(150%)",
-            border: "1px solid color-mix(in srgb, var(--nb-accent) 55%, transparent)",
-            color: "#fff",
-            textDecoration: "none",
-            transition:
-              "transform .25s ease, border-color .25s ease, box-shadow .25s ease",
-          }}
-        >
-          <span aria-hidden className="relative flex h-3 w-3">
-            <span
-              className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
-              style={{ background: "var(--nb-accent)" }}
-            />
-            <span
-              className="relative inline-flex h-3 w-3 rounded-full"
-              style={{
-                background: "var(--nb-accent)",
-                boxShadow:
-                  "0 0 12px 2px color-mix(in srgb, var(--nb-accent) 55%, transparent)",
-              }}
-            />
-          </span>
-          <span
-            className="nb-mono-label"
-            style={{
-              fontSize: 10.5,
-              color: "var(--nb-accent)",
-              letterSpacing: "0.18em",
-              fontWeight: 700,
-            }}
-          >
-            NEW
-          </span>
-          <span
-            aria-hidden
-            style={{
-              width: 1,
-              height: 18,
-              background: "rgba(255,255,255,0.22)",
-            }}
-          />
-          <span
-            style={{
-              fontSize: 14.5,
-              fontWeight: 600,
-              letterSpacing: "-0.005em",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Free · 10-min AI audit
-          </span>
-          <span
-            className="nb-hero-float-arrow"
-            aria-hidden
-            style={{
-              fontSize: 16,
-              color: "var(--nb-accent)",
-              marginLeft: 2,
-              transition: "transform .25s ease",
-              lineHeight: 1,
-            }}
-          >
-            →
-          </span>
-        </a>
       </section>
 
       {/* Live conversation — full width below hero */}
@@ -359,7 +224,7 @@ export default function LandingPage() {
         aria-labelledby="audit-cta-heading"
         className="nb-section scroll-mt-24"
       >
-        <div className="nb-container px-0 max-w-[1240px]">
+        <div className="nb-container max-w-[1240px]">
           <ScrollReveal>
             <div
               className="nb-audit-cta relative overflow-hidden"
@@ -368,7 +233,6 @@ export default function LandingPage() {
                 border: "1px solid var(--nb-rule-strong)",
                 background:
                   "linear-gradient(135deg, color-mix(in srgb, var(--nb-accent) 7%, var(--nb-bg)) 0%, var(--nb-bg) 55%)",
-                padding: "clamp(28px, 4vw, 48px) clamp(24px, 4vw, 56px)",
               }}
             >
               {/* soft accent glow */}
@@ -386,13 +250,7 @@ export default function LandingPage() {
                 }}
               />
 
-              <div
-                className="nb-audit-grid relative grid items-center"
-                style={{
-                  gridTemplateColumns: "minmax(0, 1.35fr) minmax(0, 1fr)",
-                  gap: "clamp(28px, 4vw, 56px)",
-                }}
-              >
+              <div className="nb-audit-grid relative">
                 <div>
                   <div className="nb-mono-label text-[var(--nb-accent)] mb-4">
                     — Free diagnostic · 10 minutes · No sales call
@@ -408,7 +266,7 @@ export default function LandingPage() {
                   >
                     Get{" "}
                     <em className="nb-italic-accent italic font-light">clarity</em> on every AI
-                    tool already in your business.
+                    tool already in your Church and School, or business.
                   </h2>
                   <p
                     className="m-0 mb-6 text-[var(--nb-ink-soft)]"
@@ -445,7 +303,7 @@ export default function LandingPage() {
                     ))}
                   </ul>
 
-                  <div className="flex flex-wrap items-center gap-4">
+                  <div className="nb-audit-cta-actions">
                     <a
                       href="/audit"
                       className="nb-btn-primary"
@@ -453,12 +311,9 @@ export default function LandingPage() {
                     >
                       Start the free AI audit →
                     </a>
-                    <span
-                      className="nb-mono-label text-[var(--nb-ink-dim)]"
-                      style={{ fontSize: 11 }}
-                    >
+                    <p className="nb-audit-cta-note">
                       No credit card · No spam · Skip the team step if you prefer
-                    </span>
+                    </p>
                   </div>
                 </div>
 
