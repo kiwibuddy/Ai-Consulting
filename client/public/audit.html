@@ -4,293 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Use Survey — Nathaniel Baldock AI Consulting</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#fff;--bg-warm:hsl(42,40%,98%);--bg-mist:hsl(210,24%,96%);
-  --fg:#0a0a0a;--fg-med:hsl(220,8%,30%);--fg-muted:hsl(220,7%,46%);
-  --border:hsl(220,12%,88%);
-  --accent:hsl(205,58%,38%);--accent-light:hsl(200,40%,94%);
-  --lime:hsl(78,82%,46%);--lime-deep:hsl(78,70%,34%);--lime-bg:hsl(78,50%,93%);
-  --green:hsl(152,45%,36%);--green-bg:hsl(152,40%,93%);--green-border:hsl(152,35%,78%);
-  --amber:hsl(38,90%,40%);--amber-bg:hsl(40,80%,93%);--amber-border:hsl(38,60%,78%);
-  --red:hsl(4,68%,40%);--red-bg:hsl(4,70%,94%);--red-border:hsl(4,55%,78%);
-  --font-serif:'Fraunces','Georgia',serif;--font-sans:'Inter',system-ui,sans-serif;
-  --r:16px;--r-sm:10px;--shadow:0 1px 3px rgba(15,23,42,.04),0 8px 24px -4px rgba(15,23,42,.07);
-}
-html{min-height:100%;background:var(--bg-mist);}
-body{font-family:var(--font-sans);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100vh;}
-.shell{max-width:680px;margin:0 auto;padding:0 0 80px;}
-.hdr{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:10px;}
-.logo-mark{width:32px;height:32px;background:var(--fg);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--bg);font-family:var(--font-serif);font-size:13px;font-weight:700;}
-.logo-text{font-size:13px;font-weight:600;}
-.logo-sub{font-size:9px;color:var(--fg-muted);letter-spacing:.06em;text-transform:uppercase;}
-.step-counter{font-size:11px;font-weight:600;color:var(--fg-muted);}
-.progress-bar{height:3px;background:var(--border);position:sticky;top:61px;z-index:99;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--lime));transition:width .4s ease;width:0%;}
-.card{background:var(--bg);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--shadow);margin:20px 16px;}
-.card-hero{padding:28px 28px 0;}
-.card-body{padding:24px 28px 28px;}
-.step-kicker{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.step-title{font-family:var(--font-serif);font-size:1.6rem;font-weight:600;color:var(--fg);line-height:1.15;letter-spacing:-.02em;margin-bottom:8px;}
-.step-title em{font-style:italic;font-weight:400;color:var(--fg-muted);}
-.step-sub{font-size:13.5px;color:var(--fg-muted);line-height:1.6;}
-.field{margin-bottom:16px;}
-.field label{display:block;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:6px;}
-.field label .field-opt{font-weight:500;letter-spacing:.1em;color:var(--fg-muted);opacity:.7;margin-left:6px;text-transform:lowercase;}
-.field input,.field select{width:100%;box-sizing:border-box;height:42px;padding:0 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:14px;line-height:1.2;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;-webkit-appearance:none;-moz-appearance:none;appearance:none;}
-.field select{padding-right:36px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5l5 5 5-5' stroke='%2364748b' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;}
-.field input:focus,.field select:focus{border-color:var(--accent);}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:480px){.field-row{grid-template-columns:1fr;}}
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260528a">
+<script defer src="/audit-hero-carousel.js?v=20260528a"></script>
 
-/* ── TRANSPARENCY CALLOUT (upfront "what happens to your data") ── */
-.transparency-callout{margin:0 0 22px;padding:14px 16px;background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--r-sm);}
-.transparency-hdr{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-.transparency-hdr svg{flex-shrink:0;}
-.transparency-body{font-size:12.5px;line-height:1.6;color:var(--fg-med);margin:0;}
-
-/* ── INVITE SECTION (optional add-on, deliberately understated) ── */
-.invite-section{background:var(--bg-warm);border:1px dashed var(--border);border-radius:var(--r-sm);padding:16px 18px;margin-bottom:16px;}
-.invite-section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:6px;}
-.invite-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);}
-.invite-label .invite-label-strong{color:var(--accent);}
-.invite-count-pill{font-size:11px;font-weight:600;color:var(--accent);background:var(--bg);border:1px solid var(--border);padding:3px 10px;border-radius:999px;}
-.invite-desc{font-size:12.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:12px;}
-.invite-desc strong{color:var(--fg-med);font-weight:600;}
-.invite-add-row{display:flex;gap:8px;}
-.invite-add-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg);outline:none;transition:border-color .15s;}
-.invite-add-row input:focus{border-color:var(--accent);}
-.invite-add-row button{padding:9px 16px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s;}
-.invite-add-row button:hover{background:hsl(205,58%,30%);}
-.invite-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
-.invite-tag{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:4px 10px;font-size:11.5px;color:var(--fg-med);}
-.invite-tag-x{background:none;border:none;cursor:pointer;color:var(--fg-muted);font-size:14px;line-height:1;padding:0;transition:color .12s;}
-.invite-tag-x:hover{color:var(--red);}
-
-/* ── PRIVACY + CONSENT ── */
-.privacy-box{background:var(--bg-mist);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;margin-bottom:20px;}
-.privacy-box-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-.privacy-box p{font-size:11.5px;color:var(--fg-muted);line-height:1.6;margin-bottom:6px;}
-.privacy-box p:last-child{margin-bottom:0;}
-.consent-row{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--lime-bg);border:1px solid hsl(78,35%,80%);border-radius:var(--r-sm);margin-bottom:20px;cursor:pointer;user-select:none;}
-.consent-check{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;background:var(--bg);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.consent-check.checked{background:var(--lime-deep);border-color:var(--lime-deep);}
-.consent-check svg{opacity:0;transition:opacity .15s;}
-.consent-check.checked svg{opacity:1;}
-.consent-text{font-size:12px;color:var(--fg-med);line-height:1.55;}
-
-/* ── BUTTONS ── */
-.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 20px;background:var(--fg);color:var(--bg);font-family:var(--font-sans);font-size:14px;font-weight:600;border:none;border-radius:999px;cursor:pointer;transition:all .2s;}
-.btn-primary:hover{background:var(--accent);}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed;}
-.btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;background:var(--bg);color:var(--fg-med);font-family:var(--font-sans);font-size:13px;font-weight:500;border:1px solid var(--border);border-radius:999px;cursor:pointer;transition:all .15s;}
-.btn-secondary:hover{border-color:var(--fg-muted);color:var(--fg);}
-.btn-row{display:flex;gap:10px;margin-top:24px;}
-.btn-row .btn-primary{flex:1;}
-.spinner{width:18px;height:18px;border:2px solid transparent;border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.error-msg{font-size:12px;color:var(--red);padding:8px 0;}
-
-/* ── S1b TRANSITION ── */
-.s1b-inner{text-align:center;padding:32px 24px;}
-.s1b-icon{width:60px;height:60px;background:linear-gradient(135deg,var(--accent),var(--lime));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-.s1b-icon svg{width:26px;height:26px;color:#fff;}
-.s1b-count{font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--accent);margin-bottom:4px;}
-.s1b-note{font-size:13px;color:var(--fg-muted);line-height:1.6;max-width:340px;margin:0 auto 24px;}
-
-/* ── TOOL GRID ── */
-.cat-title{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
-.tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:20px;}
-.tool-card{border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px 10px;text-align:center;cursor:pointer;transition:all .18s;background:var(--bg);position:relative;user-select:none;}
-.tool-card:hover{border-color:var(--accent);background:var(--accent-light);}
-.tool-card.selected{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 3px hsla(205,58%,38%,.12);}
-.tool-card-check{position:absolute;top:7px;right:7px;width:18px;height:18px;border-radius:50%;background:var(--accent);display:none;align-items:center;justify-content:center;}
-.tool-card.selected .tool-card-check{display:flex;}
-.tool-card-check svg{width:10px;height:10px;color:#fff;}
-.tool-card-icon{width:48px;height:48px;border-radius:11px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;overflow:hidden;padding:6px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);}
-.tool-card-icon img{width:100%;height:100%;object-fit:contain;display:block;}
-.tool-logo-fb{font-size:22px;line-height:1;display:none;align-items:center;justify-content:center;}
-.tool-card-name{font-size:12px;font-weight:600;color:var(--fg);margin-bottom:2px;}
-.tool-card-vendor{font-size:10px;color:var(--fg-muted);}
-.add-custom .tool-card-icon{font-size:18px;color:var(--fg-muted);}
-
-/* ── PER-TOOL QUESTIONS ── */
-.tool-q-header{display:flex;align-items:center;gap:14px;padding:20px 28px 18px;border-bottom:1px solid var(--border);}
-.tool-q-icon{width:52px;height:52px;border-radius:12px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden;padding:8px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);}
-.tool-q-icon img{width:100%;height:100%;object-fit:contain;display:block;}
-.tool-q-name{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;letter-spacing:-.02em;}
-.tool-q-vendor{font-size:11px;color:var(--fg-muted);}
-.q-section{margin-bottom:22px;}
-.q-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.q-options{display:flex;flex-direction:column;gap:7px;}
-.q-option{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .15s;background:var(--bg);}
-.q-option:hover,.q-option.selected{border-color:var(--accent);background:var(--accent-light);}
-.q-option-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s;}
-.q-option.selected .q-option-dot{background:var(--accent);border-color:var(--accent);}
-.q-option-label{font-size:13px;font-weight:500;color:var(--fg);}
-.q-option-note{font-size:11px;color:var(--fg-muted);margin-top:1px;}
-.q-options-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;}
-.q-opt-sm{padding:10px 8px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;text-align:center;transition:all .15s;background:var(--bg);}
-.q-opt-sm:hover,.q-opt-sm.selected{border-color:var(--accent);background:var(--accent-light);}
-.q-opt-sm-label{font-size:12px;font-weight:600;color:var(--fg);display:block;}
-.q-opt-sm-note{font-size:10px;color:var(--fg-muted);margin-top:2px;line-height:1.3;}
-.live-rag-bar{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-sm);background:var(--bg-mist);border:1px solid var(--border);margin-top:20px;transition:all .3s;}
-.live-rag-bar.rag-green{background:var(--green-bg);border-color:var(--green-border);}
-.live-rag-bar.rag-amber{background:var(--amber-bg);border-color:var(--amber-border);}
-.live-rag-bar.rag-red{background:var(--red-bg);border-color:var(--red-border);}
-.rag-dot{width:14px;height:14px;border-radius:50%;background:var(--border);flex-shrink:0;}
-.live-rag-bar.rag-green .rag-dot{background:var(--green);}
-.live-rag-bar.rag-amber .rag-dot{background:var(--amber);}
-.live-rag-bar.rag-red .rag-dot{background:var(--red);}
-.rag-text{font-size:12px;font-weight:500;color:var(--fg-muted);}
-.live-rag-bar.rag-green .rag-text{color:var(--green);}
-.live-rag-bar.rag-amber .rag-text{color:var(--amber);}
-.live-rag-bar.rag-red .rag-text{color:var(--red);}
-.rag-flags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
-.rag-flag{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:2px 7px;border-radius:999px;}
-
-/* ── HOW HELPS (team mode only) ── */
-.how-helps-section{background:linear-gradient(135deg,var(--lime-bg),hsl(42,40%,97%));border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);padding:16px;margin-top:20px;}
-.how-helps-label{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:6px;}
-.how-helps-sub{font-size:12px;color:var(--fg-muted);line-height:1.5;margin-bottom:10px;}
-.how-helps-input{width:100%;padding:10px 12px;border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:#fff;outline:none;resize:vertical;min-height:64px;transition:border-color .15s;}
-.how-helps-input:focus{border-color:var(--lime-deep);}
-
-/* ── REVIEW ── */
-.review-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;}
-.rs-cell{border-radius:var(--r-sm);padding:14px;text-align:center;}
-.rs-cell.green{background:var(--green-bg);border:1px solid var(--green-border);}
-.rs-cell.amber{background:var(--amber-bg);border:1px solid var(--amber-border);}
-.rs-cell.red{background:var(--red-bg);border:1px solid var(--red-border);}
-.rs-num{font-family:var(--font-serif);font-size:1.8rem;font-weight:600;line-height:1;}
-.rs-cell.green .rs-num{color:var(--green);}
-.rs-cell.amber .rs-num{color:var(--amber);}
-.rs-cell.red .rs-num{color:var(--red);}
-.rs-label{font-size:10px;color:var(--fg-muted);margin-top:3px;}
-.review-tool-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
-.review-tool-row:last-child{border-bottom:none;}
-.review-rag{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.review-rag.green{background:var(--green);}
-.review-rag.amber{background:var(--amber);}
-.review-rag.red{background:var(--red);}
-.review-tool-name{font-size:13px;font-weight:500;flex:1;}
-.review-tool-plan{font-size:11px;color:var(--fg-muted);}
-.review-edit-btn{background:none;border:none;font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;}
-.review-policy-btn{background:none;border:1px solid var(--border);font-size:11px;color:var(--fg-med);cursor:pointer;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;transition:all .15s;}
-.review-policy-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--bg-warm);}
-.review-policy-btn .policy-info-i{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--fg-muted);color:#fff;font-size:9px;font-weight:700;font-style:italic;font-family:Georgia,serif;}
-.review-policy-btn:hover .policy-info-i{background:var(--accent);}
-
-/* ── POLICY MODAL ── */
-.policy-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;z-index:9000;padding:5vh 16px 16px;overflow-y:auto;}
-.policy-modal-overlay.open{display:flex;animation:policyFadeIn .2s ease;}
-@keyframes policyFadeIn{from{opacity:0;}to{opacity:1;}}
-.policy-modal{background:#fff;width:100%;max-width:640px;border-radius:14px;box-shadow:0 30px 80px rgba(15,23,42,.35);overflow:hidden;position:relative;animation:policySlideUp .25s ease;}
-@keyframes policySlideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.policy-modal-close{position:absolute;top:14px;right:14px;background:rgba(15,23,42,.06);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#475569;font-size:18px;line-height:1;transition:all .15s;}
-.policy-modal-close:hover{background:rgba(15,23,42,.12);color:#0f172a;}
-.policy-modal-hdr{padding:22px 26px 14px;background:linear-gradient(135deg,var(--bg-warm),#fff);border-bottom:1px solid var(--border);}
-.policy-modal-kicker{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
-.policy-modal-title{font-family:var(--font-display);font-size:22px;font-weight:600;line-height:1.2;color:var(--fg);margin:0 0 4px;letter-spacing:-.01em;}
-.policy-modal-tier{font-size:13px;color:var(--fg-muted);margin:0;}
-.policy-modal-status{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:10px;}
-.policy-modal-status.verified{background:hsl(135,55%,93%);color:hsl(135,55%,28%);border:1px solid hsl(135,55%,78%);}
-.policy-modal-status.needs-review{background:hsl(38,80%,93%);color:hsl(38,70%,30%);border:1px solid hsl(38,60%,75%);}
-.policy-modal-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;}
-.policy-modal-body{padding:18px 26px 6px;}
-.policy-modal-summary{font-size:14px;line-height:1.55;color:var(--fg-med);margin:0 0 16px;padding:12px 14px;background:var(--bg-warm);border-radius:8px;border-left:3px solid var(--accent);}
-.policy-modal-section-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);margin:18px 0 8px;}
-.policy-modal-explainer p{font-size:14px;line-height:1.65;color:var(--fg);margin:0 0 12px;}
-.policy-modal-link{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--fg);font-size:13.5px;font-weight:500;margin-bottom:8px;transition:all .15s;}
-.policy-modal-link:hover{border-color:var(--accent);background:var(--bg-warm);}
-.policy-modal-link .pml-arrow{margin-left:auto;color:var(--accent);font-size:14px;}
-.policy-modal-sources{list-style:none;padding:0;margin:0;}
-.policy-modal-sources li{margin-bottom:6px;}
-.policy-modal-sources a{font-size:13px;color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);}
-.policy-modal-sources a:hover{border-bottom-style:solid;}
-.policy-modal-footer{padding:14px 26px 20px;font-size:11.5px;color:var(--fg-muted);line-height:1.5;border-top:1px solid var(--border);background:#fafbfc;}
-.policy-modal-footer strong{color:var(--fg-med);}
-.policy-modal-empty{padding:30px 26px;text-align:center;color:var(--fg-muted);font-size:14px;line-height:1.6;}
-.policy-modal-empty a{color:var(--accent);text-decoration:underline;}
-.email-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
-.email-tag{display:flex;align-items:center;gap:5px;background:var(--bg-mist);border:1px solid var(--border);border-radius:999px;padding:4px 10px 4px 12px;font-size:12px;color:var(--fg-med);}
-.email-tag-remove{background:none;border:none;cursor:pointer;color:var(--fg-muted);font-size:14px;line-height:1;padding:0;}
-.email-add-row{display:flex;gap:8px;}
-.email-add-row input{flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-sans);font-size:13px;color:var(--fg);background:var(--bg);outline:none;}
-.email-add-row input:focus{border-color:var(--accent);}
-.email-add-row button{padding:9px 16px;background:var(--accent);color:#fff;border:none;border-radius:var(--r-sm);font-size:12px;font-weight:600;cursor:pointer;}
-hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
-
-/* ── DONE SCREEN ── */
-.done-hero{text-align:center;padding:32px 24px 24px;}
-.done-check{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--lime-deep));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-.done-check svg{width:28px;height:28px;color:#fff;}
-.cal-card{background:linear-gradient(135deg,var(--lime-bg),var(--bg-warm));border:1px solid hsl(78,35%,80%);border-radius:var(--r);padding:20px;text-align:center;margin-top:16px;}
-.cal-title{font-family:var(--font-serif);font-size:1.1rem;font-weight:600;color:var(--fg);margin-bottom:6px;letter-spacing:-.01em;}
-.cal-sub{font-size:12.5px;color:var(--fg-muted);line-height:1.5;margin-bottom:16px;}
-.cal-btn{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:var(--fg);text-decoration:none;font-size:14px;font-weight:700;padding:13px 26px;border-radius:999px;box-shadow:0 4px 16px hsla(78,80%,46%,.3);transition:all .2s;}
-.cal-btn:hover{background:var(--lime-deep);color:#fff;transform:translateY(-1px);}
-.qw-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;}
-.qw-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--fg-med);line-height:1.5;}
-.qw-item:last-child{border-bottom:none;}
-.qw-num{font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;background:var(--amber-bg);color:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.qw-num.red{background:var(--red-bg);color:var(--red);}
-
-/* ── TEAM WELCOME (ts1) ── */
-.team-biz-badge{display:inline-block;background:var(--accent-light);border:1px solid hsl(205,45%,78%);color:var(--accent);font-size:12px;font-weight:600;padding:5px 14px;border-radius:999px;margin-bottom:16px;}
-.anon-box{background:hsl(78,45%,96%);border:1.5px solid hsl(78,35%,78%);border-radius:var(--r-sm);padding:16px;margin-bottom:20px;}
-.anon-box-title{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--lime-deep);margin-bottom:6px;}
-.anon-box p{font-size:12px;color:var(--fg-med);line-height:1.6;}
-.anon-toggle{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);background:var(--bg);margin-bottom:16px;cursor:pointer;user-select:none;transition:border-color .15s;}
-.anon-toggle:hover{border-color:var(--lime-deep);}
-.anon-toggle.named{border-color:var(--accent);}
-.toggle-dot{width:36px;height:20px;border-radius:999px;background:var(--lime);position:relative;flex-shrink:0;transition:background .2s;}
-.toggle-dot::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
-.anon-toggle.named .toggle-dot{background:var(--accent);}
-.anon-toggle.named .toggle-dot::after{left:18px;}
-.toggle-label{font-size:13px;font-weight:500;color:var(--fg);}
-.toggle-note{font-size:11px;color:var(--fg-muted);margin-top:2px;}
-
-/* ── TEAM DONE OVERLAY ── */
-.overlay{position:fixed;inset:0;background:rgba(10,10,10,.6);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;}
-.overlay.show{display:flex;}
-.overlay-card{background:var(--bg);border-radius:var(--r);padding:36px 32px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.25);text-align:center;animation:popIn .3s cubic-bezier(.34,1.56,.64,1);}
-@keyframes popIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
-.overlay-check{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--lime-deep));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-.overlay-check svg{width:24px;height:24px;color:#fff;}
-.overlay-title{font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--fg);margin-bottom:10px;letter-spacing:-.01em;}
-.overlay-body{font-size:13px;color:var(--fg-med);line-height:1.7;margin-bottom:16px;}
-.overlay-note{font-size:11.5px;color:var(--fg-muted);line-height:1.6;padding:12px 14px;background:var(--bg-mist);border-radius:var(--r-sm);margin-bottom:20px;text-align:left;}
-.overlay-note strong{color:var(--fg-med);}
-
-/* ── STEP DOTS ── */
-.step-dots{display:flex;align-items:center;justify-content:center;gap:5px;padding:12px 0 4px;}
-.step-dot{width:6px;height:6px;border-radius:50%;background:var(--border);}
-.step-dot.active{background:var(--accent);width:18px;border-radius:3px;}
-.step-dot.done{background:var(--lime-deep);}
-
-@media(max-width:480px){
-  .card-hero,.card-body{padding:20px 20px 20px;}
-  .tool-q-header{padding:16px 20px;}
-  .step-title{font-size:1.4rem;}
-  .tool-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));}
-  .q-options-grid{grid-template-columns:1fr 1fr 1fr;}
-}
-</style>
 </head>
-<body>
+<body class="audit-shell">
 <div class="shell">
 <div class="hdr">
-  <div class="logo">
+  <a href="/" class="logo">
     <div class="logo-mark">NB</div>
     <div>
       <div class="logo-text">Nathaniel Baldock</div>
       <div class="logo-sub">AI Consulting · Tauranga NZ</div>
     </div>
-  </div>
+  </a>
   <div class="step-counter" id="stepCounter"></div>
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -299,13 +26,26 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
 <div id="ownerApp">
 
 <!-- S1: Welcome + Invite -->
-<div class="card" id="s1">
-  <div class="card-hero">
-    <div class="step-kicker">AI Use Audit · 10 minutes</div>
-    <div class="step-title">Clarity on AI<br><em>across your business</em></div>
-    <div class="step-sub" style="margin-bottom:24px;">A simple walk-through to see what AI tools are in use, what's safe to keep doing, and what needs a small adjustment. No jargon, no scare tactics, no tech knowledge required — just clear answers you can act on.</div>
-  </div>
-  <div class="card-body">
+<div class="card card--hero-carousel" id="s1">
+<section class="audit-hero-carousel audit-hero--static" data-audit-carousel role="region" aria-roledescription="carousel" aria-label="Supporting imagery from workplaces and communities">
+    <div class="audit-hero-slides">
+      <figure class="audit-hero-slide is-active" aria-hidden="false"><img src="/images/audit-hero/01-school.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="eager"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/02-faith.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/03-office.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/04-startup.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/05-trade.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/06-retail.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+    </div>
+    <div class="audit-hero-scrim-side" aria-hidden="true"></div>
+    <div class="audit-hero-scrim-bottom" aria-hidden="true"></div>
+    <div class="audit-hero-copy">
+      <div class="step-kicker audit-hero-kicker">AI Use Audit · 10 minutes</div>
+      <div class="step-title audit-hero-title">Clarity on AI<br><em>for business, church<br>or school</em></div>
+    </div>
+    <div class="audit-hero-dots" role="tablist" aria-label="Carousel slides"></div>
+  </section>
+  <div class="card-body card-body--after-hero">
+    <p class="step-sub audit-intro">A simple walk-through to see what AI tools are in use, what's safe to keep doing, and what needs a small adjustment. No jargon, no scare tactics, no tech knowledge required — just clear answers you can act on.</p>
     <div class="transparency-callout" role="note" aria-label="How your data is handled">
       <div class="transparency-hdr">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2L4 5v6c0 5 3.5 9.5 8 11 4.5-1.5 8-6 8-11V5l-8-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -329,6 +69,11 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
           <option>Real estate and property</option>
           <option>Creative and marketing</option>
           <option>Not-for-profit</option>
+          <option>Primary school</option>
+          <option>Secondary school</option>
+          <option>Tertiary education</option>
+          <option>Church</option>
+          <option>Missions organisation</option>
           <option>Other</option>
         </select>
       </div>
@@ -413,6 +158,8 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
       <div class="spinner" id="submitSpinner" style="display:none;"></div>
     </button>
     <div class="error-msg" id="submitError" style="display:none;"></div>
+
+    <div id="auditPricingMountS4"></div>
   </div>
 </div>
 
@@ -425,6 +172,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
   </div>
   <div class="card-body">
     <div id="quickWins"></div>
+    <div id="auditPricingMountS5"></div>
     <div class="cal-card">
       <div class="cal-title">Ready to talk through what this means?</div>
       <div class="cal-sub">Book a free 30-minute follow-up call. Your consultant will walk through your findings — and share what your team's anonymous surveys revealed.</div>
@@ -506,13 +254,26 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
 
 <!-- ═══ TEAM APP ═══ -->
 <div id="teamApp" style="display:none;">
-<div class="card" id="ts1">
-  <div class="card-hero">
-    <div class="team-biz-badge" id="teamBizBadge">Team Survey</div>
-    <div class="step-title">How is AI<br><em>helping your work?</em></div>
-    <div class="step-sub" style="margin-bottom:24px;">Your employer is building a picture of how AI tools are being used across the business — what's already working well, and where a little care could help. Takes about 5 minutes.</div>
-  </div>
-  <div class="card-body">
+<div class="card card--hero-carousel" id="ts1">
+<section class="audit-hero-carousel audit-hero--static" data-audit-carousel role="region" aria-roledescription="carousel" aria-label="Supporting imagery from workplaces and communities">
+    <div class="audit-hero-slides">
+      <figure class="audit-hero-slide is-active" aria-hidden="false"><img src="/images/audit-hero/01-school.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="eager"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/02-faith.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/03-office.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/04-startup.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/05-trade.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+      <figure class="audit-hero-slide" aria-hidden="true"><img src="/images/audit-hero/06-retail.jpg?v=20260527d" alt="" width="920" height="517" decoding="async" loading="lazy"/></figure>
+    </div>
+    <div class="audit-hero-scrim-side" aria-hidden="true"></div>
+    <div class="audit-hero-scrim-bottom" aria-hidden="true"></div>
+    <div class="audit-hero-copy">
+      <div class="team-biz-badge audit-hero-badge" id="teamBizBadge">Team Survey</div>
+      <div class="step-title audit-hero-title">How is AI<br><em>helping your work?</em></div>
+    </div>
+    <div class="audit-hero-dots" role="tablist" aria-label="Carousel slides"></div>
+  </section>
+  <div class="card-body card-body--after-hero">
+    <p class="step-sub audit-intro">Your employer is building a picture of how AI tools are being used across the business — what's already working well, and where a little care could help. Takes about 5 minutes.</p>
     <div class="anon-box">
       <div class="anon-box-title">This survey is anonymous by default</div>
       <p>We won't collect your name or email address unless you choose to share them. The results go directly to an independent consultant — not to your employer. Individual responses are never shown to the business owner. Only a summary.</p>
@@ -558,9 +319,76 @@ hr.div{border:none;border-top:1px solid var(--border);margin:20px 0;}
   </div>
 </div>
 
+<!-- Cloned into #auditPricingMountS4 and #auditPricingMountS5 on load (single source of truth). -->
+<template id="auditPricingTemplate">
+  <div class="audit-pricing" role="region" aria-label="Optional next steps and package pricing">
+    <div class="audit-pricing-hdr">
+      <div class="step-kicker">Optional next steps</div>
+      <p class="audit-pricing-lead">Your free report and 30-minute review call are included. Choose a package if you want team insights, policy work, or hands-on training.</p>
+    </div>
+    <div class="audit-pricing-grid">
+      <article class="audit-pricing-card">
+        <div class="audit-pricing-card-hdr">
+          <h3 class="audit-pricing-name">Free</h3>
+          <p class="audit-pricing-price">Included</p>
+        </div>
+        <ul class="audit-pricing-list">
+          <li>Emailed result report</li>
+          <li>Free 30-minute call to review results</li>
+        </ul>
+        <a class="audit-pricing-cta audit-pricing-cta--muted" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener">Book your free call</a>
+      </article>
+      <article class="audit-pricing-card">
+        <div class="audit-pricing-card-hdr">
+          <h3 class="audit-pricing-name">AI Basic</h3>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$500</span> NZD</p>
+        </div>
+        <ul class="audit-pricing-list">
+          <li>Emailed result report plus team results</li>
+          <li>Free 30-minute call to review results</li>
+          <li>Custom AI policy / governance document</li>
+        </ul>
+        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)">Enquire about AI Basic</a>
+      </article>
+      <article class="audit-pricing-card audit-pricing-card--featured">
+        <div class="audit-pricing-card-hdr">
+          <h3 class="audit-pricing-name">Ai Plus</h3>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$1,500</span> NZD</p>
+        </div>
+        <ul class="audit-pricing-list">
+          <li>Emailed result report plus team results</li>
+          <li>Free 30-minute call to review results</li>
+          <li>Custom AI policy / governance document</li>
+          <li>45-minute Zoom policy walkthrough and Q&amp;A</li>
+          <li>4 custom website, email footer, and document AI usage statements</li>
+        </ul>
+        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)">Enquire about Ai Plus</a>
+      </article>
+      <article class="audit-pricing-card">
+        <div class="audit-pricing-card-hdr">
+          <h3 class="audit-pricing-name">AI Premium</h3>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$2,500</span> NZD</p>
+        </div>
+        <ul class="audit-pricing-list">
+          <li>Emailed result report plus team results</li>
+          <li>Free 30-minute call to review results</li>
+          <li>Custom AI policy / governance document</li>
+          <li>45-minute Zoom policy walkthrough and Q&amp;A</li>
+          <li>4 custom website, email footer, and document AI usage statements</li>
+          <li>Custom AI team member tool training</li>
+          <li>90-minute team implementation / best-practices training</li>
+          <li>6-month AI tool privacy and regulation review and policy update</li>
+        </ul>
+        <a class="audit-pricing-cta" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)">Enquire about AI Premium</a>
+      </article>
+    </div>
+    <p class="audit-pricing-note">Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.</p>
+  </div>
+</template>
+
 <!-- Policy data — keep this <script> BEFORE the main inline script below
      so window.AUDIT_POLICIES is available when audit JS runs. -->
-<script src="/audit-policies.js"></script>
+<script src="/audit-policies.js?v=20260528a"></script>
 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
@@ -677,12 +505,15 @@ function scoreEntry(toolId,tierId,dataType,reviewHabit){
   var ai=(ds===3&&ho===3)?3:(ds>=2&&ho>=2)?2:1;
   var overall=Math.max(ds,ho,vr,pe,ai);
   var rag=overall===3?'red':overall===2?'amber':'green';
+  /** Red only because tier vendorRisk (e.g. free ChatGPT); usage answers are low-risk. */
+  var vendorTierDrivenRed=rag==='red'&&ds===1&&ho===1;
+  var ragLabel=rag==='red'?(vendorTierDrivenRed?'Review settings':'Act now'):rag==='amber'?'Check this':'Good to go';
   var flags=[];
   if(ds===3&&vr===3) flags.push('Sensitive data in an unsafe tool');
   if(pe===3&&ho===3) flags.push('Personal data — unreviewed output');
   if(ai===3&&ho===3) flags.push('High-impact use with little oversight');
   if(tier.trainingOn&&ds>=2) flags.push('Tool may train on this data by default');
-  return {toolId,tierId,dataType,reviewHabit,tool,tier,scores:{ds,ho,vr,pe,ai},overall,rag,flags};
+  return {toolId,tierId,dataType,reviewHabit,tool,tier,scores:{ds,ho,vr,pe,ai},overall,rag,ragLabel,vendorTierDrivenRed,flags};
 }
 function ragWord(r){return r==='red'?'Act now':r==='amber'?'Check this':'Good to go';}
 
@@ -808,7 +639,6 @@ async function sendInvitesAndStart(){
   ST.bizName=document.getElementById('bizName').value.trim();
   ST.bizSector=document.getElementById('bizSector').value;
   ST.bizSize=document.getElementById('bizSize').value;
-  if(!ST.bizName){err.style.display='block';err.textContent='Please enter your business name.';return;}
   btn.disabled=true; err.style.display='none';
   if(inviteEmails.length>0){
     txt.style.display='none'; spinner.style.display='flex';
@@ -980,7 +810,10 @@ function updateLiveRag(){
   var bar=document.getElementById('liveRagBar');
   bar.className='live-rag-bar rag-'+result.rag;
   var msgs={green:'Good to go — this use is well managed.',amber:'Check this — one quick change would lower the risk.',red:'Act now — this needs prompt attention.'};
-  document.getElementById('liveRagText').textContent=msgs[result.rag];
+  var redMsg=result.vendorTierDrivenRed?
+    'Review settings — your usage pattern is careful, but this plan tier still has higher built-in provider risk (data retention, training defaults, or sharing). Check the tool policy and account controls.':
+    msgs.red;
+  document.getElementById('liveRagText').textContent=result.rag==='red'?redMsg:msgs[result.rag];
   document.getElementById('liveRagFlags').innerHTML=result.flags.map(function(f){return '<span class="rag-flag">'+f+'</span>';}).join('');
 }
 function saveCurrentQ(){
@@ -1016,7 +849,7 @@ function renderReview(){
   document.getElementById('reviewSummary').innerHTML=
     '<div class="rs-cell green"><div class="rs-num">'+green+'</div><div class="rs-label">Good to go</div></div>'+
     '<div class="rs-cell amber"><div class="rs-num">'+amber+'</div><div class="rs-label">Check this</div></div>'+
-    '<div class="rs-cell red"><div class="rs-num">'+red+'</div><div class="rs-label">Act now</div></div>';
+    '<div class="rs-cell red"><div class="rs-num">'+red+'</div><div class="rs-label">Needs attention</div></div>';
   document.getElementById('reviewToolList').innerHTML=results.slice().sort(function(a,b){return b.overall-a.overall;}).map(function(r,i){
     var hasPolicy = !!(window.getPolicyForTier && window.getPolicyForTier(r.tool.id, r.tier.id));
     var policyBtn = hasPolicy
@@ -1145,7 +978,7 @@ function buildPayload(){
     tools:results.map(function(r){
       return{toolId:r.toolId,tierId:r.tierId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
         tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
-        rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
+        rag:r.rag,ragLabel:r.ragLabel,flags:r.flags,
         trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,action:r.tier.action,warning:r.tier.warning};
     }),
     summary:{green:results.filter(function(r){return r.rag==='green';}).length,
@@ -1195,7 +1028,7 @@ async function submitTeamSurvey(){
       var entry=ST.selected[i]||{};
       return{toolId:r.toolId,tierId:r.tierId,toolName:r.tool.name,vendor:r.tool.vendor,icon:r.tool.icon,
         tierLabel:r.tier.label,dataType:r.dataType,reviewHabit:r.reviewHabit,
-        rag:r.rag,ragLabel:ragWord(r.rag),flags:r.flags,
+        rag:r.rag,ragLabel:r.ragLabel,flags:r.flags,
         trainingOn:r.tier.trainingOn,ipp12:r.tier.ipp12,
         howHelps:entry.howHelps||''};
     }),
@@ -1221,7 +1054,17 @@ function closeTeamDone(){
 }
 
 // ── INIT ─────────────────────────────────────────────────────────
+function mountAuditPricingFromTemplate(){
+  var tpl=document.getElementById('auditPricingTemplate');
+  var m4=document.getElementById('auditPricingMountS4');
+  var m5=document.getElementById('auditPricingMountS5');
+  if(!tpl||!m4||!m5||tpl.tagName!=='TEMPLATE') return;
+  if(!m4.firstChild) m4.appendChild(document.importNode(tpl.content,true));
+  if(!m5.firstChild) m5.appendChild(document.importNode(tpl.content,true));
+}
+
 document.addEventListener('DOMContentLoaded',function(){
+  mountAuditPricingFromTemplate();
   if(IS_TEAM){
     document.getElementById('ownerApp').style.display='none';
     document.getElementById('teamApp').style.display='block';

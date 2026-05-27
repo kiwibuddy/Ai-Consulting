@@ -31,6 +31,17 @@ const CALENDAR_URL =
   process.env.AUDIT_CALENDAR_URL ||
   "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-";
 
+// Pricing CTA links (mailto by default; swap to checkout URLs in env)
+const PRICING_BASIC_URL =
+  process.env.AUDIT_PRICING_BASIC_URL ||
+  "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)";
+const PRICING_PLUS_URL =
+  process.env.AUDIT_PRICING_PLUS_URL ||
+  "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)";
+const PRICING_PREMIUM_URL =
+  process.env.AUDIT_PRICING_PREMIUM_URL ||
+  "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)";
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface AuditTool {
   toolId: string;
@@ -42,7 +53,8 @@ interface AuditTool {
   dataType: "public" | "internal" | "personal";
   reviewHabit: "always" | "usually" | "rarely";
   rag: "green" | "amber" | "red";
-  ragLabel: string;
+  /** Badge text; omit on older payloads — email templates fall back to ragWord(rag). */
+  ragLabel?: string;
   flags: string[];
   trainingOn: boolean;
   ipp12: boolean;
@@ -92,10 +104,17 @@ const RED_BORDER = "#fecaca";
 const AMBER = "#b45309";
 const AMBER_BG = "#fffbeb";
 const AMBER_BORDER = "#fed7aa";
-const GREEN = "#15803d";
+const GREEN = "#11c25c";
 const GREEN_BG = "#f0fdf4";
 const GREEN_BORDER = "#bbf7d0";
-const ACCENT = "#1b5566";
+/** Cinematic site: lime accent + gradient pair (audit pages + marketing) */
+const NB_LIME = "#7ccc1e";
+const NB_GREEN = "#11c25c";
+/** Readable link colour on light email backgrounds */
+const EMAIL_LINK = "#3f6212";
+const BORDER_SOFT = "#e2dfd6";
+
+const CTA_GRADIENT = `linear-gradient(135deg,${NB_GREEN},${NB_LIME})`;
 
 function ragColor(r: string) {
   return r === "red" ? RED : r === "amber" ? AMBER : GREEN;
@@ -108,6 +127,90 @@ function ragBorder(r: string) {
 }
 function ragWord(r: string) {
   return r === "red" ? "Act now" : r === "amber" ? "Check this" : "Good to go";
+}
+function ragBadgeLabel(t: AuditTool): string {
+  const raw = (t.ragLabel && String(t.ragLabel).trim()) || ragWord(t.rag);
+  return esc(raw);
+}
+
+function pricingCtaLabel(url: string, fallback: string): string {
+  if (!url) return fallback;
+  return url.trim().toLowerCase().startsWith("mailto:") ? fallback : "Buy now";
+}
+
+function pricingBlock(): string {
+  const bodyFont = `Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif`;
+  const displayFont = `'Newsreader','Georgia','Times New Roman',serif`;
+  const cardStyle =
+    "background:#faf8f5;border:1px solid " +
+    BORDER_SOFT +
+    ";border-radius:12px;padding:14px 14px 16px;vertical-align:top;";
+  const priceStyle = `margin:6px 0 0;font-family:${displayFont};font-size:22px;font-weight:700;color:#0f172a;`;
+  const nameStyle = `margin:0;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#64748b;font-family:${bodyFont};`;
+  const listStyle = `margin:12px 0 0;padding:0 0 0 18px;font-size:12.5px;color:#374151;line-height:1.55;font-family:${bodyFont};`;
+  const ctaBase =
+    `display:inline-block;margin-top:14px;padding:12px 14px;border-radius:10px;` +
+    `font-weight:800;font-size:12px;text-decoration:none;font-family:${bodyFont};`;
+
+  const ctaMuted =
+    ctaBase + `background:#fff;border:1px solid ${BORDER_SOFT};color:${EMAIL_LINK};`;
+  const ctaPrimary =
+    ctaBase + `background:${CTA_GRADIENT};border:1px solid ${NB_GREEN};color:#fff;`;
+
+  const basicCta = pricingCtaLabel(PRICING_BASIC_URL, "Enquire");
+  const plusCta = pricingCtaLabel(PRICING_PLUS_URL, "Enquire");
+  const premiumCta = pricingCtaLabel(PRICING_PREMIUM_URL, "Enquire");
+
+  return `
+  <div style="margin-top:22px;border-top:1px solid ${BORDER_SOFT};padding-top:22px;">
+    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:${NB_GREEN};font-family:${bodyFont};margin:0 0 10px;">Optional next steps</div>
+    <p style="margin:0 0 14px;font-size:13px;line-height:1.6;color:#475569;font-family:${bodyFont};max-width:54ch;">
+      Your free report and 30-minute review call are included. Choose a package if you want team insights, policy work, or hands-on training.
+    </p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:10px 10px;margin:0 -10px;">
+      <tr>
+        <td width="25%" style="${cardStyle}">
+          <div style="${nameStyle}">Free</div>
+          <div style="${priceStyle}">Included</div>
+          <ul style="${listStyle}">
+            <li>Emailed result report</li>
+            <li>Free 30-minute call to review results</li>
+          </ul>
+          <a href="${CALENDAR_URL}" style="${ctaMuted}">Book your free call</a>
+        </td>
+        <td width="25%" style="${cardStyle}">
+          <div style="${nameStyle}">AI Basic</div>
+          <div style="${priceStyle}">$500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <ul style="${listStyle}">
+            <li>Emailed result report plus team results</li>
+            <li>Custom AI policy / governance document</li>
+          </ul>
+          <a href="${esc(PRICING_BASIC_URL)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
+        </td>
+        <td width="25%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
+          <div style="${nameStyle}">Ai Plus</div>
+          <div style="${priceStyle}">$1,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <ul style="${listStyle}">
+            <li>Policy walkthrough + Q&amp;A</li>
+            <li>4 custom AI usage statements (web/email/docs)</li>
+          </ul>
+          <a href="${esc(PRICING_PLUS_URL)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
+        </td>
+        <td width="25%" style="${cardStyle}">
+          <div style="${nameStyle}">AI Premium</div>
+          <div style="${priceStyle}">$2,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <ul style="${listStyle}">
+            <li>Team training + implementation session</li>
+            <li>6‑month policy + regulation review update</li>
+          </ul>
+          <a href="${esc(PRICING_PREMIUM_URL)}" style="${ctaPrimary}">${premiumCta} AI Premium</a>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:10px 0 0;font-size:11px;line-height:1.6;color:#6b7280;font-family:${bodyFont};">
+      Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.
+    </p>
+  </div>`;
 }
 
 // ── BRAND ASSETS (shared by every email) ──────────────────────────────────────
@@ -133,16 +236,18 @@ function brandedHero(opts: {
   subline?: string; // optional sub-line under H1 (date, member name, etc.)
   ringColor?: string; // accent ring around portrait + pill border (defaults to lime)
 }): string {
-  const ring = opts.ringColor || "#84cc16";
+  const ring = opts.ringColor || NB_LIME;
   const sub = opts.subline
-    ? `<div style="font-size:12px;color:#94a3b8;margin-top:6px;">${opts.subline}</div>`
+    ? `<div style="font-size:12px;color:#94a3b8;margin-top:6px;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;">${opts.subline}</div>`
     : "";
+  const displayFont = `'Newsreader','Georgia','Times New Roman',serif`;
+  const bodyFont = `Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif`;
   return `
-  <div style="height:5px;background:linear-gradient(90deg,${ACCENT},#84cc16);"></div>
+  <div style="height:5px;background:linear-gradient(90deg,${NB_GREEN},${NB_LIME});"></div>
   <div style="background:#171717;padding:28px 24px 52px;text-align:center;">
     <img src="${brandLogoUrl()}" alt="Nathaniel Baldock AI Consulting" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;opacity:.95;">
-    <div style="display:inline-block;margin-bottom:10px;padding:5px 16px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#fff;border:1.5px solid ${ring};">${esc(opts.kicker)}</div>
-    <h1 style="margin:0;font-size:1.4rem;font-weight:700;color:#fff;letter-spacing:-.02em;line-height:1.25;">${esc(opts.headline)}</h1>
+    <div style="display:inline-block;margin-bottom:10px;padding:5px 16px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#fff;border:1.5px solid ${ring};font-family:${bodyFont};">${esc(opts.kicker)}</div>
+    <h1 style="margin:0;font-family:${displayFont};font-size:1.45rem;font-weight:600;color:#fff;letter-spacing:-.02em;line-height:1.25;">${esc(opts.headline)}</h1>
     ${sub}
   </div>
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-40px;">
@@ -222,7 +327,7 @@ function policyLinkBlock(toolId: string, tierId: string): string {
     <div style="margin-top:10px;padding:9px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
       <div style="font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Why this verdict</div>
       <p style="font-size:12.5px;color:#374151;line-height:1.55;margin:0 0 6px;">${esc(policy.summary)}</p>
-      <a href="${esc(policy.policyUrl)}" style="font-size:12px;color:${ACCENT};text-decoration:none;font-weight:600;" target="_blank" rel="noopener">
+      <a href="${esc(policy.policyUrl)}" style="font-size:12px;color:${EMAIL_LINK};text-decoration:none;font-weight:600;" target="_blank" rel="noopener">
         Read ${esc(policy.policyLabel)} &nearr;
       </a>
       ${reviewNote}
@@ -233,7 +338,7 @@ function policyLinkBlock(toolId: string, tierId: string): string {
 function brandedFooter(extra?: string): string {
   return `
   <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:12px;color:#94a3b8;text-align:center;background:#fafbfc;">
-    <a href="${SITE_URL}" style="color:${ACCENT};font-weight:600;text-decoration:none;">Nathaniel Baldock AI Consulting</a>
+    <a href="${SITE_URL}" style="color:${EMAIL_LINK};font-weight:600;text-decoration:none;">Nathaniel Baldock AI Consulting</a>
     &middot; nathanielbaldock.com${extra ? ` &middot; ${extra}` : ""}
   </div>`;
 }
@@ -372,7 +477,7 @@ router.post("/submit", async (req, res) => {
 // ── TEAM INVITE ───────────────────────────────────────────────────────────────
 function buildTeamInviteEmail(bizName: string, surveyUrl: string): string {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f6f8;">
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:600px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
@@ -385,8 +490,8 @@ function buildTeamInviteEmail(bizName: string, surveyUrl: string): string {
     <p style="font-size:14px;color:#374151;line-height:1.65;margin:0 0 12px;"><strong>${esc(bizName)}</strong> is putting together a picture of how AI tools are being used in the business — what's already working well, and where a little care could help.</p>
     <p style="font-size:14px;color:#374151;line-height:1.65;margin:0 0 16px;">It takes about 5 minutes. It's completely anonymous — we only collect what you choose to share.</p>
     <p style="font-size:13.5px;color:#6b7280;line-height:1.6;margin:0 0 24px;">There are no wrong answers. If a tool is genuinely saving you time or making your work better, we want to know about it so the business can support it properly.</p>
-    <p style="text-align:center;margin:0 0 22px;"><a href="${surveyUrl}" style="display:inline-block;background:linear-gradient(135deg,${ACCENT},#15803d);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 30px;border-radius:999px;box-shadow:0 2px 12px rgba(15,23,42,.12);">Take the survey &rarr;</a></p>
-    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:8px;">
+    <p style="text-align:center;margin:0 0 22px;"><a href="${surveyUrl}" style="display:inline-block;background:${CTA_GRADIENT};color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;box-shadow:0 16px 40px rgba(17,194,92,.22);">Take the survey &rarr;</a></p>
+    <div style="background:#faf8f5;border:1px solid ${BORDER_SOFT};border-radius:10px;padding:14px 16px;margin-bottom:8px;">
       <p style="font-size:12px;color:#64748b;margin:0;line-height:1.65;"><strong style="color:#374151;">The survey closes in 2 days.</strong> Your responses are anonymous and go directly to an independent consultant — not to your employer. Individual responses are never shared with the business owner.</p>
     </div>
     <p style="font-size:13px;color:#525252;margin:18px 0 0;">— Nathaniel</p>
@@ -400,7 +505,7 @@ function buildTeamInviteEmail(bizName: string, surveyUrl: string): string {
 // ── TEAM REMINDER ─────────────────────────────────────────────────────────────
 function buildTeamReminderEmail(bizName: string, surveyUrl: string): string {
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f6f8;">
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:560px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
@@ -412,7 +517,7 @@ function buildTeamReminderEmail(bizName: string, surveyUrl: string): string {
     <p style="font-size:15px;color:#262626;margin:0 0 12px;">Kia ora,</p>
     <p style="font-size:14px;color:#374151;line-height:1.65;margin:0 0 12px;">Just a gentle nudge — the AI use survey for <strong>${esc(bizName)}</strong> closes tomorrow.</p>
     <p style="font-size:13.5px;color:#6b7280;line-height:1.6;margin:0 0 22px;">Takes 5 minutes. Still completely anonymous. No wrong answers — if a tool is helping your work we want to know about it so the business can support it properly.</p>
-    <p style="text-align:center;margin:0 0 20px;"><a href="${surveyUrl}" style="display:inline-block;background:linear-gradient(135deg,${ACCENT},#15803d);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 30px;border-radius:999px;box-shadow:0 2px 12px rgba(15,23,42,.12);">Take the survey &rarr;</a></p>
+    <p style="text-align:center;margin:0 0 20px;"><a href="${surveyUrl}" style="display:inline-block;background:${CTA_GRADIENT};color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;box-shadow:0 16px 40px rgba(17,194,92,.22);">Take the survey &rarr;</a></p>
     <p style="font-size:12px;color:#9ca3af;margin:0;line-height:1.6;">If you've already completed it — thank you, no action needed. If you'd rather not, just ignore this.</p>
     <p style="font-size:13px;color:#525252;margin:18px 0 0;">— Nathaniel</p>
   </div>
@@ -438,14 +543,14 @@ function buildTeamResultEmail(p: TeamPayload, when: string): string {
     <tr style="border-bottom:1px solid #f1f5f9;">
       <td style="padding:9px 8px;font-size:13px;">${esc(t.icon)} ${esc(t.toolName)}</td>
       <td style="padding:9px 8px;font-size:12px;color:#64748b;">${esc(t.tierLabel)}</td>
-      <td style="padding:9px 8px;"><span style="background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragWord(t.rag)}</span></td>
-      <td style="padding:9px 8px;font-size:11.5px;color:#374151;max-width:180px;">${t.howHelps ? `<em style="color:#15803d;">"${esc(t.howHelps)}"</em>` : ""}</td>
+      <td style="padding:9px 8px;"><span style="background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragBadgeLabel(t)}</span></td>
+      <td style="padding:9px 8px;font-size:11.5px;color:#374151;max-width:180px;">${t.howHelps ? `<em style="color:${NB_GREEN};">"${esc(t.howHelps)}"</em>` : ""}</td>
     </tr>`,
     )
     .join("");
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f6f8;">
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:680px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
@@ -456,12 +561,12 @@ function buildTeamResultEmail(p: TeamPayload, when: string): string {
   <div style="padding:8px 26px 28px;">
     <p style="font-size:13px;color:#525252;margin:0 0 16px;text-align:center;font-style:italic;">An anonymous team-member response — for your pre-call prep only.</p>
 
-    <table style="width:100%;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;margin-bottom:16px;border-collapse:collapse;">
-      <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+    <table style="width:100%;border:1px solid ${BORDER_SOFT};border-radius:10px;overflow:hidden;margin-bottom:16px;border-collapse:collapse;">
+      <tr style="background:#faf8f5;border-bottom:2px solid ${BORDER_SOFT};">
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Tool</th>
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Plan</th>
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Status</th>
-        <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#15803d;">How it helps</th>
+        <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:${NB_GREEN};">How it helps</th>
       </tr>
       ${toolRows}
     </table>
@@ -470,7 +575,7 @@ function buildTeamResultEmail(p: TeamPayload, when: string): string {
       insights.length > 0
         ? `
     <div style="background:linear-gradient(135deg,#f7fee7,#f0fdf4);border:1px solid ${GREEN_BORDER};border-radius:12px;padding:18px;margin-bottom:16px;">
-      <div style="font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#15803d;margin-bottom:10px;">&#9989; Staff insights to use on the owner call</div>
+      <div style="font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:${NB_GREEN};margin-bottom:10px;">&#9989; Staff insights to use on the owner call</div>
       ${insights
         .map(
           (t) => `
@@ -486,7 +591,7 @@ function buildTeamResultEmail(p: TeamPayload, when: string): string {
         : ""
     }
 
-    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;">
+    <div style="background:#faf8f5;border:1px solid ${BORDER_SOFT};border-radius:10px;padding:14px 16px;">
       <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#64748b;margin-bottom:8px;">Summary</div>
       <span style="font-size:14px;color:${RED};font-weight:700;">${p.summary.red} red</span> &nbsp;
       <span style="font-size:14px;color:${AMBER};font-weight:700;">${p.summary.amber} amber</span> &nbsp;
@@ -522,7 +627,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
           <span style="font-size:16px;">${esc(t.icon)}</span>
           <strong style="font-size:15px;color:#0f172a;">${esc(t.toolName)}</strong>
           <span style="font-size:11px;color:#64748b;">— ${esc(t.tierLabel)}</span>
-          <span style="margin-left:auto;background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragWord(t.rag)}</span>
+          <span style="margin-left:auto;background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragBadgeLabel(t)}</span>
         </div>
         ${t.warning ? `<p style="font-size:12.5px;color:#374151;line-height:1.55;margin:0 0 8px;">${esc(t.warning)}</p>` : ""}
         ${t.flags.length ? `<div style="margin-bottom:8px;">${t.flags.map((f) => `<span style="display:inline-block;font-size:10px;color:${AMBER};background:${AMBER_BG};border:1px solid ${AMBER_BORDER};padding:2px 8px;border-radius:999px;margin:2px 3px 2px 0;">${esc(f)}</span>`).join("")}</div>` : ""}
@@ -535,7 +640,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
   }
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f6f8;">
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:640px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
@@ -547,21 +652,22 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
     <p style="font-size:15px;margin:0 0 10px;">Hi ${esc(p.bizName.split(" ")[0])},</p>
     <p style="font-size:14px;color:#525252;margin:0 0 16px;">Here's your AI Use Survey results. I mapped ${p.tools.length} tool${p.tools.length !== 1 ? "s" : ""} across your business.</p>
     ${teamLine}
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:24px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${BORDER_SOFT};border-radius:12px;overflow:hidden;margin-bottom:24px;">
       <tr>
-        <td align="center" style="padding:14px;border-right:1px solid #e2e8f0;background:${RED_BG};"><div style="font-size:1.6rem;font-weight:700;color:${RED};">${p.summary.red}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Act now</div></td>
-        <td align="center" style="padding:14px;border-right:1px solid #e2e8f0;background:${AMBER_BG};"><div style="font-size:1.6rem;font-weight:700;color:${AMBER};">${p.summary.amber}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Check this</div></td>
-        <td align="center" style="padding:14px;background:${GREEN_BG};"><div style="font-size:1.6rem;font-weight:700;color:${GREEN};">${p.summary.green}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Good to go</div></td>
+        <td align="center" style="padding:14px;border-right:1px solid ${BORDER_SOFT};background:${RED_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${RED};">${p.summary.red}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Needs attention</div></td>
+        <td align="center" style="padding:14px;border-right:1px solid ${BORDER_SOFT};background:${AMBER_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${AMBER};">${p.summary.amber}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Check this</div></td>
+        <td align="center" style="padding:14px;background:${GREEN_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${GREEN};">${p.summary.green}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Good to go</div></td>
       </tr>
     </table>
-    ${red.length ? `<h3 style="font-size:12px;font-weight:700;color:${RED};text-transform:uppercase;letter-spacing:.1em;margin:0 0 12px;">&#128308; Act now</h3>${toolSection(red)}` : ""}
+    ${red.length ? `<h3 style="font-size:12px;font-weight:700;color:${RED};text-transform:uppercase;letter-spacing:.1em;margin:0 0 12px;">&#128308; Needs attention</h3>${toolSection(red)}` : ""}
     ${amber.length ? `<h3 style="font-size:12px;font-weight:700;color:${AMBER};text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;">&#127992; Check these</h3>${toolSection(amber)}` : ""}
     ${green.length ? `<h3 style="font-size:12px;font-weight:700;color:${GREEN};text-transform:uppercase;letter-spacing:.1em;margin:20px 0 12px;">&#9989; Good to go</h3>${toolSection(green)}` : ""}
     <div style="background:linear-gradient(135deg,#f7fee7,#f0fdf4);border:1px solid ${GREEN_BORDER};border-radius:12px;padding:22px;text-align:center;margin-top:24px;">
       <div style="font-size:1.05rem;font-weight:700;color:#0f172a;margin-bottom:6px;">Ready to talk through what this means?</div>
       <p style="font-size:13.5px;color:#374151;margin:0 0 16px;line-height:1.6;">Book a free 30-minute follow-up call. I'll walk you through your findings — and share what your team's anonymous surveys revealed.</p>
-      <a href="${CALENDAR_URL}" style="display:inline-block;background:linear-gradient(135deg,${ACCENT},#15803d);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 30px;border-radius:999px;box-shadow:0 2px 12px rgba(15,23,42,.12);">Book a follow-up call &rarr;</a>
+      <a href="${CALENDAR_URL}" style="display:inline-block;background:${CTA_GRADIENT};color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;box-shadow:0 16px 40px rgba(17,194,92,.22);">Book a follow-up call &rarr;</a>
     </div>
+    ${pricingBlock()}
     <p style="font-size:13px;color:#525252;margin:22px 0 0;">— Nathaniel</p>
   </div>
   ${brandedFooter("Not legal advice")}
@@ -596,7 +702,7 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
   const toolRows = sorted
     .map(
       (t) =>
-        `<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 6px;font-size:13px;">${esc(t.icon)} ${esc(t.toolName)}</td><td style="padding:8px 6px;font-size:12px;color:#64748b;">${esc(t.tierLabel)}</td><td style="padding:8px 6px;"><span style="background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragWord(t.rag)}</span></td><td style="padding:8px 6px;font-size:11.5px;color:#374151;">${esc(t.action)}</td></tr>`,
+        `<tr style="border-bottom:1px solid #f1f5f9;"><td style="padding:8px 6px;font-size:13px;">${esc(t.icon)} ${esc(t.toolName)}</td><td style="padding:8px 6px;font-size:12px;color:#64748b;">${esc(t.tierLabel)}</td><td style="padding:8px 6px;"><span style="background:${ragColor(t.rag)};color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${ragBadgeLabel(t)}</span></td><td style="padding:8px 6px;font-size:11.5px;color:#374151;">${esc(t.action)}</td></tr>`,
     )
     .join("");
 
@@ -615,7 +721,7 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
     .join(" · ");
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f6f8;">
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:700px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
   ${brandedHero({
@@ -626,16 +732,16 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
   <div style="padding:8px 26px 28px;">
     <p style="font-size:13px;color:#525252;margin:0 0 16px;text-align:center;font-style:italic;">Owner submission — your pre-call briefing follows. Full JSON at the bottom for the companion tool.</p>
 
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:20px;border-collapse:collapse;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ${BORDER_SOFT};border-radius:12px;overflow:hidden;margin-bottom:20px;border-collapse:collapse;">
       <tr>
-        <td align="center" style="padding:14px;border-right:1px solid #e2e8f0;background:${RED_BG};"><div style="font-size:1.6rem;font-weight:700;color:${RED};">${p.summary.red}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Act now</div></td>
-        <td align="center" style="padding:14px;border-right:1px solid #e2e8f0;background:${AMBER_BG};"><div style="font-size:1.6rem;font-weight:700;color:${AMBER};">${p.summary.amber}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Check this</div></td>
-        <td align="center" style="padding:14px;background:${GREEN_BG};"><div style="font-size:1.6rem;font-weight:700;color:${GREEN};">${p.summary.green}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Good to go</div></td>
+        <td align="center" style="padding:14px;border-right:1px solid ${BORDER_SOFT};background:${RED_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${RED};">${p.summary.red}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Needs attention</div></td>
+        <td align="center" style="padding:14px;border-right:1px solid ${BORDER_SOFT};background:${AMBER_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${AMBER};">${p.summary.amber}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Check this</div></td>
+        <td align="center" style="padding:14px;background:${GREEN_BG};"><div style="font-size:1.6rem;font-weight:700;font-family:'Newsreader',Georgia,serif;color:${GREEN};">${p.summary.green}</div><div style="font-size:10px;color:#64748b;margin-top:2px;">Good to go</div></td>
       </tr>
     </table>
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:20px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;">
-      <thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:20px;border:1px solid ${BORDER_SOFT};border-radius:10px;overflow:hidden;">
+      <thead><tr style="background:#faf8f5;border-bottom:2px solid ${BORDER_SOFT};">
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Tool</th>
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Plan</th>
         <th style="padding:9px 8px;text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#64748b;">Status</th>
@@ -648,7 +754,7 @@ function buildConsultantEmail(p: OwnerPayload, when: string): string {
     <div style="background:linear-gradient(135deg,#f7fee7,#f0fdf4);border:1px solid ${GREEN_BORDER};border-radius:12px;padding:22px;text-align:center;margin-bottom:18px;">
       <div style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:6px;">Ready for the owner call?</div>
       <p style="font-size:13.5px;color:#374151;margin:0 0 16px;line-height:1.6;">One click opens the Pre-Call Briefing Tool with this audit already loaded — interview prompts, talking points, the lot.</p>
-      <a href="${companionUrl}" style="display:inline-block;background:linear-gradient(135deg,${ACCENT},#15803d);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:13px 30px;border-radius:999px;box-shadow:0 2px 12px rgba(15,23,42,.12);">Open in Companion Tool &rarr;</a>
+      <a href="${companionUrl}" style="display:inline-block;background:${CTA_GRADIENT};color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;box-shadow:0 16px 40px rgba(17,194,92,.22);">Open in Companion Tool &rarr;</a>
       ${
         urlIsHuge
           ? `<p style="font-size:11px;color:${AMBER};margin:12px 0 0;">Heads up: this payload is large — if the button doesn't auto-load, copy the JSON manually from the block below.</p>`

@@ -4,108 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pre-Call Briefing — Nathaniel Baldock AI Consulting</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --bg:#fff;--bg-warm:hsl(42,40%,98%);--bg-mist:hsl(210,24%,96%);
-  --fg:#0a0a0a;--fg-med:hsl(220,8%,30%);--fg-muted:hsl(220,7%,46%);
-  --border:hsl(220,12%,88%);--accent:hsl(205,58%,38%);
-  --green:hsl(152,45%,36%);--green-bg:hsl(152,40%,93%);--green-border:hsl(152,35%,78%);
-  --amber:hsl(38,90%,40%);--amber-bg:hsl(40,80%,93%);--amber-border:hsl(38,60%,78%);
-  --red:hsl(4,68%,40%);--red-bg:hsl(4,70%,94%);--red-border:hsl(4,55%,78%);
-  --font-serif:'Fraunces','Georgia',serif;--font-sans:'Inter',system-ui,sans-serif;
-  --font-mono:'JetBrains Mono',monospace;
-  --r:14px;--r-sm:9px;--shadow:0 1px 3px rgba(15,23,42,.05),0 6px 20px -3px rgba(15,23,42,.08);
-}
-body{font-family:var(--font-sans);color:var(--fg);background:var(--bg-mist);min-height:100vh;-webkit-font-smoothing:antialiased;}
-.shell{max-width:900px;margin:0 auto;padding:24px 20px 80px;}
-.hdr{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;box-shadow:var(--shadow);}
-.logo-row{display:flex;align-items:center;gap:10px;}
-.logo-mark{width:32px;height:32px;background:var(--fg);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--bg);font-family:var(--font-serif);font-size:13px;font-weight:700;}
-.logo-text{font-size:13px;font-weight:600;}
-.logo-sub{font-size:9px;color:var(--fg-muted);letter-spacing:.06em;text-transform:uppercase;}
-.hdr-badge{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--bg-mist);border:1px solid var(--border);color:var(--fg-muted);}
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260527">
 
-/* Paste panel */
-.paste-panel{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--shadow);text-align:center;}
-.paste-title{font-family:var(--font-serif);font-size:1.4rem;font-weight:600;margin-bottom:6px;letter-spacing:-.02em;}
-.paste-sub{font-size:13px;color:var(--fg-muted);margin-bottom:20px;}
-.paste-area{width:100%;min-height:120px;padding:14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:var(--font-mono);font-size:11.5px;color:var(--fg-med);background:var(--bg-mist);outline:none;resize:vertical;transition:border-color .15s;}
-.paste-area:focus{border-color:var(--accent);}
-.load-btn{margin-top:12px;display:inline-flex;align-items:center;gap:8px;background:var(--fg);color:var(--bg);font-family:var(--font-sans);font-size:13px;font-weight:600;padding:12px 24px;border-radius:999px;border:none;cursor:pointer;transition:all .2s;}
-.load-btn:hover{background:var(--accent);}
-.error-msg{margin-top:10px;font-size:12px;color:var(--red);}
-
-/* Briefing */
-.briefing{display:none;}
-.briefing-hdr{background:var(--fg);color:var(--bg);border-radius:var(--r);padding:24px 28px;margin-bottom:16px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:var(--shadow);}
-.biz-name{font-family:var(--font-serif);font-size:1.6rem;font-weight:700;letter-spacing:-.02em;}
-.biz-meta{font-size:12px;color:hsl(220,8%,65%);margin-top:3px;}
-.summary-pills{display:flex;gap:8px;flex-wrap:wrap;}
-.s-pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:700;}
-.s-pill.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
-.s-pill.amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
-.s-pill.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
-.s-dot{width:10px;height:10px;border-radius:50%;}
-.s-pill.red .s-dot{background:var(--red);}
-.s-pill.amber .s-dot{background:var(--amber);}
-.s-pill.green .s-dot{background:var(--green);}
-
-/* Two-col layout */
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-@media(max-width:640px){.cols{grid-template-columns:1fr;}}
-.card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);}
-.card-title{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-
-/* Tool finding card */
-.tool-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);}
-.tc-bar{height:4px;}
-.tc-bar.red{background:var(--red);}
-.tc-bar.amber{background:var(--amber);}
-.tc-bar.green{background:var(--green);}
-.tc-body{padding:18px 20px;}
-.tc-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-.tc-icon{width:36px;height:36px;border-radius:8px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:5px;flex-shrink:0;}.tc-icon img{width:100%;height:100%;object-fit:contain;border-radius:2px;}.tc-icon-fb{font-size:18px;display:none;align-items:center;justify-content:center;}.tc-icon img{width:100%;height:100%;object-fit:contain;border-radius:2px;}.tc-icon-fb{font-size:18px;}
-.tc-name{font-family:var(--font-serif);font-size:1rem;font-weight:600;letter-spacing:-.01em;}
-.tc-plan{font-size:11px;color:var(--fg-muted);}
-.tc-badge{margin-left:auto;font-size:10px;font-weight:700;padding:2px 9px;border-radius:999px;}
-.tc-badge.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);}
-.tc-badge.amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);}
-.tc-badge.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);}
-.tc-flags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
-.tc-flag{font-size:10px;color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-border);padding:2px 7px;border-radius:999px;}
-.tc-action{background:hsl(210,40%,96%);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 12px;font-size:12px;color:var(--fg-med);margin-bottom:12px;line-height:1.55;}
-.tc-action strong{color:var(--accent);font-weight:600;}
-
-/* Interview prompts */
-.q-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
-.q-item:last-child{border-bottom:none;}
-.q-num{width:22px;height:22px;border-radius:50%;background:var(--bg-mist);border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--fg-muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.q-num.red{background:var(--red-bg);border-color:var(--red-border);color:var(--red);}
-.q-num.amber{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber);}
-.q-text{font-size:13px;color:var(--fg-med);line-height:1.55;}
-.q-rationale{font-size:11px;color:var(--fg-muted);margin-top:3px;font-style:italic;}
-
-/* Policy gaps */
-.gap-row{padding:9px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
-.gap-row:last-child{border-bottom:none;}
-.gap-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
-.gap-text{font-size:12.5px;color:var(--fg-med);line-height:1.5;}
-
-/* Print */
-@media print{
-  .paste-panel,.load-btn,.print-btn{display:none!important;}
-  body{background:#fff;}
-  .briefing{display:block!important;}
-}
-.print-btn{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--fg-med);font-family:var(--font-sans);font-size:12px;font-weight:500;padding:8px 16px;border-radius:999px;cursor:pointer;margin-left:10px;transition:all .15s;}
-.print-btn:hover{border-color:var(--accent);color:var(--accent);}
-.reset-btn{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--fg-muted);font-family:var(--font-sans);font-size:12px;padding:8px 16px;border-radius:999px;cursor:pointer;transition:all .15s;}
-.reset-btn:hover{border-color:var(--red);color:var(--red);}
-</style>
 </head>
-<body>
+<body class="companion-shell">
 <div class="shell">
 
 <!-- HEADER -->
@@ -313,6 +215,10 @@ function resetBriefing(){
 }
 
 function ragWord(r){return r==='red'?'Act now':r==='amber'?'Check this':'Good to go';}
+function ragBadgeLabel(t){
+  var raw=(t.ragLabel&&String(t.ragLabel).trim())||ragWord(t.rag);
+  return String(raw).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+}
 function ragColor(r){return r==='red'?'var(--red)':r==='amber'?'var(--amber)':'var(--green)';}
 
 
@@ -331,7 +237,7 @@ function renderBriefing(data){
 
   var s = data.summary || {};
   var pillsHtml = '';
-  if(s.red) pillsHtml += '<div class="s-pill red"><div class="s-dot"></div>'+s.red+' act now</div>';
+  if(s.red) pillsHtml += '<div class="s-pill red"><div class="s-dot"></div>'+s.red+' to review</div>';
   if(s.amber) pillsHtml += '<div class="s-pill amber"><div class="s-dot"></div>'+s.amber+' check this</div>';
   if(s.green) pillsHtml += '<div class="s-pill green"><div class="s-dot"></div>'+s.green+' good to go</div>';
   document.getElementById('summaryPills').innerHTML = pillsHtml;
@@ -436,7 +342,7 @@ function renderBriefing(data){
         '<div class="tc-hdr">'+
           '<div class="tc-icon">'+(t.logo?'<img src="'+t.logo+'" alt="" onerror="imgErrC(this)"><span class="tc-icon-fb">'+t.icon+'</span>':t.icon)+'</div>'+
           '<div><div class="tc-name">'+t.toolName+'</div><div class="tc-plan">'+t.tierLabel+'</div></div>'+
-          '<div class="tc-badge '+t.rag+'">'+ragWord(t.rag)+'</div>'+
+          '<div class="tc-badge '+t.rag+'">'+ragBadgeLabel(t)+'</div>'+
         '</div>'+
         (t.flags&&t.flags.length?'<div class="tc-flags">'+t.flags.map(function(f){return '<span class="tc-flag">'+f+'</span>';}).join('')+'</div>':'') +
         '<div class="tc-action"><strong>Action to recommend:</strong> '+t.action+'</div>'+
