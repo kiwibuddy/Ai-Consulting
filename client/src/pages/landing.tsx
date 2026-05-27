@@ -8,7 +8,7 @@ import { SectionLabel } from "@/components/public-cinematic/section-label";
 import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
 import { WhoThisIsForCarousel } from "@/components/public-cinematic/who-this-is-for-carousel";
 import { LiveAIPanel } from "@/components/public-cinematic/live-ai-panel";
-import { CinematicPrimaryCTA, CinematicSecondaryCTA } from "@/components/public-cinematic/cinematic-cta";
+import { CinematicPrimaryCTA } from "@/components/public-cinematic/cinematic-cta";
 import { HeroAuditPill } from "@/components/public-cinematic/hero-audit-pill";
 import { SITE_CONTACT_EMAIL, MAILTO_SUBJECT_INQUIRY } from "@shared/constants";
 import { articles } from "@/content/articles";
@@ -165,8 +165,9 @@ export default function LandingPage() {
             <ScrollReveal delay={580}>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-8">
                 <CinematicPrimaryCTA href="/intake">{ctaLabel}</CinematicPrimaryCTA>
-                <CinematicSecondaryCTA href="#live">A typical question →</CinematicSecondaryCTA>
-                <HeroAuditPill className="w-full sm:w-auto justify-center sm:justify-start" />
+              </div>
+              <div className="mt-4 flex justify-center">
+                <HeroAuditPill className="mx-auto justify-center" />
               </div>
             </ScrollReveal>
           </div>

@@ -1435,6 +1435,22 @@ export async function registerRoutes(
       });
       const { tier } = schema.parse(req.body);
 
+      // Notify owner when someone starts paid product checkout (even if they abandon payment).
+      await sendEmail({
+        to: SITE_CONTACT_EMAIL,
+        subject: `[Checkout click] Tauranga SME ${tier}`,
+        html: `
+          <p>Someone clicked a paid checkout button.</p>
+          <ul>
+            <li><strong>Tier:</strong> ${tier}</li>
+            <li><strong>Time:</strong> ${new Date().toISOString()}</li>
+            <li><strong>Path:</strong> /tauranga-sme</li>
+            <li><strong>IP:</strong> ${req.ip || "unknown"}</li>
+            <li><strong>User-Agent:</strong> ${(req.headers["user-agent"] || "unknown") as string}</li>
+          </ul>
+        `,
+      });
+
       const origin =
         (typeof req.headers.origin === "string" && req.headers.origin) ||
         `${req.protocol}://${req.get("host")}` ||
@@ -1894,6 +1910,19 @@ export async function registerRoutes(
       if (!user?.email) {
         return res.status(400).json({ error: "Client email required" });
       }
+      await sendEmail({
+        to: SITE_CONTACT_EMAIL,
+        subject: `[Checkout click] Invoice ${inv.invoiceNumber} via ${provider}`,
+        html: `
+          <p>A public invoice checkout button was clicked.</p>
+          <ul>
+            <li><strong>Invoice:</strong> ${inv.invoiceNumber}</li>
+            <li><strong>Provider:</strong> ${provider}</li>
+            <li><strong>Client email:</strong> ${user.email}</li>
+            <li><strong>Time:</strong> ${new Date().toISOString()}</li>
+          </ul>
+        `,
+      });
       const appBase = process.env.APP_URL || "http://localhost:3000";
       if (inv.stripeHostedInvoiceUrl && provider === "stripe") {
         return res.json({ url: inv.stripeHostedInvoiceUrl, mode: "stripe_hosted" });

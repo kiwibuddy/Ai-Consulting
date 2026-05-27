@@ -139,6 +139,15 @@ function pricingCtaLabel(url: string, fallback: string): string {
   return url.trim().toLowerCase().startsWith("mailto:") ? fallback : "Buy now";
 }
 
+function buildTrackedPricingUrl(plan: "basic" | "plus" | "premium", target: string, org?: string): string {
+  const qp = new URLSearchParams({
+    plan,
+    target,
+  });
+  if (org && org.trim()) qp.set("org", org.trim());
+  return `${SITE_URL}/api/audit/pricing-click?${qp.toString()}`;
+}
+
 /** True when the owner left business name blank or the client sent a placeholder. */
 function ownerOrgDetailsHtml(p: OwnerPayload): string {
   const rows: [string, string][] = [];
@@ -205,7 +214,7 @@ function ownerEmailCopy(
   };
 }
 
-function pricingBlock(): string {
+function pricingBlock(p: OwnerPayload): string {
   const bodyFont = `Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif`;
   const displayFont = `'Newsreader','Georgia','Times New Roman',serif`;
   const cardStyle =
@@ -225,6 +234,9 @@ function pricingBlock(): string {
   const basicCta = pricingCtaLabel(PRICING_BASIC_URL, "Upgrade to");
   const plusCta = pricingCtaLabel(PRICING_PLUS_URL, "Upgrade to");
   const premiumCta = pricingCtaLabel(PRICING_PREMIUM_URL, "Upgrade to");
+  const basicHref = buildTrackedPricingUrl("basic", PRICING_BASIC_URL, p.bizName);
+  const plusHref = buildTrackedPricingUrl("plus", PRICING_PLUS_URL, p.bizName);
+  const premiumHref = buildTrackedPricingUrl("premium", PRICING_PREMIUM_URL, p.bizName);
 
   return `
   <div style="margin-top:22px;border-top:1px solid ${BORDER_SOFT};padding-top:22px;">
@@ -242,7 +254,7 @@ function pricingBlock(): string {
             <li>30-minute call to review results</li>
             <li>Custom AI policy / governance document</li>
           </ul>
-          <a href="${esc(PRICING_BASIC_URL)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
+          <a href="${esc(basicHref)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
         </td>
         <td width="33%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
           <div style="${nameStyle}">Ai Plus</div>
@@ -252,7 +264,7 @@ function pricingBlock(): string {
             <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
             <li>4 custom website, email footer, and document AI usage statements</li>
           </ul>
-          <a href="${esc(PRICING_PLUS_URL)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
+          <a href="${esc(plusHref)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
         </td>
         <td width="33%" style="${cardStyle}">
           <div style="${nameStyle}">AI Premium</div>
@@ -263,7 +275,7 @@ function pricingBlock(): string {
             <li>90-minute Zoom/in-person team implementation / best-practices training</li>
             <li>6-month AI tool, privacy and regulation and your team policy review call</li>
           </ul>
-          <a href="${esc(PRICING_PREMIUM_URL)}" style="${ctaPrimary}">${premiumCta} AI Premium</a>
+          <a href="${esc(premiumHref)}" style="${ctaPrimary}">${premiumCta} AI Premium</a>
         </td>
       </tr>
     </table>
@@ -545,6 +557,57 @@ router.post("/submit", async (req, res) => {
   return res.json({ ok: true });
 });
 
+// ── ROUTE: GET /api/audit/pricing-click ───────────────────────────────────────
+// Tracks clicks on paid package buttons shown in audit result emails, then redirects.
+router.get("/pricing-click", async (req, res) => {
+  const planRaw = String(req.query.plan || "").toLowerCase();
+  const target = String(req.query.target || "").trim();
+  const org = String(req.query.org || "").trim();
+  const safePlan = planRaw === "basic" || planRaw === "plus" || planRaw === "premium" ? planRaw : "unknown";
+
+  let redirectTo = `${SITE_URL}/audit`;
+  if (target) {
+    const lower = target.toLowerCase();
+    if (lower.startsWith("https://") || lower.startsWith("http://") || lower.startsWith("mailto:")) {
+      redirectTo = target;
+    }
+  }
+
+  if (resend) {
+    const when = new Date().toLocaleString("en-NZ", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+    const ip = req.ip || req.headers["x-forwarded-for"] || "unknown";
+    const ua = String(req.headers["user-agent"] || "unknown");
+    const subject = `[Audit pricing click] ${safePlan.toUpperCase()}${org ? ` · ${org}` : ""}`;
+    const html = `<!DOCTYPE html><html><body style="font-family:Inter,Arial,sans-serif;color:#111827;">
+      <h2 style="margin:0 0 12px;">Audit pricing click captured</h2>
+      <p style="margin:0 0 10px;">Someone clicked a paid audit package CTA.</p>
+      <ul style="line-height:1.6;">
+        <li><strong>Plan:</strong> ${esc(safePlan)}</li>
+        <li><strong>Organisation:</strong> ${esc(org || "(not provided)")}</li>
+        <li><strong>Time:</strong> ${esc(when)}</li>
+        <li><strong>Destination:</strong> ${esc(redirectTo)}</li>
+        <li><strong>IP:</strong> ${esc(String(ip))}</li>
+        <li><strong>User agent:</strong> ${esc(ua)}</li>
+      </ul>
+    </body></html>`;
+    try {
+      await resend.emails.send({
+        from: FROM_EMAIL,
+        to: CONSULTANT_EMAIL,
+        subject,
+        html,
+      });
+    } catch (err) {
+      console.error("[audit] pricing-click email failed:", err);
+    }
+  }
+
+  return res.redirect(302, redirectTo);
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // EMAIL TEMPLATES
 // ─────────────────────────────────────────────────────────────────────────────
@@ -744,7 +807,7 @@ function buildOwnerResultEmail(p: OwnerPayload, when: string): string {
       <p style="font-size:13.5px;color:#374151;margin:0 0 16px;line-height:1.6;">Book a free 30-minute follow-up call. I'll walk you through your findings — and share what your team's anonymous surveys revealed.</p>
       <a href="${CALENDAR_URL}" style="display:inline-block;background:${CTA_GRADIENT};color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;box-shadow:0 16px 40px rgba(17,194,92,.22);">Book a follow-up call &rarr;</a>
     </div>
-    ${pricingBlock()}
+    ${pricingBlock(p)}
     <p style="font-size:13px;color:#525252;margin:22px 0 0;">— Nathaniel</p>
   </div>
   ${brandedFooter("Not legal advice")}

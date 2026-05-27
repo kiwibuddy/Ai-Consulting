@@ -1,6 +1,4 @@
 "use client";
-
-import { Link } from "wouter";
 import { cn } from "@/lib/utils";
 
 interface HeroAuditPillProps {
@@ -10,7 +8,7 @@ interface HeroAuditPillProps {
 /** Inline hero link to the free AI use audit — sits beside primary CTAs on all breakpoints. */
 export function HeroAuditPill({ className }: HeroAuditPillProps) {
   return (
-    <Link
+    <a
       href="/audit"
       data-event="hero-floating-audit"
       aria-label="Take the free 10-minute AI use audit"
@@ -26,6 +24,6 @@ export function HeroAuditPill({ className }: HeroAuditPillProps) {
       <span aria-hidden className="nb-hero-audit-pill-arrow">
         →
       </span>
-    </Link>
+    </a>
   );
 }
