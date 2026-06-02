@@ -7,8 +7,10 @@ import PricingPage from "@/pages/pricing";
 import ResourcesPage from "@/pages/resources";
 import SpeakingPage from "@/pages/speaking";
 import {
+  ArticleAiWorry,
   ArticleGardenTreeKnowledge,
   ArticleSabbathRestAi,
+  ArticleSafePhrase,
   ArticleSoulNeedsStruggle,
   ArticleTeensAlgorithmFriend,
   ChristianProfessionalWorksheetPage,
@@ -49,6 +51,8 @@ export const ArticleGardenPublicRoute = withPublicPage(ArticleGardenTreeKnowledg
 export const ArticleTeensPublicRoute = withPublicPage(ArticleTeensAlgorithmFriend);
 export const ArticleSabbathPublicRoute = withPublicPage(ArticleSabbathRestAi);
 export const ArticleSoulPublicRoute = withPublicPage(ArticleSoulNeedsStruggle);
+export const ArticleAiWorryPublicRoute = withPublicPage(ArticleAiWorry);
+export const ArticleSafePhrasePublicRoute = withPublicPage(ArticleSafePhrase);
 export const WorksheetSharePublicRoute = withPublicPage(WorksheetSharePage);
 export const ChristianWorksheetPublicRoute = withPublicPage(ChristianProfessionalWorksheetPage);
 export const AboutPublicRoute = withPublicPage(AboutPage);

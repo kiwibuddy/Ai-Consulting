@@ -15,6 +15,8 @@ export const ArticleGardenTreeKnowledge = lazyPage(() => import("@/pages/article
 export const ArticleSabbathRestAi = lazyPage(() => import("@/pages/article-sabbath-rest-ai"));
 export const ArticleSoulNeedsStruggle = lazyPage(() => import("@/pages/article-soul-needs-struggle"));
 export const ArticleTeensAlgorithmFriend = lazyPage(() => import("@/pages/article-teens-algorithm-friend"));
+export const ArticleAiWorry = lazyPage(() => import("@/pages/article-ai-worry"));
+export const ArticleSafePhrase = lazyPage(() => import("@/pages/article-safe-phrase"));
 export const ChristianProfessionalWorksheetPage = lazyPage(
   () => import("@/pages/christian-professional-worksheet"),
 );

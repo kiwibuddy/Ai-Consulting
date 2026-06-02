@@ -94,6 +94,20 @@ const articlePages: Record<string, PageMeta> = {
     image: `${SITE}/images/beach-coal-fire.jpg`,
     ogType: "article",
   },
+  "/resources/how-worried-should-you-be-about-ai": {
+    title: "The Calm Middle: How Worried Should You Actually Be About AI?",
+    description:
+      "How worried should you be about AI? A calm middle path between dismissal and doom — what Level 1 looks like, practical household steps, and why preparation pays off either way.",
+    image: `${SITE}/images/ai-worry-header.jpg`,
+    ogType: "article",
+  },
+  "/resources/the-voice-on-the-phone-is-not-your-son": {
+    title: "The Voice on the Phone Is Your Son. It Isn't.",
+    description:
+      "AI voice-cloning scams explained — how the call works, why familiar voices are no longer proof, and the family safe phrase that defeats impersonation.",
+    image: `${SITE}/images/safe-phrase-header.jpg`,
+    ogType: "article",
+  },
 };
 
 function lookupMeta(urlPath: string): PageMeta | null {

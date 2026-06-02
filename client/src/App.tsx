@@ -26,8 +26,10 @@ import { CoachArea } from "@/routes/coach-area";
 import { LandingPage } from "@/routes/public-page-routes";
 import {
   AboutPublicRoute,
+  ArticleAiWorryPublicRoute,
   ArticleGardenPublicRoute,
   ArticleSabbathPublicRoute,
+  ArticleSafePhrasePublicRoute,
   ArticleSoulPublicRoute,
   ArticleTeensPublicRoute,
   ChristianWorksheetPublicRoute,
@@ -272,6 +274,8 @@ function Router() {
         />
         <Route path="/resources/sabbath-rest-in-the-age-of-ai" component={ArticleSabbathPublicRoute} />
         <Route path="/resources/why-your-soul-needs-the-struggle" component={ArticleSoulPublicRoute} />
+        <Route path="/resources/how-worried-should-you-be-about-ai" component={ArticleAiWorryPublicRoute} />
+        <Route path="/resources/the-voice-on-the-phone-is-not-your-son" component={ArticleSafePhrasePublicRoute} />
         <Route path="/resources/worksheet/protecting-kids-from-the-digital-god">
           <Redirect to="/resources/worksheet/the-digital-god-in-your-childs-pocket" />
         </Route>

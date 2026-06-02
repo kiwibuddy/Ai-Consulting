@@ -11,6 +11,28 @@ export interface ArticleItem {
 
 export const articles: ArticleItem[] = [
   {
+    id: "safe-phrase",
+    title: "The Voice on the Phone Is Your Son. It Isn't.",
+    excerpt:
+      "AI voice cloning needs three seconds of audio. The defence costs nothing, takes ten minutes, and defeats the scam in fifteen seconds.",
+    url: "/resources/the-voice-on-the-phone-is-not-your-son",
+    date: "2026-06-03",
+    readTime: "3 min",
+    category: "AI & Safety",
+    image: "/images/safe-phrase-header.jpg",
+  },
+  {
+    id: "ai-worry",
+    title: "The Calm Middle: How Worried Should You Actually Be About AI?",
+    excerpt:
+      "Between dismissal and doom lies a third option — and specific, cheap actions that help no matter which forecast turns out right.",
+    url: "/resources/how-worried-should-you-be-about-ai",
+    date: "2026-05-01",
+    readTime: "5 min",
+    category: "AI & Safety",
+    image: "/images/ai-worry-header.jpg",
+  },
+  {
     id: "garden-tree-knowledge",
     title: "The Garden and the Tree of Knowledge in Your Pocket",
     excerpt:
