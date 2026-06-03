@@ -124,7 +124,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "I use four categories with leaders to help them sort their relationship to AI without either blanket adoption or blanket avoidance.",
+        text: "Dean Graziosi introduced the Four Levers of Accelerated Success at the AI Advantage Summit (April 2026): Activate, Accelerate, Amplify, and Augment — a sequence for onboarding AI as a partner rather than a search engine. I adapt that language for faith leaders as four ways to sort any task: Automate, Augment, Accelerate, and Activate. The words overlap with the summit, but the frame here is pastoral — which work to hand off, which to keep, and which to open because mission demands it — not the summit’s step-by-step adoption path.",
       },
       {
         type: "subheading",
@@ -174,7 +174,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "Here is the exercise I take every leader through. For each significant task in your work, three questions.",
+        text: "Leor Weinstein’s atoms-and-bits audit at the same summit asks you to list what you did in a day and hand the digital work you do not love to AI so you can return to embodied life. I build on that with an exercise I use with leaders: for each significant task in your work, three questions.",
       },
       {
         type: "paragraph",
@@ -225,7 +225,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "I use a frame that consistently helps leaders stop worrying about the wrong things. AI lives in bits: digital information, content, code, analysis, synthesis. Mission lives in atoms: physical presence, embodied relationship, a hand on a shoulder at the right moment, the trust built over years of showing up when it was inconvenient.",
+        text: "Leor Weinstein’s bits-and-atoms distinction from the AI Advantage Summit is the frame that consistently helps leaders stop worrying about the wrong things. Bits are the digital domain — information, content, code, analysis, synthesis. Atoms are embodied life — physical presence, relationship, a hand on a shoulder at the right moment, trust built over years of showing up when it was inconvenient. AI lives in bits; mission, at its deepest, lives in atoms.",
       },
       {
         type: "paragraph",
@@ -243,7 +243,7 @@ export const articleSections: ArticleSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "Five disciplines hold all of this together as a leadership posture:",
+        text: "The five disciplines below are my synthesis for Christian leaders — a pastoral frame I use alongside the summit material above, not something Arthur Brooks or the AI Advantage faculty presented as a package:",
       },
       {
         type: "subheading",
@@ -308,7 +308,9 @@ export const articleSections: ArticleSection[] = [
 ];
 
 export const sourcesList = [
-  "Brooks, A. (2026). Keynote address. AI Advantage Summit, April 2026. Harvard University.",
+  "Brooks, A. (2026). Keynote address (complicated vs. complex; left-brain AI use). AI Advantage Summit, April 2026. Harvard University.",
+  "Graziosi, D. (2026). Four Levers of Accelerated Success (Activate, Accelerate, Amplify, Augment). AI Advantage Summit, April 2026. aiadvantage.com",
+  "Weinstein, L. (2026). Atoms-and-bits audit and bits-vs.-atoms framework. AI Advantage Summit, Day 2, April 2026.",
   "Brynjolfsson, E., Chandar, A., & Chen, D. (2025). Canaries in the Coal Mine: AI and Entry-Level Employment. Stanford Digital Economy Lab, August 2025. digitaleconomy.stanford.edu",
   "Hamilton, D. (2014). God Revealed Through the Spheres. Referenced in the Seven Spheres of Society framework.",
   "The Holy Bible, New International Version (2011). John 1:14; Proverbs 27:17. Biblica.",
@@ -317,4 +319,4 @@ export const sourcesList = [
 
 /** A note on how I wrote this article */
 export const authorNote =
-  "I used Google NotebookLM to gather and organise research across my source library, including Arthur Brooks's AI Advantage Summit address, Stanford Digital Economy Lab employment data, and the theological and formation literature cited below. Claude (Anthropic) helped structure an outline and generate initial drafts, which I then revised and rewrote to reflect my own voice, theology, and convictions. The arguments here are mine. I use AI as a drafting tool, not as the author — and I take full responsibility for what is published here, including any errors of fact or attribution.";
+  "I used Google NotebookLM to gather and organise research across my source library, including Arthur Brooks's and Leor Weinstein's AI Advantage Summit sessions, Dean Graziosi's Four Levers framework, Stanford Digital Economy Lab employment data, and the theological and formation literature cited below. The Sacred Tasks three-question exercise and the Five Disciplines (Discernment, Dignity, Design, Discipleship, Mission) are my pastoral adaptations and synthesis for faith leaders — built on summit material, not presented as original summit content. Claude (Anthropic) helped structure an outline and generate initial drafts, which I then revised and rewrote to reflect my own voice, theology, and convictions. I use AI as a drafting tool, not as the author — and I take full responsibility for what is published here, including any errors of fact or attribution.";
