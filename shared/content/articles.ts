@@ -11,6 +11,50 @@ export interface ArticleItem {
 
 export const articles: ArticleItem[] = [
   {
+    id: "world-of-fakes",
+    title: "In a World of Fakes, the Church Has Something Rare",
+    excerpt:
+      "Part 4 of 4 — Trustworthiness, physical presence, and covenant community are scarcer than ever. The church has been practising them for two thousand years.",
+    url: "/resources/in-a-world-of-fakes-the-church-has-something-rare",
+    date: "2026-05-29",
+    readTime: "10 min",
+    category: "AI & Faith",
+    image: "/images/world-of-fakes-header.jpg",
+  },
+  {
+    id: "work-ai-cannot-take",
+    title: "The Work That AI Cannot Take",
+    excerpt:
+      "Part 3 of 4 — Vocation, Sacred Tasks, and a framework for what to automate, augment, and protect without guilt.",
+    url: "/resources/the-work-ai-cannot-take",
+    date: "2026-05-22",
+    readTime: "11 min",
+    category: "AI & Faith",
+    image: "/images/work-ai-cannot-take-header.jpg",
+  },
+  {
+    id: "question-nobody-asking",
+    title: "The Question Nobody Is Asking About AI",
+    excerpt:
+      "Part 2 of 4 — Not what AI can do, but what it is doing to our desires, attention, and the people we are becoming.",
+    url: "/resources/the-question-nobody-is-asking-about-ai",
+    date: "2026-05-15",
+    readTime: "10 min",
+    category: "AI & Faith",
+    image: "/images/question-nobody-asking-header.jpg",
+  },
+  {
+    id: "ground-has-shifted",
+    title: "Something Has Changed. You Are Not Imagining It.",
+    excerpt:
+      "Part 1 of 4 — Why the ground has shifted beneath leaders, what the Discernment Age means, and the pastoral gap Barna's research reveals.",
+    url: "/resources/something-has-changed-you-are-not-imagining-it",
+    date: "2026-05-08",
+    readTime: "9 min",
+    category: "AI & Faith",
+    image: "/images/ground-has-shifted-header.jpg",
+  },
+  {
     id: "safe-phrase",
     title: "The Voice on the Phone Is Your Son. It Isn't.",
     excerpt:

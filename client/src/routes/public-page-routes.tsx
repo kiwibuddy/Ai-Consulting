@@ -10,9 +10,13 @@ import {
   ArticleAiWorry,
   ArticleGardenTreeKnowledge,
   ArticleSabbathRestAi,
+  ArticleGroundHasShifted,
+  ArticleQuestionNobodyAsking,
   ArticleSafePhrase,
   ArticleSoulNeedsStruggle,
   ArticleTeensAlgorithmFriend,
+  ArticleWorkAiCannotTake,
+  ArticleWorldOfFakes,
   ChristianProfessionalWorksheetPage,
   ForgotPassword,
   IntakePage,
@@ -53,6 +57,10 @@ export const ArticleSabbathPublicRoute = withPublicPage(ArticleSabbathRestAi);
 export const ArticleSoulPublicRoute = withPublicPage(ArticleSoulNeedsStruggle);
 export const ArticleAiWorryPublicRoute = withPublicPage(ArticleAiWorry);
 export const ArticleSafePhrasePublicRoute = withPublicPage(ArticleSafePhrase);
+export const ArticleGroundHasShiftedPublicRoute = withPublicPage(ArticleGroundHasShifted);
+export const ArticleQuestionNobodyAskingPublicRoute = withPublicPage(ArticleQuestionNobodyAsking);
+export const ArticleWorkAiCannotTakePublicRoute = withPublicPage(ArticleWorkAiCannotTake);
+export const ArticleWorldOfFakesPublicRoute = withPublicPage(ArticleWorldOfFakes);
 export const WorksheetSharePublicRoute = withPublicPage(WorksheetSharePage);
 export const ChristianWorksheetPublicRoute = withPublicPage(ChristianProfessionalWorksheetPage);
 export const AboutPublicRoute = withPublicPage(AboutPage);

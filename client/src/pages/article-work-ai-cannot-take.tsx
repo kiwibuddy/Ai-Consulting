@@ -1,0 +1,215 @@
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "wouter";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { SiteFooter } from "@/components/site-footer";
+import { ArrowLeft, FileText } from "lucide-react";
+import {
+  articleMeta,
+  articleSections,
+  articleSummary,
+  sourcesList,
+  authorNote,
+} from "@/content/article-work-ai-cannot-take";
+import { ArticleSummaryModal } from "@/components/article-summary-modal";
+import { ArticleShare } from "@/components/article-share";
+import {
+  ArticleContentSection,
+  ArticleSourcesSection,
+  articleBodyClass,
+  articleContentMax,
+} from "@/components/article-page-shell";
+import { PageSEO } from "@/components/page-seo";
+import {
+  staggerRevealContainerVariants,
+  staggerRevealItemVariants,
+} from "@/lib/animations";
+
+function ReadingProgress() {
+  const [progress, setProgress] = useState(0);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reducedMotion) return;
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [reducedMotion]);
+
+  if (reducedMotion || progress === 0) return null;
+
+  return (
+    <div
+      className="fixed top-0 left-0 right-0 h-0.5 bg-[hsl(142,76%,42%)]/30 z-[100]"
+      role="presentation"
+      aria-hidden
+    >
+      <motion.div
+        className="h-full bg-[hsl(142,76%,42%)]"
+        style={{ width: `${progress}%` }}
+        transition={{ duration: 0.15 }}
+      />
+    </div>
+  );
+}
+
+function ArticleHero() {
+  const reducedMotion = useReducedMotion();
+  const container = useRef(null);
+  const inView = useInView(container, { once: true, amount: 0.2 });
+
+  return (
+    <header ref={container} className="relative min-h-[70vh] flex items-end justify-center overflow-hidden">
+      <div className="absolute inset-0">
+        <img
+          src={articleMeta.image}
+          alt=""
+          className="w-full h-full object-cover"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-neutral-900/60" aria-hidden />
+      </div>
+      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 pb-16 md:pb-24 pt-32 md:pt-40 text-center">
+        <motion.div
+          className="space-y-4"
+          initial="hidden"
+          animate={reducedMotion || inView ? "visible" : "hidden"}
+          variants={staggerRevealContainerVariants}
+        >
+          <motion.p
+            className="text-sm md:text-base font-medium uppercase tracking-widest text-white/90"
+            variants={staggerRevealItemVariants}
+          >
+            {articleMeta.category}
+          </motion.p>
+          <motion.h1
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight [text-wrap:balance] drop-shadow-lg"
+            variants={staggerRevealItemVariants}
+          >
+            {articleMeta.title}
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-white/95 [text-wrap:balance] max-w-2xl mx-auto"
+            variants={staggerRevealItemVariants}
+          >
+            {articleMeta.subtitle}
+          </motion.p>
+          <motion.p
+            className="text-sm text-white/80"
+            variants={staggerRevealItemVariants}
+          >
+            {articleMeta.author} · {articleMeta.readTime} · {articleMeta.publishedDate}
+          </motion.p>
+        </motion.div>
+      </div>
+    </header>
+  );
+}
+
+export default function ArticleWorkAiCannotTake() {
+  const [summaryOpen, setSummaryOpen] = useState(false);
+  return (
+    <div
+      
+      className="nb-page overflow-x-hidden overflow-x-hidden"
+    >
+      <PageSEO
+        title={articleMeta.title}
+        description={articleMeta.description}
+        canonicalPath={`/resources/${articleMeta.slug}`}
+        image={articleMeta.image}
+        ogType="article"
+        article={{
+          author: articleMeta.author,
+          authorUrl: articleMeta.authorUrl,
+          publishedDate: articleMeta.publishedDate,
+          modifiedDate: articleMeta.modifiedDate,
+        }}
+      />
+      <ReadingProgress />
+      <ArticleSummaryModal
+        open={summaryOpen}
+        onOpenChange={setSummaryOpen}
+        title={articleMeta.title}
+        summary={articleSummary}
+      />
+
+      <article className={articleBodyClass}>
+        <ArticleHero />
+        <section className={`${articleBodyClass} border-b border-neutral-200 px-6 py-5`}>
+          <div className={`${articleContentMax} mx-auto flex flex-wrap items-center justify-center gap-3`}>
+            <p className="text-sm text-neutral-600">
+              Get a quick one page summary here
+            </p>
+            <button
+              type="button"
+              onClick={() => setSummaryOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-neutral-50 px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-100 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+            >
+              <FileText className="h-4 w-4" />
+              Summary of Article
+            </button>
+          </div>
+        </section>
+        <section className={`${articleBodyClass} border-b border-neutral-200 px-6 py-4`}>
+          <div className={`${articleContentMax} mx-auto`}>
+            <ArticleShare url={articleMeta.canonicalUrl} title={articleMeta.title} description={articleMeta.description} />
+          </div>
+        </section>
+
+        {articleSections.map((section) => (
+          <ArticleContentSection key={section.id} section={section} />
+        ))}
+
+        <ArticleSourcesSection sources={sourcesList} />
+
+        <section className={`py-10 px-6 border-t border-neutral-200 ${articleBodyClass}`}>
+          <div className={`${articleContentMax} mx-auto`}>
+            <p className="text-sm text-neutral-600 italic leading-relaxed [text-wrap:balance]">
+              {authorNote}
+            </p>
+          </div>
+        </section>
+
+        <section className={`py-12 px-6 border-t border-neutral-200 ${articleBodyClass}`}>
+          <div className={`${articleContentMax} mx-auto flex flex-col sm:flex-row items-center justify-between gap-4`}>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/resources"
+                className="inline-flex items-center gap-2 text-[hsl(142,76%,42%)] font-medium hover:underline"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Resources
+              </Link>
+              <a
+                href="https://github.com/kiwibuddy/Ai-Consulting/edit/main/client/src/content/article-work-ai-cannot-take.ts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-neutral-500 hover:text-neutral-700 underline"
+              >
+                Edit this article
+              </a>
+            </div>
+            <Button asChild>
+              <a
+                href="https://www.nathanielbaldock.com/#contact"
+                className="nb-btn-primary"
+              >
+                Book a free 30-min consultation
+              </a>
+            </Button>
+          </div>
+        </section>
+      </article>
+
+      <SiteFooter />
+    </div>
+  );
+}

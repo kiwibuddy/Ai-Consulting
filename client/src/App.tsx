@@ -28,10 +28,14 @@ import {
   AboutPublicRoute,
   ArticleAiWorryPublicRoute,
   ArticleGardenPublicRoute,
+  ArticleGroundHasShiftedPublicRoute,
+  ArticleQuestionNobodyAskingPublicRoute,
   ArticleSabbathPublicRoute,
   ArticleSafePhrasePublicRoute,
   ArticleSoulPublicRoute,
   ArticleTeensPublicRoute,
+  ArticleWorkAiCannotTakePublicRoute,
+  ArticleWorldOfFakesPublicRoute,
   ChristianWorksheetPublicRoute,
   ForgotPasswordPublicRoute,
   IntakePublicRoute,
@@ -276,6 +280,10 @@ function Router() {
         <Route path="/resources/why-your-soul-needs-the-struggle" component={ArticleSoulPublicRoute} />
         <Route path="/resources/how-worried-should-you-be-about-ai" component={ArticleAiWorryPublicRoute} />
         <Route path="/resources/the-voice-on-the-phone-is-not-your-son" component={ArticleSafePhrasePublicRoute} />
+        <Route path="/resources/something-has-changed-you-are-not-imagining-it" component={ArticleGroundHasShiftedPublicRoute} />
+        <Route path="/resources/the-question-nobody-is-asking-about-ai" component={ArticleQuestionNobodyAskingPublicRoute} />
+        <Route path="/resources/the-work-ai-cannot-take" component={ArticleWorkAiCannotTakePublicRoute} />
+        <Route path="/resources/in-a-world-of-fakes-the-church-has-something-rare" component={ArticleWorldOfFakesPublicRoute} />
         <Route path="/resources/worksheet/protecting-kids-from-the-digital-god">
           <Redirect to="/resources/worksheet/the-digital-god-in-your-childs-pocket" />
         </Route>

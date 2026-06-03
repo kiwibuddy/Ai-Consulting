@@ -108,6 +108,34 @@ const articlePages: Record<string, PageMeta> = {
     image: `${SITE}/images/safe-phrase-header.jpg`,
     ogType: "article",
   },
+  "/resources/something-has-changed-you-are-not-imagining-it": {
+    title: "Something Has Changed. You Are Not Imagining It.",
+    description:
+      "Why AI disorientation is a reasonable response, what the shift from the Information Age to the Discernment Age means for leaders, and the pastoral gap in the church.",
+    image: `${SITE}/images/ground-has-shifted-header.jpg`,
+    ogType: "article",
+  },
+  "/resources/the-question-nobody-is-asking-about-ai": {
+    title: "The Question Nobody Is Asking About AI",
+    description:
+      "What AI is doing to our desires, attention, and formation — Smith, James, Crouch, Augustine, and why holiness is the ultimate disruption.",
+    image: `${SITE}/images/question-nobody-asking-header.jpg`,
+    ogType: "article",
+  },
+  "/resources/the-work-ai-cannot-take": {
+    title: "The Work That AI Cannot Take",
+    description:
+      "Vocation in the age of automation: complicated vs complex, Automate/Augment/Accelerate/Activate, Sacred Tasks, and five disciplines for faithful leadership.",
+    image: `${SITE}/images/work-ai-cannot-take-header.jpg`,
+    ogType: "article",
+  },
+  "/resources/in-a-world-of-fakes-the-church-has-something-rare": {
+    title: "In a World of Fakes, the Church Has Something Rare",
+    description:
+      "Why demonstrable trustworthiness, physical presence, and covenant community are the scarcest assets of 2026 — and what faithful leadership looks like from Monday.",
+    image: `${SITE}/images/world-of-fakes-header.jpg`,
+    ogType: "article",
+  },
 };
 
 function lookupMeta(urlPath: string): PageMeta | null {
