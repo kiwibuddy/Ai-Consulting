@@ -201,9 +201,14 @@ export const articleSections: ArticleSection[] = [
 ];
 
 export const sourcesList = [
-  "Federal Bureau of Investigation, Internet Crime Complaint Center (IC3). ic3.gov",
-  "AARP — Money & Scams. aarp.org/money/scams-fraud",
+  "Federal Bureau of Investigation, Internet Crime Complaint Center (IC3). (2025). Internet Crime Report — approximately US$893 million in AI-related fraud losses reported in 2025; adults aged 60 and over lost approximately US$7.7 billion to fraud across all categories (up roughly 60% year-on-year). ic3.gov",
+  "AARP. (2025). Fraud and scams research — approximately one in five Americans aged 65+ targeted by an AI voice-cloning scam; approximately one in ten reported losing money; average successful theft around US$18,000. aarp.org/money/scams-fraud",
+  "Resemble AI. (2025). Q1 voice-scam report — 148% increase in AI-generated voice scams documented; financial damages from deepfake and voice-cloning incidents exceeded US$200 million in Q1 2025 alone. resemble.ai",
+  "ACA International. (2026, February). AI voice cloning surges as scammers target emotional pressure points. acainternational.org",
+  "Old National Bank (Reed, C.). (2026, March). AI scam alert: How fraudsters are mimicking family voices in 2026. oldnational.com",
+  "Federal Trade Commission. (2024–2025). Voice Cloning Challenge — public initiative to develop detection and prevention tools for AI-generated voice fraud. ftc.gov",
 ];
 
+/** A note on how I wrote this article */
 export const authorNote =
-  "Nathaniel Baldock writes and consults on technology, faith, and being fully human in an AI world. He is based in Tauranga, New Zealand. I take full responsibility for the final article, including any errors of attribution or fact.";
+  "I used Google NotebookLM to gather and organise research on AI voice-cloning fraud, including FBI IC3 reporting, AARP survey data, Resemble AI's voice-scam tracking, and ACA International's 2026 analysis. Claude Sonnet (Anthropic) helped draft the initial outline and prose; I edited the final version so it reflects my own views and how I actually advise families. I have attempted to verify and correctly attribute every statistic in this article. The positions here are mine — AI assisted the writing, it did not set them. I take full responsibility for the published article, including any errors of fact or attribution.";

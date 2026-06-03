@@ -185,11 +185,13 @@ export const articleSections: ArticleSection[] = [
 ];
 
 export const sourcesList = [
-  "2026 International AI Safety Report. internationalaisafetyreport.org",
-  "Federal Bureau of Investigation, Internet Crime Complaint Center (IC3). ic3.gov",
-  "AARP — Money & Scams. aarp.org/money/scams-fraud",
-  "Forecasting Research Institute — AI catastrophe forecasting tournament (XPT). forecastingresearch.org/xpt",
+  "Bengio, Y. (Chair). (2026). International AI Safety Report (3rd ed.). Commissioned at the 2023 Bletchley Park summit; endorsed by 30+ governments, the European Union, the OECD, and the United Nations. internationalaisafetyreport.org",
+  "AI Incident Database. (2025). Publicly documented AI-related incidents cited in the 2026 IAISR — 362 incidents in 2025, up from 233 in 2024 (55% year-on-year increase). incidentdatabase.ai",
+  "Federal Bureau of Investigation, Internet Crime Complaint Center (IC3). (2025). Internet Crime Report — approximately US$893 million in AI-related fraud losses reported in 2025; total reported fraud losses exceeded US$16 billion. ic3.gov",
+  "AARP. (2025). Fraud and scams research — adults aged 60 and over lost approximately US$7.7 billion to fraud across all categories in 2025 (up roughly 60% year-on-year); AI voice-cloning scam targeting data for adults 65+. aarp.org/money/scams-fraud",
+  "Forecasting Research Institute. (2024–2025). Existential Risk Persuasion Tournament (XPT): structured estimates from 169 AI domain experts, general risk experts, and superforecasters on AI-caused civilisational catastrophe by 2100 (medians: ~6%, ~1%, and ~0.4% respectively). forecastingresearch.org/xpt",
 ];
 
+/** A note on how I wrote this article */
 export const authorNote =
-  "Nathaniel Baldock writes and consults on technology, faith, and being fully human in an AI world. He is based in Tauranga, New Zealand. I take full responsibility for the final article, including any errors of attribution or fact.";
+  "I used Google NotebookLM to gather and organise research across public sources including the 2026 International AI Safety Report, FBI IC3 reporting, AARP fraud research, and the Forecasting Research Institute's Existential Risk Persuasion Tournament. Claude Sonnet (Anthropic) helped draft the initial structure and prose; I revised and rewrote the final article so it reflects my own judgement and voice. I have attempted to verify and correctly attribute every statistic in this article. I use AI as a drafting tool, not as the author — and I take full responsibility for what is published here, including any errors of fact or attribution.";
