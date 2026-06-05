@@ -26,6 +26,11 @@ import { CoachArea } from "@/routes/coach-area";
 import { LandingPage } from "@/routes/public-page-routes";
 import {
   AboutPublicRoute,
+  AiConsultingChurchesPublicRoute,
+  AiGovernanceNonprofitsPublicRoute,
+  AiSpeakerFaithPublicRoute,
+  AiTrainingSchoolsPublicRoute,
+  AiUseAuditLandingPublicRoute,
   ArticleAiWorryPublicRoute,
   ArticleGardenPublicRoute,
   ArticleGroundHasShiftedPublicRoute,
@@ -53,6 +58,7 @@ import {
   TaurangaSmePublicRoute,
   TaurangaSmeWelcomePublicRoute,
   TermsPublicRoute,
+  WhoIsPublicRoute,
   WorksheetSharePublicRoute,
 } from "@/routes/public-page-routes";
 
@@ -293,6 +299,12 @@ function Router() {
         <Route path="/resources/worksheet/:id" component={WorksheetSharePublicRoute} />
         <Route path="/resources/christian-professional/:slug" component={ChristianWorksheetPublicRoute} />
         <Route path="/about" component={AboutPublicRoute} />
+        <Route path="/who-is-nathaniel-baldock" component={WhoIsPublicRoute} />
+        <Route path="/ai-consulting-for-churches" component={AiConsultingChurchesPublicRoute} />
+        <Route path="/ai-training-for-schools" component={AiTrainingSchoolsPublicRoute} />
+        <Route path="/ai-governance-for-nonprofits" component={AiGovernanceNonprofitsPublicRoute} />
+        <Route path="/ai-speaker-faith-and-technology" component={AiSpeakerFaithPublicRoute} />
+        <Route path="/ai-use-audit" component={AiUseAuditLandingPublicRoute} />
         <Route path="/pricing" component={PricingPublicRoute} />
         <Route path="/tauranga-sme/welcome" component={TaurangaSmeWelcomePublicRoute} />
         <Route path="/tauranga-sme" component={TaurangaSmePublicRoute} />

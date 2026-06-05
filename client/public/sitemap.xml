@@ -2,43 +2,79 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.nathanielbaldock.com/</loc>
-    <lastmod>2026-02-13</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/speaking</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://www.nathanielbaldock.com/about</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/resources</loc>
-    <lastmod>2026-02-13</lastmod>
+    <loc>https://www.nathanielbaldock.com/ai-consulting-for-churches</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/ai-governance-for-nonprofits</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/ai-speaker-faith-and-technology</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/ai-training-for-schools</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/ai-use-audit</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/audit</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.nathanielbaldock.com/intake</loc>
-    <lastmod>2026-02-13</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/about</loc>
-    <lastmod>2026-02-24</lastmod>
+    <loc>https://www.nathanielbaldock.com/speaking</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/who-is-nathaniel-baldock</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.nathanielbaldock.com/pricing</loc>
-    <lastmod>2026-02-24</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/resources/raising-humans-in-the-age-of-the-digital-god</loc>
-    <lastmod>2026-02-19</lastmod>
+    <loc>https://www.nathanielbaldock.com/resources</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -49,13 +85,61 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.nathanielbaldock.com/resources/how-worried-should-you-be-about-ai</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/in-a-world-of-fakes-the-church-has-something-rare</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.nathanielbaldock.com/resources/outsourcing-the-holy-spirit-to-ai</loc>
     <lastmod>2026-02-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.nathanielbaldock.com/resources/raising-humans-in-the-age-of-the-digital-god</loc>
+    <lastmod>2026-02-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/sabbath-rest-in-the-age-of-ai</loc>
+    <lastmod>2026-05-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/something-has-changed-you-are-not-imagining-it</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.nathanielbaldock.com/resources/the-garden-and-the-tree-of-knowledge-in-your-pocket</loc>
+    <lastmod>2026-05-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/the-question-nobody-is-asking-about-ai</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/the-voice-on-the-phone-is-not-your-son</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/the-work-ai-cannot-take</loc>
     <lastmod>2026-05-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -67,15 +151,243 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/resources/sabbath-rest-in-the-age-of-ai</loc>
+    <loc>https://www.nathanielbaldock.com/resources/why-your-soul-needs-the-struggle</loc>
     <lastmod>2026-05-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nathanielbaldock.com/resources/why-your-soul-needs-the-struggle</loc>
-    <lastmod>2026-05-21</lastmod>
+    <loc>https://www.nathanielbaldock.com/speaking/invite</loc>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/christian-professional/52-minute-opportunity-christian</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/christian-professional/automation-or-augmentation-christian</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/christian-professional/deepfakes-digital-truth-2026</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/christian-professional/five-year-positioning-map-christian</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/christian-professional/what-will-they-still-pay-me-for-christian</loc>
+    <lastmod>2026-03-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/christian-digital-liturgy-audit</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/christian-healthy-ai-use</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/christian-scrolling-to-sabbath</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/christian-think-without-assistance</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/edu-prompt-engineering</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/edu-verify-method</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/edu-what-is-school-for</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/family-ai-agreement</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/family-attachment-audit</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/family-rewiring-rhythms</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/family-who-is-raising-our-kids</loc>
+    <lastmod>2026-03-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-ai-prep-analog-asset-log</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-ai-prep-onboarding</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-ai-prep-readiness-checklist</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-ai-prep-safe-phrase-protocol</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-ai-threats-explained</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-life-calling-discovery</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-lords-prayer-through-spheres</loc>
+    <lastmod>2026-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-research-to-presentation</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-workflow-claude-to-live-site</loc>
+    <lastmod>2026-04-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/presentations-workflow-cursor-to-live-site</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-legal</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-presentation-legal</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-presentation-readiness</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-presentation-team</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-presentation-time-audit</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-readiness</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-team</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/tauranga-sme-time-audit</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/the-broken-ladder-and-the-race-for-their-soul</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/resources/worksheet/the-digital-god-in-your-childs-pocket</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/privacy</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.nathanielbaldock.com/terms</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

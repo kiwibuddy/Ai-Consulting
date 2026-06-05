@@ -1,15 +1,9 @@
 /**
- * Post-build script: generates per-route index.html files with correct OG tags.
+ * Post-build script: generates per-route index.html files with correct OG tags and JSON-LD.
  *
  * Vercel serves a static build so there is no server-side processing.  Social
- * crawlers (Facebook, LinkedIn, Twitter) fetch raw HTML without running JS,
- * meaning every page would show the homepage OG image and title.
- *
- * This script reads the built dist/public/index.html, replaces the default
- * meta tags for each known public route, and writes a route-specific
- * index.html (e.g. dist/public/resources/sabbath-rest-in-the-age-of-ai/index.html).
- * Vercel serves static files before applying rewrites, so these files take
- * priority over the SPA fallback.
+ * crawlers fetch raw HTML without running JS — this script pre-renders meta and
+ * structured data for every sitemap URL.
  *
  * Run: npx tsx scripts/prerender-og.ts  (called automatically by build:client)
  */
@@ -17,14 +11,19 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getSitemapEntries } from "../shared/content/sitemap-sources";
+import {
+  DEFAULT_IMAGE,
+  getJsonLdForPath,
+  lookupPublicPageMeta,
+  SITE,
+} from "../shared/content/public-page-meta";
 import { worksheets } from "../client/src/content/worksheets";
 import { christianProfessionalWorksheets } from "../client/src/content/christian-professional-worksheets";
 import { deepDives } from "../client/src/content/deep-dives";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, "..", "dist", "public");
-const SITE = "https://www.nathanielbaldock.com";
-const DEFAULT_IMAGE = `${SITE}/Nathaniel_Portrait.png`;
 
 interface PageMeta {
   title: string;
@@ -33,101 +32,44 @@ interface PageMeta {
   ogType: "website" | "article";
 }
 
-const pages: Record<string, PageMeta> = {
-  "/about": {
-    title: "About Nathaniel Baldock — AI Consultant for Faith-Based Organisations",
-    description:
-      "20+ years in global missions with YWAM, now helping churches, schools, and nonprofits navigate AI. Based in Tauranga, New Zealand — consulting globally on AI strategy, ethics, and discipleship.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
-  "/resources": {
-    title: "AI & Faith Resources — Articles on AI for Churches, Christian Education & Missions",
-    description:
-      "Articles and essays on artificial intelligence from a Christian perspective. AI ethics for churches, digital discipleship, AI in education, parenting in the age of AI, and more. By Nathaniel Baldock.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
-  "/pricing": {
-    title: "AI Consulting Pricing — Workshops, Strategy Sessions & Speaking for Churches and Schools",
-    description:
-      "Transparent pricing for AI consulting, workshops, and keynote speaking. Tailored for churches, Christian schools, nonprofits, and mission organisations. Free 30-minute discovery call available.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
-  "/intake": {
-    title: "Book a Free AI Consultation — Nathaniel Baldock AI Consulting",
-    description:
-      "Book a free 30-minute AI consultation for your church, school, or nonprofit. Get practical guidance on AI strategy, policy, and implementation from a faith-based AI consultant.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
-  "/speaking": {
-    title: "Invite Nathaniel Baldock to Speak — AI, Faith & Technology Keynotes",
-    description:
-      "Book Nathaniel Baldock as a speaker for your church, conference, or Christian school. Keynotes and workshops on AI and faith, digital discipleship, technology ethics, and navigating AI as a Christian leader.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
+function worksheetMeta(routePath: string): PageMeta | null {
+  const worksheet = worksheets.find((w) => w.url === routePath);
+  if (worksheet) {
+    return {
+      title: `${worksheet.title} — Worksheet`,
+      description: worksheet.description,
+      image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
+      ogType: "article",
+    };
+  }
 
-  // Articles
-  "/resources/the-garden-and-the-tree-of-knowledge-in-your-pocket": {
-    title: "The Garden and the Tree of Knowledge in Your Pocket",
-    description:
-      "Genesis 3, AI companions, and the oldest temptation in a new interface: wisdom without the walk, companionship without the Paraclete. Protect the slow conversation with God.",
-    image: `${SITE}/images/garden-tree-knowledge-header.png`,
-    ogType: "article",
-  },
-  "/resources/when-your-teens-best-friend-is-an-algorithm": {
-    title: "When Your Teen's Best Friend Is an Algorithm: What Parents and Youth Leaders Need to Know",
-    description:
-      "Teens and AI companions: what Christian parents and youth leaders need to know. Character.AI, the 2 a.m. conversation, social skill atrophy, AI deepfakes in schools, and practical ways to out-human the technology.",
-    image: `${SITE}/images/teens-algorithm-header.png`,
-    ogType: "article",
-  },
-  "/resources/sabbath-rest-in-the-age-of-ai": {
-    title: "Reclaiming the Sabbath in an Always-On World",
-    description:
-      "Why Sabbath rest matters in the age of AI. AI fatigue, bastard sabbath vs real rest, practical atheism of the always-on life, and how to reclaim margin as trust.",
-    image: `${SITE}/images/sabbath-rest-header.png`,
-    ogType: "article",
-  },
-  "/resources/why-your-soul-needs-the-struggle": {
-    title: "The Danger of an Effortless Faith: Why the Soul Needs the Struggle",
-    description:
-      "Why effortless AI is a Genesis 3 problem, not a productivity problem. Grace, effort, Peter's charcoal fire, and fighting for humanness in an always-on world.",
-    image: `${SITE}/images/beach-coal-fire.jpg`,
-    ogType: "article",
-  },
-};
+  const cp = christianProfessionalWorksheets.find(
+    (w) => `/resources/christian-professional/${w.slug}` === routePath,
+  );
+  if (cp) {
+    return {
+      title: `${cp.title} — Worksheet`,
+      description: cp.shareDescription,
+      image: cp.shareImage ? `${SITE}${cp.shareImage}` : DEFAULT_IMAGE,
+      ogType: "article",
+    };
+  }
 
-for (const worksheet of worksheets) {
-  if (!worksheet.url.startsWith("/resources/worksheet/")) continue;
-  pages[worksheet.url] = {
-    title: `${worksheet.title} — Worksheet`,
-    description: worksheet.description,
-    image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
-    ogType: "article",
-  };
+  const dive = deepDives.find((d) => d.url === routePath);
+  if (dive) {
+    return {
+      title: `${dive.title} — Deep Dive`,
+      description: dive.description,
+      image: dive.shareImage ? `${SITE}${dive.shareImage}` : DEFAULT_IMAGE,
+      ogType: "article",
+    };
+  }
+
+  return null;
 }
 
-for (const worksheet of christianProfessionalWorksheets) {
-  const routePath = `/resources/christian-professional/${worksheet.slug}`;
-  pages[routePath] = {
-    title: `${worksheet.title} — Worksheet`,
-    description: worksheet.description,
-    image: worksheet.shareImage ? `${SITE}${worksheet.shareImage}` : DEFAULT_IMAGE,
-    ogType: "article",
-  };
-}
-
-for (const deepDive of deepDives) {
-  pages[deepDive.url] = {
-    title: `${deepDive.title} — Deep Dive`,
-    description: deepDive.description,
-    image: deepDive.shareImage ? `${SITE}${deepDive.shareImage}` : DEFAULT_IMAGE,
-    ogType: "article",
-  };
+function resolveMeta(routePath: string): PageMeta | null {
+  return lookupPublicPageMeta(routePath) ?? worksheetMeta(routePath);
 }
 
 function esc(s: string): string {
@@ -143,34 +85,50 @@ function injectMeta(html: string, routePath: string, meta: PageMeta): string {
 
   let out = html;
   out = out.replace(/<title>[^<]*<\/title>/, `<title>${t}</title>`);
-  out = out.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/,`$1${d}$2`);
-  out = out.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/,`$1${url}$2`);
-  out = out.replace(/(<meta\s+property="og:type"\s+content=")[^"]*(")/,`$1${meta.ogType}$2`);
-  out = out.replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/,`$1${url}$2`);
-  out = out.replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/,`$1${t}$2`);
-  out = out.replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/,`$1${d}$2`);
-  out = out.replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/,`$1${img}$2`);
-  out = out.replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/,`$1${t}$2`);
-  out = out.replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,`$1${d}$2`);
-  out = out.replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*(")/,`$1${img}$2`);
+  out = out.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${d}$2`);
+  out = out.replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${url}$2`);
+  out = out.replace(/(<meta\s+property="og:type"\s+content=")[^"]*(")/, `$1${meta.ogType}$2`);
+  out = out.replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${url}$2`);
+  out = out.replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${t}$2`);
+  out = out.replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/, `$1${d}$2`);
+  out = out.replace(/(<meta\s+property="og:image"\s+content=")[^"]*(")/, `$1${img}$2`);
+  out = out.replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/, `$1${t}$2`);
+  out = out.replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/, `$1${d}$2`);
+  out = out.replace(/(<meta\s+name="twitter:image"\s+content=")[^"]*(")/, `$1${img}$2`);
+
+  const schemas = getJsonLdForPath(routePath);
+  if (schemas.length > 0 && out.includes("</head>")) {
+    const scripts = schemas
+      .map(
+        (schema) =>
+          `<script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>`,
+      )
+      .join("\n    ");
+    out = out.replace("</head>", `    ${scripts}\n  </head>`);
+  }
 
   return out;
 }
 
-// ── Main ───────────────────────────────────────────────────────────────
-// Generate .html files (not directory/index.html) so Vercel's cleanUrls
-// maps /foo → foo.html before the SPA rewrite catches it.
+const indexHtmlPath = path.join(DIST, "index.html");
+if (!fs.existsSync(indexHtmlPath)) {
+  console.error("✗ dist/public/index.html not found — run vite build first");
+  process.exit(1);
+}
 
-const indexHtml = fs.readFileSync(path.join(DIST, "index.html"), "utf-8");
+const indexHtml = fs.readFileSync(indexHtmlPath, "utf-8");
 let count = 0;
 
-for (const [route, meta] of Object.entries(pages)) {
-  const parentDir = path.join(DIST, path.dirname(route));
+for (const entry of getSitemapEntries()) {
+  const meta = resolveMeta(entry.path);
+  if (!meta) continue;
+
+  const parentDir = path.join(DIST, path.dirname(entry.path));
   fs.mkdirSync(parentDir, { recursive: true });
 
-  const outPath = path.join(DIST, `${route}.html`);
-  fs.writeFileSync(outPath, injectMeta(indexHtml, route, meta), "utf-8");
+  const outPath = path.join(DIST, `${entry.path}.html`);
+  fs.writeFileSync(outPath, injectMeta(indexHtml, entry.path, meta), "utf-8");
   count++;
 }
 
-console.log(`✓ Pre-rendered OG meta for ${count} routes`);
+console.log(`✓ Pre-rendered OG meta + JSON-LD for ${count} routes`);

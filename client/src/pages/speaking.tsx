@@ -27,6 +27,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { SpeakingPageJsonLd } from "@/components/json-ld";
+import { PageSEO } from "@/components/page-seo";
 
 const contentMax = "nb-container max-w-6xl px-0 mx-auto";
 const ctaLabel = "Book a free 30-min consultation";
@@ -34,6 +35,11 @@ const ctaLabel = "Book a free 30-min consultation";
 export default function SpeakingPage() {
   return (
     <div className="nb-page overflow-x-hidden">
+      <PageSEO
+        title="Invite Nathaniel Baldock to Speak — AI, Faith & Technology Keynotes"
+        description="Book Nathaniel Baldock as a speaker for your church, conference, or Christian school. Keynotes and workshops on AI and faith, digital discipleship, technology ethics, and navigating AI as a Christian leader."
+        canonicalPath="/speaking"
+      />
       <SpeakingPageJsonLd faqs={speakingFaqs} />
       <div className="overflow-x-hidden">
       {/* Hero — same shell as homepage */}

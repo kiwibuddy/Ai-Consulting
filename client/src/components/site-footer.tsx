@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { SITE_CONTACT_EMAIL, MAILTO_SUBJECT_INQUIRY } from "@shared/constants";
+import { SOCIAL_PROFILES } from "@shared/content/site-profiles";
 
 export interface SiteFooterProps {
   onNewsletterSubmit?: (email: string) => void | Promise<void>;
@@ -68,6 +69,30 @@ export function SiteFooter({ onNewsletterSubmit }: SiteFooterProps) {
             <FooterCol title="Connect">
               <a href={`mailto:${SITE_CONTACT_EMAIL}?subject=${MAILTO_SUBJECT_INQUIRY}`} className={footerLink}>
                 Email
+              </a>
+              <a
+                href={SOCIAL_PROFILES.linkedin}
+                className={footerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                href={SOCIAL_PROFILES.facebook}
+                className={footerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
+              <a
+                href={SOCIAL_PROFILES.youtube}
+                className={footerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                YouTube
               </a>
               <Link href="/intake" className={footerLink}>Book a call</Link>
             </FooterCol>

@@ -1,54 +1,53 @@
 "use client";
 
 import type { FAQItem } from "@/content/speakingPage";
+import {
+  buildPersonSchema,
+  buildProfessionalServiceSchema,
+  CANONICAL_BIO,
+  PERSON_JOB_TITLE,
+  SITE_URL,
+} from "@shared/content/site-profiles";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
 
-const SITE_URL = "https://www.nathanielbaldock.com";
+function JsonLdScript({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
+  const payload = Array.isArray(data) ? data : [data];
+  return (
+    <>
+      {payload.map((item, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(item) }}
+        />
+      ))}
+    </>
+  );
+}
 
 /** Homepage: LocalBusiness + Person so Google can show for "AI consultant Tauranga" / "AI consulting New Zealand" */
 export function HomepageJsonLd() {
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "Nathaniel Baldock AI Consulting",
-    description:
-      "AI consultant in Tauranga, New Zealand. Strategy, training, and advisory for faith-based organisations, churches, schools, and nonprofits. Serving New Zealand and globally.",
-    url: SITE_URL,
-    email: SITE_CONTACT_EMAIL,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Tauranga",
-      addressRegion: "Bay of Plenty",
-      addressCountry: "NZ",
-    },
-    areaServed: [
-      { "@type": "Country", name: "New Zealand" },
-      { "@type": "City", name: "Tauranga" },
-    ],
-    serviceType: "AI Consulting",
-    image: `${SITE_URL}/Nathaniel_Portrait.png`,
-  };
-
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Nathaniel Baldock",
-    url: SITE_URL,
-    jobTitle: "AI Consultant",
-    description:
-      "AI consultant and speaker in Tauranga, New Zealand. Strategy, training, and advisory for churches, schools, and nonprofits.",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Tauranga",
-      addressCountry: "NZ",
-    },
-  };
-
   return (
-    <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
-    </>
+    <JsonLdScript
+      data={[
+        buildProfessionalServiceSchema(),
+        buildPersonSchema({ jobTitle: "AI Consultant", includeKnowsAbout: false, includeAlumniOf: false }),
+      ]}
+    />
+  );
+}
+
+/** About + Who-is pages: richest Person entity on the site. */
+export function AboutPageJsonLd() {
+  return (
+    <JsonLdScript
+      data={buildPersonSchema({
+        includeEmail: true,
+        includeKnowsAbout: true,
+        includeAlumniOf: true,
+        includeWorksFor: true,
+      })}
+    />
   );
 }
 
@@ -69,43 +68,31 @@ function buildFaqPageSchema(faqs: FAQItem[]) {
 
 /** FAQPage JSON-LD for /resources (and other static FAQ pages). */
 export function FaqPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
+  return <JsonLdScript data={buildFaqPageSchema(faqs)} />;
+}
+
+export function SpeakingPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageSchema(faqs)) }}
+    <JsonLdScript
+      data={[
+        buildFaqPageSchema(faqs),
+        buildPersonSchema({
+          jobTitle: PERSON_JOB_TITLE,
+          description: CANONICAL_BIO,
+          includeEmail: true,
+        }),
+      ]}
     />
   );
 }
 
-export function SpeakingPageJsonLd({ faqs }: { faqs: FAQItem[] }) {
-  const faqSchema = buildFaqPageSchema(faqs);
-
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Nathaniel Baldock",
-    url: SITE_URL,
-    email: SITE_CONTACT_EMAIL,
-    jobTitle: "AI Consultant & Speaker",
-    description:
-      "AI consultant and speaker specializing in faith-based organizations. Strategy, training, and advisory for churches, schools, and nonprofits.",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Tauranga",
-      addressCountry: "NZ",
-    },
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-      />
-    </>
-  );
+export function ExpertisePageJsonLd({
+  faqs,
+}: {
+  faqs: Array<{ question: string; answer: string }>;
+}) {
+  return <JsonLdScript data={buildFaqPageSchema(faqs)} />;
 }
+
+/** Re-export for server-side JSON-LD injection. */
+export { buildPersonSchema, buildProfessionalServiceSchema, SITE_URL };

@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
 import { PageSEO } from "@/components/page-seo";
+import { AboutPageJsonLd } from "@/components/json-ld";
+import { CANONICAL_BIO } from "@shared/content/site-profiles";
 import { SectionLabel } from "@/components/public-cinematic/section-label";
 import {
   staggerRevealContainerVariants,
@@ -20,9 +22,10 @@ export default function AboutPage() {
     <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="About Nathaniel Baldock — AI Consultant for Faith-Based Organisations"
-        description="23 years in global missions and NGO work with YWAM, now building an AI consulting practice for churches, schools, and nonprofits. Based in Tauranga, New Zealand."
+        description="23 years in global missions and NGO work with YWAM. AI consultant, speaker, and educator in Tauranga, New Zealand — strategy, training, and advisory for churches, schools, and nonprofits."
         canonicalPath="/about"
       />
+      <AboutPageJsonLd />
 
       <main className="pt-28 pb-20 nb-section scroll-mt-24">
         <div className="nb-container px-0 max-w-[1240px]">
@@ -41,8 +44,7 @@ export default function AboutPage() {
               About Me
             </motion.h1>
             <motion.p className="nb-body-lg m-0 max-w-2xl" variants={staggerRevealItemVariants}>
-              Building an AI consulting practice in Tauranga, New Zealand — strategy, training, and
-              advisory for faith, education, and mission-driven organisations.
+              {CANONICAL_BIO}
             </motion.p>
           </motion.div>
 
@@ -69,7 +71,10 @@ export default function AboutPage() {
             </motion.div>
           </motion.div>
 
-          <p className="mt-12">
+          <p className="mt-12 flex flex-wrap gap-4">
+            <Link href="/who-is-nathaniel-baldock" className="nb-btn-secondary">
+              Who is Nathaniel Baldock? →
+            </Link>
             <Link href="/" className="nb-btn-secondary">
               ← Back to home
             </Link>

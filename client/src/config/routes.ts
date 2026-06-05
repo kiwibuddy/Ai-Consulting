@@ -7,6 +7,12 @@
 export const PUBLIC_ROUTES = [
   "/",
   "/about",
+  "/who-is-nathaniel-baldock",
+  "/ai-consulting-for-churches",
+  "/ai-training-for-schools",
+  "/ai-governance-for-nonprofits",
+  "/ai-speaker-faith-and-technology",
+  "/ai-use-audit",
   "/speaking",
   "/speaking/invite",
   "/survey",
