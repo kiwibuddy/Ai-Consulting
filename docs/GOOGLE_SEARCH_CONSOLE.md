@@ -108,6 +108,15 @@ You should see XML starting with `<?xml version="1.0"` and many `<loc>` entries.
 4. Click **Submit**
 5. Status should change to **Success** or **Couldn't fetch** (see troubleshooting below)
 
+**If you see "Invalid sitemap address":**
+
+- Remove any **trailing space** — type `sitemap.xml` not `sitemap.xml `
+- Check **Submitted sitemaps** below the form — if `https://www.nathanielbaldock.com/sitemap.xml` is already listed with **Success**, you are done; do not submit again
+- Alternatively paste the full URL: `https://www.nathanielbaldock.com/sitemap.xml`
+- Confirm the file loads in your browser before retrying
+
+**"Discovered pages" still shows 9 (or another low number)?** That is often stale from before a deploy. The live sitemap may already list 65 URLs — wait for **Last read** to update, or delete and resubmit the sitemap to force a refresh.
+
 ### Step 2.3 — What success looks like
 
 After a few minutes to hours:

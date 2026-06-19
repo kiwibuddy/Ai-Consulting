@@ -25,6 +25,8 @@ export default function WorksheetSharePage() {
   const [iframeHeight, setIframeHeight] = useState(1200);
   const fitViewport =
     !isDeepDive && (worksheet?.displayMode === "fit-viewport");
+  /** Worksheets whose own HTML uses the dark cinematic theme — render full-width on a dark surface. */
+  const wide = !isDeepDive && worksheet?.wide === true;
   /** Tauranga SME HTML decks — 16∶9 iframe so letterboxed slides match the host frame */
   const cinematicPresentation =
     worksheet != null &&
@@ -110,6 +112,12 @@ export default function WorksheetSharePage() {
     }
   };
 
+  const chromeSection = wide
+    ? "bg-[#0f1014] border-b border-white/10"
+    : "bg-white border-b border-neutral-200";
+  const chromeMuted = wide ? "text-[#f4efe2]/65" : "text-neutral-600";
+  const chromeStrong = wide ? "font-medium text-[#f4efe2]" : "font-medium text-neutral-800";
+
   return (
     <div
       
@@ -130,13 +138,13 @@ export default function WorksheetSharePage() {
       />
 
       <main>
-        <section className="bg-white border-b border-neutral-200 px-6 py-5">
+        <section className={`${chromeSection} px-6 py-5`}>
           <div className="max-w-3xl mx-auto">
-            <p className="text-sm text-neutral-600 text-center">
-              {isDeepDive ? "Use the deep dive below." : "Fill in the worksheet below."} Use{" "}
-              <strong className="font-medium text-neutral-800">Print / Save PDF</strong>{" "}
+            <p className={`text-sm ${chromeMuted} text-center`}>
+              {isDeepDive ? "Use the deep dive below." : "Read through the worksheet below."} Use{" "}
+              <strong className={chromeStrong}>Print / Save PDF</strong>{" "}
               in the page footer, or use{" "}
-              <strong className="font-medium text-neutral-800">
+              <strong className={chromeStrong}>
                 {isDeepDive ? "Print deep dive" : "Print worksheet"}
               </strong>{" "}
               at the bottom of this page after you finish.
@@ -144,7 +152,7 @@ export default function WorksheetSharePage() {
           </div>
         </section>
 
-        <section className="bg-white border-b border-neutral-200 px-6 py-4">
+        <section className={`${chromeSection} px-6 py-4`}>
           <div className="max-w-3xl mx-auto">
             <ArticleShare
               url={canonicalUrl}
@@ -158,10 +166,22 @@ export default function WorksheetSharePage() {
           className={
             cinematicPresentation
               ? "py-4 px-2 sm:px-4 md:py-6 bg-[hsl(218,20%,88%)]"
+              : wide
+              ? "py-6 px-0 sm:px-4 md:px-6 md:py-8 bg-[#0f1014]"
               : "py-6 px-3 sm:px-4 md:px-6 bg-[hsl(218,20%,88%)]"
           }
         >
-          {cinematicPresentation ? (
+          {wide ? (
+            <iframe
+              ref={iframeRef}
+              title={resource.title}
+              src={resource.iframeSrc}
+              className="w-full max-w-[1180px] mx-auto block sm:rounded-3xl border-0 sm:border sm:border-white/10 bg-[#0f1014]"
+              allowFullScreen
+              allow="fullscreen"
+              style={{ height: iframeHeight, minHeight: 600 }}
+            />
+          ) : cinematicPresentation ? (
             <div
               className="relative mx-auto w-full max-sm:h-[min(92dvh,920px)] sm:aspect-[16/9] sm:w-[min(100%,calc((100dvh-11rem)*16/9))] sm:max-h-[92dvh] rounded-2xl shadow-lg border border-neutral-200/80 bg-[#090c14] overflow-hidden"
             >
@@ -192,6 +212,7 @@ export default function WorksheetSharePage() {
         </section>
 
         <WorksheetLeadCTA
+          dark={wide}
           headline={
             isDeepDive
               ? "Want to talk through what this means for your situation?"
@@ -204,7 +225,13 @@ export default function WorksheetSharePage() {
           }
         />
 
-        <section className="py-10 px-6 border-t border-neutral-200 bg-neutral-50">
+        <section
+          className={
+            wide
+              ? "py-10 px-6 border-t border-white/10 bg-[#0f1014]"
+              : "py-10 px-6 border-t border-neutral-200 bg-neutral-50"
+          }
+        >
           <div className="max-w-3xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-3 sm:gap-4">
             <Link
               href="/resources"
@@ -218,14 +245,22 @@ export default function WorksheetSharePage() {
                 href={resource.iframeSrc}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-neutral-500 hover:text-neutral-700 underline"
+                className={
+                  wide
+                    ? "text-sm text-[#f4efe2]/55 hover:text-[#f4efe2]/80 underline"
+                    : "text-sm text-neutral-500 hover:text-neutral-700 underline"
+                }
               >
                 {isDeepDive ? "Open deep dive in new tab" : "Open worksheet in new tab"}
               </a>
               <button
                 type="button"
                 onClick={printWorksheet}
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+                className={
+                  wide
+                    ? "inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2.5 text-sm font-medium text-[#f4efe2]/85 shadow-sm transition hover:bg-white/10 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+                    : "inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:bg-neutral-50 hover:border-[hsl(142,76%,42%)]/50 hover:text-[hsl(142,76%,42%)] focus:outline-none focus:ring-2 focus:ring-[hsl(142,76%,42%)]/40"
+                }
               >
                 <Printer className="h-4 w-4" />
                 {isDeepDive ? "Print deep dive" : "Print worksheet"}

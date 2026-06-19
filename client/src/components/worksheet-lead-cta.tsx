@@ -15,6 +15,8 @@ export interface WorksheetLeadCTAProps {
   secondaryLabel?: string;
   /** Secondary link URL — internal routes use client-side navigation. */
   secondaryHref?: string;
+  /** Render the outer section on the dark cinematic shell instead of light grey. */
+  dark?: boolean;
 }
 
 const DEFAULTS = {
@@ -44,14 +46,15 @@ export function WorksheetLeadCTA({
   primaryHref = DEFAULTS.primaryHref,
   secondaryLabel = DEFAULTS.secondaryLabel,
   secondaryHref = DEFAULTS.secondaryHref,
+  dark = false,
 }: WorksheetLeadCTAProps) {
   const primaryExternal = isExternal(primaryHref);
   const secondaryExternal = isExternal(secondaryHref);
 
   return (
-    <section className="px-6 py-12 md:py-16 bg-neutral-50">
+    <section className={`px-6 py-12 md:py-16 ${dark ? "bg-[#0f1014]" : "bg-neutral-50"}`}>
       <div className="max-w-3xl mx-auto">
-        <div className="rounded-2xl bg-[hsl(207,38%,18%)] text-white px-7 py-9 sm:px-10 sm:py-11 md:px-12 md:py-12 shadow-lg">
+        <div className={`rounded-2xl text-white px-7 py-9 sm:px-10 sm:py-11 md:px-12 md:py-12 shadow-lg ${dark ? "bg-[#16181d] border border-white/10" : "bg-[hsl(207,38%,18%)]"}`}>
           <p className="text-[11px] font-medium tracking-[0.28em] uppercase text-white/55 mb-4">
             {eyebrow}
           </p>

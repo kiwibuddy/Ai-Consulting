@@ -2261,10 +2261,17 @@ function registerKiwiClarityAudit(app: Express): void {
   // development they live in client/public/ (vite serves them via middleware,
   // but we still want the clean /audit and /companion URLs to resolve).
   // Use process.cwd() to stay agnostic between ESM (tsx dev) and CJS (prod).
-  const candidates = [
-    path.resolve(process.cwd(), "dist", "public"), // production
-    path.resolve(process.cwd(), "client", "public"), // development
-  ];
+  //
+  // Order matters: prefer the *live source* for the current mode. In dev that's
+  // client/public/ — otherwise a stale dist/public/ build artifact (e.g. an old
+  // prerendered SPA shell of audit.html) would shadow the real static tool and
+  // render a blank page on localhost.
+  const distPublic = path.resolve(process.cwd(), "dist", "public");
+  const clientPublic = path.resolve(process.cwd(), "client", "public");
+  const candidates =
+    process.env.NODE_ENV === "production"
+      ? [distPublic, clientPublic]
+      : [clientPublic, distPublic];
 
   function resolveHtml(filename: string): string | null {
     for (const dir of candidates) {

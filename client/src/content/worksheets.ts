@@ -21,6 +21,12 @@ export interface WorksheetItem {
    */
   displayMode?: "auto" | "fit-viewport";
   /**
+   * When true, the shareable worksheet page renders the iframe full-width on a
+   * dark cinematic surface (no light card chrome). Use for worksheets whose own
+   * HTML already uses the dark public theme and a fluid responsive layout.
+   */
+  wide?: boolean;
+  /**
    * When false, the worksheet route still works (email links, direct URLs) but
    * the item is omitted from /resources listings and carousels.
    */
@@ -364,7 +370,8 @@ export const worksheets: WorksheetItem[] = [
     thumbnail: "/images/worksheets/presentations-prep-safe-phrase.svg",
     date: "2026-05-03",
     category: "Presentations",
-    format: "Printable",
+    format: "Guide",
+    wide: true,
   },
   {
     id: "presentations-ai-prep-analog-asset-log",

@@ -1,15 +1,32 @@
 # Nathaniel Baldock AI Consulting
-## Complete Branding & Marketing Package
+## Public Marketing Site — Branding & Marketing Package
 
-**Domain:** nathanielbaldock.com  
-**Date:** February 9, 2026  
-**Status:** Implementation Ready
+**Domain:** [nathanielbaldock.com](https://www.nathanielbaldock.com)  
+**Date:** February 9, 2026 (visual identity updated June 2026)  
+**Status:** Live — public site uses Cinematic Hybrid theme
+
+---
+
+## Scope — read this first
+
+**This document describes the brand as visitors experience it on the public marketing website** — the pages wrapped in `data-theme="public"` (dark cinematic shell, lime accent, Newsreader typography).
+
+| In scope | Out of scope (separate design systems) |
+|----------|------------------------------------------|
+| Homepage, About, Speaking, Resources, Pricing | Client / coach login and dashboard (`data-theme="app"`, orange accent) |
+| Public articles and resource listings | Standalone worksheets, HTML tools, and presentations |
+| Intake / contact flows on public routes | Tauranga SME programme decks and materials |
+| Site header, footer, hero, public CTAs | Audit tool UI (`audit.html` shares this palette but is a product surface) |
+
+**Canonical implementation:** `client/src/styles/cinematic.css` · **Tokens reference:** `docs/BRAND_IDENTITY_AND_GUIDELINES.md`
+
+Messaging and growth sections (3–6) below still apply to how you market the consulting practice; **all visual and UI decisions for the public site must follow Section 1.**
 
 ---
 
 ## Table of Contents
-1. Brand Identity System
-2. Website Content Strategy (Full Page Structure)
+1. Brand Identity System *(public marketing site only)*
+2. Website Content Strategy (Public Page Structure)
 3. Marketing Messaging Framework
 4. Content Assets Needed
 5. Launch Checklist
@@ -19,6 +36,8 @@
 
 ## 1. BRAND IDENTITY SYSTEM
 
+*Applies only to the public marketing site (`data-theme="public"`).*
+
 ### Brand Name
 **Primary:** Nathaniel Baldock  
 **Legal/Formal:** Nathaniel Baldock Consulting (optional)  
@@ -26,13 +45,14 @@
 
 ### Tagline System
 
-**Primary Tagline (Hero):**  
-"AI Consulting Grounded in 20+ Years of Global Mission Work"
+**Primary Tagline (Homepage hero — live):**  
+"Practical AI for people who lead with *discernment*."
 
 **Secondary Taglines (Context-Dependent):**
-- "AI Consulting for Faith, Education & Impact" (General use)
-- "Practical AI. Real-World Constraints. Measurable Outcomes." (Process focus)
-- "Wisdom Over Hype. People Over Margins." (Values focus)
+- "AI Consulting for Faith, Education & Mission-Driven Leaders" (Footer, meta descriptor)
+- "Wisdom over hype. People over margins." (Values — homepage and supporting copy)
+- "AI Consultant Tauranga · Nathaniel Baldock — AI Consulting New Zealand & Global" (SEO title)
+- "Practical AI. Real-World Constraints. Measurable Outcomes." (Process focus — speaking, proposals)
 
 ### Brand Positioning Statement
 
@@ -63,55 +83,74 @@ AI consulting that serves formation, not exploitation
 - Values-explicit without being preachy
 - Direct and honest
 
-### Visual Identity
+### Visual Identity — Cinematic Public Theme
+
+The public site uses a **dark editorial shell** with warm cream typography and lime-green accent. This is implemented as CSS custom properties on `[data-theme="public"]` in `client/src/styles/cinematic.css`.
 
 #### Color Palette
 
-**Primary Colors:**
-- Deep Navy: #1A2E4A (Trust, authority, depth)
-- Warm Amber: #E8952A (Mission, warmth, action)
+**Surfaces:**
+- Page background: `#0F1014` (`--nb-bg`) — also `theme-color` in `index.html`
+- Raised sections / cards: `#16181D` (`--nb-bg-raised`)
+- Panel overlays: `rgba(255, 255, 255, 0.04)` (`--nb-bg-panel`)
 
-**Secondary Colors:**
-- Teal: #2D7A8F (Global, tech-forward, fresh)
-- Warm Gray: #6B7280 (Professional, approachable)
+**Typography colours:**
+- Primary text (cream): `#F4EFE2` (`--nb-ink`)
+- Body / secondary: `rgba(244, 239, 226, 0.65)` (`--nb-ink-soft`)
+- Muted / captions: `rgba(244, 239, 226, 0.40)` (`--nb-ink-dim`)
 
-**Neutral Palette:**
-- Background: #F8F9FA (Warm white)
-- Light Gray: #E5E7EB
-- Dark Text: #1F2937
-- Mid Text: #4B5563
+**Structure:**
+- Dividers: `rgba(244, 239, 226, 0.14)` (`--nb-rule`)
+- Strong borders: `rgba(244, 239, 226, 0.24)` (`--nb-rule-strong`)
 
-**Usage Guidelines:**
-- Navy = Primary headings, navigation, trust elements
-- Amber = CTAs, highlights, mission elements
-- Teal = Accents, icons, links
-- Grays = Body text, backgrounds, borders
+**Accent & CTA:**
+- Lime accent: `#7CCC1E` (`--nb-accent`) — eyebrows, italic emphasis, section numbers, selection
+- Green: `#11C25C` (`--nb-green`) — CTA gradient start
+- Primary button: `linear-gradient(135deg, #11C25C, #7CCC1E)` (`--nb-cta-gradient`), white label text
+
+**Usage guidelines:**
+- Dark ink background on all public page shells — not white full-page backgrounds
+- Cream for headlines and body; lime for emphasis — not navy, amber, or orange
+- Primary CTAs use the green gradient (`nb-btn-primary`) — never the dashboard orange
+- Form fields on public routes use `public-form-light` (white inputs on the dark shell)
 
 #### Typography System
 
-**Display/Headings:**
-- Font: Inter (weights: 700 Bold, 600 SemiBold)
-- Usage: H1, H2, Navigation
-- Characteristics: Modern, professional, highly readable
+**Display / headings:**
+- Font: **Newsreader** (weights 300–700)
+- Usage: H1, H2, hero headlines, stat values, card titles
+- Classes: `nb-display`, `nb-display-hero`, `nb-display-lg`, `nb-page-title`, `nb-section-title`
+- Characteristics: Light weight on hero, tight letter-spacing (`-0.028em` to `-0.035em`)
 
-**Body Text:**
-- Font: System font stack (-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto)
-- Weight: 400 Regular, 500 Medium
-- Usage: Paragraphs, lists, descriptions
-- Line height: 1.7 for readability
+**Italic accent:**
+- Font: **Instrument Serif** (italic, weight 300)
+- Usage: Emphasised words in headlines (*discernment*), pull-quote flavour
+- Class: `nb-italic-accent`
 
-**Accent/Quotes:**
-- Font: Merriweather or Lora (Serif)
-- Weight: 400 Regular, 700 Bold
-- Usage: Pull quotes, testimonials, hero statements
-- Purpose: Adds warmth and authority
+**Body text:**
+- Font: **Inter** (weights 300–700)
+- Usage: Paragraphs, navigation, buttons, descriptions
+- Classes: `nb-body`, `nb-body-lg`
+- Line height: 1.7
 
-**Type Scale:**
-- H1: 3.5rem / 56px (Hero headlines)
-- H2: 2.25rem / 36px (Section headers)
-- H3: 1.5rem / 24px (Card headers)
-- Body: 1.125rem / 18px (Optimal readability)
-- Small: 0.875rem / 14px (Captions, metadata)
+**Labels / metadata:**
+- Font: **IBM Plex Mono** (400, 500)
+- Usage: Eyebrows, section labels, stat labels, hero kicker
+- Class: `nb-mono-label`, `nb-eyebrow`, `SectionLabel`
+- Style: 11px, uppercase, letter-spacing `0.18em`
+
+**Google Fonts (loaded in `client/index.html`):**
+```
+Newsreader, Instrument Serif, Inter, IBM Plex Mono
+```
+
+**Type scale (public site):**
+- Hero H1: `clamp(48px, 8.4vw, 108px)` — `.nb-display-hero`
+- Section H2: `clamp(32px, 4.4vw, 60px)` — `.nb-display-lg`
+- Page title: `clamp(36px, 5vw, 56px)` — `.nb-page-title`
+- Body: `clamp(15px, 1.2vw, 17px)`
+- Body large (hero subcopy): `clamp(17px, 1.4vw, 20px)`
+- Mono label: 11px uppercase
 
 #### Photography & Imagery Style
 
@@ -130,74 +169,75 @@ AI consulting that serves formation, not exploitation
 5. Casual but professional (approachable authority)
 
 **Image Treatment:**
-- Subtle warm color grade
-- Natural, not overly processed
-- Consistent lighting style across all images
-- Avoid stock photos of generic "diverse teams" or "tech illustrations"
+- Dark gradient scrims over hero photography (`nb-hero-gradient-side`, `nb-hero-gradient-bottom`) so copy never sits unreadably on faces
+- Subtle warm color grade; natural, not overly processed
+- Avoid stock "diverse teams" or neon AI brain illustrations
 
 **Iconography:**
-- Simple line icons (not heavy filled icons)
-- Consistent stroke width
-- Colors: Teal or Navy
-- Style: Modern, minimal, friendly
+- Lucide icons at modest size; stroke style matching Inter UI weight
+- Colour: cream or lime on dark backgrounds — not navy/teal fills
 
 #### Logo System
 
-**Primary Logo:**
-```
-NATHANIEL BALDOCK
-AI Consulting for Faith, Education & Impact
-```
-- Clean sans-serif wordmark
-- Navy color
-- Tagline in smaller size below
+**Assets (public site):**
+| File | Path | Use |
+|------|------|-----|
+| Wordmark | `client/public/logo.png` | Header, footer |
+| Full wordmark | `client/public/logo-full.png` | Wide layouts |
+| Favicon | `client/public/favicon.png` | Browser tab, PWA |
 
-**Logo Variations:**
-1. Full logo with tagline (primary - use on website)
-2. Logo without tagline (social media, small applications)
-3. "NB" monogram (favicon, app icons)
-4. One-color versions (white on dark, navy on light)
+**On the public site (dark shell):**
+- Logo is **inverted to white** via `.nb-logo-invert` (`filter: brightness(0) invert(1)`)
+- Header: `logo.png` at 38px height (scrolled: 32px)
+- Footer descriptor (text, not in logo file): *AI Consulting for Faith, Education & Mission-Driven Leaders*
 
-**Logo Usage:**
-- Minimum clear space: 1x height of logo on all sides
-- Minimum size: 120px wide for legibility
-- Never stretch, rotate, or add effects
-- Never place on busy backgrounds without contrast adjustment
+**Logo usage:**
+- Minimum clear space: 1× logo height on all sides
+- Minimum width: 120px for legibility
+- Never stretch, rotate, or add drop-shadows
+- On photography: always use header blur/scrim — logo sits on solid or blurred dark bar
+
+#### Public UI components
+
+**Primary CTA** — class `nb-btn-primary`  
+Label (standard across public site): **"Book a free 30-min consultation"** → `/intake`  
+Green gradient, white text, subtle lime glow on hover.
+
+**Secondary CTA** — class `nb-btn-secondary`  
+Text link with bottom border; hover shifts border to lime.
+
+**Section label** — `SectionLabel` / `nb-section-label`  
+Mono uppercase with optional number in lime: e.g. `01 — How I help`
+
+**Header** — fixed, scroll-aware blur on `rgba(15, 16, 20, 0.78)`; nav links cream at 78% opacity, full white on hover/active.
+
+**Footer** — dark cinematic three-column layout; inverted logo; newsletter uses `nb-btn-primary--sm`.
 
 ---
 
 ## 2. WEBSITE CONTENT STRATEGY
 
-### Site Map
+*Public marketing routes only. Visual treatment for every page below follows Section 1 (Cinematic Public theme).*
+
+### Site Map (live public navigation)
 ```
 Home (/)
-├── Who I Help (/who-i-help)
-│   ├── Faith & Mission
-│   ├── Education  
-│   ├── Nonprofits & NGOs
-│   └── Individual Leaders
-├── Services (/services)
-│   ├── Text AI
-│   ├── Image AI
-│   ├── Video AI
-│   ├── Marketing AI
-│   ├── Web AI
-│   └── App AI
-├── Portfolio (/portfolio)
-│   ├── SourceView Together
-│   ├── Kingdom Vocations
-│   ├── Coaching Portal
-│   └── SourceView Bible (Original)
-├── About (/about)
-│   ├── My Story
-│   ├── Experience
-│   └── Why This Work Matters
-├── How We Work (/how-we-work)
-│   ├── Engagement Models
-│   ├── Process
-│   └── Investment
-└── Contact (/contact)
+├── About Me (/about)
+│   └── Who is Nathaniel Baldock? (/who-is-nathaniel-baldock)
+├── Speaking (/speaking)
+├── Resources (/resources)
+│   ├── Articles (/resources/…)
+│   └── Worksheets & tools (listed on Resources; individual URLs)
+├── Pricing (/pricing)
+├── Book consultation (/intake)
+├── Login (/login)          ← public route, but app theme after sign-in
+├── Privacy (/privacy)
+└── Terms (/terms)
 ```
+
+Header nav (desktop): **Home · About Me · Speaking · Resources · Pricing · Sign In** + primary CTA **Book a free 30-min consultation**.
+
+> **Wireframe note:** Sections below describe *content structure* for the homepage and related public pages. Where a wireframe says "White" or "Light gray" background, treat that as legacy drafting — **on the live site every section uses the Cinematic Public palette** (`--nb-bg`, `--nb-bg-raised`, cream text). Only form fields inside `public-form-light` use white surfaces.
 
 ---
 
@@ -205,51 +245,50 @@ Home (/)
 
 #### NAVIGATION BAR
 ```
-[Logo: Nathaniel Baldock]
+[Logo: Nathaniel Baldock — inverted white on dark bar]
 
-Who I Help | Services | Portfolio | About | Contact
+Home | About Me | Speaking | Resources | Pricing | Sign In
 
-[CTA Button: Request Consultation]
+[CTA: Book a free 30-min consultation]  → /intake
 ```
 
 ---
 
-#### SECTION 1: HERO
+#### SECTION 1: HERO (live homepage)
 
-**Layout:** Split screen - Content left, Image right
+**Layout:** Full-bleed portrait with dark gradient scrim; copy overlaid left (desktop) or stacked below photo (mobile)
 
-**Content (Left):**
+**Content:**
 ```
-[Eyebrow text - small, uppercase, Teal]
-AI CONSULTING · NZ + GLOBAL · 20+ YEARS
+[Eyebrow — IBM Plex Mono, lime dot + uppercase]
+AI CONSULTING · TAURANGA · AOTEAROA · GLOBAL
 
-[Main Headline - Display font, Navy, 3.5rem]
-AI Consulting Grounded in 
-20+ Years of Global Mission Work
+[Main Headline — Newsreader, cream, nb-display-hero]
+Practical AI for
+people who lead with discernment.
 
-[Subheadline - Body font, 1.25rem, Gray]
-I help faith, education, and nonprofit organizations adopt AI without 
-compromising values, trust, or mission. From strategy to shipped product.
+[Subheadline — Inter, nb-body-lg]
+I can help churches, schools, and mission-driven organisations adopt AI wisely —
+without hype, without fear, and without losing what matters most.
 
-[CTA Buttons - Side by side]
-[Primary: Request Free Consultation] [Secondary: View Portfolio]
+[Primary CTA]
+Book a free 30-min consultation
 
-[Trust Indicators - Icons + Text, Single line]
-✓ 20+ Years Experience  ✓ 15+ Countries  ✓ 400+ Leaders Trained  ✓ Apps in Stores
+[Secondary promo — Hero Audit Pill]
+AI Use Audit (links to /audit)
 ```
 
-**Visual (Right):**
-- Professional photo of Nathaniel in business setting
-- Warm, natural lighting
-- Confident, approachable expression
-- Background: office or modern workspace
+**Visual:**
+- `hero-portrait-wide.jpg` (desktop) / `hero-portrait.jpg` (mobile)
+- Slow zoom on photo (`nb-hero-zoom`); gradient scrims for legibility
+- Dark shell `#0F1014` — not a light split-screen layout
 
 ---
 
 #### SECTION 2: DIFFERENTIATION BLOCK
 
 **Layout:** Two columns - Problem left, Solution right  
-**Background:** Light gray (#F8F9FA)
+**Background:** Raised dark section (`--nb-bg-raised`) or default `--nb-bg` per live section order
 
 **Content:**
 ```
@@ -782,43 +821,37 @@ Specific investment discussed when we discuss your project.
 
 #### SECTION 10: FINAL CTA
 
-**Layout:** Full-width, centered content  
-**Background:** Navy gradient with subtle pattern
+**Layout:** Full-width, centered content on dark shell  
+**Background:** `--nb-bg` or `--nb-bg-raised` with optional lime accent rule
 
-**Content (White text):**
+**Content (cream text, Newsreader headline):**
 ```
-[Headline - Large, white]
-Ready to Explore AI for Your Organization?
+[Headline]
+Ready to explore AI for your organisation?
 
-[Subheadline]
-Let's have a conversation about your context, constraints, and goals. 
-I'll respond within 48 hours with an honest assessment of fit.
+[Subheadline — nb-body-lg]
+Let's have a conversation about your context, constraints, and goals.
 
-[CTA Button - Amber background]
-Request Free 30-Minute Consultation
+[CTA — nb-btn-primary, green gradient]
+Book a free 30-min consultation
 
-[Subtext - Small, light text]
-No sales pitch · No commitment required · Response within 48 hours
-
-[Alternative action]
-Or email me directly: nathanielbaldock@gmail.com
+[Secondary — nb-btn-secondary optional]
+View pricing →
 ```
 
 ---
 
 #### FOOTER
 
-**Layout:** 3 columns  
-**Background:** Dark navy
+**Layout:** 3 columns on dark cinematic shell  
+**Background:** `--nb-bg` with top border `--nb-rule`
 
 **Content:**
 ```
 [Column 1 - Brand]
-Nathaniel Baldock
-AI Consulting for Faith, Education & Impact
-
-Tauranga, Bay of Plenty, New Zealand
-Serving NZ + Global (Zoom)
+[logo.png inverted]
+AI Consulting for Faith, Education & Mission-Driven Leaders
+Based in Tauranga, Aotearoa — serving NZ & globally
 
 [Column 2 - Quick Links]
 Who I Help
@@ -1041,13 +1074,14 @@ Response: "So do I. That's why I only recommend AI that frees your team to focus
 
 ### Pre-Launch (Weeks 1-2)
 
-**Brand Foundation:**
+**Brand Foundation (public site):**
 - [✓] Finalize brand name: Nathaniel Baldock
-- [ ] Register nathanielbaldock.com
+- [✓] Cinematic public theme live (`cinematic.css`, `data-theme="public"`)
+- [✓] Logo + favicon in `client/public/`
+- [✓] Brand guidelines: `docs/BRAND_IDENTITY_AND_GUIDELINES.md` + Section 1 of this doc
+- [ ] Register nathanielbaldock.com (if not complete)
 - [ ] Set up professional email: hello@nathanielbaldock.com or nathaniel@nathanielbaldock.com
-- [ ] Create logo files (primary, monogram, one-color versions)
-- [ ] Finalize color palette and typography
-- [ ] Create brand guidelines document (1-page PDF)
+- [ ] Optional: 1-page PDF export of public-site brand rules for collaborators
 
 **Website Development:**
 - [ ] Set up hosting (recommend: Vercel, Netlify, or Railway for modern stack)
@@ -1251,25 +1285,21 @@ Response: "So do I. That's why I only recommend AI that frees your team to focus
 
 ## CONCLUSION
 
-This branding and marketing package gives you everything you need to launch nathanielbaldock.com as a credible, compelling AI consulting brand in the faith/education/nonprofit space.
+This package covers **public marketing** branding and messaging for nathanielbaldock.com. The live site expresses that brand through the **Cinematic Hybrid** theme: dark editorial shell, cream type, lime accent, green CTAs.
 
-**Your Unique Positioning is Clear:**
-You're the only consultant who bridges 20+ years of global mission leadership with proven technical delivery capability—from strategy to App Store.
+**Public brand at a glance:**
+- **Look:** `#0F1014` background · `#F4EFE2` text · `#7CCC1E` accent · green gradient CTAs
+- **Type:** Newsreader + Instrument Serif + Inter + IBM Plex Mono
+- **Promise:** Formation, not exploitation — practical AI with discernment
+- **Hero:** *Practical AI for people who lead with discernment.*
 
-**Your Target Market is Defined:**
-Faith, education, nonprofit organizations who need AI but won't compromise their values.
+**Out of scope here:** Dashboard orange theme, worksheets, SME decks, and standalone HTML tools use their own palettes unless explicitly redesigned to match Section 1.
 
-**Your Value Proposition is Compelling:**
-Wisdom over hype. People over margins. Real systems, not just strategy docs.
-
-**Next Step:**
-Register the domain and start building. The market is ready, your credentials are proven, and your positioning is differentiated.
-
-Let's ship this. 🚀
+**Technical reference:** `client/src/styles/cinematic.css` · `.cursor/rules/public-site-theme.mdc`
 
 ---
 
 **Document created:** February 9, 2026  
+**Public visual identity aligned with live site:** June 2026  
 **For:** Nathaniel Baldock  
-**By:** Claude (Anthropic)  
-**Status:** Ready for Implementation
+**Scope:** Public marketing website only

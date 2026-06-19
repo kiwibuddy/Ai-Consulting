@@ -6,664 +6,718 @@
 <title>The Safe Phrase Protocol · Nathaniel Baldock</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,600;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --paper: #fafaf6;
-  --paper-warm: #f5f3ec;
-  --ink: #1a1a1a;
-  --ink-soft: #4a4a48;
-  --ink-mute: #7a7872;
-  --ink-faint: #a8a59c;
-  --accent: #8b1c1c;
-  --accent-soft: #c2685c;
-  --rule: #d8d4c8;
-  --rule-strong: #8a8678;
-  --warn-bg: #f8efe6;
-  --warn-rule: #c08a5c;
+  /* Cinematic public theme (mirrors client/src/styles/cinematic.css) */
+  --bg: #0f1014;
+  --raised: #16181d;
+  --panel: rgba(255, 255, 255, 0.04);
+  --ink: #f4efe2;
+  --ink-soft: rgba(244, 239, 226, 0.66);
+  --ink-dim: rgba(244, 239, 226, 0.42);
+  --rule: rgba(244, 239, 226, 0.14);
+  --rule-strong: rgba(244, 239, 226, 0.24);
+  --accent: #7ccc1e;
+  --green: #11c25c;
+  --danger: #f87171;
+  --danger-bg: rgba(248, 113, 113, 0.10);
+  --danger-border: rgba(248, 113, 113, 0.34);
+
+  --font-display: "Newsreader", Georgia, serif;
+  --font-italic: "Instrument Serif", "Newsreader", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-@page { size: A4; margin: 0; }
-
-html { font-size: 16px; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
 body {
-  font-family: 'Inter Tight', -apple-system, sans-serif;
-  background: #e8e4d8;
+  font-family: var(--font-body);
+  background:
+    radial-gradient(1100px 620px at 78% -8%, rgba(124, 204, 30, 0.07), transparent 60%),
+    var(--bg);
   color: var(--ink);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'ss01', 'ss02', 'cv01';
+  text-rendering: optimizeLegibility;
 }
 
-.page {
-  width: 210mm;
-  min-height: 297mm;
-  margin: 14mm auto;
-  background: var(--paper);
-  padding: 16mm 16mm 12mm;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.08);
-  position: relative;
-  page-break-after: always;
+::selection { background: rgba(124, 204, 30, 0.28); color: var(--ink); }
+
+.doc {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 3.5vw, 3rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
-}
-.page:last-child { page-break-after: auto; }
-
-@media print {
-  body { background: white; }
-  .page { margin: 0; width: 210mm; height: 297mm; box-shadow: none; }
+  gap: clamp(1.25rem, 2.6vw, 2rem);
 }
 
-/* HEADER */
+/* ── Surface panels ────────────────────────────────────────── */
+.sheet {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%),
+    var(--raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: 20px;
+  padding: clamp(1.4rem, 3.2vw, 2.75rem);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 30px 70px -45px rgba(0, 0, 0, 0.85);
+}
+
+/* ── Header ────────────────────────────────────────────────── */
 .sheet-header {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1rem;
+  gap: 1.25rem 1.5rem;
   align-items: end;
-  padding-bottom: 1rem;
-  border-bottom: 1.5px solid var(--ink);
-  margin-bottom: 1.5rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.75rem;
 }
 
-.sheet-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   color: var(--accent);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
 }
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(124, 204, 30, 0.6);
+}
+.eyebrow em { font-style: italic; color: var(--ink-soft); }
 
 .sheet-title {
-  font-family: 'Fraunces', serif;
-  font-size: 2.2rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.2vw, 3.25rem);
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
 }
-
 .sheet-title em {
+  font-family: var(--font-italic);
   font-style: italic;
-  color: var(--accent);
   font-weight: 400;
+  color: var(--accent);
 }
 
 .sheet-tagline {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-italic);
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
   color: var(--ink-soft);
-  margin-top: 0.4rem;
-  font-weight: 400;
+  margin-top: 0.7rem;
+  max-width: 46ch;
 }
 
 .sheet-meta {
   text-align: right;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ink-faint);
-  line-height: 1.6;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+  line-height: 1.9;
+  white-space: nowrap;
 }
 
-/* OPENING / WHY */
+/* ── Lede ──────────────────────────────────────────────────── */
 .lede {
-  font-family: 'Fraunces', serif;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  font-weight: 300;
+  line-height: 1.6;
   color: var(--ink);
-  font-weight: 400;
-  margin-bottom: 1.4rem;
-  max-width: 64ch;
+  margin-bottom: 1.9rem;
+  max-width: 70ch;
 }
+.lede strong { font-weight: 500; color: var(--ink); }
+.lede em { font-style: italic; color: var(--accent); }
 
-.lede strong {
-  font-weight: 500;
-  font-style: normal;
-}
-
-.lede em {
-  font-style: italic;
-  color: var(--accent);
-}
-
-/* STATS BANNER */
+/* ── Stats banner ──────────────────────────────────────────── */
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  margin-bottom: 1.5rem;
-  border-top: 1px solid var(--rule-strong);
-  border-bottom: 1px solid var(--rule-strong);
-  padding: 0.75rem 0;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
 }
-
 .stat {
   text-align: center;
-  padding: 0 0.7rem;
-  border-right: 1px solid var(--rule);
+  padding: 1.1rem 0.9rem;
+  background: var(--bg);
 }
-
-.stat:last-child { border-right: none; }
-
 .stat-num {
-  font-family: 'Fraunces', serif;
-  font-size: 1.65rem;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 400;
   color: var(--accent);
   line-height: 1;
-  margin-bottom: 0.25rem;
-  letter-spacing: -0.01em;
+  margin-bottom: 0.45rem;
+  letter-spacing: -0.02em;
 }
-
 .stat-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ink-mute);
-  line-height: 1.35;
+  color: var(--ink-dim);
+  line-height: 1.5;
 }
 
-/* WHAT THE ATTACK SOUNDS LIKE */
+/* ── Section heads ─────────────────────────────────────────── */
 h2.section {
-  font-family: 'Fraunces', serif;
-  font-size: 1.35rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  margin: 1.5rem 0 0.75rem;
-  padding-bottom: 0.4rem;
-  border-bottom: 1.5px solid var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin: 2.25rem 0 1.1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
-
 h2.section .num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
   color: var(--accent);
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
+.section-intro {
+  font-size: clamp(0.92rem, 1.3vw, 1rem);
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 1.4rem;
+  max-width: 78ch;
+}
+
+/* ── Attack scripts ────────────────────────────────────────── */
 .scripts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.8rem 1rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.6rem;
 }
-
 .script {
-  background: var(--warn-bg);
-  border-left: 2px solid var(--warn-rule);
-  padding: 0.7rem 0.9rem;
-  font-size: 0.82rem;
-  line-height: 1.45;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-left-width: 3px;
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
 }
-
 .script-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--accent);
-  margin-bottom: 0.35rem;
+  color: var(--danger);
+  margin-bottom: 0.7rem;
   display: block;
-  font-weight: 600;
+  font-weight: 500;
 }
-
 .script-quote {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-italic);
   font-style: italic;
-  font-size: 0.92rem;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
   color: var(--ink);
-  line-height: 1.45;
-  margin-bottom: 0.45rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
 }
-
 .script-tell {
-  font-size: 0.74rem;
+  font-size: 0.82rem;
   color: var(--ink-soft);
-  line-height: 1.4;
+  line-height: 1.6;
 }
-
 .script-tell strong { color: var(--ink); font-weight: 600; }
 
-/* FOOTER */
-.sheet-footer {
-  margin-top: auto;
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--rule);
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 1rem;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.58rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--ink-faint);
-  align-items: center;
+.closing-note {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 70ch;
+  border-left: 2px solid var(--accent);
+  padding: 0.4rem 0 0.4rem 1.1rem;
 }
 
-.sheet-footer .center { text-align: center; }
-.sheet-footer .right { text-align: right; }
-.sheet-footer .accent { color: var(--accent); }
-
-/* PROTOCOL CARDS (page 2) */
+/* ── Protocol cards ────────────────────────────────────────── */
 .protocol-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
-
 .proto-step {
-  background: var(--paper-warm);
+  background: var(--panel);
   border: 1px solid var(--rule);
-  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  padding: 1.25rem 1.3rem;
   position: relative;
   display: flex;
   flex-direction: column;
 }
-
 .proto-num {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-italic);
   font-style: italic;
-  font-size: 2.4rem;
-  font-weight: 500;
+  font-size: 2.6rem;
+  font-weight: 400;
   color: var(--accent);
   line-height: 1;
   position: absolute;
-  top: 0.4rem;
-  right: 0.7rem;
-  opacity: 0.6;
+  top: 0.7rem;
+  right: 1rem;
+  opacity: 0.55;
 }
-
 .proto-step h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.005em;
-  padding-right: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.01em;
+  padding-right: 2rem;
 }
-
 .proto-step p {
-  font-size: 0.78rem;
-  line-height: 1.45;
+  font-size: 0.86rem;
+  line-height: 1.6;
   color: var(--ink-soft);
 }
-
 .proto-step p strong { color: var(--ink); font-weight: 600; }
-
 .proto-step ul {
   list-style: none;
-  font-size: 0.76rem;
-  line-height: 1.4;
-  margin-top: 0.5rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin-top: 0.7rem;
 }
-
 .proto-step li {
-  padding: 0.25rem 0 0.25rem 0.85rem;
+  padding: 0.32rem 0 0.32rem 1rem;
   position: relative;
   color: var(--ink-soft);
 }
-
 .proto-step li::before {
-  content: "→";
+  content: "\2192";
   position: absolute;
   left: 0;
   color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
 }
 
-/* RULES BOX */
+/* ── Rules box ─────────────────────────────────────────────── */
 .rules-box {
-  background: white;
-  border: 1.5px solid var(--ink);
-  padding: 0.95rem 1.1rem;
-  margin-bottom: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule-strong);
+  border-radius: 14px;
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.5rem;
 }
-
 .rules-box h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.005em;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
 }
-
 .rules-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.8rem 1.5rem;
+  gap: 1rem 1.75rem;
 }
-
 .rules-grid > div {
-  font-size: 0.78rem;
-  line-height: 1.42;
+  font-size: 0.86rem;
+  line-height: 1.6;
   color: var(--ink-soft);
+  padding-left: 2.1rem;
+  position: relative;
 }
-
 .rules-grid > div::before {
   content: attr(data-glyph);
-  font-family: 'JetBrains Mono', monospace;
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: var(--accent);
-  font-weight: 600;
-  margin-right: 0.4rem;
+  font-weight: 500;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  padding: 0.05rem 0.3rem;
 }
-
 .rules-grid strong { color: var(--ink); font-weight: 600; }
 
-/* PHRASE WORKSHOP (the "build yours" zone) */
+/* ── Phrase workshop ───────────────────────────────────────── */
 .phrase-workshop {
-  background: var(--paper-warm);
-  border: 1px solid var(--rule);
-  padding: 1rem 1.1rem;
-  margin-bottom: 0.9rem;
+  background:
+    linear-gradient(180deg, rgba(124, 204, 30, 0.05), transparent 40%),
+    var(--panel);
+  border: 1px solid var(--rule-strong);
+  border-radius: 14px;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1rem;
 }
-
 .phrase-workshop h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.phrase-workshop p {
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
   margin-bottom: 0.6rem;
 }
-
+.phrase-workshop p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin-bottom: 0.8rem;
+  max-width: 80ch;
+}
 .phrase-fields {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 0.55rem;
-  margin-top: 0.5rem;
+  gap: 0.8rem;
+  margin-top: 1rem;
 }
-
 .phrase-field {
-  border-bottom: 1.5px solid var(--ink);
-  height: 1.7rem;
-  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.45rem;
 }
-
+.phrase-field input {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rule);
+  border-bottom: 1.5px solid var(--rule-strong);
+  border-radius: 8px;
+  height: 2.6rem;
+  padding: 0 0.6rem;
+  width: 100%;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.phrase-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(124, 204, 30, 0.06);
+}
 .phrase-field-num {
-  position: absolute;
-  bottom: -0.95rem;
-  left: 0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.55rem;
-  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  color: var(--ink-dim);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-
 .phrase-warning {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-italic);
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
   color: var(--accent);
   margin-top: 1.4rem;
-  padding-top: 0.55rem;
-  border-top: 1px dotted var(--rule);
+  padding-top: 0.8rem;
+  border-top: 1px dotted var(--rule-strong);
 }
 
-/* CONVERSATION SCRIPT */
+/* ── Conversation ──────────────────────────────────────────── */
 .conversation {
-  background: white;
+  background: var(--panel);
   border: 1px solid var(--rule);
-  border-left: 2px solid var(--accent);
-  padding: 1rem 1.15rem;
-  margin-bottom: 0.85rem;
-}
-
-.conversation h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 1.1rem;
-  font-weight: 500;
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.005em;
 }
-
+.conversation h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.01em;
+}
 .conversation .lead {
-  font-size: 0.82rem;
-  line-height: 1.5;
+  font-size: 0.92rem;
+  line-height: 1.7;
   color: var(--ink-soft);
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
+  max-width: 82ch;
 }
-
+.conversation .lead strong { color: var(--ink); font-weight: 600; }
 .dialogue {
-  border-left: 2px solid var(--rule);
-  padding: 0.5rem 0 0.5rem 0.95rem;
-  margin: 0.6rem 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  border-left: 2px solid var(--rule-strong);
+  padding: 0.5rem 0 0.5rem 1.1rem;
+  margin: 0.9rem 0;
 }
-
 .dialogue .speaker {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--accent);
-  font-weight: 600;
   display: block;
-  margin-bottom: 0.18rem;
+  margin-bottom: 0.5rem;
 }
-
 .dialogue .line {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-italic);
   font-style: italic;
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+  line-height: 1.55;
   color: var(--ink);
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.7rem;
 }
-
 .dialogue .line:last-child { margin-bottom: 0; }
-
 .conv-followup {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--ink-soft);
-  line-height: 1.45;
-  margin-top: 0.65rem;
-  padding-top: 0.5rem;
-  border-top: 1px dotted var(--rule);
+  line-height: 1.7;
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px dotted var(--rule-strong);
+  max-width: 84ch;
 }
-
 .conv-followup strong { color: var(--ink); font-weight: 600; }
 
+/* ── Footer ────────────────────────────────────────────────── */
+.sheet-footer {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+  align-items: center;
+}
+.sheet-footer .center { text-align: center; }
+.sheet-footer .right { text-align: right; }
+.sheet-footer .accent { color: var(--accent); }
+.sheet-footer em { font-style: italic; }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 880px) {
+  .scripts { grid-template-columns: 1fr; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .phrase-fields { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 620px) {
+  .sheet-header { grid-template-columns: 1fr; align-items: start; }
+  .sheet-meta { text-align: left; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .rules-grid { grid-template-columns: 1fr; }
+  .sheet-footer { grid-template-columns: 1fr; text-align: center; gap: 0.5rem; }
+  .sheet-footer .right, .sheet-footer .center { text-align: center; }
+}
+
+@media (max-width: 400px) {
+  .phrase-fields { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════ PAGE 1 ═══════════════════════ -->
-<div class="page">
+<div class="doc">
 
-  <header class="sheet-header">
-    <div>
-      <div class="sheet-eyebrow">Companion to <em>The AI Threat Level Framework</em> · Worksheet 03</div>
-      <h1 class="sheet-title">The <em>Safe Phrase</em> Protocol</h1>
-      <p class="sheet-tagline">A single-page protocol for defeating AI voice-cloning fraud against your family.</p>
-    </div>
-    <div class="sheet-meta">
-      Worksheet 03 / 04<br>
-      Print at 100% · A4<br>
-      Nathaniel Baldock · 2026
-    </div>
-  </header>
+  <!-- ═══════════════════════ SHEET 1 ═══════════════════════ -->
+  <section class="sheet">
 
-  <p class="lede">Voice cloning now requires <strong>three seconds of audio</strong>. The technology is free, fast, and convincing. The most cost-effective defence costs nothing, takes ten minutes to set up, and works against every variant of the attack: <em>a family safe phrase shared in person only and never written digitally.</em> This worksheet covers what the attack actually sounds like in 2026, the three-step verification protocol, and the conversation script for the highest-leverage version of all of this — telling your aging parents.</p>
+    <header class="sheet-header">
+      <div>
+        <div class="eyebrow">Companion to <em>The AI Threat Level Framework</em> · Worksheet 03</div>
+        <h1 class="sheet-title">The <em>Safe Phrase</em> Protocol</h1>
+        <p class="sheet-tagline">A single-page protocol for defeating AI voice-cloning fraud against your family.</p>
+      </div>
+      <div class="sheet-meta">
+        Worksheet 03 / 04<br>
+        Nathaniel Baldock<br>
+        2026
+      </div>
+    </header>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-num">US$893M</div>
-      <div class="stat-label">AI-related fraud losses<br>FBI IC3, 2025</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">1 in 10</div>
-      <div class="stat-label">Adults targeted by<br>AI voice scam · 2025</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">3 sec</div>
-      <div class="stat-label">Audio sample required<br>for voice cloning</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">US$7.7B</div>
-      <div class="stat-label">Lost by adults 60+<br>to fraud in 2025 · IC3</div>
-    </div>
-  </div>
+    <p class="lede">Voice cloning now requires <strong>three seconds of audio</strong>. The technology is free, fast, and convincing. The most cost-effective defence costs nothing, takes ten minutes to set up, and works against every variant of the attack: <em>a family safe phrase shared in person only and never written digitally.</em> This worksheet covers what the attack actually sounds like in 2026, the three-step verification protocol, and the conversation script for the highest-leverage version of all of this — telling your aging parents.</p>
 
-  <h2 class="section">What the attack sounds like<span class="num">§ 01 · adversary view</span></h2>
-
-  <p style="font-size: 0.88rem; color: var(--ink-soft); line-height: 1.5; margin-bottom: 1rem; max-width: 70ch;">Most families who have not been targeted treat the safe phrase as theatrical. Most who have been targeted regret not having one. These are the four scripts active criminal infrastructure runs in 2026. Read them aloud once. They're written to bypass exactly the part of you that thinks "this would never work on me."</p>
-
-  <div class="scripts">
-
-    <div class="script">
-      <span class="script-label">Script 01 · Family emergency</span>
-      <p class="script-quote">"Mum? It's me. I'm in trouble. I can't talk long. I crashed the car and I think someone's hurt. I need bail money fast or they'll put me in custody. Don't tell Dad. Please."</p>
-      <p class="script-tell"><strong>Why it works:</strong> AI clones your child's voice from a single TikTok or Instagram clip. Crying, panic, urgency, and "don't tell" defeat the brain's verification reflex. Most calls end inside two minutes with a payment demand.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">US$893M</div>
+        <div class="stat-label">AI-related fraud losses<br>FBI IC3, 2025</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1 in 10</div>
+        <div class="stat-label">Adults targeted by<br>AI voice scam · 2025</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3 sec</div>
+        <div class="stat-label">Audio sample required<br>for voice cloning</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">US$7.7B</div>
+        <div class="stat-label">Lost by adults 60+<br>to fraud in 2025 · IC3</div>
+      </div>
     </div>
 
-    <div class="script">
-      <span class="script-label">Script 02 · Bank fraud alert</span>
-      <p class="script-quote">"This is your bank's fraud team. We've blocked a NZ$4,800 transaction. To verify it wasn't you, please confirm your one-time code now or the funds will be released."</p>
-      <p class="script-tell"><strong>Why it works:</strong> Spoofed caller ID shows the bank's real number. The voice is professional, calm, slightly impatient. The "code" they want is your actual 2FA code, which they then use to drain the account.</p>
+    <h2 class="section">What the attack sounds like<span class="num">§ 01 · adversary view</span></h2>
+
+    <p class="section-intro">Most families who have not been targeted treat the safe phrase as theatrical. Most who have been targeted regret not having one. These are the four scripts active criminal infrastructure runs in 2026. Read them aloud once. They're written to bypass exactly the part of you that thinks "this would never work on me."</p>
+
+    <div class="scripts">
+
+      <div class="script">
+        <span class="script-label">Script 01 · Family emergency</span>
+        <p class="script-quote">"Mum? It's me. I'm in trouble. I can't talk long. I crashed the car and I think someone's hurt. I need bail money fast or they'll put me in custody. Don't tell Dad. Please."</p>
+        <p class="script-tell"><strong>Why it works:</strong> AI clones your child's voice from a single TikTok or Instagram clip. Crying, panic, urgency, and "don't tell" defeat the brain's verification reflex. Most calls end inside two minutes with a payment demand.</p>
+      </div>
+
+      <div class="script">
+        <span class="script-label">Script 02 · Bank fraud alert</span>
+        <p class="script-quote">"This is your bank's fraud team. We've blocked a NZ$4,800 transaction. To verify it wasn't you, please confirm your one-time code now or the funds will be released."</p>
+        <p class="script-tell"><strong>Why it works:</strong> Spoofed caller ID shows the bank's real number. The voice is professional, calm, slightly impatient. The "code" they want is your actual 2FA code, which they then use to drain the account.</p>
+      </div>
+
+      <div class="script">
+        <span class="script-label">Script 03 · Kidnap hoax</span>
+        <p class="script-quote">"We have your daughter. You can hear her. Pay $20,000 in the next hour or we kill her. No police. Stay on the line."</p>
+        <p class="script-tell"><strong>Why it works:</strong> The "voice in the background" is cloned from social media. The daughter is at school, fine, unreachable for the next 50 minutes. Most parents pay before they verify. NZ Police see this monthly now.</p>
+      </div>
+
+      <div class="script">
+        <span class="script-label">Script 04 · Executive impersonation</span>
+        <p class="script-quote">"It's [your boss]. I'm in a meeting and can't talk. Need you to wire NZ$45,000 to a vendor right now. Send me the confirmation when it's done. I'll explain later."</p>
+        <p class="script-tell"><strong>Why it works:</strong> Voice cloned from a podcast, video call, or town-hall recording. Authority + urgency + plausible deniability. Average loss in this category is six figures. Often arrives during the boss's known travel window.</p>
+      </div>
+
     </div>
 
-    <div class="script">
-      <span class="script-label">Script 03 · Kidnap hoax</span>
-      <p class="script-quote">"We have your daughter. You can hear her. Pay $20,000 in the next hour or we kill her. No police. Stay on the line."</p>
-      <p class="script-tell"><strong>Why it works:</strong> The "voice in the background" is cloned from social media. The daughter is at school, fine, unreachable for the next 50 minutes. Most parents pay before they verify. NZ Police see this monthly now.</p>
+    <p class="closing-note">In every case, the safe phrase ends the call in fifteen seconds. The attacker has no way to know it. The protocol below is what to actually do.</p>
+
+    <footer class="sheet-footer">
+      <span>nathanielbaldock.com</span>
+      <span class="center accent">— ✦ —</span>
+      <span class="right">Worksheet 03 · Part 1 of 2</span>
+    </footer>
+
+  </section>
+
+  <!-- ═══════════════════════ SHEET 2 ═══════════════════════ -->
+  <section class="sheet">
+
+    <header class="sheet-header">
+      <div>
+        <div class="eyebrow">Worksheet 03 · Continued</div>
+        <h1 class="sheet-title" style="font-size: clamp(1.6rem, 4vw, 2.5rem);">The protocol · build yours · the <em>elderly-parents</em> conversation</h1>
+      </div>
+      <div class="sheet-meta">
+        Part 2 of 2<br>
+        Share in person<br>
+        Never digital
+      </div>
+    </header>
+
+    <h2 class="section">The protocol, in three steps<span class="num">§ 02 · what to do</span></h2>
+
+    <div class="protocol-grid">
+      <div class="proto-step">
+        <span class="proto-num">i.</span>
+        <h3>Choose</h3>
+        <p>Pick <strong>4–7 unrelated words</strong> with no common-sense association. Tulip-Anchor-Wrench-Blue style. Avoid:</p>
+        <ul>
+          <li>Pet names, child names, school names</li>
+          <li>Anything in your social-media history</li>
+          <li>Any word a household member has said publicly online</li>
+          <li>Birthdays, addresses, common quotes</li>
+        </ul>
+      </div>
+      <div class="proto-step">
+        <span class="proto-num">ii.</span>
+        <h3>Share</h3>
+        <p>Tell every household member over 10. <strong>In person only.</strong> Never:</p>
+        <ul>
+          <li>Texts, emails, cloud notes, password managers</li>
+          <li>Voice messages or video calls (recorded)</li>
+          <li>Any device that has a search function</li>
+          <li>Written down for "in case I forget"</li>
+        </ul>
+      </div>
+      <div class="proto-step">
+        <span class="proto-num">iii.</span>
+        <h3>Use</h3>
+        <p>Required for any phone or video call asking for <strong>money, location, or sensitive action.</strong> If the caller:</p>
+        <ul>
+          <li>Dodges the request — hang up</li>
+          <li>Becomes hostile — hang up</li>
+          <li>Redirects to urgency — hang up</li>
+          <li>Then call back on the saved number to verify</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="script">
-      <span class="script-label">Script 04 · Executive impersonation</span>
-      <p class="script-quote">"It's [your boss]. I'm in a meeting and can't talk. Need you to wire NZ$45,000 to a vendor right now. Send me the confirmation when it's done. I'll explain later."</p>
-      <p class="script-tell"><strong>Why it works:</strong> Voice cloned from a podcast, video call, or town-hall recording. Authority + urgency + plausible deniability. Average loss in this category is six figures. Often arrives during the boss's known travel window.</p>
+    <div class="rules-box">
+      <h3>Four hard rules that make the protocol work</h3>
+      <div class="rules-grid">
+        <div data-glyph="01"><strong>The phrase never goes digital.</strong> Not in iCloud Notes, not in 1Password, not in a safe deposit box with the kids' names on it. Recall is the failure point under stress; if you can't remember, hang up and call the saved number instead.</div>
+        <div data-glyph="02"><strong>No exceptions, no apologies.</strong> Banks don't mind being asked. Real family members will understand. If someone is offended that you ask for the phrase, that's information.</div>
+        <div data-glyph="03"><strong>Practice quarterly.</strong> Real-time recall under stress is harder than you think. Drill it once when you set it up, then again at every quarterly audit.</div>
+        <div data-glyph="04"><strong>Replace it if it leaks.</strong> If the phrase has been said in front of someone outside the immediate household, in a recorded meeting, or written down even temporarily, replace it. The setup cost is 10 minutes.</div>
+      </div>
     </div>
 
-  </div>
-
-  <p style="font-size: 0.85rem; line-height: 1.5; color: var(--ink-soft); font-family: 'Fraunces', serif; font-style: italic; max-width: 64ch;">In every case, the safe phrase ends the call in fifteen seconds. The attacker has no way to know it. The protocol on the next page is what to actually do.</p>
-
-  <footer class="sheet-footer">
-    <span>nathanielbaldock.com</span>
-    <span class="center accent">— ✦ —</span>
-    <span class="right">Worksheet 03 · Page 1 of 2</span>
-  </footer>
-
-</div>
-
-<!-- ═══════════════════════ PAGE 2 ═══════════════════════ -->
-<div class="page">
-
-  <header class="sheet-header">
-    <div>
-      <div class="sheet-eyebrow">Worksheet 03 · Continued</div>
-      <h1 class="sheet-title" style="font-size: 1.7rem;">The protocol · build yours · the <em>elderly-parents</em> conversation</h1>
-    </div>
-    <div class="sheet-meta">
-      Page 2 of 2<br>
-      Print, fold, share<br>
-      In person, never digital
-    </div>
-  </header>
-
-  <h2 class="section">The protocol, in three steps<span class="num">§ 02 · what to do</span></h2>
-
-  <div class="protocol-grid">
-    <div class="proto-step">
-      <span class="proto-num">i.</span>
-      <h3>Choose</h3>
-      <p>Pick <strong>4–7 unrelated words</strong> with no common-sense association. Tulip-Anchor-Wrench-Blue style. Avoid:</p>
-      <ul>
-        <li>Pet names, child names, school names</li>
-        <li>Anything in your social-media history</li>
-        <li>Any word a household member has said publicly online</li>
-        <li>Birthdays, addresses, common quotes</li>
-      </ul>
-    </div>
-    <div class="proto-step">
-      <span class="proto-num">ii.</span>
-      <h3>Share</h3>
-      <p>Tell every household member over 10. <strong>In person only.</strong> Never:</p>
-      <ul>
-        <li>Texts, emails, cloud notes, password managers</li>
-        <li>Voice messages or video calls (recorded)</li>
-        <li>Any device that has a search function</li>
-        <li>Written down for "in case I forget"</li>
-      </ul>
-    </div>
-    <div class="proto-step">
-      <span class="proto-num">iii.</span>
-      <h3>Use</h3>
-      <p>Required for any phone or video call asking for <strong>money, location, or sensitive action.</strong> If the caller:</p>
-      <ul>
-        <li>Dodges the request — hang up</li>
-        <li>Becomes hostile — hang up</li>
-        <li>Redirects to urgency — hang up</li>
-        <li>Then call back on the saved number to verify</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="rules-box">
-    <h3>Four hard rules that make the protocol work</h3>
-    <div class="rules-grid">
-      <div data-glyph="01"><strong>The phrase never goes digital.</strong> Not in iCloud Notes, not in 1Password, not in a safe deposit box with the kids' names on it. Recall is the failure point under stress; if you can't remember, hang up and call the saved number instead.</div>
-      <div data-glyph="02"><strong>No exceptions, no apologies.</strong> Banks don't mind being asked. Real family members will understand. If someone is offended that you ask for the phrase, that's information.</div>
-      <div data-glyph="03"><strong>Practice quarterly.</strong> Real-time recall under stress is harder than you think. Drill it once when you set it up, then again at every quarterly audit.</div>
-      <div data-glyph="04"><strong>Replace it if it leaks.</strong> If the phrase has been said in front of someone outside the immediate household, in a recorded meeting, or written down even temporarily, replace it. The setup cost is 10 minutes.</div>
-    </div>
-  </div>
-
-  <div class="phrase-workshop">
-    <h3>Build yours (in pencil, on this sheet, then memorise and erase)</h3>
-    <p>Pick four to seven unrelated words. The unrelated part matters: the brain wants to make sense of a phrase, which makes it easier for an attacker to guess and easier for you to leak by association. Random nouns and verbs. Imagery you can hold in your head.</p>
-    <div class="phrase-fields">
-      <div class="phrase-field"><span class="phrase-field-num">word 01</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 02</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 03</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 04</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 05</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 06</span></div>
-      <div class="phrase-field"><span class="phrase-field-num">word 07</span></div>
-    </div>
-    <p class="phrase-warning">When you have memorised it and shared it in person with everyone who needs it, erase this row. The phrase does not live on this sheet.</p>
-  </div>
-
-  <h2 class="section">The conversation with your parents<span class="num">§ 03 · highest-leverage 30 minutes</span></h2>
-
-  <div class="conversation">
-    <h3>Why this conversation matters more than you think</h3>
-    <p class="lead">Adults aged 60+ lost <strong>US$7.7 billion to fraud in 2025</strong> — up roughly 60% on 2024. Voice cloning is a substantial driver. AARP estimates one in five Americans 65+ has been targeted by a voice-cloning scam, and one in ten has fallen for it. Your parents are the highest-leverage people in your network for this protocol. The conversation is awkward. Have it anyway.</p>
-
-    <div class="dialogue">
-      <span class="speaker">You · sitting at their kitchen table, in person</span>
-      <p class="line">"Mum, Dad — I want to spend ten minutes on something that could save you a lot of money and a lot of stress. There's a kind of phone scam now that's getting really good. Someone calls pretending to be me or [grandchild], using a voice that sounds exactly like mine, asking for money in an emergency. People are losing thousands of dollars to this every week. I want us to set up a simple way to know it's actually me."</p>
-      <p class="line">"It's just a few words we'll all remember. If anyone ever calls you, even if it sounds exactly like me, asking for money or to do anything urgent — you ask them to say the words. I'll say them. A scammer won't be able to. If they get angry or change the subject, hang up and call my normal number to check."</p>
-      <p class="line">"Let's pick the words now. Something that has nothing to do with our family — random words. We'll all remember them. We won't write them down anywhere. We won't tell anyone outside our household. Okay?"</p>
+    <div class="phrase-workshop">
+      <h3>Build yours</h3>
+      <p>Pick four to seven unrelated words. The unrelated part matters: the brain wants to make sense of a phrase, which makes it easier for an attacker to guess and easier for you to leak by association. Random nouns and verbs. Imagery you can hold in your head.</p>
+      <div class="phrase-fields">
+        <label class="phrase-field"><input type="text" aria-label="Word 1" autocomplete="off"><span class="phrase-field-num">word 01</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 2" autocomplete="off"><span class="phrase-field-num">word 02</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 3" autocomplete="off"><span class="phrase-field-num">word 03</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 4" autocomplete="off"><span class="phrase-field-num">word 04</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 5" autocomplete="off"><span class="phrase-field-num">word 05</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 6" autocomplete="off"><span class="phrase-field-num">word 06</span></label>
+        <label class="phrase-field"><input type="text" aria-label="Word 7" autocomplete="off"><span class="phrase-field-num">word 07</span></label>
+      </div>
+      <p class="phrase-warning">These boxes are not saved anywhere. Once you have memorised your phrase and shared it in person with everyone who needs it, clear this row. The phrase does not live on this page.</p>
     </div>
 
-    <p class="conv-followup"><strong>If they push back ("I'd know your voice," "I'd never fall for that"):</strong> Don't argue. Say: "I know — and probably you wouldn't. This is for the one time someone catches you tired or stressed. It's a backup. It costs us five minutes." Most pushback dissolves when framed as backup rather than capability assessment. <strong>If they're worried about remembering:</strong> Practice three times in the kitchen. Don't write it down. Recall improves rapidly with even brief practice. <strong>Follow up</strong> with one practice phone call a week later, and one every few months.</p>
-  </div>
+    <h2 class="section">The conversation with your parents<span class="num">§ 03 · highest-leverage 30 minutes</span></h2>
 
-  <footer class="sheet-footer" style="margin-top: auto;">
-    <span>Companion to <em>The AI Threat Level Framework</em></span>
-    <span class="center accent">— ✦ —</span>
-    <span class="right">nathanielbaldock.com · 2026</span>
-  </footer>
+    <div class="conversation">
+      <h3>Why this conversation matters more than you think</h3>
+      <p class="lead">Adults aged 60+ lost <strong>US$7.7 billion to fraud in 2025</strong> — up roughly 60% on 2024. Voice cloning is a substantial driver. AARP estimates one in five Americans 65+ has been targeted by a voice-cloning scam, and one in ten has fallen for it. Your parents are the highest-leverage people in your network for this protocol. The conversation is awkward. Have it anyway.</p>
+
+      <div class="dialogue">
+        <span class="speaker">You · sitting at their kitchen table, in person</span>
+        <p class="line">"Mum, Dad — I want to spend ten minutes on something that could save you a lot of money and a lot of stress. There's a kind of phone scam now that's getting really good. Someone calls pretending to be me or [grandchild], using a voice that sounds exactly like mine, asking for money in an emergency. People are losing thousands of dollars to this every week. I want us to set up a simple way to know it's actually me."</p>
+        <p class="line">"It's just a few words we'll all remember. If anyone ever calls you, even if it sounds exactly like me, asking for money or to do anything urgent — you ask them to say the words. I'll say them. A scammer won't be able to. If they get angry or change the subject, hang up and call my normal number to check."</p>
+        <p class="line">"Let's pick the words now. Something that has nothing to do with our family — random words. We'll all remember them. We won't write them down anywhere. We won't tell anyone outside our household. Okay?"</p>
+      </div>
+
+      <p class="conv-followup"><strong>If they push back ("I'd know your voice," "I'd never fall for that"):</strong> Don't argue. Say: "I know — and probably you wouldn't. This is for the one time someone catches you tired or stressed. It's a backup. It costs us five minutes." Most pushback dissolves when framed as backup rather than capability assessment. <strong>If they're worried about remembering:</strong> Practice three times in the kitchen. Don't write it down. Recall improves rapidly with even brief practice. <strong>Follow up</strong> with one practice phone call a week later, and one every few months.</p>
+    </div>
+
+    <footer class="sheet-footer">
+      <span>Companion to <em>The AI Threat Level Framework</em></span>
+      <span class="center accent">— ✦ —</span>
+      <span class="right">nathanielbaldock.com · 2026</span>
+    </footer>
+
+  </section>
 
 </div>
 
