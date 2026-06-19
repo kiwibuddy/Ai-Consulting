@@ -3,7 +3,6 @@ import { ArrowRight, CalendarDays, MapPin, Ticket } from "lucide-react";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
-import { SectionLabel } from "@/components/public-cinematic/section-label";
 import {
   cardSlideUpContainerVariants,
   cardSlideUpItemVariants,
@@ -224,10 +223,67 @@ export default function LeadershipCollectivePage() {
         </div>
       </section>
 
+      {/* ── Closing + verse + sign-off ───────────────────────── */}
+      <section className="nb-inner-section">
+        <div className="nb-container max-w-3xl mx-auto text-center" style={{ paddingLeft: "var(--nb-section-x)", paddingRight: "var(--nb-section-x)" }}>
+          <ScrollReveal>
+            <p className="nb-body-lg text-[var(--nb-ink-soft)] m-0">
+              Blessings, and I hope all of these resources are useful.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={120}>
+            <figure className="my-10 mx-auto max-w-2xl rounded-3xl border border-[var(--nb-rule)] bg-[var(--nb-bg-panel)] px-8 py-10 md:px-12 md:py-12">
+              <blockquote
+                className="nb-display m-0 font-light text-[var(--nb-ink)]"
+                style={{ fontStyle: "italic", fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}
+              >
+                &ldquo;My sheep listen to my voice; I know them, and they follow me.&rdquo;
+              </blockquote>
+              <figcaption className="nb-mono-label mt-5" style={{ color: "var(--nb-accent)" }}>
+                John 10:27
+              </figcaption>
+            </figure>
+          </ScrollReveal>
+
+          <ScrollReveal delay={200}>
+            <div className="mx-auto inline-block text-center">
+              <p className="text-sm text-[var(--nb-ink-soft)] m-0">Ngā mihi,</p>
+              <p className="nb-card-title text-[17px] m-0">Nathaniel Baldock</p>
+              <p className="text-[13px] m-0 mt-0.5">
+                <a href="tel:+64204796683" className="text-[var(--nb-ink-soft)] no-underline hover:text-[var(--nb-ink)]">
+                  020 479 6683
+                </a>
+                <span className="text-[var(--nb-ink-dim)]"> · </span>
+                <a
+                  href="https://www.nathanielbaldock.com"
+                  className="font-semibold text-[var(--nb-accent)] no-underline hover:underline"
+                >
+                  www.nathanielbaldock.com
+                </a>
+              </p>
+              <p className="text-[12px] text-[var(--nb-ink-dim)] m-0 mt-0.5">
+                AI Consulting · Tauranga, Aotearoa
+              </p>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* ── Resources (single full-width row) ────────────────── */}
       <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/70">
         <div className="nb-container max-w-[1340px] mx-auto" style={{ paddingLeft: "var(--nb-section-x)", paddingRight: "var(--nb-section-x)" }}>
-          <SectionLabel num="01">Follow-up resources</SectionLabel>
+          <ScrollReveal>
+            <div className="flex items-baseline gap-4">
+              <span
+                className="nb-mono-label shrink-0"
+                style={{ color: "var(--nb-accent)", letterSpacing: "0.18em" }}
+              >
+                — 01
+              </span>
+              <h2 className="nb-card-title m-0">Follow-up resources</h2>
+            </div>
+          </ScrollReveal>
 
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-9"
@@ -274,63 +330,6 @@ export default function LeadershipCollectivePage() {
               </motion.a>
             ))}
           </motion.div>
-        </div>
-      </section>
-
-      {/* ── Closing + verse + sign-off ───────────────────────── */}
-      <section className="nb-inner-section">
-        <div className="nb-container max-w-3xl mx-auto text-center" style={{ paddingLeft: "var(--nb-section-x)", paddingRight: "var(--nb-section-x)" }}>
-          <ScrollReveal>
-            <p className="nb-body-lg text-[var(--nb-ink-soft)] m-0">
-              Blessings, and I hope all of these resources are useful.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal delay={120}>
-            <figure className="my-10 mx-auto max-w-2xl rounded-3xl border border-[var(--nb-rule)] bg-[var(--nb-bg-panel)] px-8 py-10 md:px-12 md:py-12">
-              <blockquote
-                className="nb-display m-0 font-light text-[var(--nb-ink)]"
-                style={{ fontStyle: "italic", fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}
-              >
-                &ldquo;My sheep listen to my voice; I know them, and they follow me.&rdquo;
-              </blockquote>
-              <figcaption className="nb-mono-label mt-5" style={{ color: "var(--nb-accent)" }}>
-                John 10:27
-              </figcaption>
-            </figure>
-          </ScrollReveal>
-
-          <ScrollReveal delay={200}>
-            <div className="inline-flex items-center gap-4 text-left">
-              <img
-                src={PORTRAIT}
-                alt="Nathaniel Baldock"
-                width={60}
-                height={60}
-                className="h-[60px] w-[60px] rounded-full object-cover"
-                style={{ border: "2px solid var(--nb-rule-strong)" }}
-              />
-              <div>
-                <p className="text-sm text-[var(--nb-ink-soft)] m-0">Ngā mihi,</p>
-                <p className="nb-card-title text-[17px] m-0">Nathaniel Baldock</p>
-                <p className="text-[13px] m-0 mt-0.5">
-                  <a href="tel:+64204796683" className="text-[var(--nb-ink-soft)] no-underline hover:text-[var(--nb-ink)]">
-                    020 479 6683
-                  </a>
-                  <span className="text-[var(--nb-ink-dim)]"> · </span>
-                  <a
-                    href="https://www.nathanielbaldock.com"
-                    className="font-semibold text-[var(--nb-accent)] no-underline hover:underline"
-                  >
-                    www.nathanielbaldock.com
-                  </a>
-                </p>
-                <p className="text-[12px] text-[var(--nb-ink-dim)] m-0 mt-0.5">
-                  AI Consulting · Tauranga, Aotearoa
-                </p>
-              </div>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 
