@@ -20,6 +20,15 @@ const staticPages: Record<string, PublicPageMeta> = {
     image: DEFAULT_IMAGE,
     ogType: "website",
   },
+  // Unlisted shareable page (kept out of the sitemap + noindex in og-meta.ts).
+  // Meta lives here so link previews show the presentation thumbnail.
+  "/ai-leadership-collective": {
+    title: "Thank you for coming — AI session follow-up",
+    description:
+      "Follow-up resources from Nathaniel Baldock's AI session: the full presentation, a free AI privacy & data audit, and practical tools for your team, family and church.",
+    image: `${SITE}/images/email/thumb-social-revolution.png`,
+    ogType: "website",
+  },
   "/about": {
     title: "About Nathaniel Baldock — AI Consultant for Faith-Based Organisations",
     description:

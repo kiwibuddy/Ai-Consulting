@@ -19,6 +19,9 @@ interface PageMeta {
   ogType: "website" | "article";
 }
 
+/** Unlisted pages: have rich link previews but must stay out of search results. */
+const NOINDEX_PATHS = new Set<string>(["/ai-leadership-collective"]);
+
 function lookupMeta(urlPath: string): PageMeta | null {
   return lookupPublicPageMeta(urlPath);
 }
@@ -101,6 +104,11 @@ export function injectOgMeta(html: string, urlPath: string): string {
       /(<meta\s+name="twitter:image"\s+content=")[^"]*(")/,
       `$1${img}$2`,
     );
+  }
+
+  const clean = urlPath.split("?")[0].replace(/\/+$/, "") || "/";
+  if (NOINDEX_PATHS.has(clean) && !/<meta\s+name="robots"/.test(out) && out.includes("</head>")) {
+    out = out.replace("</head>", `    <meta name="robots" content="noindex, nofollow" />\n  </head>`);
   }
 
   return injectJsonLd(out, urlPath);

@@ -4,7 +4,6 @@
   "framework": null,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/ai-leadership-collective", "destination": "/ai-leadership-collective.html" },
     { "source": "/((?!assets/|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|css|js|json|woff2?|manifest\\.json)).*)", "destination": "/index.html" }
   ],
   "headers": [

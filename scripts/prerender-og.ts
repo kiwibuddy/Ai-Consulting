@@ -131,33 +131,4 @@ for (const entry of getSitemapEntries()) {
   count++;
 }
 
-/**
- * Unlisted pages: shareable links that should have rich previews (custom OG
- * image/title) but stay OUT of the sitemap and search index (robots noindex).
- */
-const UNLISTED_PAGES: Array<{ path: string; meta: PageMeta }> = [
-  {
-    path: "/ai-leadership-collective",
-    meta: {
-      title: "Thank you for coming — AI session follow-up",
-      description:
-        "Follow-up resources from Nathaniel Baldock's AI session: the full presentation, a free AI privacy & data audit, and practical tools for your team, family and church.",
-      image: `${SITE}/images/email/thumb-social-revolution.png`,
-      ogType: "website",
-    },
-  },
-];
-
-for (const { path: routePath, meta } of UNLISTED_PAGES) {
-  const parentDir = path.join(DIST, path.dirname(routePath));
-  fs.mkdirSync(parentDir, { recursive: true });
-
-  let out = injectMeta(indexHtml, routePath, meta);
-  if (!/<meta\s+name="robots"/.test(out)) {
-    out = out.replace("</head>", `    <meta name="robots" content="noindex" />\n  </head>`);
-  }
-  fs.writeFileSync(path.join(DIST, `${routePath}.html`), out, "utf-8");
-  count++;
-}
-
 console.log(`✓ Pre-rendered OG meta + JSON-LD for ${count} routes`);
