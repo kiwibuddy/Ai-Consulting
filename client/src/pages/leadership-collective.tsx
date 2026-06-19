@@ -27,7 +27,7 @@ const resources: Resource[] = [
     tag: "Presentation",
     title: "AI: An Unfolding Social Revolution",
     description:
-      "The full presentation from the day — the shifts AI is driving across society, and how we respond with discernment and hope.",
+      "The full presentation from the day, covering the shifts AI is driving across society and how we respond with discernment and hope.",
     image: "/images/email/thumb-social-revolution.png",
     href: "https://aia-social-revolutionandchristianre.vercel.app",
     cta: "Open the presentation",
@@ -45,7 +45,7 @@ const resources: Resource[] = [
     tag: "Free tool",
     title: "Free AI Privacy & Data Audit",
     description:
-      "A short report for your church or business showing which tools are safe to use — and which breach New Zealand privacy law if you enter personal or business information — plus simple steps to protect it.",
+      "A short report for your church or business showing which tools are safe to use, and which breach New Zealand privacy law if you enter personal or business information, plus simple steps to protect it.",
     image: "/images/email/thumb-audit.png",
     href: "https://www.nathanielbaldock.com/audit",
     cta: "Take the free audit",
@@ -140,8 +140,8 @@ export default function LeadershipCollectivePage() {
 
           <ScrollReveal delay={320}>
             <p className="nb-body-lg mt-7 mb-0 text-[var(--nb-ink-soft)] max-w-[640px] mx-auto">
-              It was a genuine privilege to think through where AI is taking us — and our Christian
-              response — together. Here are the resources I promised, to help you take the conversation further.
+              It was a real privilege to think through where AI is taking us, and our Christian
+              response, together. Here are the resources I promised to help you take the conversation further.
             </p>
           </ScrollReveal>
         </div>
@@ -165,19 +165,19 @@ export default function LeadershipCollectivePage() {
               <p className="nb-body text-[var(--nb-ink-soft)] m-0">
                 Thank you so much for coming to the AI session this week. As I mentioned a few times, our
                 conversation focused mostly on the possible{" "}
-                <span className="text-[var(--nb-ink)] font-medium">threats</span> we need to be aware of —
-                and on the preparation and adjustments we can be making even now, so we can best serve and
+                <span className="text-[var(--nb-ink)] font-medium">threats</span> we need to be aware of,
+                and on the preparation and adjustments we can be making even now so we can best serve and
                 lead in the midst of this growing AI impact.
               </p>
               <p className="nb-body text-[var(--nb-ink-soft)] mt-5 mb-0">
                 There are also lots of genuinely interesting,{" "}
                 <span className="text-[var(--nb-ink)] font-medium">positive</span> ways AI can shape our
-                society, our churches and our ministries — and I'd love to follow those up with anyone who's
+                society, our churches and our ministries, and I'd love to follow those up with anyone who's
                 interested.
               </p>
               <p className="nb-body text-[var(--nb-ink-soft)] mt-5 mb-0">
                 As promised, I wanted to share a few follow-up resources to help you take the conversation
-                further — the full presentation, plus some practical tools you can use with your team, your
+                further. The full presentation, plus some practical tools you can use with your team, your
                 family, or your church.
               </p>
             </motion.div>
@@ -196,9 +196,9 @@ export default function LeadershipCollectivePage() {
                 <AccentDot />
                 <span>Coming up · Save the date</span>
               </div>
-              <h2 className="nb-card-title m-0">AI &amp; You — a public evening on AI</h2>
+              <h2 className="nb-card-title m-0">AI &amp; You: a public evening on AI</h2>
               <p className="text-sm text-[var(--nb-ink-soft)] mt-2 mb-6 leading-relaxed">
-                A public follow-up to the Leadership Collective — open to the public and church members
+                A public follow-up to the Leadership Collective, open to the public and church members
                 alike. Bring a friend.
               </p>
               <div className="flex flex-col gap-4">
