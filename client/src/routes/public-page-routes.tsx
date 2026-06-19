@@ -3,6 +3,7 @@ import { PublicRoute } from "@/components/public-route";
 import AboutPage from "@/pages/about";
 import ExpertiseLandingPage from "@/pages/expertise-landing";
 import LandingPage from "@/pages/landing";
+import LeadershipCollectivePage from "@/pages/leadership-collective";
 import LoginPage from "@/pages/login";
 import PricingPage from "@/pages/pricing";
 import ResourcesPage from "@/pages/resources";
@@ -67,6 +68,7 @@ export const ArticleWorldOfFakesPublicRoute = withPublicPage(ArticleWorldOfFakes
 export const WorksheetSharePublicRoute = withPublicPage(WorksheetSharePage);
 export const ChristianWorksheetPublicRoute = withPublicPage(ChristianProfessionalWorksheetPage);
 export const AboutPublicRoute = withPublicPage(AboutPage);
+export const LeadershipCollectivePublicRoute = withPublicPage(LeadershipCollectivePage);
 export const WhoIsPublicRoute = withPublicPage(WhoIsNathanielBaldockPage);
 export const PricingPublicRoute = withPublicPage(PricingPage);
 export const TaurangaSmeWelcomePublicRoute = withPublicPage(TaurangaSmeWelcomePage);

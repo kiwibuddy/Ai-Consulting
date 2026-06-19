@@ -44,6 +44,7 @@ import {
   ChristianWorksheetPublicRoute,
   ForgotPasswordPublicRoute,
   IntakePublicRoute,
+  LeadershipCollectivePublicRoute,
   LoginPublicRoute,
   NotFoundPublicRoute,
   PresentationContactPublicRoute,
@@ -270,6 +271,7 @@ function Router() {
         <Route path="/speaking/invite" component={SpeakingInvitePublicRoute} />
         <Route path="/speaking" component={SpeakingPublicRoute} />
         <Route path="/survey" component={SurveyPublicRoute} />
+        <Route path="/ai-leadership-collective" component={LeadershipCollectivePublicRoute} />
         <Route path="/resources" component={ResourcesPublicRoute} />
         <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">
           <Redirect to="/resources/when-your-teens-best-friend-is-an-algorithm" />

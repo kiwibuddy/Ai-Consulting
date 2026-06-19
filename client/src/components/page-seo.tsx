@@ -12,6 +12,8 @@ export interface PageSEOProps {
   image?: string;
   /** Defaults to "website"; set to "article" for articles. */
   ogType?: "website" | "article";
+  /** When true, adds robots noindex,nofollow (for unlisted / shared-link pages). */
+  noindex?: boolean;
   /** Article-specific fields for JSON-LD structured data. */
   article?: {
     author: string;
@@ -37,7 +39,7 @@ function setMeta(name: string, content: string, isProperty = false) {
  * canonical URL, and optional Article JSON-LD structured data.
  * Resets document.title on unmount so navigating away restores the default.
  */
-export function PageSEO({ title, description, canonicalPath, image, ogType = "website", article }: PageSEOProps) {
+export function PageSEO({ title, description, canonicalPath, image, ogType = "website", article, noindex = false }: PageSEOProps) {
   const fullTitle = `${title} — ${SITE_NAME}`;
   const canonicalUrl = `${SITE_URL}${canonicalPath}`;
   const fullImage = image
@@ -46,6 +48,10 @@ export function PageSEO({ title, description, canonicalPath, image, ogType = "we
 
   useEffect(() => {
     document.title = fullTitle;
+
+    if (noindex) {
+      setMeta("robots", "noindex, nofollow");
+    }
 
     setMeta("description", description);
     setMeta("og:title", title, true);
@@ -91,8 +97,11 @@ export function PageSEO({ title, description, canonicalPath, image, ogType = "we
 
     return () => {
       document.title = DEFAULT_TITLE;
+      if (noindex) {
+        document.querySelector('meta[name="robots"]')?.remove();
+      }
     };
-  }, [fullTitle, description, canonicalUrl, fullImage, ogType, title, article]);
+  }, [fullTitle, description, canonicalUrl, fullImage, ogType, title, article, noindex]);
 
   return null;
 }
