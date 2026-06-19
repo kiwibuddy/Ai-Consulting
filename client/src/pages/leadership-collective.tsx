@@ -91,7 +91,7 @@ export default function LeadershipCollectivePage() {
       />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-[128px] pb-16 md:pt-[156px] md:pb-24">
+      <section className="relative overflow-hidden pt-[128px] pb-2 md:pt-[156px] md:pb-4">
         <div aria-hidden className="absolute inset-0 -z-10">
           <div
             className="absolute left-1/2 top-[-60px] h-[460px] w-[860px] max-w-[120vw] -translate-x-1/2 rounded-full opacity-[0.16]"
