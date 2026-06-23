@@ -29,6 +29,13 @@ const staticPages: Record<string, PublicPageMeta> = {
     image: `${SITE}/images/email/thumb-social-revolution.png`,
     ogType: "website",
   },
+  "/thank-you": {
+    title: "Thank you for coming — AI session follow-up",
+    description:
+      "Thank you for coming to the AI session. A couple of follow-up opportunities: a public evening on AI, and a free AI privacy & data audit for your church, school or business.",
+    image: `${SITE}/images/email/thumb-social-revolution.png`,
+    ogType: "website",
+  },
   "/about": {
     title: "About Nathaniel Baldock — AI Consultant for Faith-Based Organisations",
     description:
