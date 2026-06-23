@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Use Survey — Nathaniel Baldock AI Consulting</title>
-<link rel="stylesheet" href="/audit-cinematic.css?v=20260620a">
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260623a">
 <script defer src="/audit-hero-carousel.js?v=20260528a"></script>
 
 </head>
@@ -152,7 +152,7 @@
     <div id="reviewToolList"></div>
     <hr class="div">
     <div class="step-kicker" style="margin-bottom:10px;">Who should receive the results?</div>
-    <p style="font-size:12.5px;color:var(--fg-muted);margin-bottom:12px;">Your consultant is pre-filled — use <strong>×</strong> to remove that address if you don't want a copy sent there. Add your own email and anyone else who should have a copy.</p>
+    <p style="font-size:14px;color:var(--fg-muted);margin-bottom:12px;">Your consultant is pre-filled — use <strong>×</strong> to remove that address if you don't want a copy sent there. Add your own email and anyone else who should have a copy.</p>
     <div class="email-tags" id="emailTags"></div>
     <div class="email-add-row">
       <input type="email" id="emailInput" placeholder="you@yourbusiness.co.nz" onkeydown="emailKeydown(event)">
@@ -199,7 +199,7 @@
       <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-" target="_blank" rel="noopener" class="cal-btn">Book a follow-up call &rarr;</a>
     </div>
     <div id="auditPaidPricingMountS5"></div>
-    <p style="font-size:11px;color:var(--fg-muted);text-align:center;margin-top:16px;line-height:1.6;">Prepared by Nathaniel Baldock AI Consulting · nathanielbaldock.com<br>Drafted with AI assistance (Claude, NotebookLM). Reviewed and approved by Nathaniel Baldock.</p>
+    <p style="font-size:12.5px;color:var(--fg-muted);text-align:center;margin-top:16px;line-height:1.6;">Prepared by Nathaniel Baldock AI Consulting · nathanielbaldock.com<br>Drafted with AI assistance (Claude, NotebookLM). Reviewed and approved by Nathaniel Baldock.</p>
   </div>
 </div>
 
@@ -745,7 +745,7 @@ function renderToolGrid(teamMode){
   var html='';
   CATS.forEach(function(cat){
     var tools=TOOLS.filter(function(t){return t.cat===cat.id;});
-    html+='<div class="cat-title">'+cat.label+'<span style="font-weight:400;margin-left:6px;text-transform:none;letter-spacing:0;font-size:9px;"> — '+cat.note+'</span></div>';
+    html+='<div class="cat-title">'+cat.label+'<span style="font-weight:400;margin-left:6px;text-transform:none;letter-spacing:0;font-size:11px;"> — '+cat.note+'</span></div>';
     html+='<div class="tool-grid">';
     tools.forEach(function(t){
       var sel=ST.selected.some(function(s){return s.toolId===t.id;});
@@ -934,8 +934,8 @@ function openPolicyModal(toolId, tierId){
       +'</div>'
       +'<div class="policy-modal-empty">'
         +'<p>I&rsquo;m still finalising the policy explainer for this tier. In the meantime, here&rsquo;s what informed the verdict in your audit:</p>'
-        +'<p style="margin-top:14px;font-size:13px;background:var(--bg-warm);padding:10px 14px;border-radius:8px;text-align:left;"><strong>What to do:</strong> '+escHtml(tier.action||'')+'</p>'
-        +(tier.warning?'<p style="margin-top:10px;font-size:12.5px;color:var(--fg-muted);">'+escHtml(tier.warning)+'</p>':'')
+        +'<p style="margin-top:14px;font-size:15px;background:var(--bg-warm);padding:10px 14px;border-radius:8px;text-align:left;"><strong>What to do:</strong> '+escHtml(tier.action||'')+'</p>'
+        +(tier.warning?'<p style="margin-top:10px;font-size:14px;color:var(--fg-muted);">'+escHtml(tier.warning)+'</p>':'')
       +'</div>';
   } else {
     var explainerHtml = (policy.explainer || []).map(function(p){return '<p>'+escHtml(p)+'</p>';}).join('');

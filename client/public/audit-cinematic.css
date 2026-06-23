@@ -139,7 +139,7 @@ body.companion-shell {
   justify-content: center;
   color: #fff;
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
 }
@@ -149,17 +149,17 @@ body.companion-shell {
   display: block;
 }
 .logo-text {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 .logo-sub {
-  font-size: 9px;
+  font-size: 11px;
   color: var(--fg-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .step-counter {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--fg-muted);
 }
@@ -200,7 +200,7 @@ body.companion-shell {
 
 .step-kicker {
   font-family: var(--nb-font-mono);
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -226,7 +226,7 @@ body.companion-shell {
   text-underline-offset: 0.06em;
 }
 .step-sub {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.65;
   color: var(--nb-ink-soft);
 }
@@ -399,7 +399,7 @@ body.companion-shell {
 }
 .field label {
   display: block;
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -423,7 +423,7 @@ body.companion-shell {
   border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.2;
   color: var(--fg);
   background: rgba(0, 0, 0, 0.22);
@@ -478,7 +478,7 @@ body.companion-shell {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -490,7 +490,7 @@ body.companion-shell {
   color: var(--accent);
 }
 .transparency-body {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--nb-ink-soft);
   margin: 0;
@@ -512,7 +512,7 @@ body.companion-shell {
   gap: 6px;
 }
 .invite-label {
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -522,7 +522,7 @@ body.companion-shell {
   color: var(--accent);
 }
 .invite-count-pill {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--accent);
   background: var(--bg-mist);
@@ -531,7 +531,7 @@ body.companion-shell {
   border-radius: 999px;
 }
 .invite-desc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   line-height: 1.6;
   margin-bottom: 12px;
@@ -549,7 +549,7 @@ body.companion-shell {
   border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--fg);
   background: rgba(0, 0, 0, 0.22);
   outline: none;
@@ -564,7 +564,7 @@ body.companion-shell {
   color: #fff;
   border: none;
   border-radius: var(--r-sm);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -587,7 +587,7 @@ body.companion-shell {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 4px 10px;
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--fg-med);
 }
 .invite-tag-x {
@@ -595,7 +595,7 @@ body.companion-shell {
   border: none;
   cursor: pointer;
   color: var(--fg-muted);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   padding: 0;
 }
@@ -612,7 +612,7 @@ body.companion-shell {
   margin-bottom: 20px;
 }
 .privacy-box-title {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -620,7 +620,7 @@ body.companion-shell {
   margin-bottom: 8px;
 }
 .privacy-box p {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--nb-ink-soft);
   line-height: 1.65;
   margin-bottom: 6px;
@@ -666,7 +666,7 @@ body.companion-shell {
   color: #fff;
 }
 .consent-text {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--nb-ink-soft);
   line-height: 1.55;
 }
@@ -682,7 +682,7 @@ body.companion-shell {
   background: var(--nb-cta-gradient);
   color: #fff !important;
   font-family: var(--font-sans);
-  font-size: 14.5px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.005em;
   border: none;
@@ -711,7 +711,7 @@ body.companion-shell {
   background: transparent;
   color: var(--fg-med);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -745,7 +745,7 @@ body.companion-shell {
   animation: spin 0.6s linear infinite;
 }
 .error-msg {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--red);
   padding: 8px 0;
 }
@@ -778,7 +778,7 @@ body.companion-shell {
   margin-bottom: 4px;
 }
 .s1b-note {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   max-width: 360px;
   margin: 0 auto 24px;
@@ -788,7 +788,7 @@ body.companion-shell {
 /* Tool grid */
 .cat-title {
   font-family: var(--nb-font-mono);
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -866,13 +866,13 @@ body.companion-shell {
   display: block;
 }
 .tool-grid .tool-card-name {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--fg);
   margin-bottom: 2px;
 }
 .tool-grid .tool-card-vendor {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--fg-muted);
 }
 .tool-grid .tool-logo-fb {
@@ -926,7 +926,7 @@ body.companion-shell {
   color: var(--fg);
 }
 .tool-q-vendor {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
 }
 
@@ -934,7 +934,7 @@ body.companion-shell {
   margin-bottom: 22px;
 }
 .q-label {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -974,12 +974,12 @@ body.companion-shell {
   border-color: var(--accent);
 }
 .q-option-label {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--fg);
 }
 .q-option-note {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
   margin-top: 1px;
 }
@@ -1000,13 +1000,13 @@ body.companion-shell {
   background: rgba(0, 0, 0, 0.12);
 }
 .q-opt-sm-label {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--fg);
   display: block;
 }
 .q-opt-sm-note {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--fg-muted);
   margin-top: 2px;
   line-height: 1.3;
@@ -1052,7 +1052,7 @@ body.companion-shell {
   background: var(--red);
 }
 .rag-text {
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--fg-muted);
 }
@@ -1072,7 +1072,7 @@ body.companion-shell {
   margin-top: 4px;
 }
 .rag-flag {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--amber);
   background: var(--amber-bg);
   border: 1px solid var(--amber-border);
@@ -1088,7 +1088,7 @@ body.companion-shell {
   margin-top: 20px;
 }
 .how-helps-label {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1096,7 +1096,7 @@ body.companion-shell {
   margin-bottom: 6px;
 }
 .how-helps-sub {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--nb-ink-soft);
   line-height: 1.5;
   margin-bottom: 10px;
@@ -1107,7 +1107,7 @@ body.companion-shell {
   border: 1.5px solid rgba(124, 204, 30, 0.28);
   border-radius: var(--r-sm);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--fg);
   background: rgba(0, 0, 0, 0.2);
   outline: none;
@@ -1173,7 +1173,7 @@ body.companion-shell {
   color: var(--red);
 }
 .rs-label {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--fg-muted);
   margin-top: 3px;
 }
@@ -1203,18 +1203,18 @@ body.companion-shell {
   background: var(--red);
 }
 .review-tool-name {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   flex: 1;
 }
 .review-tool-plan {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
 }
 .review-edit-btn {
   background: none;
   border: none;
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--accent);
   cursor: pointer;
   text-decoration: underline;
@@ -1223,7 +1223,7 @@ body.companion-shell {
 .review-policy-btn {
   background: none;
   border: 1px solid var(--border);
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-med);
   cursor: pointer;
   padding: 3px 9px;
@@ -1250,7 +1250,7 @@ body.companion-shell {
   border-radius: 50%;
   background: var(--fg-muted);
   color: #fff;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   font-style: italic;
   font-family: Georgia, serif;
@@ -1269,7 +1269,7 @@ body.companion-shell {
   margin-bottom: 18px;
 }
 .audit-pricing-lead {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
   color: var(--nb-ink-soft);
   margin: 8px 0 0;
@@ -1316,7 +1316,7 @@ body.companion-shell {
   line-height: 1.2;
 }
 .audit-pricing-price {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--fg-muted);
   margin: 0;
   line-height: 1.3;
@@ -1338,7 +1338,7 @@ body.companion-shell {
   position: relative;
   padding-left: 14px;
   margin-bottom: 8px;
-  font-size: 11.5px;
+  font-size: 13px;
   line-height: 1.45;
   color: var(--nb-ink-soft);
 }
@@ -1361,7 +1361,7 @@ body.companion-shell {
   text-align: center;
   margin-top: auto;
   padding: 10px 10px;
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   line-height: 1.3;
   text-decoration: none;
@@ -1388,7 +1388,7 @@ body.companion-shell {
 }
 .audit-pricing-note {
   margin: 14px 0 0;
-  font-size: 10.5px;
+  font-size: 12px;
   line-height: 1.55;
   color: var(--fg-muted);
   font-style: italic;
@@ -1433,7 +1433,7 @@ body.companion-shell {
   margin-bottom: 12px;
 }
 .audit-send-card-kicker {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--fg-muted);
   letter-spacing: 0.12em;
@@ -1447,7 +1447,7 @@ body.companion-shell {
   margin-top: 4px;
 }
 .audit-send-card-meta {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--fg-muted);
   text-align: right;
   line-height: 1.35;
@@ -1462,7 +1462,7 @@ body.companion-shell {
 .audit-send-card-copy {
   flex: 1;
   min-width: 240px;
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--nb-ink-soft);
   line-height: 1.6;
 }
@@ -1479,7 +1479,7 @@ body.companion-shell {
   padding: 16px 16px 14px;
 }
 .upgrade-kicker {
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1494,7 +1494,7 @@ body.companion-shell {
   margin-bottom: 6px;
 }
 .upgrade-desc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   line-height: 1.6;
   margin-bottom: 14px;
@@ -1518,7 +1518,7 @@ body.companion-shell {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 4px 10px 4px 12px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--fg-med);
 }
 .email-tag-remove {
@@ -1546,7 +1546,7 @@ body.companion-shell {
   border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--fg);
   background: rgba(0, 0, 0, 0.22);
   outline: none;
@@ -1560,7 +1560,7 @@ body.companion-shell {
   border: none;
   border-radius: var(--r-sm);
   padding: 9px 16px;
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1600,7 +1600,7 @@ hr.div {
   letter-spacing: -0.01em;
 }
 .cal-sub {
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--nb-ink-soft);
   line-height: 1.5;
   margin-bottom: 16px;
@@ -1622,7 +1622,7 @@ hr.div {
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(124, 204, 30, 0.22);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   padding: 13px 26px;
   transition:
@@ -1635,7 +1635,7 @@ hr.div {
 }
 
 .qw-title {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1648,7 +1648,7 @@ hr.div {
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--nb-ink-soft);
   line-height: 1.5;
 }
@@ -1656,7 +1656,7 @@ hr.div {
   border-bottom: none;
 }
 .qw-num {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   width: 18px;
   height: 18px;
@@ -1754,7 +1754,7 @@ hr.div {
   border-bottom: 1px solid var(--border);
 }
 .policy-modal-kicker {
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1771,7 +1771,7 @@ hr.div {
   letter-spacing: -0.01em;
 }
 .policy-modal-tier {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--fg-muted);
   margin: 0;
 }
@@ -1782,7 +1782,7 @@ hr.div {
   gap: 6px;
   padding: 4px 10px;
   border-radius: 999px;
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1811,7 +1811,7 @@ hr.div {
   padding: 18px 26px 6px;
 }
 .policy-modal-summary {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.55;
   color: var(--nb-ink-soft);
   margin: 0 0 16px;
@@ -1821,7 +1821,7 @@ hr.div {
   border-left: 3px solid var(--accent);
 }
 .policy-modal-section-label {
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1829,7 +1829,7 @@ hr.div {
   margin: 18px 0 8px;
 }
 .policy-modal-explainer p {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.65;
   margin: 0 0 12px;
 }
@@ -1844,7 +1844,7 @@ hr.div {
   border-radius: 8px;
   text-decoration: none;
   color: var(--fg);
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 500;
   margin-bottom: 8px;
 }
@@ -1855,7 +1855,7 @@ hr.div {
 .policy-modal-link .pml-arrow {
   margin-left: auto;
   color: var(--accent);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .policy-modal-sources {
@@ -1867,7 +1867,7 @@ hr.div {
   margin-bottom: 6px;
 }
 .policy-modal-sources a {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--accent);
   text-decoration: none;
   border-bottom: 1px dotted var(--accent);
@@ -1878,7 +1878,7 @@ hr.div {
 
 .policy-modal-footer {
   padding: 14px 26px 20px;
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--nb-ink-soft);
   line-height: 1.5;
   border-top: 1px solid var(--border);
@@ -1891,7 +1891,7 @@ hr.div {
 .policy-modal-empty {
   padding: 30px 26px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--nb-ink-soft);
 }
@@ -1902,7 +1902,7 @@ hr.div {
 
 /* Team anon + overlay */
 .anon-box-title {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1910,7 +1910,7 @@ hr.div {
   margin-bottom: 6px;
 }
 .anon-box p {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--nb-ink-soft);
   line-height: 1.6;
 }
@@ -1962,12 +1962,12 @@ hr.div {
   left: 18px;
 }
 .toggle-label {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   color: var(--fg);
 }
 .toggle-note {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
   margin-top: 2px;
 }
@@ -2031,13 +2031,13 @@ hr.div {
   letter-spacing: -0.01em;
 }
 .overlay-body {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   line-height: 1.7;
   margin-bottom: 16px;
 }
 .overlay-note {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--nb-ink-soft);
   line-height: 1.6;
   padding: 12px 14px;
@@ -2089,7 +2089,7 @@ hr.div {
   flex-wrap: wrap;
 }
 .shell-footer-links a {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--fg-med);
   text-decoration: none;
   border-bottom: 1px solid transparent;
@@ -2099,7 +2099,7 @@ hr.div {
   border-bottom-color: var(--accent);
 }
 .shell-footer-note {
-  font-size: 11.5px;
+  font-size: 13px;
   color: var(--fg-muted);
 }
 
@@ -2173,7 +2173,7 @@ body.companion-shell .logo-row {
 }
 
 body.companion-shell .hdr-badge {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -2193,7 +2193,7 @@ body.companion-shell .paste-title {
   color: var(--fg);
 }
 body.companion-shell .paste-sub {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   margin-bottom: 20px;
 }
@@ -2201,14 +2201,14 @@ body.companion-shell .paste-area {
   border: 1.5px solid var(--border);
   border-radius: var(--r-sm);
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 13px;
 }
 body.companion-shell .paste-area:focus {
   border-color: var(--accent);
 }
 
 body.companion-shell .briefing .card-title {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -2256,7 +2256,7 @@ body.companion-shell .s-pill {
   gap: 7px;
   padding: 8px 14px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
 }
 body.companion-shell .s-dot {
@@ -2344,12 +2344,12 @@ body.companion-shell .tc-name {
   color: var(--fg);
 }
 body.companion-shell .tc-plan {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
 }
 body.companion-shell .tc-badge {
   margin-left: auto;
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   padding: 2px 9px;
   border-radius: 999px;
@@ -2376,7 +2376,7 @@ body.companion-shell .tc-flags {
   margin-bottom: 10px;
 }
 body.companion-shell .tc-flag {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--amber);
   background: var(--amber-bg);
   border: 1px solid var(--amber-border);
@@ -2388,7 +2388,7 @@ body.companion-shell .tc-action {
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
   padding: 10px 12px;
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--nb-ink-soft);
   margin-bottom: 12px;
   line-height: 1.55;
@@ -2414,7 +2414,7 @@ body.companion-shell .q-num {
   border-radius: 50%;
   background: var(--bg-mist);
   border: 1px solid var(--border);
-  font-size: 10px;
+  font-size: 11.5px;
   font-weight: 700;
   color: var(--fg-muted);
   display: flex;
@@ -2434,12 +2434,12 @@ body.companion-shell .q-num.amber {
   color: var(--amber);
 }
 body.companion-shell .q-text {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--nb-ink-soft);
   line-height: 1.55;
 }
 body.companion-shell .q-rationale {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--fg-muted);
   margin-top: 3px;
   font-style: italic;
@@ -2456,7 +2456,7 @@ body.companion-shell .gap-row:last-child {
   border-bottom: none;
 }
 body.companion-shell .gap-text {
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--nb-ink-soft);
   line-height: 1.5;
 }
