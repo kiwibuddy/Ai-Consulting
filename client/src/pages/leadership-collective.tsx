@@ -63,7 +63,7 @@ const resources: Resource[] = [
 const eventDetails = [
   { icon: CalendarDays, label: "When", value: "Thursday 16 July · 7:00 PM", note: "90 minutes" },
   { icon: MapPin, label: "Where", value: "Holy Trinity, Tauranga", note: "" },
-  { icon: Ticket, label: "Entry", value: "$10 at the door", note: "" },
+  { icon: Ticket, label: "Entry", value: "$10", note: "" },
 ];
 
 function AccentDot() {
