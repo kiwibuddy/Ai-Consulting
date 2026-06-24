@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'G-T13W0W8XCT', { page_path: '/audit', page_title: document.title });
 </script>
-<link rel="stylesheet" href="/audit-cinematic.css?v=20260623a">
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260625a">
 <script defer src="/audit-hero-carousel.js?v=20260528a"></script>
 
 </head>
@@ -229,6 +229,59 @@
   </div>
 </div>
 </div><!-- end ownerApp -->
+
+<!-- ═══ POST-PAYMENT SUCCESS (Stripe return) ═══ -->
+<div id="purchaseSuccess" class="audit-purchase-success" hidden style="display:none;">
+  <div class="card audit-purchase-success-card">
+    <div class="audit-purchase-success-top">
+      <div class="done-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <p class="audit-purchase-kicker">Payment confirmed</p>
+      <h1 class="audit-purchase-title" id="purchaseTitle">Thank you — your package is confirmed</h1>
+      <p class="audit-purchase-lead" id="purchaseLead">A confirmation email and Stripe receipt are on their way to your inbox.</p>
+    </div>
+    <div class="card-body audit-purchase-success-body">
+      <div class="audit-purchase-consultant">
+        <img class="audit-purchase-portrait" src="/images/email/nathaniel-baldock-portrait.png" alt="Nathaniel Baldock" width="96" height="96" decoding="async"/>
+        <div class="audit-purchase-consultant-copy">
+          <p class="audit-purchase-consultant-name">Nathaniel Baldock</p>
+          <p class="audit-purchase-consultant-role">AI Consultant · Tauranga, New Zealand</p>
+          <p class="audit-purchase-consultant-note" id="purchaseConsultantNote">I'll personally follow up within 1–2 business days. Your next step is to book a time that suits you.</p>
+        </div>
+      </div>
+
+      <div class="audit-purchase-booking" role="region" aria-label="Book your follow-up call">
+        <p class="audit-purchase-booking-label">Recommended next step</p>
+        <h2 class="cal-title">Book your free follow-up call</h2>
+        <p class="cal-sub" id="purchaseBookingSub">Pick a 30-minute slot on my calendar. We'll align on timing and walk through what happens next for your package.</p>
+        <a class="cal-btn audit-purchase-book-btn" id="purchaseBookBtn" href="#" target="_blank" rel="noopener">
+          Choose a time on my calendar &rarr;
+        </a>
+        <p class="audit-purchase-booking-hint">Opens Google Calendar · free · no obligation beyond your package</p>
+      </div>
+
+      <div class="audit-purchase-included" id="purchaseIncludedBlock">
+        <p class="audit-purchase-section-label">What's included in your package</p>
+        <ul class="audit-purchase-included-list" id="purchaseIncludedList"></ul>
+      </div>
+
+      <div class="audit-purchase-steps">
+        <p class="audit-purchase-section-label">What happens next</p>
+        <ol class="audit-purchase-steps-list" id="purchaseStepsList"></ol>
+      </div>
+
+      <div class="audit-purchase-receipt">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>Check your email for your payment receipt and package summary. If nothing arrives in 5 minutes, check spam or contact <a href="mailto:nathanielbaldock@gmail.com">nathanielbaldock@gmail.com</a>.</span>
+      </div>
+
+      <div class="audit-purchase-footer-links">
+        <a href="/">Return to homepage</a>
+        <span aria-hidden="true">·</span>
+        <a href="/audit">Back to free AI audit</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ SHARED SCREENS ═══ -->
 
@@ -1157,18 +1210,129 @@ function bindUpgradeCtas(root){
   });
 }
 
-function showPurchaseSuccessBanner(){
-  var tier=params.get('tier')||'';
-  var names={basic:'AI Basic',plus:'Ai Plus',premium:'AI Premium'};
-  var label=names[tier]||'your package';
-  var banner=document.createElement('div');
-  banner.className='audit-purchase-banner';
-  banner.setAttribute('role','status');
-  banner.innerHTML='<strong>Payment received — thank you!</strong> Your '+label+' confirmation is on its way to your inbox. '
-    +'<a href="'+CALENDAR_URL+'" target="_blank" rel="noopener">Book your follow-up call →</a>';
-  var shell=document.querySelector('.shell');
-  if(shell) shell.insertBefore(banner, shell.firstChild);
+function showPurchaseSuccessPage(){
+  var tier=(params.get('tier')||'basic').toLowerCase();
+  var meta=PURCHASE_PACKAGE_META[tier]||PURCHASE_PACKAGE_META.basic;
+  var el=document.getElementById('purchaseSuccess');
+  if(!el) return;
+
+  document.getElementById('ownerApp').style.display='none';
+  var teamApp=document.getElementById('teamApp');
+  if(teamApp) teamApp.style.display='none';
+  el.hidden=false;
+  el.style.display='block';
+
+  var counter=document.getElementById('stepCounter');
+  if(counter) counter.textContent='Complete';
+  var fill=document.getElementById('progressFill');
+  if(fill) fill.style.width='100%';
+
+  document.title='Thank you — '+meta.title+' confirmed · Nathaniel Baldock AI Consulting';
+
+  var titleEl=document.getElementById('purchaseTitle');
+  if(titleEl) titleEl.textContent='Thank you — '+meta.title+' is confirmed';
+  var leadEl=document.getElementById('purchaseLead');
+  if(leadEl) leadEl.textContent=meta.lead;
+  var noteEl=document.getElementById('purchaseConsultantNote');
+  if(noteEl) noteEl.textContent=meta.consultantNote;
+  var bookSub=document.getElementById('purchaseBookingSub');
+  if(bookSub) bookSub.textContent=meta.bookingSub;
+  var bookBtn=document.getElementById('purchaseBookBtn');
+  if(bookBtn) bookBtn.href=CALENDAR_URL;
+
+  var incList=document.getElementById('purchaseIncludedList');
+  if(incList){
+    incList.innerHTML=meta.includes.map(function(item){
+      return '<li>'+item+'</li>';
+    }).join('');
+  }
+  var stepsList=document.getElementById('purchaseStepsList');
+  if(stepsList){
+    stepsList.innerHTML=meta.steps.map(function(step){
+      return '<li>'+step+'</li>';
+    }).join('');
+  }
+
+  if(typeof gtag==='function'){
+    gtag('event','purchase',{
+      transaction_id:params.get('session_id')||undefined,
+      value:meta.value,
+      currency:'NZD',
+      items:[{item_name:meta.title,item_category:'audit_package'}]
+    });
+    gtag('event','page_view',{
+      page_path:'/audit/thank-you',
+      page_title:document.title
+    });
+  }
+
+  try{
+    if(window.history&&window.history.replaceState){
+      var clean='/audit?purchased=1&tier='+encodeURIComponent(tier);
+      window.history.replaceState({},document.title,clean);
+    }
+  }catch(e){}
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+
+var PURCHASE_PACKAGE_META={
+  basic:{
+    title:'AI Basic',
+    value:250,
+    lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
+    consultantNote:"I'll review your audit results, summarise any team surveys, and prepare your custom AI policy document.",
+    bookingSub:'Book a free 30-minute call so we can review your audit findings and confirm timelines for your policy deliverable.',
+    includes:[
+      'Emailed audit report plus team survey results (if sent)',
+      '30-minute call to review your results',
+      'Custom AI policy / governance document',
+    ],
+    steps:[
+      'Check your inbox for payment confirmation and receipt.',
+      'Book your follow-up call using the button above (takes about 30 seconds).',
+      "I'll walk through your audit on the call and begin your custom policy document.",
+      "You'll receive your policy by email after our session.",
+    ],
+  },
+  plus:{
+    title:'Ai Plus',
+    value:750,
+    lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
+    consultantNote:"We'll schedule your policy walkthrough and prepare your four custom AI usage statements for web, email, and documents.",
+    bookingSub:"Book your first session — we'll align on your policy walkthrough and usage statements.",
+    includes:[
+      'Everything in AI Basic',
+      '45-minute policy walkthrough and Q&A (Zoom or in-person if local)',
+      '4 custom AI usage statements (website, email footer, documents)',
+    ],
+    steps:[
+      'Check your inbox for payment confirmation and receipt.',
+      'Book your follow-up call using the button above.',
+      "We'll deliver your AI policy, then schedule the walkthrough and usage statements.",
+      "You'll receive drafts for review before anything goes live.",
+    ],
+  },
+  premium:{
+    title:'AI Premium',
+    value:1250,
+    lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
+    consultantNote:"I'll be in touch personally to schedule team training and your six-month policy review.",
+    bookingSub:"Book a kickoff call — we'll plan your team training session and implementation timeline.",
+    includes:[
+      'Everything in Ai Plus',
+      'Custom team-member AI usage document',
+      '90-minute team implementation / best-practices training',
+      '6-month AI tool, privacy, and policy review call',
+    ],
+    steps:[
+      'Check your inbox for payment confirmation and receipt.',
+      'Book your kickoff call using the button above.',
+      "We'll confirm dates for policy work, team training, and your six-month review.",
+      'Training and documents are tailored to your organisation — no generic templates.',
+    ],
+  },
+};
 
 async function loadPricingConfig(){
   try{
@@ -1231,10 +1395,15 @@ function mountPaidPricingFromTemplate(){
 document.addEventListener('DOMContentLoaded',function(){
   var fy=document.getElementById('footerYear');
   if(fy) fy.textContent=String(new Date().getFullYear());
+  var isPurchaseReturn=params.get('purchased')==='1';
   loadPricingConfig().finally(function(){
     mountPaidPricingFromTemplate();
-    if(params.get('purchased')==='1') showPurchaseSuccessBanner();
+    if(isPurchaseReturn){
+      showPurchaseSuccessPage();
+      return;
+    }
   });
+  if(isPurchaseReturn) return;
   if(IS_TEAM){
     document.getElementById('ownerApp').style.display='none';
     document.getElementById('teamApp').style.display='block';

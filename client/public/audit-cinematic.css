@@ -1438,6 +1438,211 @@ body.companion-shell {
   text-decoration: underline;
 }
 
+/* Post-payment success page (Stripe return) */
+.audit-purchase-success {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.audit-purchase-success-card {
+  overflow: hidden;
+}
+.audit-purchase-success-top {
+  text-align: center;
+  padding: 36px 28px 28px;
+  background: linear-gradient(180deg, rgba(124, 204, 30, 0.1) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+}
+.audit-purchase-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.audit-purchase-title {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+.audit-purchase-lead {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.audit-purchase-success-body {
+  padding-top: 24px !important;
+}
+.audit-purchase-consultant {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+.audit-purchase-portrait {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 3px solid rgba(124, 204, 30, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.audit-purchase-consultant-name {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+.audit-purchase-consultant-role {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.audit-purchase-consultant-note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--nb-ink-soft);
+}
+.audit-purchase-booking {
+  text-align: center;
+  padding: 24px 22px;
+  margin-bottom: 24px;
+  border-radius: var(--r);
+  background: rgba(124, 204, 30, 0.08);
+  border: 1px solid rgba(124, 204, 30, 0.35);
+  box-shadow: 0 12px 32px rgba(17, 194, 92, 0.08);
+}
+.audit-purchase-booking-label {
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.audit-purchase-book-btn {
+  display: inline-flex;
+  width: 100%;
+  max-width: 360px;
+  justify-content: center;
+  margin-top: 4px;
+}
+.audit-purchase-booking-hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+.audit-purchase-section-label {
+  margin: 0 0 12px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.audit-purchase-included {
+  margin-bottom: 22px;
+}
+.audit-purchase-included-list {
+  margin: 0;
+  padding: 0 0 0 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--nb-ink-soft);
+}
+.audit-purchase-included-list li {
+  margin-bottom: 6px;
+}
+.audit-purchase-included-list li:last-child {
+  margin-bottom: 0;
+}
+.audit-purchase-steps {
+  margin-bottom: 22px;
+}
+.audit-purchase-steps-list {
+  margin: 0;
+  padding: 0 0 0 22px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--nb-ink-soft);
+}
+.audit-purchase-steps-list li {
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+.audit-purchase-steps-list li:last-child {
+  margin-bottom: 0;
+}
+.audit-purchase-receipt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.audit-purchase-receipt svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--accent);
+}
+.audit-purchase-receipt a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.audit-purchase-receipt a:hover {
+  text-decoration: underline;
+}
+.audit-purchase-footer-links {
+  text-align: center;
+  font-size: 13px;
+  color: var(--fg-muted);
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.audit-purchase-footer-links a {
+  color: var(--nb-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+}
+.audit-purchase-footer-links a:hover {
+  color: var(--accent);
+}
+@media (max-width: 520px) {
+  .audit-purchase-consultant {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .audit-purchase-success-top {
+    padding: 28px 20px 22px;
+  }
+}
+
 @media (max-width: 700px) {
   .audit-pricing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
