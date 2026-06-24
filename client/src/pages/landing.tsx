@@ -123,6 +123,10 @@ export default function LandingPage() {
         <div className="nb-hero-gradient-side absolute inset-0 z-[1]" aria-hidden />
         <div className="nb-hero-gradient-bottom absolute inset-0 z-[1]" aria-hidden />
 
+        <div className="nb-hero-audit-pill-corner absolute right-[var(--nb-section-x)] top-[96px] z-[6]">
+          <HeroAuditPill />
+        </div>
+
         <div className="nb-hero-inner relative z-[5] max-w-[1440px] mx-auto flex items-center px-[var(--nb-section-x)]">
           <div className="nb-hero-copy w-full max-w-[820px] py-[clamp(56px,8vw,88px)]">
             <ScrollReveal>
@@ -168,9 +172,6 @@ export default function LandingPage() {
             <ScrollReveal delay={580}>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-8">
                 <CinematicPrimaryCTA href="/intake">{ctaLabel}</CinematicPrimaryCTA>
-              </div>
-              <div className="mt-4 flex justify-center">
-                <HeroAuditPill className="mx-auto justify-center" />
               </div>
             </ScrollReveal>
           </div>

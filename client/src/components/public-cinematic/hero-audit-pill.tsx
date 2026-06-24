@@ -5,22 +5,23 @@ interface HeroAuditPillProps {
   className?: string;
 }
 
-/** Inline hero link to the free AI use audit — sits beside primary CTAs on all breakpoints. */
+/** Floating hero badge linking to the free AI use survey — highlights the limited-time 50% discount. */
 export function HeroAuditPill({ className }: HeroAuditPillProps) {
   return (
     <a
       href="/audit"
       data-event="hero-floating-audit"
-      aria-label="Take the free 10-minute AI use audit"
+      aria-label="Take the free 10-minute AI use survey — 50% off all packages until July 1"
       className={cn("nb-hero-audit-pill", className)}
     >
-      <span aria-hidden className="relative flex h-2.5 w-2.5 shrink-0 sm:h-3 sm:w-3">
+      <span aria-hidden className="relative flex h-3 w-3 shrink-0">
         <span className="nb-hero-audit-pill-ping absolute inline-flex h-full w-full rounded-full opacity-75" />
-        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--nb-accent)] sm:h-3 sm:w-3" />
+        <span className="relative inline-flex h-3 w-3 rounded-full bg-[var(--nb-accent)]" />
       </span>
-      <span className="nb-hero-audit-pill-new nb-mono-label">NEW</span>
-      <span aria-hidden className="nb-hero-audit-pill-divider" />
-      <span className="nb-hero-audit-pill-label">Free · 10-min AI audit</span>
+      <span className="nb-hero-audit-pill-text">
+        <span className="nb-hero-audit-pill-label">Free · 10-min AI survey</span>
+        <span className="nb-hero-audit-pill-sale">50% off all packages · until July 1</span>
+      </span>
       <span aria-hidden className="nb-hero-audit-pill-arrow">
         →
       </span>
