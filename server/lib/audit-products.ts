@@ -1,9 +1,11 @@
 /**
  * AI Use Audit paid packages — Stripe Checkout + webhook follow-up.
  *
- * Mirror pricing copy in `client/public/audit.html` and `server/routes/audit.ts`.
- * Stripe Price IDs come from env (`STRIPE_PRICE_AUDIT_*`) so test/live split
- * happens at deploy time. Fallback: `AUDIT_PRICING_*_URL` (Payment Link or mailto).
+ * Railway env (matches production variable names):
+ *   AUDIT_PRICING_BASIC_URL / PLUS / PREMIUM — Stripe Price ID (`price_...`) for API checkout,
+ *     or fallback redirect URL (`https://buy.stripe.com/...` / `mailto:...`).
+ *   AUDIT_SALE_COUPON_ID — coupon applied automatically until AUDIT_SALE_ENDS_AT.
+ *   AUDIT_SALE_ENDS_AT — ISO datetime when launch discount stops (default 1 Jul 2026 NZ).
  */
 
 import Stripe from "stripe";
@@ -25,6 +27,14 @@ export interface AuditPackage {
 
 /** Default end of audit launch sale (NZ time). Override with AUDIT_SALE_ENDS_AT. */
 const DEFAULT_SALE_ENDS_AT = "2026-07-01T23:59:59+12:00";
+
+const DEFAULT_MAILTO: Record<AuditPackageTier, string> = {
+  basic:
+    "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24250%20NZD%20-%2050%25%20off%20until%20July%201)",
+  plus: "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%24750%20NZD%20-%2050%25%20off%20until%20July%201)",
+  premium:
+    "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%241%2C250%20NZD%20-%2050%25%20off%20until%20July%201)",
+};
 
 export const AUDIT_PACKAGES: AuditPackage[] = [
   {
@@ -72,41 +82,40 @@ function getStripe(): Stripe | null {
   return process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
 }
 
-/** Stripe Price ID for tier, or undefined if not configured. */
-export function getStripePriceIdForAuditTier(tier: AuditPackageTier): string | undefined {
-  switch (tier) {
-    case "basic":
-      return process.env.STRIPE_PRICE_AUDIT_BASIC;
-    case "plus":
-      return process.env.STRIPE_PRICE_AUDIT_PLUS;
-    case "premium":
-      return process.env.STRIPE_PRICE_AUDIT_PREMIUM;
-    default:
-      return undefined;
-  }
+/** Raw value from Railway for this tier's pricing env var. */
+export function getAuditPricingEnvValue(tier: AuditPackageTier): string | undefined {
+  const raw =
+    tier === "basic"
+      ? process.env.AUDIT_PRICING_BASIC_URL
+      : tier === "plus"
+        ? process.env.AUDIT_PRICING_PLUS_URL
+        : process.env.AUDIT_PRICING_PREMIUM_URL;
+  const trimmed = raw?.trim();
+  return trimmed || undefined;
 }
 
-/** Fallback URL from env (Stripe Payment Link or mailto). */
-export function getAuditPricingFallbackUrl(tier: AuditPackageTier): string {
-  switch (tier) {
-    case "basic":
-      return (
-        process.env.AUDIT_PRICING_BASIC_URL ||
-        "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24250%20NZD%20-%2050%25%20off%20until%20July%201)"
-      );
-    case "plus":
-      return (
-        process.env.AUDIT_PRICING_PLUS_URL ||
-        "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%24750%20NZD%20-%2050%25%20off%20until%20July%201)"
-      );
-    case "premium":
-      return (
-        process.env.AUDIT_PRICING_PREMIUM_URL ||
-        "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%241%2C250%20NZD%20-%2050%25%20off%20until%20July%201)"
-      );
-    default:
-      return "mailto:nathanielbaldock@gmail.com";
+function parseAuditPricingEnv(raw: string | undefined): {
+  priceId?: string;
+  redirectUrl?: string;
+} {
+  if (!raw) return {};
+  if (raw.startsWith("price_")) return { priceId: raw };
+  const lower = raw.toLowerCase();
+  if (lower.startsWith("https://") || lower.startsWith("http://") || lower.startsWith("mailto:")) {
+    return { redirectUrl: raw };
   }
+  return {};
+}
+
+/** Stripe Price ID from AUDIT_PRICING_*_URL when the value is `price_...`. */
+export function getStripePriceIdForAuditTier(tier: AuditPackageTier): string | undefined {
+  return parseAuditPricingEnv(getAuditPricingEnvValue(tier)).priceId;
+}
+
+/** Redirect URL from AUDIT_PRICING_*_URL when the value is a link (not a Price ID). */
+export function getAuditPricingFallbackUrl(tier: AuditPackageTier): string {
+  const parsed = parseAuditPricingEnv(getAuditPricingEnvValue(tier));
+  return parsed.redirectUrl || DEFAULT_MAILTO[tier];
 }
 
 export function isAuditStripeConfigured(): boolean {
@@ -128,10 +137,6 @@ export function isAuditSaleActive(): boolean {
   const couponId = process.env.AUDIT_SALE_COUPON_ID?.trim();
   if (!couponId) return false;
   return Date.now() <= getAuditSaleEndsAt().getTime();
-}
-
-export function effectiveAuditPrice(pkg: AuditPackage): number {
-  return isAuditSaleActive() ? pkg.salePrice : pkg.listPrice;
 }
 
 export function auditPricingForApi(): Array<
@@ -172,9 +177,15 @@ export async function createAuditCheckoutSession(
 
   const priceId = getStripePriceIdForAuditTier(options.tier);
   if (!priceId) {
+    const envName =
+      options.tier === "basic"
+        ? "AUDIT_PRICING_BASIC_URL"
+        : options.tier === "plus"
+          ? "AUDIT_PRICING_PLUS_URL"
+          : "AUDIT_PRICING_PREMIUM_URL";
     console.error(
       `[ai-use-audit] No Stripe Price ID for tier "${options.tier}". ` +
-        `Set STRIPE_PRICE_AUDIT_${options.tier.toUpperCase()}.`
+        `Set ${envName} to a Stripe Price ID (price_...).`
     );
     return null;
   }
