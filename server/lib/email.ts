@@ -1500,15 +1500,137 @@ export function passwordResetEmail(userEmail: string, userName: string, resetTok
 }
 
 /** Buyer confirmation after AI Use Audit package purchase (Stripe webhook). */
+export interface AuditPurchaseReceipt {
+  paidAt: Date;
+  amountCents: number;
+  currency: string;
+  /** Pre-discount subtotal in cents (Stripe amount_subtotal). */
+  subtotalCents?: number | null;
+  discountCents?: number | null;
+  discountLabel?: string | null;
+  reference: string;
+  receiptUrl?: string | null;
+}
+
+function formatAuditMoney(cents: number, currency: string): string {
+  return new Intl.NumberFormat("en-NZ", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(cents / 100);
+}
+
+function buildAuditReceiptHtml(
+  receipt: AuditPurchaseReceipt,
+  packageTitle: string,
+  buyerName?: string,
+  buyerEmail?: string,
+  orgName?: string,
+): string {
+  const gstNumber = process.env.AUDIT_GST_NUMBER?.trim();
+  const businessName =
+    process.env.AUDIT_BUSINESS_NAME?.trim() || "Nathaniel Baldock AI Consulting";
+  const businessAddress =
+    process.env.AUDIT_BUSINESS_ADDRESS?.trim() || "Tauranga, New Zealand";
+  const paidLabel = receipt.paidAt.toLocaleString("en-NZ", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Pacific/Auckland",
+  });
+  const refShort = receipt.reference.length > 20 ? receipt.reference.slice(-12) : receipt.reference;
+  const subtotalCents = receipt.subtotalCents ?? receipt.amountCents;
+  const discountCents = receipt.discountCents ?? 0;
+  const discountLabel = receipt.discountLabel?.trim() || "Discount";
+
+  const billToLines = [
+    buyerName?.trim(),
+    buyerEmail?.trim(),
+    orgName?.trim(),
+  ].filter(Boolean);
+  const billToHtml = billToLines.length
+    ? billToLines.map((line) => escapeHtmlForEmail(line!)).join("<br/>")
+    : escapeHtmlForEmail(buyerEmail || "Customer");
+
+  let taxRows = "";
+  let taxFootnote: string;
+  if (gstNumber) {
+    const exGst = Math.round(receipt.amountCents / 1.15);
+    const gstAmt = receipt.amountCents - exGst;
+    taxRows = `
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #eceef3;color:#64748b;">Subtotal (excl. GST)</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #eceef3;color:#0f172a;font-weight:600;">${formatAuditMoney(exGst, receipt.currency)}</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 0;border-bottom:1px solid #eceef3;color:#64748b;">GST (15%)</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #eceef3;color:#0f172a;font-weight:600;">${formatAuditMoney(gstAmt, receipt.currency)}</td>
+      </tr>`;
+    taxFootnote = `Tax invoice · GST no. ${escapeHtmlForEmail(gstNumber)} · All amounts in ${receipt.currency.toUpperCase()} (GST inclusive).`;
+  } else {
+    taxFootnote =
+      "Receipt · Prices in NZD · No GST charged (supplier not registered for GST). Keep this email and your Stripe receipt for your records.";
+  }
+
+  const discountRow =
+    discountCents > 0
+      ? `<tr>
+        <td style="padding:8px 0;border-bottom:1px solid #eceef3;color:#64748b;">${escapeHtmlForEmail(discountLabel)}</td>
+        <td align="right" style="padding:8px 0;border-bottom:1px solid #eceef3;color:#166534;font-weight:600;">−${formatAuditMoney(discountCents, receipt.currency)}</td>
+      </tr>`
+      : "";
+
+  const stripeReceiptLink = receipt.receiptUrl
+    ? `<p style="margin:14px 0 0;font-size:13px;"><a href="${receipt.receiptUrl}" style="color:#3f6212;font-weight:700;text-decoration:none;">Download Stripe receipt (PDF) →</a></p>`
+    : `<p style="margin:14px 0 0;font-size:12px;color:#64748b;">A separate payment receipt from Stripe may also arrive in your inbox.</p>`;
+
+  return `
+    <div style="margin:0 0 22px;padding:18px 20px;border:1px solid #e2dfd6;border-radius:12px;background:#fafbfc;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#64748b;margin-bottom:12px;">Receipt &amp; tax summary</div>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;font-size:13px;line-height:1.5;">
+        <tr>
+          <td style="padding:0 12px 0 0;vertical-align:top;color:#64748b;width:42%;">From</td>
+          <td style="padding:0;vertical-align:top;color:#0f172a;"><strong>${escapeHtmlForEmail(businessName)}</strong><br/>${escapeHtmlForEmail(businessAddress)}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px 0 0;vertical-align:top;color:#64748b;">Bill to</td>
+          <td style="padding:10px 0 0;vertical-align:top;color:#0f172a;">${billToHtml}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px 0 0;vertical-align:top;color:#64748b;">Reference</td>
+          <td style="padding:10px 0 0;vertical-align:top;color:#0f172a;font-family:ui-monospace,Menlo,monospace;font-size:12px;">${escapeHtmlForEmail(refShort)}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 12px 0 0;vertical-align:top;color:#64748b;">Paid</td>
+          <td style="padding:10px 0 0;vertical-align:top;color:#0f172a;">${escapeHtmlForEmail(paidLabel)} (NZ time)</td>
+        </tr>
+      </table>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:13.5px;">
+        <tr>
+          <td style="padding:8px 0;border-bottom:1px solid #eceef3;color:#0f172a;font-weight:600;">${escapeHtmlForEmail(packageTitle)} · AI Use Audit</td>
+          <td align="right" style="padding:8px 0;border-bottom:1px solid #eceef3;color:#0f172a;font-weight:600;">${formatAuditMoney(subtotalCents, receipt.currency)}</td>
+        </tr>
+        ${discountRow}
+        ${taxRows}
+        <tr>
+          <td style="padding:12px 0 0;color:#0f172a;font-weight:800;font-size:15px;">Total paid</td>
+          <td align="right" style="padding:12px 0 0;color:#0f172a;font-weight:800;font-size:15px;">${formatAuditMoney(receipt.amountCents, receipt.currency)}</td>
+        </tr>
+      </table>
+      ${stripeReceiptLink}
+      <p style="margin:12px 0 0;font-size:11px;line-height:1.55;color:#6b7280;">${taxFootnote}</p>
+    </div>`;
+}
+
 export function auditPackagePurchaseEmail(options: {
   buyerEmail: string;
   buyerName?: string;
   tier: "basic" | "plus" | "premium";
   orgName?: string;
   calendarUrl: string;
+  receipt: AuditPurchaseReceipt;
 }): EmailOptions {
-  const { buyerEmail, buyerName, tier, orgName, calendarUrl } = options;
+  const { buyerEmail, buyerName, tier, orgName, calendarUrl, receipt } = options;
   const siteOrigin = buyerFacingSiteOrigin();
+  const portraitUrl = `${siteOrigin}/images/email/nathaniel-baldock-portrait.png`;
   const greeting = buyerName ? `Hi ${escapeHtmlForEmail(buyerName)},` : "Hi there,";
 
   const tierMeta: Record<
@@ -1553,6 +1675,14 @@ export function auditPackagePurchaseEmail(options: {
     .map((item) => `<li style="margin-bottom:6px;">${escapeHtmlForEmail(item)}</li>`)
     .join("");
 
+  const receiptHtml = buildAuditReceiptHtml(
+    receipt,
+    meta.title,
+    buyerName,
+    buyerEmail,
+    orgName,
+  );
+
   return {
     to: buyerEmail,
     subject: `Payment received — ${meta.title} · AI Use Audit`,
@@ -1560,14 +1690,24 @@ export function auditPackagePurchaseEmail(options: {
 <body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
 <div style="max-width:640px;margin:0 auto;padding:24px 16px;">
 <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
-  <div style="background:linear-gradient(135deg,#11c25c,#7ccc1e);padding:28px 26px 22px;color:#fff;">
-    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.9;margin-bottom:8px;">Payment confirmed</div>
-    <div style="font-family:'Newsreader',Georgia,serif;font-size:1.5rem;font-weight:700;line-height:1.2;">${escapeHtmlForEmail(meta.title)}</div>
+  <div style="background:linear-gradient(135deg,#11c25c,#7ccc1e);padding:24px 26px;color:#fff;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td valign="middle" style="padding-right:16px;">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.92;margin-bottom:8px;">Payment confirmed</div>
+          <div style="font-family:'Newsreader',Georgia,serif;font-size:1.55rem;font-weight:700;line-height:1.15;">${escapeHtmlForEmail(meta.title)}</div>
+        </td>
+        <td valign="middle" align="right" width="80" style="width:80px;">
+          <img src="${portraitUrl}" alt="Nathaniel Baldock" width="72" height="72" style="display:block;width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.88);box-shadow:0 8px 24px rgba(15,23,42,0.22);" />
+        </td>
+      </tr>
+    </table>
   </div>
   <div style="padding:22px 26px 28px;">
     <p style="font-size:15px;margin:0 0 12px;">${greeting}</p>
     <p style="font-size:14px;color:#525252;margin:0 0 16px;">${escapeHtmlForEmail(meta.line)}</p>
     ${orgLine}
+    ${receiptHtml}
     <div style="background:#f7fee7;border:1px solid #bbf7d0;border-radius:12px;padding:16px 18px;margin-bottom:20px;">
       <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#3f6212;margin-bottom:10px;">What's included</div>
       <ul style="margin:0;padding:0 0 0 18px;font-size:13.5px;color:#374151;line-height:1.55;">${includesList}</ul>

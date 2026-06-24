@@ -477,6 +477,35 @@ async function processAuditCheckoutCompleted(session: Stripe.Checkout.Session): 
     undefined;
   const orgName = session.metadata?.orgName || undefined;
 
+  let receiptUrl: string | null = null;
+  const piRef = session.payment_intent;
+  const paymentIntentId = typeof piRef === "string" ? piRef : piRef?.id;
+  if (paymentIntentId && stripe) {
+    try {
+      const pi = await stripe.paymentIntents.retrieve(paymentIntentId, {
+        expand: ["latest_charge"],
+      });
+      const charge = pi.latest_charge;
+      if (typeof charge === "object" && charge && "receipt_url" in charge) {
+        receiptUrl = (charge as Stripe.Charge).receipt_url;
+      }
+    } catch (e) {
+      console.error("[ai-use-audit] could not load receipt URL", e);
+    }
+  }
+
+  const discountCents = session.total_details?.amount_discount ?? 0;
+  const receipt = {
+    paidAt: new Date((session.created || Math.floor(Date.now() / 1000)) * 1000),
+    amountCents: session.amount_total ?? 0,
+    currency: session.currency || "nzd",
+    subtotalCents: session.amount_subtotal ?? session.amount_total ?? 0,
+    discountCents: discountCents > 0 ? discountCents : null,
+    discountLabel: discountCents > 0 ? "Audit launch 50% off" : null,
+    reference: paymentIntentId || session.id,
+    receiptUrl,
+  };
+
   try {
     await sendEmail(
       auditPackagePurchaseEmail({
@@ -485,6 +514,7 @@ async function processAuditCheckoutCompleted(session: Stripe.Checkout.Session): 
         tier,
         orgName,
         calendarUrl: auditCalendarUrl(),
+        receipt,
       })
     );
   } catch (e) {
