@@ -18,6 +18,15 @@ import { Resend } from "resend";
 import { eq, sql } from "drizzle-orm";
 import { db } from "../db";
 import { auditSessions } from "@shared/schema";
+import { isStripeEnabled } from "../lib/payments";
+import {
+  AUDIT_PACKAGES,
+  auditCalendarUrl,
+  createAuditCheckoutSession,
+  getAuditPricingFallbackUrl,
+  isAuditStripeConfigured,
+  type AuditPackageTier,
+} from "../lib/audit-products";
 
 const router = Router();
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -27,20 +36,12 @@ const FROM_EMAIL =
   "Nathaniel Baldock AI Consulting <noreply@nathanielbaldock.com>";
 const SITE_URL = process.env.PUBLIC_SITE_URL || "https://nathanielbaldock.com";
 const AUDIT_URL = process.env.AUDIT_TOOL_URL || `${SITE_URL}/audit`;
-const CALENDAR_URL =
-  process.env.AUDIT_CALENDAR_URL ||
-  "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-";
+const CALENDAR_URL = auditCalendarUrl();
 
-// Pricing CTA links (mailto by default; swap to checkout URLs in env)
-const PRICING_BASIC_URL =
-  process.env.AUDIT_PRICING_BASIC_URL ||
-  "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD)";
-const PRICING_PLUS_URL =
-  process.env.AUDIT_PRICING_PLUS_URL ||
-  "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD)";
-const PRICING_PREMIUM_URL =
-  process.env.AUDIT_PRICING_PREMIUM_URL ||
-  "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD)";
+// Legacy env URLs used when Stripe Price IDs are not configured (Payment Link or mailto).
+function pricingUrlForTier(tier: AuditPackageTier): string {
+  return getAuditPricingFallbackUrl(tier);
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface AuditTool {
@@ -134,16 +135,15 @@ function ragBadgeLabel(t: AuditTool): string {
   return esc(raw);
 }
 
-function pricingCtaLabel(url: string, fallback: string): string {
-  if (!url) return fallback;
-  return url.trim().toLowerCase().startsWith("mailto:") ? fallback : "Buy now";
+function pricingCtaLabel(tier: AuditPackageTier, fallback: string): string {
+  if (isAuditStripeConfigured()) return "Buy now";
+  const url = pricingUrlForTier(tier);
+  if (url.trim().toLowerCase().startsWith("mailto:")) return fallback;
+  return "Buy now";
 }
 
-function buildTrackedPricingUrl(plan: "basic" | "plus" | "premium", target: string, org?: string): string {
-  const qp = new URLSearchParams({
-    plan,
-    target,
-  });
+function buildTrackedPricingUrl(plan: AuditPackageTier, org?: string): string {
+  const qp = new URLSearchParams({ plan });
   if (org && org.trim()) qp.set("org", org.trim());
   return `${SITE_URL}/api/audit/pricing-click?${qp.toString()}`;
 }
@@ -231,12 +231,14 @@ function pricingBlock(p: OwnerPayload): string {
   const ctaPrimary =
     ctaBase + `background:${CTA_GRADIENT};border:1px solid ${NB_GREEN};color:#fff;`;
 
-  const basicCta = pricingCtaLabel(PRICING_BASIC_URL, "Upgrade to");
-  const plusCta = pricingCtaLabel(PRICING_PLUS_URL, "Upgrade to");
-  const premiumCta = pricingCtaLabel(PRICING_PREMIUM_URL, "Upgrade to");
-  const basicHref = buildTrackedPricingUrl("basic", PRICING_BASIC_URL, p.bizName);
-  const plusHref = buildTrackedPricingUrl("plus", PRICING_PLUS_URL, p.bizName);
-  const premiumHref = buildTrackedPricingUrl("premium", PRICING_PREMIUM_URL, p.bizName);
+  const basicCta = pricingCtaLabel("basic", "Enquire about");
+  const plusCta = pricingCtaLabel("plus", "Enquire about");
+  const premiumCta = pricingCtaLabel("premium", "Enquire about");
+  const basicHref = buildTrackedPricingUrl("basic", p.bizName);
+  const plusHref = buildTrackedPricingUrl("plus", p.bizName);
+  const premiumHref = buildTrackedPricingUrl("premium", p.bizName);
+  const saleNote =
+    '<span style="font-size:11px;font-weight:700;color:#3f6212;background:#f7fee7;border:1px solid #bbf7d0;padding:2px 8px;border-radius:999px;margin-left:6px;">50% off · until July 1</span>';
 
   return `
   <div style="margin-top:22px;border-top:1px solid ${BORDER_SOFT};padding-top:22px;">
@@ -247,8 +249,8 @@ function pricingBlock(p: OwnerPayload): string {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:10px 10px;margin:0 -10px;">
       <tr>
         <td width="33%" style="${cardStyle}">
-          <div style="${nameStyle}">AI Basic</div>
-          <div style="${priceStyle}">$500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">AI Basic ${saleNote}</div>
+          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$500</span>$250 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
             <li>Emailed result report plus team results</li>
             <li>30-minute call to review results</li>
@@ -257,8 +259,8 @@ function pricingBlock(p: OwnerPayload): string {
           <a href="${esc(basicHref)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
         </td>
         <td width="33%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
-          <div style="${nameStyle}">Ai Plus</div>
-          <div style="${priceStyle}">$1,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">Ai Plus ${saleNote}</div>
+          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$1,500</span>$750 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
             <li>Everything in AI Basic</li>
             <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
@@ -267,8 +269,8 @@ function pricingBlock(p: OwnerPayload): string {
           <a href="${esc(plusHref)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
         </td>
         <td width="33%" style="${cardStyle}">
-          <div style="${nameStyle}">AI Premium</div>
-          <div style="${priceStyle}">$2,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">AI Premium ${saleNote}</div>
+          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$2,500</span>$1,250 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
           <ul style="${listStyle}">
             <li>Everything in Ai Plus</li>
             <li>Custom team member specific AI usage document</li>
@@ -557,19 +559,77 @@ router.post("/submit", async (req, res) => {
   return res.json({ ok: true });
 });
 
+// ── ROUTE: GET /api/audit/pricing-config ──────────────────────────────────────
+router.get("/pricing-config", (_req, res) => {
+  res.json({
+    stripe: isAuditStripeConfigured() && isStripeEnabled(),
+    calendarUrl: CALENDAR_URL,
+    packages: AUDIT_PACKAGES.map((p) => ({
+      tier: p.tier,
+      title: p.title,
+      listPrice: p.listPrice,
+      displayPrice: p.displayPrice,
+      includes: p.includes,
+    })),
+  });
+});
+
+// ── ROUTE: POST /api/audit/checkout ───────────────────────────────────────────
+router.post("/checkout", async (req, res) => {
+  const tierRaw = String(req.body?.tier || "").toLowerCase();
+  const orgName = String(req.body?.org || req.body?.orgName || "").trim();
+  const tier =
+    tierRaw === "basic" || tierRaw === "plus" || tierRaw === "premium" ? tierRaw : null;
+  if (!tier) {
+    return res.status(400).json({ error: "Invalid tier" });
+  }
+
+  if (!isStripeEnabled() || !isAuditStripeConfigured()) {
+    const fallback = pricingUrlForTier(tier);
+    if (fallback.toLowerCase().startsWith("mailto:")) {
+      return res.json({ url: fallback, mode: "mailto" });
+    }
+    return res.json({ url: fallback, mode: "payment_link" });
+  }
+
+  const origin =
+    (typeof req.headers.origin === "string" && req.headers.origin) ||
+    `${req.protocol}://${req.get("host")}` ||
+    SITE_URL;
+
+  const checkout = await createAuditCheckoutSession({ tier, orgName, origin });
+  if (!checkout) {
+    return res.status(503).json({ error: "Checkout is temporarily unavailable" });
+  }
+
+  return res.json(checkout);
+});
+
 // ── ROUTE: GET /api/audit/pricing-click ───────────────────────────────────────
 // Tracks clicks on paid package buttons shown in audit result emails, then redirects.
 router.get("/pricing-click", async (req, res) => {
   const planRaw = String(req.query.plan || "").toLowerCase();
-  const target = String(req.query.target || "").trim();
   const org = String(req.query.org || "").trim();
-  const safePlan = planRaw === "basic" || planRaw === "plus" || planRaw === "premium" ? planRaw : "unknown";
+  const safePlan =
+    planRaw === "basic" || planRaw === "plus" || planRaw === "premium" ? planRaw : "unknown";
+  const tier =
+    safePlan === "basic" || safePlan === "plus" || safePlan === "premium" ? safePlan : null;
 
   let redirectTo = `${SITE_URL}/audit`;
-  if (target) {
-    const lower = target.toLowerCase();
-    if (lower.startsWith("https://") || lower.startsWith("http://") || lower.startsWith("mailto:")) {
-      redirectTo = target;
+  if (tier) {
+    if (isStripeEnabled() && isAuditStripeConfigured()) {
+      const checkout = await createAuditCheckoutSession({
+        tier,
+        orgName: org,
+        origin: SITE_URL,
+      });
+      if (checkout?.url) {
+        redirectTo = checkout.url;
+      } else {
+        redirectTo = pricingUrlForTier(tier);
+      }
+    } else {
+      redirectTo = pricingUrlForTier(tier);
     }
   }
 

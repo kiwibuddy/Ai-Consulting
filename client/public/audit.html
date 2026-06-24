@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Use Survey — Nathaniel Baldock AI Consulting</title>
+<!-- Google tag (gtag.js) — same property as main site; tracks /audit as a standalone page -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T13W0W8XCT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-T13W0W8XCT', { page_path: '/audit', page_title: document.title });
+</script>
 <link rel="stylesheet" href="/audit-cinematic.css?v=20260623a">
 <script defer src="/audit-hero-carousel.js?v=20260528a"></script>
 
@@ -386,7 +394,7 @@
           <li>30-minute call to review results</li>
           <li>Custom AI policy / governance document</li>
         </ul>
-        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="basic" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24250%20NZD%20-%2050%25%20off%20until%20July%201)">Upgrade to AI Basic</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="basic" href="#">Upgrade to AI Basic</a>
       </article>
       <article class="audit-pricing-card audit-pricing-card--featured">
         <div class="audit-pricing-card-hdr">
@@ -401,7 +409,7 @@
           <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
           <li>4 custom website, email footer, and document AI usage statements</li>
         </ul>
-        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="plus" href="mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%24750%20NZD%20-%2050%25%20off%20until%20July%201)">Upgrade to Ai Plus</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="plus" href="#">Upgrade to Ai Plus</a>
       </article>
       <article class="audit-pricing-card">
         <div class="audit-pricing-card-hdr">
@@ -419,7 +427,7 @@
           <li>90-minute Zoom/in-person team implementation / best-practices training</li>
           <li>6-month AI tool, privacy and regulation and your team policy review call</li>
         </ul>
-        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="premium" href="mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%241%2C250%20NZD%20-%2050%25%20off%20until%20July%201)">Upgrade to AI Premium</a>
+        <a class="audit-pricing-cta audit-upgrade-cta" data-tier="premium" href="#">Upgrade to AI Premium</a>
       </article>
     </div>
     <p class="audit-pricing-note">Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.</p>
@@ -428,7 +436,7 @@
 
 <!-- Policy data — keep this <script> BEFORE the main inline script below
      so window.AUDIT_POLICIES is available when audit JS runs. -->
-<script src="/audit-policies.js?v=20260528a"></script>
+<script src="/audit-policies.js?v=20260624a"></script>
 <script src="/audit-countries.js?v=20260528a"></script>
 
 <script>
@@ -437,8 +445,10 @@
 // host (nathanielbaldock.com today, kiwiclarityai.co.nz in future).
 var API_SUBMIT = '/api/audit/submit';
 var API_INVITE = '/api/audit/invite';
+var API_CHECKOUT = '/api/audit/checkout';
 var CONSULTANT_EMAIL = 'nathanielbaldock@gmail.com';
 var CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0mO1lxN2kh1ewSrKsEVMsCUeSoz4qauDZs0INinAtrgkBL_JxW0kRRHsWg_d_6qe0rT59-syU-';
+var AUDIT_STRIPE_ENABLED = false;
 
 // ── MODE DETECTION ──────────────────────────────────────────────
 var params = new URLSearchParams(location.search);
@@ -458,7 +468,7 @@ var TOOLS = [
     {id:'m365',label:'Microsoft 365 Copilot',note:'Business subscription',vendorRisk:1,trainingOn:false,ipp12:true,action:'Apply Purview sensitivity labels to tenant.',warning:'Enterprise Data Protection. No model training.'},
   ]},
   {id:'gemini',name:'Google Gemini',vendor:'Google',icon:'🔮',logo:'/logos/gemini.svg',cat:'assistants',tiers:[
-    {id:'consumer',label:'Free or personal account',note:'gemini.google.com',vendorRisk:3,trainingOn:true,ipp12:true,action:'Settings › Gemini Apps Activity › turn off.',warning:'Human-reviewed conversations retained up to 3 years.'},
+    {id:'consumer',label:'Free or personal account',note:'gemini.google.com',vendorRisk:3,trainingOn:true,ipp12:true,action:'My Activity › Gemini Apps › turn off Keep Activity.',warning:'Keep Activity on by default — prompts may be human-reviewed and retained up to 36 months.'},
     {id:'workspace',label:'Gemini for Workspace',note:'Business Google account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Console › set regional data residency.',warning:'No human review. No model training.'},
   ]},
   {id:'claude',name:'Claude',vendor:'Anthropic',icon:'🤖',logo:'/logos/claude.svg',cat:'assistants',tiers:[
@@ -479,7 +489,7 @@ var TOOLS = [
   ]},
   {id:'hubspot',name:'HubSpot AI',vendor:'HubSpot',icon:'🧡',logo:'/logos/hubspot.svg',cat:'writing',tiers:[
     {id:'standard',label:'Standard account',note:'Default CRM',vendorRisk:2,trainingOn:true,ipp12:true,action:'Settings › AI › Access tab › toggle off "AI Model Training".',warning:'Uses CRM data for training by default.'},
-    {id:'sensitive',label:'Sensitive Data enabled',note:'With opt-out configured',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enable Sensitive Data setting and confirm training off.',warning:'Opted out of training by default.'},
+    {id:'sensitive',label:'Sensitive Data enabled',note:'Regulated-data account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enable Sensitive Data setting — training is excluded automatically.',warning:'Automatically opted out of AI model training.'},
   ]},
   {id:'notebooklm',name:'NotebookLM',vendor:'Google',icon:'📔',logo:'/logos/notebooklm.svg',cat:'writing',tiers:[
     {id:'consumer',label:'Personal Google account',note:'notebooklm.google.com',vendorRisk:2,trainingOn:false,ipp12:true,action:'Avoid thumbs-up/down ratings — trigger human review.',warning:'Feedback triggers human review, retained up to 3 years.'},
@@ -506,14 +516,14 @@ var TOOLS = [
     {id:'team',label:'Team Edition',note:'Paid team plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Panel › enable global training opt-out.',warning:'SOC 2 Type II. No training on meeting content.'},
   ]},
   {id:'granola',name:'Granola AI',vendor:'Granola',icon:'🌾',logo:'/logos/granola.png',cat:'meetings',tiers:[
-    {id:'any',label:'Personal or Enterprise',note:'Any plan',vendorRisk:1,trainingOn:false,ipp12:true,action:'Settings › Profile › toggle off "Model Training".',warning:'On-device transcription. Raw audio deleted immediately. SOC 2 Type II.'},
+    {id:'any',label:'Personal or Enterprise',note:'Any plan',vendorRisk:1,trainingOn:true,ipp12:true,action:'Settings › Profile › toggle off "Model Training" (Enterprise is off by default).',warning:'Personal plans may use anonymised notes for training unless opted out. On-device transcription. SOC 2 Type II.'},
   ]},
   {id:'fireflies',name:'Fireflies.ai',vendor:'Fireflies.ai',icon:'✨',logo:'/logos/fireflies.png',cat:'meetings',tiers:[
     {id:'any',label:'Any plan',note:'Free, Pro, or Business',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Settings › force zero-data-retention.',warning:'Restricts API providers from training on meeting data.'},
   ]},
   {id:'zoom-ai',name:'Zoom AI Companion',vendor:'Zoom',icon:'📹',logo:'/logos/zoom.svg',cat:'meetings',tiers:[
-    {id:'consumer',label:'Basic or Pro Zoom',note:'Standard Zoom plan',vendorRisk:2,trainingOn:true,ipp12:true,action:'Zoom Settings › AI Companion › disable data improvement.',warning:'Consumer AI features may be used for model improvement.'},
-    {id:'business',label:'Zoom Business or Enterprise',note:'Business account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Account Admin › AI Companion › confirm training exclusions.',warning:'Business accounts excluded from AI training by default.'},
+    {id:'consumer',label:'Basic or Pro Zoom',note:'Standard Zoom plan',vendorRisk:2,trainingOn:false,ipp12:true,action:'Review AI Companion settings before enabling in meetings.',warning:'Meeting content is not used for AI training; user feedback may improve Zoom AI features.'},
+    {id:'business',label:'Zoom Business or Enterprise',note:'Business account',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Portal › AI Companion › configure feature access and retention.',warning:'Customer content excluded from AI training. Full admin controls. SOC 2 Type II.'},
   ]},
 ];
 var CATS = [
@@ -1076,7 +1086,7 @@ function renderDone(payload){
   document.getElementById('quickWins').innerHTML=html;
 }
 
-function openUpgradeForTier(tierId, href){
+function openUpgradeForTier(tierId){
   try{localStorage.setItem('kca-audit-upgrade-tier', tierId||'');}catch(e){}
   var title=document.getElementById('upgradeTierTitle');
   var desc=document.getElementById('upgradeTierDesc');
@@ -1090,11 +1100,46 @@ function openUpgradeForTier(tierId, href){
   if(title) title.textContent=x.t;
   if(desc) desc.textContent=x.d;
   if(link){
-    link.href=href||'#';
-    link.textContent=(href&&String(href).toLowerCase().indexOf('mailto:')===0)?('Enquire about '+x.t):('Continue to payment');
+    link.href='#';
+    link.textContent=AUDIT_STRIPE_ENABLED?'Continue to payment':'Enquire about '+x.t;
+    link.onclick=function(e){
+      e.preventDefault();
+      startAuditCheckout(tierId, link);
+    };
   }
   showOnly('s5u');
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function startAuditCheckout(tierId, btnEl){
+  if(!tierId) return;
+  var btn=btnEl;
+  var prevText=btn&&btn.textContent?btn.textContent:'';
+  if(btn){ btn.textContent='Redirecting…'; btn.setAttribute('aria-busy','true'); }
+  try{
+    var resp=await fetch(API_CHECKOUT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({tier:tierId,org:ST.bizName||''})
+    });
+    var data=await resp.json();
+    if(!resp.ok) throw new Error(data.error||('HTTP '+resp.status));
+    if(data.url){
+      if(typeof gtag==='function'){
+        gtag('event','begin_checkout',{event_category:'audit',event_label:tierId,value:1});
+      }
+      if(String(data.mode||'').toLowerCase()==='mailto'||String(data.url).toLowerCase().indexOf('mailto:')===0){
+        window.location.href=data.url;
+      } else {
+        window.location.href=data.url;
+      }
+      return;
+    }
+    throw new Error('No checkout URL returned');
+  }catch(e){
+    if(btn){ btn.textContent=prevText||'Try again'; btn.removeAttribute('aria-busy'); }
+    alert('Could not start checkout. Please email nathanielbaldock@gmail.com or try again.');
+  }
 }
 
 function bindUpgradeCtas(root){
@@ -1102,9 +1147,37 @@ function bindUpgradeCtas(root){
   root.querySelectorAll('.audit-upgrade-cta').forEach(function(a){
     a.addEventListener('click',function(e){
       e.preventDefault();
-      openUpgradeForTier(a.getAttribute('data-tier')||'', a.getAttribute('href')||'');
+      var tier=a.getAttribute('data-tier')||'';
+      if(AUDIT_STRIPE_ENABLED){
+        startAuditCheckout(tier, a);
+      } else {
+        openUpgradeForTier(tier);
+      }
     });
   });
+}
+
+function showPurchaseSuccessBanner(){
+  var tier=params.get('tier')||'';
+  var names={basic:'AI Basic',plus:'Ai Plus',premium:'AI Premium'};
+  var label=names[tier]||'your package';
+  var banner=document.createElement('div');
+  banner.className='audit-purchase-banner';
+  banner.setAttribute('role','status');
+  banner.innerHTML='<strong>Payment received — thank you!</strong> Your '+label+' confirmation is on its way to your inbox. '
+    +'<a href="'+CALENDAR_URL+'" target="_blank" rel="noopener">Book your follow-up call →</a>';
+  var shell=document.querySelector('.shell');
+  if(shell) shell.insertBefore(banner, shell.firstChild);
+}
+
+async function loadPricingConfig(){
+  try{
+    var resp=await fetch('/api/audit/pricing-config');
+    if(!resp.ok) return;
+    var cfg=await resp.json();
+    AUDIT_STRIPE_ENABLED=!!cfg.stripe;
+    if(cfg.calendarUrl) CALENDAR_URL=cfg.calendarUrl;
+  }catch(e){}
 }
 
 // ── TEAM SUBMIT ──────────────────────────────────────────────────
@@ -1158,7 +1231,10 @@ function mountPaidPricingFromTemplate(){
 document.addEventListener('DOMContentLoaded',function(){
   var fy=document.getElementById('footerYear');
   if(fy) fy.textContent=String(new Date().getFullYear());
-  mountPaidPricingFromTemplate();
+  loadPricingConfig().finally(function(){
+    mountPaidPricingFromTemplate();
+    if(params.get('purchased')==='1') showPurchaseSuccessBanner();
+  });
   if(IS_TEAM){
     document.getElementById('ownerApp').style.display='none';
     document.getElementById('teamApp').style.display='block';

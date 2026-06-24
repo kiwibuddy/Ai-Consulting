@@ -15,8 +15,21 @@ import {
   type Retainer,
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
-import { sendEmail, paymentReceivedEmail, invoiceSentEmail, invoicePaymentFailedEmail, taurangaAccessEmail } from "./email";
+import {
+  sendEmail,
+  paymentReceivedEmail,
+  invoiceSentEmail,
+  invoicePaymentFailedEmail,
+  taurangaAccessEmail,
+  auditPackagePurchaseEmail,
+  auditPackageSaleNotificationEmail,
+} from "./email";
 import { isProductCheckoutSession, buildAccessLinks, type ProductTier } from "./products";
+import {
+  isAuditCheckoutSession,
+  auditCalendarUrl,
+  type AuditPackageTier,
+} from "./audit-products";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
@@ -317,6 +330,10 @@ export async function handleStripeWebhook(
           await processProductCheckoutCompleted(session);
           return { success: true, eventId: event.id };
         }
+        if (isAuditCheckoutSession(session.metadata)) {
+          await processAuditCheckoutCompleted(session);
+          return { success: true, eventId: event.id };
+        }
         const result = await processCheckoutSessionCompleted(session, event.id);
         return { success: true, paymentId: result.paymentId, eventId: event.id };
       }
@@ -433,6 +450,64 @@ async function processCheckoutSessionCompleted(
  * for soft-launch volumes. (For higher volumes, swap to a `product_purchases`
  * table — explicitly out of scope per the locked plan.)
  */
+async function processAuditCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
+  const tier = session.metadata?.tier as AuditPackageTier | undefined;
+  if (!tier || (tier !== "basic" && tier !== "plus" && tier !== "premium")) {
+    console.error("[ai-use-audit] webhook missing/invalid tier metadata", session.id);
+    return;
+  }
+
+  const buyerEmail =
+    session.customer_details?.email ||
+    session.customer_email ||
+    (typeof session.customer === "string"
+      ? null
+      : (session.customer as Stripe.Customer | null)?.email) ||
+    null;
+  if (!buyerEmail) {
+    console.error("[ai-use-audit] webhook missing buyer email", session.id);
+    return;
+  }
+
+  const buyerName =
+    session.customer_details?.name ||
+    (typeof session.customer === "string"
+      ? null
+      : (session.customer as Stripe.Customer | null)?.name) ||
+    undefined;
+  const orgName = session.metadata?.orgName || undefined;
+
+  try {
+    await sendEmail(
+      auditPackagePurchaseEmail({
+        buyerEmail,
+        buyerName: buyerName ?? undefined,
+        tier,
+        orgName,
+        calendarUrl: auditCalendarUrl(),
+      })
+    );
+  } catch (e) {
+    console.error("[ai-use-audit] failed to send buyer confirmation", e);
+  }
+
+  try {
+    await sendEmail(
+      auditPackageSaleNotificationEmail({
+        buyerEmail,
+        buyerName: buyerName ?? undefined,
+        tier,
+        orgName,
+        amountCents: session.amount_total,
+        currency: session.currency,
+        sessionId: session.id,
+      })
+    );
+  } catch (e) {
+    console.error("[ai-use-audit] failed to send operator notification", e);
+  }
+}
+
 async function processProductCheckoutCompleted(
   session: Stripe.Checkout.Session
 ): Promise<void> {

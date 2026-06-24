@@ -118,7 +118,7 @@
       status: "verified",
       lastReviewed: "2026-05-26",
       confidence: "high",
-      policyUrl: "https://privacy.microsoft.com/en-us/privacystatement",
+      policyUrl: "https://www.microsoft.com/en-us/privacy/privacystatement",
       policyLabel: "Microsoft Privacy Statement",
       summary:
         "Standalone (free) Copilot logs your conversations and uses personalisation data to improve consumer models unless you opt out.",
@@ -161,15 +161,15 @@
     // ─── Google Gemini ────────────────────────────────────────────────────
     "gemini:consumer": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
       policyUrl: "https://myactivity.google.com/product/gemini",
-      policyLabel: "Gemini Apps Activity controls",
+      policyLabel: "Gemini Keep Activity controls",
       summary:
-        "Gemini Apps Activity is on by default. De-identified prompts can be reviewed by humans and stored for up to 3 years.",
+        "Keep Activity is on by default for adults. Prompts can be reviewed by humans and retained for up to 36 months unless you change auto-delete.",
       explainer: [
-        "On any personal Google account (not a Workspace business account), Gemini Apps Activity is enabled by default. A sample of your conversations is reviewed by human raters and retained for up to three years to improve Google's models. This setting applies to anything you do at gemini.google.com or in the Gemini app on your phone.",
-        "Turning Apps Activity off stops human review and training — but it also disables conversation history beyond 72 hours. That trade-off is deliberate on Google's part: it discourages people from opting out. For business use, you want to be on Gemini for Workspace, which excludes data from training without losing history.",
+        "On any personal Google account (not a Workspace business account), Keep Activity is enabled by default if you're 18 or over. Google may use your prompts, uploads, and feedback to develop and improve its models, with help from human reviewers. This applies to gemini.google.com and the Gemini mobile app.",
+        "Turning Keep Activity off stops human review and model-improvement use — but conversations are still kept for up to 72 hours for safety and service delivery, and won't appear in your activity log. Default auto-delete is 18 months (you can set 3 or 36 months). For business use, move to Gemini for Workspace, which excludes data from training without losing history.",
       ],
       sources: [
         {
@@ -243,7 +243,7 @@
     // ─── Perplexity ───────────────────────────────────────────────────────
     "perplexity:consumer": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
       policyUrl: "https://www.perplexity.ai/hub/legal/privacy-policy",
       policyLabel: "Perplexity Privacy Policy",
@@ -255,17 +255,17 @@
       ],
       sources: [
         {
-          label: "Perplexity AI Data Privacy Policy (analysis by Cape)",
-          url: "https://www.cape.co/blog/perplexity-ai-data-privacy-policy",
+          label: "Data collection at Perplexity (Help Center)",
+          url: "https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity.html",
         },
       ],
     },
     "perplexity:enterprise": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
-      policyUrl: "https://www.perplexity.ai/hub/legal/privacy-policy",
-      policyLabel: "Perplexity Privacy Policy",
+      policyUrl: "https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity.html",
+      policyLabel: "Perplexity Enterprise data collection",
       summary:
         "Enterprise workspace data and Sonar API queries are excluded from training. Uploads are purged within 7 days.",
       explainer: [
@@ -276,6 +276,10 @@
         {
           label: "Perplexity Enterprise security",
           url: "https://www.perplexity.ai/enterprise",
+        },
+        {
+          label: "Privacy & Security (Perplexity API docs)",
+          url: "https://docs.perplexity.ai/docs/resources/privacy-security",
         },
       ],
     },
@@ -304,8 +308,8 @@
       status: "verified",
       lastReviewed: "2026-05-26",
       confidence: "very-high",
-      policyUrl: "https://www.grammarly.com/business/security",
-      policyLabel: "Grammarly Business Security",
+      policyUrl: "https://www.grammarly.com/security",
+      policyLabel: "Grammarly Security",
       summary:
         "Product improvement and training are off by default. Customer data is never used to train foundational models.",
       explainer: [
@@ -314,8 +318,8 @@
       ],
       sources: [
         {
-          label: "Grammarly Business security",
-          url: "https://www.grammarly.com/business/security",
+          label: "Grammarly Trust Center",
+          url: "https://www.grammarly.com/trust",
         },
       ],
     },
@@ -382,15 +386,15 @@
     },
     "hubspot:sensitive": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "very-high",
       policyUrl: "https://knowledge.hubspot.com/account-management/hubspot-machine-learning-data",
       policyLabel: "HubSpot Machine Learning Data Policy",
       summary:
-        "With \"Sensitive Data\" enabled and the global training opt-out off, HubSpot AI doesn't train on your CRM data.",
+        "Accounts with Sensitive Data enabled are opted out of AI model training automatically — no manual toggle required.",
       explainer: [
-        "When you enable the \"Sensitive Data\" account setting (designed for HIPAA-style use cases) and confirm the global AI training opt-out is off, HubSpot stops using your CRM data to train Breeze or any of its ML models. Tenant isolation guarantees no cross-customer leakage, and your account is treated as a regulated tenant.",
-        "Worth pairing this with strict role-based access on the AI features — not every staff member needs to be able to trigger AI generations across the whole CRM.",
+        "When you enable HubSpot's Sensitive Data setting (designed for regulated data like health or financial information), your account is automatically excluded from AI model training and cannot opt back in. Tenant isolation still guarantees no cross-customer leakage.",
+        "Worth pairing this with strict role-based access on AI features — not every staff member needs to be able to trigger AI generations across the whole CRM.",
       ],
       sources: [
         {
@@ -425,7 +429,7 @@
       lastReviewed: "2026-05-26",
       confidence: "very-high",
       policyUrl:
-        "https://knowledge.workspace.google.com/admin/users/access/turn-notebooklm-on-or-off-for-users",
+        "https://knowledge.workspace.google.com/admin/generative-ai/notebooklm/turn-notebooklm-on-or-off-for-users",
       policyLabel: "NotebookLM for Workspace admin guide",
       summary:
         "Governed by Google Cloud/Workspace core agreements — no human review of uploads, no training on domain data.",
@@ -436,7 +440,7 @@
       sources: [
         {
           label: "Turn NotebookLM on/off (Workspace Admin)",
-          url: "https://knowledge.workspace.google.com/admin/users/access/turn-notebooklm-on-or-off-for-users",
+          url: "https://knowledge.workspace.google.com/admin/generative-ai/notebooklm/turn-notebooklm-on-or-off-for-users",
         },
       ],
     },
@@ -497,7 +501,7 @@
       sources: [
         {
           label: "Adobe Content Analysis FAQ",
-          url: "https://helpx.adobe.com/manage-account/using/machine-learning-faq.html",
+          url: "https://helpx.adobe.com/account/individual/terms-policies-and-regulations/content-analysis-faq.html",
         },
       ],
     },
@@ -605,9 +609,9 @@
     // ─── Fathom ───────────────────────────────────────────────────────────
     "fathom:free": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
-      policyUrl: "https://fathom.video/privacy-policy",
+      policyUrl: "https://www.fathom.ai/privacy",
       policyLabel: "Fathom Privacy Policy",
       summary:
         "Fathom Free uses de-identified meeting assets to improve internal model performance by default. Third-party training is excluded.",
@@ -617,17 +621,21 @@
       ],
       sources: [
         {
-          label: "Fathom Privacy Hub",
-          url: "https://fathom.video/privacy-policy",
+          label: "Is Fathom secure? (Help Center)",
+          url: "https://help.fathom.video/en/articles/296512",
+        },
+        {
+          label: "Fathom Trust Center",
+          url: "https://trust.fathom.video",
         },
       ],
     },
     "fathom:team": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
-      policyUrl: "https://fathom.video/security",
-      policyLabel: "Fathom Security & Privacy",
+      policyUrl: "https://trust.fathom.video",
+      policyLabel: "Fathom Trust Center",
       summary:
         "Fathom Team Edition excludes meeting notes, transcripts, and summaries from all training programs. SOC 2 Type II certified.",
       explainer: [
@@ -636,8 +644,12 @@
       ],
       sources: [
         {
-          label: "Fathom security & compliance",
-          url: "https://fathom.video/security",
+          label: "Is Fathom secure? (Help Center)",
+          url: "https://help.fathom.video/en/articles/296512",
+        },
+        {
+          label: "Fathom Privacy Policy",
+          url: "https://www.fathom.ai/privacy",
         },
       ],
     },
@@ -645,12 +657,12 @@
     // ─── Granola ──────────────────────────────────────────────────────────
     "granola:any": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "very-high",
       policyUrl: "https://docs.granola.ai/help-center/consent-security-privacy/model-training",
       policyLabel: "Granola Model Training & Privacy",
       summary:
-        "Granola transcribes on-device and immediately deletes raw audio. Enterprise contracts prohibit OpenAI/Anthropic sub-processors from training on the data.",
+        "Granola transcribes on-device and deletes raw audio immediately. Personal plans may use anonymised notes for training unless opted out; Enterprise is off by default.",
       explainer: [
         "Granola is architecturally different from most meeting tools: it transcribes audio on-device in real time and deletes the raw audio file immediately after processing. There's no central audio database to compromise. It's SOC 2 Type II certified and runs locally without joining calls as a visible bot.",
         "The personal tier still uses de-identified summaries for model improvement unless you turn it off in Settings → Profile → \"Model Training\". The enterprise tier goes further: contractual prohibition on OpenAI/Anthropic sub-processors training on data, and global training opt-out locked at the admin level. One operational note: because Granola doesn't join as a visible bot, the host must still inform attendees that AI transcription is active to comply with multi-party consent laws.",
@@ -658,7 +670,7 @@
       sources: [
         {
           label: "Granola Privacy Policy",
-          url: "https://granola.ai/privacy-policy",
+          url: "https://docs.granola.ai/help-center/policies/privacy-policy",
         },
         {
           label: "Participant privacy & consent (Granola blog)",
@@ -691,37 +703,37 @@
     // ─── Zoom AI Companion ────────────────────────────────────────────────
     "zoom-ai:consumer": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "high",
-      policyUrl: "https://www.zoom.com/en/trust/ai/",
-      policyLabel: "Zoom AI Companion & Trust",
+      policyUrl: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0057861",
+      policyLabel: "How Zoom AI features handle your data",
       summary:
         "Zoom does not use your audio, video, chat, screen-sharing or attachments to train its own or any third-party AI models — confirmed contractually since the August 2023 policy update.",
       explainer: [
         "After significant public backlash in August 2023 over an ambiguous ToS clause, Zoom rewrote and re-published their AI data policy. Their current commitment is explicit and applies to every Zoom plan that has AI Companion enabled (Pro, Business, Business Plus, Enterprise — AI Companion is not part of the free Basic tier): customer content (audio, video, chat, screen sharing, attachments, polls, whiteboard, transcripts) is never used to train Zoom's or any third-party generative AI models.",
-        "Two things to know on a personal Pro account. First, AI Companion is opt-in per meeting and per host — meeting hosts must actively turn it on, and participants see a notification when it's active. Second, account-level telemetry and what Zoom calls \"service-generated data\" (usage patterns, settings, feature engagement — not the content of meetings) can still be used to improve the product. For most personal use that's fine; for highly confidential meetings, leave AI Companion off rather than relying on retention settings.",
+        "Two things to know on a personal Pro account. First, AI Companion is opt-in per meeting and per host — meeting hosts must actively turn it on, and participants see a notification when it's active. Second, while meeting content is never used for AI training, Zoom may use user feedback (thumbs up/down, submitted prompts) and service-generated usage data to improve AI features.",
       ],
       sources: [
         {
-          label: "Zoom AI Companion FAQ",
-          url: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0058778",
+          label: "How Zoom AI features handle your data (Zoom Support)",
+          url: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0057861",
         },
         {
-          label: "How Zoom's AI Companion handles your data (Zoom blog)",
-          url: "https://www.zoom.com/en/blog/zoom-ai-companion-data-handling/",
+          label: "Zoom AI Whitepaper",
+          url: "https://library.zoom.com/ai-whitepaper",
         },
         {
           label: "Zoom Privacy Statement",
-          url: "https://www.zoom.com/en/trust/privacy/",
+          url: "https://www.zoom.com/en/trust/privacy/privacy-statement/",
         },
       ],
     },
     "zoom-ai:business": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-06-24",
       confidence: "very-high",
-      policyUrl: "https://www.zoom.com/en/trust/ai/",
-      policyLabel: "Zoom AI Companion & Trust",
+      policyUrl: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0057861",
+      policyLabel: "How Zoom AI features handle your data",
       summary:
         "Customer content is contractually excluded from AI training, with full admin control over which AI features are enabled, who can use them, and what gets retained. SOC 2 Type II, HIPAA BAA available.",
       explainer: [
@@ -730,16 +742,16 @@
       ],
       sources: [
         {
-          label: "Zoom AI Companion for admins",
+          label: "Zoom AI Companion for admins (Zoom Support)",
           url: "https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0058778",
         },
         {
           label: "Zoom Trust Center",
-          url: "https://www.zoom.com/en/trust/",
+          url: "https://trust.zoom.com/",
         },
         {
-          label: "Zoom HIPAA compliance",
-          url: "https://www.zoom.com/en/trust/hipaa-compliance/",
+          label: "Zoom HIPAA compliance guide",
+          url: "https://www.zoom.com/en/trust/legal-compliance/hipaa-ready/",
         },
       ],
     },

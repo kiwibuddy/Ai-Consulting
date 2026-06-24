@@ -1498,3 +1498,126 @@ export function passwordResetEmail(userEmail: string, userName: string, resetTok
     `,
   };
 }
+
+/** Buyer confirmation after AI Use Audit package purchase (Stripe webhook). */
+export function auditPackagePurchaseEmail(options: {
+  buyerEmail: string;
+  buyerName?: string;
+  tier: "basic" | "plus" | "premium";
+  orgName?: string;
+  calendarUrl: string;
+}): EmailOptions {
+  const { buyerEmail, buyerName, tier, orgName, calendarUrl } = options;
+  const siteOrigin = buyerFacingSiteOrigin();
+  const greeting = buyerName ? `Hi ${escapeHtmlForEmail(buyerName)},` : "Hi there,";
+
+  const tierMeta: Record<
+    typeof tier,
+    { title: string; line: string; includes: string[] }
+  > = {
+    basic: {
+      title: "AI Basic",
+      line: "Thanks for upgrading. I'll review your audit results and team surveys, then deliver your custom AI policy / governance document.",
+      includes: [
+        "Emailed result report plus team results",
+        "30-minute call to review results",
+        "Custom AI policy / governance document",
+      ],
+    },
+    plus: {
+      title: "Ai Plus",
+      line: "Thanks for upgrading. We'll walk through your policy together and I'll prepare your four custom AI usage statements.",
+      includes: [
+        "Everything in AI Basic",
+        "45-minute Zoom/in-person policy walkthrough and Q&A",
+        "4 custom website, email footer, and document AI usage statements",
+      ],
+    },
+    premium: {
+      title: "AI Premium",
+      line: "Thanks for upgrading. I'll be in touch within 1–2 business days to schedule your team training and implementation session.",
+      includes: [
+        "Everything in Ai Plus",
+        "Custom team member specific AI usage document",
+        "90-minute Zoom/in-person team implementation / best-practices training",
+        "6-month AI tool, privacy and regulation and your team policy review call",
+      ],
+    },
+  };
+  const meta = tierMeta[tier];
+  const orgLine = orgName?.trim()
+    ? `<p style="margin:0 0 16px;font-size:14px;color:#525252;">Organisation: <strong>${escapeHtmlForEmail(orgName.trim())}</strong></p>`
+    : "";
+
+  const includesList = meta.includes
+    .map((item) => `<li style="margin-bottom:6px;">${escapeHtmlForEmail(item)}</li>`)
+    .join("");
+
+  return {
+    to: buyerEmail,
+    subject: `Payment received — ${meta.title} · AI Use Audit`,
+    html: `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
+<div style="max-width:640px;margin:0 auto;padding:24px 16px;">
+<div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
+  <div style="background:linear-gradient(135deg,#11c25c,#7ccc1e);padding:28px 26px 22px;color:#fff;">
+    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.9;margin-bottom:8px;">Payment confirmed</div>
+    <div style="font-family:'Newsreader',Georgia,serif;font-size:1.5rem;font-weight:700;line-height:1.2;">${escapeHtmlForEmail(meta.title)}</div>
+  </div>
+  <div style="padding:22px 26px 28px;">
+    <p style="font-size:15px;margin:0 0 12px;">${greeting}</p>
+    <p style="font-size:14px;color:#525252;margin:0 0 16px;">${escapeHtmlForEmail(meta.line)}</p>
+    ${orgLine}
+    <div style="background:#f7fee7;border:1px solid #bbf7d0;border-radius:12px;padding:16px 18px;margin-bottom:20px;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#3f6212;margin-bottom:10px;">What's included</div>
+      <ul style="margin:0;padding:0 0 0 18px;font-size:13.5px;color:#374151;line-height:1.55;">${includesList}</ul>
+    </div>
+    <p style="font-size:14px;color:#374151;margin:0 0 16px;">Book your free follow-up call so we can align on timing and next steps:</p>
+    <p style="text-align:center;margin:0 0 20px;"><a href="${calendarUrl}" style="display:inline-block;background:linear-gradient(135deg,#11c25c,#7ccc1e);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;">Book a follow-up call →</a></p>
+    <p style="font-size:13px;color:#525252;margin:0;">— Nathaniel<br><a href="${siteOrigin}" style="color:#3f6212;">nathanielbaldock.com</a></p>
+  </div>
+  <div style="padding:14px 26px;background:#faf8f5;border-top:1px solid #e2dfd6;font-size:11px;color:#6b7280;">Not legal advice · Nathaniel Baldock AI Consulting</div>
+</div>
+</div>
+</body></html>`,
+  };
+}
+
+/** Operator notification when an audit package is purchased. */
+export function auditPackageSaleNotificationEmail(options: {
+  buyerEmail: string;
+  buyerName?: string;
+  tier: "basic" | "plus" | "premium";
+  orgName?: string;
+  amountCents?: number | null;
+  currency?: string | null;
+  sessionId: string;
+}): EmailOptions {
+  const { buyerEmail, buyerName, tier, orgName, amountCents, currency, sessionId } = options;
+  const pkgTitle =
+    tier === "basic" ? "AI Basic" : tier === "plus" ? "Ai Plus" : "AI Premium";
+  const amount =
+    amountCents != null && currency
+      ? new Intl.NumberFormat("en-NZ", {
+          style: "currency",
+          currency: currency.toUpperCase(),
+        }).format(amountCents / 100)
+      : "(amount in Stripe)";
+
+  return {
+    to: SITE_CONTACT_EMAIL,
+    subject: `[Audit sale · ${pkgTitle}] ${buyerEmail}${orgName?.trim() ? ` · ${orgName.trim()}` : ""}`,
+    html: `<!DOCTYPE html><html><body style="font-family:Inter,Arial,sans-serif;color:#111827;line-height:1.6;">
+      <h2 style="margin:0 0 12px;">AI Use Audit package purchased</h2>
+      <ul>
+        <li><strong>Package:</strong> ${escapeHtmlForEmail(pkgTitle)} (${tier})</li>
+        <li><strong>Buyer:</strong> ${escapeHtmlForEmail(buyerName || "(name not provided)")} &lt;${escapeHtmlForEmail(buyerEmail)}&gt;</li>
+        <li><strong>Organisation:</strong> ${escapeHtmlForEmail(orgName?.trim() || "(not provided)")}</li>
+        <li><strong>Amount:</strong> ${escapeHtmlForEmail(amount)}</li>
+        <li><strong>Stripe session:</strong> ${escapeHtmlForEmail(sessionId)}</li>
+        <li><strong>Time:</strong> ${new Date().toISOString()}</li>
+      </ul>
+      <p style="margin:16px 0 0;font-size:13px;color:#64748b;">Follow up within 1–2 business days. The buyer received an automated confirmation with your calendar link.</p>
+    </body></html>`,
+  };
+}
