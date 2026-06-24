@@ -20,10 +20,12 @@ import { db } from "../db";
 import { auditSessions } from "@shared/schema";
 import { isStripeEnabled } from "../lib/payments";
 import {
-  AUDIT_PACKAGES,
   auditCalendarUrl,
+  auditPricingForApi,
   createAuditCheckoutSession,
   getAuditPricingFallbackUrl,
+  getAuditSaleEndsAt,
+  isAuditSaleActive,
   isAuditStripeConfigured,
   type AuditPackageTier,
 } from "../lib/audit-products";
@@ -561,15 +563,19 @@ router.post("/submit", async (req, res) => {
 
 // ── ROUTE: GET /api/audit/pricing-config ──────────────────────────────────────
 router.get("/pricing-config", (_req, res) => {
+  const saleActive = isAuditSaleActive();
   res.json({
     stripe: isAuditStripeConfigured() && isStripeEnabled(),
     calendarUrl: CALENDAR_URL,
-    packages: AUDIT_PACKAGES.map((p) => ({
-      tier: p.tier,
-      title: p.title,
-      listPrice: p.listPrice,
-      displayPrice: p.displayPrice,
-      includes: p.includes,
+    saleActive,
+    saleEndsAt: saleActive ? getAuditSaleEndsAt().toISOString() : null,
+    packages: auditPricingForApi().map(({ tier, title, listPrice, displayPrice, includes, onSale }) => ({
+      tier,
+      title,
+      listPrice,
+      displayPrice,
+      onSale,
+      includes,
     })),
   });
 });
