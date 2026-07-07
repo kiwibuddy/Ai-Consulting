@@ -2,6 +2,7 @@ import { allArticleMetas, articlePathFromMeta } from "../../client/src/content/a
 import { christianProfessionalWorksheets } from "../../client/src/content/christian-professional-worksheets";
 import { deepDives } from "../../client/src/content/deep-dives";
 import { EXPERTISE_PAGE_PATHS } from "../../client/src/content/expertise-pages";
+import { SCHOOL_SUITE_SITEMAP_PATHS } from "../../client/src/content/school-suite";
 import { worksheets } from "../../client/src/content/worksheets";
 
 export interface SitemapEntry {
@@ -17,7 +18,7 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const CORE_STATIC: Array<{ path: string; priority: number; changefreq: "weekly" | "monthly"; lastmod?: string }> = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
   { path: "/about", priority: 0.9, changefreq: "monthly" },
-  { path: "/who-is-nathaniel-baldock", priority: 0.9, changefreq: "monthly" },
+  { path: "/products", priority: 0.9, changefreq: "monthly" },
   { path: "/speaking", priority: 0.9, changefreq: "monthly" },
   { path: "/speaking/invite", priority: 0.8, changefreq: "monthly" },
   { path: "/resources", priority: 0.8, changefreq: "monthly" },
@@ -80,6 +81,10 @@ export function getSitemapEntries(): SitemapEntry[] {
     add(entry(dive.url, 0.7, "monthly", dive.date));
   }
 
+  for (const path of SCHOOL_SUITE_SITEMAP_PATHS) {
+    add(entry(path, 0.8, "monthly"));
+  }
+
   return entries.sort((a, b) => {
     if (b.priority !== a.priority) return b.priority - a.priority;
     return a.path.localeCompare(b.path);
@@ -91,7 +96,6 @@ export function getGscPriorityUrls(siteUrl = "https://www.nathanielbaldock.com")
   const paths = [
     "/",
     "/about",
-    "/who-is-nathaniel-baldock",
     "/audit",
     "/resources/something-has-changed-you-are-not-imagining-it",
     "/speaking",

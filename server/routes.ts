@@ -16,6 +16,11 @@ import {
   insertSurveyResponseSchema,
 } from "@shared/schema";
 import { SITE_CONTACT_EMAIL } from "@shared/constants";
+import {
+  getResourceSetById,
+  RESOURCE_SET_ID_VALUES,
+} from "@shared/content/resource-sets";
+import { worksheets } from "../client/src/content/worksheets";
 import { isAuthenticated, authStorage } from "./auth";
 import type { EventAttributes } from "ics";
 import {
@@ -29,6 +34,7 @@ import {
   resourceUploadedEmail,
   worksheetReportEmail,
   type WorksheetReportEmailPayload,
+  resourceSetUnlockEmail,
 } from "./lib/email";
 import {
   createCheckoutSessionForInvoice,
@@ -328,6 +334,42 @@ export async function registerRoutes(
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: "Invalid email address" });
       } else {
+        res.status(500).json({ error: "Something went wrong. Please try again." });
+      }
+    }
+  });
+
+  app.post("/api/resource-set-request", publicFormLimiter, async (req, res) => {
+    try {
+      const schema = z.object({
+        email: z.string().email(),
+        setId: z.enum(RESOURCE_SET_ID_VALUES),
+        website: z.string().optional(),
+      });
+      const { email, setId, website } = schema.parse(req.body);
+      if (website?.trim()) {
+        res.status(200).json({ ok: true, message: "Thanks." });
+        return;
+      }
+      const setDef = getResourceSetById(setId);
+      if (!setDef) {
+        res.status(400).json({ error: "Unknown worksheet set." });
+        return;
+      }
+      const links = setDef.worksheetIds
+        .map((id) => worksheets.find((w) => w.id === id))
+        .filter((w): w is (typeof worksheets)[number] => Boolean(w))
+        .map((w) => ({ title: w.title, url: w.url }));
+
+      await sendEmail(
+        resourceSetUnlockEmail(email, setDef.label, setDef.emailBlurb, links),
+      );
+      res.status(200).json({ ok: true, message: "Check your inbox for the full set." });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid request." });
+      } else {
+        console.error("resource-set-request error:", error);
         res.status(500).json({ error: "Something went wrong. Please try again." });
       }
     }

@@ -62,6 +62,7 @@ export function SiteFooter({ onNewsletterSubmit }: SiteFooterProps) {
             <FooterCol title="Site">
               <Link href="/" className={footerLink}>Home</Link>
               <Link href="/about" className={footerLink}>About Me</Link>
+              <Link href="/products" className={footerLink}>Products</Link>
               <Link href="/speaking" className={footerLink}>Speaking</Link>
               <Link href="/resources" className={footerLink}>Resources</Link>
               <Link href="/pricing" className={footerLink}>Pricing</Link>

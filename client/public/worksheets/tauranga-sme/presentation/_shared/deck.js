@@ -212,10 +212,14 @@
       set("modal-body", d.body || "");
       set("modal-source", d.source ? "Source: " + d.source : "");
       const link = document.getElementById("modal-link");
-      if (link)
-        link.innerHTML = d.link
-          ? '<a href="' + d.link + '" target="_blank" rel="noopener">View source &rarr;</a>'
-          : "";
+      if (link) {
+        var parts = [];
+        if (d.link)
+          parts.push('<a href="' + d.link + '" target="_blank" rel="noopener">MBIE expansion (May 2026) &rarr;</a>');
+        if (d.link2)
+          parts.push('<a href="' + d.link2 + '" target="_blank" rel="noopener">Beehive launch (Jan 2026) &rarr;</a>');
+        link.innerHTML = parts.join(" · ");
+      }
       mo.classList.add("open");
     }
     function closeModal() {

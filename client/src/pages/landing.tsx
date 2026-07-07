@@ -66,6 +66,14 @@ const whoThisIsFor = [
     image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80",
     alt: "Team collaboration",
   },
+  {
+    tag: "Businesses & SMEs",
+    title: "For businesses that want the time back",
+    body: "Find out where AI genuinely saves hours in your week, what your team is already using, and what needs a policy before it becomes a problem.",
+    body2: "Start with the free ten-minute audit, or go straight to the AI-Ready pack: worksheets, session decks, and a written adoption plan.",
+    image: "/images/worksheets/tauranga-sme-readiness.svg",
+    alt: "Business and SME context",
+  },
 ];
 
 const whyBullets = [
@@ -79,12 +87,12 @@ const whyBullets = [
 const whyStats: ReadonlyArray<readonly [string, string]> = [
   ["23", "Years with international missions, churches & NGOs"],
   ["15+", "Nations — ministry & speaking"],
-  ["400+", "Leaders trained over 9-month YWAM courses"],
+  ["400+", "Leaders trained in a credited 9-month leadership programme he led"],
   [String(publicResourceCount), "Free articles, worksheets & tools"],
 ];
 
 const whyStatsResearchNote = {
-  title: "7 Spheres Bible research",
+  title: "Global Spheres Bible research",
   body: "Co-led 200+ researchers across 50 nations; ~40k hours of crowdsourced biblical research; new methods & tools for distributed scholarship.",
 };
 
@@ -164,7 +172,7 @@ export default function LandingPage() {
 
             <ScrollReveal delay={420}>
               <p className="nb-body-lg mt-10 mb-0 max-w-[620px]">
-                I can help churches, schools, and mission-driven organisations adopt AI wisely —
+                I can help churches, schools, businesses, and mission-driven organisations adopt AI wisely,
                 without hype, without fear, and without losing what matters most.
               </p>
             </ScrollReveal>
@@ -535,8 +543,15 @@ export default function LandingPage() {
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={250}>
-            <p className="nb-body-lg mx-auto mb-8 max-w-[620px]">
+            <p className="nb-body-lg mx-auto mb-4 max-w-[620px]">
               Honest assessment of fit. No sales pitch. Response within 48 hours.
+            </p>
+            <p className="nb-body mx-auto mb-8 max-w-[620px] text-[var(--nb-ink-soft)]">
+              Want a packaged starting point instead?{" "}
+              <Link href="/products" className="text-[var(--nb-accent)] hover:underline">
+                See the products page
+              </Link>
+              .
             </p>
           </ScrollReveal>
           <ScrollReveal delay={400}>

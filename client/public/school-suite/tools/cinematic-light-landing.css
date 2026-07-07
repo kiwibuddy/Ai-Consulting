@@ -1,0 +1,32 @@
+/* Cinematic Light — web landing pages (educators-pd, pathway-compass, HRP)
+   Maps legacy --azure/--ink vars to brand tokens for migrated inline styles */
+:root{
+  --ink:var(--nb-ink);
+  --ink-70:var(--nb-ink-soft);
+  --ink-60:var(--nb-ink-dim);
+  --ink-40:rgba(15,16,20,.42);
+  --ink-12:var(--nb-rule);
+  --ink-06:rgba(15,16,20,.06);
+  --paper:var(--nb-bg);
+  --mist:var(--nb-bg-warm);
+  --cloud:#FAFAF7;
+  --azure:var(--nb-accent);
+  --azure-deep:#0F1014;
+  --azure-soft:var(--nb-accent-soft);
+  --sunrise:var(--nb-accent);
+  --sunrise-soft:var(--nb-accent-soft);
+  --meadow:var(--nb-green);
+  --meadow-soft:rgba(17,194,92,.1);
+  --violet:var(--nb-accent);
+  --violet-soft:var(--nb-accent-soft);
+  --font-display:var(--font-display);
+  --font-body:var(--font-body);
+  --font-mono:var(--font-mono);
+}
+h1,h2,h3,h4{font-weight:400!important;letter-spacing:-.028em}
+.hero h1 .grad{
+  background:none!important;-webkit-text-fill-color:unset!important;
+  font-family:var(--font-accent);font-style:italic;font-weight:300;color:var(--nb-accent);
+}
+.nav-cta{background:var(--nb-cta-gradient)!important;color:#fff!important}
+.btn-primary,.cta-primary{background:var(--nb-cta-gradient)!important;border:none;color:#fff}

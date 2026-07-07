@@ -37,14 +37,7 @@ const staticPages: Record<string, PublicPageMeta> = {
     ogType: "website",
   },
   "/about": {
-    title: "About Nathaniel Baldock — AI Consultant for Faith-Based Organisations",
-    description:
-      "20+ years in global missions with YWAM. AI consultant, speaker, and educator in Tauranga, New Zealand — strategy, training, and advisory for churches, schools, and nonprofits.",
-    image: DEFAULT_IMAGE,
-    ogType: "website",
-  },
-  "/who-is-nathaniel-baldock": {
-    title: "Who Is Nathaniel Baldock? — AI Consultant, Speaker & Educator (Tauranga, NZ)",
+    title: "About Nathaniel Baldock — AI Consultant, Speaker & Educator (Tauranga, NZ)",
     description:
       "Nathaniel Baldock: AI strategist, consultant, speaker, and educator in Tauranga, New Zealand. 23 years in global missions; helps churches, schools, and nonprofits navigate AI.",
     image: DEFAULT_IMAGE,
@@ -225,19 +218,16 @@ export function getJsonLdForPath(urlPath: string): Record<string, unknown>[] {
     ];
   }
 
-  if (clean === "/about" || clean === "/who-is-nathaniel-baldock") {
-    const schemas: Record<string, unknown>[] = [
+  if (clean === "/about") {
+    return [
       buildPersonSchema({
         includeEmail: true,
         includeKnowsAbout: true,
         includeAlumniOf: true,
         includeWorksFor: true,
       }),
+      buildIdentityFaqSchema(),
     ];
-    if (clean === "/who-is-nathaniel-baldock") {
-      schemas.push(buildIdentityFaqSchema());
-    }
-    return schemas;
   }
 
   const expertise = expertisePages.find((p) => p.path === clean);

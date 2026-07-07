@@ -7,9 +7,14 @@ import LeadershipCollectivePage from "@/pages/leadership-collective";
 import ThankYouPage from "@/pages/thank-you";
 import LoginPage from "@/pages/login";
 import PricingPage from "@/pages/pricing";
+import ProductsPage from "@/pages/products";
+import SchoolsPackPage from "@/pages/schools-pack";
+import SchoolsStaffPage from "@/pages/schools-staff";
+import SchoolsStudentsPage from "@/pages/schools-students";
+import SchoolsGovernancePage from "@/pages/schools-governance";
+import BusinessWorkersPage from "@/pages/business-workers";
 import ResourcesPage from "@/pages/resources";
 import SpeakingPage from "@/pages/speaking";
-import WhoIsNathanielBaldockPage from "@/pages/who-is-nathaniel-baldock";
 import { EXPERTISE_PAGE_PATHS, type ExpertisePagePath } from "@/content/expertise-pages";
 import {
   ArticleAiWorry,
@@ -71,8 +76,13 @@ export const ChristianWorksheetPublicRoute = withPublicPage(ChristianProfessiona
 export const AboutPublicRoute = withPublicPage(AboutPage);
 export const LeadershipCollectivePublicRoute = withPublicPage(LeadershipCollectivePage);
 export const ThankYouPublicRoute = withPublicPage(ThankYouPage);
-export const WhoIsPublicRoute = withPublicPage(WhoIsNathanielBaldockPage);
 export const PricingPublicRoute = withPublicPage(PricingPage);
+export const ProductsPublicRoute = withPublicPage(ProductsPage);
+export const SchoolsPackPublicRoute = withPublicPage(SchoolsPackPage);
+export const SchoolsStaffPublicRoute = withPublicPage(SchoolsStaffPage);
+export const SchoolsStudentsPublicRoute = withPublicPage(SchoolsStudentsPage);
+export const SchoolsGovernancePublicRoute = withPublicPage(SchoolsGovernancePage);
+export const BusinessWorkersPublicRoute = withPublicPage(BusinessWorkersPage);
 export const TaurangaSmeWelcomePublicRoute = withPublicPage(TaurangaSmeWelcomePage);
 export const TaurangaSmePublicRoute = withPublicPage(TaurangaSmePage);
 export const PresentationContactPublicRoute = withPublicPage(PresentationContactPage);

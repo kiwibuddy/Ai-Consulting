@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinematic-light.css">
+<link rel="stylesheet" href="cinematic-light-print.css">
+<link rel="stylesheet" href="cinematic-light-kit.css">
+<title>For Parents &amp; Whānau — AI, Wisdom &amp; Your Child | Teaching for the Discernment Age</title>
+<meta name="description" content="A one-page take-home for families: what our school is teaching about AI and wisdom, and three things you can do at home. From Teaching for the Discernment Age.">
+<style>
+:root{
+  --ink:#0F1014;--ink-70:rgba(10,22,51,.72);--ink-60:rgba(10,22,51,.62);--ink-40:rgba(10,22,51,.42);
+  --ink-12:rgba(10,22,51,.12);--ink-06:rgba(10,22,51,.06);--paper:#FFFFFF;--cloud:#FAFAF7;--mist:#F4EFE2;
+  --azure:#7CCC1E;--azure-deep:#0F1014;--azure-soft:rgba(124,204,30,.12);--sunrise:#7CCC1E;--sunrise-soft:#FFEFE2;
+  --meadow:#0FA97E;--meadow-soft:#E2F7F0;--amber:#EFA51F;--amber-soft:#FCF3DD;--violet:#7CCC1E;--violet-soft:rgba(124,204,30,.1);
+  --font-display:"Newsreader",system-ui,sans-serif;--font-body:"Inter",system-ui,sans-serif;--font-mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--ink);background:var(--mist);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-display);letter-spacing:-.02em;line-height:1.12;font-weight:400}
+
+.toolbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--ink-12);display:flex;align-items:center;gap:1rem;padding:.7rem clamp(1rem,4vw,2rem)}
+.toolbar .t{font-family:var(--font-display);font-weight:700;font-size:.98rem;margin-right:auto}
+.toolbar a,.toolbar button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:1px solid var(--ink-12);background:#fff;color:var(--ink);padding:.45rem .9rem;border-radius:999px;cursor:pointer;text-decoration:none}
+.toolbar .print{background:var(--nb-accent);color:#fff;border-color:var(--nb-accent)}
+.faith-toggle{display:flex;align-items:center;gap:.45rem;font-family:var(--font-mono);font-size:.7rem;color:var(--ink-60);cursor:pointer;user-select:none;padding:.35rem .6rem;border:1px solid var(--ink-12);border-radius:999px;background:var(--cloud)}
+.faith-toggle .sw{width:30px;height:17px;border-radius:999px;background:var(--meadow);position:relative;transition:.25s;flex:none}
+.faith-toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:.25s}
+body[data-faith="off"] .faith-toggle .sw{background:var(--ink-40)}
+body[data-faith="off"] .faith-toggle .sw::after{transform:translateX(13px)}
+body[data-faith="off"] .lbl-on{display:none}body[data-faith="on"] .lbl-off{display:none}
+body[data-faith="off"] .faith{display:none !important}
+
+.page{background:#fff;width:210mm;min-height:297mm;margin:1.4rem auto;padding:15mm 16mm;box-shadow:0 10px 40px -12px rgba(10,22,51,.25);position:relative;display:flex;flex-direction:column}
+@media(max-width:820px){.page{width:100%;padding:1.4rem;min-height:0}}
+
+.head{background:linear-gradient(135deg,#0F1014,#252a33);color:#fff;border-radius:18px;padding:1.5rem 1.7rem;margin-bottom:1.3rem}
+.head .wm{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--nb-accent-soft);font-weight:600}
+.head h1{font-size:2rem;margin:.4rem 0}
+.head p{color:rgba(255,255,255,.86);font-size:1rem;max-width:52ch}
+
+.intro{font-size:1rem;color:var(--ink-70);margin-bottom:1.1rem}
+.intro b{color:var(--ink)}
+
+.why{background:var(--cloud);border:1px solid var(--ink-12);border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.3rem}
+.why h3{font-size:1.05rem;margin-bottom:.5rem}
+.why p{font-size:.9rem;color:var(--ink-70)}
+
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-bottom:1.2rem}
+@media(max-width:700px){.three{grid-template-columns:1fr}}
+.tcard{border:1px solid var(--ink-12);border-radius:14px;padding:1rem 1.1rem;background:#fff}
+.tcard .ic{font-size:1.5rem}
+.tcard h3{font-size:1.02rem;margin:.4rem 0 .3rem}
+.tcard p{font-size:.85rem;color:var(--ink-70)}
+.tcard .do{font-size:.82rem;color:var(--azure-deep);background:var(--azure-soft);border-radius:8px;padding:.4rem .6rem;margin-top:.6rem;font-weight:600}
+
+.ask{background:var(--nb-accent-soft);border-left:4px solid var(--sunrise);border-radius:0 12px 12px 0;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.ask h3{font-size:1.05rem;margin-bottom:.4rem}
+.ask ul{list-style:none;display:grid;gap:.35rem}
+.ask li{font-size:.9rem;color:var(--ink-70);padding-left:1.4rem;position:relative}
+.ask li::before{content:"“";position:absolute;left:0;color:var(--sunrise);font-weight:400;font-size:1.1rem;top:-.1rem}
+
+.faith-box{background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:0 12px 12px 0;padding:.9rem 1.1rem;font-size:.87rem;color:var(--ink-70);margin-bottom:1.2rem}
+.faith-box .ref{font-family:var(--font-mono);font-size:.68rem;color:var(--amber);font-weight:600;letter-spacing:.04em;display:block;margin-bottom:.2rem}
+.faith-box .sphere{font-weight:700;color:var(--ink)}
+
+.cta{margin-top:auto;background:var(--ink);color:#fff;border-radius:14px;padding:1.2rem 1.4rem;display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap}
+.cta .txt{flex:1;min-width:220px}
+.cta h3{color:#fff;font-size:1.1rem;margin-bottom:.3rem}
+.cta p{font-size:.86rem;color:rgba(255,255,255,.7)}
+.cta a{background:var(--sunrise);color:#fff;font-weight:700;text-decoration:none;padding:.7rem 1.2rem;border-radius:999px;font-size:.9rem;white-space:nowrap}
+.foot{font-size:.72rem;color:var(--ink-40);margin-top:1rem;font-family:var(--font-mono)}
+
+@media print{
+  body{background:#fff}.toolbar{display:none}
+  .page{margin:0;box-shadow:none;width:auto;min-height:auto;padding:12mm}
+  @page{size:A4;margin:0}
+  .head,.tcard .do,.ask,.faith-box,.cta,.why{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body data-faith="on">
+
+<div class="toolbar">
+  <span class="t">👪 For Parents &amp; Whānau — take-home</span>
+  <div class="faith-toggle" role="switch" aria-checked="true" tabindex="0" onclick="toggleFaith()" title="Show/hide faith foundations">
+    <span class="sw"></span><span class="lbl-on">Faith layer: on</span><span class="lbl-off">Faith layer: off</span>
+  </div>
+  <a href="index.html">← Landing</a>
+  <button class="print" onclick="window.print()">🖨 Print / PDF</button>
+</div>
+
+<section class="page">
+  <div class="head">
+    <span class="wm">From your school · Teaching for the Discernment Age</span>
+    <h1>AI, wisdom &amp; your child</h1>
+    <p>Our staff spent a professional-development day on this. Here's what we're teaching — and three things you can do at home.</p>
+  </div>
+
+  <p class="intro">Your child is growing up in a world where information is free and instant — and where a confident wrong answer, a fake photo, or an essay they didn't write is only a tap away. The skill that matters most now isn't finding information. It's <b>wisdom</b>: knowing what to trust, and what to do with it. That's a skill you help build at home more than anywhere else.</p>
+
+  <div class="why">
+    <h3>What the school is teaching</h3>
+    <p>We're helping students build <b>discernment</b> as a real, practised skill — a simple method for checking any AI answer (we call it <b>VERIFY</b>), a shared "traffic-light" language for when AI is fine, when it needs permission, and when it's off-limits, and a commitment to protect the honest effort that actually builds a mind. We're not banning AI or fearing it. We're teaching students to be the kind of person who uses it well.</p>
+  </div>
+
+  <h3 style="font-size:1.2rem;margin-bottom:.7rem">Three things that help at home</h3>
+  <div class="three">
+    <div class="tcard">
+      <div class="ic">🗣️</div>
+      <h3>Ask before you outsource</h3>
+      <p>When your child reaches for an app, ask what they think first. The pause is where wisdom grows.</p>
+      <div class="do">Try: "What's your best guess, before we check?"</div>
+    </div>
+    <div class="tcard">
+      <div class="ic">🔎</div>
+      <h3>Check one thing together</h3>
+      <p>Next time AI gives an answer, verify one claim together. Model that confident ≠ correct.</p>
+      <div class="do">Try: "Where would we find out if that's true?"</div>
+    </div>
+    <div class="tcard">
+      <div class="ic">🛑</div>
+      <h3>Protect the struggle</h3>
+      <p>Some effort is the point — the reading, the first draft, the hard maths. Let them wrestle before the tool helps.</p>
+      <div class="do">Try: "Do this bit yourself first — that's the learning."</div>
+    </div>
+  </div>
+
+  <div class="ask">
+    <h3>Good questions to ask any app — or your child about it</h3>
+    <ul>
+      <li>What is this teaching me to want or reach for first?</li>
+      <li>Who am I becoming when I use it a lot?</li>
+      <li>What can I do that it can't — and am I still practising that?</li>
+    </ul>
+  </div>
+
+  <div class="faith-box faith">
+    <span class="ref">The deeper foundation · Family &amp; Education spheres · FAM-23 · EDU-37</span>
+    <span class="sphere">Your child is a gift, not a project to optimise.</span> Long before any algorithm modelled them, they were known and named (Psalm 127:3-5). The home is the first and most formative classroom — "these commandments… impress them on your children" (Prov 3:1-6). No tool replaces a present parent's attention.
+  </div>
+
+  <div class="cta">
+    <div class="txt">
+      <h3>Want to go further as a family?</h3>
+      <p>There's a practical guide for raising kids who know who they are — before AI tells them. Ask the school, or get in touch.</p>
+    </div>
+    <a href="#" onclick="mailtoFam();return false;">Learn more →</a>
+  </div>
+
+  <div class="foot">Provided by Nathaniel Baldock · Teaching for the Discernment Age · nathanielbaldock@gmail.com · The faith-foundation lines cite the Sphere Key Passages (Baldock &amp; Hamilton) as a research foundation.</div>
+</section>
+
+<script>
+function toggleFaith(){const b=document.body;const on=b.getAttribute('data-faith')==='on';b.setAttribute('data-faith',on?'off':'on');document.querySelector('.faith-toggle').setAttribute('aria-checked',(!on).toString())}
+function mailtoFam(){window.location.href="mailto:nathanielbaldock@gmail.com?subject="+encodeURIComponent("Family AI support — enquiry via school one-pager")+"&body="+encodeURIComponent("Kia ora Nathaniel,\n\nOur family would like to know more about raising kids well in the AI age.\n\nChild's school:\nChild's age(s):\n\nNgā mihi,")}
+</script>
+</body>
+</html>

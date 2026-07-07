@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinematic-light.css">
+<link rel="stylesheet" href="cinematic-light-print.css">
+<title>Facilitator Deck — Teaching for the Discernment Age | Nathaniel Baldock</title>
+<meta name="description" content="Presenter deck for the Teaching for the Discernment Age staff PD day: four sessions, speaker notes, timings, faith-layer toggle.">
+<style>
+:root{
+  --ink:#0F1014;--ink-70:rgba(10,22,51,.72);--ink-60:rgba(10,22,51,.62);--ink-40:rgba(10,22,51,.42);
+  --ink-12:rgba(10,22,51,.12);--paper:#FFFFFF;--mist:#F4EFE2;--cloud:#FAFAF7;
+  --azure:#7CCC1E;--azure-deep:#0F1014;--azure-soft:rgba(124,204,30,.12);
+  --sunrise:#7CCC1E;--sunrise-soft:#FFEFE2;--meadow:#0FA97E;--meadow-soft:#E2F7F0;
+  --amber:#EFA51F;--amber-soft:#FCF3DD;--rose:#E5484D;--rose-soft:#FDEAEA;--violet:#7CCC1E;--violet-soft:rgba(124,204,30,.1);
+  --font-display:"Newsreader",system-ui,sans-serif;--font-body:"Inter",system-ui,sans-serif;--font-mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font-body);color:var(--ink);background:#0F1014;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-.02em;line-height:1.08;font-weight:400}
+
+/* ---- deck chrome ---- */
+#deck-wrap{position:fixed;inset:0;z-index:100;width:100vw;height:100vh;overflow:hidden}
+.stage{position:absolute;inset:0;width:100%;height:100%}
+.slide{
+  position:absolute;inset:0;width:100%;height:100%;
+  background:var(--paper);overflow:hidden;
+  display:none;align-items:center;justify-content:center;
+  padding:clamp(4rem,9vh,5.5rem) clamp(1.5rem,4vw,2.5rem);
+}
+.slide.active{display:flex;animation:in .45s cubic-bezier(.2,.8,.2,1)}
+.slide-inner{
+  width:min(1080px,92vw);
+  max-height:100%;
+  overflow:auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  padding:clamp(.5rem,1vh,1rem) 0;
+}
+.slide-inner > *{width:100%;max-width:100%}
+.slide .eyebrow{font-family:var(--font-mono);font-size:clamp(.72rem,1.4vh,1rem);letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--nb-accent,#7CCC1E);margin-bottom:clamp(.5rem,1.5vh,1rem);text-align:center}
+.slide h1{font-size:clamp(2.2rem,6.5vh,4.5rem);margin:.4rem auto clamp(.6rem,2vh,1.2rem);max-width:20ch;line-height:1.05;text-align:center}
+.slide h2{font-size:clamp(1.75rem,5vh,3.4rem);margin:.3rem auto clamp(.6rem,2vh,1.2rem);max-width:24ch;line-height:1.08;text-align:center}
+.slide p{font-size:clamp(1.05rem,2.2vh,1.45rem);color:var(--ink-70);max-width:54ch;margin-left:auto;margin-right:auto;line-height:1.55;text-align:center}
+.slide .big{font-size:clamp(1.15rem,2.6vh,1.65rem);color:var(--ink);font-weight:500;max-width:50ch;margin-left:auto;margin-right:auto;line-height:1.45;text-align:center}
+
+/* section divider slides */
+.slide.divider{background:linear-gradient(135deg,#0F1014,#252a33)!important;color:#fff!important}
+.slide.divider .slide-inner{align-items:center}
+.slide.divider .eyebrow{color:var(--sunrise)}
+.slide.divider h1{color:#fff!important;font-size:clamp(2.5rem,7vh,5rem);max-width:16ch}
+.slide.divider p{color:rgba(255,255,255,.82)!important;font-size:clamp(1.1rem,2.4vh,1.55rem);max-width:44ch}
+.slide.dark{background:#0F1014!important;color:#fff!important}
+.slide.dark h1,.slide.dark h2,.slide.dark h3,.slide.dark h4{color:#fff!important}
+.slide.dark p,.slide.dark .big{color:rgba(255,255,255,.82)!important}
+.slide.dark .eyebrow{color:var(--sunrise)}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1rem,2.5vh,2rem);margin-top:clamp(.6rem,2vh,1.4rem);width:100%;text-align:left}
+.card{background:var(--cloud);border:1px solid var(--ink-12);border-radius:14px;padding:clamp(1rem,2vh,1.5rem) clamp(1.1rem,2vw,1.4rem)}
+.card h4{font-size:clamp(1rem,2vh,1.25rem);margin-bottom:.4rem;color:var(--ink)}
+.card p{font-size:clamp(.92rem,1.8vh,1.1rem);max-width:none;line-height:1.5}
+ul.clean{list-style:none;display:grid;gap:clamp(.45rem,1.2vh,.75rem);margin-top:clamp(.6rem,1.5vh,1rem);max-width:62ch;margin-left:auto;margin-right:auto;text-align:left}
+ul.clean li{font-size:clamp(1rem,2vh,1.35rem);padding-left:1.8rem;position:relative;color:var(--ink-70);line-height:1.45}
+ul.clean li::before{content:"→";position:absolute;left:0;color:var(--nb-accent,#7CCC1E);font-weight:700}
+.slide.dark ul.clean li{color:rgba(255,255,255,.88)!important}
+.slide.dark ul.clean li::before{color:var(--sunrise)}
+.slide.dark .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)}
+.slide.dark .card h4,.slide.dark .card p{color:rgba(255,255,255,.9)!important}
+
+/* VERIFY tiles */
+.verify{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(.5rem,1.2vw,1rem);margin-top:clamp(1rem,2.5vh,2rem);width:100%;text-align:center}
+@media(max-width:900px){.verify{grid-template-columns:repeat(3,1fr)}}
+.vtile{background:var(--azure-soft);border-radius:12px;padding:clamp(.7rem,.9vh,1.1rem) .7rem;text-align:center}
+.vtile .l{font-family:var(--font-display);font-weight:400;font-size:clamp(1.6rem,4vh,2.6rem);color:var(--azure-deep)}
+.vtile .w{font-size:clamp(.68rem,1.4vh,.85rem);font-weight:600;margin-top:.25rem;color:var(--ink-70);line-height:1.25}
+
+/* traffic light */
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(.7rem,1.5vw,1.2rem);margin-top:clamp(.8rem,2vh,1.4rem);width:100%;text-align:left}
+.tl .z{border-radius:14px;padding:clamp(.9rem,2vh,1.3rem);color:#fff}
+.tl .green{background:var(--meadow)}.tl .amber{background:var(--amber)}.tl .red{background:var(--rose)}
+.tl .z b{font-size:clamp(.95rem,2vh,1.2rem);display:block;margin-bottom:.35rem}
+.tl .z span{font-size:clamp(.78rem,1.6vh,1rem);opacity:.92;line-height:1.4}
+
+/* ladder */
+.ladder{display:flex;flex-direction:column-reverse;gap:clamp(.3rem,.8vh,.5rem);margin-top:clamp(.8rem,2vh,1.2rem);max-width:680px;width:100%;margin-left:auto;margin-right:auto;text-align:left}
+.rung{display:flex;align-items:center;gap:.8rem;background:var(--cloud);border:1px solid var(--ink-12);border-radius:10px;padding:clamp(.45rem,1vh,.65rem) .9rem;font-size:clamp(.88rem,1.8vh,1.1rem)}
+.rung .rn{font-family:var(--font-mono);font-size:clamp(.68rem,1.4vh,.82rem);color:var(--nb-accent,#7CCC1E);font-weight:600;width:1.4rem;flex-shrink:0}
+.rung.hot{background:var(--rose-soft);border-color:rgba(229,72,77,.3)}
+
+/* speaker notes */
+.notes{position:fixed;left:0;right:0;bottom:0;background:rgba(10,22,51,.96);color:#fff;padding:1rem 1.4rem;font-size:.9rem;line-height:1.5;max-height:34vh;overflow:auto;transform:translateY(100%);transition:.3s;z-index:40;border-top:2px solid var(--sunrise)}
+.notes.show{transform:none}
+.notes b{color:var(--sunrise);font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:.3rem}
+.notes .faith-inline{color:var(--amber-soft)}
+
+/* faith callout on slides */
+.faith-strip{margin-top:clamp(.8rem,2vh,1.4rem);background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:clamp(.65rem,1.5vh,1rem) clamp(.85rem,1.5vw,1.1rem);font-size:clamp(.82rem,1.6vh,1rem);color:var(--ink-70);max-width:58ch;margin-left:auto;margin-right:auto;line-height:1.5;text-align:left}
+.faith-strip .ref{font-family:var(--font-mono);font-size:clamp(.62rem,1.2vh,.75rem);color:var(--amber);font-weight:600;letter-spacing:.04em;display:block;margin-bottom:.15rem}
+.slide.divider .faith-strip,.slide.dark .faith-strip{color:rgba(255,255,255,.88)!important;background:rgba(255,255,255,.08)!important;border-left-color:var(--amber)}
+body[data-faith="off"] .faith{display:none !important}
+
+/* controls — hidden until presenting */
+body.phase-entry .controls,body.phase-entry .topbar,body.phase-entry .progress,body.phase-entry .hint{display:none}
+body.phase-present{overflow:hidden;background:#0F1014!important}
+body.phase-present html{overflow:hidden}
+
+/* controls */
+.controls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:.5rem;background:rgba(10,22,51,.9);backdrop-filter:blur(10px);padding:.45rem .55rem;border-radius:999px;z-index:50}
+.controls button{background:rgba(255,255,255,.12);color:#fff;border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:grid;place-items:center;transition:.2s}
+.controls button:hover{background:var(--nb-accent)}
+.controls .count{color:#fff;font-family:var(--font-mono);font-size:.82rem;padding:0 .6rem;min-width:64px;text-align:center}
+.topbar{position:fixed;top:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:center;z-index:50;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.home-link{background:rgba(255,255,255,.12);color:#fff;font-size:.82rem;padding:.45rem .9rem;border-radius:999px;font-weight:600;text-decoration:none}
+.home-link:hover{background:var(--nb-accent)}
+.tb-right{display:flex;gap:.5rem;align-items:center}
+.faith-toggle{display:flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em;color:#fff;cursor:pointer;user-select:none;padding:.35rem .6rem;border-radius:999px;background:rgba(255,255,255,.12)}
+.faith-toggle .sw{width:32px;height:18px;border-radius:999px;background:var(--meadow);position:relative;transition:.25s;flex:none}
+.faith-toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.25s}
+body[data-faith="off"] .faith-toggle .sw{background:rgba(255,255,255,.3)}
+body[data-faith="off"] .faith-toggle .sw::after{transform:translateX(14px)}
+body[data-faith="off"] .lbl-on{display:none}body[data-faith="on"] .lbl-off{display:none}
+.notes-btn{background:rgba(255,255,255,.12);color:#fff;font-size:.78rem;padding:.4rem .8rem;border-radius:999px;border:none;cursor:pointer;font-weight:600}
+.notes-btn:hover{background:var(--sunrise)}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--nb-accent),var(--sunrise));z-index:60;transition:width .3s}
+.hint{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.74rem;font-family:var(--font-mono);z-index:40}
+
+/* ---- entry screen ---- */
+body.phase-entry{overflow:hidden}
+#entry{
+  position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#0F1014;color:#F4EFE2;cursor:pointer;overflow:hidden;
+  transition:opacity .85s cubic-bezier(.22,.61,.30,1),visibility .85s;
+}
+#entry::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(120% 70% at 50% 0%,rgba(124,204,30,.08),transparent 60%),
+    radial-gradient(80% 50% at 80% 100%,rgba(17,194,92,.06),transparent 55%);
+  pointer-events:none;
+}
+#entry.out{opacity:0;visibility:hidden;pointer-events:none}
+.entry-inner{position:relative;z-index:2;text-align:center;max-width:640px;padding:2rem}
+.entry-label{
+  font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--nb-accent);margin-bottom:1.8rem;opacity:0;animation:entryUp .8s cubic-bezier(.22,.61,.30,1) .25s forwards;
+}
+.entry-title{
+  font-family:var(--font-display);font-weight:400;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.05;
+  letter-spacing:-.03em;margin:0 0 .75rem;opacity:0;animation:entryUp .9s cubic-bezier(.22,.61,.30,1) .4s forwards;
+}
+.entry-title em{font-family:var(--font-accent,'Instrument Serif',Georgia,serif);font-style:italic;color:var(--nb-accent);font-weight:300}
+.entry-sub{
+  font-size:clamp(.92rem,1.4vw,1.05rem);color:rgba(244,239,226,.68);line-height:1.65;max-width:46ch;margin:0 auto 2.2rem;
+  opacity:0;animation:entryUp .9s cubic-bezier(.22,.61,.30,1) .55s forwards;
+}
+.entry-meta{
+  display:inline-flex;align-items:center;gap:.45rem;margin-bottom:1.4rem;padding:.45rem 1rem;border-radius:999px;
+  border:1px solid rgba(244,239,226,.14);background:rgba(255,255,255,.04);
+  font-family:var(--font-mono);font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--nb-accent);
+  opacity:0;animation:entryUp .8s cubic-bezier(.22,.61,.30,1) .48s forwards;
+}
+.entry-meta .dot{width:6px;height:6px;border-radius:50%;background:var(--nb-accent)}
+.entry-cta{opacity:0;animation:entryUp .8s cubic-bezier(.22,.61,.30,1) .7s forwards}
+.entry-btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  background:linear-gradient(135deg,#11C25C,#7CCC1E);color:#0F1014;border:none;
+  font-family:var(--font-body);font-size:.88rem;font-weight:600;letter-spacing:.04em;
+  padding:.95rem 2rem;border-radius:999px;cursor:pointer;
+  box-shadow:0 4px 28px rgba(124,204,30,.35);transition:transform .2s,box-shadow .2s;
+}
+.entry-btn:hover{transform:scale(1.04);box-shadow:0 6px 36px rgba(124,204,30,.45)}
+.entry-btn svg{width:16px;height:16px;fill:currentColor;stroke:none;margin-left:.1rem}
+.entry-hint{font-size:.68rem;color:rgba(244,239,226,.45);letter-spacing:.06em;margin-top:.85rem;display:block}
+.entry-author{
+  position:absolute;bottom:2rem;font-family:var(--font-mono);font-size:.62rem;
+  color:rgba(244,239,226,.4);letter-spacing:.1em;text-transform:uppercase;
+  opacity:0;animation:entryUp .8s cubic-bezier(.22,.61,.30,1) .9s forwards;
+}
+@keyframes entryUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* native + CSS fullscreen */
+body.is-fs{overflow:hidden}
+body.is-fs #deck-wrap{position:fixed;inset:0;z-index:99990;width:100vw;height:100vh}
+#deck-wrap:fullscreen,#deck-wrap:-webkit-full-screen{width:100vw;height:100vh;background:#0F1014}
+html:fullscreen body,html:-webkit-full-screen body{overflow:hidden}
+#deck-wrap[hidden]{display:none!important}
+.fs-btn{font-size:.72rem;width:auto;padding:0 .75rem;border-radius:999px;font-family:var(--font-mono)}
+.fs-hint{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(15,16,20,.92);color:#F4EFE2;padding:1rem 1.4rem;border-radius:12px;
+  font-size:.85rem;max-width:36ch;text-align:center;z-index:99999;pointer-events:none;
+  opacity:0;transition:opacity .4s;border:1px solid rgba(124,204,30,.35);
+}
+.fs-hint.show{opacity:1}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body class="phase-entry" data-faith="on">
+
+<div id="entry" aria-label="Start presentation">
+  <div class="entry-inner">
+    <span class="entry-label">Facilitator deck · Staff PD</span>
+    <div class="entry-meta"><span class="dot"></span>16 slides · ~6 hour day</div>
+    <h1 class="entry-title">Teaching for the<br><em>Discernment Age</em></h1>
+    <p class="entry-sub">Four sessions, speaker notes, faith-layer toggle. Opens fullscreen for presenting — click ⛶ if Safari asks.</p>
+    <div class="entry-cta">
+      <button class="entry-btn" type="button" aria-label="Start presentation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Play
+      </button>
+      <span class="entry-hint">Click, press Space, or → to begin</span>
+    </div>
+  </div>
+  <div class="entry-author">Nathaniel Baldock · nathanielbaldock.com</div>
+</div>
+
+<div id="deck-wrap" hidden>
+<div class="fs-hint" id="fsHint">Press <b>F</b> or the ⛶ button for fullscreen · Safari may require clicking ⛶ after Play</div>
+<div class="progress" id="progress"></div>
+<div class="topbar">
+  <a class="home-link" href="index.html">← Landing page</a>
+  <div class="tb-right">
+    <div class="faith-toggle" role="switch" aria-checked="true" tabindex="0" onclick="toggleFaith()" title="Show/hide faith foundations (also press F)">
+      <span class="sw"></span><span class="lbl-on">Faith: on</span><span class="lbl-off">Faith: off</span>
+    </div>
+    <button class="notes-btn" onclick="toggleNotes()" title="Speaker notes (press N)">🗒 Notes</button>
+  </div>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- 0 TITLE -->
+  <section class="slide divider active">
+    <span class="eyebrow">Staff professional development · Full day</span>
+    <h1>Teaching for the<br>Discernment Age</h1>
+    <p>Information became free. Discernment became scarce. What is our teaching actually for now?</p>
+    <div class="faith-strip faith" style="margin-top:1.6rem"><span class="ref">Runs in two registers · faith layer toggle top-right</span>Everything here works with the foundations shown or hidden. Toggle off for a state-school delivery; on for a faith-integrated one.</div>
+  </section>
+
+  <!-- 1 AGENDA -->
+  <section class="slide">
+    <span class="eyebrow">The day at a glance</span>
+    <h2>Four sessions, one spine</h2>
+    <ul class="clean">
+      <li><b>Session 1 — The telos question.</b> What is school <em>for</em>? And the teacher's own formation.</li>
+      <li><b>Session 2 — Discernment as practice.</b> VERIFY &amp; the traffic light, hands-on.</li>
+      <li><b>Session 3 — The classroom reality.</b> Assessment integrity &amp; protecting struggle.</li>
+      <li><b>Session 4 — The staffroom covenant.</b> Three norms we'll actually keep.</li>
+    </ul>
+    <p style="margin-top:1rem;font-size:.95rem">Full day = 6 hours with breaks · or two 90-minute twilight sessions (1–2, then 3–4).</p>
+  </section>
+
+  <!-- ===== SESSION 1 ===== -->
+  <section class="slide divider"><span class="eyebrow">Session 1 · 75 min</span><h1>The telos question</h1><p>What is school for when information is free?</p></section>
+
+  <section class="slide">
+    <span class="eyebrow">The shift</span>
+    <h2>The task changed underneath us</h2>
+    <div class="cols">
+      <div class="card"><h4>The old task</h4><p>Get scarce information into students' heads. Transmit, test, repeat.</p></div>
+      <div class="card"><h4>The new task</h4><p>Form the discernment that decides what to trust and what to do with information that is now everywhere and free.</p></div>
+    </div>
+    <p class="big" style="margin-top:1.2rem">"The risk isn't AI adoption. The risk is accidental adoption — without discernment."</p>
+    <div class="faith-strip faith"><span class="ref">Foundations · Education sphere · EDU-08, EDU-10, EDU-12</span>Scripture never made information the goal. The purpose of instruction is transformed lives and a transformed society (1 Tim 1:5; Deut 5:29-31; Lev 18:1-5). When information is free, that older telos is the only one worth building a school on.</div>
+  </section>
+
+  <section class="slide dark">
+    <span class="eyebrow">Turn it on ourselves first</span>
+    <h2>Study → Obey → Teach</h2>
+    <p class="big" style="color:#fff">You cannot teach what you have not practised. You cannot practise by proxy.</p>
+    <ul class="clean">
+      <li><b>Study</b> — understand the tool honestly, not fearfully.</li>
+      <li><b>Obey</b> — order your own AI use before you prescribe your students'.</li>
+      <li><b>Teach</b> — now you have something real to pass on.</li>
+    </ul>
+    <div class="faith-strip faith"><span class="ref">Anchor · EDU-14 · Ezra 7:10-11</span>Ezra "set his heart to study… to do… and to teach." The order is the method — and it is the opposite of outsourcing.</div>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Exercise · 15 min</span>
+    <h2>Your own AI-use audit</h2>
+    <p>Workbook, page 2. Privately and honestly: where do you already reach for the machine first? Where has it quietly changed how you prepare, mark, or think? No sharing required — this is between you and your own practice.</p>
+    <ul class="clean">
+      <li>What do I use AI for in my teaching right now?</li>
+      <li>What am I modelling to students when I do?</li>
+      <li>What one habit would I want a student to copy — or never copy?</li>
+    </ul>
+  </section>
+
+  <!-- ===== SESSION 2 ===== -->
+  <section class="slide divider"><span class="eyebrow">Session 2 · 90 min</span><h1>Discernment as a teachable practice</h1><p>From "be careful online" to a drill students can actually run.</p></section>
+
+  <section class="slide">
+    <span class="eyebrow">The core tool · hands-on</span>
+    <h2>The VERIFY method</h2>
+    <p>Six steps students run on any AI output — a repeatable drill, not a vibe. We'll do it live on a real example.</p>
+    <div class="verify">
+      <div class="vtile"><div class="l">V</div><div class="w">Verify the claim</div></div>
+      <div class="vtile"><div class="l">E</div><div class="w">Examine the source</div></div>
+      <div class="vtile"><div class="l">R</div><div class="w">Research independently</div></div>
+      <div class="vtile"><div class="l">I</div><div class="w">Identify bias / motive</div></div>
+      <div class="vtile"><div class="l">F</div><div class="w">Form a confidence rating</div></div>
+      <div class="vtile"><div class="l">Y</div><div class="w">Your verdict</div></div>
+    </div>
+    <div class="faith-strip faith"><span class="ref">Anchor · EDU-33, EDU-35</span>"The fear of the Lord is the beginning of wisdom" (Prov 9:10). Worship-shaped discernment — you discern best what you have learned to love rightly. This is more than fact-checking.</div>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Live example · NZ</span>
+    <h2>Run VERIFY on this</h2>
+    <p class="big">Ask an AI: "Did the English and Māori versions of the Treaty of Waitangi say the same thing?" Then run all six steps.</p>
+    <ul class="clean">
+      <li>How many separate claims are hidden in its answer?</li>
+      <li>What authoritative NZ source could actually settle it? (Te Ara, Waitangi Tribunal, Te Papa)</li>
+      <li>Is the error a factual mistake — or a bias problem?</li>
+    </ul>
+    <p style="margin-top:.8rem;font-size:.9rem">This is the difference between "AI is sometimes wrong" and a student who can <em>show</em> exactly where and why.</p>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">The shared language</span>
+    <h2>The Traffic-Light model</h2>
+    <p>One school-wide vocabulary for AI use — applied to <em>your</em> assignments, not a generic policy.</p>
+    <div class="tl">
+      <div class="z green"><b>🟢 Green</b><span>Use freely. AI genuinely helps and the learning is elsewhere. (e.g. brainstorming topics, checking spelling.)</span></div>
+      <div class="z amber"><b>🟠 Amber</b><span>Use with permission &amp; disclosure. The tool touches the learning — declare how you used it. (e.g. structuring an argument.)</span></div>
+      <div class="z red"><b>🔴 Red</b><span>Off-limits. Using AI here skips the exact thing being formed. (e.g. the first draft you're meant to think through.)</span></div>
+    </div>
+    <p style="margin-top:.9rem;font-size:.92rem"><b>Exercise:</b> take one real assignment. Colour each part. Where's the red — and why?</p>
+  </section>
+
+  <!-- ===== SESSION 3 ===== -->
+  <section class="slide divider"><span class="eyebrow">Session 3 · 90 min</span><h1>The classroom reality</h1><p>Assessment integrity, and protecting struggle on purpose.</p></section>
+
+  <section class="slide dark">
+    <span class="eyebrow">The honest position</span>
+    <h2>Detection loses the arms race</h2>
+    <p class="big" style="color:#fff">Watermark-defeat is real. AI-detectors produce false positives. You cannot software your way to integrity.</p>
+    <ul class="clean">
+      <li>The <b>community</b>, not the tool, sets the non-negotiable standard.</li>
+      <li>Integrity is a shared culture staff hold — not a scanner they run.</li>
+      <li>Design assessment so the learning happens where AI can't reach.</li>
+    </ul>
+    <div class="faith-strip faith"><span class="ref">Anchor · EDU-21 · James 3:1</span>Teachers are "judged by a higher standard." The community's held standard, not a detection score, is what forms honest students.</div>
+  </section>
+
+  <section class="slide">
+    <span class="eyebrow">Which stages does AI skip?</span>
+    <h2>Protecting the struggle that forms</h2>
+    <p>Map your subject up the ladder. AI most wants to skip the <em>middle</em> — where thinking is actually built. Mark the rungs worth protecting.</p>
+    <div class="ladder">
+      <div class="rung"><span class="rn">L1</span> Remembering — recall facts</div>
+      <div class="rung hot"><span class="rn">L2</span> Understanding — explain in own words <b>&nbsp;⚠️</b></div>
+      <div class="rung hot"><span class="rn">L3</span> Applying — use it in a new case <b>&nbsp;⚠️</b></div>
+      <div class="rung hot"><span class="rn">L4</span> Analysing — break down, compare <b>&nbsp;⚠️</b></div>
+      <div class="rung"><span class="rn">L5</span> Evaluating — judge, defend a view</div>
+      <div class="rung"><span class="rn">L6</span> Creating — make something new</div>
+    </div>
+    <div class="faith-strip faith"><span class="ref">Anchor · EDU-41–46, EDU-29</span>Scripture treats remembering, understanding, applying, analysing, evaluating and creating as distinct works of a formed mind — the very stages a shortcut deletes. "Press on… press on… press on" (Hosea 6:3).</div>
+  </section>
+
+  <!-- ===== SESSION 4 ===== -->
+  <section class="slide divider"><span class="eyebrow">Session 4 · 45 min</span><h1>The staffroom covenant</h1><p>Not a policy handed down. Three norms this staff writes — and keeps.</p></section>
+
+  <section class="slide">
+    <span class="eyebrow">The closing artifact</span>
+    <h2>Three shared AI norms</h2>
+    <p>In table groups, then together: draft three plain commitments — in your own words — that this staff will hold each other to. Then sign the poster.</p>
+    <ul class="clean">
+      <li>What will we always do? (e.g. "We disclose our own AI use to students.")</li>
+      <li>What will we never do? (e.g. "We never mark work we didn't design for AI use.")</li>
+      <li>What will we decide together, not alone?</li>
+    </ul>
+    <div class="faith-strip faith"><span class="ref">Anchor · EDU-19, EDU-40</span>Formation is communal. A relational standard the whole staff owns outlasts any rule from above — and honours the teachers who keep it.</div>
+  </section>
+
+  <section class="slide divider">
+    <span class="eyebrow">The charge</span>
+    <h1>Build people, not just filters.</h1>
+    <p>The age doesn't need better detectors first. It needs formed people — students who can tell the true from the plausible, and act well on the difference. That has always been our job. Now it's the only job.</p>
+    <div class="faith-strip faith" style="margin-top:1.4rem"><span class="ref">The whole day in one line</span>Worship-shaped discernment — and a school that forms it is doing the oldest, deepest work there is.</div>
+  </section>
+
+</div>
+
+<div class="hint" id="hint">← → navigate · N notes · F faith · Shift+F fullscreen · Esc exits FS</div>
+<div class="controls">
+  <button onclick="prev()" aria-label="Previous">‹</button>
+  <span class="count" id="count">1 / 1</span>
+  <button onclick="next()" aria-label="Next">›</button>
+  <button class="fs-btn" onclick="toggleFullscreen()" aria-label="Toggle fullscreen" title="Fullscreen (F11)">⛶</button>
+</div>
+
+<!-- speaker notes -->
+<div class="notes" id="notes"><b>Speaker notes</b><div id="notesBody">Press N to hide.</div></div>
+</div><!-- /deck-wrap -->
+
+<script>
+function wrapSlides(){
+  document.querySelectorAll('.slide').forEach(slide=>{
+    if(slide.firstElementChild&&slide.firstElementChild.classList.contains('slide-inner')) return;
+    const inner=document.createElement('div');
+    inner.className='slide-inner';
+    while(slide.firstChild) inner.appendChild(slide.firstChild);
+    slide.appendChild(inner);
+  });
+}
+wrapSlides();
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+let presenting=false;
+const NOTES=[
+ "Welcome. Set the tone in the first 60 seconds: not hype, not panic. This is a formation day, not a software demo. <span class='faith-inline'>[Faith on: name that the foundations are optional and can be toggled — you're not smuggling anything.]</span>",
+ "Preview the arc. Emphasise every session ends with something they carry into Monday. Ask: 'What did you already try this week?' — get hands up early.",
+ "Divider. Breathe. This session reframes the whole enterprise — take your time.",
+ "The core reframe. Let the 'accidental adoption' line land in silence. Ask a subject teacher how AI has already changed one thing in their prep. <span class='faith-inline'>[Faith on: the telos anchor — education's purpose was never information.]</span>",
+ "This is the anti-outsourcing move and the heart of your credibility. You practise before you prescribe. Model vulnerability — name one of your own AI habits. <span class='faith-inline'>[Faith on: Ezra 7:10-11 — the order is the method.]</span>",
+ "Private exercise — protect that it's not shared. 15 min. Circulate quietly. This lowers defensiveness before Session 2's tools.",
+ "Divider. Shift energy up — this is the hands-on hour.",
+ "Do VERIFY live before explaining it. Pull up a real AI answer with an error. Walk all six letters. It's a drill, not a lecture. <span class='faith-inline'>[Faith on: EDU-35 — discernment is more than fact-checking.]</span>",
+ "The NZ Treaty example is deliberately high-stakes — it shows bias, not just error. Great for showing the difference between 'wrong' and 'slanted'. Have the search terms ready.",
+ "Traffic light is the shared vocabulary that survives the day. Get them applying it to a REAL assignment they teach — resist keeping it abstract. Collect one red example per department if time.",
+ "Divider. Name that this is the hard session. Don't rush.",
+ "Do NOT oversell detection tools — be honest they fail. The load-bearing idea: the community sets the standard. Expect pushback from a senior teacher; welcome it. <span class='faith-inline'>[Faith on: James 3:1 — the higher standard is held, not scanned.]</span>",
+ "The ladder is the practical gold. Have each teacher mark the 2-3 rungs AI most threatens in THEIR subject. This becomes their 'protected struggle' list. <span class='faith-inline'>[Faith on: EDU-41-46 as distinct works of a formed mind.]</span>",
+ "Divider. The covenant is what makes the day stick — give it real time, don't let it get squeezed.",
+ "Facilitate, don't dictate. The staff must own the wording. Three norms max — fewer, kept, beats many, ignored. Get real signatures on the poster before anyone leaves. <span class='faith-inline'>[Faith on: EDU-19/40 — communal, relational standard.]</span>",
+ "Close with conviction and warmth. This is the emotional peak. End on time. Point them to the parent one-pager and the covenant on the wall. <span class='faith-inline'>[Faith on: the one-line summary.]</span>"
+];
+function render(){
+  slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+  document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+  document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
+  document.getElementById('notesBody').innerHTML=NOTES[i]||'—';
+}
+function next(){if(i<slides.length-1){i++;render()}}
+function prev(){if(i>0){i--;render()}}
+function toggleNotes(){document.getElementById('notes').classList.toggle('show')}
+function toggleFaith(){const b=document.body;const on=b.getAttribute('data-faith')==='on';b.setAttribute('data-faith',on?'off':'on');document.querySelector('.faith-toggle').setAttribute('aria-checked',(!on).toString())}
+function requestPresentationFullscreen(){
+  document.body.classList.add('is-fs');
+  const el=document.getElementById('deck-wrap');
+  if(document.fullscreenElement||document.webkitFullscreenElement) return Promise.resolve();
+  if(el?.requestFullscreen) return el.requestFullscreen().catch(()=>showFsHint());
+  if(el?.webkitRequestFullscreen){
+    try{el.webkitRequestFullscreen();return Promise.resolve();}
+    catch(e){showFsHint();return Promise.resolve();}
+  }
+  showFsHint();
+  return Promise.resolve();
+}
+function showFsHint(){
+  const h=document.getElementById('fsHint');
+  if(!h) return;
+  h.classList.add('show');
+  setTimeout(()=>h.classList.remove('show'),5000);
+}
+function toggleFullscreen(){
+  const el=document.getElementById('deck-wrap');
+  const fs=document.fullscreenElement||document.webkitFullscreenElement;
+  if(!fs){
+    document.body.classList.add('is-fs');
+    if(el?.requestFullscreen) el.requestFullscreen().catch(()=>{});
+    else if(el?.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  }else if(document.exitFullscreen) document.exitFullscreen();
+  else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+}
+function startPresentation(){
+  if(presenting) return;
+  presenting=true;
+  document.body.classList.remove('phase-entry');
+  document.body.classList.add('phase-present','is-fs');
+  document.getElementById('entry').classList.add('out');
+  document.getElementById('deck-wrap').hidden=false;
+  render();
+  requestPresentationFullscreen();
+}
+document.getElementById('entry').addEventListener('click',e=>{
+  if(e.target.closest('.entry-btn')||e.target===e.currentTarget) startPresentation();
+});
+document.querySelector('.entry-btn').addEventListener('click',e=>{
+  e.stopPropagation();
+  startPresentation();
+});
+document.addEventListener('keydown',e=>{
+  if(!presenting){
+    if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){
+      e.preventDefault();
+      startPresentation();
+    }
+    return;
+  }
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}
+  else if(e.key==='ArrowLeft'){prev()}
+  else if(e.key.toLowerCase()==='n'){toggleNotes()}
+  else if(e.key.toLowerCase()==='f'&&e.shiftKey){e.preventDefault();toggleFullscreen()}
+  else if(e.key.toLowerCase()==='f'){toggleFaith()}
+});
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+    document.body.classList.add('is-fs');
+  }
+});
+setTimeout(()=>{const h=document.getElementById('hint');if(h&&presenting)h.style.opacity='0'},6000);
+render();
+</script>
+</body>
+</html>

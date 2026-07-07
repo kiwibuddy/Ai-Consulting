@@ -60,7 +60,7 @@ export const expertisePages: ExpertisePageContent[] = [
     ],
     proofHeading: "Why churches work with Nathaniel",
     proofPoints: [
-      "23 years in global missions and NGO leadership with YWAM — not a tech vendor selling subscriptions.",
+      "23 years in global missions and NGO leadership with YWAM - not a tech vendor selling subscriptions.",
       "Hands-on builder of faith-based digital products (SourceView Bible app, coaching portal, AI Use Audit).",
       "Articles and workshops on digital discipleship, Sabbath, and when AI replaces the work of the Spirit.",
       "Based in Tauranga; in-person and virtual engagements across New Zealand.",
@@ -68,7 +68,7 @@ export const expertisePages: ExpertisePageContent[] = [
     citableHook:
       "A useful starting point: tick every AI tool your church uses — including personal accounts — and answer three questions per tool: who owns the data, what kind of information goes in, and whether output is reviewed before it reaches people.",
     primaryCta: { label: "Book a free 30-min consultation", href: "/intake" },
-    secondaryCta: { label: "Who is Nathaniel Baldock?", href: "/who-is-nathaniel-baldock" },
+    secondaryCta: { label: "About Nathaniel Baldock", href: "/about" },
     faqs: [
       {
         question: "Does Nathaniel Baldock provide AI consulting for churches in New Zealand?",
@@ -90,7 +90,7 @@ export const expertisePages: ExpertisePageContent[] = [
     sectionLabel: "Schools",
     h1: "AI training for Christian schools in New Zealand",
     subheading:
-      "Practical training for staff, parents, and students — so AI supports formation instead of replacing thinking, belonging, and truth-checking.",
+      "A complete AI programme for schools, from a single assembly to a whole-school day. Print-ready flyers, facilitator kits, and pricing bands are in the schools pack.",
     whoFor:
       "Principals, IT leads, teachers, and chaplaincy teams at Christian schools preparing staff and families for AI in the classroom and at home.",
     problems: [
@@ -100,22 +100,25 @@ export const expertisePages: ExpertisePageContent[] = [
       "Staff time is scarce; another generic 'AI 101' deck will not change behaviour.",
     ],
     outcomes: [
-      "Staff training on VERIFY — a six-step method for checking AI claims before use, share, or submit.",
-      "Student-facing resources on prompt engineering that starts with thinking on paper, not typing faster.",
-      "Parent seminar option on AI at home, deepfakes, and co-creating family boundaries.",
-      "Assembly or chapel session tailored to your school's maturity and safeguarding context.",
+      "Student assembly - 'Who Are You Before AI Tells You?' (Years 9-13).",
+      "Parent and whānau evening - traffic-light AI rules and family boundaries.",
+      "Staff PD - 'Teaching for the Discernment Age' ($1,500-$4,000 + GST by staff size).",
+      "Whole-School Day - assembly, staff PD, and parent evening in one visit (recommended bundle).",
+      "AI Policy and Governance - written school policy suite ($4,800-$12,500 by phase).",
+      "Free on-ramp - Pathway Compass tool and VERIFY classroom worksheet.",
+      "Yrs 12-13 programme - Highest-Return Portfolio (founding-school pilot pricing).",
     ],
     proofHeading: "Why schools work with Nathaniel",
     proofPoints: [
       "Free VERIFY method and education worksheets already used in school contexts.",
       "Articles on teens and AI companions, deepfakes in schools, and what school is for when AI writes the essay.",
-      "Experience training 400+ emerging leaders through nine-month YWAM courses across 35+ countries.",
+      "Four years leading the faculty of a credited nine-month leadership programme (University of the Nations); created its worldview curriculum.",
       "Training days and assemblies delivered in-person in NZ or virtually.",
     ],
     citableHook:
       "Treat every AI claim like a witness, not a textbook: run VERIFY before students use, share, or submit — especially on names, dates, stats, and sentences that sound right but cannot be traced.",
     primaryCta: { label: "Book a free 30-min consultation", href: "/intake" },
-    secondaryCta: { label: "Open education resources", href: "/resources" },
+    secondaryCta: { label: "Browse schools pack", href: "/schools" },
     faqs: [
       {
         question: "Does Nathaniel Baldock offer AI training for schools in New Zealand?",
@@ -256,7 +259,7 @@ export const expertisePages: ExpertisePageContent[] = [
     citableHook:
       "Tick every AI tool you use at work, including ones on personal accounts. For each tool, answer: who owns the data, what kind of information goes in, and is output reviewed before it reaches customers or staff?",
     primaryCta: { label: "Start the free audit", href: "/audit" },
-    secondaryCta: { label: "Who is Nathaniel Baldock?", href: "/who-is-nathaniel-baldock" },
+    secondaryCta: { label: "About Nathaniel Baldock", href: "/about" },
     faqs: [
       {
         question: "Is the AI Use Audit free?",

@@ -41,7 +41,8 @@
       { id: "xero", name: "Xero / MYOB AI", note: "Expense categorisation and forecasting where you already run books.", tags: ["finance"] },
       { id: "business_tier", name: "Business-tier AI accounts", note: "When tools touch real customer data — get data-processing terms in writing.", tags: ["privacy", "governance"] },
       { id: "opc", name: "OPC AI guidance", note: "Plain-language obligations before customer-facing AI.", tags: ["privacy", "compliance"] },
-      { id: "priority_one", name: "Priority One", note: "Regional entry for MBIE AI Advisory Pilot co-funding.", tags: ["support", "local"] },
+      { id: "rbp_chamber", name: "Tauranga Business Chamber (RBP)", note: "Bay of Plenty Regional Business Partner — gateway for AI Advisory Pilot eligibility.", tags: ["support", "local"] },
+      { id: "priority_one", name: "Priority One", note: "Regional economic development & workforce context — not the pilot administrator.", tags: ["support", "local"] },
     ],
 
     /** scored actions for ranking (impact, effort 1–5, riskReduction 1–5) */

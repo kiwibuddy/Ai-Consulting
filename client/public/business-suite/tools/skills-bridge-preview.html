@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light.css">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light-landing.css">
+<link rel="stylesheet" href="../../school-suite/_site-chrome.css">
+<link rel="stylesheet" href="worker-tool.css">
+<title>Skills Bridge Preview — Free Tool | Nathaniel Baldock</title>
+<meta name="description" content="Map your current role to three AI-augmented adjacent paths. Free preview of the Skills Bridge programme. PwC NZ: don't flee exposed fields — become the augmented person in them.">
+<style>
+:root{--max:900px}
+body.tool-landing{background:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hero-mini{padding:clamp(48px,8vw,80px) 0 clamp(28px,5vw,40px)}
+.hero-mini h1{font-family:var(--font-display);font-size:clamp(1.85rem,4.5vw,2.75rem);letter-spacing:-.03em;line-height:1.05;margin:.5rem 0}
+.field{margin-bottom:1.25rem}
+.field label{display:block;font-family:var(--font-mono);font-size:.68rem;font-weight:600;color:var(--nb-accent);margin-bottom:.4rem;letter-spacing:.06em;text-transform:uppercase}
+.field select,.field textarea{width:100%;padding:.75rem 1rem;border:1px solid var(--nb-rule);border-radius:12px;font-size:.95rem;font-family:var(--font-body)}
+.result-card{border:1px solid var(--nb-rule);border-radius:16px;padding:1.15rem;margin-bottom:.75rem;background:#fff}
+.result-card h3{font-family:var(--font-display);font-size:1.05rem;margin:0 0 .35rem}
+.result-card .meta{font-family:var(--font-mono);font-size:.62rem;color:var(--nb-accent);margin-bottom:.5rem}
+.result-card p{font-size:.88rem;color:var(--nb-ink-soft);margin:0;line-height:1.45}
+#results{display:none;margin-top:1.5rem}
+#results.visible{display:block}
+</style>
+</head>
+<body class="tool-landing">
+<nav class="nav wrap" aria-label="Site">
+  <a href="https://nathanielbaldock.com/business/workers" class="nb-site-back">← Worker toolkit</a>
+  <div class="nav-center"><span class="nb-mono-label">Free preview</span></div>
+  <a href="https://nathanielbaldock.com/intake" class="nb-site-cta">Full programme</a>
+</nav>
+
+<main class="wrap">
+  <header class="hero-mini">
+    <p class="nb-mono-label">Skills Bridge Preview</p>
+    <h1>Don't flee your field — <em class="nb-italic-accent">augment</em> in it.</h1>
+    <p class="lede">PwC NZ: skills in AI-exposed roles change 66% faster, but highly exposed roles saw smaller posting declines when workers adapt (AI Jobs Barometer, 2025). This preview maps three adjacent paths where your existing expertise plus AI literacy beats starting over.</p>
+  </header>
+
+  <section class="tool-section">
+    <h2>Map your bridge (5 minutes)</h2>
+    <p class="section-lede">Select your most recent role type and list 3–5 skills you actually have — not wish-list skills. The tool suggests augmented adjacent roles to research.</p>
+
+    <form id="bridge-form">
+      <div class="field">
+        <label for="sector">Most recent sector / role type</label>
+        <select id="sector" required>
+          <option value="">Choose one…</option>
+          <option value="admin">Admin / office / executive assistant</option>
+          <option value="finance">Finance / accounting / bookkeeping</option>
+          <option value="marketing">Marketing / comms / content</option>
+          <option value="it">IT / software / data</option>
+          <option value="hr">HR / recruitment / people ops</option>
+          <option value="creative">Design / creative / media</option>
+          <option value="customer">Customer service / call centre</option>
+          <option value="retail">Retail / hospitality management</option>
+          <option value="trades">Trades / technical / hands-on</option>
+          <option value="care">Care / health support / education aide</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="skills">Your real skills (comma-separated)</label>
+        <textarea id="skills" rows="3" placeholder="e.g. Excel, client relationships, process documentation, team scheduling, conflict resolution" required></textarea>
+      </div>
+      <div class="field">
+        <label for="constraint">Biggest constraint right now</label>
+        <select id="constraint">
+          <option value="time">Limited time — need fastest path</option>
+          <option value="confidence">Low confidence with AI tools</option>
+          <option value="evidence">No portfolio — only CV claims</option>
+          <option value="location">Need local NZ employers</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-primary">Show my three bridge paths →</button>
+    </form>
+
+    <div id="results" aria-live="polite">
+      <h2 style="margin-top:2rem">Your three paths to research</h2>
+      <p class="section-lede">These are hypotheses — not prescriptions. Validate each with 2 informational conversations before retraining.</p>
+      <div id="result-cards"></div>
+    </div>
+  </section>
+
+  <section class="tool-section">
+    <h2>What the full programme adds</h2>
+    <div class="steps-row">
+      <div class="step-card"><div class="num">Session 2</div><h3>AI fluency lab</h3><p>Hands-on prompting on real tasks from your old field — weeks, not years. NBER: least-experienced workers gained up to 35% from GenAI tools.</p></div>
+      <div class="step-card"><div class="num">Session 3</div><h3>Evidence portfolio</h3><p>BUILD / SERVE / LEAD — three verifiable projects. 81% of employers use skills assessments (CandyCV, 2026).</p></div>
+      <div class="step-card"><div class="num">Session 4</div><h3>Pitch &amp; plan</h3><p>30-day action plan + referee confirmation workflow.</p></div>
+    </div>
+    <div class="cta-band">
+      <h3>Ready to replace claims with proof?</h3>
+      <p class="cta-row">
+        <a href="https://nathanielbaldock.com/intake" class="btn-primary">Enquire about the 4-session programme →</a>
+        <a href="../flyers/skills-bridge.html" class="btn-secondary">Read the full flyer</a>
+        <a href="hitl-resume-lab.html" class="btn-secondary">HITL Résumé Lab</a>
+      </p>
+    </div>
+  </section>
+
+  <p style="font-size:.72rem;color:var(--nb-ink-dim);margin:2rem 0;border-top:1px solid var(--nb-rule);padding-top:1rem">
+    Sources: <a href="https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf" target="_blank" rel="noopener">PwC AI Jobs Barometer NZ (2025)</a> ·
+    <a href="https://www.candycv.com/reports/the-skills-based-hiring-report-what-it-is-and-how-it-will-reshape-work-in-2026-32" target="_blank" rel="noopener">CandyCV (2026)</a> ·
+    <a href="https://www.nber.org/digest/20236/measuring-productivity-impact-generative-ai" target="_blank" rel="noopener">NBER (2023)</a>
+  </p>
+</main>
+
+<script>
+const BRIDGES={
+  admin:[
+    {title:"Operations coordinator (AI-augmented)",body:"Use AI for scheduling drafts, report summaries, and inbox triage — you own judgment and stakeholder relationships. Employers want someone who verifies AI output, not someone replaced by it.",meta:"Augmentation · Human-in-the-loop"},
+    {title:"Project / PMO support",body:"Your documentation and coordination skills transfer directly. AI handles first-draft timelines and status templates; you handle exceptions, politics, and delivery.",meta:"Adjacent ladder · Evidence-friendly"},
+    {title:"Customer success / account admin",body:"Relational follow-through plus AI-drafted comms. High active-listening demand — among the lowest automation scores in SAFI research (arXiv, 2026).",meta:"Relational · Lower AI exposure"}
+  ],
+  finance:[
+    {title:"Finance business partner support",body:"Move from data entry toward interpretation — AI runs numbers; you explain what they mean to non-finance managers.",meta:"PwC augmentation path"},
+    {title:"Payroll / compliance operations",body:"Rule-bound work partially automated, but NZ compliance judgment and IRD interaction still need a human owner.",meta:"NZ-specific · Regulatory"},
+    {title:"Bookkeeping + AI workflow specialist",body:"SMEs need someone who can set up AI-assisted reconciliations with audit trails — a growing niche for experienced bookkeepers.",meta:"SME demand · Portfolio-ready"}
+  ],
+  marketing:[
+    {title:"Content operations / editor",body:"AI drafts; you verify brand voice, facts, and ethics. Editors who catch AI errors are more valuable than AI-only producers.",meta:"VERIFY method · Integrity"},
+    {title:"Marketing operations / analytics interpreter",body:"Connect campaign data to business decisions — AI produces charts; you recommend the next move.",meta:"Strategic synthesis"},
+    {title:"Community / partnership manager",body:"Relationship-heavy role where AI assists research and scheduling but cannot replace trust-building.",meta:"Low automation feasibility"}
+  ],
+  it:[
+    {title:"AI workflow implementer (non-coder)",body:"Help SMEs adopt Copilot, Zapier, and safe prompts on real workflows — adoption lag is NZ's named barrier (NZ Treasury).",meta:"NZ adoption gap"},
+    {title:"QA / AI output reviewer",body:"Human-in-the-loop verification of AI-generated code, content, or data — growing role as firms deploy GenAI.",meta:"HITL · Quality"},
+    {title:"Technical customer success",body:"Translate between users and systems — empathy + technical literacy; hard to automate.",meta:"Relational + technical"}
+  ],
+  hr:[
+    {title:"People ops / employee experience",body:"AI screens CVs; someone must design fair process and coach managers. Your insider view of hiring friction is an asset.",meta:"Process design"},
+    {title:"Learning & development facilitator",body:"Deliver AI literacy workshops to staff — firms need translators, not just tools.",meta:"Teaching · Facilitation"},
+    {title:"Workforce planning support",body:"Augment workforce data with scenario thinking — which roles change, which do not.",meta:"Strategic · PwC lens"}
+  ],
+  creative:[
+    {title:"Creative director / brand guardian",body:"Judge taste, ethics, and brand fit — AI generates options; you curate and refuse the wrong ones.",meta:"Judgment · Curation"},
+    {title:"UX content / microcopy specialist",body:"Short, high-stakes words in product flows — requires human testing and empathy.",meta:"Embodied user research"},
+    {title:"Video / multimedia producer (AI-assisted)",body:"AI accelerates editing; you own story, consent, and authenticity — especially for trust-sensitive brands.",meta:"BUILD portfolio artefact"}
+  ],
+  customer:[
+    {title:"Customer success (complex accounts)",body:"Escalations, complaints, and retention conversations — active listening scores lowest for automation (SAFI, arXiv 2026).",meta:"Relational"},
+    {title:"Quality assurance — AI chat oversight",body:"Review AI agent transcripts, fix failure patterns, train the bot — new hybrid role.",meta:"HITL · Emerging"},
+    {title:"Training & onboarding specialist",body:"Turn your call-centre knowledge into onboarding materials — AI drafts, you verify accuracy.",meta:"Knowledge transfer"}
+  ],
+  retail:[
+    {title:"Area / ops manager",body:"Embodied oversight of sites, staff, and exceptions — AI supports reporting, not presence.",meta:"On-site · Management"},
+    {title:"Retail systems / inventory coordinator",body:"AI forecasts; you handle suppliers, shrinkage, and staff realities.",meta:"Operational bridge"},
+    {title:"Customer experience lead",body:"Design in-store and digital journeys — human judgment on friction points.",meta:"Service design"}
+  ],
+  trades:[
+    {title:"Specialist tradesperson (deeper niche)",body:"Skilled trades remain among the least automatable work — deepen certification rather than pivot away.",meta:"Embodied · Scarce"},
+    {title:"Estimator / project coordinator (construction)",body:"AI assists takeoffs; you verify site realities and client relationships.",meta:"AI-augmented"},
+    {title:"Inspector / compliance / safety",body:"On-site judgment and liability — human sign-off required.",meta:"Regulatory · Trust"}
+  ],
+  care:[
+    {title:"Health care coordinator / navigator",body:"Help clients access services — relationship and advocacy core; AI handles scheduling drafts.",meta:"Relational · Growing NZ demand"},
+    {title:"Disability / youth support worker (AI-literate)",body:"Document care notes with AI assistance under strict privacy rules — verify every entry.",meta:"Care · Integrity-critical"},
+    {title:"Training aide → educator pathway",body:"Classroom and formation roles reward patience and presence — among the slowest skills to automate.",meta:"Formation · Vocation"}
+  ]
+};
+const CONSTRAINT_TIPS={
+  time:"<p><strong>Fastest move:</strong> Pick the path closest to your last job title. Spend one week building one small AI-assisted work sample, not a new qualification.</p>",
+  confidence:"<p><strong>Start here:</strong> Use the <a href='hitl-resume-lab.html'>HITL Résumé Lab</a> for 4 evenings of prompting practice on real tasks from your old role — basic literacy in weeks (Robert Walters NZ).</p>",
+  evidence:"<p><strong>Priority:</strong> The full programme's Session 3 builds three verifiable artefacts — employers want proof, not polish (CandyCV, 2026).</p>",
+  location:"<p><strong>Local reality:</strong> Research Trade Me Jobs and local chambers for Bay of Plenty / NZ employers in your bridge path before committing to retraining.</p>"
+};
+document.getElementById('bridge-form').onsubmit=e=>{
+  e.preventDefault();
+  const sector=document.getElementById('sector').value;
+  const constraint=document.getElementById('constraint').value;
+  const paths=BRIDGES[sector]||[];
+  const container=document.getElementById('result-cards');
+  container.innerHTML=paths.map((p,i)=>`<article class="result-card"><div class="meta">Path ${i+1} · ${p.meta}</div><h3>${p.title}</h3><p>${p.body}</p></article>`).join('')+CONSTRAINT_TIPS[constraint];
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+};
+</script>
+</body>
+</html>

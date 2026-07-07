@@ -68,6 +68,51 @@ export default function PricingPage() {
           </motion.div>
 
           <motion.div
+            className="mb-12 space-y-4"
+            initial="hidden"
+            whileInView="visible"
+            viewport={landingViewportReveal}
+            variants={fadeUpRevealVariants}
+          >
+            <h2 className="nb-display text-2xl font-normal text-[var(--nb-ink)] m-0">
+              Fixed-price packages
+            </h2>
+            <p className="nb-body m-0">Concrete products you can start with today.</p>
+            <div className="space-y-4">
+              <section className="border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 md:p-8">
+                <p className="nb-body m-0">
+                  <Link href="/tauranga-sme" className="text-[var(--nb-accent)] hover:underline font-medium">
+                    AI-Ready Business Pack
+                  </Link>
+                  {" "}
+                  - $197 / $497 / $2,497 NZD. Worksheets, session decks, a strategy call, and a written
+                  adoption plan. Eligible SMEs can claim RBPN co-funding of up to $15,000 NZD on the top
+                  tier.
+                </p>
+              </section>
+              <section className="border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 md:p-8">
+                <p className="nb-body m-0">
+                  <Link href="/audit" className="text-[var(--nb-accent)] hover:underline font-medium">
+                    AI Use Audit
+                  </Link>
+                  {" "}
+                  - free, ten minutes, personalised results. Paid policy and implementation support quoted
+                  after.
+                </p>
+              </section>
+              <section className="border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 md:p-8">
+                <p className="nb-body m-0">
+                  <Link href="/products" className="text-[var(--nb-accent)] hover:underline font-medium">
+                    Schools
+                  </Link>
+                  {" "}
+                  - assemblies, parent evenings, PD days, and whole-school days, priced per school size.
+                </p>
+              </section>
+            </div>
+          </motion.div>
+
+          <motion.div
             className="space-y-6"
             initial="hidden"
             whileInView="visible"

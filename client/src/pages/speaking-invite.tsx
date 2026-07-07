@@ -74,12 +74,14 @@ const BUDGET_OPTIONS = [
 ];
 
 const TOPIC_OPTIONS = [
-  { id: "ai_church", label: "AI & the Church — practical tools and ethical wisdom" },
-  { id: "ai_families", label: "AI & Families — raising kids in an AI world" },
-  { id: "fully_human", label: "Being Fully Human in an AI Age — identity, purpose, creativity" },
-  { id: "ai_mission", label: "AI for Mission — leveraging technology for kingdom impact" },
-  { id: "ai_practical", label: "Hands-on AI Workshop — live demos and team exercises" },
-  { id: "custom", label: "Custom topic — tell me what you need" },
+  { id: "discernment_age", label: "Welcome to the Discernment Age - signature keynote" },
+  { id: "ai_organisation", label: "Where Is AI Already in Your Organisation? - audit talk" },
+  { id: "sacred_tasks", label: "Sacred Tasks - what to automate, what to protect" },
+  { id: "teaching_discernment", label: "Teaching for the Discernment Age - educators' PD" },
+  { id: "student_assembly", label: "Who Are You Before AI Tells You? - student assembly" },
+  { id: "parent_evening", label: "Parent & Whānau Evening - AI at home" },
+  { id: "ai_acceleration", label: "AI Acceleration Timeline - leadership briefing" },
+  { id: "custom", label: "Custom topic - tell me what you need" },
 ];
 
 const HOW_HEARD_OPTIONS = [

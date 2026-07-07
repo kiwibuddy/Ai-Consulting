@@ -203,7 +203,7 @@
     var findings = [];
     findings.push(
       stage === "awareness"
-        ? "You're weighted toward awareness-stage behaviours — the MBIE AI Advisory Pilot via Priority One is built for exactly this moment."
+        ? "You're weighted toward awareness-stage behaviours — the MBIE AI Advisory Pilot (via Tauranga Business Chamber, your BoP RBP) is built for exactly this moment."
         : stage === "experimenting"
           ? "You've moved past experimentation theatre — the win is one recurring task done with AI every week, not more tools."
           : "You're operating ahead of typical SME maturity — privacy, team, and workflow design now matter more than novelty.",
@@ -245,7 +245,7 @@
       {
         phase: "Weeks 2–3 — Build",
         items: [
-          "Contact Priority One about regional AI advisory options.",
+          "Contact Tauranga Business Chamber (BoP RBP) about the AI Advisory Pilot — eligibility confirmed by your growth advisor.",
           "Write down what “good enough” AI output looks like for your top task.",
         ],
       },

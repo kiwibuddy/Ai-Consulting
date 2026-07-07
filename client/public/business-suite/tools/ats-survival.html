@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light.css">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light-landing.css">
+<link rel="stylesheet" href="../../school-suite/_site-chrome.css">
+<link rel="stylesheet" href="worker-tool.css">
+<title>ATS Survival — Free Interactive Checklist | Nathaniel Baldock</title>
+<meta name="description" content="Six mechanical résumé fixes for applicant tracking systems. Formatting alone causes 23% of rejections. Free interactive audit with cited research.">
+<style>
+:root{--max:900px}
+body.tool-landing{background:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hero-mini{padding:clamp(48px,8vw,96px) 0 clamp(32px,5vw,48px)}
+.hero-mini h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:.5rem 0}
+.hero-mini .lede{font-size:1.05rem;color:rgba(15,16,20,.72);max-width:56ch}
+.progress-bar{height:6px;background:var(--nb-rule);border-radius:999px;margin:1.5rem 0;overflow:hidden}
+.progress-fill{height:100%;background:var(--nb-cta-gradient);width:0%;transition:width .3s}
+.audit-score{font-family:var(--font-display);font-size:1.5rem;color:var(--nb-accent);margin:1rem 0}
+.check-item{display:flex;gap:.85rem;align-items:flex-start;padding:1rem;border:1px solid var(--nb-rule);border-radius:14px;margin-bottom:.65rem;background:#fff}
+.check-item input{width:20px;height:20px;margin-top:3px;accent-color:var(--nb-accent)}
+.check-item.done{background:rgba(124,204,30,.06);border-color:rgba(124,204,30,.35)}
+.warn-box{background:rgba(229,72,77,.08);border:1px solid rgba(229,72,77,.2);border-radius:14px;padding:1rem 1.15rem;margin:1.5rem 0;font-size:.9rem;line-height:1.5}
+@media print{.nav,.cta-band,.product-strip,.btn-primary{display:none!important}}
+</style>
+</head>
+<body class="tool-landing">
+<nav class="nav wrap" aria-label="Site">
+  <a href="https://nathanielbaldock.com/business/workers" class="nb-site-back">← Worker toolkit</a>
+  <div class="nav-center"><span class="nb-mono-label">Free tool</span></div>
+  <a href="https://nathanielbaldock.com/intake" class="nb-site-cta">Book a call</a>
+</nav>
+
+<main class="wrap">
+  <header class="hero-mini">
+    <p class="nb-mono-label">ATS Survival</p>
+    <h1>Fix the parser <em class="nb-italic-accent">before</em> you fix the prose.</h1>
+    <p class="lede"><strong>75% of résumés never reach a human</strong> (Mokka, 2026). Many vanish in milliseconds because the machine could not read your file — not because you lack skill. Formatting alone causes <strong>23% of immediate rejections</strong> (ResumeAdapter, 2026).</p>
+    <p class="cta-row" style="margin-top:1.25rem"><a href="#audit" class="btn-primary">Start the 6-point audit →</a><a href="../flyers/ats-survival.html" class="btn-secondary">Read the overview flyer</a></p>
+  </header>
+
+  <section class="tool-section">
+    <h2>What ATS systems actually do</h2>
+    <p class="section-lede">Applicant tracking systems extract text from your file, map it to fields (job title, dates, employer), and match keywords. They are often "dumb filing cabinets" (Wonsulting, 2026) — design-heavy PDFs, two-column layouts, and headers in Word footers break parsing. Over 40% of résumés contain at least one formatting element that causes errors (JobWizard, 2026). You can be fully qualified and invisible.</p>
+  </section>
+
+  <section class="tool-section" id="audit">
+    <h2>Pre-upload audit</h2>
+    <p class="section-lede">Open your current résumé file and tick each item. Expand any row for the full explanation and source.</p>
+    <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progress"></div></div>
+    <p class="audit-score" id="score-label">0 of 6 checks passed</p>
+
+    <div id="checks">
+      <div class="check-item" data-i="0"><input type="checkbox" id="c0"><label for="c0"><strong>1. File is .docx (or .doc)</strong> — not a design PDF unless explicitly requested. <a href="https://quickcv.io/blog/i-tested-8-ats-systems-to-see-how-they-actually-parse-resumes" target="_blank" rel="noopener">QuickCV (2025)</a>: Word outperformed PDF in 6 of 8 systems.</label></div>
+      <details class="expand-card"><summary>Why .docx wins</summary><div class="detail">PDFs often store text as graphic chunks. Word's linear XML stream preserves job titles and dates. Use PDF only when the employer portal explicitly requires it. <a href="https://scale.jobs/blog/pdf-vs-word-resume-format-ats-reads-correctly" target="_blank" rel="noopener">Scale.jobs (2026)</a></div></details>
+
+      <div class="check-item" data-i="1"><input type="checkbox" id="c1"><label for="c1"><strong>2. Single column layout</strong> — no sidebars, tables, or text boxes.</label></div>
+      <details class="expand-card"><summary>Why columns break</summary><div class="detail">Two-column layouts failed in 7 of 8 ATS tests — titles and dates jumble or merge into nonsense. <a href="https://quickcv.io/blog/i-tested-8-ats-systems-to-see-how-they-actually-parse-resumes" target="_blank" rel="noopener">QuickCV (2025)</a></div></details>
+
+      <div class="check-item" data-i="2"><input type="checkbox" id="c2"><label for="c2"><strong>3. All dates are MM/YYYY</strong> — e.g. 03/2022, not "March 2022" or "2022".</label></div>
+      <details class="expand-card"><summary>Why date format matters</summary><div class="detail">ResumeAdapter identifies standardised MM/YYYY as the single most critical parsing fix. Inconsistent formats cause blank employment history in recruiter view. <a href="https://www.resumeadapter.com/blog/ats-resume-formatting-rules-2026" target="_blank" rel="noopener">ResumeAdapter (2026)</a></div></details>
+
+      <div class="check-item" data-i="3"><input type="checkbox" id="c3"><label for="c3"><strong>4. Standard section headers</strong> — "Work Experience", "Education", "Skills".</label></div>
+      <details class="expand-card"><summary>Safe header template</summary><div class="detail"><div class="copy-block">SUMMARY
+WORK EXPERIENCE
+EDUCATION
+SKILLS
+CERTIFICATIONS (optional)</div>Copy these exact headers into a plain Word document. No icons or text boxes.</div></details>
+
+      <div class="check-item" data-i="4"><input type="checkbox" id="c4"><label for="c4"><strong>5. No critical content in headers/footers</strong> — contact info in the body.</label></div>
+      <details class="expand-card"><summary>Header/footer trap</summary><div class="detail">Modern ATS parsers frequently ignore content placed in Word headers or footers — your phone number may never be extracted. <a href="https://jobwizard.ai/blog/how-to-optimize-your-resume-for-ats-systems-in-2026-872842" target="_blank" rel="noopener">JobWizard (2026)</a></div></details>
+
+      <div class="check-item" data-i="5"><input type="checkbox" id="c5"><label for="c5"><strong>6. Safe fonts only</strong> — Arial, Calibri, Georgia, or Times New Roman. No graphics.</label></div>
+      <details class="expand-card"><summary>What to remove</summary><div class="detail">Skill meters, charts, logos, and multi-colour infographics scramble the text stream. Plain black text on white is the highest-parse format.</div></details>
+    </div>
+
+    <div class="warn-box" id="result-msg" hidden><strong>Before you upload:</strong> <span id="result-text"></span></div>
+  </section>
+
+  <section class="tool-section">
+    <h2>Integrity rule</h2>
+    <p class="section-lede">ATS fixes get you seen — they do not replace truth. <strong>67% of hiring managers caught fabricated skills</strong> on a résumé in the last twelve months (SkillUpArc, 2026). After formatting, use the <a href="hitl-resume-lab.html">HITL Résumé Lab</a> to brain-dump real achievements and verify every bullet before you use AI to structure.</p>
+  </section>
+
+  <section class="tool-section">
+    <div class="cta-band">
+      <h3>Recommended order</h3>
+      <p>Run tools in sequence — don't waste formatted applications on phantom listings.</p>
+      <div class="product-strip">
+        <a class="product-card" href="ghost-job-detector.html"><span class="tag">Step 1</span><h4>Ghost Job Detector</h4><p>Score the listing first.</p></a>
+        <a class="product-card" href="hitl-resume-lab.html"><span class="tag">Step 3</span><h4>HITL Résumé Lab</h4><p>Content + integrity after format.</p></a>
+        <a class="product-card" href="../flyers/human-in-the-loop-resume.html"><span class="tag">Full kit</span><h4>HITL Workshop</h4><p>Facilitator materials from $197.</p></a>
+      </div>
+      <p class="cta-row" style="margin-top:1rem"><button type="button" class="btn-primary" onclick="window.print()">Print this audit</button></p>
+    </div>
+  </section>
+
+  <p style="font-size:.72rem;color:var(--nb-ink-dim);margin:2rem 0;padding-top:1rem;border-top:1px solid var(--nb-rule)">
+    Sources: <a href="https://www.gomokka.com/resources/10-best-ai-resume-screening-tools-in-2026.html" target="_blank" rel="noopener">Mokka (2026)</a> ·
+    <a href="https://www.resumeadapter.com/blog/ats-resume-formatting-rules-2026" target="_blank" rel="noopener">ResumeAdapter (2026)</a> ·
+    <a href="https://quickcv.io/blog/i-tested-8-ats-systems-to-see-how-they-actually-parse-resumes" target="_blank" rel="noopener">QuickCV (2025)</a> ·
+    <a href="https://www.skilluparc.com/blog/best-platforms-verify-job-readiness-2026" target="_blank" rel="noopener">SkillUpArc (2026)</a> ·
+    <a href="https://nathanielbaldock.com">Nathaniel Baldock</a>
+  </p>
+</main>
+
+<script>
+const boxes=[...document.querySelectorAll('#checks input[type=checkbox]')];
+const progress=document.getElementById('progress');
+const scoreLabel=document.getElementById('score-label');
+const resultMsg=document.getElementById('result-msg');
+const resultText=document.getElementById('result-text');
+function update(){
+  const n=boxes.filter(b=>b.checked).length;
+  boxes.forEach((b,i)=>b.closest('.check-item')?.classList.toggle('done',b.checked));
+  progress.style.width=(n/6*100)+'%';
+  scoreLabel.textContent=n+' of 6 checks passed';
+  if(n===0){resultMsg.hidden=true;return;}
+  resultMsg.hidden=false;
+  if(n===6)resultText.textContent='Your file is parser-ready. Next: run Ghost Job Detector on the target role, then HITL Résumé Lab for content integrity.';
+  else if(n>=4)resultText.textContent='Almost there — fix the remaining items before uploading. Partial parsing still causes silent rejection.';
+  else resultText.textContent='High parse-failure risk. Rebuild in a plain .docx before spending time on cover letters for this role.';
+}
+boxes.forEach(b=>b.addEventListener('change',update));
+</script>
+</body>
+</html>

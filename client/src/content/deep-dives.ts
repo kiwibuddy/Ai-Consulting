@@ -14,6 +14,17 @@ export interface DeepDiveItem {
   category?: string;
 }
 
+/** Copy for /resources and deep-dive player pages — NotebookLM is named openly. */
+export const deepDivesSection = {
+  title: "Research deep-dives",
+  eyebrow: "NotebookLM · curated sources",
+  intro:
+    "These are not recordings of me talking. I fed carefully chosen articles, news, and research into Google's NotebookLM and asked it to turn that material into an audio briefing — a quick way to hear the shape of a topic before you read, discuss, or act. I use AI openly elsewhere on this site; here it is doing what it does well: compressing a pile of sources into something you can listen to on a walk and then follow up on what actually matters to you.",
+  sourceNote:
+    "AI-generated audio via NotebookLM from sources I selected. Not authoritative — a companion for thinking and further research.",
+  cardCta: "Open briefing",
+} as const;
+
 export const deepDives: DeepDiveItem[] = [
   {
     id: "the-digital-god-in-your-childs-pocket",

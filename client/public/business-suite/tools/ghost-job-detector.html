@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light.css">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light-landing.css">
+<link rel="stylesheet" href="../../school-suite/_site-chrome.css">
+<link rel="stylesheet" href="worker-tool.css">
+<title>Ghost Job Detector — Free Checklist | Nathaniel Baldock</title>
+<meta name="description" content="Spot phantom job listings before you waste another evening. Interactive checklist with research-backed signals — 1 in 3 listings may never lead to a hire.">
+<style>
+:root{--max:900px}
+body.tool-landing{background:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hero-mini{padding:clamp(48px,8vw,96px) 0 clamp(32px,5vw,48px)}
+.hero-mini h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);letter-spacing:-.03em;line-height:1.05;margin:.5rem 0}
+.hero-mini .lede{font-size:1.05rem;color:rgba(15,16,20,.72);max-width:52ch}
+.stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem;margin:2rem 0}
+.stat-card{border:1px solid var(--nb-rule);border-radius:14px;padding:1rem;background:var(--mist)}
+.stat-card .n{font-family:var(--font-display);font-size:1.6rem;color:var(--nb-accent)}
+.stat-card .l{font-size:.72rem;color:var(--nb-ink-soft);margin-top:.25rem}
+.checklist{display:flex;flex-direction:column;gap:.65rem;margin:1.5rem 0 2rem}
+.check-item{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.85rem;align-items:start;
+  padding:1rem 1.1rem;border:1px solid var(--nb-rule);border-radius:14px;
+  background:#fff;transition:border-color .2s,background .2s;cursor:pointer;
+}
+.check-item:hover{border-color:rgba(124,204,30,.35)}
+.check-item.checked{background:rgba(124,204,30,.06);border-color:rgba(124,204,30,.45)}
+.check-item input{width:20px;height:20px;margin-top:2px;accent-color:var(--nb-accent)}
+.check-item h3{font-family:var(--font-display);font-size:1rem;font-weight:500;margin:0 0 .2rem}
+.check-item p{font-size:.88rem;color:var(--nb-ink-soft);margin:0;line-height:1.45}
+.cite-btn{
+  font-family:var(--font-mono);font-size:.65rem;font-weight:600;
+  color:var(--nb-accent);background:rgba(124,204,30,.1);
+  border:none;border-radius:999px;padding:.35rem .65rem;white-space:nowrap;
+}
+.result-panel{
+  border:2px solid var(--nb-accent);border-radius:18px;padding:1.5rem;
+  background:linear-gradient(135deg,rgba(124,204,30,.08),rgba(17,194,92,.04));
+  margin:2rem 0;display:none;
+}
+.result-panel.visible{display:block}
+.result-panel h2{font-family:var(--font-display);font-size:1.35rem;margin:0 0 .5rem}
+.risk-high{color:#E5484D}.risk-mid{color:#EFA51F}.risk-low{color:var(--nb-green)}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+.btn-print,.btn-link{
+  font-family:var(--font-mono);font-size:.72rem;font-weight:600;letter-spacing:.04em;
+  padding:.6rem 1.1rem;border-radius:999px;text-decoration:none;border:none;cursor:pointer;
+}
+.btn-print{background:var(--nb-cta-gradient);color:#fff}
+.btn-link{background:transparent;color:var(--nb-ink);border:1px solid var(--nb-rule)}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;background:rgba(15,16,20,.55)}
+.modal.open{display:flex}
+.modal-card{max-width:480px;width:100%;background:#fff;border-radius:18px;padding:1.5rem;box-shadow:0 24px 60px rgba(15,16,20,.2)}
+.modal-card h3{font-family:var(--font-display);margin:0 0 .75rem}
+.modal-card p{font-size:.9rem;color:var(--nb-ink-soft);line-height:1.5;margin:0 0 .75rem}
+.modal-card a{color:var(--nb-accent);font-weight:600;font-size:.85rem}
+.modal-close{float:right;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--nb-ink-dim)}
+.attribution{font-size:.72rem;color:var(--nb-ink-dim);margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--nb-rule)}
+@media print{.nav,.cite-btn,.actions,.modal{display:none!important}.check-item{break-inside:avoid}}
+</style>
+</head>
+<body class="tool-landing">
+<nav class="nav wrap" aria-label="Site">
+  <a href="https://nathanielbaldock.com/business/workers" class="nb-site-back">← Worker toolkit</a>
+  <div class="nav-center">
+    <span class="nb-mono-label">Free tool</span>
+  </div>
+  <a href="https://nathanielbaldock.com/intake" class="nb-site-cta">Book a call</a>
+</nav>
+
+<main class="wrap">
+  <header class="hero-mini">
+    <p class="nb-mono-label">Ghost Job Detector</p>
+    <h1>Spot phantom listings <em class="nb-italic-accent">before</em> you apply.</h1>
+    <p class="lede">Tick the warning signals you see on a listing. Roughly 1 in 3 advertised roles never result in a hire — protect your time and morale.</p>
+    <p class="cta-row" style="margin-top:1.25rem"><a href="#checklist-section" class="btn-primary">Start scoring a listing →</a><a href="../flyers/ghost-job-detector.html" class="btn-secondary">Read the full overview</a></p>
+  </header>
+
+  <section class="tool-section">
+    <h2>Why ghost jobs exist</h2>
+    <p class="section-lede">Job boards, ATS vendors, and employers all benefit from listing volume — even when headcount is frozen. Some roles are posted to harvest CVs, benchmark salaries, or make current staff feel replaceable. <button type="button" class="cite-btn" data-cite="replaceable">ⓘ</button> You cannot fix the system alone, but you can stop donating evenings to listings that were never live.</p>
+  </section>
+
+  <section class="tool-section">
+    <h2>How to use this tool</h2>
+    <div class="steps-row">
+      <div class="step-card"><div class="num">Step 1</div><h3>Open the live listing</h3><p>Keep the job ad beside this page — phone or split screen works.</p></div>
+      <div class="step-card"><div class="num">Step 2</div><h3>Tick every signal you can verify</h3><p>Be honest, not cynical. Unchecked is fine.</p></div>
+      <div class="step-card"><div class="num">Step 3</div><h3>Read your risk band</h3><p>Follow the time-box rule before you customise a résumé.</p></div>
+      <div class="step-card"><div class="num">Step 4</div><h3>Only then run ATS Survival</h3><p>Format fixes are wasted on phantom roles.</p></div>
+    </div>
+  </section>
+
+  <div class="stat-strip">
+    <div class="stat-card"><div class="n">~33%</div><div class="l">of listings may be ghost jobs <button type="button" class="cite-btn" data-cite="ghost-rate">ⓘ</button></div></div>
+    <div class="stat-card"><div class="n">9 hrs</div><div class="l">average wasted per phantom cycle <button type="button" class="cite-btn" data-cite="nine-hours">ⓘ</button></div></div>
+    <div class="stat-card"><div class="n">47%</div><div class="l">of seekers pay a "ghost tax" <button type="button" class="cite-btn" data-cite="ghost-tax">ⓘ</button></div></div>
+  </div>
+
+  <section class="tool-section" id="checklist-section">
+  <h2>Score this listing</h2>
+  <p class="section-lede">12 research-backed warning signals. Tap ⓘ on any item for the source.</p>
+  <form class="checklist" id="checklist">
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Listed 30+ days with no update</h3><p>Stale postings often indicate a frozen requisition or pipeline farming.</p></div><button type="button" class="cite-btn" data-cite="stale">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Reposted under a slightly different title</h3><p>Same role recycled to appear "new" on job boards.</p></div><button type="button" class="cite-btn" data-cite="repost">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Vague scope — no clear outcomes or team</h3><p>"Rockstar" listings with no hiring manager named are higher-risk.</p></div></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>No hiring manager or contact named</h3><p>Legitimate urgent roles usually have a human attached.</p></div></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="3"><div><h3>Company recently announced layoffs or hiring freeze</h3><p>Public contraction + open roles = elevated phantom risk.</p></div></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Same role on three+ boards for months</h3><p>Aggregator lag can persist days after a role is closed.</p></div><button type="button" class="cite-btn" data-cite="aggregator">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Application portal always "under review"</h3><p>No movement after reasonable follow-up is a soft signal.</p></div></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="1"><div><h3>Interview felt like intel-gathering, not hiring</h3><p>Some "performative" interviews benchmark salary or strategy without intent to hire.</p></div><button type="button" class="cite-btn" data-cite="performative">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="1"><div><h3>Role reappears after you were "not selected"</h3><p>May never have been a live headcount.</p></div></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="1"><div><h3>Government or mandated public posting</h3><p>Sector ghost rates run higher when internal candidates must be posted publicly.</p></div><button type="button" class="cite-btn" data-cite="gov">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>LinkedIn "Be the first applicant" but 100+ already applied</h3><p>Board data and reality often disagree — stale aggregator listings persist.</p></div><button type="button" class="cite-btn" data-cite="aggregator">ⓘ</button></label>
+    <label class="check-item"><input type="checkbox" name="signal" value="2"><div><h3>Salary band impossibly wide or missing</h3><p>Pipeline farming listings often skip compensation transparency.</p></div></label>
+  </form>
+  </section>
+
+  <div class="result-panel" id="result" aria-live="polite">
+    <h2 id="result-title">Your phantom-risk read</h2>
+    <p id="result-body"></p>
+    <div class="actions">
+      <button type="button" class="btn-print" onclick="window.print()">Print this checklist</button>
+      <a class="btn-link" href="ats-survival.html">Next: ATS Survival →</a>
+      <a class="btn-link" href="https://nathanielbaldock.com/business/workers">All worker tools</a>
+    </div>
+  </div>
+
+  <section class="tool-section">
+    <div class="cta-band">
+      <h3>What to do after this tool</h3>
+      <p>If the listing passes your risk filter, fix the parser before you fix the prose. If you need content help — not just formatting — try the free HITL Résumé Lab or book the full workshop kit.</p>
+      <div class="product-strip">
+        <a class="product-card" href="ats-survival.html"><span class="tag">Free</span><h4>ATS Survival</h4><p>Six mechanical fixes — 23% of rejections are formatting alone.</p></a>
+        <a class="product-card" href="hitl-resume-lab.html"><span class="tag">Free preview</span><h4>HITL Résumé Lab</h4><p>Brain-dump + integrity checklist before you use AI.</p></a>
+        <a class="product-card" href="skills-bridge-preview.html"><span class="tag">Free preview</span><h4>Skills Bridge</h4><p>Map your role to AI-augmented adjacent paths.</p></a>
+        <a class="product-card" href="https://nathanielbaldock.com/intake"><span class="tag">Book</span><h4>Community seminar</h4><p>How Hiring Actually Works Now — for your church or group.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <p class="attribution">
+    Research sources cited in this tool include
+    <a href="https://www.myperfectresume.com/career-center/careers/basics/ghost-job-economy" target="_blank" rel="noopener">My Perfect Resume (2026)</a>,
+    <a href="https://jobstrack.io/blog/ghost-jobs-2026" target="_blank" rel="noopener">JobsTrack (2026)</a>,
+    <a href="https://enhancv.com/blog/ghost-jobs-survey-2026-bls-data-comparison/" target="_blank" rel="noopener">Enhancv ghost jobs survey (2026)</a>, and
+    <a href="https://antoniocortes.com/en/2026/03/10/ghost-jobs-the-economy-built-on-positions-that-dont-exist/" target="_blank" rel="noopener">Antonio Cortés (2026)</a>.
+    Built by <a href="https://nathanielbaldock.com">Nathaniel Baldock</a> · Tauranga, NZ.
+  </p>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <button type="button" class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-body"></p>
+    <a id="modal-link" href="#" target="_blank" rel="noopener">Read the source →</a>
+  </div>
+</div>
+
+<script>
+const CITES={
+  "ghost-rate":{title:"~1 in 3 listings",body:"My Perfect Resume reports roughly 1 in 3 job listings lead nowhere — more than 2.5 million roles in a single month.",href:"https://www.myperfectresume.com/career-center/careers/basics/ghost-job-economy"},
+  "nine-hours":{title:"9 hours per phantom cycle",body:"JobsTrack estimates the average ghost-job cycle wastes 9 hours of a candidate's time.",href:"https://jobstrack.io/blog/ghost-jobs-2026"},
+  "ghost-tax":{title:"The ghost tax",body:"Enhancv's 2026 survey found 47% of seekers pay a 'ghost tax' of time and money for roles that never existed.",href:"https://enhancv.com/blog/ghost-jobs-survey-2026-bls-data-comparison/"},
+  "stale":{title:"Stale listings",body:"Listings older than 30 days are a documented ghost-job signal (JobsTrack, 2026).",href:"https://jobstrack.io/blog/ghost-jobs-2026"},
+  "repost":{title:"Reposted roles",body:"The hires-per-posting ratio dropped from 8 per 10 in 2019 to 4 per 10 by 2024 — many roles recycle without filling.",href:"https://jobstrack.io/blog/ghost-jobs-2026"},
+  "aggregator":{title:"Aggregator lag",body:"LinkedIn and board aggregators can show listings days after a role is closed.",href:"https://jobstrack.io/blog/ghost-jobs-2026"},
+  "performative":{title:"Performative hiring",body:"Enhancv documents interviews conducted solely to extract competitive intelligence or benchmark salaries.",href:"https://enhancv.com/blog/ghost-jobs-survey-2026-bls-data-comparison/"},
+  "gov":{title:"Government sector",body:"My Perfect Resume notes government sector ghost job rates around 61.2% due to mandated public postings.",href:"https://www.myperfectresume.com/career-center/careers/basics/ghost-job-economy"},
+  "replaceable":{title:"Performative listings",body:"JobsTrack reports 62% of companies with fake listings said they were created to make existing employees feel replaceable.",href:"https://jobstrack.io/blog/ghost-jobs-2026"}
+};
+const modal=document.getElementById("modal");
+const form=document.getElementById("checklist");
+const result=document.getElementById("result");
+document.querySelectorAll(".cite-btn").forEach(btn=>{
+  btn.addEventListener("click",e=>{
+    e.preventDefault();e.stopPropagation();
+    const c=CITES[btn.dataset.cite];if(!c)return;
+    document.getElementById("modal-title").textContent=c.title;
+    document.getElementById("modal-body").textContent=c.body;
+    document.getElementById("modal-link").href=c.href;
+    modal.classList.add("open");
+  });
+});
+document.getElementById("modal-close").onclick=()=>modal.classList.remove("open");
+modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open");};
+form.addEventListener("change",()=>{
+  document.querySelectorAll(".check-item").forEach(el=>{
+    el.classList.toggle("checked",el.querySelector("input").checked);
+  });
+  let score=0;
+  form.querySelectorAll("input:checked").forEach(i=>score+=Number(i.value));
+  const title=document.getElementById("result-title");
+  const body=document.getElementById("result-body");
+  if(score===0){result.classList.remove("visible");return;}
+  result.classList.add("visible");
+  if(score>=6){
+    title.innerHTML='High phantom risk <span class="risk-high">— deprioritise unless you have inside confirmation</span>';
+    body.textContent="Multiple strong signals. Network in before investing a custom application. If you proceed, cap time spent and do not take silence as a verdict on your capability.";
+  }else if(score>=3){
+    title.innerHTML='Moderate risk <span class="risk-mid">— proceed with a time box</span>';
+    body.textContent="Some warning signs present. A short, well-formatted application may be worth it — but set a maximum effort (e.g. 90 minutes) and move on if there is no human response.";
+  }else{
+    title.innerHTML='Lower risk <span class="risk-low">— still verify</span>';
+    body.textContent="Fewer phantom signals, but the market baseline is still ~1 in 3 ghost listings nationally. Pair this with the ATS Survival one-pager before you submit.";
+  }
+});
+</script>
+</body>
+</html>

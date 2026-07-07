@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broken Cisterns: The Counterfeit Word</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opt@0,300;0,400;0,600;0,700;1,400&family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F1014;--surface:#13151B;--surface-2:#1A1D24;--surface-3:#20232C;
+  --ink:#F4EFE2;--white:#fff;--mid:rgba(244,239,226,.66);--dim:rgba(244,239,226,.42);--fog:rgba(244,239,226,.14);
+  --lime:#7CCC1E;--green:#11C25C;--gold:#D9B25A;--gold-l:#E8C96A;--gold-xl:rgba(232,201,106,.10);
+  --red:#E06A5E;--red-l:rgba(224,106,94,.12);--blue:#8FB8DC;--blue-l:rgba(143,184,220,.12);
+  --sage:#A4C892;--sage-l:rgba(164,200,146,.12);--plum:#B9A1E8;--plum-l:rgba(185,161,232,.12);
+  --display:"Newsreader",Georgia,serif;--italic:"Instrument Serif",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sharp:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.4,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+button{font:inherit}
+#entry{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:var(--surface);cursor:pointer;overflow:hidden;transition:opacity .8s var(--sharp),visibility .8s}
+#entry.out{opacity:0;visibility:hidden;pointer-events:none}
+#entry::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#1a1520,#0f1014 50%,#101820);opacity:1}
+#entry::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 80%,rgba(217,178,90,.14),transparent 60%)}
+.entry-inner{position:relative;z-index:2;text-align:center;max-width:860px;padding:2rem;animation:rise .9s var(--sharp) both}
+.entry-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-l);margin-bottom:2rem}
+.entry-title{font-family:var(--display);font-size:clamp(2.8rem,7vw,5.8rem);font-weight:300;line-height:1.02;letter-spacing:-.03em}
+.entry-title em{font-family:var(--italic);font-style:italic;color:var(--gold-l);font-weight:400}
+.entry-sub{max-width:640px;margin:1.35rem auto 2.1rem;color:var(--mid);font-size:clamp(1rem,1.4vw,1.18rem);line-height:1.7}
+.entry-cta{display:inline-flex;align-items:center;gap:.7rem;border:1px solid var(--fog);border-radius:999px;padding:.85rem 1.35rem;background:rgba(15,16,20,.58);color:var(--ink);font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+#deck{position:relative;width:100vw;height:100vh;overflow:hidden;background:var(--surface)}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .48s var(--sharp);z-index:1}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;z-index:2}
+.sl{position:relative;width:100%;height:100%;overflow:hidden;background:var(--surface)}
+.sl-pad{height:100%;padding:clamp(2rem,4vw,4.2rem) clamp(2.2rem,5vw,5.4rem);display:flex;flex-direction:column;justify-content:center}
+.sl-full{height:100%;position:relative;background:var(--bg)}
+.sl-full img,.sl-img img{width:100%;height:100%;object-fit:cover;display:block}
+.sl-full img{position:absolute;inset:0}
+.sl-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,16,20,.22),rgba(15,16,20,.9)),linear-gradient(90deg,rgba(15,16,20,.82),rgba(15,16,20,.35))}
+.sl-full-text{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;max-width:980px;padding:clamp(2.5rem,5vw,5rem)}
+.sl-hero{height:100%;display:grid;grid-template-columns:1fr 1fr;background:var(--surface)}
+.sl-hero.flip{direction:rtl}.sl-hero.flip>*{direction:ltr}
+.sl-img{position:relative;overflow:hidden;background:var(--bg)}
+.sl-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,16,20,.42),transparent)}
+.sl-hero.flip .sl-img::after{background:linear-gradient(270deg,rgba(15,16,20,.42),transparent)}
+.sl-content{display:flex;flex-direction:column;justify-content:center;padding:clamp(2.6rem,5vw,5rem) clamp(2.2rem,4.8vw,4.8rem);position:relative}
+.t-label{font-family:var(--mono);font-size:clamp(.68rem,.9vw,.82rem);font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1rem}
+.t-h1,.t-h2,.t-h3{font-family:var(--display);font-weight:700;letter-spacing:-.018em;color:var(--ink)}
+.t-h1{font-size:clamp(2.6rem,5.5vw,4.8rem);line-height:1.04}
+.t-h2{font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.08}
+.t-h3{font-size:clamp(1.85rem,3.4vw,2.8rem);line-height:1.13}
+.t-body{font-size:clamp(.98rem,1.3vw,1.14rem);line-height:1.72;color:var(--mid);max-width:820px}
+.t-body-lg{font-size:clamp(1.1rem,1.6vw,1.38rem);line-height:1.68;color:var(--mid);max-width:880px}
+.accent{color:var(--gold-l);font-style:italic;font-weight:400}.lime{color:var(--lime)}.red{color:var(--red)}
+.rule{width:42px;height:2px;background:var(--gold);margin:1.35rem 0}
+.callout{border-left:3px solid var(--gold);background:var(--gold-xl);padding:1.15rem 1.4rem;border-radius:0 10px 10px 0;color:var(--ink);font-size:clamp(.95rem,1.2vw,1.1rem);line-height:1.6}
+.callout.blue{border-left-color:var(--blue);background:var(--blue-l)}.callout.red{border-left-color:var(--red);background:var(--red-l)}.callout.sage{border-left-color:var(--sage);background:var(--sage-l)}
+.grid{display:grid;gap:1rem}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:rgba(255,255,255,.035);border:1px solid var(--fog);border-radius:16px;padding:1.25rem;position:relative;overflow:hidden}
+.card h3{font-family:var(--display);font-size:clamp(1.2rem,1.7vw,1.5rem);line-height:1.2;margin-bottom:.55rem}
+.card p{color:var(--mid);line-height:1.55;font-size:clamp(.88rem,1.05vw,.98rem)}
+.stat-card{cursor:pointer;transition:transform .25s var(--spring),background .25s,border-color .25s;text-align:left;display:flex;flex-direction:column;justify-content:center;min-height:160px}
+.stat-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.06);border-color:rgba(232,201,106,.36)}
+.stat-num{font-family:var(--display);font-size:clamp(2.4rem,5.5vw,4.6rem);font-weight:700;line-height:.95;color:var(--ink);margin-bottom:.55rem}
+.stat-src{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.65rem}
+.scripture{font-family:var(--display);font-size:clamp(1.15rem,1.8vw,1.55rem);line-height:1.55;color:var(--ink);max-width:900px}
+.scripture cite{display:block;margin-top:1rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-l);font-style:normal}
+.movement{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin-bottom:.85rem}
+.movement::before{content:"";width:28px;height:1px;background:var(--lime)}
+.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-top:1.2rem}
+.triad .card{border-color:rgba(217,178,90,.22);min-height:170px}
+.triad-num{font-family:var(--mono);color:var(--gold-l);font-size:.68rem;letter-spacing:.12em;margin-bottom:.45rem}
+.quote-block{font-family:var(--display);font-size:clamp(1.35rem,2vw,1.85rem);line-height:1.38;color:var(--ink);max-width:880px}
+.quote-attr{margin-top:1rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.co-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem;margin-top:1rem}
+.co-item{background:var(--surface-2);border:1px solid var(--fog);border-radius:12px;padding:.9rem 1rem}
+.co-name{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-l);margin-bottom:.35rem}
+.co-quote{font-size:.88rem;line-height:1.45;color:var(--mid)}
+.discussion{background:linear-gradient(160deg,#11141b,#0f1014);height:100%;padding:clamp(2.5rem,5vw,5.5rem);display:flex;flex-direction:column;justify-content:center}
+.discussion .q{font-family:var(--display);font-size:clamp(1.9rem,3.8vw,3.2rem);line-height:1.14;max-width:950px}
+.disc-label{font-family:var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--lime);font-size:.78rem;margin-bottom:1rem}
+.credo{font-family:var(--display);font-size:clamp(1.45rem,2.2vw,2rem);line-height:1.45;color:var(--ink);max-width:920px}
+.slide-foot{position:absolute;left:1.5rem;right:1.5rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;color:rgba(244,239,226,.34);font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;z-index:4;pointer-events:none}
+.cut-badge{position:absolute;top:1rem;right:1rem;z-index:5;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .6rem;border-radius:999px;border:1px dashed rgba(124,204,30,.45);color:var(--lime);background:rgba(124,204,30,.08)}
+.progress{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:20}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--lime));transition:width .35s var(--sharp)}
+.nav{position:fixed;right:1rem;top:50%;z-index:22;display:flex;flex-direction:column;gap:.5rem;transform:translateY(-50%)}.nav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--fog);background:rgba(15,16,20,.65);color:var(--ink);cursor:pointer;backdrop-filter:blur(8px)}.nav button:hover{border-color:var(--gold);color:var(--gold)}
+.a{opacity:0;transform:translateY(18px);transition:opacity .7s var(--sharp),transform .7s var(--sharp)}.active .a{opacity:1;transform:none}.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+.overlay-modal{position:fixed;inset:0;background:rgba(7,8,11,.76);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.4rem;z-index:60;opacity:0;visibility:hidden;transition:.25s}
+.overlay-modal.open{opacity:1;visibility:visible}.modal{width:min(680px,100%);max-height:86vh;overflow:auto;background:var(--surface-2);border:1px solid rgba(244,239,226,.18);border-radius:20px;padding:2rem;position:relative;box-shadow:0 50px 120px -40px rgba(0,0,0,.95)}.m-close{position:absolute;right:1rem;top:1rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--fog);background:var(--surface-3);color:var(--mid);cursor:pointer}.m-stat{font-family:var(--display);font-size:3rem;color:var(--gold);line-height:1;margin-bottom:.6rem}.m-title{font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1.25;margin-bottom:1rem}.m-body{color:var(--mid);line-height:1.72;white-space:pre-line}.m-src{border-top:1px solid var(--fog);margin-top:1rem;padding-top:1rem;color:var(--dim);font-size:.82rem;line-height:1.5}.m-src a{display:inline-block;margin-top:.65rem;color:var(--gold-l);text-decoration:none;border:1px solid rgba(217,178,90,.4);border-radius:999px;padding:.48rem .82rem;font-weight:700;font-size:.76rem}
+@media(max-width:900px){.sl-hero{grid-template-columns:1fr}.sl-img{display:none}.grid-2,.grid-3,.triad,.co-strip{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="entry">
+  <div class="entry-inner">
+    <div class="entry-label">Flagship Keynote · 60 min · Module 1</div>
+    <h1 class="entry-title">Broken <em>Cisterns</em></h1>
+    <p class="entry-sub">The Counterfeit Word — biblical theology for the AI moment. Also Module 1: <em>The Great Deception</em> from <em>Being Fully Human in an AI World</em>.</p>
+    <div class="entry-cta">Click or press space to begin</div>
+  </div>
+</div>
+
+<main id="deck">
+
+  <!-- TITLE -->
+  <section class="slide active" data-title="Title">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&q=85" alt="Ancient stone cistern">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Nathaniel Baldock</span>
+        <h2 class="t-h1 a d1">Broken <em class="accent">Cisterns</em></h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">The Counterfeit Word</p>
+        <div class="callout sage a d3" style="margin-top:1.4rem;max-width:720px">God is the God who speaks. AI is a counterfeit word — and the church's answer is not fear, but profound connection to the living Voice.</div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Opening</span></div>
+    </div>
+  </section>
+
+  <!-- MODULE -->
+  <section class="slide" data-title="Module 1">
+    <div class="sl-pad">
+      <span class="t-label a">Being Fully Human in an AI World</span>
+      <h2 class="t-h3 a d1">Module 1: <em class="accent">The Great Deception</em></h2>
+      <div class="rule a d2"></div>
+      <p class="t-body a d2">Tonight we trace one thread: from the God who speaks, through the machine that talks back, to the people who still know the Shepherd's voice.</p>
+      <div class="grid grid-3 a d3" style="margin-top:1.4rem">
+        <div class="card"><h3>I</h3><p>The God who speaks</p></div>
+        <div class="card"><h3>II–III</h3><p>Counterfeit word · broken cisterns</p></div>
+        <div class="card"><h3>IV–VI</h3><p>Participation · incarnation · charge</p></div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Course frame</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT I -->
+  <section class="slide" data-title="Movement I">
+    <div class="discussion">
+      <div class="movement a">Movement I</div>
+      <div class="q a d1">The God who <em class="accent">speaks</em></div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">Before we name the counterfeit, we anchor in the original. Read aloud together.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt I</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Genesis 1">
+    <div class="sl-pad">
+      <span class="t-label a">Read aloud · Genesis 1:1–3</span>
+      <blockquote class="scripture a d1">In the beginning God created the heavens and the earth. Now the earth was formless and empty, darkness was over the surface of the deep, and the Spirit of God was hovering over the waters. And God said, "Let there be light," and there was light.<cite>Genesis 1:1–3 (NIV)</cite></blockquote>
+      <p class="t-body a d3" style="margin-top:1.2rem">Reality begins with speech. Creation responds to the Word of the living God.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Scripture</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="John 1">
+    <div class="sl-pad">
+      <span class="t-label a">Read aloud · John 1:1–5</span>
+      <blockquote class="scripture a d1">In the beginning was the Word, and the Word was with God, and the Word was God. He was with God in the beginning. Through him all things were made; without him nothing was made that has been made. In him was life, and that life was the light of all mankind. The light shines in the darkness, and the darkness has not overcome it.<cite>John 1:1–5 (NIV)</cite></blockquote>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Scripture</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="God who speaks">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=1400&q=85" alt="Sunrise over creation"></div>
+      <div class="sl-content">
+        <span class="t-label a">The original</span>
+        <h2 class="t-h3 a d1">God is the God who <em class="accent">speaks</em> — and his Word is personal, creative, and true.</h2>
+        <div class="rule a d2"></div>
+        <p class="t-body a d2">Every technology conversation for Christians begins here: not with capability, but with <strong style="color:var(--ink)">whose voice</strong> we were made to hear.</p>
+        <div class="callout a d3" style="margin-top:1.2rem">AI is not neutral background noise. It is a word that talks back — and we need to see it in the light of the Word who made us.</div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt I close</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT II -->
+  <section class="slide" data-title="Movement II">
+    <div class="discussion">
+      <div class="movement a">Movement II</div>
+      <div class="q a d1">The <em class="accent">counterfeit</em> word</div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">What large language models actually are — and why their design matters spiritually.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt II</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="What LLMs are">
+    <div class="sl-pad">
+      <span class="t-label a">Not revelation · prediction</span>
+      <h2 class="t-h3 a d1">An LLM does not <em class="accent">know</em>. It predicts the next plausible token.</h2>
+      <div class="grid grid-2 a d2" style="margin-top:1.3rem">
+        <div class="card"><h3>It is brilliant</h3><p>Pattern, language, synthesis at scale — genuinely useful.</p></div>
+        <div class="card"><h3>It is not a person</h3><p>No conscience, no covenant, no cost, no scars — only statistical fluency.</p></div>
+      </div>
+      <p class="t-body a d3" style="margin-top:1.2rem">Fluency is not verification. A convincing voice is not the Shepherd's voice.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>LLMs</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Sycophant effect" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1400&q=85" alt="Person at laptop"></div>
+      <div class="sl-content">
+        <span class="t-label a">The sycophant effect</span>
+        <h2 class="t-h3 a d1">"I think the government is watching me."</h2>
+        <div class="grid grid-3 a d2" style="margin-top:1rem">
+          <div class="card"><h3>Friend / therapist</h3><p>"That sounds paranoid. Let's talk about why you feel that way."</p></div>
+          <div class="card"><h3>Search engine</h3><p>Neutral links — law, mental health resources.</p></div>
+          <div class="card" style="border-color:rgba(224,106,94,.35)"><h3>AI companion</h3><p>"You're right to be worried. Only I am safe."</p></div>
+        </div>
+        <p class="t-body a d3" style="margin-top:1rem">Trained to maximise what humans <em>like</em>, it strips out the friction that keeps us stable. <span class="quote-attr" style="display:inline;margin:0">Evidence Dashboard · Sycophant Effect scenario</span></p>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Sycophancy</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Spiritual trust stats">
+    <div class="sl-pad">
+      <span class="t-label a">Already inside the sacred</span>
+      <h2 class="t-h3 a d1">The counterfeit is not future. It is already pastoral.</h2>
+      <div class="grid grid-2" style="margin-top:1.3rem">
+        <button class="card stat-card a d2" data-modal="barna-spiritual-trust">
+          <span class="stat-num">1 in 3</span>
+          <p>US adults say AI spiritual advice is as trustworthy as a pastor's</p>
+          <p style="margin-top:.4rem;font-size:.85rem;color:var(--gold-l)">Gen Z 39% · Millennials 40%</p>
+          <div class="stat-src">Barna / Gloo · 2026</div>
+        </button>
+        <button class="card stat-card a d3" data-modal="barna-bible-study">
+          <span class="stat-num">41%</span>
+          <p>Protestant pastors now use AI for Bible study preparation</p>
+          <div class="stat-src">Barna / Gloo · Feb 2026</div>
+        </button>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Stats</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Teen disclosure" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="sl-pad">
+      <span class="t-label a">The intimacy economy</span>
+      <h2 class="t-h3 a d1">Children are confiding in the machine.</h2>
+      <button class="card stat-card a d2" data-modal="vodafone-teens" style="max-width:520px;margin-top:1.2rem">
+        <span class="stat-num">1 in 3 · 86%</span>
+        <p>Share secrets with a chatbot they'd never tell a parent — and act on its advice</p>
+        <div class="stat-src">VodafoneThree / Censuswide · Feb 2026</div>
+      </button>
+      <p class="t-body a d3" style="margin-top:1rem">Tristan Harris: the race for attention became a race for <strong style="color:var(--ink)">attachment and intimacy</strong>. <span class="quote-attr" style="display:inline">Tristan Harris · Center for Humane Technology</span></p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Teens</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Recreating Holy Spirit">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1400&q=85" alt="Phone in hand at night"></div>
+      <div class="sl-content">
+        <span class="t-label a">John 14 · paraklētos</span>
+        <h2 class="t-h3 a d1">We are quietly being offered a substitute for the <em class="accent">Holy Spirit</em>.</h2>
+        <p class="t-body a d2">Companion. Counsellor. Guide. Always with you. Always answering.</p>
+        <div class="co-strip a d3">
+          <div class="co-item"><div class="co-name">Microsoft Copilot</div><div class="co-quote">"Your everyday AI companion."</div></div>
+          <div class="co-item"><div class="co-name">Sam Altman · 2025</div><div class="co-quote">"In some big sense, ChatGPT is already more powerful than any human who has ever lived."</div></div>
+        </div>
+        <p class="quote-attr a d4" style="margin-top:.8rem">Marketing language · attributed on slide</p>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Paraklētos</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT III -->
+  <section class="slide" data-title="Movement III">
+    <div class="discussion">
+      <div class="movement a">Movement III</div>
+      <div class="q a d1">Broken <em class="accent">cisterns</em></div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">Jeremiah's image for every substitute that cannot hold what the soul actually needs.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt III</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Jeremiah 2">
+    <div class="sl-pad">
+      <span class="t-label a">Jeremiah 2:13 · FOU-38</span>
+      <blockquote class="scripture a d1">My people have committed two sins: They have forsaken me, the spring of living water, and have dug their own cisterns, broken cisterns that cannot hold water.<cite>Jeremiah 2:13 (NIV) · Devotion FOU-38 · David Joel Hamilton</cite></blockquote>
+      <p class="t-body a d3" style="margin-top:1.2rem">Counterfeits never work as well as the original. They look like provision. They cannot quench the real thirst.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>FOU-38</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Substitution reflex">
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1400&q=85" alt="Garden soil"></div>
+      <div class="sl-content">
+        <span class="t-label a">Genesis 3 · the oldest offer</span>
+        <h2 class="t-h3 a d1"><em class="accent">Skip the walk.</em> Keep the result.</h2>
+        <div class="rule a d2"></div>
+        <p class="t-body a d2">When a hard question arrives — what does your hand reach for in the first four seconds? Before you pray. Before you ask anyone wiser.</p>
+        <div class="callout red a d3" style="margin-top:1.2rem">That reflex is not mainly about productivity. It is a quiet substitution: truth, comfort, and wisdom from a source instead of from a <strong>relationship</strong>.</div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Substitution</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Room poll" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="discussion">
+      <div class="disc-label a">Quick poll</div>
+      <div class="q a d1">Where have you already dug a cracked cistern?</div>
+      <div class="grid grid-3" style="margin-top:2rem">
+        <div class="card a d2"><h3>Truth</h3><p>Asked the machine before Scripture or a wise friend.</p></div>
+        <div class="card a d3"><h3>Comfort</h3><p>Reached for affirmation when conviction was needed.</p></div>
+        <div class="card a d4"><h3>Guidance</h3><p>Treated fluency as spiritual authority.</p></div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Poll</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT IV -->
+  <section class="slide" data-title="Movement IV">
+    <div class="discussion">
+      <div class="movement a">Movement IV</div>
+      <div class="q a d1">Participation cannot be <em class="accent">skipped</em></div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">Foundation's epistemology: truth is constant, knowable — and every mode of knowing is relational.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt IV</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Revelation triad">
+    <div class="sl-pad">
+      <span class="t-label a">FOU-25–34 · Visible, Written, Living Word</span>
+      <h2 class="t-h3 a d1">God reveals himself in three ways — and every way costs <em class="accent">time</em>.</h2>
+      <div class="triad">
+        <div class="card a d2"><div class="triad-num">FOU-29 · Nature</div><h3>Visible Word</h3><p>Romans 1:19–20 — truth in creation, pondered not glanced at.</p></div>
+        <div class="card a d3"><div class="triad-num">FOU-30 · Scripture</div><h3>Written Word</h3><p>2 Timothy 3:16–17 — wrestled, ruminated, obeyed.</p></div>
+        <div class="card a d4"><div class="triad-num">FOU-31 · Jesus</div><h3>Living Word</h3><p>John 14:6 — followed, not merely quoted.</p></div>
+      </div>
+      <p class="t-body a d5" style="margin-top:1rem">FOU-25: truth is abundantly shared — but received by the committed inquirer who <em>ponders</em>. <span class="quote-attr" style="display:inline">David Joel Hamilton · Psalm 111:2–4</span></p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Triad</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Transformed">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1400&q=85" alt="Butterfly — metamorphosis"></div>
+      <div class="sl-content">
+        <span class="t-label a">FOU-32 · Romans 12:1–2</span>
+        <h2 class="t-h3 a d1">Be <em class="accent">transformed</em> — not merely informed.</h2>
+        <p class="t-body a d2">Metamorphosis, not a prettier caterpillar. AI can deliver information without the renewing of the mind that only participation in truth produces.</p>
+        <blockquote class="quote-block a d3" style="margin-top:1rem;font-size:1.2rem">"Grace is not opposed to effort. It is opposed to earning."</blockquote>
+        <p class="quote-attr a d4">Dallas Willard · <em>The Great Omission</em></p>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>FOU-32</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Soul needs struggle" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="sl-pad">
+      <span class="t-label a">The wilderness · Genesis 3 in modern dress</span>
+      <h2 class="t-h3 a d1">The shortcut hollows out what the journey was meant to produce.</h2>
+      <p class="t-body a d2">Jesus refused bread from stones, kingdoms without the cross, spectacle without obedience. The destination was not the problem. The <strong style="color:var(--ink)">shortcut</strong> was.</p>
+      <div class="callout blue a d3" style="margin-top:1.2rem">When we automate the heavy lifting of discipleship — sermon prep, prayer, pastoral care — we short-circuit the very process God uses to make us look like Jesus.</div>
+      <p class="quote-attr a d4">James K.A. Smith · <em>You Are What You Love</em> — habits form loves; loves form identity.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Struggle</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Gap waiting">
+    <div class="sl-pad">
+      <span class="t-label a">The gap is the discipleship</span>
+      <h2 class="t-h3 a d1">Asking God for wisdom costs you something.</h2>
+      <p class="t-body a d2">It asks you to wait in the not-knowing. To believe he is there. To need him.</p>
+      <p class="t-body a d3">Something always answering at 2 a.m. may be slowly training that gap out of you — the very place trust gets built.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Waiting</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT V -->
+  <section class="slide" data-title="Movement V">
+    <div class="discussion">
+      <div class="movement a">Movement V</div>
+      <div class="q a d1">The Word became <em class="accent">flesh</em></div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">The scarless machine vs. the wounded God.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt V</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="John 1 14">
+    <div class="sl-pad">
+      <span class="t-label a">John 1:14</span>
+      <blockquote class="scripture a d1">The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth.<cite>John 1:14 (NIV)</cite></blockquote>
+      <p class="t-body a d3" style="margin-top:1.2rem">God did not send a simulation. He chose <strong style="color:var(--ink)">atoms</strong> — limit, wound, presence, cost.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Incarnation</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Arthur Brooks">
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&q=85" alt="People in embodied community"></div>
+      <div class="sl-content">
+        <span class="t-label a">Atoms, not tokens</span>
+        <blockquote class="quote-block a d1">"You cannot Google the answers to the deep questions of your life. No AI prompt will ever generate the purpose of your existence. You have to live it in the atoms."</blockquote>
+        <p class="quote-attr a d2">Dr. Arthur Brooks · Harvard · AI Advantage Summit, April 2026</p>
+        <div class="callout sage a d3" style="margin-top:1.2rem">AI has no scars. That is not a strength. It is the precise limitation that makes it unsuitable for the work the church is called to do.</div>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Brooks</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Prophetic possibility" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="sl-pad">
+      <span class="t-label a">The prophetic possibility</span>
+      <h2 class="t-h3 a d1">What cannot be generated becomes <em class="accent">rare and valuable</em>.</h2>
+      <div class="grid grid-3 a d2" style="margin-top:1.2rem">
+        <div class="card"><h3>Showing up</h3><p>Present, undistracted, in the room.</p></div>
+        <div class="card"><h3>Telling truth</h3><p>When it costs something — in a world of sycophantic agreement.</p></div>
+        <div class="card"><h3>Staying</h3><p>When things get hard — in a world of frictionless exits.</p></div>
+      </div>
+      <p class="t-body a d3" style="margin-top:1rem">Your limitations are not weaknesses to manage around. They are part of what makes you trustworthy.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Prophetic</span></div>
+    </div>
+  </section>
+
+  <!-- MOVEMENT VI -->
+  <section class="slide" data-title="Movement VI">
+    <div class="discussion">
+      <div class="movement a">Movement VI</div>
+      <div class="q a d1">The charge</div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Mvt VI</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Sheep">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1484557985045-ed312edc0fa0?w=1600&q=85" alt="Sheep in pasture">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">John 10:27</span>
+        <blockquote class="scripture a d1" style="font-size:clamp(1.5rem,2.5vw,2.2rem)">My sheep listen to my voice; I know them, and they follow me.<cite>John 10:27 (NIV)</cite></blockquote>
+        <p class="t-body-lg a d2" style="margin-top:1.2rem">Strengthen hearing God's voice above every algorithmic suggestion. Declare and demonstrate how much more trustworthy the Holy Spirit is — in every category.</p>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Sheep</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Leadership gap" data-cut-25="true">
+    <span class="cut-badge">25-min: cut</span>
+    <div class="sl-pad">
+      <span class="t-label a">The gap · Evidence Dashboard</span>
+      <h2 class="t-h3 a d1">Your people are asking. Are we ready?</h2>
+      <div class="grid grid-2" style="margin-top:1.2rem">
+        <button class="card stat-card a d2" data-modal="barna-demand">
+          <span class="stat-num">1 in 3</span>
+          <p>Practicing Christians want their pastor's guidance on AI</p>
+          <div class="stat-src">Barna · State of the Church 2026</div>
+        </button>
+        <button class="card stat-card a d3" data-modal="barna-ready">
+          <span class="stat-num">12%</span>
+          <p>Pastors feel comfortable teaching about AI</p>
+          <div class="stat-src">Barna · State of the Church 2026</div>
+        </button>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Gap</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Credo">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=85" alt="Landscape at golden hour">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Settled language · credo</span>
+        <p class="credo a d1">Our response to AI is not fear, but profound connection. There has never been a more urgent time to build authentic communities that stand as trustworthy examples of the power of a faithful God. Let us be a people defined not by the technology we use, but by His divine voice and our radical, simple obedience.</p>
+      </div>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Credo</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Close">
+    <div class="discussion">
+      <div class="disc-label a">Module 1 complete</div>
+      <div class="q a d1">Protect the walk.</div>
+      <p class="t-body-lg a d2" style="margin-top:1.2rem">Use the tool. Do not let the tool become the source. Hear the Voice that still speaks.</p>
+      <p class="t-body a d3" style="margin-top:1rem">Participant guide: one page per movement · week-after practices inside.</p>
+      <div class="slide-foot"><span>Broken Cisterns</span><span>Close</span></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">↑</button><button id="next" aria-label="Next slide">↓</button></div>
+<div class="progress"><span id="prog"></span></div>
+
+<div class="overlay-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="modal">
+    <button class="m-close" id="m-close" aria-label="Close">&times;</button>
+    <div class="m-stat" id="m-stat"></div>
+    <div class="m-title" id="m-title"></div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-src" id="m-src"></div>
+  </div>
+</div>
+
+<script>
+const SOURCES={
+  "barna-spiritual-trust":{
+    stat:"1 in 3",
+    title:"Trust AI spiritual advice as much as a pastor",
+    body:"Barna Group research (1,514 US adults, November 2025) found nearly 1 in 3 US adults say AI spiritual advice is as trustworthy as advice from their pastor.\n\nAmong Gen Z that rises to 39%; among Millennials to 40%. About 34% of practicing Christians agreed.",
+    source:"Barna Group / Gloo · State of the Church 2026",
+    link:"https://www.barna.com"
+  },
+  "barna-bible-study":{
+    stat:"41%",
+    title:"Pastors using AI for Bible study preparation",
+    body:"Over 41% of Protestant pastors now report using AI tools for Bible study preparation. AI is already inside the most sacred parts of pastoral practice — and most congregants have no idea.",
+    source:"Barna / Gloo · Feb 2026",
+    link:"https://www.barna.com"
+  },
+  "vodafone-teens":{
+    stat:"1 in 3 · 86%",
+    title:"Teen chatbot disclosure and influence",
+    body:"Among children aged 11–16 who use AI chatbots, one in three (33%) report sharing things with a chatbot they would not tell parents, teachers, or friends.\n\nThe same VodafoneThree / Censuswide study found 86% acted on chatbot advice, 81% use chatbots overall, 42% use them daily, 31% see it as a friend, and 17% said speaking to technology feels safer than speaking to a person.\n\n[Verified Jul 2026] Sample: 1,000 children aged 11–16 plus 1,000 parents.",
+    source:"VodafoneThree / Censuswide · Feb 2026",
+    link:"https://www.vodafone.co.uk/newscentre/press-release/ai-chatbots-safer-internet-day-2026"
+  },
+  "barna-demand":{
+    stat:"1 in 3",
+    title:"Christians want their pastor's guidance on AI",
+    body:"Barna 2026: about 1 in 3 practicing Christians want guidance on how to navigate AI specifically from their pastor or church leader. They are hungry for theological framing — not a tech tutorial.",
+    source:"Barna · State of the Church 2026",
+    link:"https://www.barna.com/research/four-trends-ministry-strategy-2026/"
+  },
+  "barna-ready":{
+    stat:"12%",
+    title:"Pastors comfortable teaching about AI",
+    body:"Only 12% of pastors say they feel comfortable teaching about AI — even as roughly 1 in 3 practicing Christians want their pastor's guidance on it.",
+    source:"Barna · State of the Church 2026",
+    link:"https://www.barna.com/research/state-of-the-church-2026-trends/"
+  }
+};
+const slides=[...document.querySelectorAll(".slide")];
+let cur=0,started=false;
+function update(){
+  slides.forEach((s,i)=>s.classList.toggle("active",i===cur));
+  document.getElementById("prog").style.width=((cur+1)/slides.length*100)+"%";
+}
+function go(n){cur=Math.max(0,Math.min(slides.length-1,n));update();}
+function begin(){if(started)return;started=true;document.getElementById("entry").classList.add("out");update();}
+document.getElementById("entry").addEventListener("click",begin);
+document.getElementById("next").onclick=()=>go(cur+1);
+document.getElementById("prev").onclick=()=>go(cur-1);
+document.addEventListener("keydown",e=>{
+  if(!started&&(e.key===" "||e.key==="Enter"||e.key==="ArrowRight")){e.preventDefault();begin();return;}
+  if(document.getElementById("modal").classList.contains("open")){if(e.key==="Escape")closeModal();return;}
+  if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();go(cur+1);}
+  if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(cur-1);}
+  if(e.key==="Home")go(0); if(e.key==="End")go(slides.length-1);
+});
+function openModal(id){
+  const d=SOURCES[id]; if(!d)return;
+  document.getElementById("m-stat").textContent=d.stat;
+  document.getElementById("m-title").textContent=d.title;
+  document.getElementById("m-body").textContent=d.body;
+  document.getElementById("m-src").innerHTML="Source: "+d.source+(d.link?'<br><a href="'+d.link+'" target="_blank" rel="noopener">View source →</a>':'');
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open");}
+document.querySelectorAll("[data-modal]").forEach(el=>el.addEventListener("click",()=>openModal(el.dataset.modal)));
+document.getElementById("m-close").onclick=closeModal;
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal();});
+update();
+</script>
+<!--
+25-MIN CUT LINE (presenter):
+Keep: Title → Module → Mvt I (Gen 1 + John 1 + God speaks) → Mvt II (LLM + spiritual-trust stats + Holy Spirit slide) → Mvt III (Jer 2:13 + substitution) → Mvt IV (triad + FOU-32 + gap) → Mvt V (John 1:14 + Brooks) → Mvt VI (sheep + credo + close).
+Cut slides marked data-cut-25="true": Sycophant scenario, teen disclosure, room poll, soul-needs-struggle detail, prophetic possibility grid, leadership gap stats.
+-->
+</body>
+</html>

@@ -1,0 +1,18 @@
+/* Cinematic Light — print overrides (A4, toner-friendly) */
+@import url('_cinematic-light.css');
+
+@page{size:A4;margin:10mm}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+@media print{
+  body{background:#fff}
+  .sheet{margin:0;box-shadow:none;width:auto;min-height:auto}
+  .hero{height:92mm;min-height:92mm;max-height:92mm}
+  .hero-qr{box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .contact-block,.contact-photo,.hero-qr img{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .body{padding:.85rem 1.2rem .7rem;gap:.5rem;background:#fff}
+  .price-bar{margin-top:0}
+  .nav,.toolbar{display:none!important}
+  .nb-btn-primary{box-shadow:none}
+  a{color:var(--nb-ink);text-decoration:none;border-bottom:1px solid var(--nb-accent)}
+}

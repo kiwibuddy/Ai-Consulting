@@ -188,45 +188,8 @@ const whyChooseBullets = [
   "Calm, grounded approach to fast-changing technology—wisdom over hype",
 ];
 
-// Testimonials (AI consulting–style quotes with key outcomes)
-const testimonials = [
-  {
-    name: "Sarah Chen",
-    role: "Director, Faith-based NGO",
-    location: "Auckland",
-    content: "We went from nervous about AI to having a clear roadmap and a working prototype in three weeks. Nathaniel's focus on values and safeguarding made all the difference—he understands both the technology and the mission context. Our team now has practical tools we trust and can actually use.",
-    keyOutcome: "AI-powered donor communication system that maintains dignity and honesty",
-    category: "Faith & Mission",
-    categoryColor: "primary",
-  },
-  {
-    name: "David Ngata",
-    role: "Principal, Secondary School",
-    location: "Wellington",
-    content: "Practical sessions that our staff actually used. No hype, no jargon—just tools and workflows we could implement the next day. Nathaniel's background in training and education meant he knew exactly how to equip teachers without overwhelming them.",
-    keyOutcome: "Teacher workload reduction through AI-assisted feedback and grading workflows",
-    category: "Education",
-    categoryColor: "success",
-  },
-  {
-    name: "Emma Foster",
-    role: "Programme Lead, Nonprofit",
-    location: "Christchurch",
-    content: "Finally, AI consulting that understands our constraints. We got clarity on what we can do safely with our budget and team, and where to start without risk. The roadmap Nathaniel provided was realistic, not aspirational—it actually fit our capacity.",
-    keyOutcome: "Streamlined impact reporting and grant writing processes",
-    category: "Nonprofit",
-    categoryColor: "secondary",
-  },
-  {
-    name: "Rev. James Wilson",
-    role: "Senior Pastor",
-    location: "Tauranga",
-    content: "Theological and ethical guardrails were non-negotiable for us. Nathaniel delivered exactly that—and a system we trust. He didn't try to sell us on every new AI tool; he helped us discern what truly served our congregation.",
-    keyOutcome: "Scripture-safe sermon preparation assistant trained on trusted theological resources",
-    category: "Faith & Mission",
-    categoryColor: "primary",
-  },
-];
+// Testimonials — disabled until real client quotes are collected (placeholders were removed).
+// const testimonials = [ ... ];
 
 // Engagement tiers (replaces pricing)
 const engagementTiers = [
@@ -280,9 +243,11 @@ export default function LandingPage() {
             <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
               About
             </a>
+            {/* Testimonials nav link — re-enable when real quotes are available
             <a href="#testimonials" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
               Testimonials
             </a>
+            */}
             <a href="#contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap py-2 px-4 rounded-md hover:bg-muted/50">
               Contact
             </a>
@@ -735,64 +700,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section — disabled until real client quotes are collected
       <section id="testimonials" className={`${sectionPadding} scroll-mt-20`}>
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            className={`text-center ${sectionTitleMargin}`}
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollViewport}
-            variants={fadeUpVariants}
-          >
-            <p className="text-primary font-medium text-xs uppercase tracking-wider mb-1">
-              Testimonials
-            </p>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-              What Clients Say
-            </h2>
-            <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-              Real stories from faith, education, and nonprofit leaders
-            </p>
-          </motion.div>
-          <motion.div
-            className="grid md:grid-cols-2 gap-5 md:gap-6 items-stretch"
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollViewport}
-            variants={staggerContainerVariants}
-          >
-            {testimonials.map((testimonial, i) => (
-              <motion.div key={i} variants={staggerItemVariants} className="h-full flex flex-col">
-                <Card className="h-full flex flex-col flex-1">
-                  <CardContent className="p-4 md:p-5 flex flex-col flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="rounded-full bg-primary/10 h-9 w-9 flex items-center justify-center flex-shrink-0">
-                        <Users className="h-4 w-4 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-sm">{testimonial.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {testimonial.role} • {testimonial.location}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed italic mb-3 flex-1">
-                      "{testimonial.content}"
-                    </p>
-                    {"keyOutcome" in testimonial && testimonial.keyOutcome && (
-                      <p className="text-xs text-primary font-medium mb-2">Key outcome: {testimonial.keyOutcome}</p>
-                    )}
-                    <span className={`badge-landing badge-landing-${testimonial.categoryColor}`}>
-                      {testimonial.category}
-                    </span>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+        ...
       </section>
+      */}
 
       {/* Investment / How We Work Together Section */}
       <section id="investment" className={`${sectionPadding} bg-muted/30 scroll-mt-20`}>

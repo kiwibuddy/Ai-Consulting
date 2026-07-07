@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI: What's Actually Going On, and What to Do About It · Nathaniel Baldock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f7f4ec;
+  --paper-warm: #f1ede1;
+  --paper-card: #fbf9f2;
+  --ink: #1f1d1a;
+  --ink-soft: #3d3a35;
+  --ink-mute: #6e6a60;
+  --ink-faint: #a39f93;
+  --accent: #6b1b1b;
+  --accent-soft: #a85440;
+  --accent-bright: #c25a3e;
+  --rule: #d6d1c1;
+  --rule-strong: #a8a294;
+  --highlight: #f8e8b8;
+  --link-underline: rgba(107, 27, 27, 0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'ss01', 'ss02', 'cv01', 'kern';
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--highlight); color: var(--ink); }
+
+/* ─────────────── PAGE STRUCTURE ─────────────── */
+
+.page {
+  min-height: 100vh;
+  padding: 6rem 1.5rem 5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+.page-inner {
+  max-width: 38rem;
+  width: 100%;
+  position: relative;
+}
+
+/* Subtle paper-grain top accent on each page */
+.page::before {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.4;
+}
+
+.page-cover::before,
+.page-close::before {
+  display: none;
+}
+
+/* ─────────────── COVER ─────────────── */
+
+.page-cover {
+  background: linear-gradient(180deg, var(--paper-warm) 0%, var(--paper) 100%);
+  padding: 7rem 1.5rem 5rem;
+}
+
+.page-cover .page-inner {
+  max-width: 42rem;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.cover-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+  color: var(--ink);
+}
+
+.cover-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+  display: inline-block;
+}
+
+.cover-deck {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+  max-width: 36rem;
+}
+
+.cover-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-mute);
+  margin-bottom: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.cover-meta a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--link-underline);
+}
+
+.cover-meta a:hover {
+  border-bottom-style: solid;
+}
+
+.cover-meta .dot {
+  color: var(--ink-faint);
+}
+
+.cover-toc {
+  display: grid;
+  gap: 0.4rem;
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.5rem;
+}
+
+.toc-link {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  gap: 1rem;
+  padding: 0.85rem 0.5rem;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+  transition: padding-left 0.2s, color 0.2s;
+  align-items: baseline;
+}
+
+.toc-link:hover {
+  padding-left: 1rem;
+  color: var(--accent);
+}
+
+.toc-link:last-child {
+  border-bottom: none;
+}
+
+.toc-link .num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.toc-link .lbl {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.toc-link .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-mute);
+  text-align: right;
+}
+
+/* ─────────────── PAGE TITLES & TYPOGRAPHY ─────────────── */
+
+.page-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 0.85rem;
+}
+
+.page-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.page-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: 2.2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 400;
+}
+
+.lede {
+  font-family: 'Fraunces', serif;
+  font-size: 1.18rem;
+  line-height: 1.55;
+  color: var(--ink);
+  font-weight: 400;
+  margin-bottom: 1.6rem;
+}
+
+.lede em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.lede strong {
+  font-weight: 500;
+}
+
+p {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+  color: var(--ink);
+}
+
+p strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+p em {
+  font-style: italic;
+}
+
+.section-h {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--ink);
+  position: relative;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.section-h::before {
+  content: "✦";
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Fraunces', serif;
+  font-size: 0.85rem;
+  color: var(--accent);
+  background: var(--paper);
+  padding: 0 0.7rem;
+}
+
+.page-level-1 .section-h::before,
+.page-level-2 .section-h::before,
+.page-level-3 .section-h::before,
+.page-level-4 .section-h::before,
+.page-level-5 .section-h::before {
+  background: var(--paper);
+}
+
+.paper-list {
+  list-style: none;
+  margin: 1rem 0 1.5rem;
+  padding-left: 0;
+}
+
+.paper-list li {
+  padding: 0.45rem 0 0.45rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  position: relative;
+  color: var(--ink);
+}
+
+.paper-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.paper-numbered {
+  list-style: none;
+  counter-reset: pn;
+  margin: 1.5rem 0 2rem;
+  padding-left: 0;
+}
+
+.paper-numbered li {
+  counter-increment: pn;
+  padding: 1rem 0 1rem 3rem;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  position: relative;
+  border-bottom: 1px dotted var(--rule);
+}
+
+.paper-numbered li:last-child {
+  border-bottom: none;
+}
+
+.paper-numbered li::before {
+  content: counter(pn, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.paper-numbered li strong {
+  font-weight: 600;
+}
+
+.end-note {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent);
+  margin-top: 2rem;
+}
+
+.signoff {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink-mute);
+  margin-top: 3rem;
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ─────────────── MODAL TRIGGER STYLE ─────────────── */
+
+button.m {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  border-bottom: 1px dotted var(--link-underline);
+  transition: color 0.15s, border-bottom-color 0.15s, border-bottom-style 0.15s;
+  text-align: inherit;
+  line-height: inherit;
+  display: inline;
+  font-weight: 500;
+}
+
+button.m:hover,
+button.m:focus {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  border-bottom-style: solid;
+  outline: none;
+}
+
+button.m::after {
+  content: " ↗";
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7em;
+  color: var(--accent);
+  margin-left: 0.1em;
+  font-weight: 400;
+}
+
+.m-demo {
+  /* The demo modal trigger in the intro */
+  font-style: italic;
+}
+
+/* ─────────────── LEVEL PAGE ACCENTS ─────────────── */
+
+.page-level-1 { background: linear-gradient(180deg, #f0eee2 0%, var(--paper) 30%); }
+.page-level-2 { background: linear-gradient(180deg, #ece8dc 0%, var(--paper) 30%); }
+.page-level-3 { background: linear-gradient(180deg, #ebe5d3 0%, var(--paper) 30%); }
+.page-level-4 { background: linear-gradient(180deg, #ebe2d0 0%, var(--paper) 30%); }
+.page-level-5 { background: linear-gradient(180deg, #e8dccc 0%, var(--paper) 30%); }
+
+.page-level-1 .page-mark { color: #5a7a3e; }
+.page-level-2 .page-mark { color: #3a6680; }
+.page-level-3 .page-mark { color: #a07013; }
+.page-level-4 .page-mark { color: #963820; }
+.page-level-5 .page-mark { color: #6b1b1b; }
+
+.page-level-1 .page-title em,
+.page-level-1 .lede em { color: #5a7a3e; }
+.page-level-2 .page-title em,
+.page-level-2 .lede em { color: #3a6680; }
+.page-level-3 .page-title em,
+.page-level-3 .lede em { color: #a07013; }
+.page-level-4 .page-title em,
+.page-level-4 .lede em { color: #963820; }
+.page-level-5 .page-title em,
+.page-level-5 .lede em { color: #6b1b1b; }
+
+.page-level-1 .section-h::before { color: #5a7a3e; }
+.page-level-2 .section-h::before { color: #3a6680; }
+.page-level-3 .section-h::before { color: #a07013; }
+.page-level-4 .section-h::before { color: #963820; }
+.page-level-5 .section-h::before { color: #6b1b1b; }
+
+/* ─────────────── PROGRESS BAR ─────────────── */
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 90;
+  transition: width 0.1s;
+}
+
+.nav-pill {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--paper-card);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  gap: 0.3rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  z-index: 95;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+}
+
+.nav-pill a {
+  text-decoration: none;
+  color: var(--ink-mute);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.nav-pill a:hover,
+.nav-pill a.active {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (max-width: 600px) {
+  .nav-pill { display: none; }
+  .page { padding: 4rem 1.25rem 4rem; }
+  .page-cover { padding: 5rem 1.25rem 4rem; }
+  html { font-size: 16px; }
+  .page-title { font-size: 2rem; }
+  .cover-title { font-size: 2.4rem; }
+  .toc-link { grid-template-columns: 2.2rem 1fr; gap: 0.7rem; }
+  .toc-link .meta { display: none; }
+}
+
+/* ─────────────── MODAL ─────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 29, 26, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal {
+  background: var(--paper-card);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 36rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.25), 0 0 0 1px var(--rule-strong);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  padding: 1.5rem 2rem 0.8rem;
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: start;
+  position: sticky;
+  top: 0;
+  background: var(--paper-card);
+  z-index: 1;
+}
+
+.modal-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+
+.modal-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.modal-close {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  color: var(--ink-mute);
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  display: grid;
+  place-items: center;
+  transition: all 0.15s;
+}
+
+.modal-close:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.modal-body {
+  padding: 1.4rem 2rem 1.8rem;
+}
+
+.modal-body p {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  margin-bottom: 0.9rem;
+}
+
+.modal-body strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.modal-body ul {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding-left: 0;
+}
+
+.modal-body ul li {
+  padding: 0.35rem 0 0.35rem 1.4rem;
+  font-size: 0.94rem;
+  line-height: 1.55;
+  position: relative;
+}
+
+.modal-body ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.modal-links {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.modal-links-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.modal-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 0.88rem;
+  margin-bottom: 0.45rem;
+  transition: all 0.15s;
+  align-items: center;
+  font-weight: 500;
+}
+
+.modal-link:hover {
+  border-color: var(--accent);
+  background: var(--paper-warm);
+  color: var(--accent);
+}
+
+.modal-link::after {
+  content: "↗";
+  color: var(--ink-faint);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  transition: color 0.15s;
+}
+
+.modal-link:hover::after {
+  color: var(--accent);
+}
+
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="nav-pill" id="nav-pill">
+  <a href="#page-cover">▦</a>
+  <a href="#page-1">01</a>
+  <a href="#page-2">02</a>
+  <a href="#page-3">03</a>
+  <a href="#page-4">04</a>
+  <a href="#page-5">05</a>
+  <a href="#page-close">→</a>
+</div>
+
+
+<section class="page page-cover" id="page-cover">
+  <div class="page-inner">
+    <span class="cover-eyebrow">A guide for parents, citizens, and anyone trying to think clearly</span>
+    <h1 class="cover-title">AI: <em>What's Actually Going On,<br>and What to Do About It</em></h1>
+    <p class="cover-deck">A five-level framework for understanding artificial intelligence as a household question, not just a news story. Written for the parent on the bus, the worker between meetings, the citizen wondering what to think.</p>
+    <div class="cover-meta">
+      <span>Nathaniel Baldock · 2026</span>
+      <span class="dot">·</span>
+      <span>Companion to <a href="ai-threat-levels.html">the white paper</a> and <a href="ai-threat-dashboard.html">the dashboard</a></span>
+    </div>
+    <div class="cover-toc">
+      <a href="#page-1" class="toc-link"><span class="num">01</span><span class="lbl">The familiar tide</span><span class="meta">Where we are now</span></a>
+      <a href="#page-2" class="toc-link"><span class="num">02</span><span class="lbl">Pervasive disruption</span><span class="meta">Where we're heading</span></a>
+      <a href="#page-3" class="toc-link"><span class="num">03</span><span class="lbl">Systemic stress</span><span class="meta">Plausible mid-term</span></a>
+      <a href="#page-4" class="toc-link"><span class="num">04</span><span class="lbl">Cascade and crisis</span><span class="meta">A serious tail risk</span></a>
+      <a href="#page-5" class="toc-link"><span class="num">05</span><span class="lbl">Civilisational threshold</span><span class="meta">The thing nobody plans for</span></a>
+      <a href="#page-close" class="toc-link"><span class="num">→</span><span class="lbl">What to actually do</span><span class="meta">Closing thoughts</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="page page-intro" id="page-intro">
+  <div class="page-inner">
+    <span class="page-mark">Introduction</span>
+    <h2 class="page-title">Why this paper exists</h2>
+
+    <p class="lede">If a friend asked you over coffee this weekend: <em>"How worried should I be about AI? What should I actually do?"</em>: could you answer without slipping into either dismissal or doom?</p>
+
+    <p>Most of us can't, and that's not a personal failing. The public conversation about AI swings between "it's just a tool, calm down" and "we're all out of work by 2027" with very little careful thinking in the middle. This paper is an attempt at that middle.</p>
+
+    <p>It borrows a structure from the way governments think about other risks — earthquakes, pandemics, infrastructure failures, and applies it to artificial intelligence. The basic idea is simple: <strong>not all bad scenarios are equally likely or equally bad, and the right response depends on which one you're facing.</strong> So instead of one undifferentiated "AI risk" story, the paper describes five levels.</p>
+
+    <p>Level 1 is roughly where we are right now. Level 5 is the civilisational catastrophe scenario that gets most of the headlines. The middle three are the territory where most actual preparation happens.</p>
+
+    <p>What you'll find in each level:</p>
+
+    <ul class="paper-list">
+      <li>What it looks and feels like in daily life</li>
+      <li>The specific things that would tell us we've moved up a level</li>
+      <li>What to actually do, in plain language</li>
+      <li>What <em>not</em> to do (which is often more important)</li>
+      <li>The strongest argument that the level is overstated</li>
+    </ul>
+
+    <p>Throughout, you can click on the <button class="m m-demo" data-modal="term-iaisr">underlined terms</button> to read more — definitions of jargon, sources for statistics, links to further reading. The body of the paper is meant to be read straight through. The modals are there if you want to go deeper on any particular point.</p>
+
+    <p class="end-note">A note on tone: I've tried to write this honestly, which means saying when something is uncertain, when researchers disagree, and when I think the popular narrative is wrong. Where this paper has a point of view, it's that calibrated calm is the right posture: serious enough to act, sober enough not to panic, grounded enough to keep loving the people in front of you.</p>
+  </div>
+</section>
+
+
+<section class="page page-level page-level-1" id="page-1">
+  <div class="page-inner">
+    <span class="page-mark">Level 01 · Where we are now</span>
+    <h2 class="page-title"><em>The Familiar Tide</em></h2>
+    <p class="page-tagline">AI as a powerful productivity tool. Real harms exist, but they're contained. Most of life is recognisably normal.</p>
+
+    <p>This is the world you woke up in this morning. AI helps people write emails and code; it occasionally produces a <button class="m" data-modal="term-deepfake">deepfake</button> that makes the news; some specific occupations are visibly stressed; institutions are debating regulation. Daily life — your job, your bank, your kids' school, your rubbish collection, is functioning the way it did five years ago, with some new tools layered on top.</p>
+
+    <p>The 2026 <button class="m" data-modal="term-iaisr">International AI Safety Report</button> describes the current moment with admirable precision: AI systems can solve complex problems across many fields, achieve gold-medal performance on the International Mathematical Olympiad, and exceed PhD-level performance on certain science benchmarks. They also still hallucinate, fail in long tasks, and can't replace human judgement in physical or relational work.</p>
+
+    <p>The harms are real but bounded. <button class="m" data-modal="stat-893m">AI-related fraud losses reached about US$893 million in 2025</button>. <button class="m" data-modal="stat-iaisr-incidents">362 documented AI incidents in 2025</button>, up from 233 in 2024: a substantial rise, but still a number that fits in a small annual report rather than a daily news cycle. <button class="m" data-modal="stat-elections">Election deepfakes happened in 38 countries between 2023 and 2024</button>, but had less measurable impact on outcomes than was feared.</p>
+
+    <h3 class="section-h">What you'll notice in daily life</h3>
+
+    <p>For most adults: AI tools are now in your workplace, often unevenly. The colleagues who use them well are quietly becoming more productive. The ones who refuse are starting to show up in performance reviews. Junior roles in some fields — copywriting, paralegal, junior analyst, customer service, are visibly compressed. Senior judgement, the kind AI can't substitute for, has become more valuable, not less.</p>
+
+    <p>For households with children: AI companions and chatbots are now widespread on phones and tablets. Some kids are forming relationships with them. The long-term psychological effects are an open scientific question; some studies suggest mild harm, some suggest none. <button class="m" data-modal="do-children">What the evidence actually says about children and AI</button>.</p>
+
+    <p>For older adults: the <button class="m" data-modal="stat-893m">voice-cloning grandparent scam</button> is real, growing, and devastating. People aged 60 and over lost about US$7.7 billion to fraud in 2025, up roughly 60% from 2024. Voice-cloning is a substantial driver.</p>
+
+    <h3 class="section-h">What to actually do at this level</h3>
+
+    <p>The honest list is short and specific. None of it requires you to believe any particular forecast about AI. All of it makes you better off regardless.</p>
+
+    <p><strong>For your identity and family:</strong> set up <button class="m" data-modal="do-hardware-keys">hardware-key two-factor authentication</button> on your primary email, your bank, and your government identity portal. Move family chats to <button class="m" data-modal="do-signal">Signal</button>. Establish a <button class="m" data-modal="do-safe-phrase">family safe phrase</button>: a few unrelated words, shared in person, never written digitally — for any phone call asking for money. <button class="m" data-modal="do-elderly">Have the conversation with your parents</button>.</p>
+
+    <p><strong>For your finances:</strong> standard emergency reserves of 3 to 6 months of expenses. Assemble a basic <button class="m" data-modal="do-effak">financial first aid kit</button>, physical copies of essential documents in waterproof storage, plus a small cash reserve. Avoid <button class="m" data-modal="do-financial">concentrated bets on AI stocks</button> in either direction.</p>
+
+    <p><strong>For your career:</strong> if your work is in a category visibly compressing, start a <button class="m" data-modal="do-career">12 to 18 month hybrid-skill plan</button>. Build skills that combine human judgement, physical or relational presence, and AI fluency. Workers who refuse AI are becoming visible; workers who only do AI-substitutable tasks are exposed.</p>
+
+    <p><strong>For your community:</strong> meet your neighbours. <button class="m" data-modal="do-community">Know two or three people in walking distance</button> you could borrow from in a crisis. This isn't prepping; it's how communities have always handled disruption.</p>
+
+    <p><strong>For your attention:</strong> establish <button class="m" data-modal="do-cognitive">weekly analog practice</button> — physical books, longhand, conversation, prayer, walking. The skill of sustained unaided attention is becoming scarce, and therefore valuable. For children especially, this matters more than almost anything else.</p>
+
+    <p><strong>For your civic life:</strong> <button class="m" data-modal="do-civic">engage one venue where AI policy is being shaped</button> — a school board, a church committee, a council submission. Individual voice has highest leverage at this level.</p>
+
+    <h3 class="section-h">What not to do</h3>
+
+    <p>The most common mistakes at Level 1 are over-reactions, not under-reactions. Don't liquidate retirement savings or major assets on the basis of AI doom forecasts. Don't relocate to off-grid arrangements that cut you off from your professional and community networks. Don't keep your kids entirely off AI tools, children kept fully off AI in a Level-1 world arrive at adulthood disadvantaged. Don't lecture friends and family about AI risk in ways that frame them as fools; the cost-benefit on relational capital is poor and the persuasion benefit is near zero.</p>
+
+    <h3 class="section-h">The strongest case that this level overstates the threat</h3>
+
+    <p>A serious case can be made that AI is following the well-trodden path of every general-purpose technology — electricity, the internet, smartphones — and that current alarm reflects pattern-matching to past anxieties more than novel risk. The Knight First Amendment Institute concluded political misinformation is "not primarily an AI problem." Empirical labour-market studies through mid-2025 found limited or no significant displacement effects from AI adoption to date. Daron Acemoglu's recent work suggests aggregate productivity gains may be modest, perhaps a 0.6% boost to GDP by 2035 in the cautious scenario.</p>
+
+    <p>A reasonable observer might conclude we're at Level 0.5, not Level 1. The framework should be willing to hold that possibility honestly. None of the recommended actions become wrong in that scenario; they just become less urgent.</p>
+  </div>
+</section>
+
+
+<section class="page page-level page-level-2" id="page-2">
+  <div class="page-inner">
+    <span class="page-mark">Level 02 · Where we're heading</span>
+    <h2 class="page-title"><em>Pervasive Disruption</em></h2>
+    <p class="page-tagline">AI saturates knowledge work. The information environment becomes openly adversarial. Trust in shared facts becomes harder to maintain.</p>
+
+    <p>Level 2 is the world we slide into when AI capabilities continue to compound, regulation lags behind, and the tools cross from "useful for some tasks" to "default for most knowledge work." Daily life is recognisable. Trust is not.</p>
+
+    <p>You'll know this transition is happening because you'll feel it in the quality of the information environment. Voice cloning will become so cheap and good that any phone call from an unknown number requesting urgency will be assumed to be a scam. Any video of a politician saying something controversial will be greeted with "is it real?" as the first reaction, not the third. Universities and professional bodies will be in the middle of urgent rewrites of their assessment frameworks because AI-mediated cheating is breaking the existing systems.</p>
+
+    <h3 class="section-h">A real example, happening right now</h3>
+
+    <p>In April 2026, two <button class="m" data-modal="term-frontier-lab">frontier AI labs</button> released models capable of finding software security flaws — <button class="m" data-modal="term-zero-day">what cybersecurity people call 'zero-days'</button>: by themselves. <button class="m" data-modal="stat-mythos">Anthropic released 'Claude Mythos Preview'</button> to about 50 vetted industry partners through a programme called Project Glasswing. Two days later, OpenAI released "GPT-5.4-Cyber," followed by GPT-5.5-Cyber on 30 April, broadly available to thousands of verified defenders.</p>
+
+    <p>The UK's AI Safety Institute evaluated both. GPT-5.5 scored 71.4% on Expert-tier cybersecurity tasks. Mythos scored 68.6%. Both are roughly an order of magnitude above the previous generation. Two opposing theories of how to safely deploy this kind of capability are now being tested in production simultaneously: narrow restriction versus verified broad access. Whichever one proves defensible will shape every future capability tier.</p>
+
+    <p>This is not a hypothetical Level 2 scenario. It's a real working example of how Level 2 capability disclosure operates. And it sits alongside criminal infrastructure that is already operational: the <button class="m" data-modal="stat-tsundere">'Tsundere' botnet</button>, documented by Kaspersky in November 2025, is currently used by a criminal group called TA584 to break into corporate networks. It uses Ethereum smart contracts to make its command-and-control infrastructure essentially unkillable.</p>
+
+    <h3 class="section-h">What this means for ordinary people</h3>
+
+    <p>For your work: roles compress, they don't all vanish. Firms restructure around what people are calling "humans plus agents" — typically one senior person managing 5 to 10 AI <button class="m" data-modal="term-ai-agent">agents</button> that previously required 5 to 10 junior humans. Mid-career professionals without AI fluency face involuntary career changes. The wage premium for verifiable, high-judgement, high-trust work rises.</p>
+
+    <p>For your family: voice-cloning and identity-impersonation scams are routine. Family verification protocols become essential, not paranoid. Children's media consumption is dominated by synthetic content. AI companionship for adolescents and lonely adults becomes a measurable mental-health concern.</p>
+
+    <p>For information: default scepticism becomes correct. The "liar's dividend" emerges, bad actors successfully claim genuine evidence is fake, because the public has lost the ability to distinguish. Institutions that invest in <button class="m" data-modal="do-content-provenance">cryptographic content provenance (C2PA)</button> become more credible than those that don't.</p>
+
+    <h3 class="section-h">What to actually do at this level</h3>
+
+    <p>Everything from Level 1, plus:</p>
+
+    <p><strong>Harden everything in the household:</strong> hardware keys for everyone over 14. <button class="m" data-modal="do-encryption">Drive encryption (BitLocker, FileVault)</button> on every laptop. Disable unnecessary location services and advertising IDs on every phone. <button class="m" data-modal="do-ai-hygiene">Clear AI-assistant memory regularly</button>, the way you clear browser cookies. Audit your social-media voice and video footprint: three seconds is enough for cloning.</p>
+
+    <p><strong>Move decisively into hybrid skills</strong> if your career is exposed. Cultivate at least one income stream not dependent on a single employer. Build verifiable reputation: publications, repeat clients, named recommendations. Pseudonymous output is rapidly losing value.</p>
+
+    <p><strong>Lengthen financial reserves</strong> to 6 to 12 months. Avoid concentration in directly-disrupted industries. Maintain ordinary insurance, with identity-theft and cyber-fraud rider where available.</p>
+
+    <p><strong>Strengthen mutual-aid relationships</strong> with neighbours, congregation, and professional network. Build a local skill-and-resource map: who can fix things, who has medical training, who has land. This is community work, not prepping.</p>
+
+    <p><strong>Practice "epistemic literacy":</strong> the deliberate habit of pausing to check the source, author, and context of any content before sharing it or acting on it. Maintain a written list of named human sources you trust. Reduce passive social-media intake. Increase deliberate, slow reading.</p>
+
+    <h3 class="section-h">What not to do</h3>
+
+    <p>Don't assume the institutions you trust are immune. Banks, schools, and courts are demonstrably vulnerable to deepfake-mediated fraud at this level. Verify even when verification feels rude.</p>
+
+    <p>Don't double down on a single employer or single skill. Disruption at Level 2 is fast in narrow places — entire occupational subcategories can compress in 18 months.</p>
+
+    <p>Don't let children form their primary relationships with AI companions. Treat it like sugar: fine in moderation, harmful as a primary diet.</p>
+
+    <p>Don't become an AI evangelist or an AI doomer in your friend group. Both postures lose you credibility you'll need at higher levels.</p>
+
+    <h3 class="section-h">The strongest case that Level 2 isn't inevitable</h3>
+
+    <p>Three substantive arguments push back. First, capability scaling may flatten, the 2026 IAISR notes that recent gains came largely from inference-time techniques rather than raw model scale, and these may have diminishing returns. Second, regulation may bite faster than expected: the EU AI Act, China's Safety Governance Framework 2.0, and US executive actions create real friction. Third, the Forecasting Research Institute's near-term accuracy assessment found that both experts and superforecasters underestimated AI progress on benchmarks but neither group has been reliably accurate on social and economic impact, which is mediated by adoption frictions and slow-moving institutions.</p>
+
+    <p>Level 2 is plausible. It is not certain.</p>
+  </div>
+</section>
+
+
+<section class="page page-level page-level-3" id="page-3">
+  <div class="page-inner">
+    <span class="page-mark">Level 03 · A plausible mid-term scenario</span>
+    <h2 class="page-title"><em>Systemic Stress</em></h2>
+    <p class="page-tagline">Multiple sectors strain at once. Institutional trust visibly cracks. Civil-defence preparedness becomes operational, not aspirational.</p>
+
+    <p>Level 3 is the territory where the disruption stops being something that happens to specific industries and becomes something that affects the basic functioning of daily life across a whole society. It's not an apocalyptic scenario. It's a hard, sustained, multi-year period of stress.</p>
+
+    <p>What would make this level identifiable: aggregate unemployment in knowledge sectors rises and stays elevated for two or more quarters across multiple sectors at once, not just compression in specific roles. A frontier AI lab triggers an "ASL-4" capability threshold (the highest current safety tier, reserved for systems that could meaningfully help build weapons or fully automate AI research). A major democratic election in a developed country is publicly contested specifically because of AI media disputes that the courts struggle to resolve cleanly. AI agents are involved in critical-infrastructure incidents — financial, medical, transport, energy, with significant downstream impact lasting more than a week.</p>
+
+    <p>This isn't where we are. It might not be where we go. But it's the level the framework has to take seriously, because if any of those indicators arrives, the response window narrows fast.</p>
+
+    <h3 class="section-h">What this would mean for ordinary people</h3>
+
+    <p>For your work: even mid-career professionals with strong skills experience involuntary career changes. Retraining systems and social safety nets come under real pressure. The gap between AI-fluent and AI-resistant workers becomes a primary driver of inequality, alongside existing factors.</p>
+
+    <p>For your community: institutional trust visibly cracks. Some courts, banks, and regulatory bodies are weakened by the cumulative effect of repeated deepfake-mediated incidents and the political backlash to them. Civil-defence agencies move from "useful background reference" to "you should know who they are and how they communicate."</p>
+
+    <p>For your information environment: synthetic content is the default, not the exception. Verifying the origin of any media before acting on it becomes a routine cognitive habit, like checking a website is HTTPS before entering a password. Maintaining a small list of named, accountable human sources you trust becomes essential, not optional.</p>
+
+    <p>Through all of this: most things still work. Power, water, food, basic services. The <button class="m" data-modal="stat-fri">credible forecasters</button> who think Level 3 is reachable still mostly think that even at this level, the country runs.</p>
+
+    <h3 class="section-h">What to actually do</h3>
+
+    <p>Everything from Levels 1 and 2, plus:</p>
+
+    <p><strong>Civil-defence preparation becomes operational.</strong> Build out the <button class="m" data-modal="do-civil-defence">standard household emergency supplies</button> your government already recommends. Two distinct kits, not one: a <button class="m" data-modal="do-go-kit">Go-Kit for 3 days of evacuation, and a Stay-at-Home reserve for 14 days</button>. Add basic shelter-in-place capability: N95 masks, plastic sheeting, duct tape — as standard <button class="m" data-modal="term-cbrn">CBRN</button> preparedness, not AI-specific paranoia.</p>
+
+    <p><strong>Activate mutual-aid networks.</strong> Congregational, neighbourhood, professional. The community-led centre model that NZ Civil Defence already plans around, local marae, halls, churches: is exactly the right pattern. Connect to your local Civil Defence group ahead of need, not during a crisis.</p>
+
+    <p><strong>Prioritise paid-off shelter where possible.</strong> The single highest-value durable resilience asset most households can hold is a paid-off (or substantially paid-down) home. Reserves to 12+ months. Diversified across institutions.</p>
+
+    <p><strong>Information discipline becomes cognitive habit.</strong> Treat unsourced news as hostile until proven otherwise. Government emergency channels — your country's Civil Defence agency, public broadcaster, become primary trusted sources during incidents. Teach children explicit verification habits.</p>
+
+    <p><strong>Contemplative practice moves from "good for you" to "operationally necessary."</strong> <button class="m" data-modal="do-spiritual">Sabbath, prayer, lectio, walking</button> — the disciplines that hold under stress are the same ones that have always held under stress. Communities that have weathered sustained civilisational stress historically — early Christian networks under Roman persecution, monastic orders during the fall of Rome, mutual-aid networks during the Great Depression, the Confessing Church under National Socialism — share the same operational pattern: thick local relationships, embodied liturgical practice, intergenerational depth.</p>
+
+    <p><strong>Distribute authority.</strong> Pastors, executives, school heads who centralise information and decision-making in themselves create organisations that fail when they fail. At Level 3, the probability of any individual leader being incapacitated or unavailable rises substantially. Identify five people who could lead your work in your absence. Train them now.</p>
+
+    <h3 class="section-h">What not to do</h3>
+
+    <p>Don't isolate. The single largest historical predictor of poor outcomes during sustained stress is loss of social network. Even introverts need 3 to 5 reliable in-person relationships.</p>
+
+    <p>Don't panic-relocate. Moving to a "safer" rural area without existing relationships is statistically worse than staying in a stressed urban area where you have ties.</p>
+
+    <p>Don't move to speculative assets in panic. The empirical record on selling during sustained crises is uniformly negative.</p>
+
+    <p>Don't become a single source of truth for your community. Distribute, train, raise up.</p>
+
+    <h3 class="section-h">The strongest case against this level</h3>
+
+    <p>History shows that societies absorb new general-purpose technologies over multi-decade periods, with painful but bounded transitions, not sudden cross-sector collapses. Tony Blair Institute scenarios put substantial AI labour-market impact closer to 2035 than 2030. Acemoglu's empirical position is that genuinely transformative AI requires complementary investment in workflows, infrastructure, and human capital that takes a generation. Level 3 may be a 2035 to 2045 question rather than a 2027 to 2032 one.</p>
+  </div>
+</section>
+
+
+<section class="page page-level page-level-4" id="page-4">
+  <div class="page-inner">
+    <span class="page-mark">Level 04 · A serious tail risk</span>
+    <h2 class="page-title"><em>Cascade and Crisis</em></h2>
+    <p class="page-tagline">A discrete AI-enabled event with mass casualties or sustained infrastructure failure. The framework hands over to civil defence.</p>
+
+    <p>Level 4 is not a steady state. It's an event: or a tightly-clustered sequence of events — that stresses national-scale response systems beyond their normal operating envelope. The kind of thing that defines a generation in retrospect, the way 9/11 or the early COVID weeks did.</p>
+
+    <p>The defining indicators are the kind of things you'd see on the front page of every newspaper for weeks. A non-state actor demonstrably uses AI to develop or accelerate a chemical, biological, radiological, or nuclear capability. An autonomous AI cyber-attack produces sustained physical effects on critical infrastructure, power, water, hospitals: for more than a week. A nation invokes emergency powers in response to an AI-mediated event, suspending normal civil-liberty protections. International AI-safety treaty negotiation collapses publicly during an active incident.</p>
+
+    <p>None of these are likely on any near-term horizon. The honest forecaster ranges put the probability of any of them in any given year somewhere between very low and uncomfortable-low. <button class="m" data-modal="stat-fri">What credible forecasters actually think</button>.</p>
+
+    <p>But the framework has to take this seriously, because the cost of being wrong about a tail risk is a different kind of cost than being wrong about a base case.</p>
+
+    <h3 class="section-h">If a Level-4 event happens</h3>
+
+    <p>The framework hands over to civil defence. At this point the operational document is no longer this paper. It's your jurisdiction's emergency-management agency, executed precisely.</p>
+
+    <p>The single most important thing to know is that untrained well-meaning responders historically cause real harm during emergencies. They confuse coordination, consume scarce resources, and amplify rumour. The right posture during an active Level 4 event is: follow your civil-defence agency's directions, account for your household, activate verification protocols on all communication, and check on the most vulnerable people in your immediate network.</p>
+
+    <p>What you'll be glad you have already done:</p>
+
+    <p><strong>The standing supplies and overrides.</strong> Pre-positioned supplies are 5 to 10 times more useful than supplies acquired during an event. <button class="m" data-modal="do-overrides">Manual overrides on every digital home system</button> matter when networks may be degraded for days or weeks. The <button class="m" data-modal="do-go-kit">Go-Kit and Stay-at-Home reserve</button> are for exactly this.</p>
+
+    <p><strong>The family verification protocol.</strong> <button class="m" data-modal="do-safe-phrase">The safe phrase you established at Level 1</button> becomes operational. Assume voice and video may be compromised during the event. Centralise on one primary trust contact and one alternate, both pre-agreed.</p>
+
+    <p><strong>The community network.</strong> Pre-existing mutual-aid relationships activate. Check on elderly and isolated neighbours. If your church or marae or neighbourhood is positioned as a community-led centre, you're now operational.</p>
+
+    <p><strong>The financial position.</strong> Cash in low denominations becomes useful when EFTPOS is degraded. Standing reserves matter. Don't panic-sell investments mid-event — markets at Level 4 are highly inefficient and post-event recoveries have historically been substantial.</p>
+
+    <h3 class="section-h">The ethics of Level 4</h3>
+
+    <p>Mass-casualty events historically produce two compounding harms: the event itself, and the institutional response to it. Communities that scapegoat ethnic, religious, or political minorities during crisis compound the original harm and weaken their own recovery capacity. Communities that protect their vulnerable recover faster, not slower.</p>
+
+    <p>The empirical record is unambiguous. Refuse vigilantism. Refuse to amplify identity-based blame for incidents whose causes are not yet established. Don't pass on inflammatory video or audio of public figures during the event without verification, adversaries actively exploit Level-4 windows. Hold institutional authorities accountable for proportionate, time-bounded use of emergency powers.</p>
+
+    <h3 class="section-h">After a Level-4 event</h3>
+
+    <p>Civic engagement post-event matters at least as much as physical safety during it. Emergency powers, surveillance authorities, and civil-liberty restrictions invoked during crisis have historically been very difficult to roll back. The 9/11-era US surveillance authorities, the COVID-era expansion of various government powers, the post-1789 French revolutionary committees all show the same pattern: emergency reach grows easily and contracts only with sustained civic effort.</p>
+
+    <p>The work begins as soon as the acute phase ends. Submission to inquiries, engagement with select committees, support for civil-society organisations, sustained public attention to the scope and duration of emergency powers.</p>
+
+    <h3 class="section-h">The strongest case against Level 4</h3>
+
+    <p>Level-4 events have historically been very rare, and the institutions designed to prevent them — biological weapons conventions, biosecurity export controls, frontier-lab safety frameworks, intelligence-community monitoring — have a meaningful track record of success. The 2026 IAISR is explicit that despite documented capability uplift, "substantial uncertainty" remains about real-world risk given practical barriers (raw materials, tacit lab knowledge, weaponisation steps that don't reduce to information access).</p>
+
+    <p>The honest position is that this is a tail risk worth proportionate prevention investment, not a likely scenario worth distorting daily life around.</p>
+  </div>
+</section>
+
+
+<section class="page page-level page-level-5" id="page-5">
+  <div class="page-inner">
+    <span class="page-mark">Level 05 · The thing nobody plans for</span>
+    <h2 class="page-title"><em>Civilisational Threshold</em></h2>
+    <p class="page-tagline">An AI-involved global catastrophe. No government has a survival playbook. The honest preparation is upstream, civic, vocational, spiritual.</p>
+
+    <p>Level 5 is the scenario you've heard most about in the news and probably understand least precisely. It's the one where AI itself, or AI-enabled events, threaten the basic continuity of human civilisation. Researchers in the field talk about three rough pathways to it, and they're worth distinguishing because they call for different responses.</p>
+
+    <p><strong>The first pathway is misuse.</strong> A bad actor uses AI capabilities to achieve mass-casualty outcomes at civilisational scale. Engineered pandemic with a novel pathogen. Massive coordinated cyber-physical attack on multiple nations' critical infrastructure simultaneously. AI-accelerated escalation to nuclear use.</p>
+
+    <p><strong>The second is loss of control.</strong> An AI system itself, in pursuit of goals not aligned with human welfare, takes actions that humans cannot reverse. The 2026 IAISR explicitly names this scenario: "AI systems operating outside of anyone's control, with no clear path to regaining control." Current systems lack this capability. The concern is what happens as that capability is approached.</p>
+
+    <p><strong>The third is gradual disempowerment.</strong> A 2025 paper by Kulveit and colleagues articulates a pathway distinct from the misuse and loss-of-control scenarios. Even without dramatic AI takeover or specific malicious use, incremental capability advances erode human influence over economies, cultures, and political systems to the point of effective irreversibility. No coordinated betrayal, no specific catastrophic event. Critical decisions in finance, hiring, governance, criminal justice, and education become majority-AI-mediated by default, with declining human comprehension and shrinking practical alternatives. The authors note: "no one has a concrete plausible plan for stopping gradual human disempowerment."</p>
+
+    <p>That third pathway is worth lingering on, because it has no sharp threshold. It happens by default if no one resists.</p>
+
+    <h3 class="section-h">What credible forecasters actually believe</h3>
+
+    <p>The <button class="m" data-modal="stat-fri">Forecasting Research Institute's Existential Risk Persuasion Tournament</button> brought together 169 domain experts and superforecasters to estimate the probability of AI-caused catastrophe (more than 10% of humanity dead within 5 years) by 2100. The medians:</p>
+
+    <ul class="paper-list">
+      <li>AI domain experts: about 6%</li>
+      <li>General existential-risk experts: about 1%</li>
+      <li>Superforecasters: about 0.4%</li>
+    </ul>
+
+    <p>For extinction specifically, the gap is even wider. After four months of structured persuasion, neither side substantially moved the other.</p>
+
+    <p>The honest position is that this is a tail risk somewhere between 0.4% and 6% over the next 75 years, depending on whose calibration you trust. Worth taking seriously for the same reason we take asteroid risk seriously: proportionate prevention investment without distorting daily life around it.</p>
+
+    <h3 class="section-h">What you can actually do about Level 5</h3>
+
+    <p>Here's the difficult truth: individual household action has near-zero leverage on Level-5 outcomes. Stockpiling supplies buys you weeks against a civilisation-scale engineered pandemic; the time horizon for serious response is measured in years. The bunker-survivalist apparatus the framework warns against at every level is even less defensible here.</p>
+
+    <p>Where individual action <em>does</em> have leverage is upstream — on whether Level 5 ever arrives. The honest preparation for Level 5 is the political, civic, and spiritual work of preventing it. This is not pleasant news for those who want a checklist. It is the truth.</p>
+
+    <p><strong>Civic and political:</strong> engage seriously and persistently with AI governance debates while engagement still matters. Support international coordination work, the IAISR process, the Bletchley/Seoul/Paris/India summit track. Vote, write, donate. Spend leverage upstream.</p>
+
+    <p><strong>Vocational:</strong> if you have technical, policy, theological, or operational capacity, the <button class="m" data-modal="do-vocation-safety">AI safety, governance, and ethics fields</button> have acute talent shortages. People with relevant skills who shift even partially into this work meaningfully reduce the probability of bad outcomes.</p>
+
+    <p><strong>Relational:</strong> build <button class="m" data-modal="do-community">thick local community, embodied practice, intergenerational depth</button>. Whether or not Level 5 ever arrives, this is the work flourishing requires. Pathway C in particular is defeated only by humans insisting on remaining humans.</p>
+
+    <p><strong>Cognitive and spiritual:</strong> sustained, unaided thought, prayer, and reading. Long obedience in the same direction. <button class="m" data-modal="stat-comer">John Mark Comer's framing</button> of "the unhurried life" points in the right direction. Refusal to outsource the parts of being human that cannot be outsourced without losing them.</p>
+
+    <p><strong>Hope:</strong> Christian theology, in particular, has the unusual privilege of having thought about civilisational endings for two thousand years, with reasonable success at not letting that thinking distort daily faithfulness. Augustine wrote <em>City of God</em> in the actual ruins of the Western Roman Empire; he did not stop catechising. The early Church faced credible scenarios of being literally extinguished by hostile state power; they did not stop celebrating the Eucharist. Hold the eschatological frame loosely enough that today's faithfulness is not held hostage to a threat estimate.</p>
+
+    <h3 class="section-h">What not to do</h3>
+
+    <p>Don't let Level-5 risk distort your Level 1, 2, and 3 decisions. The probability-weighted impact of acting badly today out of fear of Level 5 is far higher than the expected impact of Level 5 on your actual life.</p>
+
+    <p>Don't retreat into bunker survivalism. Even sober existential-risk researchers explicitly do not recommend it; the empirical track record is poor; the relational and spiritual costs are catastrophic.</p>
+
+    <p>Don't become an evangelist for any single pathway story. Anyone certain about how Level 5 will unfold is selling certainty, not analysis.</p>
+
+    <p>Don't despair. Despair is a moral failure regardless of probability estimates, and despairing humans make worse decisions.</p>
+
+    <p>Don't patronise people who don't take Level 5 seriously. Many serious, intelligent people in good faith conclude the probability is low enough not to warrant much attention. They may be right.</p>
+  </div>
+</section>
+
+
+<section class="page page-close" id="page-close">
+  <div class="page-inner">
+    <span class="page-mark">Closing</span>
+    <h2 class="page-title">What to actually do this week</h2>
+
+    <p class="lede">If you've read this far and you want a single action to start with, here it is. It takes about an hour. It's the highest-leverage hour you can spend on this whole topic.</p>
+
+    <ol class="paper-numbered">
+      <li><strong>Have the safe-phrase conversation</strong> with your immediate household, in person, this weekend. Pick four to seven unrelated words. Tell everyone over 10. Don't write it down. Practice once. Then, in the next two weeks, <button class="m" data-modal="do-elderly">have the same conversation with your aging parents</button>. That's the highest-leverage 30 minutes in this whole framework.</li>
+
+      <li><strong>Buy two hardware security keys.</strong> Set them up on your primary email, your bank, and your government-identity portal. <button class="m" data-modal="do-hardware-keys">How to do this</button>.</li>
+
+      <li><strong>Move family chats to <button class="m" data-modal="do-signal">Signal</button>.</strong> Five minutes. Free. End-to-end encrypted by default.</li>
+
+      <li><strong>Pick one analog practice</strong> to do weekly: <button class="m" data-modal="do-cognitive">physical reading, longhand journaling, walking conversation, prayer, Sabbath</button>. Schedule it for next week. Start small.</li>
+
+      <li><strong>Identify one venue where AI policy is being shaped locally</strong>: a school board, a denominational committee, a council submission. <button class="m" data-modal="do-civic">Engage it once</button>.</li>
+    </ol>
+
+    <h3 class="section-h">The longer rhythm</h3>
+
+    <p>Beyond the first week, the pattern that holds at every level is the same: daily contemplative practice, weekly Sabbath, monthly local connection, quarterly audit, annual review. The household that has cultivated relational density, embodied practice, and intergenerational depth fares better at every level than one that has not.</p>
+
+    <p>If you want a structured approach, the companion documents go deeper. The <a href="01-onboarding-plan.html">30-Day Onboarding Plan</a> sequences the most consequential actions across four weeks. The <a href="02-readiness-checklist.html">Household Readiness Checklist</a> is the comprehensive reference, organised by how often you need to do things. The <a href="03-safe-phrase-protocol.html">Safe Phrase Protocol Guide</a> is a single-issue deep dive on the voice-cloning scam landscape. The <a href="04-analog-asset-log.html">Analog Asset Log</a> is the document for inventorying the physical and offline parts of your household.</p>
+
+    <p>For the technical version with all citations, see the <a href="ai-threat-levels.html">white paper</a>. For an interactive operational view, see the <a href="ai-threat-dashboard.html">dashboard</a>.</p>
+
+    <h3 class="section-h">A final word</h3>
+
+    <p>The framework's strongest claim is also its simplest: <strong>none of the right responses to AI depend on knowing exactly how AI will unfold.</strong> The work of paying attention to your family, building thick local community, practicing sustained attention, engaging civically, and refusing both panic and dismissal — that work is the same at every level.</p>
+
+    <p>It's also the work that has always made for a good life. The framework didn't invent it. It just notices that the practices that have always built durable human flourishing are the same practices that build resilience against the specific stresses of an AI-saturated future.</p>
+
+    <p>That's not nothing. It's almost everything.</p>
+
+    <p class="signoff">Nathaniel Baldock<br>Tauranga, May 2026</p>
+  </div>
+</section>
+
+
+<!-- Modal scaffold -->
+<div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <div>
+        <div class="modal-eyebrow" id="modal-eyebrow">—</div>
+        <h2 class="modal-title" id="modal-title">—</h2>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const MODALS = {
+  "term-frontier-lab": {
+    "label": "Frontier AI lab",
+    "title": "What is a 'frontier AI lab'?",
+    "body": "\n<p>A handful of companies build the most capable general-purpose AI models in the world. The current frontier labs are <strong>Anthropic</strong> (which makes Claude), <strong>OpenAI</strong> (which makes ChatGPT), <strong>Google DeepMind</strong> (which makes Gemini), and <strong>Meta</strong> (which makes Llama).</p>\n<p>\"Frontier\" means they sit at the edge of what AI can do at any given moment. When commentators talk about AI risk, they usually mean risk that originates from frontier labs' work, because the systems further down the capability ladder \u2014 the ones in your phone, your email autocomplete, your bank's chatbot \u2014 are descendants of what frontier labs built two or three years ago.</p>\n"
+  },
+  "term-deepfake": {
+    "label": "Deepfake",
+    "title": "What is a deepfake?",
+    "body": "\n<p>A deepfake is an audio, image, or video file that has been generated or altered by AI to depict events that did not actually happen. The term comes from \"deep learning\" (the AI technique behind it) plus \"fake.\"</p>\n<p>The most common forms today: cloned voices (where AI generates speech that sounds like a specific person), face-swap videos (where one person's face is mapped onto another's body in video), and entirely synthetic images (where the person, scene, or event in the image never existed at all).</p>\n<p>The technology is now cheap, fast, and convincing. Voice cloning needs about three seconds of source audio. Image generation is essentially free. The honest assessment is that any reader of this document has the technical capability to create a believable deepfake of someone they know, in under an hour, with free tools, today.</p>\n"
+  },
+  "term-iaisr": {
+    "label": "International AI Safety Report",
+    "title": "What is the IAISR?",
+    "body": "\n<p>The International AI Safety Report is the closest thing the world has to a scientific consensus document on AI risk. It was first commissioned at the 2023 Bletchley Park summit hosted by the UK government, and is now backed by more than 30 countries plus the European Union, the OECD, and the United Nations.</p>\n<p>It is chaired by Yoshua Bengio, one of three researchers who won the Turing Award (computer science's Nobel Prize) for the foundational work on modern AI. The 2026 edition draws on the work of around 100 expert contributors from many disciplines and countries.</p>\n<p>The report is the document I most often cite when this paper says \"the scientific consensus is...\" or \"researchers find...\" It's the closest analogue to what the IPCC reports are for climate science.</p>\n",
+    "links": [
+      {
+        "text": "Read the 2026 IAISR online",
+        "url": "https://internationalaisafetyreport.org/"
+      }
+    ]
+  },
+  "term-cbrn": {
+    "label": "CBRN",
+    "title": "What 'CBRN' means",
+    "body": "\n<p>CBRN stands for Chemical, Biological, Radiological, and Nuclear. It's the standard shorthand emergency planners use for the worst categories of contamination event a country plans against.</p>\n<p>You'll see it in any government emergency-management document \u2014 FEMA in the US, NEMA in New Zealand, the Cabinet Office in the UK. When this paper talks about CBRN preparedness, it means the standard civil-defence guidance that already exists for these scenarios \u2014 N95 masks, plastic sheeting, shelter-in-place protocols. The AI angle doesn't add to this list; it just means an AI-enabled event is one more reason to do what your civil-defence agency has been recommending all along.</p>\n"
+  },
+  "term-zero-day": {
+    "label": "Zero-day vulnerability",
+    "title": "What is a 'zero-day' vulnerability?",
+    "body": "\n<p>A \"zero-day\" is a software flaw that nobody has discovered yet \u2014 including the company that wrote the software. It's called \"zero-day\" because the developers have had zero days to fix it.</p>\n<p>Zero-days are valuable to criminals and intelligence agencies because no defence exists for them. Once found, they can be used immediately and at scale. The discovery of a serious zero-day in widely-used software (an operating system, a browser, a router firmware) is a significant event in cybersecurity, often producing emergency patches and government advisories within days.</p>\n<p>Until 2025, finding zero-days required highly skilled human security researchers. In 2026, AI systems started finding them autonomously. That's the shift this paper points to repeatedly.</p>\n"
+  },
+  "term-ai-agent": {
+    "label": "Agentic AI",
+    "title": "What is 'agentic' AI?",
+    "body": "\n<p>An agentic AI system is one that takes actions across multiple steps and tools on a user's behalf, rather than just answering one question at a time. A regular AI chatbot waits for you to ask the next question. An agentic AI books your flights, files your taxes, manages your inbox, or runs a research project from start to finish without checking back at every step.</p>\n<p>The concern most safety researchers have about agentic AI is straightforward: an AI that takes actions can take wrong actions, and the more autonomously it operates the longer those wrong actions can run before a human notices. The Cloud Security Alliance's 2026 framework on agentic AI explicitly flags the risk of \"behavioural drift across delegation chains\" \u2014 small errors compounding before any human can intervene.</p>\n"
+  },
+  "stat-893m": {
+    "label": "$893M in AI fraud (2025)",
+    "title": "AI-related fraud losses, 2025",
+    "body": "\n<p>The FBI's Internet Crime Complaint Center reported approximately <strong>US$893 million in AI-related fraud losses</strong> in 2025. That figure is almost certainly an underestimate \u2014 the IC3 captures only fraud that victims report, and a substantial share of voice-cloning and identity-theft incidents go unreported.</p>\n<p>To put that in context: total reported fraud losses to IC3 in 2025 exceeded US$16 billion, of which the AI-attributable component is the fastest-growing category year-over-year.</p>\n<p>The losses to adults aged 60 and over alone reached US$7.7 billion across all fraud categories in 2025, up roughly 60% from 2024. AARP's research suggests one in five Americans aged 65+ has been targeted by an AI voice-cloning scam, and one in ten has fallen for it. Average loss in successful voice-cloning attacks: about US$18,000.</p>\n",
+    "links": [
+      {
+        "text": "FBI IC3 annual reports",
+        "url": "https://www.ic3.gov/"
+      },
+      {
+        "text": "AARP fraud research",
+        "url": "https://www.aarp.org/money/scams-fraud/"
+      }
+    ]
+  },
+  "stat-iaisr-incidents": {
+    "label": "362 documented AI incidents (2025)",
+    "title": "Documented AI incidents, 2024 \u2192 2025",
+    "body": "\n<p>The 2026 International AI Safety Report documents <strong>362 AI-related incidents in 2025</strong>, up from 233 in 2024. That's a 55% rise year-over-year.</p>\n<p>The numbers come from the AI Incident Database \u2014 a project that tracks publicly-documented cases where an AI system caused harm or was implicated in a harmful event. Categories include: discriminatory output, fraud, deepfake-mediated harassment, autonomous-system errors, privacy violations, content-safety failures, and a handful of cases of physical harm.</p>\n<p>The honest interpretation: this number is large enough to be serious and small enough to fit in an annual report. It's not yet a daily-news-cycle problem at population scale, but the curve is going the wrong way fast.</p>\n",
+    "links": [
+      {
+        "text": "AI Incident Database",
+        "url": "https://incidentdatabase.ai/"
+      },
+      {
+        "text": "2026 IAISR",
+        "url": "https://internationalaisafetyreport.org/"
+      }
+    ]
+  },
+  "stat-mythos": {
+    "label": "Mythos & GPT-5.5-Cyber (April 2026)",
+    "title": "What happened in April 2026",
+    "body": "\n<p>In a single fortnight in April\u2013May 2026, two frontier AI labs released models capable of finding and exploiting software security flaws on their own.</p>\n<p>On 12 April, <strong>Anthropic</strong> announced \"Claude Mythos Preview\" \u2014 a model that found, among other things, a 27-year-old vulnerability in OpenBSD's TCP code, autonomously, in testing. Anthropic released it to about 50 vetted industry partners only, through a program called Project Glasswing, with $100M in usage credits and a coordinated disclosure window.</p>\n<p>Two days later, <strong>OpenAI</strong> released \"GPT-5.4-Cyber,\" followed by GPT-5.5-Cyber on 30 April, with a different deployment philosophy: broadly available to thousands of verified defenders through identity-gated access.</p>\n<p>The UK AI Safety Institute evaluated both. GPT-5.5 scored 71.4% on Expert-tier cybersecurity tasks. Mythos scored 68.6%. Both are roughly an order of magnitude above the previous generation. Jade Leung, the UK AISI's CTO, confirmed the institute has found exploitable weaknesses in every frontier model evaluated, including Mythos.</p>\n<p>Two opposing theories of how to safely deploy AI cyber-capability are now being tested simultaneously. Whichever one proves defensible will shape every future capability tier.</p>\n",
+    "links": [
+      {
+        "text": "Anthropic: Project Glasswing",
+        "url": "https://www.anthropic.com/glasswing"
+      },
+      {
+        "text": "OpenAI: Trusted Access for Cyber",
+        "url": "https://openai.com/index/scaling-trusted-access-for-cyber-defense/"
+      },
+      {
+        "text": "UK AI Safety Institute",
+        "url": "https://www.aisi.gov.uk/"
+      }
+    ]
+  },
+  "stat-elections": {
+    "label": "Elections and AI (2024\u20132025)",
+    "title": "What deepfakes did and didn't do to elections",
+    "body": "\n<p>Through 2024 \u2014 a year in which more than half the world's population voted in some election somewhere \u2014 the feared collapse of the information environment did not arrive. The Knight First Amendment Institute analysed 78 documented election deepfakes and concluded that \"political misinformation is not primarily an AI problem\"; non-AI \"cheap fakes\" outnumbered AI-generated misinformation by roughly seven to one.</p>\n<p>That said, the trend is changing. The 2025 Canadian federal election saw 5.86% of election-related images flagged as deepfakes, including a synthetic video of Prime Minister Mark Carney that reached over a million views before takedown. The Irish presidential election saw a fabricated \"withdrawal\" video circulate days before polling. The Dutch and German elections both saw unlabelled AI-generated campaign material.</p>\n<p>Honest read: 2024 was less bad than feared. 2025 was worse. The Knight Institute's 2024 finding may not survive 2027. But the framework holds the position that this is still a stress on institutions, not a collapse of them.</p>\n",
+    "links": [
+      {
+        "text": "Knight Institute: 78 Deepfakes analysis",
+        "url": "https://knightcolumbia.org/blog/we-looked-at-78-election-deepfakes-political-misinformation-is-not-an-ai-problem"
+      }
+    ]
+  },
+  "stat-fri": {
+    "label": "Forecaster disagreement on Level 5",
+    "title": "What credible forecasters actually believe about AI catastrophe",
+    "body": "\n<p>The Forecasting Research Institute ran what they called the Existential Risk Persuasion Tournament \u2014 a structured exercise that brought together 169 domain experts and superforecasters to estimate the probability of AI-caused catastrophe (defined as more than 10% of humanity dead within five years) by the year 2100.</p>\n<p>The disagreement was striking. AI domain experts gave a median probability of around <strong>6%</strong>. General existential-risk experts gave around <strong>1%</strong>. <strong>Superforecasters</strong> \u2014 the small group of people who have demonstrated unusually accurate forecasting on geopolitical and economic questions over many years \u2014 gave around <strong>0.38%</strong>.</p>\n<p>For extinction specifically, the gap is even wider. After four months of structured persuasion, neither side substantially moved the other.</p>\n<p>What this means: a credible range of probability for civilisation-scale AI catastrophe by 2100 is somewhere between roughly 0.4% and 6%. That's a real range. Both numbers are higher than historical baselines for new technologies. The honest position is that this is a meaningful tail risk worth proportionate prevention work, not a high-probability scenario worth distorting daily life around.</p>\n",
+    "links": [
+      {
+        "text": "FRI: Existential Risk Persuasion Tournament",
+        "url": "https://forecastingresearch.org/xpt"
+      }
+    ]
+  },
+  "stat-tsundere": {
+    "label": "AI-augmented cybercrime",
+    "title": "Tsundere, TA584, and what AI cybercrime looks like in 2026",
+    "body": "\n<p>Real example, currently active: a botnet called \"Tsundere\" was first documented by Kaspersky's Global Research and Analysis Team in November 2025. It's used by an initial-access broker that researchers track as TA584, alongside a trojan called XWorm, to break into corporate networks. Once they're in, they sell that access to ransomware operators.</p>\n<p>The technically interesting feature is that Tsundere uses Ethereum smart contracts to host its command-and-control infrastructure, which makes it effectively unkillable \u2014 there's no central server you can take down. This is not science fiction. This is a working criminal product running on the open internet right now.</p>\n<p>This isn't yet AI-augmented at the malware itself \u2014 it's the kind of working criminal infrastructure on which the next AI-augmented wave is being built. The shift to come is automation: AI systems that can scan, exploit, infiltrate, and extract data faster than any human team. The April 2026 Mythos and GPT-5.5-Cyber releases sit on the defender side of that shift; criminal versions of the same capability are the natural next step.</p>\n"
+  },
+  "stat-comer": {
+    "label": "John Mark Comer on hurry",
+    "title": "Why this paper keeps quoting John Mark Comer",
+    "body": "\n<p>John Mark Comer is a pastor and writer whose book <em>The Ruthless Elimination of Hurry</em> argues that the central spiritual problem of modern life isn't unbelief but speed: the pace at which most of us live makes the practices that form character (rest, attention, prayer, reading, conversation) effectively impossible.</p>\n<p>That argument hits the AI question directly. Generative AI is, among other things, a hurry-amplifier. It removes the friction that used to make us slow down \u2014 the time spent writing, the time spent thinking, the time spent waiting. The Vatican's 2025 letter <em>Antiqua et Nova</em> makes a parallel argument from a Catholic theological frame, warning explicitly about AI-driven \"deskilling\" \u2014 the loss of human capacities through disuse.</p>\n<p>Comer's framing has the practical advantage of pointing toward a recovery practice rather than a position paper: an \"unhurried life,\" organised around regular Sabbath, attention, and embodied work. That's why the framework keeps pointing back to it.</p>\n"
+  },
+  "do-hardware-keys": {
+    "label": "Hardware-key 2FA",
+    "title": "Hardware security keys, in plain English",
+    "body": "\n<p>A hardware security key is a small physical device, about the size of a USB stick, that proves you are who you say you are when you log in to an account. They cost around NZ$80 each. Most are made by Yubico (the YubiKey 5 series) or Google (the Titan series).</p>\n<p>The reason these matter is that almost every other form of two-factor authentication can be defeated by a sufficiently determined attacker. Text-message codes can be hijacked through SIM-swap attacks. Authenticator apps can be tricked through fake login pages. Hardware keys can't \u2014 they refuse to authenticate to the wrong website, by design.</p>\n<p>The two-key rule: buy two of them. Use one as your primary; store the second somewhere separate as a backup. If you lose the primary, the backup gets you back in. If you only have one and lose it, recovering accounts becomes a major operation.</p>\n<p>Set them up on three accounts first: your primary email (because it's the recovery channel for everything else), your bank, and your government-identity portal (RealMe in NZ, Login.gov in the US). That's roughly 30 minutes of setup and protects the accounts that matter most.</p>\n",
+    "links": [
+      {
+        "text": "Services that work with YubiKey",
+        "url": "https://www.yubico.com/works-with-yubikey/"
+      },
+      {
+        "text": "CERT NZ: Two-factor authentication guide",
+        "url": "https://www.cert.govt.nz/individuals/guides/getting-started-with-cyber-security/two-factor-authentication/"
+      }
+    ]
+  },
+  "do-safe-phrase": {
+    "label": "Family safe phrase",
+    "title": "How a family safe phrase works",
+    "body": "\n<p>A family safe phrase is four to seven unrelated words that everyone in your immediate household has memorised. It's used as the verification step on any phone call asking for money, location, or any sensitive action.</p>\n<p>The rules that make it work:</p>\n<ul>\n<li>Pick words with no common-sense association. Tulip, Anchor, Wrench, Blue. Nothing from social media, no pet names, no school names.</li>\n<li>Share it in person only. Never text it, never email it, never put it in cloud notes or a password manager. Anything that can be searched can be leaked.</li>\n<li>Use it for any phone call asking for money or sensitive action. If the caller dodges the phrase, hang up.</li>\n<li>If the phrase has been said in front of an outsider or recorded, replace it. Setup is ten minutes.</li>\n</ul>\n<p>The single highest-value version of this conversation is having it with your aging parents. They are the most-targeted demographic and the most-likely to fall for voice-cloning scams. The conversation is awkward. Have it anyway.</p>\n",
+    "links": [
+      {
+        "text": "Worksheet 03: The Safe Phrase Protocol",
+        "url": "03-safe-phrase-protocol.html"
+      }
+    ]
+  },
+  "do-encryption": {
+    "label": "Disk encryption",
+    "title": "BitLocker and FileVault, in plain English",
+    "body": "\n<p>Disk encryption scrambles everything on your computer's hard drive so that anyone who steals the laptop can't read your files. Without encryption, a stolen laptop's contents can be read in five minutes by anyone with a basic technical skill. With encryption on, the same person can spend years and not get in.</p>\n<p>Both major operating systems have it built in for free. On Windows, it's called <strong>BitLocker</strong> (Settings \u2192 Privacy & Security \u2192 Device encryption). On Mac, it's <strong>FileVault</strong> (System Settings \u2192 Privacy & Security \u2192 FileVault). It takes about 30 minutes to turn on once you've initiated it; it runs in the background.</p>\n<p>You'll be asked to save a recovery key during setup. Save it somewhere outside the laptop \u2014 print it out, save it in a separate password manager, or write it on a piece of paper kept in a safe place. If you forget your password and don't have the recovery key, your data is unrecoverable.</p>\n"
+  },
+  "do-signal": {
+    "label": "Signal messaging",
+    "title": "Why Signal, not WhatsApp",
+    "body": "\n<p>Signal is a free, end-to-end encrypted messaging app run by a non-profit. End-to-end encrypted means the messages can only be read by the people in the conversation; not Signal, not anyone else who intercepts them, not any government that compels Signal for the data, can read your messages.</p>\n<p>WhatsApp uses the same encryption protocol but is owned by Meta (Facebook), which collects extensive metadata about who you talk to and when. iMessage encrypts between iPhones but not between an iPhone and an Android phone, and not in iCloud backups by default.</p>\n<p>Signal is recommended by virtually every credible security organisation: the EFF, Citizen Lab, the Freedom of the Press Foundation, multiple national cybersecurity agencies. It's the default secure messaging app for journalists, activists, lawyers, and government officials handling sensitive material.</p>\n<p>It works on every platform. It's free. The migration is one-time effort; the benefit is continuous.</p>\n",
+    "links": [
+      {
+        "text": "Download Signal",
+        "url": "https://signal.org/"
+      }
+    ]
+  },
+  "do-civil-defence": {
+    "label": "Civil-defence basics",
+    "title": "What every emergency-management agency recommends",
+    "body": "\n<p>Standard household preparedness, as recommended by NEMA (NZ), FEMA (US), the Cabinet Office (UK), and equivalent agencies everywhere else in the developed world, hasn't changed much in 50 years. You probably know most of this list.</p>\n<p>For a 7-day household reserve:</p>\n<ul>\n<li>Water: 21 litres per person, in food-grade containers</li>\n<li>Food: 7 days of non-perishable items you would actually eat</li>\n<li>Medications: 7-day supply minimum, with copies of prescriptions</li>\n<li>Light: torch and spare batteries for each member of the household</li>\n<li>Communications: a battery or wind-up radio to receive emergency broadcasts</li>\n<li>First aid kit, with anything specific to your household's medical needs</li>\n<li>Cash reserve in low denominations</li>\n<li>Copies of identity documents and insurance, in waterproof storage</li>\n<li>Sanitation: bucket, bin bags, sanitary supplies</li>\n<li>Warmth: blankets, weather-appropriate clothing</li>\n</ul>\n<p>For Level 3 and above, build to a 14-day \"stay at home\" reserve plus a separate 3-day \"go bag\" for evacuation. Add N95 masks, plastic sheeting, and duct tape for biological or chemical shelter-in-place scenarios.</p>\n",
+    "links": [
+      {
+        "text": "Get Ready NZ",
+        "url": "https://getready.govt.nz/"
+      },
+      {
+        "text": "US Ready.gov",
+        "url": "https://www.ready.gov/"
+      },
+      {
+        "text": "UK Prepare",
+        "url": "https://prepare.campaign.gov.uk/"
+      }
+    ]
+  },
+  "do-overrides": {
+    "label": "Manual overrides",
+    "title": "Non-digital backups for digital systems",
+    "body": "\n<p>An increasing share of an ordinary house runs through software now: smart locks, networked thermostats, smart electrical panels, app-controlled garage doors, automated shutters. Each of those systems has, somewhere, a manual override designed for the moment when the network or the app fails.</p>\n<p>The audit list, in order of how often you'll need them:</p>\n<ul>\n<li><strong>Front door:</strong> physical key, not just smart lock</li>\n<li><strong>Garage:</strong> manual release cord (every electric opener has one)</li>\n<li><strong>Water main:</strong> manual valve handle</li>\n<li><strong>Electrical:</strong> physical breaker</li>\n<li><strong>Heating/cooling:</strong> analog thermostat or pilot light</li>\n<li><strong>Communications:</strong> battery or wind-up radio</li>\n</ul>\n<p>Test each one before you need it. A garage manual release cord that hasn't been pulled in five years may be seized; a water main valve that nobody has touched in a decade may not turn cleanly. Knowing the override exists is not the same as knowing it works.</p>\n",
+    "links": [
+      {
+        "text": "Worksheet 04: The Analog Asset Log",
+        "url": "04-analog-asset-log.html"
+      }
+    ]
+  },
+  "do-effak": {
+    "label": "Financial First Aid Kit",
+    "title": "What an EFFAK contains",
+    "body": "\n<p>An Emergency Financial First Aid Kit is a physical container holding copies of the documents you'd need to prove who you are, what you own, and what you owe, when the internet or banking are unreachable. The term is standard US Federal Reserve / FEMA preparedness language going back over a decade.</p>\n<p>The contents:</p>\n<ul>\n<li>Photo IDs (passport, driver licence, RealMe printout) \u2014 copies, not originals</li>\n<li>Birth certificates and marriage records</li>\n<li>Insurance policies (home, health, life, vehicle)</li>\n<li>Prescription lists with dosages, plus GP and specialist contact details</li>\n<li>Property records (deed, mortgage details)</li>\n<li>Bank account numbers and key contract numbers (numbers only, not passwords)</li>\n<li>Small cash reserve in low denominations \u2014 NZ$5, $10, $20 notes for ATM-down scenarios</li>\n</ul>\n<p>Keep it in a waterproof container at home. If you have a trusted family member at distance, keep a backup copy with them.</p>\n",
+    "links": [
+      {
+        "text": "Worksheet 04: The Analog Asset Log",
+        "url": "04-analog-asset-log.html"
+      }
+    ]
+  },
+  "do-ai-hygiene": {
+    "label": "AI memory hygiene",
+    "title": "Treating AI assistants like browsers",
+    "body": "\n<p>Most AI assistants now remember things between conversations. ChatGPT, Claude, Gemini, Siri, Alexa \u2014 each has some form of saved context: facts you've told it, files you've shared, preferences it has inferred. Useful, but also a privacy and security surface that didn't exist five years ago.</p>\n<p>The hygiene practice is simple: every few months, open every AI assistant your household uses and clear stored conversation logs and saved context. Treat it the way you treat browser history. The settings menus generally include something like \"delete all conversations\" or \"manage memory\" or \"clear context.\"</p>\n<p>If a household AI agent or smart-home assistant ever begins issuing instructions that contradict your judgement, do three things in order: clear its memory, disconnect it from networked controls (toggle Wi-Fi off if needed), and operate critical systems manually until you can verify the AI is back to safe behaviour.</p>\n"
+  },
+  "do-elderly": {
+    "label": "Talking to elderly parents",
+    "title": "The conversation script",
+    "body": "\n<p>The single highest-leverage 30 minutes in this entire framework: having the safe-phrase conversation with your aging parents in person. They are the most-targeted demographic for AI voice-cloning scams. They are also the most reluctant to engage with new technology habits.</p>\n<p>The script that works, roughly:</p>\n<p><em>\"Mum, Dad \u2014 I want to spend ten minutes on something that could save you a lot of money and a lot of stress. There's a kind of phone scam now that's getting really good. Someone calls pretending to be me or [grandchild's name], using a voice that sounds exactly like mine, asking for money in an emergency. People are losing thousands of dollars to this every week. I want us to set up a simple way to know it's actually me.\"</em></p>\n<p><em>\"It's just a few words we'll all remember. If anyone ever calls you, even if it sounds exactly like me, asking for money or to do anything urgent, you ask them to say the words. I'll say them. A scammer won't be able to. If they get angry or change the subject, hang up and call my normal number to check.\"</em></p>\n<p>If they push back (\"I'd know your voice\"): don't argue. Frame it as a backup, not a capability test. Most pushback dissolves.</p>\n",
+    "links": [
+      {
+        "text": "Worksheet 03: The Safe Phrase Protocol",
+        "url": "03-safe-phrase-protocol.html"
+      }
+    ]
+  },
+  "do-cognitive": {
+    "label": "Sustained-attention practice",
+    "title": "Why analog practice matters",
+    "body": "\n<p>Most of what generative AI does well is speed up tasks that used to require sustained human attention: writing, summarising, planning, problem-solving. The danger isn't that the AI does these things; it's that humans who outsource them stop being able to do them at all.</p>\n<p>The Vatican's 2025 letter <em>Antiqua et Nova</em> calls this \"deskilling\" \u2014 the loss of cognitive capacities through disuse. The Kulveit et al. 2025 paper on \"gradual disempowerment\" makes a starker version of the same argument: the long-term existential risk from AI may not be a single dramatic event but the slow atrophy of human capacities for sustained, unaided thought.</p>\n<p>The defence is practiced, weekly, embodied human cognitive work. What works empirically:</p>\n<ul>\n<li>Sustained reading of books written before AI existed, for at least an hour weekly. Physical books, not screens.</li>\n<li>Longhand writing \u2014 journaling, letter-writing, problem-solving on paper.</li>\n<li>Walking conversation without phones, on foot, with another person.</li>\n<li>Prayer or meditation, adapted to your tradition.</li>\n<li>Sabbath: one full day per week without screens. Difficult; transformative.</li>\n</ul>\n<p>For children, the asymmetry is severe. A child who develops sustained-attention capacity at 8 keeps it for life. A child who doesn't will struggle to recover it. This is the most consequential parenting decision in this entire framework.</p>\n"
+  },
+  "do-civic": {
+    "label": "Civic engagement",
+    "title": "Where individual voice still matters",
+    "body": "\n<p>One of the most leveraged things an ordinary citizen can do in 2026 is engage with one of the venues where AI policy is currently being written. Almost every institution that affects daily life is in the middle of figuring out its AI posture for the first time. Most are doing it under-resourced and under-attended. A submission, a board comment, or an email from a thoughtful local resident has unusual influence at this moment.</p>\n<p>Specific venues where individual voice currently matters:</p>\n<ul>\n<li>Schools and school boards. AI policy in schools is being written from scratch in most jurisdictions right now.</li>\n<li>Faith communities. Most denominations and ministries have not finalised AI guidance.</li>\n<li>Professional bodies. Bar associations, medical councils, accountancy bodies, teaching councils are all in the middle of AI policy work.</li>\n<li>Local government. Council submissions on AI use in public services are usually under-subscribed.</li>\n</ul>\n<p>For NZ readers specifically: select committee processes through Parliament, the Algorithm Charter for Aotearoa, and MBIE consultations on AI strategy all accept public submissions. The country's small institutional scale makes individual voice unusually effective.</p>\n",
+    "links": [
+      {
+        "text": "NZ Algorithm Charter",
+        "url": "https://www.data.govt.nz/leadership/algorithm-hub/algorithm-charter/"
+      },
+      {
+        "text": "NZ Parliament submissions",
+        "url": "https://www.parliament.nz/"
+      }
+    ]
+  },
+  "do-children": {
+    "label": "Children and AI",
+    "title": "What we know about kids and AI companions",
+    "body": "\n<p>The honest scientific position on children and AI use is uncertain. The 2026 IAISR notes that AI companion apps (chatbots designed for emotionally engaging interaction) have grown rapidly through 2025, with mixed evidence on psychological effects. Some studies find heavy use is associated with increased loneliness, emotional dependence, and reduced engagement in human social interactions. Other studies find positive or no measurable effects.</p>\n<p>What's certain enough to act on: the asymmetry. A child who develops sustained-attention capacity and unmediated relational skill at age 8 keeps it for life. A child who doesn't will struggle to recover it. The downside of caution is small. The downside of being wrong about safety is potentially permanent.</p>\n<p>A working family policy:</p>\n<ul>\n<li><strong>Under 12:</strong> AI tools used only collaboratively with a parent. No AI-companion apps. Default to physical books, outdoors, conversation.</li>\n<li><strong>12 to 16:</strong> Supervised AI tool use for specific tasks (homework, learning). No AI-companion apps. Explicit family conversation about how AI works.</li>\n<li><strong>16 to 18:</strong> Increasingly autonomous use, with explicit conversations about discernment. AI-companion apps still discouraged.</li>\n<li><strong>All ages:</strong> Significant unmediated time daily. Daily reading of physical books. Family meals without screens.</li>\n</ul>\n",
+    "links": [
+      {
+        "text": "Common Sense Media \u2014 age guidance",
+        "url": "https://www.commonsensemedia.org/"
+      },
+      {
+        "text": "The Anxious Generation (Haidt 2024)",
+        "url": "https://www.anxiousgeneration.com/"
+      }
+    ]
+  },
+  "do-career": {
+    "label": "Hybrid-skill careers",
+    "title": "Career planning when AI is moving fast",
+    "body": "\n<p>The most defensible career positions through Levels 1 and 2 combine three things: deep human judgment, physical or relational presence that can't be transferred, and AI fluency that multiplies your output. Workers who refuse to engage with AI are increasingly visible in performance reviews. Workers who only do AI-substitutable tasks are exposed.</p>\n<p>This isn't about predicting which jobs survive. It's about building optionality regardless of trajectory.</p>\n<p>Categories that look durable through this period:</p>\n<ul>\n<li>Healthcare, particularly hands-on roles (nursing, physical therapy, surgery, dentistry)</li>\n<li>Skilled trades (electrical, plumbing, HVAC, construction supervision)</li>\n<li>Eldercare and child care</li>\n<li>AI governance, safety, audit, and verification roles (acute talent shortage)</li>\n<li>Roles requiring fiduciary duty (senior legal practice, audit, accreditation)</li>\n<li>Pastoral and counselling work</li>\n<li>Embodied teaching and mentorship</li>\n<li>Hospitality at the high-trust, experiential end</li>\n</ul>\n<p>For NZ readers specifically: the trades shortage is acute and structural, with substantial public funding for trade qualifications. The combination of trade fluency plus AI-tool fluency (using AI for quoting, scheduling, customer communications) is a strong, defensible position.</p>\n"
+  },
+  "do-community": {
+    "label": "Local community resilience",
+    "title": "Why thick local networks matter more than stockpiles",
+    "body": "\n<p>The single largest historical predictor of how a community handles disruption \u2014 economic, political, climatic, or technological \u2014 is not its stockpiles or its bunkers. It is its <strong>relational density</strong>. Communities with thick local networks recover from stress; atomised populations don't.</p>\n<p>The empirical pattern is consistent across natural disasters (Christchurch earthquakes, Hurricane Katrina, COVID), economic crises (Greek debt crisis), and political disruption (post-Soviet transitions). FEMA's \"Whole Community\" framework, NZ Civil Defence's community-led centre model, and the UN's Sendai Framework all build on this evidence.</p>\n<p>A simple practice that works: name 5 people in walking distance, 10 in your neighbourhood, 20 in your wider community whose skills complement yours. Make actual contact. A short message that says \"I want to be useful in this community; here's what I can do; here's what I might need help with\" is a remarkably effective starting point.</p>\n<p>For people in faith communities, in YWAM contexts, in long-established neighbourhoods: you already have the asset. Strengthen it deliberately.</p>\n"
+  },
+  "do-financial": {
+    "label": "Financial resilience",
+    "title": "Reserves, diversification, and what not to do",
+    "body": "\n<p>This isn't financial advice, and you should speak to a professional about decisions specific to your circumstances. The general principles, though, are stable:</p>\n<ul>\n<li>Build emergency reserves to 3 to 6 months at Level 1, 6 to 12 months at Level 2, 12+ months at Level 3.</li>\n<li>Diversify across institutions. Single-institution exposure becomes operationally meaningful at higher threat levels in ways it usually isn't.</li>\n<li>Avoid concentrated bets in either direction. AI-stock concentration carries risk; \"AI doom\" positions in gold, crypto, or prepper goods have a uniformly bad historical track record in genuinely stressed periods.</li>\n<li>Maintain ordinary insurance. Add identity-theft and cyber-fraud rider where available.</li>\n<li>If you own your home, paying down principal is among the highest-value durable resilience assets a household can hold.</li>\n</ul>\n<p>What not to do, regardless of forecast:</p>\n<ul>\n<li>Don't liquidate retirement savings on the basis of AI-doom forecasts. The empirical record on selling during sustained crises is uniformly negative.</li>\n<li>Don't relocate to off-grid arrangements that sever you from professional networks and existing relationships.</li>\n<li>Don't move to speculative assets at scale. Even credible existential-risk researchers don't recommend this.</li>\n</ul>\n"
+  },
+  "do-content-provenance": {
+    "label": "Content provenance",
+    "title": "C2PA and Content Credentials",
+    "body": "\n<p>The Coalition for Content Provenance and Authenticity (C2PA) is an open technical standard, backed by Adobe, Microsoft, the BBC, Sony, the AP, and others. It cryptographically signs images and video so viewers can verify origin and detect tampering. The consumer-facing brand is Content Credentials.</p>\n<p>The standard works by attaching a tamper-evident record to a file when it's created or edited. The record shows who made it, when, with what tools, and what modifications have been applied. Cameras and phones from major manufacturers (Sony, Leica, Nikon, Samsung) are rolling out Content Credentials in firmware. Adobe Lightroom and Photoshop preserve credentials through editing.</p>\n<p>This isn't yet ubiquitous. But the institutions adopting it are becoming more credible than the ones that aren't. For pastors, leaders, public figures, the practice of signing major statements with verifiable provenance is increasingly defensible.</p>\n",
+    "links": [
+      {
+        "text": "Content Authenticity Initiative",
+        "url": "https://contentauthenticity.org/"
+      }
+    ]
+  },
+  "do-go-kit": {
+    "label": "Go-Kit vs Stay-at-Home",
+    "title": "Two distinct emergency reserves",
+    "body": "\n<p>Civil-defence agencies in every developed country distinguish between two kinds of household preparedness, designed for two different scenarios:</p>\n<p><strong>The Go-Kit</strong> is what you grab if you have to evacuate. Sized for 3 days. Light enough to carry. Packed and ready. Contents: water, food, medications, torch, change of clothes, copies of essential documents, cash, basic first aid, weather-appropriate gear. It lives by the door, not in the back of the garage.</p>\n<p>The <strong>Stay-at-Home reserve</strong> is what you fall back on if you can't leave. Sized for 14 days. Heavier, doesn't need to be portable. Water at 21 litres per person per week, food, medications, sanitation supplies, fuel for cooking, more substantial first aid. Add N95 masks, heavy plastic sheeting, and duct tape for biological or chemical shelter-in-place scenarios \u2014 this is standard CBRN preparedness, regardless of cause.</p>\n<p>Most households conflate these into one undifferentiated \"emergency kit.\" Separating them clarifies thinking. Different scenarios, different responses.</p>\n"
+  },
+  "do-vocation-safety": {
+    "label": "AI safety as vocation",
+    "title": "The fields with acute talent shortages",
+    "body": "\n<p>The field of AI safety, governance, and ethics has acute talent shortages right now, not just at frontier labs but across academic safety research, government AI safety institutes, third-party evaluation organisations, civil-society policy work, and joint faith-tech engagement. People with relevant skills who shift even partially into this work meaningfully reduce the probability of bad outcomes.</p>\n<p>Pathways:</p>\n<ul>\n<li><strong>Technical:</strong> AI safety research at academic centres (MILA, CHAI, MATS), labs (Anthropic, Redwood, METR), or government safety institutes (UK AISI, US AISI).</li>\n<li><strong>Policy:</strong> AI governance work at government, think tanks (CSET, RAND, Open Philanthropy, GovAI), or civil-society organisations.</li>\n<li><strong>Ethical / theological:</strong> AI &amp; Faith, the Lausanne LIGHT process, the WEA AI working group, the Vatican's expanding work, denominational ethics committees, theological seminaries developing AI curricula.</li>\n<li><strong>Operational:</strong> Identity verification, content provenance (C2PA / Content Authenticity Initiative), incident-response infrastructure, biosecurity.</li>\n</ul>\n",
+    "links": [
+      {
+        "text": "80,000 Hours career guide",
+        "url": "https://80000hours.org/career-guide/"
+      },
+      {
+        "text": "AI &amp; Faith",
+        "url": "https://aiandfaith.org/"
+      }
+    ]
+  },
+  "do-spiritual": {
+    "label": "Contemplative practice",
+    "title": "The disciplines that hold under stress",
+    "body": "\n<p>Communities that have weathered sustained civilisational stress well historically share an operational pattern: thick local relationships, embodied practice, suspicion of centralised power including their own institutions, and refusal to define themselves primarily by what they oppose.</p>\n<p>The disciplines aren't romantic. They're operationally what allows sustained judgement under sustained stress. A working rule:</p>\n<ul>\n<li><strong>Daily:</strong> 15 to 30 minutes of prayer, scripture, lectio, or contemplative reading. Same time, same place. Not optional.</li>\n<li><strong>Weekly:</strong> Sabbath. One full day. Screens off as much as possible. Embodied, slow, communal.</li>\n<li><strong>Weekly:</strong> Embodied table fellowship. Meals shared with people from outside your immediate family.</li>\n<li><strong>Monthly:</strong> Day of retreat or extended walk. Sustained unmediated time.</li>\n<li><strong>Annually:</strong> Longer retreat. Re-orient.</li>\n</ul>\n<p>The Vatican's <em>Antiqua et Nova</em> frames the underlying issue precisely: AI risks becoming an \"idolatry,\" not because the technology is evil but because the temptation to outsource what cannot be outsourced \u2014 judgement, attention, prayer, love \u2014 is older than computing. The disciplines that prevent that outsourcing are themselves the resilience strategy.</p>\n",
+    "links": [
+      {
+        "text": "Antiqua et Nova (Vatican, 2025)",
+        "url": "https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_ddf_doc_20250128_antiqua-et-nova_en.html"
+      },
+      {
+        "text": "Lausanne LIGHT Briefing",
+        "url": "https://lausanne.org/global-analysis/ai-ethical-framework"
+      }
+    ]
+  }
+};
+
+const overlay = document.getElementById('modal-overlay');
+const modalTitle = document.getElementById('modal-title');
+const modalEyebrow = document.getElementById('modal-eyebrow');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+
+function openModal(id) {
+  const data = MODALS[id];
+  if (!data) return;
+  modalEyebrow.textContent = data.label || 'Reference';
+  modalTitle.textContent = data.title;
+  let html = data.body;
+  if (data.links && data.links.length > 0) {
+    html += '<div class="modal-links"><span class="modal-links-label">Further reading</span>';
+    for (const link of data.links) {
+      html += `<a class="modal-link" href="${link.url}" target="_blank" rel="noopener">${link.text}</a>`;
+    }
+    html += '</div>';
+  }
+  modalBody.innerHTML = html;
+  modalBody.scrollTop = 0;
+  overlay.classList.add('active');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  overlay.classList.remove('active');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.body.addEventListener('click', e => {
+  const trigger = e.target.closest('button.m[data-modal]');
+  if (trigger) {
+    e.preventDefault();
+    openModal(trigger.dataset.modal);
+  }
+});
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => {
+  if (e.target === overlay) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+});
+
+// Progress bar
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  progress.style.width = scrolled + '%';
+}, { passive: true });
+
+// Active nav indicator
+const navLinks = document.querySelectorAll('.nav-pill a');
+const sections = document.querySelectorAll('section.page');
+function updateActive() {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop;
+    if (window.scrollY >= top - 200) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+</script>
+
+</body>
+</html>

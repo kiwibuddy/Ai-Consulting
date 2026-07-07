@@ -36,7 +36,7 @@ const tierMeta: Record<Tier, { name: string; nextSteps: string[] }> = {
     nextSteps: [
       "Watch your inbox — I'll personally reach out within 1–2 business days to schedule the kickoff.",
       "Forward the receipt to your accountant; you may be able to claim it as professional development.",
-      "Talk to your Priority One contact about the AI Advisory Pilot rebate (up to $5,000 NZD).",
+      "Contact Tauranga Business Chamber (Bay of Plenty RBP) about the AI Advisory Pilot — eligibility is assessed by your growth advisor, not at checkout. Priority One is useful regional context but not the pilot gateway.",
     ],
   },
 };

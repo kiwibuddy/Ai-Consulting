@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light.css">
+<link rel="stylesheet" href="../../school-suite/tools/cinematic-light-landing.css">
+<link rel="stylesheet" href="../../school-suite/_site-chrome.css">
+<link rel="stylesheet" href="worker-tool.css">
+<title>HITL Résumé Lab — Free Preview | Nathaniel Baldock</title>
+<meta name="description" content="Free preview of the Human-in-the-Loop résumé method: brain-dump achievements, copy AI structure prompts, run the integrity checklist. Full workshop kit from $197.">
+<style>
+:root{--max:900px}
+body.tool-landing{background:#fff}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+.hero-mini{padding:clamp(48px,8vw,80px) 0 clamp(28px,5vw,40px)}
+.hero-mini h1{font-family:var(--font-display);font-size:clamp(1.85rem,4.5vw,2.75rem);letter-spacing:-.03em;line-height:1.05;margin:.5rem 0}
+.phase-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1.5rem 0}
+.phase-tab{font-family:var(--font-mono);font-size:.68rem;font-weight:600;padding:.5rem 1rem;border-radius:999px;border:1px solid var(--nb-rule);background:#fff;cursor:pointer}
+.phase-tab.active{background:var(--nb-accent-soft);border-color:var(--nb-accent);color:var(--nb-ink)}
+.phase-panel{display:none}.phase-panel.active{display:block}
+.verify-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--nb-rule);font-size:.9rem}
+.verify-item input{accent-color:var(--nb-accent);margin-top:3px}
+.saved-note{font-size:.75rem;color:var(--nb-accent);margin-top:.35rem}
+</style>
+</head>
+<body class="tool-landing">
+<nav class="nav wrap" aria-label="Site">
+  <a href="https://nathanielbaldock.com/business/workers" class="nb-site-back">← Worker toolkit</a>
+  <div class="nav-center"><span class="nb-mono-label">Free preview</span></div>
+  <a href="https://nathanielbaldock.com/intake" class="nb-site-cta">Get full kit</a>
+</nav>
+
+<main class="wrap">
+  <header class="hero-mini">
+    <p class="nb-mono-label">Human-in-the-Loop Résumé Lab</p>
+    <h1>Your achievements. AI structures. <em class="nb-italic-accent">You</em> verify.</h1>
+    <p class="lede">100% AI-written résumés get flagged — robot jargon and invented metrics fail in interviews (Wonsulting, 2026). This free lab walks Phases 1 and 3 of the full method. The paid kit adds facilitator scripts, cohort materials, and a guided Phase 2 workshop.</p>
+  </header>
+
+  <div class="phase-tabs" role="tablist">
+    <button type="button" class="phase-tab active" data-phase="1">Phase 1 · Brain-dump</button>
+    <button type="button" class="phase-tab" data-phase="2">Phase 2 · Structure (prompts)</button>
+    <button type="button" class="phase-tab" data-phase="3">Phase 3 · Verify</button>
+  </div>
+
+  <section class="phase-panel active" id="phase-1">
+    <h2>Phase 1 — Raw brain-dump (no AI yet)</h2>
+    <p class="section-lede">30 minutes. Messy is fine. Include numbers, names, tools, and outcomes — even if they feel too small. Do not open ChatGPT until this box is full.</p>
+    <textarea class="tool-input" id="brain-dump" placeholder="Example prompts to answer:
+• What did you improve, fix, or deliver in your last role?
+• What would your manager say you were best at?
+• What tools/systems did you actually use?
+• Any measurable outcomes — time saved, errors reduced, revenue, people led?
+• Volunteer, church, or side projects that show capability?"></textarea>
+    <p class="saved-note" id="save-note" hidden>Saved locally in your browser — only you can see this.</p>
+    <p class="cta-row"><button type="button" class="btn-primary" id="save-dump">Save brain-dump</button><button type="button" class="btn-secondary" data-goto="2">Next: structure prompts →</button></p>
+  </section>
+
+  <section class="phase-panel" id="phase-2">
+    <h2>Phase 2 — AI as co-pilot (copy these prompts)</h2>
+    <p class="section-lede">Paste your brain-dump into your AI tool of choice. Use these prompts in order. <strong>Approve every line</strong> — delete anything you cannot defend in an interview.</p>
+    <details class="expand-card" open><summary>Prompt A — Organise into STAR bullets</summary><div class="detail"><div class="copy-block" id="prompt-a">You are a résumé editor, not a writer. I will paste raw career notes. Organise them into bullet points using STAR format (Situation, Task, Action, Result). Rules:
+1. Do NOT invent metrics, tools, or job titles I did not mention.
+2. Flag any bullet where you had to guess — mark it [VERIFY].
+3. Use plain language — no words like "spearheaded", "synergised", or "tapestry".
+4. Keep each bullet under 2 lines.
+
+My raw notes:
+[PASTE BRAIN-DUMP HERE]</div><button type="button" class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('prompt-a').textContent)">Copy prompt</button></div></details>
+    <details class="expand-card"><summary>Prompt B — Match a job description (optional)</summary><div class="detail"><div class="copy-block" id="prompt-b">Here is a job description and my verified bullet list. Suggest which 5 bullets to lead with and which keywords from the description I can honestly claim. Do NOT add skills I do not have. Mark any stretch as [VERIFY].
+
+Job description:
+[PASTE HERE]
+
+My bullets:
+[PASTE HERE]</div><button type="button" class="btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('prompt-b').textContent)">Copy prompt</button></div></details>
+    <p class="cta-row"><button type="button" class="btn-secondary" data-goto="1">← Back</button><button type="button" class="btn-primary" data-goto="3">Next: verify checklist →</button></p>
+  </section>
+
+  <section class="phase-panel" id="phase-3">
+    <h2>Phase 3 — Integrity verify (read aloud)</h2>
+    <p class="section-lede">Read every bullet aloud as if a recruiter asked "tell me more about that." Tick each item. <strong>67% of managers caught fabricated skills</strong> in the last year (SkillUpArc, 2026).</p>
+    <div id="verify-list">
+      <label class="verify-item"><input type="checkbox"> I can explain this bullet for 60 seconds without hesitation</label>
+      <label class="verify-item"><input type="checkbox"> Every number is real or rounded honestly — not invented</label>
+      <label class="verify-item"><input type="checkbox"> Every tool/software listed is one I have actually used</label>
+      <label class="verify-item"><input type="checkbox"> No AI "robot jargon" — sounds like me talking</label>
+      <label class="verify-item"><input type="checkbox"> A former colleague would not be surprised by any claim</label>
+      <label class="verify-item"><input type="checkbox"> Employment dates match my records exactly</label>
+      <label class="verify-item"><input type="checkbox"> I ran the <a href="ats-survival.html">ATS Survival</a> format checklist on the final .docx</label>
+    </div>
+    <p class="cta-row"><button type="button" class="btn-secondary" data-goto="2">← Back</button></p>
+  </section>
+
+  <section class="tool-section">
+    <div class="cta-band">
+      <h3>Want the full workshop kit?</h3>
+      <p>The paid HITL Résumé Kit ($197 + GST) includes facilitator run sheets, participant workbook, integrity protocol for cohorts, and optional live delivery. Perfect for church job circles and redundancy groups.</p>
+      <p class="cta-row">
+        <a href="https://nathanielbaldock.com/intake" class="btn-primary">Request the full kit →</a>
+        <a href="../flyers/human-in-the-loop-resume.html" class="btn-secondary">Read the flyer</a>
+        <a href="ghost-job-detector.html" class="btn-secondary">Ghost Job Detector</a>
+      </p>
+    </div>
+  </section>
+
+  <p style="font-size:.72rem;color:var(--nb-ink-dim);margin:2rem 0;border-top:1px solid var(--nb-rule);padding-top:1rem">
+    Sources: <a href="https://www.wonsulting.com/job-search-hub/the-human-in-the-loop-resume-why-100-ai-generated-resumes-are-getting-auto-rejected" target="_blank" rel="noopener">Wonsulting (2026)</a> ·
+    <a href="https://www.skilluparc.com/blog/best-platforms-verify-job-readiness-2026" target="_blank" rel="noopener">SkillUpArc (2026)</a> ·
+    <a href="https://nathanielbaldock.com">Nathaniel Baldock</a>
+  </p>
+</main>
+
+<script>
+const KEY='hitl-brain-dump-v1';
+const dump=document.getElementById('brain-dump');
+const saved=localStorage.getItem(KEY);
+if(saved){dump.value=saved;document.getElementById('save-note').hidden=false;}
+document.getElementById('save-dump').onclick=()=>{localStorage.setItem(KEY,dump.value);document.getElementById('save-note').hidden=false;};
+document.querySelectorAll('.phase-tab,[data-goto]').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const p=el.dataset.phase||el.dataset.goto;
+    document.querySelectorAll('.phase-tab').forEach(t=>t.classList.toggle('active',t.dataset.phase===p));
+    document.querySelectorAll('.phase-panel').forEach(panel=>panel.classList.toggle('active',panel.id==='phase-'+p));
+  });
+});
+</script>
+</body>
+</html>

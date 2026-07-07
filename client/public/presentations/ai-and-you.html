@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI &amp; You - Tauranga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opt@0,300;0,400;0,600;0,700;1,400&family=Instrument+Serif:ital@1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F1014;--surface:#13151B;--surface-2:#1A1D24;--surface-3:#20232C;
+  --ink:#F4EFE2;--white:#fff;--mid:rgba(244,239,226,.66);--dim:rgba(244,239,226,.42);--fog:rgba(244,239,226,.14);
+  --lime:#7CCC1E;--green:#11C25C;--gold:#D9B25A;--gold-l:#E8C96A;--gold-xl:rgba(232,201,106,.10);
+  --red:#E06A5E;--red-l:rgba(224,106,94,.12);--blue:#8FB8DC;--blue-l:rgba(143,184,220,.12);
+  --sage:#A4C892;--sage-l:rgba(164,200,146,.12);--plum:#B9A1E8;--plum-l:rgba(185,161,232,.12);
+  --display:"Newsreader",Georgia,serif;--italic:"Instrument Serif",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;
+  --sharp:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.4,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+button{font:inherit}
+#entry{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:var(--surface);cursor:pointer;overflow:hidden;transition:opacity .8s var(--sharp),visibility .8s}
+#entry.out{opacity:0;visibility:hidden;pointer-events:none}
+#entry::before{content:"";position:absolute;inset:0;background:url("assets/tauranga-night-sky.png") center/cover no-repeat;opacity:.42;transform:scale(1.04)}
+#entry::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 70% at 50% 72%,rgba(124,204,30,.18),transparent 64%),linear-gradient(180deg,rgba(15,16,20,.42),rgba(15,16,20,.88))}
+.entry-inner{position:relative;z-index:2;text-align:center;max-width:820px;padding:2rem;animation:rise .9s var(--sharp) both}
+.entry-label{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--lime);margin-bottom:2rem}
+.entry-title{font-family:var(--display);font-size:clamp(4rem,10vw,8.6rem);font-weight:300;line-height:.92;letter-spacing:-.04em}
+.entry-title em{font-family:var(--italic);font-style:italic;color:var(--gold-l);font-weight:400}
+.entry-sub{max-width:620px;margin:1.35rem auto 2.1rem;color:var(--mid);font-size:clamp(1rem,1.4vw,1.22rem);line-height:1.7}
+.entry-cta{display:inline-flex;align-items:center;gap:.7rem;border:1px solid var(--fog);border-radius:999px;padding:.85rem 1.35rem;background:rgba(15,16,20,.58);color:var(--ink);font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+#deck{position:relative;width:100vw;height:100vh;overflow:hidden;background:var(--surface)}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .48s var(--sharp);z-index:1}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;z-index:2}
+.sl{position:relative;width:100%;height:100%;overflow:hidden;background:var(--surface)}
+.sl-pad{height:100%;padding:clamp(2rem,4vw,4.2rem) clamp(2.2rem,5vw,5.4rem);display:flex;flex-direction:column;justify-content:center}
+.sl-full{height:100%;position:relative;background:var(--bg)}
+.sl-full img,.sl-img img{width:100%;height:100%;object-fit:cover;display:block}
+.sl-full img{position:absolute;inset:0}
+.sl-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,16,20,.18),rgba(15,16,20,.86)),linear-gradient(90deg,rgba(15,16,20,.88),rgba(15,16,20,.28),rgba(15,16,20,.78))}
+.sl-full-text{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;max-width:950px;padding:clamp(2.5rem,5vw,5rem)}
+.sl-hero{height:100%;display:grid;grid-template-columns:1fr 1fr;background:var(--surface)}
+.sl-hero.flip{direction:rtl}.sl-hero.flip>*{direction:ltr}
+.sl-img{position:relative;overflow:hidden;background:var(--bg)}
+.sl-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,16,20,.38),transparent)}
+.sl-hero.flip .sl-img::after{background:linear-gradient(270deg,rgba(15,16,20,.38),transparent)}
+.sl-content{display:flex;flex-direction:column;justify-content:center;padding:clamp(2.6rem,5vw,5rem) clamp(2.2rem,4.8vw,4.8rem);position:relative}
+.t-label{font-family:var(--mono);font-size:clamp(.68rem,.9vw,.82rem);font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-l);margin-bottom:1rem}
+.t-h1,.t-h2,.t-h3{font-family:var(--display);font-weight:700;letter-spacing:-.018em;color:var(--ink)}
+.t-h1{font-size:clamp(3rem,6vw,5.5rem);line-height:1.02}
+.t-h2{font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.08}
+.t-h3{font-size:clamp(1.9rem,3.5vw,3rem);line-height:1.13}
+.t-body{font-size:clamp(1rem,1.35vw,1.18rem);line-height:1.72;color:var(--mid);max-width:820px}
+.t-body-lg{font-size:clamp(1.16rem,1.7vw,1.45rem);line-height:1.7;color:var(--mid);max-width:880px}
+.accent{color:var(--gold-l);font-style:italic;font-weight:400}.lime{color:var(--lime)}.red{color:var(--red)}
+.rule{width:42px;height:2px;background:var(--gold);margin:1.35rem 0}
+.callout{border-left:3px solid var(--gold);background:var(--gold-xl);padding:1.15rem 1.4rem;border-radius:0 10px 10px 0;color:var(--ink);font-size:clamp(.98rem,1.25vw,1.14rem);line-height:1.6}
+.callout.blue{border-left-color:var(--blue);background:var(--blue-l)}.callout.red{border-left-color:var(--red);background:var(--red-l)}.callout.sage{border-left-color:var(--sage);background:var(--sage-l)}
+.grid{display:grid;gap:1rem}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:rgba(255,255,255,.035);border:1px solid var(--fog);border-radius:16px;padding:1.25rem;position:relative;overflow:hidden}
+.card h3{font-family:var(--display);font-size:clamp(1.25rem,1.8vw,1.6rem);line-height:1.2;margin-bottom:.55rem}
+.card p{color:var(--mid);line-height:1.55;font-size:clamp(.9rem,1.08vw,1rem)}
+.stat-card{cursor:pointer;transition:transform .25s var(--spring),background .25s,border-color .25s;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:190px}
+.stat-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.06);border-color:rgba(232,201,106,.36)}
+.stat-num{font-family:var(--display);font-size:clamp(2.7rem,6.4vw,5.8rem);font-weight:700;line-height:.95;color:var(--ink);margin-bottom:.65rem}
+.stat-num.small{font-size:clamp(2rem,4vw,3.6rem)}
+.stat-src{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.75rem}
+.chart-wrap{margin-top:1.4rem;display:grid;gap:.7rem}
+.bar-row{display:grid;grid-template-columns:165px 1fr 72px;align-items:center;gap:.8rem}
+.bar-label{font-family:var(--mono);font-size:.72rem;color:var(--mid);letter-spacing:.06em;text-transform:uppercase}
+.bar-track{height:16px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--fog)}
+.bar-fill{width:0;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--lime));transition:width 1.2s var(--sharp)}
+.active .bar-fill{width:var(--w)}
+.bar-val{font-family:var(--mono);color:var(--gold-l);font-size:.78rem;text-align:right}
+.timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:2rem;border:1px solid var(--fog);border-radius:18px;overflow:hidden;background:var(--fog)}
+.tl-cell{background:var(--surface-2);padding:1.2rem;min-height:210px;display:flex;flex-direction:column;gap:.6rem;transform:translateY(24px);opacity:0;transition:transform .7s var(--sharp),opacity .7s}
+.active .tl-cell{transform:none;opacity:1}.active .tl-cell:nth-child(2){transition-delay:.12s}.active .tl-cell:nth-child(3){transition-delay:.24s}.active .tl-cell:nth-child(4){transition-delay:.36s}.active .tl-cell:nth-child(5){transition-delay:.48s}
+.tl-num{font-family:var(--mono);color:var(--lime);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}.tl-title{font-family:var(--display);font-size:1.25rem;font-weight:700}.tl-copy{color:var(--mid);line-height:1.5;font-size:.9rem}
+.traffic{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.4rem}
+.traffic .card:nth-child(1){border-color:rgba(164,200,146,.32)}.traffic .card:nth-child(2){border-color:rgba(217,178,90,.35)}.traffic .card:nth-child(3){border-color:rgba(224,106,94,.34)}
+.traffic-label{font-family:var(--display);font-size:2rem;margin-bottom:.4rem}.green-t{color:var(--sage)}.amber-t{color:var(--gold)}.red-t{color:var(--red)}
+.practice-list{display:grid;grid-template-columns:repeat(5,1fr);gap:.8rem;margin-top:1.4rem}
+.practice{background:var(--surface-2);border:1px solid var(--fog);border-radius:14px;padding:1rem;min-height:150px;display:flex;flex-direction:column;gap:.55rem}
+.practice b{font-family:var(--display);font-size:1.28rem}.practice span{color:var(--mid);font-size:.9rem;line-height:1.45}
+.prompt-card{font-family:var(--display);font-size:clamp(1.4rem,2vw,1.9rem);line-height:1.3;color:var(--ink)}
+.discussion{background:linear-gradient(160deg,#11141b,#0f1014);height:100%;padding:clamp(2.5rem,5vw,5.5rem);display:flex;flex-direction:column;justify-content:center}
+.discussion .q{font-family:var(--display);font-size:clamp(2rem,4vw,3.5rem);line-height:1.14;max-width:950px}
+.disc-label{font-family:var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--lime);font-size:.78rem;margin-bottom:1rem}
+.slide-foot{position:absolute;left:1.5rem;right:1.5rem;bottom:1rem;display:flex;justify-content:space-between;gap:1rem;color:rgba(244,239,226,.34);font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;z-index:4;pointer-events:none}
+.progress{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:20}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--lime));transition:width .35s var(--sharp)}
+.nav{position:fixed;right:1rem;top:50%;z-index:22;display:flex;flex-direction:column;gap:.5rem;transform:translateY(-50%)}.nav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--fog);background:rgba(15,16,20,.65);color:var(--ink);cursor:pointer;backdrop-filter:blur(8px)}.nav button:hover{border-color:var(--gold);color:var(--gold)}
+.counter{display:inline-block}.a{opacity:0;transform:translateY(18px);transition:opacity .7s var(--sharp),transform .7s var(--sharp)}.active .a{opacity:1;transform:none}.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}.d5{transition-delay:.6s}
+.overlay-modal{position:fixed;inset:0;background:rgba(7,8,11,.76);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1.4rem;z-index:60;opacity:0;visibility:hidden;transition:.25s}
+.overlay-modal.open{opacity:1;visibility:visible}.modal{width:min(680px,100%);max-height:86vh;overflow:auto;background:var(--surface-2);border:1px solid rgba(244,239,226,.18);border-radius:20px;padding:2rem;position:relative;box-shadow:0 50px 120px -40px rgba(0,0,0,.95)}.m-close{position:absolute;right:1rem;top:1rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--fog);background:var(--surface-3);color:var(--mid);cursor:pointer}.m-stat{font-family:var(--display);font-size:3rem;color:var(--gold);line-height:1;margin-bottom:.6rem}.m-title{font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1.25;margin-bottom:1rem}.m-body{color:var(--mid);line-height:1.72;white-space:pre-line}.m-src{border-top:1px solid var(--fog);margin-top:1rem;padding-top:1rem;color:var(--dim);font-size:.82rem;line-height:1.5}.m-src a{display:inline-block;margin-top:.65rem;color:var(--gold-l);text-decoration:none;border:1px solid rgba(217,178,90,.4);border-radius:999px;padding:.48rem .82rem;font-weight:700;font-size:.76rem}
+@media(max-width:900px){.sl-hero{grid-template-columns:1fr}.sl-img{display:none}.grid-3,.grid-4,.practice-list,.traffic,.timeline{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr}.bar-val{text-align:left}}
+</style>
+</head>
+<body>
+<div id="entry">
+  <div class="entry-inner">
+    <div class="entry-label">Public Evening · Tauranga · 90 minutes</div>
+    <h1 class="entry-title">AI<em> &amp; </em><span class="lime">You</span></h1>
+    <p class="entry-sub">A practical, faith-filled evening for parents, workers, and the body of Christ learning how to stay human, wise, and useful in an AI-shaped world.</p>
+    <div class="entry-cta">Click or press space to begin</div>
+  </div>
+</div>
+
+<main id="deck">
+  <section class="slide active" data-title="AI & You">
+    <div class="sl-full">
+      <img src="assets/tauranga-night-sky.png" alt="Tauranga night sky">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Public Evening · Tauranga</span>
+        <h2 class="t-h1 a d1">AI<em class="accent"> &amp; </em><span class="lime">You</span></h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">Following Jesus, parenting wisely, working well, and staying human in an AI-shaped world.</p>
+        <div class="callout sage a d3" style="margin-top:1.4rem;max-width:760px">Not hype. Not panic. Christian wisdom for ordinary people.</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Opening</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Why this matters">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1400&q=85" alt="Person working on laptop at night"></div>
+      <div class="sl-content">
+        <span class="t-label a">The question underneath the technology</span>
+        <h2 class="t-h3 a d1">AI is not just a tool we use. It is becoming an <em class="accent">environment</em> we live inside.</h2>
+        <div class="rule a d2"></div>
+        <p class="t-body a d2">It is entering our work, our homes, our children's homework, our searches, our spiritual questions, our loneliness, and our decisions.</p>
+        <div class="callout a d3" style="margin-top:1.2rem">So the Christian question is not only, "What can AI do?" It is, "What kind of people are we becoming while we use it?"</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Frame</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Room poll">
+    <div class="discussion">
+      <div class="disc-label a">Start here · quick room poll</div>
+      <div class="q a d1">Who has used AI this week?</div>
+      <div class="grid grid-4" style="margin-top:2rem">
+        <div class="card a d2"><h3>At work?</h3><p>Writing, planning, email, research, admin, coding, marketing, reporting.</p></div>
+        <div class="card a d3"><h3>At home?</h3><p>Travel, recipes, budgeting, fixing something, learning a skill.</p></div>
+        <div class="card a d4"><h3>With children?</h3><p>Homework, school policy, curiosity, companions, content creation.</p></div>
+        <div class="card a d5"><h3>Spiritually?</h3><p>Bible questions, prayer prompts, advice, comfort, meaning.</p></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Audience engagement</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Adoption at scale">
+    <div class="sl-pad">
+      <span class="t-label a">What has changed?</span>
+      <h2 class="t-h3 a d1">This is not a future issue. It is already infrastructure.</h2>
+      <div class="grid grid-3" style="margin-top:1.5rem">
+        <button class="card stat-card a d2" data-modal="chatgpt-users"><span class="stat-num"><span class="counter" data-target="900" data-suffix="M+">900M+</span></span><p>Weekly active ChatGPT users</p><div class="stat-src">OpenAI · 2026</div></button>
+        <button class="card stat-card a d3" data-modal="daily-messages"><span class="stat-num"><span class="counter" data-target="2.6" data-suffix="B+">2.6B+</span></span><p>Daily ChatGPT consumer messages</p><div class="stat-src">NBER / OpenAI · 2025</div></button>
+        <button class="card stat-card a d4" data-modal="nz-workers"><span class="stat-num"><span class="counter" data-target="84" data-suffix="%">84%</span></span><p>Kiwi knowledge workers already use generative AI at work</p><div class="stat-src">Microsoft NZ · 2024/25</div></button>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>What changed</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="How quickly it moved">
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=85" alt="Data dashboards and charts"></div>
+      <div class="sl-content">
+        <span class="t-label a">A new baseline</span>
+        <h2 class="t-h3 a d1">AI moved from novelty to daily habit faster than our institutions could respond.</h2>
+        <div class="chart-wrap a d2">
+          <div class="bar-row"><div class="bar-label">ChatGPT weekly</div><div class="bar-track"><div class="bar-fill" style="--w:90%"></div></div><div class="bar-val">900M+</div></div>
+          <div class="bar-row"><div class="bar-label">NZ work users</div><div class="bar-track"><div class="bar-fill" style="--w:84%"></div></div><div class="bar-val">84%</div></div>
+          <div class="bar-row"><div class="bar-label">NZ leaders and agents</div><div class="bar-track"><div class="bar-fill" style="--w:78%"></div></div><div class="bar-val">78%</div></div>
+          <div class="bar-row"><div class="bar-label">US teen companions</div><div class="bar-track"><div class="bar-fill" style="--w:72%"></div></div><div class="bar-val">72%</div></div>
+        </div>
+        <p class="t-body a d3" style="margin-top:1.2rem">The question is no longer whether AI will arrive. The question is whether we will meet it with wisdom.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Animated chart</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Formation">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=85" alt="Person standing in green landscape at sunrise">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Formation</span>
+        <h2 class="t-h2 a d1">The real question is not whether AI is intelligent. It is whether we are becoming <em class="accent">wise</em>.</h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">AI trains us toward speed, convenience, affirmation, and control. Jesus forms us through patience, truth, embodied love, and trust.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Formation</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Race for intimacy">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=1400&q=85" alt="Person holding phone in low light"></div>
+      <div class="sl-content">
+        <span class="t-label a">The shift from social media to AI</span>
+        <h2 class="t-h3 a d1">"Social media was a race for attention. AI is a race for intimacy."</h2>
+        <div class="rule a d2"></div>
+        <p class="t-body a d2">Social media learned what would keep us scrolling. AI learns what will keep us talking.</p>
+        <div class="grid grid-2 a d3" style="margin-top:1.2rem">
+          <div class="card"><h3>Attention</h3><p>What will make you look?</p></div>
+          <div class="card"><h3>Intimacy</h3><p>What will make you open your heart?</p></div>
+        </div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Formation</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Spiritual authority">
+    <div class="sl-pad">
+      <span class="t-label a">Faith and AI</span>
+      <h2 class="t-h3 a d1">People are not only asking AI for information. They are asking it for spiritual guidance.</h2>
+      <div class="grid grid-4" style="margin-top:1.4rem">
+        <button class="card stat-card a d2" data-modal="barna-trust"><span class="stat-num small">30%</span><p>U.S. adults say AI spiritual advice is as trustworthy as a pastor's</p><div class="stat-src">Barna · 2026</div></button>
+        <button class="card stat-card a d3" data-modal="barna-trust"><span class="stat-num small">39%</span><p>Gen Z agreement</p><div class="stat-src">Barna · 2026</div></button>
+        <button class="card stat-card a d4" data-modal="barna-trust"><span class="stat-num small">44%</span><p>Millennial agreement</p><div class="stat-src">Barna · 2026</div></button>
+        <button class="card stat-card a d5" data-modal="barna-growth"><span class="stat-num small">49%</span><p>Practicing Christians have used AI for personal growth</p><div class="stat-src">Barna · 2026</div></button>
+      </div>
+      <div class="callout red a d5" style="margin-top:1.2rem">The problem is not that people ask questions. The problem is when a machine becomes the place of comfort, counsel, confession, and formation.</div>
+      <div class="slide-foot"><span>AI & You</span><span>Faith</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Heart soul mind strength">
+    <div class="sl-pad">
+      <span class="t-label a">A Christian diagnostic</span>
+      <h2 class="t-h3 a d1">Run every tool through heart, soul, mind, and strength.</h2>
+      <div class="grid grid-4" style="margin-top:1.5rem">
+        <div class="card a d2"><h3>Heart</h3><p>What is this teaching me to love?</p></div>
+        <div class="card a d3"><h3>Soul</h3><p>What kind of person am I becoming?</p></div>
+        <div class="card a d4"><h3>Mind</h3><p>What thinking am I outsourcing?</p></div>
+        <div class="card a d5"><h3>Strength</h3><p>Where is my energy and attention going?</p></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Formation tool</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Parenting">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1600&q=85" alt="Parent and child outdoors">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Parents and home</span>
+        <h2 class="t-h2 a d1">Your children may meet an AI companion before they know how to name what it is.</h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">The goal is not fear. The goal is to become the trusted adult before the machine becomes the trusted voice.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Parents</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Children and AI">
+    <div class="sl-pad">
+      <span class="t-label a">What our children are already encountering</span>
+      <h2 class="t-h3 a d1">AI is already in homework, friendships, worry, curiosity, and confession.</h2>
+      <div class="grid grid-3" style="margin-top:1.4rem">
+        <button class="card stat-card a d2" data-modal="teen-companions"><span class="stat-num"><span class="counter" data-target="72" data-suffix="%">72%</span></span><p>U.S. teens have used AI companions</p><div class="stat-src">Common Sense Media · 2025</div></button>
+        <button class="card stat-card a d3" data-modal="vodafone"><span class="stat-num"><span class="counter" data-target="33" data-suffix="%">33%</span></span><p>Share things with chatbots they would not tell adults or friends</p><div class="stat-src">VodafoneThree · 2026</div></button>
+        <button class="card stat-card a d4" data-modal="vodafone"><span class="stat-num"><span class="counter" data-target="86" data-suffix="%">86%</span></span><p>Have acted on chatbot advice</p><div class="stat-src">VodafoneThree · 2026</div></button>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Parents</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="NZ schools">
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1400&q=85" alt="Classroom"></div>
+      <div class="sl-content">
+        <span class="t-label a">Aotearoa classrooms</span>
+        <h2 class="t-h3 a d1">This is already a school and homework issue in New Zealand.</h2>
+        <div class="rule a d2"></div>
+        <button class="card stat-card a d2" data-modal="nz-schools" style="align-items:flex-start;text-align:left;min-height:auto;margin-bottom:1rem">
+          <span class="stat-num small">60%</span>
+          <p>Young people in one NZ survey reported using generative AI for schoolwork.</p>
+          <div class="stat-src">Newstalk ZB / education reporting</div>
+        </button>
+        <div class="callout blue a d3">Parenting question: not "Can we ban it?" but "Can we disciple our children into wise use before unwise use becomes normal?"</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Schools</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Family practices">
+    <div class="sl-pad">
+      <span class="t-label a">Household AI rule of life</span>
+      <h2 class="t-h3 a d1">Five practices for parents and families.</h2>
+      <div class="timeline">
+        <div class="tl-cell"><div class="tl-num">01</div><div class="tl-title">No secrets</div><div class="tl-copy">No private emotional world with a machine that adults cannot talk about.</div></div>
+        <div class="tl-cell"><div class="tl-num">02</div><div class="tl-title">No crisis counsel</div><div class="tl-copy">An AI is not a therapist, pastor, parent, or emergency contact.</div></div>
+        <div class="tl-cell"><div class="tl-num">03</div><div class="tl-title">Ask better questions</div><div class="tl-copy">"What did you ask it that you did not ask us?"</div></div>
+        <div class="tl-cell"><div class="tl-num">04</div><div class="tl-title">Verify together</div><div class="tl-copy">Make checking sources a family skill, not a school punishment.</div></div>
+        <div class="tl-cell"><div class="tl-num">05</div><div class="tl-title">Keep Sabbath</div><div class="tl-copy">One weekly reminder that we are creatures, not machines.</div></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Family practices</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="NZ safety">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1400&q=85" alt="Cyber safety laptop"></div>
+      <div class="sl-content">
+        <span class="t-label a">Scams, sextortion, and deepfakes</span>
+        <h2 class="t-h3 a d1">AI makes deception faster, cheaper, and more believable.</h2>
+        <div class="rule a d2"></div>
+        <button class="card stat-card a d2" data-modal="netsafe" style="align-items:flex-start;text-align:left;min-height:auto">
+          <span class="stat-num small red">68%</span>
+          <p>Netsafe reported sextortion threats up in early 2026, with AI deepfake threats increasing.</p>
+          <div class="stat-src">Netsafe / NZ Herald · 2026</div>
+        </button>
+        <div class="callout red a d3" style="margin-top:1rem">Simple family phrase: "Show me the message. You are not in trouble. We will deal with it together."</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Online safety</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Work">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=1600&q=85" alt="Workers and logistics">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Work</span>
+        <h2 class="t-h2 a d1">AI will not hit every job the same way. It will hit <em class="accent">tasks</em> first.</h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">Writing, admin, reporting, scheduling, quoting, research, planning, customer comms, code, analysis, design, and compliance.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Work</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Tauranga work">
+    <div class="sl-pad">
+      <span class="t-label a">Here in Tauranga</span>
+      <h2 class="t-h3 a d1">This matters because our city runs on both physical work and information work.</h2>
+      <div class="grid grid-4" style="margin-top:1.4rem">
+        <button class="card stat-card a d2" data-modal="tauranga-jobs"><span class="stat-num small">76.6K</span><p>Employees worked in Tauranga City as at Feb 2024</p><div class="stat-src">TCC · 2025</div></button>
+        <button class="card stat-card a d3" data-modal="tauranga-jobs"><span class="stat-num small">14%</span><p>Health care and social assistance employees</p><div class="stat-src">TCC · 2025</div></button>
+        <button class="card stat-card a d4" data-modal="tauranga-jobs"><span class="stat-num small">11%</span><p>Retail trade employees</p><div class="stat-src">TCC · 2025</div></button>
+        <button class="card stat-card a d5" data-modal="tauranga-labour"><span class="stat-num small">5.9%</span><p>Bay of Plenty unemployment, March 2025 quarter</p><div class="stat-src">Priority One · 2025</div></button>
+      </div>
+      <div class="callout sage a d5" style="margin-top:1rem">The opportunity: become the person who can combine local trust, practical judgment, and AI fluency.</div>
+      <div class="slide-foot"><span>AI & You</span><span>Local work</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Digital team members">
+    <div class="sl-hero flip">
+      <div class="sl-img"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1400&q=85" alt="Team workshop"></div>
+      <div class="sl-content">
+        <span class="t-label a">The next shift</span>
+        <h2 class="t-h3 a d1">Workers will not only use AI. Many will manage digital team members.</h2>
+        <div class="rule a d2"></div>
+        <button class="card stat-card a d2" data-modal="nz-agents" style="align-items:flex-start;text-align:left;min-height:auto;margin-bottom:1rem">
+          <span class="stat-num small">78%</span>
+          <p>NZ business leaders are confident they will use agents as digital team members to expand workforce capacity in the next 12-18 months.</p>
+          <div class="stat-src">Microsoft NZ · 2025</div>
+        </button>
+        <p class="t-body a d3">The valuable worker becomes an "agent boss": someone who can brief, check, correct, and take responsibility for AI-assisted work.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Work</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Stay valuable">
+    <div class="sl-pad">
+      <span class="t-label a">How to stay valuable</span>
+      <h2 class="t-h3 a d1">Do not compete with AI at being fast. Compete where humans carry weight.</h2>
+      <div class="grid grid-4" style="margin-top:1.4rem">
+        <div class="card a d2"><h3>Trust</h3><p>People know you will tell the truth and own the outcome.</p></div>
+        <div class="card a d3"><h3>Context</h3><p>You understand people, place, history, culture, and constraints.</p></div>
+        <div class="card a d4"><h3>Judgment</h3><p>You know what matters, what is missing, and when to stop.</p></div>
+        <div class="card a d5"><h3>Presence</h3><p>You can sit with a person, not just optimise a process.</p></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Work practices</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Skills">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600&q=85" alt="Modern work desk">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Skills</span>
+        <h2 class="t-h2 a d1">Use AI well without being used by it.</h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">The skill is not just prompting. It is discernment: what to ask, what not to ask, what to verify, and when to go to a human.</p>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Skills</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Traffic light">
+    <div class="sl-pad">
+      <span class="t-label a">A simple traffic light for AI use</span>
+      <h2 class="t-h3 a d1">Not every task carries the same spiritual, relational, or privacy risk.</h2>
+      <div class="traffic">
+        <div class="card a d2"><div class="traffic-label green-t">Green</div><p>Summarising, brainstorming, learning, planning, first drafts, role-play practice.</p></div>
+        <div class="card a d3"><div class="traffic-label amber-t">Amber</div><p>Bible interpretation, work-confidential material, parenting decisions, health, money, legal issues.</p></div>
+        <div class="card a d4"><div class="traffic-label red-t">Red</div><p>Secrets, confession, crisis mental health, replacing real relationships, private photos, hidden companionship.</p></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Skills</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Prompt recipes">
+    <div class="sl-pad">
+      <span class="t-label a">Three prompts that build wisdom</span>
+      <h2 class="t-h3 a d1">Good AI use asks the tool to slow down, challenge you, and expose what is missing.</h2>
+      <div class="grid grid-3" style="margin-top:1.4rem">
+        <div class="card prompt-card a d2">"Explain this simply, then tell me the risks and what I should verify."</div>
+        <div class="card prompt-card a d3">"Argue the other side. What am I missing?"</div>
+        <div class="card prompt-card a d4">"Ask me five questions before giving advice."</div>
+      </div>
+      <div class="callout blue a d5" style="margin-top:1.2rem">Do not ask AI to remove your need for wisdom. Ask it to help you practice wisdom.</div>
+      <div class="slide-foot"><span>AI & You</span><span>Prompting</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Live demo">
+    <div class="discussion">
+      <div class="disc-label a">Optional live demo · 5 minutes</div>
+      <div class="q a d1">Take one ordinary problem and ask AI three different ways.</div>
+      <div class="grid grid-3" style="margin-top:2rem">
+        <div class="card a d2"><h3>Fast answer</h3><p>Shows usefulness.</p></div>
+        <div class="card a d3"><h3>Wise answer</h3><p>Adds questions, assumptions, and verification.</p></div>
+        <div class="card a d4"><h3>Christian answer</h3><p>Tests loves, duties, neighbours, and formation.</p></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Live demo</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Practices">
+    <div class="sl-pad">
+      <span class="t-label a">A rule of life for AI</span>
+      <h2 class="t-h3 a d1">Five take-home commitments.</h2>
+      <div class="practice-list">
+        <div class="practice a d2"><b>Verify</b><span>Important claims need trusted sources and real people.</span></div>
+        <div class="practice a d3"><b>Confess</b><span>Do not make a machine your priest, pastor, or secret keeper.</span></div>
+        <div class="practice a d4"><b>Disciple</b><span>Talk with children before there is a crisis.</span></div>
+        <div class="practice a d5"><b>Upskill</b><span>Learn the tool without surrendering discernment.</span></div>
+        <div class="practice a d5"><b>Sabbath</b><span>Practice being a creature, not a machine.</span></div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Rule of life</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="What can AI not do?">
+    <div class="sl-hero">
+      <div class="sl-img"><img src="assets/garden-tree-sunrise.png" alt="Tree at sunrise"></div>
+      <div class="sl-content">
+        <span class="t-label a">What AI cannot give</span>
+        <h2 class="t-h3 a d1">AI can generate words about love. It cannot love you.</h2>
+        <div class="rule a d2"></div>
+        <p class="t-body a d2">It can simulate attention. It cannot make covenant. It can give spiritual-sounding text. It cannot give the Holy Spirit. It can answer instantly. It cannot make you patient, prayerful, or holy.</p>
+        <div class="callout sage a d3" style="margin-top:1.2rem">The church's gift is not better content. It is embodied life together in Christ.</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Theology</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Discussion">
+    <div class="discussion">
+      <div class="disc-label a">Table conversation</div>
+      <div class="q a d1">Where is AI most likely to shape your household, workplace, or discipleship in the next 12 months?</div>
+      <p class="t-body-lg a d2" style="margin-top:1.4rem">Name one risk, one opportunity, and one wise next step.</p>
+      <div class="slide-foot"><span>AI & You</span><span>Discussion</span></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Closing">
+    <div class="sl-full">
+      <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=85" alt="Open road and sunrise">
+      <div class="sl-overlay"></div>
+      <div class="sl-full-text">
+        <span class="t-label a">Closing</span>
+        <h2 class="t-h2 a d1">The future will be fast. Wisdom will still be slow.</h2>
+        <p class="t-body-lg a d2" style="margin-top:1rem">Follow Jesus. Love your neighbour. Protect your children. Do good work. Learn the tools. Stay human.</p>
+        <div class="callout a d3" style="margin-top:1.4rem;max-width:780px">"Intelligence is not wisdom. AI may out-think us. It cannot tell us what a person is for."</div>
+      </div>
+      <div class="slide-foot"><span>AI & You</span><span>Close</span></div>
+    </div>
+  </section>
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">↑</button><button id="next" aria-label="Next slide">↓</button></div>
+<div class="progress"><span id="prog"></span></div>
+
+<div class="overlay-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="modal">
+    <button class="m-close" id="m-close" aria-label="Close">&times;</button>
+    <div class="m-stat" id="m-stat"></div>
+    <div class="m-title" id="m-title"></div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-src" id="m-src"></div>
+  </div>
+</div>
+
+<script>
+const SOURCES={
+  "chatgpt-users":{stat:"900M+",title:"ChatGPT weekly active users",body:"OpenAI reports ChatGPT has more than 900 million weekly active users and more than 50 million consumer subscribers. For this public session, use this as the clearest signal that AI is not niche anymore.",source:"OpenAI, Scaling AI for everyone, February 2026",link:"https://openai.com/index/scaling-ai-for-everyone/"},
+  "daily-messages":{stat:"2.6B+",title:"Daily ChatGPT consumer messages",body:"The NBER/OpenAI/Harvard/Duke paper reports 2,627 million consumer ChatGPT messages per day as a seven-day average ending June 26, 2025.",source:"NBER Working Paper 34255, How People Use ChatGPT, September 2025",link:"https://www.nber.org/papers/w34255"},
+  "nz-workers":{stat:"84%",title:"Kiwi knowledge workers using generative AI",body:"Microsoft and LinkedIn's New Zealand Work Trend Index coverage reports that 84% of New Zealand knowledge workers use generative AI at work, higher than the global average in that report.",source:"Microsoft New Zealand News Centre, AI at work is here, May 2024",link:"https://news.microsoft.com/en-nz/2024/05/09/ai-at-work-is-here-now-comes-the-hard-part/"},
+  "nz-agents":{stat:"78%",title:"NZ leaders expect AI agents as digital team members",body:"Microsoft New Zealand reported that 78% of New Zealand business leaders are confident they will use AI agents as digital team members to expand workforce capacity in the next 12 to 18 months.",source:"Microsoft New Zealand News Centre, April 2025",link:"https://news.microsoft.com/en-nz/2025/04/29/digital-team-members-will-be-common-in-nz-workplaces-within-five-years-report/"},
+  "barna-trust":{stat:"30% / 39% / 44%",title:"AI spiritual advice trusted like a pastor",body:"Barna/Gloo found 30% of U.S. adults agree that AI spiritual advice is as trustworthy as advice from a pastor. Among Gen Z, agreement is 39%; among Millennials, 44%; among practicing Christians, 34%.",source:"Barna Group / Gloo, Faith & AI, 2026",link:"https://www.barna.com/research/christians-trust-ai-flourishing-spiritual-authority/"},
+  "barna-growth":{stat:"41% / 45% / 49%",title:"Practicing Christians using AI for spiritual habits",body:"Barna's State of the Church 2026 trends report says roughly four in ten practicing Christians say AI has helped with prayer (41%) and Bible study (45%), and nearly half have looked to AI for personal growth (49%).",source:"Barna Group / Gloo, State of the Church 2026",link:"https://www.barna.com/research/four-trends-ministry-strategy-2026/"},
+  "teen-companions":{stat:"72%",title:"U.S. teens have used AI companions",body:"Common Sense Media found 72% of U.S. teens aged 13-17 have used AI companions at least once, and 52% are regular users. This is stronger sourcing than treating the figure as an industry estimate.",source:"Common Sense Media / NORC, Talk, Trust and Trade-Offs, 2025",link:"https://www.commonsensemedia.org/sites/default/files/research/report/talk-trust-and-trade-offs_2025_web.pdf"},
+  "vodafone":{stat:"33% / 86%",title:"Children disclose to and act on chatbot advice",body:"VodafoneThree/Censuswide found one in three children aged 11-16 who use chatbots had shared something they would not tell parents, teachers, or friends. The same release says 86% had acted on chatbot advice. Note: UK sample and context.",source:"VodafoneThree / Censuswide, Safer Internet Day 2026",link:"https://www.vodafonethree.com/ai-chatbots-safer-internet-day-2026/"},
+  "nz-schools":{stat:"60%",title:"Young people using AI for schoolwork in NZ reporting",body:"New Zealand education reporting cites a self-reported survey in which 60% of young people said they used generative AI to assist with schoolwork. NZCER also found more than half of surveyed Years 5-8 students had used generative AI.",source:"Newstalk ZB education reporting and NZCER teacher/student survey findings",link:"https://www.newstalkzb.co.nz/news/education/ministry-of-education-defends-ai-guidance-amid-calls-for-clarity-in-schools/"},
+  "netsafe":{stat:"68%",title:"Sextortion threats rising in New Zealand",body:"NZ Herald reporting on Netsafe data says sextortion threats were up 68% in the first three months of 2026, with AI deepfake images changing the threat landscape and victims reported as young as nine.",source:"NZ Herald / Netsafe reporting, 2026",link:"https://www.nzherald.co.nz/nz/netsafe-reports-68-rise-in-sextortion-in-nz-as-ai-deepfake-threats-increase/QI74I2MHLNHM5BNPSPY665NHFM/"},
+  "tauranga-jobs":{stat:"76,600",title:"Tauranga employment context",body:"Tauranga City Council's 2025 statistical report says 76,600 employees worked in Tauranga City as at February 2024. The largest industry by employees was Health Care and Social Assistance at 14%, followed by Retail Trade at 11%, Construction at more than 10%, Manufacturing at 9%, and Education and Training at 7%.",source:"Tauranga City Council Statistical Information Report 2025",link:"https://www.tauranga.govt.nz/Portals/0/data/council/reports/statistical-information-report-2025.pdf"},
+  "tauranga-labour":{stat:"5.9%",title:"Bay of Plenty unemployment",body:"Priority One's June 2025 economic update reported unemployment across the broader region rose to 5.9% in the March 2025 quarter, the highest in seven years, while agriculture and kiwifruit remained bright spots.",source:"Priority One Economic Update, June 2025",link:"https://www.priorityone.co.nz/2025/06/25/economic-update-june-2025/"}
+};
+const slides=[...document.querySelectorAll(".slide")];
+let cur=0,started=false;
+function update(){
+  slides.forEach((s,i)=>s.classList.toggle("active",i===cur));
+  document.getElementById("prog").style.width=((cur+1)/slides.length*100)+"%";
+  runCounters(slides[cur]);
+}
+function go(n){cur=Math.max(0,Math.min(slides.length-1,n));update();}
+function begin(){if(started)return;started=true;document.getElementById("entry").classList.add("out");update();}
+document.getElementById("entry").addEventListener("click",begin);
+document.getElementById("next").onclick=()=>go(cur+1);
+document.getElementById("prev").onclick=()=>go(cur-1);
+document.addEventListener("keydown",e=>{
+  if(!started&&(e.key===" "||e.key==="Enter"||e.key==="ArrowRight")){e.preventDefault();begin();return;}
+  if(document.getElementById("modal").classList.contains("open")){if(e.key==="Escape")closeModal();return;}
+  if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();go(cur+1);}
+  if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();go(cur-1);}
+  if(e.key==="Home")go(0); if(e.key==="End")go(slides.length-1);
+});
+function runCounters(slide){
+  slide.querySelectorAll(".counter").forEach(el=>{
+    if(el.dataset.done)return; el.dataset.done="1";
+    const target=parseFloat(el.dataset.target||"0"), suffix=el.dataset.suffix||"";
+    const decimals=String(target).includes(".")?1:0, start=performance.now(), dur=1100;
+    function tick(now){
+      const p=Math.min((now-start)/dur,1), eased=1-Math.pow(1-p,3), val=target*eased;
+      el.textContent=(decimals?val.toFixed(decimals):Math.round(val).toLocaleString("en-US"))+suffix;
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+function openModal(id){
+  const d=SOURCES[id]; if(!d)return;
+  document.getElementById("m-stat").textContent=d.stat;
+  document.getElementById("m-title").textContent=d.title;
+  document.getElementById("m-body").textContent=d.body;
+  document.getElementById("m-src").innerHTML="Source: "+d.source+(d.link?'<br><a href="'+d.link+'" target="_blank" rel="noopener">View source -></a>':'');
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal(){document.getElementById("modal").classList.remove("open");}
+document.querySelectorAll("[data-modal]").forEach(el=>el.addEventListener("click",()=>openModal(el.dataset.modal)));
+document.getElementById("m-close").onclick=closeModal;
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal();});
+update();
+</script>
+</body>
+</html>

@@ -264,6 +264,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "presentations-life-calling-discovery",
@@ -278,6 +279,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Reflection",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "presentations-lords-prayer-through-spheres",
@@ -306,6 +308,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Workflow",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "presentations-workflow-claude-to-live-site",
@@ -332,6 +335,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-04-22",
     category: "Presentations",
     format: "Workflow",
+    showInResources: false,
   },
   {
     id: "presentations-ai-prep-onboarding",
@@ -345,6 +349,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-05-03",
     category: "Presentations",
     format: "Printable",
+    showInResources: false,
   },
   {
     id: "presentations-ai-prep-readiness-checklist",
@@ -358,6 +363,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-05-03",
     category: "Presentations",
     format: "Printable",
+    showInResources: false,
   },
   {
     id: "presentations-ai-prep-safe-phrase-protocol",
@@ -372,6 +378,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Guide",
     wide: true,
+    showInResources: false,
   },
   {
     id: "presentations-ai-prep-analog-asset-log",
@@ -385,6 +392,7 @@ export const worksheets: WorksheetItem[] = [
     date: "2026-05-03",
     category: "Presentations",
     format: "Printable",
+    showInResources: false,
   },
 
   // ── Tauranga SME ─────────────────────────────────────────────
@@ -485,6 +493,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "tauranga-sme-presentation-time-audit",
@@ -499,6 +508,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "tauranga-sme-presentation-team",
@@ -513,6 +523,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
   {
     id: "tauranga-sme-presentation-legal",
@@ -527,6 +538,7 @@ export const worksheets: WorksheetItem[] = [
     category: "Presentations",
     format: "Presentation",
     displayMode: "fit-viewport",
+    showInResources: false,
   },
 ];
 

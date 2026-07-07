@@ -11,7 +11,7 @@ const ctaLabel = "Book a free 30-min consultation";
 
 const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
 
-export type PublicPage = "landing" | "about" | "speaking" | "resources" | "pricing" | "login";
+export type PublicPage = "landing" | "about" | "products" | "speaking" | "resources" | "pricing" | "login";
 
 interface SiteHeaderProps {
   currentPage?: PublicPage;
@@ -74,6 +74,9 @@ export function SiteHeader({ currentPage }: SiteHeaderProps) {
         </PrefetchLink>
         <PrefetchLink href="/about" className={navLinkClass(currentPage === "about")}>
           About Me
+        </PrefetchLink>
+        <PrefetchLink href="/products" className={navLinkClass(currentPage === "products")}>
+          Products
         </PrefetchLink>
         <PrefetchLink href="/speaking" className={navLinkClass(currentPage === "speaking")}>
           Speaking

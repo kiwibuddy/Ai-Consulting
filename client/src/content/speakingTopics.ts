@@ -9,59 +9,84 @@ export interface SpeakingTopic {
 
 export const speakingTopics: SpeakingTopic[] = [
   {
-    id: "being-fully-human",
-    title: "Being Fully Human in an AI World",
+    id: "discernment-age",
+    title: "Welcome to the Discernment Age",
     description:
-      "The flagship 4-module course for the AI age. In an era where AI promises abundance without purpose, this series offers a biblical framework for identity, work, and calling. Four modules: The Great Deception; Identity, Purpose & Work; Raising Co-Creators; The Church's Response.",
-    formats: ["4-week course", "Weekend intensive", "2-hour seminar", "60-min keynote"],
-    forAudience: "Church leadership teams, parents, educators, ministry staff, faith-based organizations",
-    // Add PDF to client/public/outlines/being-fully-human.pdf to enable "View outline" link
-    outlineUrl: "/outlines/being-fully-human.pdf",
+      "The signature keynote. AI can now produce words, images, and advice that sound right, so the scarce skill is telling real from plausible. This talk names the moment we are in and gives leaders a working framework for it. Delivered as biblical theology for churches, as practical leadership for businesses, and as formation for school communities.",
+    formats: ["Keynote (45–60 min)", "20-min conference short", "90-min seminar with Q&A", "Sunday morning"],
+    forAudience: "Conferences, churches, business events, school communities - adapted to the room",
+  },
+  {
+    id: "ai-in-your-organisation",
+    title: "Where Is AI Already in Your Organisation?",
+    description:
+      "The audit talk. Staff and volunteers are already using AI, usually on personal accounts, usually with no policy. This session walks leaders through the three questions to ask of every tool, the most common ways organisations get it wrong, and the fixes that take one setting change. Ends with a live run of the free ten-minute audit.",
+    formats: ["Leadership briefing (60 min)", "Board session", "Staff training (90 min)"],
+    forAudience: "Owners, boards, principals, pastors, operations leads",
+  },
+  {
+    id: "sacred-tasks",
+    title: "Sacred Tasks: What to Automate, What to Protect",
+    description:
+      "A hands-on workshop. Participants inventory their week and run every task through three questions: does this need a human, does it need this human, and is the struggle itself part of the point? Everyone leaves with a sorted list - what to automate, what to augment, and the handful of tasks worth protecting because doing them is the job.",
+    formats: ["Half-day workshop", "90-min team session", "Staff training day"],
+    forAudience: "SME teams, professionals, church staff (workplace and ministry editions)",
+  },
+  {
+    id: "ladder-breaks",
+    title: "Calling When the Ladder Breaks",
+    description:
+      "AI is removing many of the entry-level rungs people used to climb. This talk is for the person on the broken rung and for the leaders and parents around them: what work is for, what to build when the old path is gone, and how identity survives a labour market that keeps moving.",
+    formats: ["Keynote (45–60 min)", "Church seminar (90 min)", "Parents' evening"],
+    forAudience: "Churches, marketplace groups, parents of school leavers, young adults",
+  },
+  {
+    id: "teaching-discernment-age",
+    title: "Teaching for the Discernment Age",
+    description:
+      "Professional development for teachers. A shared framework for when AI helps learning and when it hollows it out, the VERIFY method for checking AI claims, and classroom-ready practices for assessment integrity. Comes with facilitator materials and a participant workbook.",
+    formats: ["Twilight session (90 min)", "Half-day PD", "Full PD day"],
+    forAudience: "Principals, teachers, IT leads, chaplaincy teams",
+  },
+  {
+    id: "who-are-you",
+    title: "Who Are You Before AI Tells You?",
+    description:
+      "A direct talk for students aged 13 to 18. What AI companions and algorithmic feeds are engineered to do, why an identity built on output is fragile, and what it looks like to know who you are before the machine offers you a version. No condescension, no scare tactics.",
+    formats: ["School assembly", "Chapel", "Youth event"],
+    forAudience: "Secondary students; pairs with the staff PD and the parent evening",
+  },
+  {
+    id: "parent-evening",
+    title: "Parent & Whānau Evening: AI at Home",
+    description:
+      "A practical evening for parents. What your kids are actually using, the deepfake and voice-cloning scams every family should prepare for, and how to co-create household AI boundaries kids will actually keep. Families leave with worksheets they can use that week.",
+    formats: ["Evening seminar (90 min)", "School or church hosted"],
+    forAudience: "Parents, grandparents, caregivers, youth workers",
   },
   {
     id: "spheres-worldview",
     title: "The Spheres Worldview: Co-Creating with God in Every Dimension",
     description:
-      "Overcoming the sacred-secular divide that leaves 90% of life 'unspiritual.' This teaching unveils the 7 spheres of society and how every domain—from the kitchen to the boardroom—is sacred space for co-creation with God. Real stories and practical application.",
+      "Overcoming the sacred-secular divide that leaves most of life feeling unspiritual. This teaching walks through the spheres of society and how every domain, from the kitchen to the boardroom, is a place of co-creation with God. Drawn from the worldview curriculum Nathaniel created and taught for four years in a credited leadership programme.",
     formats: ["Full-day workshop", "90-min seminar", "Sunday series (3–4 weeks)", "Leadership retreat"],
-    forAudience: "Church congregations, ministry leaders, businesspeople, artists, educators, parents",
-    outlineUrl: undefined,
+    forAudience: "Church congregations, ministry leaders, businesspeople, educators, parents",
   },
   {
-    id: "raising-co-creators",
-    title: "Raising Co-Creators: Parenting for Purpose in the AI Age",
+    id: "ai-acceleration-timeline",
+    title: "AI Acceleration Timeline",
     description:
-      "Helping children build identity rooted in who they are, not what they produce. As AI makes economic utility obsolete, this session equips parents to raise children anchored in sonship with God—teaching them to hear His voice and find purpose AI can never replace.",
-    formats: ["90-min parent seminar", "Half-day workshop", "Marriage/family retreat", "School parent evening"],
-    forAudience: "Parents, grandparents, youth workers, Christian school educators",
-    outlineUrl: undefined,
-  },
-  {
-    id: "two-roads-converging",
-    title: "The Two Roads Converging: Why the Church Must Act Now",
-    description:
-      "Why the church must act now. Secular AI promises abundance with no answer to 'Why do I exist?'; the church's sacred-secular divide devalues 90% of life. This message reveals how both roads lead to purposelessness and presents the Kingdom alternative.",
-    formats: ["Keynote (45–60 min)", "90-min seminar with Q&A", "Sunday morning", "Leadership presentation"],
-    forAudience: "Pastors, church boards, denominational leadership, Christian conferences",
-    outlineUrl: undefined,
-  },
-  {
-    id: "ai-strategy-faith",
-    title: "AI Strategy for Faith-Based Organizations",
-    description:
-      "Adopting AI responsibly while staying rooted in biblical values. A theological framework and strategic roadmap: use cases for ministry and discipleship, clear boundaries, case studies from churches and nonprofits, and an implementation roadmap tailored to your organization.",
-    formats: ["Half-day leadership workshop", "Board consultation (2–3 hrs)", "Staff training day", "Ongoing consultation"],
-    forAudience: "Ministry executives, church staff, nonprofit leaders, Christian school administrators, missions agencies",
-    outlineUrl: undefined,
+      "A briefing on how fast AI is moving and what the next three years ask of leaders. Delivered to city pastors and civic leaders. Maps the pace of change without fear-mongering, and ends with the practical moves worth making now.",
+    formats: ["Leadership briefing (60 min)", "Board session", "Keynote (45–60 min)"],
+    forAudience: "City leaders, pastors, boards, civic and business leadership groups",
   },
   {
     id: "custom",
-    title: "Custom Topics: Tailored to Your Audience",
+    title: "Custom topics: tailored to your audience",
     description:
-      "Presentations tailored to your organization's unique challenges at the intersection of faith, technology, and purpose. Recent custom topics include Kingdom economics in an AI world, the Celebration sphere in action, and from consumer Christianity to co-creator discipleship.",
+      "Presentations built for your organisation's specific questions at the intersection of AI, leadership, and formation. Recent custom work includes an AI acceleration briefing for city leaders, kingdom economics in an AI world, and honest AI use in ministry teams.",
     formats: ["Keynote", "Seminar", "Workshop", "Conference or retreat"],
-    forAudience: "Conferences, retreats, special events with specific themes",
-    outlineUrl: undefined,
+    forAudience: "Conferences, retreats, events with specific themes",
   },
 ];
 

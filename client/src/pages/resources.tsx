@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "wouter";
 import { SiteFooter } from "@/components/site-footer";
 import { motion } from "framer-motion";
@@ -11,62 +10,24 @@ import {
   landingViewportReveal,
   cinematicEase,
 } from "@/lib/animations";
-import { ArrowRight, Play, FileText, ExternalLink } from "lucide-react";
-import { videos, type VideoItem } from "@/content/videos";
+import { ArrowRight, FileText, ExternalLink } from "lucide-react";
 import { articles } from "@/content/articles";
-import { deepDives } from "@/content/deep-dives";
+import { deepDives, deepDivesSection } from "@/content/deep-dives";
 import { worksheets } from "@/content/worksheets";
 import { PageSEO } from "@/components/page-seo";
 import { FaqPageJsonLd } from "@/components/json-ld";
 import { PublicFaqSection } from "@/components/public-cinematic/public-faq-section";
 import { publicFaqItems } from "@/content/public-faq";
+import { WorksheetSetCards } from "@/components/worksheet-set-cards";
+import { SCHOOL_SUITE_PACK } from "@/content/school-suite";
 
-/** Articles sorted newest first for display. */
 const articlesByNewest = [...articles].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 
-/** Worksheets sorted newest first (carousel: left = newest, right = oldest). */
-const worksheetsByNewest = [...worksheets]
-  .filter((w) => w.showInResources !== false)
-  .sort((a, b) => {
-    const tb = new Date(b.date).getTime();
-    const ta = new Date(a.date).getTime();
-    if (tb !== ta) return tb - ta;
-    return a.id.localeCompare(b.id);
-  });
-
-/** Tauranga business collection (includes related presentations). */
-const taurangaResourcesByNewest = [...worksheets]
-  .filter(
-    (w) =>
-      w.id.startsWith("tauranga-sme-") &&
-      w.id !== "tauranga-sme-operators-playbook" &&
-      w.showInResources !== false
-  )
-  .sort((a, b) => {
-    const tb = new Date(b.date).getTime();
-    const ta = new Date(a.date).getTime();
-    if (tb !== ta) return tb - ta;
-    return a.id.localeCompare(b.id);
-  });
-
-/** General worksheet section excludes Tauranga business collection. */
-const generalWorksheetsByNewest = worksheetsByNewest.filter(
-  (w) => !w.id.startsWith("tauranga-sme-")
-);
+const worksheetsById = new Map(worksheets.map((w) => [w.id, w]));
 
 const contentMax = "nb-container max-w-6xl px-0 mx-auto";
-const worksheetCategories = [
-  "AI & Family",
-  "Christian Growth",
-  "Education",
-  "Working Professionals",
-  "Presentations",
-] as const;
-type WorksheetCategory = (typeof worksheetCategories)[number];
-type WorksheetFilter = "All" | WorksheetCategory;
-type WorksheetCardItem = (typeof worksheets)[number];
 const deepDiveWaveHeights = [
   24, 36, 30, 48, 34, 58, 38, 52, 28, 46, 40, 32, 26, 42, 34, 30, 50, 36, 44, 30,
   28, 46, 34, 40, 30, 48, 32, 42,
@@ -76,36 +37,8 @@ function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
 }
 
-/** Green link row used on every resource card */
 const resourceCardCtaClass =
   "text-sm font-medium text-[var(--nb-accent)] inline-flex items-center gap-1";
-
-/** Left-foot “kind” label colour (matches worksheet format badges site-wide) */
-function resourceKindAccentClass(kind: string): string {
-  const base = "text-xs font-medium";
-  switch (kind) {
-    case "Article":
-      return `${base} text-rose-700`;
-    case "Podcast":
-      return `${base} text-fuchsia-800`;
-    case "Presentation":
-      return `${base} text-violet-700`;
-    case "YouTube":
-      return `${base} text-red-700`;
-    case "Video":
-      return `${base} text-orange-800`;
-    case "Interactive":
-      return `${base} text-sky-700`;
-    case "Reflection":
-      return `${base} text-amber-800`;
-    case "Workflow":
-      return `${base} text-indigo-700`;
-    case "Printable":
-      return `${base} text-teal-800`;
-    default:
-      return `${base} text-[var(--nb-ink-soft)]`;
-  }
-}
 
 function formatResourceDate(iso: string): string {
   try {
@@ -115,43 +48,6 @@ function formatResourceDate(iso: string): string {
   } catch {
     return iso;
   }
-}
-
-function worksheetDisplayFormat(format: string | undefined): string {
-  return format?.trim() || "Interactive";
-}
-
-function worksheetCtaLabel(format: string | undefined): string {
-  switch (format) {
-    case "Presentation":
-      return "Start Presentation";
-    case "Reflection":
-      return "Open reflection";
-    case "Workflow":
-      return "Open workflow";
-    case "Printable":
-      return "Open printable";
-    default:
-      return "Open worksheet";
-  }
-}
-
-function videoFooterKind(video: VideoItem): string {
-  if (video.category === "Presentations") return "Presentation";
-  if (video.source === "youtube") return "YouTube";
-  return "Video";
-}
-
-function videoCtaLabel(video: VideoItem): string {
-  if (video.category === "Presentations") return "Start Presentation";
-  return "Watch";
-}
-
-function videoCategoryEyebrowClass(video: VideoItem): string {
-  const base = "nb-mono-label mb-1 ";
-  if (video.category === "Presentations") return `${base}text-violet-700`;
-  if (video.source === "youtube") return `${base}text-red-700`;
-  return `${base}text-[var(--nb-ink-soft)]`;
 }
 
 function DeepDiveAnimatedThumb({ id }: { id: string }) {
@@ -190,100 +86,57 @@ function DeepDiveAnimatedThumb({ id }: { id: string }) {
   );
 }
 
+function ResourceSection({
+  title,
+  intro,
+  children,
+  raised = false,
+  footer,
+}: {
+  title: string;
+  intro?: string;
+  children: React.ReactNode;
+  raised?: boolean;
+  footer?: React.ReactNode;
+}) {
+  return (
+    <section
+      className={`nb-inner-section border-y border-[var(--nb-rule)]/80 ${
+        raised ? "bg-[var(--nb-bg-raised)]" : "bg-[var(--nb-bg)]"
+      }`}
+    >
+      <div className={contentMax}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={landingViewportReveal}
+          variants={staggerRevealContainerVariants}
+          className="mb-8"
+        >
+          <motion.h2 className="nb-section-title mb-3" variants={staggerRevealItemVariants}>
+            {title}
+          </motion.h2>
+          {intro && (
+            <motion.p
+              className="text-sm md:text-base text-[var(--nb-ink-soft)] leading-relaxed max-w-3xl m-0"
+              variants={staggerRevealItemVariants}
+            >
+              {intro}
+            </motion.p>
+          )}
+        </motion.div>
+        {children}
+        {footer}
+      </div>
+    </section>
+  );
+}
+
 export default function ResourcesPage() {
-  const [showAllWorksheets, setShowAllWorksheets] = useState(false);
-  const [worksheetFilter, setWorksheetFilter] = useState<WorksheetFilter>("All");
-  const worksheetFilterOptions: WorksheetFilter[] = [
-    "All",
-    ...worksheetCategories.filter((cat) =>
-      generalWorksheetsByNewest.some((sheet) => sheet.category === cat)
-    ),
-  ];
-
-  const worksheetGroups =
-    worksheetFilter === "All"
-      ? worksheetCategories
-          .map((category) => ({
-            category,
-            items: generalWorksheetsByNewest.filter((sheet) => sheet.category === category),
-          }))
-          .filter((group) => group.items.length > 0)
-      : [
-          {
-            category: worksheetFilter,
-            items: generalWorksheetsByNewest.filter((sheet) => sheet.category === worksheetFilter),
-          },
-        ];
-
-  const renderWorksheetCard = (sheet: WorksheetCardItem) => {
-    const sheetExternal = isExternalUrl(sheet.url);
-    const thumbSrc = sheet.thumbnail ?? sheet.shareImage;
-    const fmt = worksheetDisplayFormat(sheet.format);
-    const sheetCard = (
-      <>
-        {thumbSrc ? (
-          <img
-            src={thumbSrc}
-            alt=""
-            className="aspect-video w-full object-cover shrink-0"
-          />
-        ) : (
-          <div className="aspect-video bg-[var(--nb-bg-panel)] flex items-center justify-center shrink-0">
-            <FileText className="h-12 w-12 text-neutral-300" />
-          </div>
-        )}
-        <div className="p-5 flex-1 flex flex-col">
-          <h4 className="nb-card-title text-[clamp(18px,1.6vw,22px)] mb-2">{sheet.title}</h4>
-          <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
-            {sheet.description}
-          </p>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-xs">
-              <span className={resourceKindAccentClass(fmt)}>{fmt}</span>
-              <span className="text-neutral-400"> · </span>
-              <span className="text-neutral-500">{formatResourceDate(sheet.date)}</span>
-            </span>
-            <span className={resourceCardCtaClass}>
-              {worksheetCtaLabel(sheet.format)}
-              <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </div>
-        </div>
-      </>
-    );
-
-    return (
-      <motion.div
-        key={sheet.id}
-        variants={cardSlideUpItemVariants}
-        whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
-        className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 h-full"
-      >
-        {sheetExternal ? (
-          <a
-            href={sheet.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-          >
-            {sheetCard}
-          </a>
-        ) : (
-          <Link
-            href={sheet.url}
-            className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-          >
-            {sheetCard}
-          </Link>
-        )}
-      </motion.div>
-    );
-  };
-
   return (
     <div className="nb-page overflow-x-hidden">
       <PageSEO
-        title="AI & Faith Resources — Articles on AI for Churches, Christian Education & Missions"
+        title="AI & Faith Resources - Articles on AI for Churches, Christian Education & Missions"
         description="Articles and essays on artificial intelligence from a Christian perspective. AI ethics for churches, digital discipleship, AI in education, parenting in the age of AI, FAQs, and free worksheets. By Nathaniel Baldock."
         canonicalPath="/resources"
       />
@@ -294,7 +147,6 @@ export default function ResourcesPage() {
         }))}
       />
 
-      {/* Hero */}
       <section className={`nb-inner-main ${contentMax}`}>
         <motion.div
           className="max-w-3xl"
@@ -313,256 +165,118 @@ export default function ResourcesPage() {
             className="nb-body-lg text-[var(--nb-ink-soft)] leading-relaxed [text-wrap:balance]"
             variants={staggerRevealItemVariants}
           >
-            Articles and essays on AI, faith, and leadership — from an AI consultant perspective. New Zealand and global.
+            Articles, worksheet sets, and research briefings. Start anywhere — each worksheet set
+            opens with one free preview; email unlocks the rest.
           </motion.p>
         </motion.div>
       </section>
 
-      {/* Articles & essays */}
-      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
-        <div className={contentMax}>
-          <motion.h2
-            className="nb-section-title mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={fadeUpRevealVariants}
-          >
-            Articles & essays
-          </motion.h2>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {articlesByNewest.map((article) => {
-              const isExternal = isExternalUrl(article.url);
-              const cardContent = (
-                <>
-                  {article.image ? (
-                    <img
-                      src={article.image}
-                      alt=""
-                      className="aspect-video w-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="aspect-video bg-[var(--nb-bg-panel)] flex items-center justify-center shrink-0">
-                      <FileText className="h-12 w-12 text-neutral-300" />
-                    </div>
-                  )}
-                  <div className="p-5 flex-1 flex flex-col">
-                    {article.category && (
-                      <span className="text-xs font-medium text-[var(--nb-ink-soft)] uppercase tracking-wider mb-1">
-                        {article.category}
-                      </span>
-                    )}
-                    <h3 className="nb-card-title mb-2">{article.title}</h3>
-                    <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
-                      {article.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs">
-                        <span className={resourceKindAccentClass("Article")}>Article</span>
-                        <span className="text-neutral-400"> · </span>
-                        <span className="text-neutral-500">
-                          {article.readTime && `${article.readTime} · `}
-                          {formatResourceDate(article.date)}
-                        </span>
-                      </span>
-                      <span className={resourceCardCtaClass}>
-                        Read full article
-                        {isExternal ? (
-                          <ExternalLink className="h-3.5 w-3.5" />
-                        ) : (
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                    </div>
+      <ResourceSection title="Articles & essays" raised>
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={landingViewportReveal}
+          variants={cardSlideUpContainerVariants}
+        >
+          {articlesByNewest.map((article) => {
+            const isExternal = isExternalUrl(article.url);
+            const cardContent = (
+              <>
+                {article.image ? (
+                  <img
+                    src={article.image}
+                    alt=""
+                    className="aspect-video w-full object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="aspect-video bg-[var(--nb-bg-panel)] flex items-center justify-center shrink-0">
+                    <FileText className="h-12 w-12 text-[var(--nb-ink-dim)]" />
                   </div>
-                </>
-              );
-
-              return (
-                <motion.div
-                  key={article.id}
-                  variants={cardSlideUpItemVariants}
-                  whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
-                  className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-                >
-                  {isExternal ? (
-                    <a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                    >
-                      {cardContent}
-                    </a>
-                  ) : (
-                    <Link
-                      href={article.url}
-                      className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
-                    >
-                      {cardContent}
-                    </Link>
+                )}
+                <div className="p-5 flex-1 flex flex-col">
+                  {article.category && (
+                    <span className="text-xs font-medium text-[var(--nb-ink-soft)] uppercase tracking-wider mb-1">
+                      {article.category}
+                    </span>
                   )}
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Tauranga businesses */}
-      <section className="nb-inner-section bg-[var(--nb-bg)] border-y border-[var(--nb-rule)]/80">
-        <div className={contentMax}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={staggerRevealContainerVariants}
-            className="mb-8"
-          >
-            <motion.h2
-              className="nb-section-title mb-3"
-              variants={staggerRevealItemVariants}
-            >
-              Tauranga Businesses
-            </motion.h2>
-            <motion.p
-              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-3xl"
-              variants={staggerRevealItemVariants}
-            >
-              Tauranga SME resources mapped to Bronze, Silver, and Gold pathways — worksheets,
-              session decks, and the combined master report so local businesses can move from
-              assessment to implementation.
-            </motion.p>
-          </motion.div>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {taurangaResourcesByNewest.map((sheet) => renderWorksheetCard(sheet))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Worksheets */}
-      <section className="nb-inner-section bg-[var(--nb-bg)]">
-        <div className={contentMax}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={staggerRevealContainerVariants}
-            className="mb-8"
-          >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
-              <motion.h2
-                className="nb-section-title"
-                variants={staggerRevealItemVariants}
-              >
-                Worksheets
-              </motion.h2>
-              <motion.button
-                type="button"
-                onClick={() => {
-                  setShowAllWorksheets((prev) => !prev);
-                  setWorksheetFilter("All");
-                }}
-                variants={staggerRevealItemVariants}
-                className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-[var(--nb-bg-raised)] px-4 py-2 text-sm font-medium text-[var(--nb-ink-soft)] hover:border-[hsl(142,76%,42%)]/50 hover:text-[var(--nb-accent)] transition"
-              >
-                {showAllWorksheets ? "Back to carousel" : "Show all"}
-              </motion.button>
-            </div>
-            <motion.p
-              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
-              variants={staggerRevealItemVariants}
-            >
-              Practical tools you can use in your family, workplace, and ministry. Open them in your browser, fill them in, and print or save when you're done.
-            </motion.p>
-          </motion.div>
-
-          {!showAllWorksheets ? (
-            <>
-              <motion.div
-                className="flex overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden gap-6 pb-3 snap-x snap-mandatory"
-                initial="hidden"
-                whileInView="visible"
-                viewport={landingViewportReveal}
-                variants={cardSlideUpContainerVariants}
-              >
-                {generalWorksheetsByNewest.map((sheet) => (
-                  <div
-                    key={sheet.id}
-                    className="snap-start shrink-0 basis-[85%] sm:basis-[48%] lg:basis-[calc((100%-3rem)/3)]"
-                  >
-                    {renderWorksheetCard(sheet)}
+                  <h3 className="nb-card-title mb-2">{article.title}</h3>
+                  <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
+                    {article.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-[var(--nb-ink-dim)]">
+                      {article.readTime && `${article.readTime} · `}
+                      {formatResourceDate(article.date)}
+                    </span>
+                    <span className={resourceCardCtaClass}>
+                      Read full article
+                      {isExternal ? (
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      ) : (
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      )}
+                    </span>
                   </div>
-                ))}
-              </motion.div>
-              <p className="text-xs text-neutral-500 mt-2">
-                Swipe or scroll horizontally to browse all worksheets.
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="flex flex-wrap items-center gap-2 mb-8">
-                {worksheetFilterOptions.map((filter) => {
-                  const active = worksheetFilter === filter;
-                  return (
-                    <button
-                      key={filter}
-                      type="button"
-                      onClick={() => setWorksheetFilter(filter)}
-                      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                        active
-                          ? "border-[hsl(142,76%,42%)] bg-[hsl(142,76%,42%)] text-white"
-                          : "border-neutral-300 bg-[var(--nb-bg-raised)] text-[var(--nb-ink-soft)] hover:border-[hsl(142,76%,42%)]/50 hover:text-[var(--nb-accent)]"
-                      }`}
-                    >
-                      {filter}
-                    </button>
-                  );
-                })}
-              </div>
-              {worksheetGroups.map((group) => (
-                <div key={group.category} className="mb-14 last:mb-0">
-                  {worksheetFilter === "All" && (
-                    <motion.h3
-                      className="nb-card-title mb-5"
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={landingViewportReveal}
-                      variants={fadeUpRevealVariants}
-                    >
-                      {group.category}
-                    </motion.h3>
-                  )}
-                  <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={landingViewportReveal}
-                    variants={cardSlideUpContainerVariants}
-                  >
-                    {group.items.map((sheet) => renderWorksheetCard(sheet))}
-                  </motion.div>
                 </div>
-              ))}
-            </>
-          )}
-        </div>
-      </section>
+              </>
+            );
 
-      {/* Deep-Dives (NotebookLM podcasts) */}
-      <section className="nb-inner-section bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80">
+            return (
+              <motion.div
+                key={article.id}
+                variants={cardSlideUpItemVariants}
+                whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
+                className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+              >
+                {isExternal ? (
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                  >
+                    {cardContent}
+                  </a>
+                ) : (
+                  <Link
+                    href={article.url}
+                    className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
+                  >
+                    {cardContent}
+                  </Link>
+                )}
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </ResourceSection>
+
+      <ResourceSection
+        title="Worksheet sets"
+        intro="Six sets for families, faith, schools, professionals, preparedness, and Tauranga businesses. Open worksheet 1 free; enter your email at the bottom of any preview to unlock the full set."
+        footer={
+          <p className="text-sm text-[var(--nb-ink-soft)] mt-8 m-0">
+            Want live teaching?{" "}
+            <Link href="/speaking" className="text-[var(--nb-accent)] hover:underline">
+              Book a speaking session
+            </Link>
+            . Schools: see the{" "}
+            <Link href={SCHOOL_SUITE_PACK} className="text-[var(--nb-accent)] hover:underline">
+              schools pack
+            </Link>
+            . Businesses: the paid{" "}
+            <Link href="/tauranga-sme" className="text-[var(--nb-accent)] hover:underline">
+              AI-Ready Business Pack
+            </Link>{" "}
+            goes deeper.
+          </p>
+        }
+      >
+        <WorksheetSetCards worksheetsById={worksheetsById} />
+      </ResourceSection>
+
+      <section className="nb-inner-section border-y border-[var(--nb-rule)]/80 bg-[var(--nb-bg)]">
         <div className={contentMax}>
           <motion.div
             initial="hidden"
@@ -571,21 +285,32 @@ export default function ResourcesPage() {
             variants={staggerRevealContainerVariants}
             className="mb-8"
           >
-            <motion.h2
-              className="nb-section-title mb-3"
+            <motion.p
+              className="nb-mono-label text-[11px] mb-3 m-0 tracking-[0.16em]"
+              style={{ color: "var(--nb-accent)" }}
               variants={staggerRevealItemVariants}
             >
-              Deep-Dives
+              {deepDivesSection.eyebrow}
+            </motion.p>
+            <motion.h2 className="nb-section-title mb-3" variants={staggerRevealItemVariants}>
+              {deepDivesSection.title}
             </motion.h2>
             <motion.p
-              className="text-sm md:text-base text-neutral-500 leading-relaxed max-w-2xl"
+              className="text-sm md:text-base text-[var(--nb-ink-soft)] leading-relaxed max-w-3xl m-0"
               variants={staggerRevealItemVariants}
             >
-              AI-generated podcast conversations powered by NotebookLM. These are not authoritative sources — they are synthesised from carefully curated research, news, and content I have found valuable. I have found them to be thought-provoking companions to the topics I care about, and I hope you do too.
+              {deepDivesSection.intro}
+            </motion.p>
+            <motion.p
+              className="text-xs md:text-sm text-[var(--nb-ink-dim)] leading-relaxed max-w-3xl m-0 mt-5 pl-4 border-l-2 border-[hsl(280,40%,45%)]/50"
+              variants={staggerRevealItemVariants}
+            >
+              {deepDivesSection.sourceNote}
             </motion.p>
           </motion.div>
+
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
             initial="hidden"
             whileInView="visible"
             viewport={landingViewportReveal}
@@ -596,41 +321,35 @@ export default function ResourcesPage() {
                 key={dive.id}
                 variants={cardSlideUpItemVariants}
                 whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
-                className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                className="flex flex-col rounded-2xl border border-dashed border-[hsl(280,36%,42%)]/35 bg-[var(--nb-bg-raised)] overflow-hidden shadow-sm hover:shadow-lg hover:border-[hsl(280,36%,52%)]/50 transition-all duration-300"
               >
                 <a
                   href={dive.url}
-                  target={isExternalUrl(dive.url) ? "_blank" : undefined}
-                  rel={isExternalUrl(dive.url) ? "noopener noreferrer" : undefined}
                   className="flex flex-col flex-1 no-underline text-inherit cursor-pointer"
                 >
-                  <DeepDiveAnimatedThumb id={dive.id} />
+                  <div className="relative">
+                    <DeepDiveAnimatedThumb id={dive.id} />
+                    <span className="absolute top-3 left-3 nb-mono-label text-[10px] px-2 py-1 rounded-full bg-[#0f1014]/80 border border-[hsl(280,40%,55%)]/40 text-[hsl(280,50%,78%)] backdrop-blur-sm">
+                      AI audio briefing
+                    </span>
+                  </div>
                   <div className="p-5 flex-1 flex flex-col">
                     {dive.category && (
-                      <span className="text-xs font-medium text-[var(--nb-ink-soft)] uppercase tracking-wider mb-1">
+                      <span className="text-xs font-medium text-[hsl(280,40%,65%)] uppercase tracking-wider mb-1">
                         {dive.category}
                       </span>
                     )}
-                    <h3 className="nb-card-title mb-2">{dive.title}</h3>
+                    <h4 className="nb-card-title mb-2">{dive.title}</h4>
                     <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
                       {dive.description}
                     </p>
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs">
-                        <span className={resourceKindAccentClass("Podcast")}>Podcast</span>
-                        <span className="text-neutral-400"> · </span>
-                        <span className="text-neutral-500">
-                          {dive.duration && `${dive.duration} · `}
-                          {formatResourceDate(dive.date)}
-                        </span>
-                      </span>
-                      <span className={resourceCardCtaClass}>
-                        Listen
-                        {isExternalUrl(dive.url) ? (
-                          <ExternalLink className="h-3.5 w-3.5" />
-                        ) : (
-                          <ArrowRight className="h-3.5 w-3.5" />
-                        )}
+                      {dive.duration && (
+                        <span className="text-xs text-[var(--nb-ink-dim)]">{dive.duration}</span>
+                      )}
+                      <span className={`${resourceCardCtaClass} ml-auto`}>
+                        {deepDivesSection.cardCta}
+                        <ArrowRight className="h-3.5 w-3.5" />
                       </span>
                     </div>
                   </div>
@@ -641,92 +360,9 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      {/* Videos & talks */}
-      <section className="nb-inner-section bg-[var(--nb-bg)]">
-        <div className={contentMax}>
-          <motion.h2
-            className="nb-section-title mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={fadeUpRevealVariants}
-          >
-            Videos & talks
-          </motion.h2>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={landingViewportReveal}
-            variants={cardSlideUpContainerVariants}
-          >
-            {videos.map((video) => {
-              const vExt = isExternalUrl(video.url);
-              return (
-                <motion.div
-                  key={video.id}
-                  variants={cardSlideUpItemVariants}
-                  whileHover={{ y: -6, transition: { duration: 0.3, ease: cinematicEase } }}
-                  className="flex flex-col rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-                >
-                  <a
-                    href={video.url}
-                    target={vExt ? "_blank" : undefined}
-                    rel={vExt ? "noopener noreferrer" : undefined}
-                    className="flex flex-col flex-1 no-underline text-inherit cursor-pointer min-h-0"
-                  >
-                    <div className="aspect-video bg-neutral-200 flex items-center justify-center shrink-0 relative group">
-                      {video.thumbnail ? (
-                        <img src={video.thumbnail} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="flex flex-col items-center gap-2 text-neutral-400 group-hover:text-[var(--nb-ink-soft)] transition-colors">
-                          <Play className="h-12 w-12" />
-                          {video.duration && (
-                            <span className="text-xs font-medium">{video.duration}</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-5 flex-1 flex flex-col">
-                      {video.category && (
-                        <span className={videoCategoryEyebrowClass(video)}>
-                          {video.category}
-                        </span>
-                      )}
-                      <h3 className="nb-card-title mb-2">{video.title}</h3>
-                      <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed flex-1 mb-4">
-                        {video.description}
-                      </p>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs">
-                          <span className={resourceKindAccentClass(videoFooterKind(video))}>
-                            {videoFooterKind(video)}
-                          </span>
-                          <span className="text-neutral-400"> · </span>
-                          <span className="text-neutral-500">{formatResourceDate(video.date)}</span>
-                        </span>
-                        <span className={resourceCardCtaClass}>
-                          {videoCtaLabel(video)}
-                          {vExt ? (
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          ) : (
-                            <ArrowRight className="h-3.5 w-3.5" />
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
       <PublicFaqSection className="bg-[var(--nb-bg-raised)]" />
 
       <SiteFooter />
     </div>
   );
 }
-

@@ -11,6 +11,7 @@ export function getPublicPageFromPath(path: string): PublicPage | undefined {
   if (p === "/speaking" || p.startsWith("/speaking/")) return "speaking";
   if (p.startsWith("/resources")) return "resources";
   if (p === "/pricing") return "pricing";
+  if (p === "/products") return "products";
   if (p === "/login") return "login";
   return undefined;
 }

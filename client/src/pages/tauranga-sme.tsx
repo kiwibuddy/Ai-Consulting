@@ -56,15 +56,19 @@ interface SourceItem {
 }
 
 const SOURCES: SourceItem[] = [
-  { label: "MBIE — Addressing barriers to AI uptake (2025)", href: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/addressing-barriers-to-ai-uptake-in-new-zealand" },
-  { label: "Beehive — New AI Advisory Pilot ($765k)", href: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai" },
-  { label: "OPC — Guidance on AI and the IPPs", href: "https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" },
-  { label: "AI New Zealand — AI tipping point (2025)", href: "https://www.newzealand.ai/c/insights/ai-in-aotearoa-in-2025-by-the-numbers" },
-  { label: "Microsoft — NZ’s $3.4B AI advantage", href: "https://news.microsoft.com/source/asia/features/nz-new-ai-economy-report-2025/" },
-  { label: "PwC — 2025 Global AI Jobs Barometer (NZ)", href: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf" },
-  { label: "Bell Gully — Do you own your AI-generated content?", href: "https://www.bellgully.com/insights/do-you-own-your-ai-generated-content-a-summary-for-nz-businesses/" },
-  { label: "Port of Tauranga — Investor Day 2026", href: "https://www.port-tauranga.co.nz/wp-content/uploads/Investor-Day-Presentation-2026.pdf" },
-  { label: "Callaghan Innovation — PlantTech research collaboration", href: "https://www.callaghaninnovation.govt.nz/stories/research-collaboration-cultivating-growth-bay-plenty/" },
+  { label: "MBIE -  Addressing barriers to AI uptake (2025)", href: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/addressing-barriers-to-ai-uptake-in-new-zealand" },
+  { label: "Beehive -  New AI Advisory Pilot ($765k, Jan 2026)", href: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai" },
+  { label: "Beehive -  Pilot expanded to 150 businesses (May 2026)", href: "https://www.beehive.govt.nz/release/more-kiwi-businesses-get-ai-support" },
+  { label: "MBIE -  AI Advisory Pilot expansion (May 2026)", href: "https://www.mbie.govt.nz/about/news/more-practical-ai-support-for-small-businesses" },
+  { label: "business.govt.nz -  Find your local Regional Business Partner", href: "https://www.business.govt.nz/strategy-and-performance/regional-business-partner-network/find-your-local-regional-business-partner" },
+  { label: "Tauranga Business Chamber -  Business Growth Hub (BoP RBP)", href: "https://tauranga.org.nz/bus-growth-hub/" },
+  { label: "OPC -  Guidance on AI and the IPPs", href: "https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" },
+  { label: "AI New Zealand -  AI tipping point (2025)", href: "https://www.newzealand.ai/c/insights/ai-in-aotearoa-in-2025-by-the-numbers" },
+  { label: "Microsoft -  NZ’s $3.4B AI advantage", href: "https://news.microsoft.com/source/asia/features/nz-new-ai-economy-report-2025/" },
+  { label: "PwC -  2025 Global AI Jobs Barometer (NZ)", href: "https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf" },
+  { label: "Bell Gully -  Do you own your AI-generated content?", href: "https://www.bellgully.com/insights/do-you-own-your-ai-generated-content-a-summary-for-nz-businesses/" },
+  { label: "Port of Tauranga -  Investor Day 2026", href: "https://www.port-tauranga.co.nz/wp-content/uploads/Investor-Day-Presentation-2026.pdf" },
+  { label: "Callaghan Innovation -  PlantTech research collaboration", href: "https://www.callaghaninnovation.govt.nz/stories/research-collaboration-cultivating-growth-bay-plenty/" },
 ];
 
 interface SessionPreview {
@@ -79,7 +83,7 @@ const SESSIONS: SessionPreview[] = [
   {
     number: 1,
     title: "Ready or Not? An Honest AI Readiness Check",
-    blurb: "The full 22-slide deck. Local context (Port of Tauranga, PlantTech, Toi Kai Rawa), the SME gap, and the Priority One pathway. Every stat opens its source.",
+    blurb: "The full 22-slide deck. Local context (Port of Tauranga, PlantTech, Toi Kai Rawa), the SME gap, and the RBPN / Tauranga Business Chamber pathway. Every stat opens its source.",
     status: "live",
     href: "/resources/worksheet/tauranga-sme-presentation-readiness",
   },
@@ -87,13 +91,13 @@ const SESSIONS: SessionPreview[] = [
     number: 2,
     title: "Where Does AI Actually Save You Time?",
     blurb:
-      "Full 22 slides — augmentation vs automation, animated audit visuals, worksheet iframe slide, NZ tool stack lane, local cases (ASB, Halter, Zespri-era biosensor story), Pilot pathway.",
+      "Full 22 slides -  augmentation vs automation, animated audit visuals, worksheet iframe slide, NZ tool stack lane, local cases (ASB, Halter, Zespri-era biosensor story), Pilot pathway.",
     status: "live",
     href: "/resources/worksheet/tauranga-sme-presentation-time-audit",
   },
   {
     number: 3,
-    title: "AI and Your Team — The Conversation",
+    title: "AI and Your Team -  The Conversation",
     blurb:
       "Employer scripting for stability, Māori workforce context & Toi Ki Tua, upskilling lever grid, Employment NZ good-faith escalation guardrails.",
     status: "live",
@@ -101,7 +105,7 @@ const SESSIONS: SessionPreview[] = [
   },
   {
     number: 4,
-    title: "Staying Legal — NZ Privacy & Copyright",
+    title: "Staying Legal -  NZ Privacy & Copyright",
     blurb:
       "Privacy IPPs & PIAs, copyright + originality framing, Māori Data Sovereignty runway, CDR spillover, and when to brief counsel.",
     status: "live",
@@ -118,7 +122,7 @@ const FAQ: FAQItem[] = [
   {
     question: "Am I eligible for the Government's AI Advisory Pilot rebate?",
     answer:
-      "The Regional Business Partner Network's AI Advisory Pilot ($765k, launched January 2026) co-funds at least 51 SMEs to develop AI adoption plans, with up to $5,000 NZD per business. Eligibility is assessed by Priority One. The Gold tier here is built to deliver exactly the deliverable the Pilot funds — most qualifying SMEs net out ahead. Your Priority One contact will confirm eligibility.",
+      "The Regional Business Partner Network's AI Advisory Pilot ($765k, launched January 2026; expanded May 2026) co-funds up to 50% of eligible advisory costs, capped at $15,000 NZD per business, for up to 150 businesses nationally through 31 January 2027. In the Bay of Plenty, eligibility is assessed by your Regional Business Partner -  Tauranga Business Chamber -  not Priority One (which is regional economic development, a related but separate body). Gold tier delivers the written AI Adoption Plan this pathway is designed to co-fund; at $2,497, approved co-funding is roughly $1,250. Sources: Beehive (Jan & May 2026), MBIE expansion news, business.govt.nz RBP finder.",
   },
   {
     question: "What's the refund policy?",
@@ -128,32 +132,32 @@ const FAQ: FAQItem[] = [
   {
     question: "When do Sessions 2–4 actually land?",
     answer:
-      "All four decks are shipping as full ~22-slide HTML sessions with clickable citations — Session 2 (Time Audit) includes animated audit charts plus an embedded worksheet slide. Your access email links to each deck.",
+      "All four decks are shipping as full ~22-slide HTML sessions with clickable citations -  Session 2 (Time Audit) includes animated audit charts plus an embedded worksheet slide. Your access email links to each deck.",
   },
   {
     question: "Are these prices in NZD? GST?",
     answer:
-      "Yes — all prices are in New Zealand Dollars. GST is included; Stripe will display the breakdown at checkout. We can issue a tax invoice for businesses that need one — just reply to the access email.",
+      "Yes -  all prices are in New Zealand Dollars. GST is included; Stripe will display the breakdown at checkout. We can issue a tax invoice for businesses that need one -  just reply to the access email.",
   },
   {
     question: "Can my accountant claim this?",
     answer:
-      "For most owner-operators in the Bay of Plenty, yes — these worksheets and templates are professional development and compliance preparation. Always confirm with your own accountant.",
+      "For most owner-operators in the Bay of Plenty, yes -  these worksheets and templates are professional development and compliance preparation. Always confirm with your own accountant.",
   },
   {
     question: "Do I need to be in the Bay of Plenty?",
     answer:
-      "No — the materials use BoP examples (Port of Tauranga, Zespri, PlantTech) because that's the most useful local context, but the Privacy Act, Copyright Act, and Pilot eligibility apply across NZ. Buyers from anywhere in Aotearoa get the same value.",
+      "No -  the materials use BoP examples (Port of Tauranga, Zespri, PlantTech) because that's the most useful local context, but the Privacy Act, Copyright Act, and Pilot eligibility apply across NZ. Buyers from anywhere in Aotearoa get the same value.",
   },
   {
     question: "What's the Te Tiriti / Māori Data Sovereignty checklist?",
     answer:
-      "A one-page checklist (included at the Gold tier) walking you through the MDS principles for AI tool use — how data is collected, stored, governed, and used in ways that respect Te Tiriti obligations. With 44% of the BoP's future workforce being Māori, this matters commercially as well as ethically.",
+      "A one-page checklist (included at the Gold tier) walking you through the MDS principles for AI tool use -  how data is collected, stored, governed, and used in ways that respect Te Tiriti obligations. With 44% of the BoP's future workforce being Māori, this matters commercially as well as ethically.",
   },
   {
     question: "What happens after I buy?",
     answer:
-      "You'll get an immediate email with a link to all of your assets, plus a Stripe receipt. Silver and Gold include a booking link to schedule your 1:1 call. If anything is missing, just reply to the email — I read every one.",
+      "You'll get an immediate email with a link to all of your assets, plus a Stripe receipt. Silver and Gold include a booking link to schedule your 1:1 call. If anything is missing, just reply to the email -  I read every one.",
   },
 ];
 
@@ -173,47 +177,47 @@ function PricingCard({ product, onCheckout, isLoading, loadingTier }: PricingCar
     <motion.div
       variants={cardSlideUpItemVariants}
       whileHover={{ y: -4, transition: { duration: 0.3, ease: tesoroEase } }}
-      className={`relative rounded-2xl border bg-white p-6 md:p-8 shadow-sm flex flex-col h-full ${
+      className={`relative rounded-2xl border bg-[var(--nb-bg-raised)] p-6 md:p-8 shadow-sm flex flex-col h-full ${
         featured
-          ? "border-[hsl(142,76%,42%)]/40 ring-1 ring-[hsl(142,76%,42%)]/30 shadow-lg"
-          : "border-neutral-200"
+          ? "border-[var(--nb-accent)]/40 ring-1 ring-[var(--nb-accent)]/30 shadow-lg"
+          : "border-[var(--nb-rule)]"
       }`}
     >
       {featured && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[hsl(142,76%,42%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[var(--nb-accent)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--nb-bg)] shadow">
           <Sparkles className="h-3 w-3" />
           Most Popular
         </span>
       )}
       {pilot && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[var(--nb-accent)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--nb-bg)] shadow">
           Pilot-Eligible
         </span>
       )}
 
       <div className="mb-4">
-        <h3 className="text-xl font-bold text-neutral-900">{product.title}</h3>
-        <p className="mt-1 text-sm text-neutral-500">{product.tagline}</p>
+        <h3 className="text-xl font-bold text-[var(--nb-ink)]">{product.title}</h3>
+        <p className="mt-1 text-sm text-[var(--nb-ink-dim)]">{product.tagline}</p>
       </div>
 
       <div className="mb-5 flex items-baseline gap-1">
-        <span className="text-4xl font-bold text-neutral-900">${product.price}</span>
-        <span className="text-sm font-medium text-neutral-500">{product.currency} · one-off</span>
+        <span className="text-4xl font-bold text-[var(--nb-ink)]">${product.price}</span>
+        <span className="text-sm font-medium text-[var(--nb-ink-dim)]">{product.currency} · one-off</span>
       </div>
 
-      <p className="mb-5 text-sm leading-relaxed text-neutral-600">{product.promise}</p>
+      <p className="mb-5 text-sm leading-relaxed text-[var(--nb-ink-soft)]">{product.promise}</p>
 
       <ul className="space-y-2.5 mb-6">
         {product.includes.map((line) => (
-          <li key={line} className="flex items-start gap-2 text-sm text-neutral-700">
-            <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[hsl(142,76%,42%)]" />
+          <li key={line} className="flex items-start gap-2 text-sm text-[var(--nb-ink-soft)]">
+            <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[var(--nb-accent)]" />
             <span>{line}</span>
           </li>
         ))}
       </ul>
 
-      <p className="mb-6 text-xs text-neutral-500">
-        <strong className="font-semibold text-neutral-700">Best for:</strong> {product.bestFor}
+      <p className="mb-6 text-xs text-[var(--nb-ink-dim)]">
+        <strong className="font-semibold text-[var(--nb-ink-soft)]">Best for:</strong> {product.bestFor}
       </p>
 
       <div className="mt-auto">
@@ -223,7 +227,7 @@ function PricingCard({ product, onCheckout, isLoading, loadingTier }: PricingCar
           className={
             featured
               ? "nb-btn-primary w-full rounded-xl font-semibold"
-              : "w-full rounded-xl font-semibold border-neutral-300"
+              : "w-full rounded-xl font-semibold border-[var(--nb-rule)]"
           }
           onClick={() => onCheckout(product.tier)}
           disabled={isLoading}
@@ -302,7 +306,7 @@ export default function TaurangaSmePage() {
     <div className="nb-page overflow-x-hidden">
       <PageSEO
         title="AI-Ready Tauranga: prep for the Government's AI Advisory Pilot"
-        description="Three tiers built around the four Tauranga SME worksheets and a 4-session deck — get ready for the RBPN AI Advisory Pilot conversation. NZD pricing, locally researched."
+        description="Three tiers built around the four Tauranga SME worksheets and a 4-session deck - get ready for the RBPN AI Advisory Pilot conversation. NZD pricing, locally researched."
         canonicalPath="/tauranga-sme"
       />
 
@@ -317,7 +321,7 @@ export default function TaurangaSmePage() {
             variants={staggerRevealContainerVariants}
           >
             <motion.div
-              className="flex items-center gap-2 text-[hsl(142,76%,42%)] mb-4"
+              className="flex items-center gap-2 text-[var(--nb-accent)] mb-4"
               variants={staggerRevealItemVariants}
             >
               <Building2 className="h-5 w-5" />
@@ -326,35 +330,36 @@ export default function TaurangaSmePage() {
               </span>
             </motion.div>
             <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900 mb-5 [text-wrap:balance]"
+              className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight text-[var(--nb-ink)] mb-5 [text-wrap:balance] nb-display"
               variants={staggerRevealItemVariants}
             >
               AI-Ready Tauranga: the prep pack for the Government's AI Advisory Pilot.
             </motion.h1>
             <motion.p
-              className="text-lg md:text-xl text-neutral-600 leading-relaxed [text-wrap:balance] mb-4"
+              className="text-lg md:text-xl text-[var(--nb-ink-soft)] leading-relaxed [text-wrap:balance] mb-4 nb-body-lg"
               variants={staggerRevealItemVariants}
             >
               In one weekend, you'll have your AI readiness score, a 3-task shortlist that pays back in under 30 days, your team conversation done, and your privacy and copyright obligations checked. So you walk into the funded advisory call ready to talk implementation, not basics.
             </motion.p>
             <motion.p
-              className="text-sm text-neutral-500"
+              className="text-sm text-[var(--nb-ink-dim)]"
               variants={staggerRevealItemVariants}
             >
-              Built locally for the Western Bay of Plenty. Eligible Gold buyers can claim up to{" "}
-              <strong className="text-neutral-700">$5,000 NZD</strong> through the RBPN AI Advisory Pilot.
+              Built locally for the Western Bay of Plenty. Eligible Gold buyers may receive{" "}
+              <strong className="text-[var(--nb-ink-soft)]">50% co-funding (≈$1,250 on $2,497 if approved; cap $15,000)</strong>{" "}
+              through the RBPN AI Advisory Pilot - confirm with Tauranga Business Chamber.
             </motion.p>
           </motion.div>
         </section>
 
         {/* Trust strip */}
-        <section className="border-y border-neutral-200/80 bg-white py-6 px-6 md:px-8">
+        <section className="border-y border-[var(--nb-rule)]/80 bg-[var(--nb-bg-raised)] py-6 px-6 md:px-8">
           <div className={`container mx-auto ${contentMax}`}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nb-ink-dim)]">
                 Built around the local landscape
               </p>
-              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-neutral-700">
+              <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-[var(--nb-ink-soft)]">
                 {TRUST_ITEMS.map((t) => (
                   <li key={t.name}>
                     {t.href ? (
@@ -362,7 +367,7 @@ export default function TaurangaSmePage() {
                         href={t.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 hover:text-neutral-900 transition-colors"
+                        className="inline-flex items-center gap-1 hover:text-[var(--nb-ink)] transition-colors"
                       >
                         {t.name}
                         <ExternalLink className="h-3 w-3 opacity-50" />
@@ -385,29 +390,25 @@ export default function TaurangaSmePage() {
               whileInView="visible"
               viewport={landingViewportReveal}
               variants={fadeUpRevealVariants}
-              className="rounded-2xl border border-amber-300/60 bg-gradient-to-br from-amber-50 to-white p-6 md:p-8 shadow-sm"
+              className="rounded-2xl border border-[var(--nb-accent)]/30 bg-[var(--nb-bg-raised)] p-6 md:p-8 shadow-sm"
             >
               <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-6">
-                <div className="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-xl bg-amber-500 text-white">
+                <div className="flex-shrink-0 inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[var(--nb-accent)] text-[var(--nb-bg)]">
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-lg md:text-xl font-bold text-neutral-900 mb-1">
-                    Gold soft-launch — limited to 5 spots before March 2026.
+                  <h2 className="text-lg md:text-xl font-bold text-[var(--nb-ink)] mb-1">
+                    Gold tier: the written AI Adoption Plan, government co-funded.
                   </h2>
-                  <p className="text-sm md:text-base text-neutral-700 leading-relaxed">
-                    The Gold tier delivers the written 20-page AI Adoption Plan that the
-                    Government's <strong>$765k AI Advisory Pilot</strong> funds — eligible Bay
-                    of Plenty SMEs can claim up to <strong>$5,000 NZD</strong> via the Regional
-                    Business Partner Network through Priority One. Most qualifying buyers net
-                    out ahead.
+                  <p className="text-sm md:text-base text-[var(--nb-ink-soft)] leading-relaxed">
+                    Gold delivers a written 20-page AI Adoption Plan in your business&apos;s name, four check-ins over eight weeks, and a 90-minute team workshop. Bay of Plenty SMEs may be eligible for co-funding of up to 50%, capped at $15,000 NZD, through the Regional Business Partner Network&apos;s AI Advisory Pilot (open until 31 January 2027). Most qualifying buyers net out well ahead.
                   </p>
                 </div>
                 {goldProduct && (
                   <div className="flex-shrink-0">
                     <Button
                       size="lg"
-                      className="rounded-xl font-semibold bg-amber-500 hover:bg-amber-600 text-white"
+                      className="rounded-xl font-semibold nb-btn-primary"
                       onClick={() => onCheckout("gold")}
                       disabled={checkoutMutation.isPending}
                     >
@@ -431,7 +432,7 @@ export default function TaurangaSmePage() {
         </section>
 
         {/* Tiers */}
-        <section className={`${sectionPadding} bg-neutral-50`}>
+        <section className={`${sectionPadding} bg-[var(--nb-bg)]`}>
           <div className={`container mx-auto ${contentMax}`}>
             <motion.div
               className="text-center mb-12 max-w-2xl mx-auto"
@@ -440,10 +441,10 @@ export default function TaurangaSmePage() {
               viewport={landingViewportReveal}
               variants={fadeUpRevealVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nb-ink)] mb-3">
                 Pick the tier that matches where you are.
               </h2>
-              <p className="text-neutral-600">
+              <p className="text-[var(--nb-ink-soft)]">
                 Every tier includes the four worksheets and the Session 1 deck. The Silver and
                 Gold tiers add the human help and the funded deliverable.
               </p>
@@ -469,7 +470,7 @@ export default function TaurangaSmePage() {
         </section>
 
         {/* Four sessions */}
-        <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
+        <section className={`${sectionPadding} bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80`}>
           <div className={`container mx-auto ${contentMax}`}>
             <motion.div
               className="text-center mb-10 max-w-2xl mx-auto"
@@ -478,11 +479,11 @@ export default function TaurangaSmePage() {
               viewport={landingViewportReveal}
               variants={fadeUpRevealVariants}
             >
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nb-ink)] mb-3">
                 The four sessions.
               </h2>
-              <p className="text-neutral-600">
-                A 4-part HTML deck designed to run as a presentation and a research artefact —
+              <p className="text-[var(--nb-ink-soft)]">
+                A 4-part HTML deck designed to run as a presentation and a research artefact - 
                 every stat opens its source.
               </p>
             </motion.div>
@@ -497,27 +498,27 @@ export default function TaurangaSmePage() {
                 <motion.div
                   key={s.number}
                   variants={cardSlideUpItemVariants}
-                  className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm hover:shadow-lg transition-shadow"
+                  className="rounded-2xl border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 shadow-sm hover:shadow-lg transition-shadow"
                 >
                   <div className="flex items-start justify-between gap-3 mb-3">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nb-ink-dim)]">
                       Session {s.number}
                     </p>
                     {s.status === "live" ? (
-                      <span className="inline-flex items-center rounded-full bg-[hsl(142,76%,42%)]/10 px-2.5 py-0.5 text-xs font-semibold text-[hsl(142,76%,42%)]">
+                      <span className="inline-flex items-center rounded-full bg-[var(--nb-accent)]/10 px-2.5 py-0.5 text-xs font-semibold text-[var(--nb-accent)]">
                         Live now
                       </span>
                     ) : (
-                      <span className="inline-flex items-center rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-semibold text-neutral-600">
+                      <span className="inline-flex items-center rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-semibold text-[var(--nb-ink-soft)]">
                         Preview
                       </span>
                     )}
                   </div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">{s.title}</h3>
-                  <p className="text-sm text-neutral-600 leading-relaxed mb-4">{s.blurb}</p>
+                  <h3 className="text-lg font-bold text-[var(--nb-ink)] mb-2">{s.title}</h3>
+                  <p className="text-sm text-[var(--nb-ink-soft)] leading-relaxed mb-4">{s.blurb}</p>
                   <Link
                     href={s.href}
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-[hsl(142,76%,42%)] hover:underline"
+                    className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--nb-accent)] hover:underline"
                   >
                     {s.status === "live" ? "Watch the full deck" : "See the preview"}
                     <ArrowRight className="h-4 w-4" />
@@ -529,7 +530,7 @@ export default function TaurangaSmePage() {
         </section>
 
         {/* Sources */}
-        <section className={`${sectionPadding} bg-neutral-50`}>
+        <section className={`${sectionPadding} bg-[var(--nb-bg)]`}>
           <div className={`container mx-auto ${contentMax}`}>
             <motion.div
               className="max-w-3xl mx-auto"
@@ -538,10 +539,10 @@ export default function TaurangaSmePage() {
               viewport={landingViewportReveal}
               variants={fadeUpRevealVariants}
             >
-              <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500 mb-3 text-center">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--nb-ink-dim)] mb-3 text-center">
                 Sources
               </p>
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-6 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nb-ink)] mb-6 text-center">
                 Every claim cites a source you can read yourself.
               </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
@@ -551,7 +552,7 @@ export default function TaurangaSmePage() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-start gap-1 text-neutral-700 hover:text-[hsl(142,76%,42%)] transition-colors"
+                      className="inline-flex items-start gap-1 text-[var(--nb-ink-soft)] hover:text-[var(--nb-accent)] transition-colors"
                     >
                       <ExternalLink className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 opacity-60" />
                       <span>{s.label}</span>
@@ -564,10 +565,10 @@ export default function TaurangaSmePage() {
         </section>
 
         {/* FAQ */}
-        <section className={`${sectionPadding} bg-white border-y border-neutral-200/80`}>
+        <section className={`${sectionPadding} bg-[var(--nb-bg-raised)] border-y border-[var(--nb-rule)]/80`}>
           <div className={`container mx-auto ${contentMax}`}>
             <motion.h2
-              className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-8 text-center"
+              className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nb-ink)] mb-8 text-center"
               initial="hidden"
               whileInView="visible"
               viewport={landingViewportReveal}
@@ -585,12 +586,12 @@ export default function TaurangaSmePage() {
               {FAQ.map((f, i) => (
                 <Collapsible key={i}>
                   <motion.div variants={staggerRevealItemVariants}>
-                    <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-left text-sm font-medium text-neutral-900 hover:bg-neutral-100 transition-colors [&[data-state=open]>svg]:rotate-180">
+                    <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-[var(--nb-rule)] bg-[var(--nb-bg)] px-4 py-3 text-left text-sm font-medium text-[var(--nb-ink)] hover:bg-[var(--nb-bg)] transition-colors [&[data-state=open]>svg]:rotate-180">
                       {f.question}
                       <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                      <p className="rounded-b-lg border border-t-0 border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-600">
+                      <p className="rounded-b-lg border border-t-0 border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] px-4 py-3 text-sm text-[var(--nb-ink-soft)]">
                         {f.answer}
                       </p>
                     </CollapsibleContent>
@@ -602,13 +603,13 @@ export default function TaurangaSmePage() {
         </section>
 
         {/* Final CTA */}
-        <section className={`${sectionPadding} bg-neutral-50`}>
+        <section className={`${sectionPadding} bg-[var(--nb-bg)]`}>
           <div className={`container mx-auto ${contentMax}`}>
             <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-neutral-900 mb-3">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--nb-ink)] mb-3">
                 Ready when you are.
               </h2>
-              <p className="text-neutral-600 max-w-xl mx-auto">
+              <p className="text-[var(--nb-ink-soft)] max-w-xl mx-auto">
                 Pick a tier or email me directly if you'd rather talk first.
               </p>
             </div>
@@ -621,7 +622,7 @@ export default function TaurangaSmePage() {
                   className={
                     p.featured
                       ? "nb-btn-primary rounded-xl font-semibold"
-                      : "rounded-xl font-semibold border-neutral-300"
+                      : "rounded-xl font-semibold border-[var(--nb-rule)]"
                   }
                   onClick={() => onCheckout(p.tier)}
                   disabled={checkoutMutation.isPending}
@@ -633,7 +634,7 @@ export default function TaurangaSmePage() {
                     </>
                   ) : (
                     <>
-                      ${p.price} · {p.title.split("—")[0].trim()}
+                      ${p.price} · {p.title.split(" - ")[0].trim()}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </>
                   )}
@@ -643,7 +644,7 @@ export default function TaurangaSmePage() {
             <div className="mt-8 text-center">
               <a
                 href="mailto:hello@nathanielbaldock.com?subject=Tauranga%20SME%20enquiry"
-                className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-900"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--nb-ink-soft)] hover:text-[var(--nb-ink)]"
               >
                 <Mail className="h-4 w-4" />
                 Or email me first

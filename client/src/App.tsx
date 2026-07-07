@@ -50,6 +50,12 @@ import {
   NotFoundPublicRoute,
   PresentationContactPublicRoute,
   PricingPublicRoute,
+  ProductsPublicRoute,
+  SchoolsPackPublicRoute,
+  SchoolsStaffPublicRoute,
+  SchoolsStudentsPublicRoute,
+  SchoolsGovernancePublicRoute,
+  BusinessWorkersPublicRoute,
   PrivacyPublicRoute,
   PublicPayRoute,
   ResetPasswordPublicRoute,
@@ -60,7 +66,6 @@ import {
   TaurangaSmePublicRoute,
   TaurangaSmeWelcomePublicRoute,
   TermsPublicRoute,
-  WhoIsPublicRoute,
   WorksheetSharePublicRoute,
 } from "@/routes/public-page-routes";
 
@@ -303,13 +308,24 @@ function Router() {
         <Route path="/resources/worksheet/:id" component={WorksheetSharePublicRoute} />
         <Route path="/resources/christian-professional/:slug" component={ChristianWorksheetPublicRoute} />
         <Route path="/about" component={AboutPublicRoute} />
-        <Route path="/who-is-nathaniel-baldock" component={WhoIsPublicRoute} />
+        <Route path="/who-is-nathaniel-baldock">
+          <Redirect to="/about" />
+        </Route>
         <Route path="/ai-consulting-for-churches" component={AiConsultingChurchesPublicRoute} />
         <Route path="/ai-training-for-schools" component={AiTrainingSchoolsPublicRoute} />
         <Route path="/ai-governance-for-nonprofits" component={AiGovernanceNonprofitsPublicRoute} />
         <Route path="/ai-speaker-faith-and-technology" component={AiSpeakerFaithPublicRoute} />
         <Route path="/ai-use-audit" component={AiUseAuditLandingPublicRoute} />
         <Route path="/pricing" component={PricingPublicRoute} />
+        <Route path="/products" component={ProductsPublicRoute} />
+        <Route path="/business/workers" component={BusinessWorkersPublicRoute} />
+        <Route path="/schools/staff" component={SchoolsStaffPublicRoute} />
+        <Route path="/schools/students" component={SchoolsStudentsPublicRoute} />
+        <Route path="/schools/governance" component={SchoolsGovernancePublicRoute} />
+        <Route path="/schools" component={SchoolsPackPublicRoute} />
+        <Route path="/educators-pd">
+          <Redirect to="/school-suite/flyers/educators-pd.html" />
+        </Route>
         <Route path="/tauranga-sme/welcome" component={TaurangaSmeWelcomePublicRoute} />
         <Route path="/tauranga-sme" component={TaurangaSmePublicRoute} />
         <Route path="/presentations/contact" component={PresentationContactPublicRoute} />

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinematic-light.css">
+<link rel="stylesheet" href="cinematic-light-print.css">
+<link rel="stylesheet" href="cinematic-light-kit.css">
+<link rel="stylesheet" href="cinematic-light-landing.css">
+<link rel="stylesheet" href="../_site-chrome.css">
+<title>The Highest-Return Portfolio — Years 12–13 Programme · Nathaniel Baldock</title>
+<meta name="description" content="A measurable, NCEA-aligned preparation programme for Years 12–13: human skills, AI fluency, an evidence portfolio, embodied capability and character — delivered as a full-year elective or a one-semester intensive.">
+<style>
+/* ============================================================
+   THE HIGHEST-RETURN PORTFOLIO · Cinematic Light
+   ============================================================ */
+:root{
+  --ink:#0F1014;
+  --ink-60:rgba(10,22,51,.62);
+  --ink-40:rgba(10,22,51,.42);
+  --ink-12:rgba(10,22,51,.12);
+  --ink-06:rgba(10,22,51,.06);
+  --paper:#FFFFFF;
+  --mist:#F2F6FE;
+  --cloud:#F8FAFF;
+  --azure:#7CCC1E;
+  --azure-soft:#E4EBFF;
+  --sunrise:#7CCC1E;
+  --sunrise-soft:#FFEFE2;
+  --meadow:#0FA97E;
+  --meadow-soft:#E2F7F0;
+  --amber:#EFA51F;
+  --amber-soft:#FCF3DD;
+  --rose:#E5484D;
+  --rose-soft:#FDEAEA;
+  --violet:#7CCC1E;
+  --violet-soft:rgba(124,204,30,.12);
+  --radius-lg:28px;
+  --radius-md:18px;
+  --radius-sm:12px;
+  --shadow-soft:0 6px 30px -8px rgba(10,22,51,.10);
+  --shadow-lift:0 18px 50px -12px rgba(10,22,51,.18);
+  --font-display:'Newsreader',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
+  --max:1160px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:var(--nb-accent)}
+::selection{background:var(--nb-accent-soft);color:var(--ink)}
+
+/* ---------- type scale ---------- */
+h1,h2,h3,.display{font-family:var(--font-display);line-height:1.06;letter-spacing:-.02em}
+.eyebrow{
+  font-family:var(--font-mono);font-size:.72rem;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--nb-accent);
+  display:inline-flex;align-items:center;gap:.6rem;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:linear-gradient(90deg,var(--nb-accent),var(--sunrise));border-radius:2px}
+.lede{font-size:1.16rem;color:var(--ink-60);max-width:56ch}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+section{padding:clamp(72px,10vw,130px) 0}
+.section-tint{background:var(--mist)}
+
+/* ---------- stat chip → modal trigger ---------- */
+.chip{
+  font-family:var(--font-mono);font-size:.86em;font-weight:600;color:var(--nb-accent);
+  background:var(--azure-soft);border-radius:8px;padding:.06em .5em .1em;
+  border-bottom:2px dotted var(--nb-accent);cursor:pointer;white-space:nowrap;
+  transition:transform .18s ease, background .18s ease;
+}
+.chip:hover{background:var(--nb-accent-soft);color:#C2410C;border-bottom-color:var(--sunrise);transform:translateY(-1px)}
+.chip::after{content:" ⓘ";font-size:.75em;opacity:.75}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  font-family:var(--font-display);font-weight:600;font-size:1.02rem;
+  padding:1rem 1.9rem;border-radius:999px;transition:all .25s cubic-bezier(.2,.8,.2,1);
+}
+.btn-primary{background:var(--nb-accent);color:#fff;box-shadow:0 10px 26px -8px rgba(124,204,30,.55)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 34px -8px rgba(124,204,30,.6);background:#1B41D6}
+.btn-sunrise{background:linear-gradient(120deg,var(--nb-accent),#5FA818);color:#fff;box-shadow:0 10px 26px -8px rgba(124,204,30,.45)}
+.btn-sunrise:hover{transform:translateY(-3px)}
+.btn-ghost{color:var(--ink);border:1.5px solid var(--ink-12);background:#fff}
+.btn-ghost:hover{border-color:var(--nb-accent);color:var(--nb-accent);transform:translateY(-2px)}
+.btn:disabled{opacity:.35;pointer-events:none}
+.btn .arrow{transition:transform .25s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* ---------- reveal on scroll ---------- */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.08s}.rv-d2{transition-delay:.16s}.rv-d3{transition-delay:.24s}.rv-d4{transition-delay:.32s}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;position:relative;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, var(--azure-soft) 0%, transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, var(--nb-accent-soft) 0%, transparent 55%),
+    var(--paper);
+  overflow:hidden;
+}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px clamp(20px,5vw,48px);max-width:var(--max);margin:0 auto;width:100%;
+}
+.brand{font-family:var(--font-display);font-weight:700;font-size:1.05rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.7rem}
+.brand-mark{width:34px;height:34px;border-radius:50%;background:conic-gradient(from 200deg,var(--nb-accent),var(--violet),var(--sunrise),var(--nb-accent));display:grid;place-items:center;color:#fff;font-size:.9rem;animation:spinSlow 24s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.nav-note{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-40);letter-spacing:.08em}
+
+.hero-grid{
+  flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
+  align-items:center;max-width:var(--max);margin:0 auto;width:100%;
+  padding:20px clamp(20px,5vw,48px) 70px;
+}
+.hero h1{
+  font-size:clamp(2.9rem,6.4vw,5.1rem);font-weight:800;margin:1.4rem 0 1.5rem;
+}
+.hero h1 .grad{
+  background:linear-gradient(96deg,var(--nb-accent) 10%,var(--violet) 45%,var(--sunrise) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem}
+.hero-meta{display:flex;gap:1.6rem;margin-top:2.6rem;flex-wrap:wrap}
+.hero-meta .m{font-family:var(--font-mono);font-size:.74rem;color:var(--ink-40);display:flex;align-items:center;gap:.5rem}
+.hero-meta .dot{width:7px;height:7px;border-radius:50%;background:var(--meadow)}
+
+.hero-visual{position:relative;height:min(560px,72vh)}
+.ph{position:absolute;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lift);background:linear-gradient(140deg,var(--azure-soft),var(--nb-accent-soft))}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease}
+.ph:hover img{transform:scale(1.06)}
+.ph.noimg img{display:none}
+.ph-a{inset:4% 8% 34% 0;transform:rotate(-2deg);animation:floatA 9s ease-in-out infinite}
+.ph-b{right:0;bottom:6%;width:58%;height:44%;transform:rotate(2.4deg);animation:floatB 11s ease-in-out infinite}
+.ph-c{left:2%;bottom:0;width:34%;height:30%;transform:rotate(-4deg);animation:floatA 10s ease-in-out infinite reverse}
+@keyframes floatA{0%,100%{translate:0 0}50%{translate:0 -12px}}
+@keyframes floatB{0%,100%{translate:0 0}50%{translate:0 10px}}
+.badge-float{
+  position:absolute;top:2%;right:-2%;background:#fff;border-radius:16px;box-shadow:var(--shadow-lift);
+  padding:.85rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:var(--ink);
+  display:flex;align-items:center;gap:.6rem;animation:floatB 8s ease-in-out infinite;z-index:3;
+}
+.badge-float b{color:var(--nb-accent);font-size:1rem}
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.25em;color:var(--ink-40);text-transform:uppercase}
+.scroll-cue::after{content:"";display:block;width:1.5px;height:34px;background:linear-gradient(var(--ink-40),transparent);margin:8px auto 0;animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ============================================================
+   LANDSCAPE — data cards
+   ============================================================ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.5vw,44px)}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:52px}
+.data-card{
+  background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-md);
+  padding:1.7rem 1.5rem;transition:transform .3s ease, box-shadow .3s ease;position:relative;overflow:hidden;
+}
+.data-card::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--card-accent,var(--nb-accent));border-radius:0 4px 4px 0}
+.data-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.data-card .num{font-family:var(--font-display);font-weight:800;font-size:2.5rem;letter-spacing:-.03em;color:var(--card-accent,var(--nb-accent))}
+.data-card .lab{font-weight:600;font-size:.98rem;margin:.35rem 0 .45rem}
+.data-card .sub{font-size:.85rem;color:var(--ink-60);line-height:1.5}
+.landscape-imgs{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:64px;height:340px}
+.landscape-imgs .ph{position:relative;inset:auto;transform:none;animation:none;height:100%}
+
+/* ============================================================
+   COMPASS WIZARD
+   ============================================================ */
+#compass{background:linear-gradient(180deg,var(--mist) 0%,#fff 100%)}
+.wizard{
+  background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-lift);
+  border:1.5px solid var(--ink-06);overflow:hidden;margin-top:56px;
+}
+.wizard-head{
+  display:flex;align-items:center;gap:1.4rem;padding:1.6rem clamp(1.4rem,4vw,2.6rem);
+  border-bottom:1.5px solid var(--ink-06);background:var(--cloud);
+}
+.dial{width:74px;height:74px;flex:none}
+.dial .needle{transform-origin:60px 60px;transition:transform 1s cubic-bezier(.34,1.4,.4,1)}
+.wizard-head .wh-txt{flex:1}
+.wizard-head .wh-step{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--nb-accent);font-weight:600}
+.wizard-head .wh-axis{font-family:var(--font-display);font-weight:700;font-size:1.25rem;margin-top:.15rem}
+.progress-rail{height:5px;background:var(--ink-06);border-radius:99px;overflow:hidden;margin-top:.7rem}
+.progress-rail .fill{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,var(--nb-accent),var(--violet),var(--sunrise));transition:width .7s cubic-bezier(.2,.8,.2,1)}
+
+.wizard-body{padding:clamp(1.8rem,4.5vw,3.2rem);min-height:430px;position:relative}
+.wstep{display:none;animation:stepIn .55s cubic-bezier(.2,.8,.2,1)}
+.wstep.active{display:block}
+.wstep.leaving{animation:stepOut .3s ease forwards}
+@keyframes stepIn{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes stepOut{to{opacity:0;transform:translateX(-30px)}}
+.q-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.35rem,2.6vw,1.8rem);letter-spacing:-.015em;margin-bottom:.6rem}
+.q-help{color:var(--ink-60);font-size:.98rem;margin-bottom:1.8rem;max-width:62ch}
+.q-help .chip{font-size:.82em}
+.opts{display:grid;gap:.85rem}
+.opts.cols{grid-template-columns:1fr 1fr}
+.opt{
+  text-align:left;border:2px solid var(--ink-12);border-radius:var(--radius-md);
+  padding:1.05rem 1.25rem;background:#fff;transition:all .22s ease;position:relative;
+  font-size:.98rem;line-height:1.45;
+}
+.opt:hover{border-color:var(--nb-accent);transform:translateY(-2px);box-shadow:var(--shadow-soft)}
+.opt.sel{border-color:var(--nb-accent);background:var(--azure-soft);box-shadow:0 8px 22px -8px rgba(124,204,30,.35)}
+.opt.sel::after{content:"✓";position:absolute;top:.85rem;right:1rem;width:24px;height:24px;border-radius:50%;background:var(--nb-accent);color:#fff;display:grid;place-items:center;font-size:.8rem;animation:pop .3s cubic-bezier(.3,1.6,.4,1)}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.opt b{font-family:var(--font-display);font-weight:600;display:block;margin-bottom:.15rem}
+.opt small{color:var(--ink-60)}
+.wizard-foot{display:flex;justify-content:space-between;align-items:center;padding:1.3rem clamp(1.4rem,4vw,2.6rem);border-top:1.5px solid var(--ink-06);background:var(--cloud)}
+.step-dots{display:flex;gap:7px}
+.step-dots i{width:8px;height:8px;border-radius:50%;background:var(--ink-12);transition:all .3s}
+.step-dots i.done{background:var(--nb-accent)}
+.step-dots i.cur{background:var(--sunrise);transform:scale(1.4)}
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+#resultsWrap{display:none}
+.result-hero{text-align:center;max-width:760px;margin:0 auto}
+.result-hero .crown{font-size:2.6rem;animation:floatA 4s ease-in-out infinite;display:inline-block}
+.path-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:54px}
+.path-card{
+  background:#fff;border:2px solid var(--ink-06);border-radius:var(--radius-lg);
+  overflow:hidden;transition:transform .3s,box-shadow .3s;position:relative;
+}
+.path-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.path-card.winner{border-color:var(--sunrise);box-shadow:0 20px 50px -14px rgba(124,204,30,.4)}
+.path-card.winner .win-tag{position:absolute;top:16px;right:16px;background:linear-gradient(120deg,var(--nb-accent),#5FA818);color:#fff;font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.12em;padding:.4rem .8rem;border-radius:99px;z-index:2;box-shadow:0 6px 16px -4px rgba(124,204,30,.45)}
+.path-img{height:150px;overflow:hidden;background:linear-gradient(140deg,var(--azure-soft),var(--nb-accent-soft))}
+.path-img img{width:100%;height:100%;object-fit:cover;transition:transform 4s}
+.path-card:hover .path-img img{transform:scale(1.08)}
+.path-body{padding:1.5rem 1.5rem 1.7rem}
+.path-body h3{font-size:1.28rem;font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
+.path-score{font-family:var(--font-mono);font-weight:600;font-size:1.05rem;color:var(--nb-accent)}
+.axis-bars{margin-top:1.1rem;display:grid;gap:.55rem}
+.abar{display:grid;grid-template-columns:98px 1fr 34px;align-items:center;gap:.7rem;font-size:.76rem}
+.abar .an{font-family:var(--font-mono);color:var(--ink-60)}
+.abar .track{height:7px;background:var(--ink-06);border-radius:99px;overflow:hidden}
+.abar .bfill{height:100%;width:0;border-radius:99px;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.abar .av{font-family:var(--font-mono);font-weight:600;text-align:right}
+
+.radar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:center;margin-top:80px}
+.radar-svg{width:100%;max-width:460px;margin:0 auto}
+.radar-poly{fill-opacity:.14;stroke-width:2.5;stroke-linejoin:round;transition:all 1s ease}
+.legend{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.2rem;justify-content:center}
+.legend button{display:flex;align-items:center;gap:.45rem;font-family:var(--font-mono);font-size:.74rem;font-weight:600;padding:.45rem .85rem;border-radius:99px;border:1.5px solid var(--ink-12);color:var(--ink-60);transition:all .2s}
+.legend button.on{color:var(--ink);border-color:currentColor}
+.legend .sw{width:11px;height:11px;border-radius:3px}
+
+.rationale{
+  margin-top:80px;background:var(--ink);color:#EAF0FF;border-radius:var(--radius-lg);
+  padding:clamp(2rem,5vw,3.4rem);position:relative;overflow:hidden;
+}
+.rationale::before{content:"";position:absolute;top:-120px;right:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(124,204,30,.35),transparent 65%)}
+.rationale h3{color:#fff;font-size:1.6rem;margin-bottom:1.2rem}
+.rationale p{color:rgba(234,240,255,.86);max-width:70ch;margin-bottom:1rem}
+.rationale .verse{font-family:var(--font-display);font-weight:500;font-style:italic;color:#FFD9BC;border-left:3px solid var(--sunrise);padding-left:1.1rem;margin:1.6rem 0}
+.rationale .vref{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.15em;color:rgba(255,217,188,.7);font-style:normal}
+
+/* ---------- red flags & ROI ---------- */
+.flag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
+.flag{
+  background:#fff;border-radius:var(--radius-md);padding:1.5rem;border:1.5px solid var(--rose-soft);
+  transition:transform .25s,box-shadow .25s;
+}
+.flag:hover{transform:translateY(-4px);box-shadow:0 14px 34px -10px rgba(229,72,77,.25)}
+.flag .fx{width:42px;height:42px;border-radius:12px;background:var(--rose-soft);color:var(--rose);display:grid;place-items:center;font-size:1.2rem;margin-bottom:.9rem}
+.flag b{font-family:var(--font-display);font-weight:600;display:block;margin-bottom:.35rem}
+.flag p{font-size:.87rem;color:var(--ink-60)}
+
+.roi-stack{margin-top:52px;display:grid;gap:14px}
+.tier{
+  display:grid;grid-template-columns:74px 1fr auto;gap:1.4rem;align-items:center;
+  background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-md);
+  padding:1.3rem 1.6rem;transition:transform .25s,box-shadow .25s;
+}
+.tier:hover{transform:translateX(8px);box-shadow:var(--shadow-soft)}
+.tier .tn{font-family:var(--font-display);font-weight:800;font-size:1.9rem;color:var(--tier-c,var(--nb-accent));letter-spacing:-.03em}
+.tier b{font-family:var(--font-display);font-weight:600;font-size:1.05rem;display:block}
+.tier p{font-size:.88rem;color:var(--ink-60);max-width:62ch}
+.tier .badge{font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.1em;padding:.4rem .8rem;border-radius:99px;background:var(--tier-cs,var(--azure-soft));color:var(--tier-c,var(--nb-accent));white-space:nowrap}
+
+/* ---------- resources ---------- */
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.res{
+  display:block;text-decoration:none;background:#fff;border:1.5px solid var(--ink-06);
+  border-radius:var(--radius-md);padding:1.3rem 1.4rem;color:var(--ink);
+  transition:all .22s;
+}
+.res:hover{border-color:var(--nb-accent);transform:translateY(-4px);box-shadow:var(--shadow-soft)}
+.res .rt{font-family:var(--font-mono);font-size:.66rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--nb-accent)}
+.res b{font-family:var(--font-display);font-weight:600;display:block;margin:.35rem 0 .3rem}
+.res p{font-size:.83rem;color:var(--ink-60)}
+.res .go{font-family:var(--font-mono);font-size:.72rem;color:var(--nb-accent);margin-top:.6rem;display:inline-block}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal-veil{
+  position:fixed;inset:0;background:rgba(10,22,51,.5);backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:22px;z-index:100;opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.modal-veil.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:var(--radius-lg);max-width:560px;width:100%;
+  padding:2.2rem 2.2rem 2rem;box-shadow:var(--shadow-lift);position:relative;
+  transform:translateY(26px) scale(.97);transition:transform .35s cubic-bezier(.2,1.2,.3,1);
+  max-height:86vh;overflow:auto;
+}
+.modal-veil.open .modal{transform:none}
+.modal .mx{position:absolute;top:1.1rem;right:1.1rem;width:36px;height:36px;border-radius:50%;background:var(--mist);display:grid;place-items:center;font-size:1rem;transition:all .2s}
+.modal .mx:hover{background:var(--rose-soft);color:var(--rose);transform:rotate(90deg)}
+.modal .m-eyebrow{font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--sunrise)}
+.modal .m-stat{font-family:var(--font-display);font-weight:800;font-size:2.9rem;letter-spacing:-.03em;margin:.4rem 0 .2rem;background:linear-gradient(96deg,var(--nb-accent),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.modal h4{font-family:var(--font-display);font-weight:700;font-size:1.15rem;margin-bottom:.7rem}
+.modal p{font-size:.94rem;color:var(--ink-60);margin-bottom:.9rem}
+.modal .m-src{border-top:1.5px solid var(--ink-06);padding-top:1rem;margin-top:1.1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.modal .m-src span{font-family:var(--font-mono);font-size:.74rem;color:var(--ink-40)}
+.modal .m-src a{font-family:var(--font-mono);font-size:.76rem;font-weight:600;text-decoration:none;background:var(--azure-soft);padding:.5rem .95rem;border-radius:99px;transition:all .2s}
+.modal .m-src a:hover{background:var(--nb-accent);color:#fff}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:rgba(234,240,255,.72);padding:64px 0 48px}
+footer .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:start}
+footer h4{color:#fff;font-family:var(--font-display);font-size:1.3rem;margin-bottom:.7rem}
+footer p{font-size:.9rem;max-width:52ch}
+footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255,.4);margin-top:2rem;grid-column:1/-1;border-top:1px solid rgba(255,255,255,.08);padding-top:1.4rem;line-height:1.8}
+
+/* ---------- print ---------- */
+@media print{
+  .hero,.nav,#landscape,.wizard,.nb-author-footer,.no-print,.modal-veil{display:none!important}
+  #resultsWrap{display:block!important}
+  section{padding:24px 0}
+  .path-card,.tier,.flag{break-inside:avoid;box-shadow:none}
+  .rationale{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+  .rationale p{color:var(--ink-60)}
+  .rationale h3,.rationale .verse{color:var(--ink)}
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;padding-bottom:90px}
+  .hero-visual{height:380px;order:-1;margin-top:8px}
+  .grid-2{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .path-cards{grid-template-columns:1fr}
+  .radar-wrap{grid-template-columns:1fr}
+  .flag-grid{grid-template-columns:1fr}
+  .res-grid{grid-template-columns:1fr 1fr}
+  .opts.cols{grid-template-columns:1fr}
+  .tier{grid-template-columns:56px 1fr}
+  .tier .badge{display:none}
+  footer .wrap{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .grid-4{grid-template-columns:1fr}
+  .res-grid{grid-template-columns:1fr}
+  .landscape-imgs{grid-template-columns:1fr;height:auto}
+  .landscape-imgs .ph{height:200px}
+  .wizard-head{flex-direction:row}
+  .dial{width:58px;height:58px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+button:focus-visible,a:focus-visible{outline:3px solid var(--sunrise);outline-offset:3px;border-radius:6px}
+
+/* ============================================================
+   PRODUCT 2 ADDITIONS — Highest-Return Portfolio
+   ============================================================ */
+.track-toggle{
+  display:inline-flex;background:#fff;border:2px solid var(--ink-12);border-radius:999px;
+  padding:5px;gap:4px;margin:2.2rem auto 0;position:relative;
+}
+.track-toggle button{
+  font-family:var(--font-display);font-weight:600;font-size:.95rem;color:var(--ink-60);
+  padding:.7rem 1.6rem;border-radius:999px;transition:all .3s cubic-bezier(.2,.8,.2,1);
+}
+.track-toggle button.on{background:var(--ink);color:#fff;box-shadow:0 8px 20px -6px rgba(10,22,51,.4)}
+.track-toggle .tt-sub{display:block;font-family:var(--font-mono);font-size:.62rem;font-weight:500;letter-spacing:.08em;opacity:.7}
+
+.term-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
+.term-grid.sem{grid-template-columns:repeat(2,1fr)}
+.term{
+  background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-md);
+  padding:1.6rem 1.5rem;position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s;animation:stepIn .5s cubic-bezier(.2,.8,.2,1) both;
+}
+.term:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.term::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--t-accent,var(--nb-accent))}
+.term .t-tag{font-family:var(--font-mono);font-size:.66rem;font-weight:600;letter-spacing:.18em;color:var(--t-accent,var(--nb-accent))}
+.term h4{font-family:var(--font-display);font-weight:700;font-size:1.12rem;margin:.4rem 0 .2rem}
+.term .t-theme{font-size:.8rem;color:var(--ink-40);font-style:italic;margin-bottom:.9rem}
+.term ul{list-style:none;display:grid;gap:.45rem;margin-bottom:1rem}
+.term li{font-size:.84rem;color:var(--ink-60);padding-left:1.15rem;position:relative;line-height:1.45}
+.term li::before{content:"›";position:absolute;left:0;color:var(--t-accent,var(--nb-accent));font-weight:700}
+.term .t-deliver{
+  background:var(--mist);border-radius:10px;padding:.7rem .85rem;font-size:.78rem;
+  color:var(--ink);border-left:3px solid var(--t-accent,var(--nb-accent));
+}
+.term .t-deliver b{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.14em;color:var(--t-accent,var(--nb-accent));display:block;margin-bottom:.15rem}
+
+.tierx{cursor:pointer}
+.tierx .tx-more{grid-column:1/-1;max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.2,.8,.2,1);font-size:.86rem;color:var(--ink-60)}
+.tierx.open .tx-more{max-height:280px}
+.tierx .tx-more .inner{padding-top:1rem;border-top:1.5px dashed var(--ink-12);margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.6rem}
+.tierx .tx-more .inner span{padding-left:1.1rem;position:relative}
+.tierx .tx-more .inner span::before{content:"✓";position:absolute;left:0;color:var(--meadow);font-weight:700}
+.tierx .tx-hint{font-family:var(--font-mono);font-size:.64rem;color:var(--ink-40);letter-spacing:.1em}
+
+.chart-card{background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-lg);padding:clamp(1.6rem,4vw,2.6rem);margin-top:56px;box-shadow:var(--shadow-soft)}
+.chart-card h3{font-size:1.35rem;font-weight:700;margin-bottom:.3rem}
+.chart-card .ch-sub{font-size:.9rem;color:var(--ink-60);margin-bottom:1.6rem}
+.chart-legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1rem;font-family:var(--font-mono);font-size:.72rem;color:var(--ink-60)}
+.chart-legend span{display:flex;align-items:center;gap:.45rem}
+.chart-legend i{width:12px;height:12px;border-radius:3px}
+
+.cmp-wrap{overflow-x:auto;margin-top:48px;border-radius:var(--radius-md);border:1.5px solid var(--ink-06);background:#fff}
+.cmp{width:100%;border-collapse:collapse;min-width:720px}
+.cmp th,.cmp td{padding:1rem 1.1rem;text-align:center;font-size:.86rem;border-bottom:1.5px solid var(--ink-06)}
+.cmp th{font-family:var(--font-display);font-weight:600;background:var(--cloud)}
+.cmp td:first-child,.cmp th:first-child{text-align:left;font-weight:600;color:var(--ink)}
+.cmp .hrp-col{background:var(--azure-soft)}
+.cmp th.hrp-col{background:var(--nb-accent);color:#fff}
+.cmp .yes{color:var(--meadow);font-weight:700;font-size:1rem}
+.cmp .part{color:var(--amber);font-weight:600}
+.cmp .no{color:var(--ink-40)}
+.cmp tr:last-child td{border-bottom:none}
+
+.out-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
+.out{
+  background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-md);padding:1.6rem 1.5rem;
+  transition:transform .28s,box-shadow .28s;position:relative;
+}
+.out:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift)}
+.out .o-num{font-family:var(--font-mono);font-size:.68rem;font-weight:600;letter-spacing:.16em;color:var(--sunrise)}
+.out h4{font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin:.4rem 0 .45rem}
+.out p{font-size:.85rem;color:var(--ink-60)}
+.out .o-metric{margin-top:.9rem;background:var(--nb-accent-soft);border-radius:10px;padding:.65rem .85rem;font-size:.76rem;color:#B4530A}
+.out .o-metric b{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;display:block;color:var(--sunrise)}
+
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.fit{background:#fff;border:1.5px solid var(--ink-06);border-radius:var(--radius-md);padding:1.6rem}
+.fit h4{font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem}
+.fit ul{list-style:none;display:grid;gap:.5rem}
+.fit li{font-size:.86rem;color:var(--ink-60);padding-left:1.2rem;position:relative;line-height:1.5}
+.fit li::before{content:"✓";position:absolute;left:0;color:var(--meadow);font-weight:700}
+
+.pack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
+.pack{background:#fff;border:2px solid var(--ink-06);border-radius:var(--radius-lg);padding:2rem 1.7rem;transition:transform .3s,box-shadow .3s;position:relative}
+.pack:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.pack.hot{border-color:var(--sunrise)}
+.pack .p-tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(120deg,var(--nb-accent),#5FA818);color:#fff;font-family:var(--font-mono);font-size:.64rem;font-weight:600;letter-spacing:.12em;padding:.4rem .9rem;border-radius:99px}
+.pack h4{font-family:var(--font-display);font-weight:700;font-size:1.2rem}
+.pack .p-for{font-size:.8rem;color:var(--ink-40);margin:.2rem 0 1rem}
+.pack ul{list-style:none;display:grid;gap:.5rem;margin-bottom:1.4rem}
+.pack li{font-size:.85rem;color:var(--ink-60);padding-left:1.2rem;position:relative}
+.pack li::before{content:"✓";position:absolute;left:0;color:var(--meadow);font-weight:700}
+
+@media(max-width:960px){
+  .term-grid{grid-template-columns:1fr 1fr}
+  .out-grid{grid-template-columns:1fr}
+  .fit-grid{grid-template-columns:1fr}
+  .pack-grid{grid-template-columns:1fr}
+  .tierx .tx-more .inner{grid-template-columns:1fr}
+}
+@media(max-width:560px){.term-grid,.term-grid.sem{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="tool-landing">
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <nav class="nav">
+    <a href="https://nathanielbaldock.com" class="nb-site-back">← Nathaniel Baldock</a>
+    <div class="nav-center">
+      <div class="brand"><span class="brand-mark">▲</span> The Highest-Return Portfolio</div>
+      <div class="nav-note">Years 12–13 · Aotearoa New Zealand</div>
+    </div>
+    <a href="https://nathanielbaldock.com/schools" class="nb-site-cta">School programmes</a>
+  </nav>
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow rv">A preparation programme for NZ secondary schools</span>
+      <h1 class="rv rv-d1">Build what the<br><span class="grad">future actually pays for.</span></h1>
+      <p class="lede rv rv-d2">A 12-month programme for Years 12–13 that invests students' time where the evidence says returns are highest: foundational human skills, honest AI fluency, a verifiable portfolio of real work, one embodied capability, and the character to carry it all. Delivered as a <b>full-year elective</b>, a <b>one-semester intensive</b>, or a <b>10-week Pilot Term</b> for trial cohorts — measured at every step, and ready to sit alongside NCEA study.</p>
+      <div class="hero-ctas rv rv-d3">
+        <button class="btn btn-sunrise" onclick="document.getElementById('stack').scrollIntoView({behavior:'smooth'})">See the ROI stack <span class="arrow">→</span></button>
+        <a class="btn btn-ghost" href="#tracks">Compare the two tracks</a>
+      </div>
+      <div class="hero-meta rv rv-d4">
+        <span class="m"><span class="dot"></span>5 investment tiers</span>
+        <span class="m"><span class="dot"></span>6 measured outcomes</span>
+        <span class="m"><span class="dot"></span>Facilitator-ready · no specialist staff</span>
+      </div>
+    </div>
+    <div class="hero-visual rv rv-d2">
+      <div class="ph ph-a"><img id="heroImg" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80" alt="Students building a project together" onerror="this.parentElement.classList.add('noimg')"></div>
+      <div class="ph ph-b"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="Students engaged in class" onerror="this.parentElement.classList.add('noimg')"></div>
+      <div class="ph ph-c"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=700&q=80" alt="Hands-on construction learning" onerror="this.parentElement.classList.add('noimg')"></div>
+      <div class="badge-float">📈 <span><b>5</b> tiers · <b>2</b> tracks · <b>1</b> portfolio</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</div>
+
+<!-- ================= WHY NOW ================= -->
+<section id="why">
+  <div class="wrap">
+    <div class="grid-2">
+      <div>
+        <span class="eyebrow rv">Why schools are moving now</span>
+        <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 1rem">The transcript alone no longer carries a school leaver</h2>
+      </div>
+      <p class="lede rv rv-d2" style="align-self:end">Every claim on this page is a live ⓘ chip — tap it for the full source, context and a link to the original research. Bring the sceptics; the data does the talking.</p>
+    </div>
+    <div class="grid-4">
+      <div class="data-card rv" style="--card-accent:var(--rose)">
+        <div class="num" data-count="20" data-suffix="%">0%</div>
+        <div class="lab">Entry-level decline</div>
+        <div class="sub">Employment for 22–25-year-olds in AI-exposed fields has already fallen <span class="chip" data-src="stanford">13–20%</span>. The first rungs your leavers were counting on are disappearing.</div>
+      </div>
+      <div class="data-card rv rv-d1" style="--card-accent:var(--nb-accent)">
+        <div class="num" data-count="80" data-suffix="%">0%</div>
+        <div class="lab">Human-skill premium</div>
+        <div class="sub"><span class="chip" data-src="hbs">~80% of the wage premium</span> for technical skills rests on communication, judgment and teamwork — and they're hardest to build after school.</div>
+      </div>
+      <div class="data-card rv rv-d2" style="--card-accent:var(--violet)">
+        <div class="num" data-count="81" data-suffix="%">0%</div>
+        <div class="lab">Employers test skills</div>
+        <div class="sub"><span class="chip" data-src="skills">81% of employers</span> now assess capability directly. Verifiable evidence of real work is the new currency alongside any certificate.</div>
+      </div>
+      <div class="data-card rv rv-d3" style="--card-accent:var(--meadow)">
+        <div class="num" data-count="2029" data-suffix="">0</div>
+        <div class="lab">Reform-proof by design</div>
+        <div class="sub">As <span class="chip" data-src="moe">NCEA transitions to NZCE / NZACE</span>, one thing survives every qualification change: a portfolio of evidenced capability. That's what this programme builds.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THE STACK ================= -->
+<section id="stack" class="section-tint">
+  <div class="wrap">
+    <span class="eyebrow rv">The ROI stack</span>
+    <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .6rem">Five investments, ranked by return on a student's time</h2>
+    <p class="lede rv rv-d2">This is the curriculum spine. Each tier is a module strand — tap a tier to see what students actually do inside it.</p>
+
+    <div class="roi-stack">
+      <div class="tier tierx rv" style="--tier-c:var(--nb-accent);--tier-cs:var(--azure-soft)" onclick="this.classList.toggle('open')">
+        <div class="tn">01</div>
+        <div><b>Foundational human skills</b><p>Listening, clear communication, teamwork, emotional literacy and self-management. They carry <span class="chip" data-src="hbs">~80% of the wage premium</span> and <span class="chip" data-src="eq">90% of top performers</span> run on them. <span class="tx-hint">TAP TO EXPAND ▾</span></p></div>
+        <span class="badge">HARDEST TO RETROFIT</span>
+        <div class="tx-more"><div class="inner">
+          <span>Structured listening labs &amp; feedback circles</span><span>Public speaking in four formats (pitch, tribute, explainer, debate)</span>
+          <span>Team projects with rotating roles &amp; peer review</span><span>Emotional-literacy journal with pre/post measurement</span>
+          <span>Conflict-navigation practicum</span><span>Direct mapping to NZC key competencies &amp; the Employability Skills Framework</span>
+        </div></div>
+      </div>
+      <div class="tier tierx rv rv-d1" style="--tier-c:var(--violet);--tier-cs:var(--violet-soft)" onclick="this.classList.toggle('open')">
+        <div class="tn">02</div>
+        <div><b>AI fluency as augmentation</b><p>Working literacy takes <span class="chip" data-src="rw">weeks, not years</span> — and beginners gain the most, <span class="chip" data-src="nber">up to 35%</span>. Students learn to direct the tool with integrity: AI structures, the human verifies and owns the truth. <span class="tx-hint">TAP TO EXPAND ▾</span></p></div>
+        <span class="badge">WEEKS TO ACQUIRE</span>
+        <div class="tx-more"><div class="inner">
+          <span>Prompt craft: observe → name → refine (iterative method)</span><span>Verification discipline: fact-checking &amp; source-tracing every output</span>
+          <span>Academic-integrity protocol students co-write and sign</span><span>Applied labs: research, drafting, data, study workflows</span>
+          <span>Practical AI-literacy assessment (pass/merit/excellence rubric)</span><span>Critical unit: bias, limits &amp; where humans stay in the loop</span>
+        </div></div>
+      </div>
+      <div class="tier tierx rv rv-d2" style="--tier-c:var(--sunrise);--tier-cs:var(--nb-accent-soft)" onclick="this.classList.toggle('open')">
+        <div class="tn">03</div>
+        <div><b>The evidence portfolio</b><p>Three documented, verifiable projects before leaving school: something <b>built</b>, something <b>served</b>, something <b>led</b>. With <span class="chip" data-src="skills">81% of employers testing skills</span>, provable work is the new credential. <span class="tx-hint">TAP TO EXPAND ▾</span></p></div>
+        <span class="badge">THE NEW CREDENTIAL</span>
+        <div class="tx-more"><div class="inner">
+          <span>BUILD: a real product, event, tool or resource with users</span><span>SERVE: a documented community contribution with impact evidence</span>
+          <span>LEAD: a team, initiative or younger cohort — with testimony</span><span>Each artefact: brief, process log, outcome data, referee</span>
+          <span>Digital portfolio template + showcase-night presentation</span><span>Artefacts often usable as evidence toward relevant internal standards — confirmed with your HoDs</span>
+        </div></div>
+      </div>
+      <div class="tier tierx rv rv-d3" style="--tier-c:var(--meadow);--tier-cs:var(--meadow-soft)" onclick="this.classList.toggle('open')">
+        <div class="tn">04</div>
+        <div><b>One embodied capability</b><p>A trade taste, care work, coaching, food, making — anything needing a body in the real world. <span class="chip" data-src="trades">Trades and human-touch work</span> sit among the least automatable of all. <span class="tx-hint">TAP TO EXPAND ▾</span></p></div>
+        <span class="badge">STRUCTURALLY SCARCE</span>
+        <div class="tx-more"><div class="inner">
+          <span>Student chooses one strand: make, grow, care, coach, host</span><span>Pairs naturally with Gateway / STAR placements where available</span>
+          <span>Local employer &amp; community partner taster days</span><span>Skill log with photographic/video evidence for the portfolio</span>
+          <span>Links to <span class="chip" data-src="bop">the region's real employment base</span></span><span>Ends in a demonstrable competency, not just attendance</span>
+        </div></div>
+      </div>
+      <div class="tier tierx rv rv-d4" style="--tier-c:var(--rose);--tier-cs:var(--rose-soft)" onclick="this.classList.toggle('open')">
+        <div class="tn">05</div>
+        <div><b>Character — who they become</b><p>When knowledge is free and abundant, what remains scarce is who a person has become. Integrity, courage, service, perseverance — the only asset with zero depreciation risk in any future the data can model. <span class="tx-hint">TAP TO EXPAND ▾</span></p></div>
+        <span class="badge">ZERO DEPRECIATION</span>
+        <div class="tx-more"><div class="inner">
+          <span>The Values Spine: 30+ short weekly reflections on enduring principles — integrity, service, stewardship, courage, restraint, gratitude</span><span>Drawn from timeless wisdom sources; fully adaptable to your school's special character and values statement</span>
+          <span>Mentor conversations each term</span><span>Character reference co-written by mentor for each graduate</span>
+          <span>Restraint unit: doing hard things yourself in an age of shortcuts</span><span>Service woven through, not bolted on</span>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- SVG chart: acquisition time vs durability -->
+    <div class="chart-card rv">
+      <h3>Why this order? Time-to-acquire vs how long it lasts</h3>
+      <div class="ch-sub">Each tier plotted by how quickly students can build it now (bottom bars) against its career half-life (top bars). The programme sequences fast wins early while compounding the slow, durable assets all year.</div>
+      <svg id="roiChart" viewBox="0 0 760 330" style="width:100%" role="img" aria-label="Bar chart comparing acquisition time and durability across the five tiers"></svg>
+      <div class="chart-legend">
+        <span><i style="background:var(--nb-accent)"></i>Career durability (higher = lasts longer)</span>
+        <span><i style="background:#C9D6F5"></i>Speed to acquire (higher = faster to build)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRACKS ================= -->
+<section id="tracks">
+  <div class="wrap">
+    <div style="text-align:center;max-width:760px;margin:0 auto">
+      <span class="eyebrow rv" style="justify-content:center">Two delivery tracks</span>
+      <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .8rem">Three footprints: full year, semester, or a 10-week pilot</h2>
+      <p class="lede rv rv-d2" style="margin:0 auto">Same spine, same outcomes framework — two footprints. The full year runs 2–3 timetabled hours per week across four terms. The semester intensive runs 4–5 hours per week across two terms. The <b>Pilot Term</b> compresses the spine into one 10-week term — the lowest-risk way for a school to trial the programme with a single class before scaling up.</p>
+      <div class="track-toggle rv rv-d3" role="tablist">
+        <button class="on" id="tgYear" onclick="setTrack('year')" role="tab">Full Year<span class="tt-sub">4 TERMS · 2–3 HRS/WK</span></button>
+        <button id="tgSem" onclick="setTrack('sem')" role="tab">Semester<span class="tt-sub">2 TERMS · 4–5 HRS/WK</span></button>
+        <button id="tgMicro" onclick="setTrack('micro')" role="tab">Pilot Term<span class="tt-sub">10 WEEKS · 3–4 HRS/WK</span></button>
+      </div>
+    </div>
+    <div id="trackHost"></div>
+    <p class="rv" style="text-align:center;color:var(--ink-40);font-size:.85rem;margin-top:2.2rem;font-family:var(--font-mono)">Every track ends in a public Showcase — a full evening for the year and semester tracks, a class-scale Mini-Showcase for the Pilot Term — students present their portfolio to whānau, staff and local employers.</p>
+  </div>
+</section>
+
+<!-- ================= OUTCOMES ================= -->
+<section class="section-tint">
+  <div class="wrap">
+    <span class="eyebrow rv">Measured outcomes</span>
+    <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .6rem">Six outcomes your board can see</h2>
+    <p class="lede rv rv-d2">Every student is measured at entry, mid-point and exit. Schools receive cohort dashboards each term — evidence you can put in front of the Board of Trustees, whānau, and review visits.</p>
+    <div class="out-grid">
+      <div class="out rv"><div class="o-num">OUTCOME 01</div><h4>Human-skills growth, measured</h4><p>Pre/post self-and-peer assessment across communication, teamwork, self-management and emotional literacy — the skills carrying <span class="chip" data-src="eq">the performance premium</span>.</p><div class="o-metric"><b>METRIC</b>Cohort growth report, entry vs exit, per skill</div></div>
+      <div class="out rv rv-d1"><div class="o-num">OUTCOME 02</div><h4>A verifiable portfolio per student</h4><p>Minimum three evidenced artefacts — built, served, led — each with process log, outcome data and a referee who can be contacted.</p><div class="o-metric"><b>METRIC</b>3+ artefacts × 100% of completing students</div></div>
+      <div class="out rv rv-d2"><div class="o-num">OUTCOME 03</div><h4>Practical AI fluency, assessed</h4><p>A hands-on assessment: research, draft, verify, and declare AI use honestly — <span class="chip" data-src="rw">achievable within weeks</span> and rubric-marked.</p><div class="o-metric"><b>METRIC</b>Pass / merit / excellence rates reported</div></div>
+      <div class="out rv"><div class="o-num">OUTCOME 04</div><h4>Employability profile</h4><p>Each student exits with a profile mapped to the national <span class="chip" data-src="employ">Employability Skills Framework</span> and the NZC key competencies — language employers and tertiary providers already trust.</p><div class="o-metric"><b>METRIC</b>Framework-mapped profile, 100% of leavers</div></div>
+      <div class="out rv rv-d1"><div class="o-num">OUTCOME 05</div><h4>A tested pathway decision</h4><p>Every student completes the Pathway Compass — university, apprenticeship, work or purpose year — scored across five lenses with a written, defensible rationale to bring home.</p><div class="o-metric"><b>METRIC</b>Written pathway rationale, signed off in mentoring</div></div>
+      <div class="out rv rv-d2"><div class="o-num">OUTCOME 06</div><h4>Destinations, tracked</h4><p>Follow-up at 6 and 12 months post-school: study, training, employment or structured purpose year. The number that matters most, reported honestly.</p><div class="o-metric"><b>METRIC</b>% in positive destinations at 6 &amp; 12 months</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CURRICULUM FIT ================= -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow rv">Fits your timetable, speaks your language</span>
+    <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .6rem">Built for the NZ system — through the reform and beyond</h2>
+    <div class="fit-grid">
+      <div class="fit rv"><h4>📐 Curriculum &amp; qualifications</h4><ul>
+        <li>Designed to sit alongside NCEA Levels 2–3 study — a timetabled elective, mentoring line, or enrichment block</li>
+        <li>Portfolio artefacts are structured so many can double as evidence toward relevant internal standards — confirmed with your HoDs and principal's nominee</li>
+        <li>Explicitly maps to the NZC key competencies: thinking; relating to others; using language, symbols and texts; managing self; participating and contributing</li>
+        <li>Future-proof: as <span class="chip" data-src="moe">NZCE and NZACE arrive from 2029–2030</span>, evidenced capability is the constant that survives the change</li>
+      </ul></div>
+      <div class="fit rv rv-d1"><h4>🧭 Pathways &amp; careers</h4><ul>
+        <li>Compatible with Vocational Pathways, and pairs naturally with Gateway and STAR placements for the embodied-skill tier</li>
+        <li>Integrates with students' Tahatū career planning — the portfolio gives their profile something real to show</li>
+        <li>Local employer partners invited to Showcase Night — the warm-introduction channel that <span class="chip" data-src="filter">beats the CV black hole</span></li>
+        <li>Whānau engagement built in: two family touchpoints per track, because pathway decisions happen at kitchen tables</li>
+      </ul></div>
+      <div class="fit rv"><h4>🤝 Values &amp; special character</h4><ul>
+        <li>The Values Spine uses universal principle language — integrity, service, stewardship, courage, restraint, gratitude — accessible to every student</li>
+        <li>Fully adaptable: state schools run it as-is against their school values; special-character schools can map each weekly theme to their own tradition and texts</li>
+        <li>Nothing in the student experience assumes or requires any faith position — and nothing in it prevents a school from adding one</li>
+        <li>Aligned with wellbeing priorities: identity is anchored in who students are becoming, not in a volatile job market</li>
+      </ul></div>
+      <div class="fit rv rv-d1"><h4>🧑‍🏫 Staffing &amp; workload</h4><ul>
+        <li>Any capable teacher, dean or careers lead can facilitate — no specialist AI or business background needed</li>
+        <li>Every session arrives planned: facilitator guide, slides, timing, printables and assessment rubrics included</li>
+        <li>One 3-hour staff PLD workshop before launch; optional termly check-ins</li>
+        <li>Designed to reduce marking load, not add to it: portfolio evidence is authenticated, not re-marked</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPARISON ================= -->
+<section class="section-tint">
+  <div class="wrap">
+    <span class="eyebrow rv">How it compares</span>
+    <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .6rem">Complementary to what you run — different in what it measures</h2>
+    <p class="lede rv rv-d2">Schools running Young Enterprise, the Duke of Edinburgh Hillary Award or Gateway should keep them — they're excellent at what they do. This programme fills the gap none of them were designed for: the AI-era preparation layer, measured end to end.</p>
+    <div class="cmp-wrap rv">
+      <table class="cmp">
+        <tr><th>Focus</th><th class="hrp-col">Highest-Return Portfolio</th><th>Young Enterprise</th><th>Duke of Ed / Hillary</th><th>Typical careers unit</th></tr>
+        <tr><td>AI-era skills &amp; honest AI fluency</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="part">partial</span></td></tr>
+        <tr><td>Measured human-skills growth (pre/post)</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="part">informal</span></td><td><span class="part">informal</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>Verifiable evidence portfolio</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="part">one venture</span></td><td><span class="part">activity log</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>Structured pathway decision (uni / trade / work / purpose year)</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="part">varies</span></td></tr>
+        <tr><td>Embodied-skill strand with local employers</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">expedition</span></td><td><span class="part">via Gateway</span></td></tr>
+        <tr><td>Values &amp; character spine, adaptable to school character</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="part">service ethos</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>Cohort outcome dashboard for BoT reporting</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+        <tr><td>Destination tracking at 6 &amp; 12 months</td><td class="hrp-col"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PACKAGE ================= -->
+<section>
+  <div class="wrap">
+    <span class="eyebrow rv">Ready to run</span>
+    <h2 class="rv rv-d1" style="font-size:clamp(2rem,4.4vw,3rem);font-weight:700;margin:1.1rem 0 .6rem">Everything arrives ready for Day One</h2>
+    <div class="pack-grid">
+      <div class="pack rv"><h4>Pilot Term · 10 Weeks</h4><div class="p-for">One trial class, one term — the proving ground</div><ul>
+        <li>10-week programme: 10 planned sessions</li><li>Facilitator guide, slides &amp; printables</li>
+        <li>Student portfolio workbook (digital + print)</li><li>Pathway Compass licence for the cohort</li>
+        <li>Entry/exit measurement toolkit</li><li>Staff PLD workshop (3 hrs)</li>
+      </ul><button class="btn btn-ghost" onclick="mailtoEnq('Pilot Term')">Start a pilot</button></div>
+      <div class="pack hot rv rv-d1"><span class="p-tag">MOST CHOSEN</span><h4>Full Year</h4><div class="p-for">One cohort, four terms — full depth</div><ul>
+        <li>4-term programme: 36 planned sessions</li><li>Everything in Starter, plus:</li>
+        <li>Embodied-skill strand with employer taster days</li><li>Two whānau engagement evenings</li>
+        <li>Showcase Night run kit</li><li>Termly cohort dashboard for BoT reporting</li>
+        <li>6 &amp; 12-month destination tracking</li>
+      </ul><button class="btn btn-sunrise" onclick="mailtoEnq('Full Year')">Book a conversation</button></div>
+      <div class="pack rv rv-d2"><h4>Whole-School Partner</h4><div class="p-for">Multi-cohort, multi-year</div><ul>
+        <li>Multiple cohorts across Years 12–13</li><li>Custom mapping to your school values / special character</li>
+        <li>Staff train-the-trainer pathway</li><li>Annual outcomes report co-presented to your Board</li>
+        <li>Priority updates as NZCE/NZACE lands</li><li>Community launch seminar for parents</li>
+      </ul><button class="btn btn-ghost" onclick="mailtoEnq('Whole-School Partner')">Enquire</button></div>
+    </div>
+    <p class="rv" style="text-align:center;margin-top:2.4rem;color:var(--ink-60);font-size:.95rem">The Semester Intensive (2 terms, 20 sessions) sits between Pilot and Full Year — ask about it. Piloting in 2027? <b>Founding-school pricing</b> applies to the first Bay of Plenty Pilot Terms — in exchange for outcome data and a case study we build together.</p>
+  </div>
+</section>
+
+<footer class="nb-author-footer no-print">
+  <div class="wrap">
+    <div class="nb-author-card">
+      <div class="nb-author-photo"><img src="../flyers/assets/nathaniel-baldock-portrait.png" alt="Nathaniel Baldock"></div>
+      <div>
+        <h4>Built by Nathaniel Baldock</h4>
+        <p>AI consulting &amp; school formation · Tauranga, New Zealand. The Highest-Return Portfolio is a measured preparation programme for Years 12–13 — human skills, AI fluency, evidence portfolios, and character.</p>
+        <div class="nb-author-links">
+          <a href="https://nathanielbaldock.com">nathanielbaldock.com</a>
+          <a href="https://nathanielbaldock.com/schools">School programmes</a>
+          <a href="mailto:nathanielbaldock@gmail.com?subject=Highest-Return%20Portfolio%20enquiry">Get in touch</a>
+        </div>
+      </div>
+    </div>
+    <div class="nb-footer-cta">
+      <p>Bring this to your SLT or careers lead. Every stat links to its source — then let's talk about your cohort and timetable.</p>
+      <a href="https://nathanielbaldock.com/schools" class="btn btn-sunrise">Explore school programmes →</a>
+    </div>
+    <div class="nb-footer-fine">© 2026 Nathaniel Baldock. Tap any ⓘ chip for research sources. Structured perspective only — not financial or career advice. NCEA, Gateway, STAR and related programmes are the property of their respective NZ agencies; this programme is designed to complement national qualifications.</div>
+  </div>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-veil" id="modalVeil" onclick="if(event.target===this)closeModal()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="mx" onclick="closeModal()" aria-label="Close">✕</button>
+    <div class="m-eyebrow" id="mEyebrow">Source</div>
+    <div class="m-stat" id="mStat"></div>
+    <h4 id="mTitle"></h4>
+    <p id="mBody"></p>
+    <div class="m-src"><span id="mSrc"></span><a id="mLink" href="#" target="_blank" rel="noopener">Read the source →</a></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   HIGGSFIELD HERO SLOT — paste your generated image URL here
+   ============================================================ */
+const HIGGSFIELD_HERO_URL = "";
+if(HIGGSFIELD_HERO_URL){ document.getElementById('heroImg').src = HIGGSFIELD_HERO_URL; }
+
+/* ============================================================
+   SOURCE LIBRARY
+   ============================================================ */
+const SOURCES = {
+  stanford:{stat:"13–20%",title:"Entry-level employment is already falling in AI-exposed fields",body:"Stanford Digital Economy Lab research ('Canaries in the Coal Mine?') tracks employment for 22–25-year-olds and finds significant declines in AI-exposed roles such as software development and customer service — the junior roles where careers traditionally began. Preparation can no longer assume the old first rung will be there.",src:"Stanford Digital Economy Lab, 2025",link:"https://digitaleconomy.stanford.edu"},
+  hbs:{stat:"~80%",title:"The wage premium for technical skills rests on human skills",body:"Harvard Business School research finds nearly 80% of the wage premium for technical skills depends on foundational human skills — communication, collaboration, judgment — and that these are far harder to reteach once someone needs to earn a living. The school years are the cheapest time to build them; that's this programme's Tier 1.",src:"HBS Working Knowledge",link:"https://hbswk.hbs.edu/item/why-soft-skills-still-matter-in-the-age-of-ai"},
+  pwc:{stat:"66% faster",title:"Skills in AI-exposed jobs are churning fast",body:"PwC's Global AI Jobs Barometer (New Zealand analysis) finds skills sought in AI-exposed jobs changing 66% faster than in other roles — and, counterintuitively, that exposed roles held up better in postings. The winning profile is the augmented human, which is why AI fluency is taught as a tool discipline, not a subject.",src:"PwC AI Jobs Barometer — NZ, 2025",link:"https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/aijb-2025-new-zealand-analysis.pdf"},
+  skills:{stat:"81%",title:"Employers now test skills directly",body:"81% of companies use skills assessments to evaluate candidates (up from 56% in 2022), and 95% of HR teams expect skills-based hiring to dominate by 2030. A verifiable portfolio gives your leavers exactly what this shift rewards: evidence.",src:"CandyCV Skills-Based Hiring Report, 2026",link:"https://www.candycv.com/reports/the-skills-based-hiring-report-what-it-is-and-how-it-will-reshape-work-in-2026-32"},
+  safi:{stat:"73 vs 42",title:"AI is strongest at maths and code, weakest at listening",body:"The Skill Automation Feasibility Index scores mathematics (73.2) and programming (71.8) as most automatable, and active listening (42.2), social perception and negotiation as least. 78.7% of workplace AI use augments humans rather than replacing them — the durable advantage is relational.",src:"The AI Skills Shift, arXiv 2604.06906",link:"https://arxiv.org/abs/2604.06906"},
+  nber:{stat:"+35%",title:"AI helps beginners most",body:"NBER research on generative AI at work found average productivity gains of 14% — and up to 35% for the least experienced workers. For students this cuts both ways: used honestly it accelerates learning; used as a shortcut it hollows it out. The programme teaches the difference explicitly.",src:"NBER Digest: Measuring the Productivity Impact of Generative AI",link:"https://www.nber.org/digest/20236/measuring-productivity-impact-generative-ai"},
+  rw:{stat:"Weeks",title:"Working AI literacy is a weeks-long project",body:"Recruitment firm Robert Walters reports basic AI literacy is achievable within a few weeks of consistent learning, and that human skills remain the 'ultimate differentiator' employers pay more for. Tier 2 delivers the literacy; Tier 1 delivers the differentiator.",src:"Robert Walters NZ career guidance",link:"https://www.robertwalters.co.nz/insights/career-advice/blog/your-guide-to-developing-AI-literacy.html"},
+  eq:{stat:"90% / 36%",title:"Top performers run on emotional intelligence",body:"90% of top performers score high in emotional intelligence, yet only 36% of people can accurately identify their emotions as they happen. EQ is learnable and compounds for decades — which is why it is measured at entry, mid-point and exit rather than assumed.",src:"Psychology Today, 'What Children Need to Learn in a Future Impacted by AI'",link:"https://www.psychologytoday.com/nz/blog/what-children-need-learn-future-impacted-ai"},
+  trades:{stat:"Least automatable",title:"Embodied and human-touch work resists automation",body:"Analyses of future-proof careers consistently place skilled trades and high-trust human work among the least likely to be automated. AI lives in servers — it has no hands and no presence. One embodied capability diversifies every student's future, whatever path they choose.",src:"AI Workforce Report: future-proof jobs",link:"https://aiworkforcereport.com/future-proof-jobs/"},
+  bop:{stat:"76,600",title:"The region's real employment base",body:"76,600 people worked in Tauranga City as at February 2024 — led by Health Care & Social Assistance (14%), Retail (11%), Construction (10%+), Manufacturing (9%) and Education & Training (7%). The embodied-skill strand and employer taster days are built around the map that actually exists, not an imagined one.",src:"Tauranga City Council Statistical Report 2025",link:"https://www.tauranga.govt.nz/Portals/0/data/council/reports/statistical-information-report-2025.pdf"},
+  moe:{stat:"2028–2030",title:"NCEA is being replaced — evidence survives the change",body:"From 2028 NCEA will be progressively replaced: a Foundational Award (literacy & numeracy) at Year 11 from 2028, the New Zealand Certificate of Education (NZCE) at Year 12 from 2029, and the NZ Advanced Certificate of Education (NZACE) at Year 13 from 2030, with subject-based assessment and an A+–E grading scale. Current Years 12–13 complete under existing NCEA Levels 2–3. Whatever the framework, a portfolio of verified capability keeps its value — that's the design principle here.",src:"Ministry of Education / Beehive announcements, March–May 2026",link:"https://www.education.govt.nz/news/more-details-about-new-senior-secondary-qualifications"},
+  employ:{stat:"7 skills",title:"The national Employability Skills Framework",body:"New Zealand's Employability Skills Framework names seven skills employers say they need: positive attitude, communication, teamwork, self-management, willingness to learn, thinking skills, and resilience. Every programme outcome is mapped to this framework and the NZC key competencies, so student profiles speak a language employers and tertiary providers already recognise.",src:"NZ Employability Skills Framework / Careers guidance",link:"https://www.careers.govt.nz"},
+  filter:{stat:"75%",title:"Three quarters of CVs never reach a human",body:"Automated screening filters out roughly 75% of applications before a person sees them. Warm, real-world connections — like employers meeting students at Showcase Night — bypass the machine entirely. Relationship is a career strategy.",src:"AI resume screening industry analyses, 2026",link:"https://www.gomokka.com/resources/10-best-ai-resume-screening-tools-in-2026.html"}
+};
+
+/* ---------- modal ---------- */
+const veil=document.getElementById('modalVeil');
+function openModal(key){
+  const s=SOURCES[key]; if(!s)return;
+  document.getElementById('mStat').textContent=s.stat;
+  document.getElementById('mTitle').textContent=s.title;
+  document.getElementById('mBody').textContent=s.body;
+  document.getElementById('mSrc').textContent=s.src;
+  document.getElementById('mLink').href=s.link;
+  veil.classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){veil.classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('.chip');
+  if(c){e.stopPropagation();openModal(c.dataset.src)}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ---------- reveal + count-up ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){
+    e.target.classList.add('in');
+    e.target.querySelectorAll('[data-count]').forEach(n=>{
+      if(n.dataset.done)return;n.dataset.done=1;
+      const end=+n.dataset.count,suf=n.dataset.suffix||'';let t0=null;
+      const tick=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/1300,1);
+        n.textContent=Math.round(end*(1-Math.pow(1-p,3)))+suf;
+        if(p<1)requestAnimationFrame(tick)};
+      requestAnimationFrame(tick);
+    });
+    if(e.target.querySelector&&e.target.querySelector('#roiChart'))drawChart();
+    if(e.target.id==='roiChart'||e.target.closest&&e.target.closest('.chart-card'))drawChart();
+    io.unobserve(e.target);
+  }
+}),{threshold:.18});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* ============================================================
+   ROI CHART — grouped bars, animated draw
+   ============================================================ */
+let chartDrawn=false;
+function drawChart(){
+  if(chartDrawn)return;chartDrawn=true;
+  const data=[
+    {t:"T1 Human skills",dur:96,spd:45,c:"#7CCC1E"},
+    {t:"T2 AI fluency",dur:55,spd:95,c:"#7CCC1E"},
+    {t:"T3 Portfolio",dur:82,spd:70,c:"#7CCC1E"},
+    {t:"T4 Embodied",dur:90,spd:60,c:"#0FA97E"},
+    {t:"T5 Character",dur:100,spd:35,c:"#E5484D"}
+  ];
+  const svg=document.getElementById('roiChart');
+  const W=760,H=330,pad=46,bw=34,gap=10,gw=(W-pad*2)/data.length;
+  let g='';
+  for(let v=0;v<=100;v+=25){
+    const y=H-40-(H-90)*v/100;
+    g+=`<line x1="${pad}" y1="${y}" x2="${W-14}" y2="${y}" stroke="#EEF2FB" stroke-width="1.5"/>
+        <text x="${pad-10}" y="${y+4}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#9AA5C0">${v}</text>`;
+  }
+  data.forEach((d,i)=>{
+    const x0=pad+i*gw+gw/2;
+    const h1=(H-90)*d.dur/100,h2=(H-90)*d.spd/100;
+    g+=`<rect x="${x0-bw-gap/2}" y="${H-40}" width="${bw}" height="0" rx="7" fill="${d.c}">
+          <animate attributeName="height" to="${h1}" dur="1s" begin="${.12*i}s" fill="freeze" calcMode="spline" keySplines=".2 .8 .2 1"/>
+          <animate attributeName="y" to="${H-40-h1}" dur="1s" begin="${.12*i}s" fill="freeze" calcMode="spline" keySplines=".2 .8 .2 1"/></rect>
+        <rect x="${x0+gap/2}" y="${H-40}" width="${bw}" height="0" rx="7" fill="#C9D6F5">
+          <animate attributeName="height" to="${h2}" dur="1s" begin="${.12*i+.1}s" fill="freeze" calcMode="spline" keySplines=".2 .8 .2 1"/>
+          <animate attributeName="y" to="${H-40-h2}" dur="1s" begin="${.12*i+.1}s" fill="freeze" calcMode="spline" keySplines=".2 .8 .2 1"/></rect>
+        <text x="${x0}" y="${H-18}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10.5" font-weight="600" fill="#5B6784">${d.t.toUpperCase()}</text>`;
+  });
+  svg.innerHTML=g;
+}
+
+/* ============================================================
+   TRACK RENDERER — Full Year vs Semester
+   ============================================================ */
+const TRACKS={
+ year:[
+  {tag:"TERM 1",title:"Foundations",theme:"Who I am before what I do",c:"var(--nb-accent)",items:["Baseline measures: human skills, EQ, employability profile","Listening labs, feedback circles, first speaking formats","Values Spine launches — weekly principle reflections","Team formation & first mini-project"],del:"Entry measurement report · first artefact brief"},
+  {tag:"TERM 2",title:"AI Fluency",theme:"Direct the tool, own the truth",c:"var(--violet)",items:["Prompt craft: observe → name → refine","Verification discipline & the integrity protocol","Applied labs on real study & research tasks","Critical unit: bias, limits, humans-in-the-loop"],del:"Practical AI assessment · signed integrity protocol"},
+  {tag:"TERM 3",title:"The Portfolio",theme:"Build. Serve. Lead.",c:"var(--sunrise)",items:["Three artefact strands run in parallel","Embodied-skill strand: taster days with local partners","Mid-point measurement & mentor conversations","Pathway Compass completed with whānau evening"],del:"3 evidenced artefacts in draft · pathway rationale"},
+  {tag:"TERM 4",title:"Showcase & Launch",theme:"Evidence in public",c:"var(--meadow)",items:["Artefacts finalised, referees confirmed","Presentation coaching & portfolio polish","Showcase Night with employers & whānau","Exit measures, destinations plan, character reference"],del:"Showcase Night · exit report · leaver profile"}
+ ],
+ sem:[
+  {tag:"SPRINT 1 · FIRST TERM",title:"Foundations + Fluency",theme:"Human skills fast, AI skills honest",c:"var(--nb-accent)",items:["Baseline measures in week 1","Listening labs & speaking formats (compressed cycle)","AI fluency block: prompt craft, verification, integrity protocol","Values Spine — twice-weekly reflections","Pathway Compass with take-home whānau conversation"],del:"Entry report · AI assessment · pathway rationale"},
+  {tag:"SPRINT 2 · SECOND TERM",title:"Portfolio + Showcase",theme:"Evidence in public",c:"var(--sunrise)",items:["Two artefacts minimum: one built or served, one led","Optional embodied-skill taster (Gateway/STAR compatible)","Mentor conversations & presentation coaching","Showcase evening with employers & whānau","Exit measures and leaver profile"],del:"2+ evidenced artefacts · Showcase · exit report"}
+ ],
+ micro:[
+  {tag:"WEEKS 1–3",title:"Human Foundations",theme:"Who I am before what I do",c:"var(--nb-accent)",items:["Week 1: baseline measures + listening lab","Week 2: speaking formats — pitch & explainer","Week 3: teamwork & feedback circles","Values Spine: identity, integrity, listening"],del:"Entry measurement report"},
+  {tag:"WEEKS 4–5",title:"AI Fluency",theme:"Direct the tool, own the truth",c:"var(--violet)",items:["Prompt craft: observe → name → refine","Verification discipline on real study tasks","Class integrity protocol co-written & signed","Practical AI assessment (rubric-marked)"],del:"AI assessment · signed protocol"},
+  {tag:"WEEKS 6–8",title:"The Artefact",theme:"Build, serve, or lead — for real",c:"var(--sunrise)",items:["Choose one strand: BUILD, SERVE or LEAD","Artefact brief signed; process log begins","Studio sessions with mentor check-in","Optional embodied taster (Gateway/STAR compatible)"],del:"1 evidenced artefact with referee"},
+  {tag:"WEEKS 9–10",title:"Pathway & Showcase",theme:"Evidence in public",c:"var(--meadow)",items:["Pathway Compass with take-home whānau conversation","Presentation coaching","Class Mini-Showcase for staff, whānau & a local employer","Exit measures + leaver profile"],del:"Pathway rationale · Mini-Showcase · exit report"}
+ ]
+};
+function setTrack(t){
+  document.getElementById('tgYear').classList.toggle('on',t==='year');
+  document.getElementById('tgSem').classList.toggle('on',t==='sem');
+  document.getElementById('tgMicro').classList.toggle('on',t==='micro');
+  const host=document.getElementById('trackHost');
+  host.innerHTML=`<div class="term-grid ${t==='sem'?'sem':''}">`+TRACKS[t].map((x,i)=>`
+    <div class="term" style="--t-accent:${x.c};animation-delay:${i*.09}s">
+      <div class="t-tag">${x.tag}</div><h4>${x.title}</h4><div class="t-theme">${x.theme}</div>
+      <ul>${x.items.map(li=>`<li>${li}</li>`).join('')}</ul>
+      <div class="t-deliver"><b>DELIVERABLES</b>${x.del}</div>
+    </div>`).join('')+`</div>`;
+}
+setTrack('year');
+
+/* ---------- enquiry ---------- */
+function mailtoEnq(pkg){
+  location.href="mailto:hello@nathanielbaldock.com?subject="+encodeURIComponent("Highest-Return Portfolio — "+pkg+" enquiry")+"&body="+encodeURIComponent("Kia ora Nathaniel,\n\nWe'd like to talk about the "+pkg+" package for our school.\n\nSchool:\nRole:\nCohort size (approx):\nPreferred start:\n\nNgā mihi,");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* Cinematic Light — educators-pd print kit overrides
+   Load AFTER each page's inline <style> block */
+
+:root{
+  --ink:#0F1014;
+  --ink-70:rgba(15,16,20,.65);
+  --ink-60:rgba(15,16,20,.55);
+  --ink-40:rgba(15,16,20,.42);
+  --ink-12:rgba(15,16,20,.12);
+  --ink-06:rgba(15,16,20,.06);
+  --paper:#FFFFFF;
+  --cloud:#FAFAF7;
+  --mist:#F4EFE2;
+  --azure:#7CCC1E;
+  --azure-deep:#0F1014;
+  --azure-soft:rgba(124,204,30,.12);
+  --sunrise:#7CCC1E;
+  --sunrise-soft:rgba(124,204,30,.12);
+  --meadow:#11C25C;
+  --meadow-soft:rgba(17,194,92,.1);
+  --violet:#7CCC1E;
+  --violet-soft:rgba(124,204,30,.1);
+}
+
+body{background:var(--mist)!important;color:var(--ink)!important}
+h1,h2,h3,h4{font-weight:400!important;letter-spacing:-.028em!important}
+
+/* Hero / cover bands — dark strip only, cinematic scrim */
+.hero{background:linear-gradient(140deg,#0F1014 0%,#1c2129 55%,#0F1014 100%)!important;color:var(--nb-cream,#F4EFE2)!important}
+.cover{background:linear-gradient(150deg,#0F1014 0%,#222830 100%)!important;color:var(--nb-cream,#F4EFE2)!important}
+.head{background:linear-gradient(135deg,#0F1014,#252a33)!important;color:var(--nb-cream,#F4EFE2)!important}
+.slide.divider{background:linear-gradient(135deg,#0F1014,#252a33)!important;color:#fff!important}
+
+/* Gradient text → Instrument Serif lime accent */
+.grad,.cover .grad,.poster h1 .grad{
+  background:none!important;
+  -webkit-background-clip:unset!important;
+  background-clip:unset!important;
+  -webkit-text-fill-color:unset!important;
+  color:var(--nb-accent,#7CCC1E)!important;
+  font-family:var(--font-accent,"Instrument Serif",Georgia,serif)!important;
+  font-style:italic!important;
+  font-weight:300!important;
+}
+
+.cover .wm,.cover .meta b{color:var(--nb-accent,#7CCC1E)!important}
+.hero .wm{color:var(--nb-accent,#7CCC1E)!important}
+
+/* Buttons & pills */
+.toolbar .print,.nav-cta{background:var(--nb-cta-gradient)!important;border-color:transparent!important;color:#fff!important}
+.pill{background:var(--nb-accent,#7CCC1E)!important}
+.pill.s2,.pill.s3{background:var(--nb-green,#11C25C)!important}
+
+/* Cards & panels */
+.doc,.page{box-shadow:0 8px 32px rgba(15,16,20,.08)!important}
+.mini,.faith-box{background:var(--nb-bg-warm,#F4EFE2)!important}
+.callout.tip{background:rgba(17,194,92,.08)!important;border-left-color:var(--nb-green)!important}
+
+/* Deck */
+.slide{background:#fff!important}
+.grad-text{color:var(--nb-accent)!important}
+
+/* Index landing overrides */
+.hero h1 .grad{
+  background:none!important;-webkit-text-fill-color:unset!important;
+  color:var(--nb-accent)!important;font-family:var(--font-accent);font-style:italic;font-weight:300;
+}
+.brand .mk{background:var(--nb-cta-gradient)!important}
+.final{background:linear-gradient(135deg,#0F1014,#252a33)!important;color:var(--nb-cream)!important}
+.hero-media .frame.noimg{background:var(--nb-bg-warm)!important}
+
+/* Tools landing — kill violet/orange gradient text & rails */
+.ph{background:var(--nb-bg-warm)!important}
+.progress-rail .fill{background:var(--nb-cta-gradient)!important}
+.modal .m-stat{
+  background:var(--nb-cta-gradient)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;
+}

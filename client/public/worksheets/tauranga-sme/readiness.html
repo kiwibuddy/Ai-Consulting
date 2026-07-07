@@ -862,7 +862,7 @@ body:not(.guided) .step .step-check{
     <div class="eligibility-card-lbl">Worth knowing</div>
     <div class="eligibility-card-title">The AI Advisory Pilot — is your business eligible?</div>
     <div class="eligibility-card-body">
-      In January 2026, the Government launched a <strong>$765,000 co-funded AI advisory pilot</strong> through the Regional Business Partner Network. At least 51 SMEs will receive funded support to develop an AI adoption plan. The entry point in our region is <strong>Priority One</strong>. This worksheet will help you get clear on where you stand before you have that conversation.
+      In January 2026, the Government launched a <strong>$765,000 AI Advisory Pilot</strong> through the Regional Business Partner Network — expanded in May 2026 to <strong>up to 150 businesses</strong> nationally, extended to <strong>31 January 2027</strong>, with <strong>50% co-funding capped at $15,000</strong> per eligible business. In the Bay of Plenty, your entry point is the <strong><a href="https://tauranga.org.nz/bus-growth-hub/" target="_blank" rel="noopener">Tauranga Business Chamber</a></strong> (Regional Business Partner). <em>Priority One</em> is regional economic development — useful context, not the pilot gateway. Sources: <a href="https://www.mbie.govt.nz/about/news/more-practical-ai-support-for-small-businesses" target="_blank" rel="noopener">MBIE (May 2026)</a> · <a href="https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai" target="_blank" rel="noopener">Beehive (Jan 2026)</a>.
     </div>
   </div>
 
@@ -1125,10 +1125,10 @@ body:not(.guided) .step .step-check{
     <div class="step-body">
       <p>Regardless of your score, these are the most relevant starting points for Bay of Plenty business owners right now.</p>
       <div class="cheat">
-        <div class="cheat-row"><div class="cheat-key">Priority One</div><div class="cheat-val">Regional economic development agency. Entry point for the MBIE AI Advisory Pilot co-funding. <a href="https://www.priorityone.co.nz" target="_blank">priorityone.co.nz</a></div></div>
-        <div class="cheat-row"><div class="cheat-key">Tauranga Business Chamber</div><div class="cheat-val">Running an ongoing digital and AI capability programme for local businesses. <a href="https://www.tauranga.org.nz" target="_blank">tauranga.org.nz</a></div></div>
+        <div class="cheat-row"><div class="cheat-key">Tauranga Business Chamber (RBP)</div><div class="cheat-val">Your Regional Business Partner for the Bay of Plenty — gateway for the MBIE AI Advisory Pilot. <a href="https://tauranga.org.nz/bus-growth-hub/" target="_blank">Business Growth Hub</a> · <a href="https://www.business.govt.nz/strategy-and-performance/regional-business-partner-network/find-your-local-regional-business-partner" target="_blank">business.govt.nz</a></div></div>
+        <div class="cheat-row"><div class="cheat-key">Priority One</div><div class="cheat-val">Regional economic development (workforce, strategy) — <strong>not</strong> the pilot administrator. Useful local context. <a href="https://www.priorityone.co.nz" target="_blank">priorityone.co.nz</a></div></div>
         <div class="cheat-row"><div class="cheat-key">Business.govt.nz</div><div class="cheat-val">Government-run guide to safe and practical AI use for NZ businesses. <a href="https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use" target="_blank">business.govt.nz</a></div></div>
-        <div class="cheat-row"><div class="cheat-key">Regional Business Partners</div><div class="cheat-val">Funded advisory support across the Bay of Plenty region, including for AI capability building.</div></div>
+        <div class="cheat-row"><div class="cheat-key">Regional Business Partners</div><div class="cheat-val">Nationwide network delivering funded advisory support, including the AI Advisory Pilot. <a href="https://www.business.govt.nz/strategy-and-performance/regional-business-partner-network" target="_blank">Register at business.govt.nz</a></div></div>
         <div class="cheat-row"><div class="cheat-key">OPC AI Guidance</div><div class="cheat-val">Privacy Commissioner's plain-language guide to AI and your obligations. <a href="https://privacy.org.nz" target="_blank">privacy.org.nz</a></div></div>
       </div>
     </div>
@@ -1144,7 +1144,7 @@ body:not(.guided) .step .step-check{
       <div class="q-block">
         <div class="q-text">What is your next step?</div>
         <div class="q-options">
-          <label class="q-opt"><input type="radio" name="next"> I'm going to contact Priority One this week about the AI Advisory Pilot.</label>
+          <label class="q-opt"><input type="radio" name="next"> I'm going to contact Tauranga Business Chamber (my RBP) this week about the AI Advisory Pilot.</label>
           <label class="q-opt"><input type="radio" name="next"> I'm going to pick one time drain from Section 3 and try one AI tool on it this week.</label>
           <label class="q-opt"><input type="radio" name="next"> I'm going to read the OPC AI guidance before I add any new tools to my business.</label>
           <label class="q-opt"><input type="radio" name="next"> I'm going to book a 30-minute call with Nathaniel to work through my specific situation.</label>
@@ -1230,7 +1230,7 @@ function showScore(){
   num.textContent = val + '/8';
   if(val <= 2){
     lbl.textContent = 'Stage 1 — Awareness';
-    txt.innerHTML = 'You\'re at the beginning, which is exactly where most BOP small businesses are right now. The most useful thing you can do is <strong>pick one small, low-stakes experiment</strong> — not a full adoption plan. The MBIE AI Advisory Pilot through Priority One exists specifically for businesses at this stage. That\'s a funded conversation worth having.';
+    txt.innerHTML = 'You\'re at the beginning, which is exactly where most BOP small businesses are right now. The most useful thing you can do is <strong>pick one small, low-stakes experiment</strong> — not a full adoption plan. The MBIE AI Advisory Pilot (via your Regional Business Partner — Tauranga Business Chamber in the BoP) exists for businesses at this stage. That\'s a funded conversation worth having once your growth advisor confirms eligibility.';
   } else if(val <= 5){
     lbl.textContent = 'Stage 2 — Experimenting';
     txt.innerHTML = 'You\'ve started but it hasn\'t become a real habit yet. That\'s common. The gap between "I\'ve tried it" and "it saves me two hours a week" is usually just <strong>one specific use case applied consistently</strong>. Work through Worksheet 3 in this series to map your time drains to the right tools.';

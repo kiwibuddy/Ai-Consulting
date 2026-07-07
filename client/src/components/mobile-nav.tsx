@@ -13,6 +13,7 @@ const MARKETING_MODE = import.meta.env.VITE_MARKETING_MODE === "true";
 const navLinks: { href: string; label: string }[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Me" },
+  { href: "/products", label: "Products" },
   { href: "/speaking", label: "Speaking" },
   { href: "/resources", label: "Resources" },
   { href: "/pricing", label: "Pricing" },

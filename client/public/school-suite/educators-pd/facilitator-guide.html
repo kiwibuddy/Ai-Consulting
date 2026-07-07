@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinematic-light.css">
+<link rel="stylesheet" href="cinematic-light-print.css">
+<link rel="stylesheet" href="cinematic-light-kit.css">
+<title>Facilitator Guide — Teaching for the Discernment Age | Nathaniel Baldock</title>
+<meta name="description" content="Delivery guide for the Teaching for the Discernment Age school PD: run-sheet, timings, learning outcomes, NZ curriculum alignment, logistics, pricing and the pre-delivery currency checklist.">
+<style>
+:root{
+  --ink:#0F1014;--ink-70:rgba(10,22,51,.72);--ink-60:rgba(10,22,51,.62);--ink-40:rgba(10,22,51,.42);
+  --ink-12:rgba(10,22,51,.12);--ink-06:rgba(10,22,51,.06);--paper:#FFFFFF;--cloud:#FAFAF7;--mist:#F4EFE2;
+  --azure:#7CCC1E;--azure-deep:#0F1014;--azure-soft:rgba(124,204,30,.12);--sunrise:#7CCC1E;--sunrise-soft:#FFEFE2;
+  --meadow:#0FA97E;--meadow-soft:#E2F7F0;--amber:#EFA51F;--amber-soft:#FCF3DD;--rose:#E5484D;--rose-soft:#FDEAEA;--violet:#7CCC1E;--violet-soft:rgba(124,204,30,.1);
+  --font-display:"Newsreader",system-ui,sans-serif;--font-body:"Inter",system-ui,sans-serif;--font-mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--ink);background:var(--mist);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-.02em;line-height:1.14;font-weight:400}
+
+.toolbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--ink-12);display:flex;align-items:center;gap:1rem;padding:.7rem clamp(1rem,4vw,2rem)}
+.toolbar .t{font-family:var(--font-display);font-weight:700;font-size:.98rem;margin-right:auto}
+.toolbar a,.toolbar button{font-family:var(--font-body);font-size:.85rem;font-weight:600;border:1px solid var(--ink-12);background:#fff;color:var(--ink);padding:.45rem .9rem;border-radius:999px;cursor:pointer;text-decoration:none}
+.toolbar .print{background:var(--nb-accent);color:#fff;border-color:var(--nb-accent)}
+.faith-toggle{display:flex;align-items:center;gap:.45rem;font-family:var(--font-mono);font-size:.7rem;color:var(--ink-60);cursor:pointer;user-select:none;padding:.35rem .6rem;border:1px solid var(--ink-12);border-radius:999px;background:var(--cloud)}
+.faith-toggle .sw{width:30px;height:17px;border-radius:999px;background:var(--meadow);position:relative;transition:.25s;flex:none}
+.faith-toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:.25s}
+body[data-faith="off"] .faith-toggle .sw{background:var(--ink-40)}
+body[data-faith="off"] .faith-toggle .sw::after{transform:translateX(13px)}
+body[data-faith="off"] .lbl-on{display:none}body[data-faith="on"] .lbl-off{display:none}
+body[data-faith="off"] .faith{display:none !important}
+
+.doc{max-width:900px;margin:1.6rem auto;background:#fff;border-radius:18px;box-shadow:0 12px 45px -14px rgba(10,22,51,.22);overflow:hidden}
+.hero{background:linear-gradient(140deg,#0F1014 0%,#252a33 100%);color:#fff;padding:2.4rem clamp(1.4rem,4vw,2.8rem)}
+.hero .wm{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--nb-accent-soft);font-weight:600}
+.hero h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:.6rem 0 .4rem}
+.hero p{color:rgba(255,255,255,.82);max-width:56ch}
+.body{padding:clamp(1.4rem,4vw,2.8rem)}
+
+h2.blk{font-size:1.5rem;margin:2rem 0 .8rem;padding-top:1.4rem;border-top:2px solid var(--ink-06)}
+h2.blk:first-child{border-top:none;padding-top:0;margin-top:0}
+h3.sub{font-size:1.1rem;margin:1.2rem 0 .5rem}
+p.lede{color:var(--ink-70);margin-bottom:.8rem}
+ul.tick{list-style:none;display:grid;gap:.4rem;margin:.5rem 0 .9rem}
+ul.tick li{font-size:.94rem;color:var(--ink-70);padding-left:1.5rem;position:relative}
+ul.tick li::before{content:"✓";position:absolute;left:0;color:var(--meadow);font-weight:700}
+ul.arrow li::before{content:"→";color:var(--nb-accent)}
+
+.runsheet{width:100%;border-collapse:collapse;font-size:.9rem;margin:.6rem 0}
+.runsheet th{text-align:left;background:var(--cloud);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-40);padding:.55rem .7rem;border-bottom:2px solid var(--ink-12)}
+.runsheet td{padding:.6rem .7rem;border-bottom:1px solid var(--ink-06);vertical-align:top}
+.runsheet td:first-child{font-family:var(--font-mono);font-size:.82rem;color:var(--nb-accent);white-space:nowrap;font-weight:600}
+.runsheet .brk td{background:var(--nb-accent-soft);color:var(--ink-60);font-style:italic}
+
+.callout{border-radius:12px;padding:1rem 1.2rem;margin:1rem 0;font-size:.92rem}
+.callout.warn{background:var(--rose-soft);border-left:4px solid var(--rose);color:var(--ink-70)}
+.callout.tip{background:var(--meadow-soft);border-left:4px solid var(--meadow);color:var(--ink-70)}
+.callout b{color:var(--ink)}
+
+.faith-box{background:var(--amber-soft);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:.9rem 1.1rem;font-size:.9rem;color:var(--ink-70);margin:1rem 0}
+.faith-box .ref{font-family:var(--font-mono);font-size:.68rem;color:var(--amber);font-weight:600;letter-spacing:.04em;display:block;margin-bottom:.2rem}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:700px){.two{grid-template-columns:1fr}}
+.mini{background:var(--cloud);border:1px solid var(--ink-12);border-radius:12px;padding:1.1rem 1.2rem}
+.mini h4{font-size:1rem;margin-bottom:.5rem}
+
+.check{list-style:none;display:grid;gap:.5rem;margin:.6rem 0}
+.check li{display:grid;grid-template-columns:auto 1fr;gap:.7rem;font-size:.92rem;color:var(--ink-70);align-items:start}
+.check li::before{content:"";width:18px;height:18px;border:2px solid var(--nb-accent);border-radius:5px;margin-top:.15rem}
+
+.anchor-tbl{width:100%;border-collapse:collapse;font-size:.86rem;margin:.6rem 0}
+.anchor-tbl th{text-align:left;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-40);padding:.4rem .6rem;border-bottom:2px solid var(--ink-12)}
+.anchor-tbl td{padding:.45rem .6rem;border-bottom:1px solid var(--ink-06)}
+.anchor-tbl td:first-child{font-family:var(--font-mono);color:var(--nb-accent);font-weight:600;white-space:nowrap}
+.badge{display:inline-block;font-family:var(--font-mono);font-size:.66rem;background:var(--azure-soft);color:var(--azure-deep);padding:.15rem .5rem;border-radius:6px;font-weight:600}
+
+@media print{
+  body{background:#fff}.toolbar{display:none}
+  .doc{margin:0;box-shadow:none;max-width:none;border-radius:0}
+  .hero,.callout,.faith-box,.mini,.runsheet .brk td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  h2.blk{page-break-after:avoid}
+  @page{size:A4;margin:14mm}
+}
+</style>
+</head>
+<body data-faith="on">
+
+<div class="toolbar">
+  <span class="t">🗂️ Facilitator Guide</span>
+  <div class="faith-toggle" role="switch" aria-checked="true" tabindex="0" onclick="toggleFaith()" title="Show/hide faith foundations">
+    <span class="sw"></span><span class="lbl-on">Faith layer: on</span><span class="lbl-off">Faith layer: off</span>
+  </div>
+  <a href="index.html">← Landing</a>
+  <button class="print" onclick="window.print()">🖨 Print / PDF</button>
+</div>
+
+<div class="doc">
+  <div class="hero">
+    <span class="wm">Delivery guide · read before you walk in</span>
+    <h1>Teaching for the Discernment Age</h1>
+    <p>Everything needed to run the day: the run-sheet, learning outcomes, NZ alignment, logistics, pricing, and the pre-delivery currency check. Written to be handed to a school and delivered tomorrow.</p>
+  </div>
+
+  <div class="body">
+
+    <h2 class="blk">1 · The one-sentence pitch</h2>
+    <p class="lede">Every AI course for schools teaches tools and policies that date within a term. This one builds the thing that doesn't — <b>teacher discernment</b> — and turns it into a discernment practice students carry into any subject, tool, or year. Formation-first, with a real tools layer on top.</p>
+    <div class="faith-box faith"><span class="ref">The hidden spine (faith layer)</span>The whole day rests on one move no other school AI-PD makes: <b>worship-shaped discernment</b> — you discern best what you have learned to love rightly (EDU-35, Prov 9:10) — and a teacher can only pass on the discernment they have first practised (EDU-14, Study–Obey–Teach). On the state-school toggle, this reads simply as "discernment is trained at the level of values, and modelled before it's taught."</div>
+
+    <h2 class="blk">2 · Learning outcomes</h2>
+    <div class="two">
+      <div class="mini">
+        <h4>Each teacher will be able to…</h4>
+        <ul class="tick">
+          <li>Run and teach the six-step VERIFY drill on any AI output</li>
+          <li>Apply the green/amber/red model to their own assessments</li>
+          <li>Name which cognitive stages AI skips in their subject</li>
+          <li>State a defensible position on assessment integrity</li>
+          <li>Model ordered AI use before prescribing students'</li>
+        </ul>
+      </div>
+      <div class="mini">
+        <h4>The school will leave with…</h4>
+        <ul class="tick">
+          <li>A staff-authored, signed AI covenant on the wall</li>
+          <li>A shared cross-department language for AI use</li>
+          <li>A "for parents" one-pager to send home that week</li>
+          <li>A community-set line on academic integrity</li>
+          <li>Each teacher's "protected struggle" list per subject</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="blk">3 · Full-day run-sheet (6 hours)</h2>
+    <table class="runsheet">
+      <thead><tr><th>Time</th><th>Session</th><th>Facilitator focus</th></tr></thead>
+      <tbody>
+        <tr><td>9:00</td><td>Welcome &amp; frame</td><td>Set tone: not hype, not panic. Name the faith-layer toggle openly. Hands-up: "what did you already try this week?"</td></tr>
+        <tr><td>9:15</td><td><b>S1 · The telos question</b></td><td>The shift (information → discernment). Study–Obey–Teach. Private AI-use audit (workbook p2, 15 min).</td></tr>
+        <tr class="brk"><td>10:30</td><td>Morning tea</td><td>20 min</td></tr>
+        <tr><td>10:50</td><td><b>S2 · Discernment as practice</b></td><td>VERIFY live on a real claim (incl. the NZ Treaty example). Traffic-light on a real assignment. Collect one red per department.</td></tr>
+        <tr class="brk"><td>12:20</td><td>Lunch</td><td>40 min</td></tr>
+        <tr><td>1:00</td><td><b>S3 · The classroom reality</b></td><td>Detection loses; the community sets the standard. The cognitive ladder; each teacher marks 2–3 protected rungs.</td></tr>
+        <tr class="brk"><td>2:30</td><td>Afternoon tea</td><td>15 min</td></tr>
+        <tr><td>2:45</td><td><b>S4 · The staffroom covenant</b></td><td>Table groups draft; whole staff agrees three norms; sign the poster. Real signatures before anyone leaves.</td></tr>
+        <tr><td>3:30</td><td>Charge &amp; close</td><td>End on time. Point to the covenant on the wall and the parent one-pager going home.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout tip"><b>Twilight option:</b> deliver as two 90-min sessions across a fortnight — Sessions 1–2, then 3–4. Re-open the second twilight with a 5-min recap of the covenant intention set the first night.</div>
+
+    <h2 class="blk">4 · The four frameworks (what's yours, cited faithfully)</h2>
+    <ul class="tick arrow">
+      <li><b>Study → Obey → Teach</b> — the teacher-formation loop as an anti-outsourcing method. <span class="faith badge">EDU-14 · Ezra 7:10-11</span></li>
+      <li><b>VERIFY</b> — Verify the claim · Examine the source · Research independently · Identify bias · Form a confidence rating · Your verdict. Full pupil worksheet exists at <span class="badge">../worksheets/Edu_Worksheet_1_VERIFY_Method.html</span></li>
+      <li><b>The Traffic-Light model</b> — green / amber / red as a shared AI-use language, applied to real assignments.</li>
+      <li><b>Worship-shaped discernment</b> — critical thinking trained at the level of what a student loves, not just what they can fact-check. <span class="faith badge">EDU-35 · Prov 9:10</span></li>
+    </ul>
+    <div class="callout tip"><b>Attribution posture:</b> the Sphere Key Passages are cited as a research foundation (Nathaniel Baldock &amp; David Joel Hamilton). This product <b>cites</b> passage IDs and scripture only — it does not reproduce devotion transcript text — so it does not trigger the David flag-register. The pedagogy, VERIFY, the traffic-light application and the covenant exercise are the author's own.</div>
+
+    <h2 class="blk">5 · Verified devotion anchors (faith layer)</h2>
+    <p class="lede">Every anchor below was checked against <span class="badge">devotions/education.json</span> — passage number exists, title and scripture exact. Re-verify at each build per standing rules.</p>
+    <table class="anchor-tbl">
+      <thead><tr><th>Anchor</th><th>Title</th><th>Scripture</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>EDU-08</td><td>The Purpose of My Instruction</td><td>1 Timothy 1:5</td><td>S1 telos</td></tr>
+        <tr><td>EDU-10</td><td>God Desires Education That Transforms</td><td>Deuteronomy 5:29-31</td><td>S1 telos</td></tr>
+        <tr><td>EDU-12</td><td>Transformed Society</td><td>Leviticus 18:1-5</td><td>S1 telos</td></tr>
+        <tr><td>EDU-14</td><td>Study – Obey – Teach</td><td>Ezra 7:10-11</td><td>S1 formation</td></tr>
+        <tr><td>EDU-33</td><td>Cultivate Critical Thinking</td><td>Leviticus 10:10-11</td><td>S2 VERIFY</td></tr>
+        <tr><td>EDU-35</td><td>Love Good and Hate Evil</td><td>Proverbs 9:10</td><td>S2 discernment</td></tr>
+        <tr><td>EDU-21</td><td>Judged by a Higher Standard</td><td>James 3:1</td><td>S3 integrity</td></tr>
+        <tr><td>EDU-29</td><td>Press On. Press On. Press On.</td><td>Hosea 6:3</td><td>S3 struggle</td></tr>
+        <tr><td>EDU-41–46</td><td>Remembering → Creating (the ladder)</td><td>Deut 4:10 … Ps 98:1</td><td>S3 ladder</td></tr>
+        <tr><td>EDU-19</td><td>Create a Cohortive, Relational Context</td><td>Luke 8:1-2a</td><td>S4 covenant</td></tr>
+        <tr><td>EDU-40</td><td>Support Good Teachers!</td><td>3 John 1:6b-8</td><td>S4 covenant</td></tr>
+        <tr><td>EDU-37</td><td>Role of the Family in Education</td><td>Proverbs 3:1-6,11-12</td><td>Parent one-pager</td></tr>
+        <tr><td>FAM-23</td><td>Children Are a Gift from God</td><td>Psalm 127:3-5</td><td>Parent one-pager</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn"><b>Correction logged:</b> the original topic brief cited "EDU-02 (shalom as education's purpose)." EDU-02 is actually <i>"God the Father Is Our Teacher" (Isaiah 54:13)</i>. The telos anchor was re-based to EDU-08 / EDU-10 / EDU-12, which carry the transformation-purpose reading accurately.</div>
+
+    <h2 class="blk">6 · NZ curriculum &amp; professional alignment</h2>
+    <ul class="tick arrow">
+      <li><b>Teaching Council — Standards for the Profession:</b> professional learning; fostering a learning-focused culture; design for learning.</li>
+      <li><b>The NZ Curriculum key competencies:</b> Thinking; Managing self; Relating to others — the discernment practice targets these directly.</li>
+      <li><b>Digital Technologies / digital fluency:</b> critical, ethical use of digital tools.</li>
+      <li><b>NCEA authenticity &amp; assessment integrity:</b> Session 3 gives staff a community-owned position, not a detection dependency.</li>
+      <li><b>Netsafe / MoE digital citizenship:</b> complements existing guidance with a formation frame.</li>
+    </ul>
+
+    <h2 class="blk">7 · Pre-delivery currency checklist</h2>
+    <p class="lede">NCEA, Ministry and Netsafe positions shift quickly. Run this in the week before every delivery.</p>
+    <ul class="check">
+      <li>Confirm current NZQA/NCEA position on AI use &amp; authenticity — update any cited wording.</li>
+      <li>Check the latest Ministry of Education AI-in-schools guidance for changes.</li>
+      <li>Check the current Netsafe schools position and any new resources to signpost.</li>
+      <li>Confirm the school's own existing AI/device policy — the covenant sits <i>alongside</i> it, not against it.</li>
+      <li>Confirm register with the principal: <b>state (faith layer off)</b> or <b>faith-integrated (faith layer on)</b>.</li>
+      <li>Re-verify every devotion anchor against devotions/education.json (§5).</li>
+      <li>Refresh any statistic against presentations/stats-dashboard-updated.html.</li>
+    </ul>
+
+    <h2 class="blk">8 · Logistics &amp; what the school provides</h2>
+    <div class="two">
+      <div class="mini"><h4>You bring</h4><ul class="tick"><li>Facilitator deck (this repo)</li><li>Print-ready workbook, parent one-pager, A3 poster</li><li>A live AI tool open for the VERIFY demo</li><li>Marker pens for the covenant signing</li></ul></div>
+      <div class="mini"><h4>The school provides</h4><ul class="tick"><li>Staff-meeting room + projector/screen</li><li>Printed workbooks (file supplied) — one per teacher</li><li>Wall space for the signed A3 covenant</li><li>Wifi for the live demo</li></ul></div>
+    </div>
+
+    <h2 class="blk">9 · Pricing (GST-exclusive)</h2>
+    <table class="runsheet">
+      <thead><tr><th>Band</th><th>Staff size</th><th>Fee</th></tr></thead>
+      <tbody>
+        <tr><td>Small</td><td>Up to ~20 teaching staff</td><td>NZ$1,500</td></tr>
+        <tr><td>Mid-size</td><td>~20–50 teaching staff</td><td>NZ$2,500</td></tr>
+        <tr><td>Large</td><td>50+ teaching staff</td><td>NZ$4,000</td></tr>
+        <tr><td>Whole-school day</td><td>PD + student assembly + parent evening</td><td>By quote</td></tr>
+        <tr><td>Pilot twilight</td><td>One 90-min session, in exchange for staff feedback</td><td>Reduced rate</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.85rem;color:var(--ink-60)">Travel beyond the Bay of Plenty quoted separately. The whole-school day pairs this PD with the student assembly and the two student tools — <a href="../tools/pathway-compass.html" style="color:var(--nb-accent)">The Pathway Compass</a> and <a href="../tools/highest-return-portfolio.html" style="color:var(--nb-accent)">The Highest-Return Portfolio</a> — for the best revenue-per-day format.</p>
+
+    <h2 class="blk">10 · Pilot &amp; revision loop</h2>
+    <ul class="tick arrow">
+      <li>Pilot one twilight at a warm-door school (Bethlehem College is the natural first).</li>
+      <li>Teachers are the hardest, best audience — capture their pushback verbatim.</li>
+      <li>Budget one real revision pass after pilot #1; consider a teacher co-reviewer.</li>
+      <li>After two paid deliveries, offer formally through the NZ schools network.</li>
+    </ul>
+    <div class="callout tip"><b>Where this sits in the plan:</b> Educators' PD is item #3 in <span class="badge">planning/content-topic-expansions.md</span> and build #10 in the MASTER-BUILD-ROADMAP — assessed as the most reliable direct-revenue item after the Family Bundle. When this ships live, fold status back via prompt D2; do not fork a parallel roadmap.</div>
+
+  </div>
+</div>
+
+<script>
+function toggleFaith(){const b=document.body;const on=b.getAttribute('data-faith')==='on';b.setAttribute('data-faith',on?'off':'on');document.querySelector('.faith-toggle').setAttribute('aria-checked',(!on).toString())}
+</script>
+</body>
+</html>

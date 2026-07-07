@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cinematic-light.css">
+<link rel="stylesheet" href="cinematic-light-print.css">
+<title>Tailored Proposal — School AI Engagement | Nathaniel Baldock</title>
+<style>
+.toolbar{
+  max-width:210mm;margin:0 auto 1rem;padding:0 .5rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+}
+.toolbar-hint{font-size:.78rem;color:var(--ink-60);max-width:36ch;line-height:1.4}
+.btn-print{
+  font-family:var(--font-body);font-size:.88rem;font-weight:600;
+  padding:.65rem 1.25rem;background:var(--nb-accent);color:#fff;border:none;border-radius:999px;
+  cursor:pointer;box-shadow:0 4px 14px rgba(124,204,30,.28);transition:transform .15s,box-shadow .15s;
+}
+.btn-print:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(124,204,30,.35)}
+@media print{.no-print{display:none!important}}
+
+.proposal{
+  width:210mm;max-width:100%;margin:0 auto 2rem;background:var(--paper);
+  box-shadow:0 12px 40px rgba(10,22,51,.12);overflow:hidden;
+}
+@media print{
+  .proposal{margin:0;box-shadow:none;width:auto}
+  section,.meta-block,.invest-table-wrap{break-inside:avoid-page}
+}
+
+.hero h1{font-size:1.5rem;max-width:100%}
+.hero .sub{max-width:100%;font-size:.84rem}
+
+.proposal-inner{padding:0 1.35rem 1.1rem}
+
+.meta-block{
+  display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.25rem;
+  padding:1rem 0 1.1rem;border-bottom:1px solid var(--ink-12);
+}
+@media(max-width:640px){.meta-block{grid-template-columns:1fr}}
+.meta-item dt{
+  font-family:var(--font-mono);font-size:.6rem;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--nb-accent);font-weight:600;margin-bottom:.22rem;
+}
+.meta-item dd{margin:0;font-size:.84rem;color:var(--ink-70);line-height:1.45}
+
+.fill{
+  font-family:var(--font-mono);font-size:.78rem;font-weight:500;
+  color:var(--ink);background:var(--mist);
+  padding:.1rem .45rem .14rem;border-radius:6px;
+  border-bottom:1.5px solid rgba(124,204,30,.28);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.fill.tier{
+  background:var(--nb-accent-soft);
+  border-bottom-color:rgba(124,204,30,.45);
+  color:#9A3412;
+}
+
+section{padding:1rem 0;border-bottom:1px solid var(--ink-12)}
+section:last-of-type{border-bottom:none}
+section h2{
+  font-family:var(--font-display);font-size:1rem;font-weight:800;
+  letter-spacing:-.02em;margin-bottom:.65rem;color:var(--ink);
+  display:flex;align-items:baseline;gap:.5rem;
+}
+section h2 .num{
+  font-family:var(--font-mono);font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;color:var(--nb-accent);background:var(--azure-soft);
+  padding:.18rem .45rem;border-radius:999px;flex:none;
+}
+section h3{
+  font-family:var(--font-display);font-size:.82rem;font-weight:700;
+  margin:1rem 0 .4rem;color:var(--ink);
+}
+section p,section li{font-size:.84rem;color:var(--ink-70);line-height:1.5}
+section ul{padding-left:1.15rem;margin:.45rem 0}
+section li{margin-bottom:.28rem}
+section li::marker{color:var(--nb-accent)}
+
+.lane-card{
+  background:var(--mist);border-radius:12px;padding:.7rem .85rem;
+  border:1px solid var(--ink-12);margin:.55rem 0;
+}
+.lane-card h3{margin-top:0;font-size:.8rem}
+.lane-card ul{margin:.35rem 0 0}
+
+.note{
+  font-size:.74rem;color:var(--ink-60);background:var(--azure-soft);
+  padding:.6rem .75rem;border-radius:10px;margin-top:.65rem;
+  border-left:3px solid var(--nb-accent);line-height:1.45;
+}
+
+.data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem;margin:.65rem 0;border-radius:10px;overflow:hidden;border:1px solid var(--ink-12)}
+.data-table th,.data-table td{padding:.5rem .65rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--ink-12)}
+.data-table tr:last-child th,.data-table tr:last-child td{border-bottom:none}
+.data-table th{
+  background:var(--mist);font-family:var(--font-mono);font-size:.64rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--ink);font-weight:600;
+}
+.data-table tbody tr:nth-child(even) td{background:rgba(242,246,254,.45)}
+.data-table .total-row th,.data-table .total-row td{
+  background:linear-gradient(90deg,var(--ink),#1a2d5c);color:#fff;border-bottom:none;
+  font-family:var(--font-display);font-size:.95rem;font-weight:800;
+}
+.data-table .total-row .fill{background:rgba(255,255,255,.12);border-bottom-color:rgba(255,255,255,.35);color:#fff}
+
+.terms{font-size:.78rem;color:var(--ink-70);margin-top:.65rem;line-height:1.5}
+.terms strong{color:var(--ink)}
+
+.deliverables{
+  display:grid;grid-template-columns:1fr 1fr;gap:.35rem .75rem;
+  list-style:none;padding:0;margin:.5rem 0;
+}
+.deliverables li{
+  font-size:.78rem;padding:.35rem .55rem;background:var(--mist);
+  border-radius:8px;border:1px solid var(--ink-12);margin:0;
+}
+.deliverables li::before{content:"✓ ";color:var(--meadow);font-weight:700}
+@media(max-width:640px){.deliverables{grid-template-columns:1fr}}
+
+.sig{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.25rem;
+  font-size:.8rem;color:var(--ink-70);
+}
+.sig strong{display:block;color:var(--ink);font-family:var(--font-display);margin-bottom:.25rem}
+.sig .line{
+  border-bottom:1px solid var(--ink);min-height:2.25rem;margin:.85rem 0 .35rem;
+  font-family:var(--font-body);color:var(--ink);font-weight:500;
+}
+@media(max-width:640px){.sig{grid-template-columns:1fr}}
+
+.proposal .foot{margin-top:0;border-top:1px solid var(--ink-12)}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="btn-print" type="button" onclick="window.print()">Print / Save as PDF</button>
+  <p class="toolbar-hint">Find-replace each <code>[bracket]</code> field in your editor, then print. Opens best from this folder for local images.</p>
+</div>
+
+<article class="proposal">
+  <header class="hero" style="background-image:url('headers/ai-policy-governance.png?v=5')">
+    <div class="hero-overlay">
+      <span class="tag">Confidential · Tailored proposal</span>
+      <h1>Proposal — School AI Engagement</h1>
+      <p class="sub">Prepared by Nathaniel Baldock · AI Consulting · Tauranga · NZ-wide</p>
+    </div>
+  </header>
+
+  <div class="proposal-inner">
+    <dl class="meta-block">
+      <div class="meta-item"><dt>School</dt><dd><span class="fill">[School legal name]</span></dd></div>
+      <div class="meta-item"><dt>Date</dt><dd><span class="fill">[DD Month YYYY]</span></dd></div>
+      <div class="meta-item"><dt>Prepared for</dt><dd><span class="fill">[Principal name]</span>, <span class="fill">[Role]</span></dd></div>
+      <div class="meta-item"><dt>Valid until</dt><dd><span class="fill">[Date + 30 days]</span></dd></div>
+      <div class="meta-item"><dt>School type</dt><dd><span class="fill">[State / State-integrated / Private]</span> · <span class="fill">[Special character if any]</span></dd></div>
+      <div class="meta-item"><dt>Approx. roll / staff</dt><dd><span class="fill">[Student roll]</span> students · <span class="fill">[~ teaching staff count]</span> teaching staff</dd></div>
+      <div class="meta-item"><dt>Starting position</dt><dd><span class="fill tier">[No AI policy / Partial (assessment rules only) / Existing policy e.g. SA.18]</span></dd></div>
+      <div class="meta-item"><dt>Recommended tier</dt><dd><span class="fill tier">[Enhancement $4,800 / Standard $8,500 / Full Build $12,500]</span></dd></div>
+    </dl>
+
+    <section>
+      <h2><span class="num">01</span> Context &amp; gap summary</h2>
+      <p>Following our <span class="fill">[briefing call / introduction via [Name] / meeting on [date]]</span>, this proposal addresses <span class="fill">[School name]</span>'s need for <span class="fill">[e.g. published AI acceptable use policy · NZQA-aligned integrity framework · staff PD on classroom AI discernment · senior pathway support]</span>.</p>
+      <p><strong>Key findings relevant to this school:</strong></p>
+      <ul>
+        <li><span class="fill">[Finding 1 — e.g. No standalone AI policy on public register]</span></li>
+        <li><span class="fill">[Finding 2 — e.g. Assessment rules treat all AI as plagiarism]</span></li>
+        <li><span class="fill">[Finding 3 — e.g. Strong values foundation to build on]</span></li>
+      </ul>
+      <p class="note">Gap observations based on publicly available documentation unless Phase 1 Discovery confirms otherwise.</p>
+    </section>
+
+    <section>
+      <h2><span class="num">02</span> Scope of work</h2>
+      <div class="lane-card">
+        <h3>01 — Policy — Policy &amp; Governance (Phases 1–3)</h3>
+        <ul>
+          <li>Discovery: stakeholder interviews, document audit, staff + student surveys, Discovery Report</li>
+          <li>Policy suite: AI AUP (staff + students), Academic Integrity AI Addendum, Data Privacy provisions, Tool Risk Checklist, Student Disclosure Template, Approved Tools Register, Steering Group ToR</li>
+          <li>Board presentation pack (15 slides + speaker notes)</li>
+          <li>Implementation: <span class="fill">[half-day / full-day]</span> staff workshop, parent/whānau comms package, IT briefing</li>
+        </ul>
+      </div>
+      <div class="lane-card" style="background:var(--nb-accent-soft);border-color:rgba(124,204,30,.22)">
+        <h3>02 — Formation — Formation &amp; Pathways (optional add-ons)</h3>
+        <ul>
+          <li><span class="fill">[ ] Teaching for the Discernment Age — full PD day or 2 twilights — $[1,500 / 2,500 / 4,000] ex GST</span></li>
+          <li><span class="fill">[ ] Whole-School Day — PD + assembly + parent evening + student tools — by quote</span></li>
+          <li><span class="fill">[ ] Pathway Compass cohort licence — [free pilot / included]</span></li>
+          <li><span class="fill">[ ] Highest-Return Portfolio Pilot Term (10 weeks) — by quote</span></li>
+        </ul>
+      </div>
+      <h3>School-specific adjustments</h3>
+      <p><span class="fill">[e.g. Catholic Social Teaching integration / bicultural co-design / Cambridge + NCEA dual curriculum / K–13 age bands / joint engagement with BTI]</span></p>
+    </section>
+
+    <section>
+      <h2><span class="num">03</span> Timeline</h2>
+      <div class="invest-table-wrap">
+        <table class="data-table">
+          <tr><th>Phase</th><th>Timing</th><th>Key milestone</th></tr>
+          <tr><td>Engagement signed + deposit</td><td><span class="fill">[Week 0]</span></td><td>Letter of Engagement; 50% invoice</td></tr>
+          <tr><td>Phase 1 Discovery</td><td><span class="fill">[Weeks 1–2]</span></td><td>Discovery Report delivered</td></tr>
+          <tr><td>Phase 2 Policy</td><td><span class="fill">[Weeks 3–6]</span></td><td>Policy suite + Board pack</td></tr>
+          <tr><td>Phase 3 Implementation</td><td><span class="fill">[Weeks 7–10]</span></td><td>Staff workshop + comms live</td></tr>
+          <tr><td>02 — Formation (if included)</td><td><span class="fill">[Term / dates]</span></td><td><span class="fill">[PD day / whole-school day]</span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="num">04</span> Investment (NZD, ex GST)</h2>
+      <div class="invest-table-wrap">
+        <table class="data-table">
+          <tr><th>Item</th><th>Fee</th></tr>
+          <tr><td>Policy consulting — <span class="fill">[Enhancement / Standard / Full Build]</span> (Phases 1–3)</td><td><span class="fill">$[4,800 / 8,500 / 12,500]</span></td></tr>
+          <tr><td>Educators' PD — <span class="fill">[tier / twilight pilot]</span></td><td><span class="fill">$[amount or "reduced pilot"]</span></td></tr>
+          <tr><td>Whole-School Day bundle</td><td><span class="fill">$[quote]</span></td></tr>
+          <tr><td>HRP Pilot Term</td><td><span class="fill">$[quote / founding-school rate]</span></td></tr>
+          <tr><td>Multi-school discount (<span class="fill">[%]</span>)</td><td><span class="fill">−$[amount]</span></td></tr>
+          <tr><td>Travel (outside Bay of Plenty)</td><td><span class="fill">[At cost / included]</span></td></tr>
+          <tr class="total-row"><th>Total (ex GST)</th><th><span class="fill">$[TOTAL]</span></th></tr>
+          <tr><td>GST (15%)</td><td><span class="fill">$[GST]</span></td></tr>
+          <tr class="total-row"><th>Total (inc GST)</th><th><span class="fill">$[TOTAL INC]</span></th></tr>
+        </table>
+      </div>
+      <p class="terms"><strong>Payment terms:</strong> 50% on signing; 50% on Phase 3 deliverable acceptance. 02 — Formation invoiced separately on commencement.</p>
+      <p class="terms"><strong>Optional annual retainer (from Month 7):</strong> NZ$2,400/yr ex GST — policy review, quarterly check-ins, up to 4 tool vetting requests, sector briefing.</p>
+    </section>
+
+    <section>
+      <h2><span class="num">05</span> Deliverables checklist</h2>
+      <ul class="deliverables">
+        <li>Discovery Report (10–15 pages)</li>
+        <li>AI Acceptable Use Policy — staff + student sections</li>
+        <li>Academic Integrity AI Addendum (NZQA-aligned)</li>
+        <li>Data Privacy AI Provisions</li>
+        <li>Appendix B Tool Risk Assessment Checklist</li>
+        <li>Appendix C Student AI Disclosure Template</li>
+        <li>Approved Tools Register (Green/Amber/Red)</li>
+        <li>AI Steering Group terms of reference</li>
+        <li>Board presentation pack</li>
+        <li>Staff workshop materials + facilitator guide</li>
+        <li>Parent/whānau communications package</li>
+        <li><span class="fill">[+ Full Build: parent forum facilitation, student assembly materials, bicultural record if applicable]</span></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><span class="num">06</span> Acceptance</h2>
+      <p>By signing below, <span class="fill">[School name]</span> accepts this proposal and authorises commencement on the timeline above.</p>
+      <div class="sig">
+        <div>
+          <strong>For the school</strong>
+          <div class="line"></div>Name / Title
+          <div class="line"></div>Signature · Date
+        </div>
+        <div>
+          <strong>Consultant</strong>
+          <div class="line">Nathaniel Baldock</div>Signature · Date
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <div><b>Nathaniel Baldock</b>Tauranga, New Zealand · AI consulting &amp; formation · <a href="../flyers/index.html">Whole-School AI Suite</a></div>
+    <div><a href="mailto:nathanielbaldock@gmail.com?subject=School%20AI%20proposal">nathanielbaldock@gmail.com</a> · <a href="https://nathanielbaldock.com">nathanielbaldock.com</a></div>
+  </footer>
+</article>
+
+</body>
+</html>

@@ -35,7 +35,7 @@ export const speakingBooking = {
 
 export const speakingAbout = {
   blurb:
-    "Nathaniel Baldock is building an AI consulting and speaking practice for faith-based organisations at the intersection of technology, theology, and purpose. He brings 23 years in global missions and NGO work — including leading intensive training programmes (400+ leaders as a YWAM course leader) across 15+ nations — and builds digital tools for churches and nonprofits. He lives in Tauranga, New Zealand, with his wife Alicia and their three children.",
+    "Nathaniel Baldock helps churches, schools, and businesses use AI with discernment. He brings 23 years in global missions and NGO work across 15+ nations, four years leading the faculty of a credited nine-month leadership programme where he created the worldview curriculum and trained 400+ emerging leaders, and hands-on experience building real digital products. He lives in Tauranga, New Zealand, with his wife Alicia and their three children.",
 };
 
 export interface FAQItem {

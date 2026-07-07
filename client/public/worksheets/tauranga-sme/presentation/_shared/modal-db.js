@@ -56,11 +56,12 @@
     },
     pilot_funding: {
       stat: "$765k",
-      title: "Government's AI Advisory Pilot — co-funds at least 51 SMEs",
+      title: "Government's AI Advisory Pilot — up to 150 businesses nationally",
       body:
-        "Launched January 2026 through the Regional Business Partner Network, the AI Advisory Pilot co-funds the development of written AI adoption plans for SMEs. Up to $5,000 per qualifying business. Priority One administers eligibility for the Bay of Plenty.",
-      source: "Beehive.govt.nz, January 2026",
-      link: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai",
+        "Launched January 2026 through the Regional Business Partner Network (RBPN). Expanded May 2026: up to 150 businesses, extended to 31 January 2027. Eligible businesses receive 50% co-funding of advisory costs, capped at $15,000 per business (so a $30,000 engagement hits the cap). In the Bay of Plenty, contact Tauranga Business Chamber — your local RBP — to confirm eligibility. Priority One is regional economic development (workforce, strategy); it does not administer the pilot.",
+      source: "MBIE & Beehive, May 2026 (expansion); Beehive, Jan 2026 (launch)",
+      link: "https://www.mbie.govt.nz/about/news/more-practical-ai-support-for-small-businesses",
+      link2: "https://www.beehive.govt.nz/release/new-pilot-helps-small-businesses-harness-ai",
     },
     nziat_70m: {
       stat: "$70M",
@@ -437,6 +438,10 @@
     { n: 39, title: "Uptake focus: NZ's strategic approach — MBIE", url: "https://www.mbie.govt.nz/business-and-employment/economic-growth/digital-policy/new-zealands-ai-strategy-investing-with-confidence/uptake-focus-new-zealands-strategic-approach" },
     { n: 40, title: "Guidance on artificial intelligence and the IPPs — Privacy Commissioner", url: "https://privacy.org.nz/assets/New-order/Your-rights/AI-guidance-IPPs.pdf" },
     { n: 41, title: "Towards our intelligent future — AI Forum NZ", url: "https://aiforum.org.nz/wp-content/uploads/2019/09/Towards-Our-Intelligent-Future-AI-Roadmap-Report.pdf" },
+    { n: 42, title: "More Kiwi businesses to get AI support (pilot expansion) — Beehive.govt.nz", url: "https://www.beehive.govt.nz/release/more-kiwi-businesses-get-ai-support" },
+    { n: 43, title: "More practical AI support for small businesses — MBIE", url: "https://www.mbie.govt.nz/about/news/more-practical-ai-support-for-small-businesses" },
+    { n: 44, title: "Find your local Regional Business Partner — business.govt.nz", url: "https://www.business.govt.nz/strategy-and-performance/regional-business-partner-network/find-your-local-regional-business-partner" },
+    { n: 45, title: "Business Growth Hub — Tauranga Business Chamber (BoP RBP)", url: "https://tauranga.org.nz/bus-growth-hub/" },
   ];
 
   const BIBLIOGRAPHY_S2 = [

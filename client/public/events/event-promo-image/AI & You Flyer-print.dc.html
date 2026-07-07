@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#08090C;}
+  @keyframes promoRise { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .sheet-wrap{display:flex;justify-content:center;align-items:flex-start;padding:28px 16px;min-height:100vh;}
+  @media print{
+    @page{size:210mm 297mm;margin:0;}
+    html,body{width:210mm;height:297mm;overflow:hidden;background:#0F1014;}
+    .sheet-wrap{padding:0;min-height:0;}
+    .sheet{box-shadow:none!important;transform:none!important;margin:0!important;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    *,*::before,*::after{
+      animation-delay:-99s!important;animation-duration:.001s!important;
+      animation-iteration-count:1!important;animation-fill-mode:both!important;
+      animation-play-state:running!important;transition-duration:0s!important;
+    }
+  }
+  @media (max-width:840px){
+    .sheet{transform:scale(.52);transform-origin:top center;margin-bottom:calc(-1123px * .48)!important;}
+  }
+</style>
+</helmet>
+<div class="sheet-wrap" style="font-family:'Inter',system-ui,sans-serif;">
+  <div class="sheet" style="position:relative;width:794px;height:1123px;background:#0F1014;color:#F4EFE2;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 120px rgba(0,0,0,0.6);-webkit-font-smoothing:antialiased;">
+
+    <!-- ── HERO BAND ── -->
+    <div style="position:relative;height:372px;flex:none;overflow:hidden;">
+      <img src="assets/tauranga-ai-bg.jpg" alt="Mount Maunganui, Tauranga, with AI network overlay" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;" />
+      <!-- scrims -->
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(15,16,20,0.66) 0%, rgba(15,16,20,0.22) 26%, rgba(15,16,20,0.30) 52%, rgba(15,16,20,0.86) 100%);"></div>
+      <div style="position:absolute;inset:0;background:radial-gradient(90% 70% at 6% 100%, rgba(17,40,20,0.45), transparent 60%);"></div>
+      <canvas ref="{{ canvasRef }}" width="1588" height="744" style="position:absolute;inset:0;width:794px;height:372px;opacity:0.5;mix-blend-mode:screen;"></canvas>
+
+      <!-- hero content -->
+      <div style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:38px 56px 64px;">
+        <header style="display:flex;justify-content:center;align-items:baseline;border-bottom:1px solid rgba(244,239,226,0.18);padding-bottom:14px;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:#9BE34A;text-shadow:0 1px 8px rgba(0,0,0,0.6);">Public Evening · Tauranga</span>
+        </header>
+        <h1 style="font-family:'Newsreader',Georgia,serif;font-weight:300;line-height:1.18;font-size:112px;letter-spacing:-.02em;margin:0;padding-bottom:.12em;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;text-shadow:0 1px 3px rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.35);">AI<span style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:#E8C96A;font-weight:400;padding:0 .04em;">&amp;</span><span style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;color:#9BE34A;font-weight:400;">You</span></h1>
+      </div>
+    </div>
+
+    <!-- ── BODY ── -->
+    <div style="position:relative;flex:1;display:flex;flex-direction:column;padding:24px 56px 36px;">
+
+      <p style="font-family:'Newsreader',serif;font-weight:400;font-size:18.5px;line-height:1.5;color:rgba(244,239,226,0.92);max-width:34em;margin:0 0 16px;">Artificial intelligence is quietly working its way into our lives — whether we like it or not. Join me for a <span style="font-family:'Instrument Serif',serif;font-style:italic;color:#F4EFE2;">practical, faith-filled evening</span> that wrestles with what AI means for your faith, work, and future.</p>
+
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(244,239,226,0.42);margin-bottom:6px;">What we'll walk through together</div>
+
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:24px;padding:14px 0;border-top:1px solid rgba(244,239,226,0.14);align-items:start;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#E8C96A;padding-top:3px;">Formation</div>
+        <p style="font-family:'Newsreader',serif;font-weight:400;font-size:16.5px;line-height:1.42;color:#F4EFE2;margin:0;">How to stay human, present, and spiritually rooted when AI is designed to become our closest companion.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:24px;padding:14px 0;border-top:1px solid rgba(244,239,226,0.14);align-items:start;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#9BE34A;padding-top:3px;">Work</div>
+        <p style="font-family:'Newsreader',serif;font-weight:400;font-size:16.5px;line-height:1.42;color:#F4EFE2;margin:0;">What AI means for jobs here in Tauranga, and how business owners and employees alike can stay valuable as the ground shifts beneath us.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:24px;padding:14px 0;border-top:1px solid rgba(244,239,226,0.14);border-bottom:1px solid rgba(244,239,226,0.14);align-items:start;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#9BE34A;padding-top:3px;">Skills</div>
+        <p style="font-family:'Newsreader',serif;font-weight:400;font-size:16.5px;line-height:1.42;color:#F4EFE2;margin:0;">How to use these tools well and upskill with confidence, without falling for the hype or the traps.</p>
+      </div>
+
+      <p style="margin:22px 0 4px;font-family:'Inter',sans-serif;font-weight:400;font-size:13px;line-height:1.5;color:rgba(244,239,226,0.66);display:flex;gap:14px;align-items:baseline;justify-content:center;text-align:center;"><span style="color:#9BE34A;font-weight:600;flex:none;">&rarr;</span>Leave with practical follow-up material to keep working through it at home.</p>
+
+      <!-- admission -->
+      <div style="margin-top:auto;display:flex;border:1px solid rgba(244,239,226,0.24);border-radius:14px;overflow:hidden;background:rgba(255,255,255,0.04);">
+        <div style="width:8px;background:linear-gradient(135deg,#11C25C,#7CCC1E);flex:none;"></div>
+        <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;">
+          <div style="padding:16px 22px;border-bottom:1px solid rgba(244,239,226,0.14);border-right:1px solid rgba(244,239,226,0.14);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,226,0.42);margin-bottom:6px;">When</div>
+            <div style="font-family:'Newsreader',serif;font-weight:400;font-size:18px;">Thursday 16 July 2026 <span style="font-size:13px;color:rgba(244,239,226,0.66);">· 7:00 PM</span></div>
+          </div>
+          <div style="padding:16px 22px;border-bottom:1px solid rgba(244,239,226,0.14);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,226,0.42);margin-bottom:6px;">Runs</div>
+            <div style="font-family:'Newsreader',serif;font-weight:400;font-size:18px;">90 minutes <span style="font-size:13px;color:rgba(244,239,226,0.66);">· one session</span></div>
+          </div>
+          <div style="padding:16px 22px;border-right:1px solid rgba(244,239,226,0.14);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,226,0.42);margin-bottom:6px;">Where</div>
+            <div style="font-family:'Newsreader',serif;font-weight:400;font-size:18px;">Holy Trinity, Tauranga</div>
+          </div>
+          <div style="padding:16px 22px;">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,226,0.42);margin-bottom:6px;">Entry</div>
+            <div style="font-family:'Newsreader',serif;font-weight:400;font-size:18px;"><span style="color:#9BE34A;">$10</span> <span style="font-size:13px;color:rgba(244,239,226,0.66);">· at the door</span></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin:12px 0 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:15px;color:rgba(244,239,226,0.66);text-align:center;">All welcome. Bring a friend.</p>
+
+      <!-- footer -->
+      <footer style="margin-top:22px;display:flex;justify-content:center;align-items:flex-end;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          <div style="text-align:right;display:flex;flex-direction:column;gap:4px;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,226,0.42);">Led by</span>
+            <span style="font-family:'Newsreader',serif;font-weight:400;font-size:23px;">Nathaniel Baldock</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,239,226,0.42);">nathanielbaldock.com</span>
+          </div>
+          <img src="assets/nathaniel-baldock-portrait.png" alt="Nathaniel Baldock" style="width:104px;height:104px;border-radius:50%;object-fit:cover;object-position:center 22%;flex:none;border:1px solid rgba(244,239,226,0.24);box-shadow:0 0 0 4px rgba(124,204,30,0.12);" />
+        </div>
+      </footer>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:826,&quot;height&quot;:1180}}">
+class Component extends DCLogic {
+  canvasRef = React.createRef();
+
+  componentDidMount() {
+    const cv = this.canvasRef.current;
+    if (!cv) return;
+    const ctx = cv.getContext('2d');
+    const W = 1588, H = 860;
+    const N = 60;
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const nodes = Array.from({ length: N }, () => ({
+      x: rand(0, W), y: rand(0, H),
+      vx: rand(-0.14, 0.14), vy: rand(-0.14, 0.14),
+      r: rand(1.1, 2.8),
+      gold: Math.random() < 0.16,
+    }));
+    const LINK = 190;
+    const step = () => {
+      ctx.clearRect(0, 0, W, H);
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1;
+        if (n.y < 0 || n.y > H) n.vy *= -1;
+      }
+      for (let i = 0; i < N; i++) {
+        for (let j = i + 1; j < N; j++) {
+          const a = nodes[i], b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < LINK) {
+            ctx.strokeStyle = `rgba(155,227,74,${(1 - d / LINK) * 0.4})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      for (const n of nodes) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fillStyle = n.gold ? 'rgba(232,201,106,0.9)' : 'rgba(180,235,120,0.85)';
+        ctx.fill();
+      }
+      this._raf = requestAnimationFrame(step);
+    };
+    step();
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+  }
+
+  renderVals() {
+    return { canvasRef: this.canvasRef };
+  }
+}
+</script>
+<script>
+addEventListener('load', () => {
+  (async () => {
+    try { await document.fonts.ready; } catch (e) {}
+    const imgs = Array.from(document.images).filter((i) => !i.complete);
+    await Promise.race([
+      Promise.allSettled(imgs.map((i) => i.decode())),
+      new Promise((r) => setTimeout(r, 8000)),
+    ]);
+    setTimeout(() => window.print(), 600);
+  })();
+});
+</script>
+</body>
+</html>

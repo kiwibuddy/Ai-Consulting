@@ -1761,3 +1761,63 @@ export function auditPackageSaleNotificationEmail(options: {
     </body></html>`,
   };
 }
+
+export function resourceSetUnlockEmail(
+  recipientEmail: string,
+  setLabel: string,
+  emailBlurb: string,
+  worksheetLinks: Array<{ title: string; url: string }>,
+): EmailOptions {
+  const siteOrigin = buyerFacingSiteOrigin();
+  const portraitUrl = `${siteOrigin}/images/email/nathaniel-baldock-portrait.png`;
+  const logoUrl = emailLogoUrl;
+  const accent = "#7CCC1E";
+  const accentDark = "#11C25C";
+
+  const linkRows = worksheetLinks
+    .map(
+      (link, index) =>
+        `<tr><td style="padding: 12px 0; border-bottom: 1px solid #eceef3;">
+          <a href="${escapeHtmlForEmail(`${siteOrigin}${link.url}`)}" style="color: ${accentDark}; font-weight: 600; text-decoration: none; font-size: 14px;">
+            ${index + 1}. ${escapeHtmlForEmail(link.title)} →
+          </a>
+        </td></tr>`,
+    )
+    .join("");
+
+  return {
+    to: recipientEmail,
+    subject: `Your ${setLabel} worksheets — Nathaniel Baldock`,
+    html: `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
+<div style="max-width:640px;margin:0 auto;padding:24px 16px;">
+<div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
+  <div style="background:linear-gradient(135deg,${accentDark},${accent});padding:24px 26px;color:#fff;text-align:center;">
+    <img src="${logoUrl}" alt="Nathaniel Baldock" width="164" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;max-width:180px;opacity:.95;" />
+    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.92;margin-bottom:8px;">Free worksheet set</div>
+    <h1 style="margin:0;font-family:Georgia,'Newsreader',serif;font-size:1.5rem;font-weight:700;line-height:1.2;">${escapeHtmlForEmail(setLabel)}</h1>
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-36px;">
+    <tr>
+      <td align="center" style="padding:0 20px 6px;">
+        <img src="${portraitUrl}" alt="Nathaniel Baldock" width="88" height="88" style="display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:4px solid ${accent};box-shadow:0 12px 32px rgba(15,23,42,.15);background:#fff;" />
+      </td>
+    </tr>
+  </table>
+  <div style="padding:8px 26px 28px;">
+    <p style="margin:0 0 12px;font-size:15px;">Hi there,</p>
+    <p style="margin:0 0 16px;font-size:15px;color:#404040;">${escapeHtmlForEmail(emailBlurb)}</p>
+    <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#172032;">Your ${worksheetLinks.length} worksheets</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">${linkRows}</table>
+    <p style="margin:24px 0 0;font-size:14px;color:#525252;">Save these links somewhere handy. If anything does not open, reply to this email and I will help.</p>
+    <p style="margin:8px 0 0;font-size:14px;color:#525252;">— Nathaniel</p>
+  </div>
+  <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:13px;color:#737373;text-align:center;background:#fafbfc;">
+    <a href="${siteOrigin}/resources" style="color:${accentDark};font-weight:600;text-decoration:none;">More resources</a>
+    · Practical AI for people who lead with discernment
+  </div>
+</div>
+</div>
+</body></html>`,
+  };
+}

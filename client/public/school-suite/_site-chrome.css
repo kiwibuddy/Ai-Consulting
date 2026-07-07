@@ -1,0 +1,72 @@
+/* Shared site chrome — school-suite interactive tools & print flyers */
+
+.nb-site-back{
+  font-family:var(--font-mono,"IBM Plex Mono",monospace);
+  font-size:.72rem;font-weight:600;letter-spacing:.04em;
+  text-decoration:none;white-space:nowrap;
+  transition:color .2s;
+}
+.nb-site-cta{
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono,"IBM Plex Mono",monospace);
+  font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;padding:.45rem .95rem;border-radius:999px;
+  background:var(--nb-cta-gradient,linear-gradient(135deg,#11C25C,#7CCC1E));
+  color:#fff;
+  transition:transform .2s,box-shadow .2s;
+}
+.nb-site-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(124,204,30,.45)}
+
+/* Tool landing pages (light hero) */
+body.tool-landing .nav{
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  align-items:center;gap:1rem;
+}
+body.tool-landing .nav .nb-site-back{justify-self:start;color:rgba(15,16,20,.58)}
+body.tool-landing .nav .nb-site-back:hover{color:var(--nb-accent,#7CCC1E)}
+body.tool-landing .nav .nav-center{justify-self:center;text-align:center}
+body.tool-landing .nav .nb-site-cta{justify-self:end}
+body.tool-landing .nav .nav-note{margin-top:.2rem}
+
+/* Flyer / dark hero strip */
+.hero{position:relative}
+.nb-site-bar--dark{
+  position:absolute;top:0;left:0;right:0;z-index:4;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.5rem 1.1rem;
+  background:linear-gradient(180deg,rgba(15,16,20,.78) 0%,rgba(15,16,20,0) 100%);
+}
+.nb-site-bar--dark .nb-site-back{color:rgba(244,239,226,.88)}
+.nb-site-bar--dark .nb-site-back:hover{color:#fff}
+.nb-site-bar--dark .nb-site-cta{
+  background:rgba(124,204,30,.2);border:1px solid rgba(124,204,30,.45);
+  font-size:.62rem;padding:.35rem .75rem;
+}
+.nb-site-bar--dark .nb-site-cta:hover{background:var(--nb-accent,#7CCC1E);border-color:transparent}
+
+/* Author footer — interactive tools */
+.nb-author-footer{background:var(--ink,#0F1014);color:rgba(234,240,255,.78);padding:clamp(48px,8vw,72px) 0 40px}
+.nb-author-footer .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,4vw,48px);align-items:center}
+.nb-author-card{display:flex;gap:1.25rem;align-items:flex-start}
+.nb-author-photo{width:72px;height:72px;border-radius:50%;overflow:hidden;flex:none;border:2px solid rgba(124,204,30,.35);box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.nb-author-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.nb-author-card h4{color:#fff;font-family:var(--font-display,Georgia,serif);font-size:1.2rem;margin-bottom:.35rem;font-weight:500}
+.nb-author-card p{font-size:.88rem;line-height:1.5;max-width:42ch;margin:0}
+.nb-author-links{display:flex;flex-wrap:wrap;gap:.65rem 1.2rem;margin-top:.85rem}
+.nb-author-links a{
+  font-family:var(--font-mono,"IBM Plex Mono",monospace);
+  font-size:.72rem;font-weight:600;color:var(--nb-accent,#7CCC1E);
+  text-decoration:none;border-bottom:1px solid rgba(124,204,30,.4);
+}
+.nb-author-links a:hover{color:#fff;border-bottom-color:#fff}
+.nb-footer-cta p{font-size:.92rem;line-height:1.55;margin:0 0 1.1rem;max-width:40ch}
+.nb-footer-fine{
+  grid-column:1/-1;font-family:var(--font-mono,"IBM Plex Mono",monospace);
+  font-size:.68rem;color:rgba(234,240,255,.42);margin-top:1.5rem;padding-top:1.2rem;
+  border-top:1px solid rgba(255,255,255,.08);line-height:1.75;
+}
+@media(max-width:720px){
+  body.tool-landing .nav{grid-template-columns:1fr;justify-items:center;text-align:center}
+  body.tool-landing .nav .nb-site-back,body.tool-landing .nav .nb-site-cta{justify-self:center}
+  .nb-author-footer .wrap{grid-template-columns:1fr}
+}

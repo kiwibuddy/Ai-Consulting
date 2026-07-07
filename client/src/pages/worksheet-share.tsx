@@ -7,13 +7,44 @@ import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ArticleShare } from "@/components/article-share";
 import { WorksheetLeadCTA } from "@/components/worksheet-lead-cta";
-import { getWorksheetById } from "@/content/worksheets";
-import { getDeepDiveById } from "@/content/deep-dives";
+import { getWorksheetById, worksheets } from "@/content/worksheets";
+import { getDeepDiveById, deepDivesSection } from "@/content/deep-dives";
+import { getResourceSetByWorksheetId } from "@shared/content/resource-sets";
+import { WorksheetSetPreview } from "@/components/worksheet-set-preview";
 
 const DEFAULT_OG = "/Nathaniel_Portrait.png";
 
 /** Hard ceiling on the auto-grow iframe so any future runaway is bounded. */
 const MAX_IFRAME_HEIGHT = 8000;
+
+/**
+ * Measure visible worksheet content height without `min-height: 100vh` inflation.
+ * Embedded worksheet HTML often sets body { min-height: 100vh }, which makes
+ * scrollHeight match the iframe viewport and causes a resize feedback loop.
+ */
+function measureIframeContentHeight(doc: Document): number {
+  const body = doc.body;
+  if (!body) return 0;
+
+  const bodyRect = body.getBoundingClientRect();
+  let maxBottom = 0;
+
+  for (const child of Array.from(body.children)) {
+    const el = child as HTMLElement;
+    const style = doc.defaultView?.getComputedStyle(el);
+    if (!style || style.display === "none" || style.visibility === "hidden") continue;
+
+    const rect = el.getBoundingClientRect();
+    if (rect.height === 0 && rect.width === 0) continue;
+
+    maxBottom = Math.max(maxBottom, rect.bottom - bodyRect.top);
+  }
+
+  const bodyStyle = doc.defaultView?.getComputedStyle(body);
+  const paddingBottom = bodyStyle ? parseFloat(bodyStyle.paddingBottom) || 0 : 0;
+
+  return Math.ceil(maxBottom + paddingBottom);
+}
 
 export default function WorksheetSharePage() {
   const params = useParams<{ id: string }>();
@@ -21,8 +52,10 @@ export default function WorksheetSharePage() {
   const deepDive = getDeepDiveById(params.id);
   const resource = worksheet ?? deepDive;
   const isDeepDive = Boolean(!worksheet && deepDive);
+  const resourceSet = worksheet ? getResourceSetByWorksheetId(worksheet.id) : undefined;
+  const worksheetsById = new Map(worksheets.map((w) => [w.id, w]));
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeHeight, setIframeHeight] = useState(1200);
+  const [iframeHeight, setIframeHeight] = useState(600);
   const fitViewport =
     !isDeepDive && (worksheet?.displayMode === "fit-viewport");
   /** Worksheets whose own HTML uses the dark cinematic theme — render full-width on a dark surface. */
@@ -42,9 +75,11 @@ export default function WorksheetSharePage() {
     if (!iframe?.contentDocument?.body) return;
     try {
       const doc = iframe.contentDocument;
-      const h = Math.max(doc.body.scrollHeight, doc.documentElement?.scrollHeight ?? 0);
+      const contentH = measureIframeContentHeight(doc);
+      const scrollH = Math.max(doc.body.scrollHeight, doc.documentElement?.scrollHeight ?? 0);
+      const h = contentH > 0 ? contentH : scrollH;
       if (h <= 0) return;
-      const next = Math.min(h + 32, MAX_IFRAME_HEIGHT);
+      const next = Math.min(h + 16, MAX_IFRAME_HEIGHT);
       setIframeHeight((prev) => (Math.abs(prev - next) < 8 ? prev : next));
     } catch {
       /* ignore cross-origin restrictions */
@@ -141,14 +176,26 @@ export default function WorksheetSharePage() {
         <section className={`${chromeSection} px-6 py-5`}>
           <div className="max-w-3xl mx-auto">
             <p className={`text-sm ${chromeMuted} text-center`}>
-              {isDeepDive ? "Use the deep dive below." : "Read through the worksheet below."} Use{" "}
-              <strong className={chromeStrong}>Print / Save PDF</strong>{" "}
-              in the page footer, or use{" "}
-              <strong className={chromeStrong}>
-                {isDeepDive ? "Print deep dive" : "Print worksheet"}
-              </strong>{" "}
-              at the bottom of this page after you finish.
+              {isDeepDive ? (
+                <>
+                  <strong className={chromeStrong}>NotebookLM research briefing</strong> — AI audio
+                  from sources I curated, not a recording of me. Listen below; use the articles and
+                  worksheets on this site if a thread is worth following up.
+                </>
+              ) : (
+                <>
+                  Read through the worksheet below. Use{" "}
+                  <strong className={chromeStrong}>Print / Save PDF</strong> in the page footer, or
+                  use <strong className={chromeStrong}>Print worksheet</strong> at the bottom after you
+                  finish.
+                </>
+              )}
             </p>
+            {isDeepDive && (
+              <p className={`text-xs ${chromeMuted} text-center mt-3 m-0 opacity-80`}>
+                {deepDivesSection.sourceNote}
+              </p>
+            )}
           </div>
         </section>
 
@@ -210,6 +257,15 @@ export default function WorksheetSharePage() {
             />
           )}
         </section>
+
+        {resourceSet && worksheet && (
+          <WorksheetSetPreview
+            setDef={resourceSet}
+            worksheetsById={worksheetsById}
+            currentWorksheetId={worksheet.id}
+            dark={wide}
+          />
+        )}
 
         <WorksheetLeadCTA
           dark={wide}
