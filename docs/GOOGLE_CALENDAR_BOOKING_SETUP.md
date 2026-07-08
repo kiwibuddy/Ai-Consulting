@@ -62,4 +62,6 @@ To make Google bookings appear in your app dashboard/clients list/session histor
 6. Run `syncRecentBookings()` once manually (grants permissions).
 7. Add a **time-driven trigger** for `syncRecentBookings` every 5 minutes.
 
+The script only POSTs events whose `lastUpdated` is newer than the previous successful run (so unchanged bookings are not re-sent every 5 minutes). If you previously saw Resend spam or script timeouts, paste the latest version from [`scripts/google-calendar-booking-sync.gs`](../scripts/google-calendar-booking-sync.gs) into Apps Script and **delete the old trigger** before re-adding it.
+
 After this is active, new Google bookings are upserted into `coaching_sessions`, linked to client records by email, and become visible in consultant dashboard/session views.

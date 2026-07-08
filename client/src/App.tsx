@@ -340,14 +340,28 @@ function Router() {
             <ClientCompleteProfilePage />
           </ProtectedRoute>
         </Route>
-        <Route path="/client" nest>
+        <Route path="/client">
           <ProtectedRoute role="client">
             <ClientLayout>
               <ClientAreaPages />
             </ClientLayout>
           </ProtectedRoute>
         </Route>
-        <Route path="/consultant" nest>
+        <Route path="/client/*">
+          <ProtectedRoute role="client">
+            <ClientLayout>
+              <ClientAreaPages />
+            </ClientLayout>
+          </ProtectedRoute>
+        </Route>
+        <Route path="/consultant">
+          <ProtectedRoute role="coach">
+            <CoachLayout>
+              <CoachArea />
+            </CoachLayout>
+          </ProtectedRoute>
+        </Route>
+        <Route path="/consultant/*">
           <ProtectedRoute role="coach">
             <CoachLayout>
               <CoachArea />

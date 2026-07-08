@@ -46,22 +46,22 @@ function CoachDashboardWithBoundary() {
 
 const CoachDashboardBoundaryRoute = lazyPageRoute(CoachDashboardWithBoundary);
 
-/** Nested under `<Route path="/consultant" nest>` — paths are relative to /consultant. */
+/** Matched from `/consultant` and `/consultant/*` parent routes — use full paths (not nested). */
 export function CoachAreaPages() {
   return (
     <Suspense fallback={<DelayedDashboardSuspenseFallback />}>
       <Switch>
-        <Route path="/setup" component={CoachSetupRoute} />
-        <Route path="/clients/:id" component={CoachClientDetailRoute} />
-        <Route path="/clients" component={CoachClientsRoute} />
-        <Route path="/sessions/:id" component={CoachSessionDetailRoute} />
-        <Route path="/sessions" component={CoachSessionsRoute} />
-        <Route path="/intake" component={CoachIntakeRoute} />
-        <Route path="/resources" component={CoachResourcesRoute} />
-        <Route path="/calculator" component={CoachCalculatorRoute} />
-        <Route path="/billing" component={CoachBillingRoute} />
-        <Route path="/analytics" component={CoachAnalyticsRoute} />
-        <Route path="/" component={CoachDashboardBoundaryRoute} />
+        <Route path="/consultant/setup" component={CoachSetupRoute} />
+        <Route path="/consultant/clients/:id" component={CoachClientDetailRoute} />
+        <Route path="/consultant/clients" component={CoachClientsRoute} />
+        <Route path="/consultant/sessions/:id" component={CoachSessionDetailRoute} />
+        <Route path="/consultant/sessions" component={CoachSessionsRoute} />
+        <Route path="/consultant/intake" component={CoachIntakeRoute} />
+        <Route path="/consultant/resources" component={CoachResourcesRoute} />
+        <Route path="/consultant/calculator" component={CoachCalculatorRoute} />
+        <Route path="/consultant/billing" component={CoachBillingRoute} />
+        <Route path="/consultant/analytics" component={CoachAnalyticsRoute} />
+        <Route path="/consultant" component={CoachDashboardBoundaryRoute} />
       </Switch>
     </Suspense>
   );

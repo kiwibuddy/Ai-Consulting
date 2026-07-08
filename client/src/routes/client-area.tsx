@@ -27,18 +27,18 @@ const ClientActionsRoute = lazyPageRoute(ClientActions);
 const ClientResourcesRoute = lazyPageRoute(ClientResources);
 const ClientProfileRoute = lazyPageRoute(ClientProfile);
 const ClientBillingRoute = lazyPageRoute(ClientBilling);
-/** Nested under `<Route path="/client" nest>` — paths are relative to /client. */
+/** Matched from `/client` and `/client/*` parent routes — use full paths (not nested). */
 export function ClientAreaPages() {
   return (
     <Suspense fallback={<DelayedDashboardSuspenseFallback />}>
       <Switch>
-        <Route path="/sessions/:id" component={ClientSessionDetailRoute} />
-        <Route path="/sessions" component={ClientSessionsRoute} />
-        <Route path="/actions" component={ClientActionsRoute} />
-        <Route path="/resources" component={ClientResourcesRoute} />
-        <Route path="/profile" component={ClientProfileRoute} />
-        <Route path="/billing" component={ClientBillingRoute} />
-        <Route path="/" component={ClientDashboardRoute} />
+        <Route path="/client/sessions/:id" component={ClientSessionDetailRoute} />
+        <Route path="/client/sessions" component={ClientSessionsRoute} />
+        <Route path="/client/actions" component={ClientActionsRoute} />
+        <Route path="/client/resources" component={ClientResourcesRoute} />
+        <Route path="/client/profile" component={ClientProfileRoute} />
+        <Route path="/client/billing" component={ClientBillingRoute} />
+        <Route path="/client" component={ClientDashboardRoute} />
       </Switch>
     </Suspense>
   );

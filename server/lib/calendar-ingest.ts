@@ -87,10 +87,8 @@ export async function ingestCalendarBooking(payload: CalendarBookingPayload): Pr
       emailVerified: true,
     });
     sendActivation = true;
-  } else if (!user.password && !user.googleId) {
-    // Existing account but no way to log in yet — resend activation
-    sendActivation = true;
   }
+  // Do not resend activation on repeat syncs — coach can use "Send Portal Invite" manually.
 
   let profile = await storage.getClientProfile(user.id);
   if (!profile) {
