@@ -22,7 +22,7 @@ body.tool-landing .nav{
   display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
   align-items:center;gap:1rem;
 }
-body.tool-landing .nav .nb-site-back{justify-self:start;color:rgba(15,16,20,.58)}
+body.tool-landing .nav .nb-site-back{justify-self:start;color:var(--nb-ink-soft,rgba(15,16,20,.65))}
 body.tool-landing .nav .nb-site-back:hover{color:var(--nb-accent,#7CCC1E)}
 body.tool-landing .nav .nav-center{justify-self:center;text-align:center}
 body.tool-landing .nav .nb-site-cta{justify-self:end}
