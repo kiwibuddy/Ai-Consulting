@@ -118,7 +118,7 @@ section{padding:clamp(72px,10vw,130px) 0}
     radial-gradient(1200px 600px at 85% -10%, var(--azure-soft) 0%, transparent 60%),
     radial-gradient(900px 500px at -10% 110%, var(--nb-accent-soft) 0%, transparent 55%),
     var(--paper);
-  overflow:hidden;
+  overflow:visible;
   padding-top:clamp(10px,2vw,18px);
 }
 .nav{
@@ -133,34 +133,39 @@ section{padding:clamp(72px,10vw,130px) 0}
 .hero-grid{
   display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
   align-items:start;max-width:var(--max);margin:0 auto;width:100%;
-  padding:clamp(8px,2vw,20px) clamp(20px,5vw,48px) clamp(48px,6vw,64px);
+  padding:clamp(8px,2vw,20px) clamp(20px,5vw,48px) clamp(56px,7vw,80px);
+  overflow:visible;
 }
 .hero h1{
   font-size:clamp(2.9rem,6.4vw,5.1rem);font-weight:800;margin:.6rem 0 1.2rem;
-  color:var(--ink)!important;
+  color:var(--ink)!important;line-height:1.18;overflow:visible;
 }
 .hero h1 .grad{
   font-family:var(--font-accent),"Instrument Serif",Georgia,serif;
   font-style:italic;font-weight:300;color:#4a7d12!important;
   -webkit-text-fill-color:currentColor!important;
+  display:block;line-height:1.14;padding-bottom:.1em;
 }
 .hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem}
 .hero-meta{display:flex;gap:1.6rem;margin-top:2.6rem;flex-wrap:wrap}
 .hero-meta .m{font-family:var(--font-mono);font-size:.74rem;color:rgba(15,16,20,.62);display:flex;align-items:center;gap:.5rem}
 .hero-meta .dot{width:7px;height:7px;border-radius:50%;background:var(--meadow)}
 
-.hero-visual{position:relative;height:min(560px,72vh)}
+.hero-visual{
+  position:relative;height:min(560px,72vh);
+  padding-right:clamp(12px,2.5vw,28px);padding-bottom:16px;overflow:visible;
+}
 .ph{position:absolute;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lift);background:linear-gradient(140deg,var(--azure-soft),var(--nb-accent-soft))}
 .ph img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease}
 .ph:hover img{transform:scale(1.06)}
 .ph.noimg img{display:none}
-.ph-a{inset:4% 8% 34% 0;transform:rotate(-2deg);animation:floatA 9s ease-in-out infinite}
-.ph-b{right:0;bottom:6%;width:58%;height:44%;transform:rotate(2.4deg);animation:floatB 11s ease-in-out infinite}
-.ph-c{left:2%;bottom:0;width:34%;height:30%;transform:rotate(-4deg);animation:floatA 10s ease-in-out infinite reverse}
+.ph-a{inset:4% 12% 34% 0;transform:rotate(-2deg);animation:floatA 9s ease-in-out infinite}
+.ph-b{right:4%;bottom:6%;width:54%;height:44%;transform:rotate(2.4deg);animation:floatB 11s ease-in-out infinite}
+.ph-c{left:2%;bottom:0;width:32%;height:30%;transform:rotate(-4deg);animation:floatA 10s ease-in-out infinite reverse}
 @keyframes floatA{0%,100%{translate:0 0}50%{translate:0 -12px}}
 @keyframes floatB{0%,100%{translate:0 0}50%{translate:0 10px}}
 .badge-float{
-  position:absolute;top:2%;right:-2%;background:#fff;border-radius:16px;box-shadow:var(--shadow-lift);
+  position:absolute;top:2%;right:4%;background:#fff;border-radius:16px;box-shadow:var(--shadow-lift);
   padding:.85rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;font-weight:600;color:var(--ink);
   display:flex;align-items:center;gap:.6rem;animation:floatB 8s ease-in-out infinite;z-index:3;
 }
@@ -363,7 +368,7 @@ footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255
 /* ---------- responsive ---------- */
 @media(max-width:960px){
   .hero-grid{grid-template-columns:1fr;padding-bottom:90px}
-  .hero-visual{height:380px;order:-1;margin-top:8px}
+  .hero-visual{height:380px;order:-1;margin-top:8px;padding-right:8px;padding-bottom:20px}
   .grid-2{grid-template-columns:1fr}
   .grid-4{grid-template-columns:1fr 1fr}
   .path-cards{grid-template-columns:1fr}
