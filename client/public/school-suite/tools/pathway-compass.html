@@ -113,16 +113,17 @@ section{padding:clamp(72px,10vw,130px) 0}
    HERO
    ============================================================ */
 .hero{
-  min-height:100svh;display:flex;flex-direction:column;position:relative;
+  min-height:auto;display:flex;flex-direction:column;position:relative;
   background:
     radial-gradient(1200px 600px at 85% -10%, var(--azure-soft) 0%, transparent 60%),
     radial-gradient(900px 500px at -10% 110%, var(--nb-accent-soft) 0%, transparent 55%),
     var(--paper);
   overflow:hidden;
+  padding-top:clamp(10px,2vw,18px);
 }
 .nav{
   display:flex;align-items:center;justify-content:space-between;
-  padding:26px clamp(20px,5vw,48px);max-width:var(--max);margin:0 auto;width:100%;
+  padding:0 clamp(20px,5vw,48px) clamp(10px,2vw,16px);max-width:var(--max);margin:0 auto;width:100%;
 }
 .brand{font-family:var(--font-display);font-weight:700;font-size:1.05rem;letter-spacing:-.01em;display:flex;align-items:center;gap:.7rem}
 .brand-mark{width:34px;height:34px;border-radius:50%;background:conic-gradient(from 200deg,var(--nb-accent),var(--violet),var(--sunrise),var(--nb-accent));display:grid;place-items:center;color:#fff;font-size:.9rem;animation:spinSlow 24s linear infinite}
@@ -130,16 +131,18 @@ section{padding:clamp(72px,10vw,130px) 0}
 .nav-note{font-family:var(--font-mono);font-size:.72rem;color:rgba(15,16,20,.58);letter-spacing:.08em}
 
 .hero-grid{
-  flex:1;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
-  align-items:center;max-width:var(--max);margin:0 auto;width:100%;
-  padding:20px clamp(20px,5vw,48px) 70px;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
+  align-items:start;max-width:var(--max);margin:0 auto;width:100%;
+  padding:clamp(8px,2vw,20px) clamp(20px,5vw,48px) clamp(48px,6vw,64px);
 }
 .hero h1{
-  font-size:clamp(2.9rem,6.4vw,5.1rem);font-weight:800;margin:1.4rem 0 1.5rem;
+  font-size:clamp(2.9rem,6.4vw,5.1rem);font-weight:800;margin:.6rem 0 1.2rem;
+  color:var(--ink)!important;
 }
 .hero h1 .grad{
   font-family:var(--font-accent),"Instrument Serif",Georgia,serif;
-  font-style:italic;font-weight:300;color:var(--nb-accent);
+  font-style:italic;font-weight:300;color:#4a7d12!important;
+  -webkit-text-fill-color:currentColor!important;
 }
 .hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem}
 .hero-meta{display:flex;gap:1.6rem;margin-top:2.6rem;flex-wrap:wrap}
@@ -388,6 +391,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sunrise);outline-of
 
 /* Hero: always show copy immediately; no scroll-reveal fade on first screen */
 .hero .rv{opacity:1;transform:none}
+body.tool-landing .nav{display:flex;justify-content:space-between;align-items:center}
 </style>
 </head>
 <body class="tool-landing">
@@ -396,10 +400,6 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--sunrise);outline-of
 <div class="hero">
   <nav class="nav">
     <a href="https://nathanielbaldock.com" class="nb-site-back">← Nathaniel Baldock</a>
-    <div class="nav-center">
-      <div class="brand"><span class="brand-mark">✦</span> The Pathway Compass</div>
-      <div class="nav-note">School Leaver Edition · Aotearoa 2026</div>
-    </div>
     <a href="https://nathanielbaldock.com/schools" class="nb-site-cta">School programmes</a>
   </nav>
   <div class="hero-grid">
