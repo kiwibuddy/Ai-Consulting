@@ -113,11 +113,12 @@ section{padding:clamp(72px,10vw,130px) 0}
    HERO
    ============================================================ */
 .hero{
-  min-height:auto;display:flex;flex-direction:column;position:relative;
+  min-height:auto;height:auto;max-height:none;flex:initial;
+  display:flex;flex-direction:column;position:relative;
   background:
     radial-gradient(1200px 600px at 85% -10%, var(--azure-soft) 0%, transparent 60%),
     radial-gradient(900px 500px at -10% 110%, var(--nb-accent-soft) 0%, transparent 55%),
-    var(--paper);
+    var(--paper)!important;
   overflow:visible;
   padding-top:clamp(10px,2vw,18px);
 }
@@ -367,8 +368,31 @@ footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255
 
 /* ---------- responsive ---------- */
 @media(max-width:960px){
-  .hero-grid{grid-template-columns:1fr;padding-bottom:90px}
-  .hero-visual{height:380px;order:-1;margin-top:8px;padding-right:8px;padding-bottom:20px}
+  .hero{overflow:hidden}
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:clamp(20px,5vw,32px);
+    padding-bottom:clamp(32px,8vw,48px);
+  }
+  .hero-visual{
+    order:-1;
+    height:clamp(280px,72vw,360px);
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    max-width:100%;
+  }
+  .hero-visual .ph-a{inset:6% 10% 38% 0;animation:none}
+  .hero-visual .ph-b{right:6%;bottom:8%;width:50%;height:40%;animation:none}
+  .hero-visual .ph-c{left:4%;bottom:4%;width:30%;height:28%;animation:none}
+  .hero-visual .badge-float{right:6%;top:4%;animation:none}
+  .hero h1{font-size:clamp(2.15rem,8.5vw,3.2rem)}
+  .hero-ctas .btn{flex:1;justify-content:center;min-width:0}
+  .scroll-cue{display:none}
+  .nav{
+    gap:.75rem;
+    padding-inline:clamp(16px,4vw,24px);
+  }
   .grid-2{grid-template-columns:1fr}
   .grid-4{grid-template-columns:1fr 1fr}
   .path-cards{grid-template-columns:1fr}
@@ -381,12 +405,27 @@ footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255
   footer .wrap{grid-template-columns:1fr}
 }
 @media(max-width:560px){
+  .hero-visual{height:clamp(250px,76vw,300px)}
+  .hero-visual .ph-a{inset:8% 12% 42% 0}
+  .hero h1{font-size:clamp(1.95rem,9.5vw,2.75rem)}
+  .hero-meta{flex-direction:column;align-items:flex-start;gap:.65rem}
+  .hero-ctas{flex-direction:column}
+  .nb-site-back{font-size:.65rem}
+  .nb-site-cta{font-size:.58rem;padding:.38rem .7rem;letter-spacing:.04em}
+  .wrap{padding-inline:clamp(16px,4vw,22px)}
+  section{padding:clamp(48px,12vw,72px) 0}
   .grid-4{grid-template-columns:1fr}
   .res-grid{grid-template-columns:1fr}
   .landscape-imgs{grid-template-columns:1fr;height:auto}
   .landscape-imgs .ph{height:200px}
-  .wizard-head{flex-direction:row}
+  .wizard-head{flex-direction:row;gap:.9rem;padding:1.1rem 1rem}
+  .wizard-body{padding:1.25rem 1rem;min-height:360px}
+  .wizard-foot{flex-wrap:wrap;gap:.75rem;padding:1rem}
+  .wizard-foot .btn{padding:.85rem 1.25rem;font-size:.92rem}
   .dial{width:58px;height:58px}
+  .abar{grid-template-columns:minmax(0,68px) 1fr 28px;font-size:.68rem;gap:.45rem}
+  .q-title{font-size:clamp(1.2rem,5.5vw,1.55rem)}
+  .opt{padding:.9rem 1rem;font-size:.92rem}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}

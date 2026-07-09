@@ -36,6 +36,13 @@ body.tool-landing .hero h1 .grad{
   background:none!important;-webkit-text-fill-color:currentColor!important;
   font-family:var(--font-accent);font-style:italic;font-weight:300;color:#4a7d12;
 }
+body.tool-landing .hero{
+  height:auto!important;min-height:auto!important;max-height:none!important;
+  flex:initial!important;background-size:auto!important;
+}
+body.tool-landing .hero h1{
+  color:var(--nb-ink);max-width:none;
+}
 .hero h1 .grad{
   background:none!important;-webkit-text-fill-color:unset!important;
   font-family:var(--font-accent);font-style:italic;font-weight:300;color:var(--nb-accent);
