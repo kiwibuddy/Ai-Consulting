@@ -134,7 +134,7 @@ section{padding:clamp(72px,10vw,130px) 0}
 .hero-grid{
   display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
   align-items:start;max-width:var(--max);margin:0 auto;width:100%;
-  padding:clamp(8px,2vw,20px) clamp(20px,5vw,48px) clamp(56px,7vw,80px);
+  padding:clamp(8px,2vw,20px) clamp(20px,5vw,48px) clamp(24px,4vw,36px);
   overflow:visible;
 }
 .hero h1{
@@ -153,8 +153,8 @@ section{padding:clamp(72px,10vw,130px) 0}
 .hero-meta .dot{width:7px;height:7px;border-radius:50%;background:var(--meadow)}
 
 .hero-visual{
-  position:relative;height:min(560px,72vh);
-  padding-right:clamp(12px,2.5vw,28px);padding-bottom:16px;overflow:visible;
+  position:relative;height:min(480px,58vh);
+  padding-right:clamp(12px,2.5vw,28px);padding-bottom:8px;overflow:visible;
 }
 .ph{position:absolute;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lift);background:linear-gradient(140deg,var(--azure-soft),var(--nb-accent-soft))}
 .ph img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease}
@@ -171,9 +171,7 @@ section{padding:clamp(72px,10vw,130px) 0}
   display:flex;align-items:center;gap:.6rem;animation:floatB 8s ease-in-out infinite;z-index:3;
 }
 .badge-float b{color:var(--nb-accent);font-size:1rem}
-.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:.68rem;letter-spacing:.25em;color:rgba(15,16,20,.5);text-transform:uppercase}
-.scroll-cue::after{content:"";display:block;width:1.5px;height:34px;background:linear-gradient(rgba(15,16,20,.45),transparent);margin:8px auto 0;animation:cue 1.8s ease-in-out infinite}
-@keyframes cue{0%,100%{opacity:.3;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+.scroll-cue{display:none}
 
 /* ============================================================
    LANDSCAPE — data cards
@@ -191,6 +189,8 @@ section{padding:clamp(72px,10vw,130px) 0}
 .data-card .sub{font-size:.85rem;color:var(--ink-60);line-height:1.5}
 .landscape-imgs{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:64px;height:340px}
 .landscape-imgs .ph{position:relative;inset:auto;transform:none;animation:none;height:100%}
+
+#landscape{padding-top:clamp(36px,5vw,56px);padding-bottom:clamp(72px,10vw,130px)}
 
 /* ============================================================
    COMPASS WIZARD
@@ -372,7 +372,7 @@ footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255
   .hero-grid{
     grid-template-columns:1fr;
     gap:clamp(20px,5vw,32px);
-    padding-bottom:clamp(32px,8vw,48px);
+    padding-bottom:clamp(20px,5vw,28px);
   }
   .hero-visual{
     order:-1;
@@ -388,7 +388,6 @@ footer .fine{font-family:var(--font-mono);font-size:.7rem;color:rgba(234,240,255
   .hero-visual .badge-float{right:6%;top:4%;animation:none}
   .hero h1{font-size:clamp(2.15rem,8.5vw,3.2rem)}
   .hero-ctas .btn{flex:1;justify-content:center;min-width:0}
-  .scroll-cue{display:none}
   .nav{
     gap:.75rem;
     padding-inline:clamp(16px,4vw,24px);
