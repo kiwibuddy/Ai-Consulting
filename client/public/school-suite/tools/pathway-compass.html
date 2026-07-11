@@ -767,16 +767,16 @@ const AXES=[
 
 /* Field profiles: base [exposure, ladder] per path */
 const FIELDS={
-  health:{label:"Health & care",uni:[88,85],trade:[82,82],work:[72,64],gap:[70,70],local:{uni:85,trade:80,work:88,gap:70}},
-  trades:{label:"Trades & construction",uni:[70,68],trade:[92,90],work:[80,78],gap:[68,68],local:{uni:60,trade:92,work:82,gap:70}},
-  teach:{label:"Teaching & education",uni:[85,82],trade:[70,70],work:[62,55],gap:[75,72],local:{uni:82,trade:65,work:70,gap:72}},
-  biz:{label:"Business, finance & law",uni:[32,26],trade:[74,74],work:[36,30],gap:[70,68],local:{uni:55,trade:80,work:58,gap:70}},
-  tech:{label:"Tech & software",uni:[45,34],trade:[72,72],work:[52,42],gap:[66,66],local:{uni:62,trade:75,work:60,gap:68}},
-  creative:{label:"Creative & media",uni:[42,42],trade:[70,70],work:[46,46],gap:[74,70],local:{uni:52,trade:72,work:55,gap:70}},
-  stem:{label:"Science & engineering",uni:[72,66],trade:[86,86],work:[62,58],gap:[68,68],local:{uni:68,trade:85,work:66,gap:70}},
-  agri:{label:"Horticulture, agri & environment",uni:[72,68],trade:[90,86],work:[82,78],gap:[72,70],local:{uni:70,trade:90,work:86,gap:74}},
-  ministry:{label:"Ministry & community work",uni:[80,74],trade:[72,72],work:[70,66],gap:[92,84],local:{uni:70,trade:70,work:74,gap:85}},
-  unsure:{label:"Honestly? Not sure yet",uni:[55,50],trade:[75,74],work:[64,60],gap:[84,78],local:{uni:60,trade:76,work:74,gap:80}}
+  health:{label:"Health & care",uni:[88,86],trade:[64,62],work:[70,64],gap:[70,66],local:{uni:85,trade:62,work:80,gap:68}},
+  trades:{label:"Trades & construction",uni:[64,58],trade:[92,90],work:[78,74],gap:[62,60],local:{uni:58,trade:92,work:82,gap:62}},
+  teach:{label:"Teaching & education",uni:[86,84],trade:[52,52],work:[60,56],gap:[72,68],local:{uni:82,trade:52,work:66,gap:70}},
+  biz:{label:"Business, finance & law",uni:[56,48],trade:[56,56],work:[60,54],gap:[64,62],local:{uni:62,trade:60,work:70,gap:64}},
+  tech:{label:"Tech & software",uni:[58,50],trade:[58,58],work:[60,54],gap:[62,60],local:{uni:64,trade:62,work:64,gap:62}},
+  creative:{label:"Creative & media",uni:[56,52],trade:[56,56],work:[60,56],gap:[68,64],local:{uni:56,trade:58,work:60,gap:66}},
+  stem:{label:"Science & engineering",uni:[82,76],trade:[62,64],work:[60,54],gap:[64,62],local:{uni:74,trade:66,work:64,gap:62}},
+  agri:{label:"Horticulture, agri & environment",uni:[70,64],trade:[84,82],work:[80,76],gap:[64,62],local:{uni:66,trade:88,work:86,gap:66}},
+  ministry:{label:"Ministry & community work",uni:[76,72],trade:[56,56],work:[64,60],gap:[86,80],local:{uni:68,trade:58,work:70,gap:82}},
+  unsure:{label:"Honestly? Not sure yet",uni:[58,54],trade:[64,62],work:[66,60],gap:[78,74],local:{uni:58,trade:68,work:74,gap:76}}
 };
 
 /* Questions. Each option: label, sub, fx(state, S) mutates score store S[path][axis] arrays */
@@ -793,46 +793,46 @@ const QUESTIONS=[
   help:"The <span class='chip' data-src='safi'>SAFI research</span> shows the durable human edge is relational and physical, not computational.",
   cols:true,
   opts:[
-   {label:"At a screen, analysing and producing",sub:"Reports, code, documents, data",fx:S=>{add(S,"uni","exposure",42);add(S,"work","exposure",45);add(S,"trade","exposure",70);add(S,"gap","exposure",65)}},
-   {label:"Hands-on in the physical world",sub:"Building, fixing, growing, making",fx:S=>{add(S,"trade","exposure",95);add(S,"work","exposure",80);add(S,"uni","exposure",62);add(S,"gap","exposure",72)}},
-   {label:"Face-to-face with people",sub:"Caring, teaching, leading, serving",fx:S=>{for(const p of["uni","trade","work","gap"])add(S,p,"exposure",86)}},
-   {label:"A genuine mix of all three",sub:"Variety is the point",fx:S=>{for(const p of["uni","trade","work","gap"])add(S,p,"exposure",74)}}
+   {label:"At a screen, analysing and producing",sub:"Reports, code, documents, data",fx:S=>{add(S,"uni","exposure",61);add(S,"work","exposure",57);add(S,"trade","exposure",48);add(S,"gap","exposure",54)}},
+   {label:"Hands-on in the physical world",sub:"Building, fixing, growing, making",fx:S=>{add(S,"trade","exposure",92);add(S,"work","exposure",78);add(S,"uni","exposure",58);add(S,"gap","exposure",68)}},
+   {label:"Face-to-face with people",sub:"Caring, teaching, leading, serving",fx:S=>{add(S,"uni","exposure",87);add(S,"trade","exposure",85);add(S,"work","exposure",86);add(S,"gap","exposure",84)}},
+   {label:"A genuine mix of all three",sub:"Variety is the point",fx:S=>{add(S,"uni","exposure",75);add(S,"trade","exposure",74);add(S,"work","exposure",73);add(S,"gap","exposure",72)}}
   ]},
  {axis:1,lens:"Lens 2 · Ladder integrity",q:"In the field you're drawn to, what do juniors mostly do to learn the craft?",
   help:"If beginners learn by doing screenwork AI now does, the <span class='chip' data-src='ladder'>bottom rungs are being removed</span>. If they learn hands-on or with people, the ladder holds.",
   cols:true,
   opts:[
-   {label:"Screenwork: drafts, summaries, admin, simple code",fx:S=>{add(S,"uni","ladder",30);add(S,"work","ladder",34);add(S,"trade","ladder",78);add(S,"gap","ladder",70)}},
-   {label:"Supervised hands-on practice",sub:"On tools, on site, in the field",fx:S=>{add(S,"trade","ladder",95);add(S,"work","ladder",82);add(S,"uni","ladder",68);add(S,"gap","ladder",70)}},
-   {label:"Directly with people from day one",sub:"Patients, students, customers, teams",fx:S=>{add(S,"uni","ladder",84);add(S,"work","ladder",82);add(S,"trade","ladder",80);add(S,"gap","ladder",76)}},
-   {label:"I honestly don't know yet",sub:"Worth researching this week!",fx:S=>{for(const p of["uni","trade","work","gap"])add(S,p,"ladder",60)}}
+   {label:"Screenwork: drafts, summaries, admin, simple code",fx:S=>{add(S,"uni","ladder",46);add(S,"work","ladder",46);add(S,"trade","ladder",60);add(S,"gap","ladder",62)}},
+   {label:"Supervised hands-on practice",sub:"On tools, on site, in the field",fx:S=>{add(S,"trade","ladder",94);add(S,"work","ladder",82);add(S,"uni","ladder",66);add(S,"gap","ladder",66)}},
+   {label:"Directly with people from day one",sub:"Patients, students, customers, teams",fx:S=>{add(S,"uni","ladder",84);add(S,"work","ladder",82);add(S,"trade","ladder",78);add(S,"gap","ladder",74)}},
+   {label:"I honestly don't know yet",sub:"Worth researching this week!",fx:S=>{add(S,"uni","ladder",62);add(S,"trade","ladder",61);add(S,"work","ladder",60);add(S,"gap","ladder",59)}}
   ]},
  {axis:1,lens:"Lens 2 · Ladder integrity",q:"How do you most naturally prove yourself?",
   help:"With <span class='chip' data-src='skills'>81% of employers testing skills directly</span>, the paths that generate evidence are gaining ground on the paths that only generate certificates.",
   cols:true,
   opts:[
-   {label:"Formal study and qualifications",sub:"Exams and structured learning suit me",fx:S=>{add(S,"uni","ladder",86);add(S,"uni","debt",78);add(S,"trade","ladder",70);add(S,"work","ladder",60);add(S,"gap","ladder",62)}},
-   {label:"A portfolio of real projects",sub:"Show, don't tell",fx:S=>{add(S,"work","ladder",84);add(S,"work","debt",84);add(S,"trade","ladder",82);add(S,"gap","ladder",78);add(S,"uni","ladder",64)}},
-   {label:"Results on the job",sub:"Give me responsibility and watch",fx:S=>{add(S,"trade","ladder",88);add(S,"work","ladder",88);add(S,"work","debt",82);add(S,"uni","ladder",58);add(S,"gap","ladder",68)}},
-   {label:"Serving and leading people",sub:"Character shows over time",fx:S=>{add(S,"gap","ladder",86);add(S,"gap","calling",80);add(S,"uni","ladder",70);add(S,"trade","ladder",72);add(S,"work","ladder",74)}}
+   {label:"Formal study and qualifications",sub:"Exams and structured learning suit me",fx:S=>{add(S,"uni","ladder",90);add(S,"uni","debt",80);add(S,"trade","ladder",62);add(S,"work","ladder",56);add(S,"gap","ladder",60)}},
+   {label:"A portfolio of real projects",sub:"Show, don't tell",fx:S=>{add(S,"work","ladder",86);add(S,"work","debt",84);add(S,"trade","ladder",78);add(S,"gap","ladder",74);add(S,"uni","ladder",62)}},
+   {label:"Results on the job",sub:"Give me responsibility and watch",fx:S=>{add(S,"trade","ladder",88);add(S,"work","ladder",90);add(S,"work","debt",82);add(S,"uni","ladder",56);add(S,"gap","ladder",64)}},
+   {label:"Serving and leading people",sub:"Character shows over time",fx:S=>{add(S,"gap","ladder",86);add(S,"gap","calling",80);add(S,"uni","ladder",72);add(S,"trade","ladder",70);add(S,"work","ladder",74)}}
   ]},
  {axis:2,lens:"Lens 3 · Debt vs evidence",q:"What's the honest money picture for your next three years?",
   help:"A loan is an investment, not a rite of passage. NZ's <span class='chip' data-src='treasury'>adopt-don't-invent economy</span> rewards proven capability — make sure the cost buys evidence, not just a certificate.",
   cols:true,
   opts:[
-   {label:"Study is affordable for us",sub:"Little or no loan needed",fx:S=>{add(S,"uni","debt",88);add(S,"trade","debt",84);add(S,"work","debt",76);add(S,"gap","debt",80)}},
-   {label:"Study would mean a significant loan",fx:S=>{add(S,"uni","debt",36);add(S,"trade","debt",90);add(S,"work","debt",88);add(S,"gap","debt",72)}},
+   {label:"Study is affordable for us",sub:"Little or no loan needed",fx:S=>{add(S,"uni","debt",90);add(S,"trade","debt",68);add(S,"work","debt",66);add(S,"gap","debt",76)}},
+   {label:"Study would mean a significant loan",fx:S=>{add(S,"uni","debt",36);add(S,"trade","debt",88);add(S,"work","debt",86);add(S,"gap","debt",68)}},
    {label:"I need to earn income soon",fx:S=>{add(S,"work","debt",94);add(S,"trade","debt",90);add(S,"uni","debt",26);add(S,"gap","debt",44)}},
-   {label:"Flexible — we'd invest if the case is strong",fx:S=>{add(S,"uni","debt",74);add(S,"trade","debt",78);add(S,"work","debt",72);add(S,"gap","debt",78)}}
+   {label:"Flexible — we'd invest if the case is strong",fx:S=>{add(S,"uni","debt",78);add(S,"trade","debt",74);add(S,"work","debt",70);add(S,"gap","debt",76)}}
   ]},
  {axis:2,lens:"Lens 3 · Debt vs evidence",q:"Given the choice, you'd rather…",
   help:"Remember: AI helps <span class='chip' data-src='nber'>beginners most (+35%)</span> — every option below can be supercharged with a few weeks of honest AI literacy.",
   cols:true,
   opts:[
-   {label:"Study something deeply for 3 years",fx:S=>{add(S,"uni","debt",86);add(S,"uni","calling",74);add(S,"trade","debt",62);add(S,"work","debt",56);add(S,"gap","debt",60)}},
-   {label:"Earn while learning a craft",fx:S=>{add(S,"trade","debt",94);add(S,"trade","calling",78);add(S,"work","debt",82);add(S,"uni","debt",50);add(S,"gap","debt",60)}},
-   {label:"Get working and figure it out in motion",fx:S=>{add(S,"work","debt",90);add(S,"work","calling",74);add(S,"trade","debt",76);add(S,"uni","debt",46);add(S,"gap","debt",56)}},
-   {label:"Take a structured gap year first, then decide",sub:"Grow, travel, serve, or mentor — then choose",fx:S=>{add(S,"gap","debt",88);add(S,"gap","calling",84);add(S,"uni","debt",58);add(S,"trade","debt",62);add(S,"work","debt",60)}}
+   {label:"Study something deeply for 3 years",fx:S=>{add(S,"uni","debt",92);add(S,"uni","calling",80);add(S,"trade","debt",52);add(S,"work","debt",50);add(S,"gap","debt",58)}},
+   {label:"Earn while learning a craft",fx:S=>{add(S,"trade","debt",94);add(S,"trade","calling",78);add(S,"work","debt",80);add(S,"uni","debt",48);add(S,"gap","debt",58)}},
+   {label:"Get working and figure it out in motion",fx:S=>{add(S,"work","debt",92);add(S,"work","calling",76);add(S,"trade","debt",74);add(S,"uni","debt",44);add(S,"gap","debt",56)}},
+   {label:"Take a structured gap year first, then decide",sub:"Grow, travel, serve, or mentor — then choose",fx:S=>{add(S,"gap","debt",90);add(S,"gap","calling",84);add(S,"uni","debt",60);add(S,"trade","debt",60);add(S,"work","debt",58)}}
   ]},
  {axis:3,lens:"Lens 4 · Local reality",q:"Where do you see yourself living after school?",
   help:"Tauranga's biggest employers are <span class='chip' data-src='bop'>health, retail, construction and education</span> — and NZ's digital strategy targets <span class='chip' data-src='digital'>10% of the workforce in digital jobs by 2032</span>.",
@@ -841,36 +841,36 @@ const QUESTIONS=[
    {label:"Staying in Tauranga / Bay of Plenty",fx:S=>{
      const f=FIELDS[S._field||"unsure"].local;
      add(S,"uni","local",f.uni);add(S,"trade","local",f.trade);add(S,"work","local",f.work);add(S,"gap","local",f.gap)}},
-   {label:"Open — I'll go where the path leads",fx:S=>{for(const p of["uni","trade","work","gap"])add(S,p,"local",78)}},
-   {label:"Definitely moving (another city or overseas)",fx:S=>{add(S,"uni","local",80);add(S,"gap","local",80);add(S,"trade","local",72);add(S,"work","local",68)}},
-   {label:"Home base here, work anywhere (remote / hybrid)",fx:S=>{add(S,"uni","local",72);add(S,"work","local",78);add(S,"trade","local",80);add(S,"gap","local",74)}}
+   {label:"Open — I'll go where the path leads",fx:S=>{add(S,"uni","local",79);add(S,"trade","local",77);add(S,"work","local",78);add(S,"gap","local",76)}},
+   {label:"Definitely moving (another city or overseas)",fx:S=>{add(S,"uni","local",82);add(S,"gap","local",80);add(S,"trade","local",68);add(S,"work","local",64)}},
+   {label:"Home base here, work anywhere (remote / hybrid)",fx:S=>{add(S,"uni","local",72);add(S,"work","local",78);add(S,"trade","local",78);add(S,"gap","local",72)}}
   ]},
  {axis:3,lens:"Lens 4 · Local reality",q:"Which local factor matters most to your decision?",
   help:"There's no wrong answer — but each one genuinely changes which path fits.",
   cols:true,
   opts:[
-   {label:"Staying close to family, church & community",fx:S=>{add(S,"trade","local",88);add(S,"work","local",86);add(S,"uni","local",60);add(S,"gap","local",66)}},
-   {label:"Keeping costs of living low",fx:S=>{add(S,"work","local",84);add(S,"trade","local",84);add(S,"uni","local",56);add(S,"gap","local",70)}},
-   {label:"Access to the biggest opportunities",fx:S=>{add(S,"uni","local",84);add(S,"gap","local",74);add(S,"work","local",66);add(S,"trade","local",70)}},
-   {label:"Serving needs I can already see around me",fx:S=>{add(S,"gap","local",86);add(S,"trade","local",82);add(S,"work","local",82);add(S,"uni","local",64)}}
+   {label:"Staying close to family, church & community",fx:S=>{add(S,"trade","local",84);add(S,"work","local",84);add(S,"uni","local",58);add(S,"gap","local",70)}},
+   {label:"Keeping costs of living low",fx:S=>{add(S,"work","local",84);add(S,"trade","local",84);add(S,"uni","local",54);add(S,"gap","local",70)}},
+   {label:"Access to the biggest opportunities",fx:S=>{add(S,"uni","local",86);add(S,"gap","local",74);add(S,"work","local",66);add(S,"trade","local",64)}},
+   {label:"Serving needs I can already see around me",fx:S=>{add(S,"gap","local",84);add(S,"trade","local",80);add(S,"work","local",82);add(S,"uni","local",62)}}
   ]},
  {axis:4,lens:"Lens 5 · Calling & formation",q:"How clear is your sense of calling right now?",
   help:"Honesty here is everything. A degree is an expensive place to find yourself; a structured gap year — with mentors and a plan — can be a wise one.",
   cols:true,
   opts:[
-   {label:"Very clear and specific",sub:"I can name the work and why",fx:S=>{add(S,"uni","calling",86);add(S,"trade","calling",86);add(S,"work","calling",82);add(S,"gap","calling",52)}},
-   {label:"A general direction, details fuzzy",fx:S=>{add(S,"uni","calling",70);add(S,"trade","calling",72);add(S,"work","calling",70);add(S,"gap","calling",82)}},
-   {label:"Genuinely still exploring",fx:S=>{add(S,"gap","calling",92);add(S,"work","calling",74);add(S,"trade","calling",68);add(S,"uni","calling",44)}},
-   {label:"I feel pressure more than calling",sub:"Everyone else seems to know",fx:S=>{add(S,"gap","calling",88);add(S,"work","calling",70);add(S,"trade","calling",66);add(S,"uni","calling",40)}}
+   {label:"Very clear and specific",sub:"I can name the work and why",fx:S=>{add(S,"uni","calling",86);add(S,"trade","calling",86);add(S,"work","calling",84);add(S,"gap","calling",50)}},
+   {label:"A general direction, details fuzzy",fx:S=>{add(S,"gap","calling",80);add(S,"uni","calling",72);add(S,"trade","calling",72);add(S,"work","calling",72)}},
+   {label:"Genuinely still exploring",fx:S=>{add(S,"gap","calling",92);add(S,"work","calling",72);add(S,"trade","calling",66);add(S,"uni","calling",46)}},
+   {label:"I feel pressure more than calling",sub:"Everyone else seems to know",fx:S=>{add(S,"gap","calling",90);add(S,"work","calling",68);add(S,"trade","calling",64);add(S,"uni","calling",40)}}
   ]},
  {axis:4,lens:"Lens 5 · Calling & formation",q:"If the default path feels shaky, a structured gap year — overseas experience, service, adventure training, mentorship, or deepening your faith — before uni or full-time work feels…",
   help:"This isn't only for church-school students. In NZ, gap years show up as Outward Bound, Pure Exploration, Duke of Edinburgh, volunteering abroad, internships with mentors, conservation or community service — and for some, faith-based programmes like YWAM or a DTS. What matters is structure: named outcomes, mentors, and an end date — not drifting.",
   cols:true,
   opts:[
-   {label:"Genuinely exciting",sub:"Travel, serve, grow — a purposeful year",fx:S=>{add(S,"gap","calling",94);add(S,"gap","exposure",80);add(S,"uni","calling",58);add(S,"trade","calling",62);add(S,"work","calling",60)}},
-   {label:"Interesting… and a bit scary",sub:"I see the value, but it's a big leap",fx:S=>{add(S,"gap","calling",80);add(S,"uni","calling",66);add(S,"trade","calling",68);add(S,"work","calling",68)}},
-   {label:"Not for me — I want momentum now",sub:"Study, trade, or work straight away",fx:S=>{add(S,"gap","calling",42);add(S,"uni","calling",78);add(S,"trade","calling",80);add(S,"work","calling",80)}},
-   {label:"Maybe later, built into another path",sub:"Short trips or volunteering, not a full year yet",fx:S=>{add(S,"gap","calling",64);add(S,"uni","calling",72);add(S,"trade","calling",72);add(S,"work","calling",72)}}
+   {label:"Genuinely exciting",sub:"Travel, serve, grow — a purposeful year",fx:S=>{add(S,"gap","calling",94);add(S,"gap","exposure",78);add(S,"uni","calling",58);add(S,"trade","calling",60);add(S,"work","calling",58)}},
+   {label:"Interesting… and a bit scary",sub:"I see the value, but it's a big leap",fx:S=>{add(S,"gap","calling",80);add(S,"uni","calling",68);add(S,"trade","calling",68);add(S,"work","calling",68)}},
+   {label:"Not for me — I want momentum now",sub:"Study, trade, or work straight away",fx:S=>{add(S,"gap","calling",40);add(S,"uni","calling",80);add(S,"trade","calling",82);add(S,"work","calling",82)}},
+   {label:"Maybe later, built into another path",sub:"Short trips or volunteering, not a full year yet",fx:S=>{add(S,"gap","calling",62);add(S,"uni","calling",74);add(S,"trade","calling",74);add(S,"work","calling",74)}}
   ]}
 ];
 
