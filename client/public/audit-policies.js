@@ -488,14 +488,14 @@
     // ─── Adobe Firefly ────────────────────────────────────────────────────
     "adobe:individual": {
       status: "verified",
-      lastReviewed: "2026-05-26",
+      lastReviewed: "2026-07-11",
       confidence: "high",
       policyUrl: "https://www.adobe.com/legal/licenses-terms/adobe-gen-ai-user-guidelines.html",
       policyLabel: "Adobe Generative AI User Guidelines",
       summary:
-        "Personal Creative Cloud uses the \"Content analysis\" setting to scan your creative work for model training unless you opt out.",
+        "Personal Creative Cloud has a \"Content analysis\" setting, on by default, that lets Adobe analyse your work to improve its products - Firefly models are not trained on your content.",
       explainer: [
-        "Individual / personal Creative Cloud accounts have a \"Content analysis\" setting that, when on, allows Adobe to scan your creative files and edits to improve their AI models. Turning it off prevents that scanning entirely.",
+        "Individual / personal Creative Cloud accounts have a \"Content analysis\" setting that, when on, allows Adobe to analyse your creative files and edits to improve Adobe's products and services. Turning it off prevents that analysis entirely.",
         "Go to Adobe Account → Privacy Settings → locate \"Content analysis\" → toggle off. Note: Firefly's foundation models themselves are trained on Adobe Stock and licensed/public-domain content, not your work — the content analysis setting only governs what Adobe learns from your behaviour and edits.",
       ],
       sources: [

@@ -554,7 +554,7 @@ body.tool-landing .nav{display:flex;justify-content:space-between;align-items:ce
     <div class="result-hero">
       <span class="crown">🧭</span>
       <span class="eyebrow" style="justify-content:center;display:flex;margin-top:.6rem">Your bearing</span>
-      <h2 style="font-size:clamp(2.1rem,4.6vw,3.2rem);font-weight:800;margin:1rem 0 .9rem" id="resTitle">Your compass points to…</h2>
+      <h2 style="font-size:clamp(2.1rem,4.6vw,3.2rem);font-weight:800;margin:1rem 0 .9rem" id="resTitle">Where you're leaning…</h2>
       <p class="lede" style="margin:0 auto" id="resSub"></p>
     </div>
     <div class="path-cards" id="pathCards"></div>
@@ -974,15 +974,22 @@ const NEXTSTEPS={
 function renderResults(R){
   const order=Object.keys(PATHS).sort((a,b)=>R[b].total-R[a].total);
   const win=order[0];
-  document.getElementById('resTitle').innerHTML=`Your compass points to <span style="background:linear-gradient(96deg,var(--nb-accent),var(--sunrise));-webkit-background-clip:text;background-clip:text;color:transparent">${PATHS[win].name}</span>`;
-  document.getElementById('resSub').textContent=PATHS[win].desc;
+  const tie=R[order[0]].total===R[order[1]].total;
+  const grad=`background:linear-gradient(96deg,var(--nb-accent),var(--sunrise));-webkit-background-clip:text;background-clip:text;color:transparent`;
+  document.getElementById('resTitle').innerHTML=tie
+    ?`A dead heat: <span style="${grad}">${PATHS[win].name}</span> &amp; ${PATHS[order[1]].name}`
+    :`Leaning <span style="${grad}">${PATHS[win].name}</span>`;
+  document.getElementById('resSub').textContent=tie
+    ?`Two paths scored equally for you. Compare them below - the axis-by-axis differences matter more than the headline.`
+    :`Here's how the four paths compare for you. ${PATHS[win].desc}`;
 
   /* cards */
   const pc=document.getElementById('pathCards'); pc.innerHTML='';
   order.forEach((p,rank)=>{
+    const topTie=tie&&R[p].total===R[order[0]].total;
     const c=document.createElement('div');
-    c.className='path-card'+(rank===0?' winner':'');
-    c.innerHTML=`${rank===0?'<span class="win-tag">BEST FIT</span>':''}
+    c.className='path-card'+((rank===0||topTie)?' winner':'');
+    c.innerHTML=`${topTie?'<span class="win-tag">TIED FOR FIRST</span>':(rank===0?'<span class="win-tag">STRONGEST LEAN</span>':'')}
       <div class="path-img"><img src="${PATHS[p].img}" alt="${PATHS[p].name}" onerror="this.parentElement.classList.add('noimg');this.remove()"></div>
       <div class="path-body">
         <h3>${PATHS[p].icon} ${PATHS[p].name} <span class="path-score">${R[p].total}</span></h3>
@@ -1005,8 +1012,11 @@ function renderResults(R){
   const ax=R[win].axes;
   const best=AXES.slice().sort((a,b)=>ax[b.id]-ax[a.id]);
   const strong1=best[0], strong2=best[1], weak=best[best.length-1];
+  const leadLine=tie
+    ?`put <b style="color:#fff">${PATHS[win].name}</b> and <b style="color:#fff">${PATHS[order[1]].name}</b> in a dead heat (${R[win].total}/100 each). The case for ${PATHS[win].name} is strongest on`
+    :`give <b style="color:#fff">${PATHS[win].name}</b> the strongest lean (${R[win].total}/100), ahead of ${PATHS[order[1]].name} (${R[order[1]].total}). Its case is strongest on`;
   document.getElementById('rationaleText').innerHTML=`
-    <p>Drawn toward <b style="color:#fff">${f.toLowerCase()}</b>, your answers give <b style="color:#fff">${PATHS[win].name}</b> the strongest overall case (${R[win].total}/100), ahead of ${PATHS[order[1]].name} (${R[order[1]].total}). Its case is strongest on <b style="color:#fff">${strong1.name.toLowerCase()}</b> (${ax[strong1.id]}) and <b style="color:#fff">${strong2.name.toLowerCase()}</b> (${ax[strong2.id]}).</p>
+    <p>Drawn toward <b style="color:#fff">${f.toLowerCase()}</b>, your answers ${leadLine} <b style="color:#fff">${strong1.name.toLowerCase()}</b> (${ax[strong1.id]}) and <b style="color:#fff">${strong2.name.toLowerCase()}</b> (${ax[strong2.id]}).</p>
     <p>Its honest weak point is <b style="color:#fff">${weak.name.toLowerCase()}</b> (${ax[weak.id]}) — that's not a reason to abandon the path, it's the exact place to build a plan. ${NEXTSTEPS[win]}</p>
     <p>One anchor above all of it: your worth was settled before any of these doors opened. You are not your pathway, your grades, or your first job title. Choose from identity, not for identity.</p>`;
   document.getElementById('verseText').innerHTML=`"${VERSES[win].t}" <span class="vref">— ${VERSES[win].r}</span>`;

@@ -553,7 +553,7 @@ var TOOLS = [
     {id:'teams',label:'Teams or Business',note:'Shared workspace',vendorRisk:1,trainingOn:false,ipp12:true,action:'Admin Settings › Security › Data and Privacy.',warning:'Content never used for training.'},
   ]},
   {id:'adobe',name:'Adobe Firefly',vendor:'Adobe',icon:'🔥',logo:'/logos/adobe-firefly.svg',cat:'creative',tiers:[
-    {id:'individual',label:'Individual or personal',note:'Creative Cloud personal',vendorRisk:2,trainingOn:true,ipp12:true,action:'Adobe Account Privacy Settings › toggle off "Content analysis".',warning:'Analyses creations for model training unless opted out.'},
+    {id:'individual',label:'Individual or personal',note:'Creative Cloud personal',vendorRisk:2,trainingOn:false,ipp12:true,action:'Adobe Account Privacy Settings › toggle off "Content analysis".',warning:'Content analysis for product improvement is on by default. Your work is not used to train Firefly models.'},
     {id:'business',label:'Firefly for Business',note:'Enterprise Creative Cloud',vendorRisk:1,trainingOn:false,ipp12:true,action:'Enterprise Admin Console › restrict custom model permissions.',warning:'Trained on licensed content only.'},
   ]},
   {id:'midjourney',name:'Midjourney',vendor:'Midjourney',icon:'🖼️',logo:'/logos/midjourney.svg',cat:'creative',tiers:[
@@ -607,16 +607,25 @@ function scoreEntry(toolId,tierId,dataType,reviewHabit){
   var vr=tier.vendorRisk;
   var pe=(ds===3&&(tier.ipp12||vr>=2))?3:(ds>=2&&tier.ipp12)?2:1;
   var ai=(ds===3&&ho===3)?3:(ds>=2&&ho>=2)?2:1;
-  var overall=Math.max(ds,ho,vr,pe,ai);
+  /** Calibration: rarely-reviewed PUBLIC work is a check, not an alarm. */
+  var hoEff=(ho===3&&ds===1)?2:ho;
+  /** Calibration: personal data in an enterprise-grade tier (vendorRisk 1, no training),
+      always reviewed - amber with a confirm-your-DPA action, not act-now red.
+      Personal data on any consumer tier stays red. */
+  var enterprisePersonal=(ds===3&&vr===1&&ho===1&&!tier.trainingOn);
+  var dsEff=enterprisePersonal?2:ds;
+  var peEff=enterprisePersonal?2:pe;
+  var overall=Math.max(dsEff,hoEff,vr,peEff,ai);
   var rag=overall===3?'red':overall===2?'amber':'green';
   /** Red only because tier vendorRisk (e.g. free ChatGPT); usage answers are low-risk. */
-  var vendorTierDrivenRed=rag==='red'&&ds===1&&ho===1;
+  var vendorTierDrivenRed=rag==='red'&&ds===1&&ho<=2;
   var ragLabel=rag==='red'?(vendorTierDrivenRed?'Review settings':'Act now'):rag==='amber'?'Check this':'Good to go';
   var flags=[];
   if(ds===3&&vr===3) flags.push('Sensitive data in an unsafe tool');
   if(pe===3&&ho===3) flags.push('Personal data — unreviewed output');
   if(ai===3&&ho===3) flags.push('High-impact use with little oversight');
-  if(tier.trainingOn&&ds>=2) flags.push('Tool may train on this data by default');
+  if(enterprisePersonal) flags.push('Personal data offshore - confirm your DPA or vendor agreement covers IPP 12 cross-border disclosure');
+  if(tier.trainingOn) flags.push('Tool may train on this data by default');
   return {toolId,tierId,dataType,reviewHabit,tool,tier,scores:{ds,ho,vr,pe,ai},overall,rag,ragLabel,vendorTierDrivenRed,flags};
 }
 function ragWord(r){return r==='red'?'Act now':r==='amber'?'Check this':'Good to go';}
