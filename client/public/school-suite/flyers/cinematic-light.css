@@ -196,6 +196,28 @@ body{font-family:var(--font-body);color:var(--nb-ink);background:#eceae4;line-he
 .price-bar .amt{font-family:var(--font-display);font-size:1.15rem;font-weight:500;letter-spacing:-.02em}
 .price-bar .amt span{font-size:.66rem;font-weight:400;color:var(--nb-ink-soft)}
 .price-bar .note{font-size:.66rem;color:var(--nb-ink-soft);max-width:30ch;text-align:right;line-height:1.32}
+
+/* Spacious flyer building blocks (shared; sized further under .sheet--spacious) */
+.feature-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.feature-item{background:var(--nb-bg-warm);border:1px solid var(--nb-rule);border-radius:8px;padding:.55rem .65rem}
+.feature-item b{display:block;font-family:var(--font-display);font-size:.85rem;font-weight:500;color:var(--nb-ink);margin-bottom:.15rem}
+.feature-item span{font-size:.7rem;color:var(--nb-ink-soft);line-height:1.35}
+.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.path-card{background:var(--nb-bg-warm);border:1px solid var(--nb-rule);border-radius:8px;padding:.65rem .75rem}
+.path-card b{display:block;font-family:var(--font-display);font-size:.88rem;font-weight:500;color:var(--nb-ink);margin-bottom:.3rem}
+.path-card p{margin:0;font-size:.72rem;line-height:1.4;color:var(--nb-ink-soft)}
+.steps-plain{margin:0;padding:0 0 0 1.1rem;display:grid;gap:.4rem}
+.steps-plain li{font-size:.78rem;line-height:1.4;color:var(--nb-ink-soft)}
+.steps-plain b{color:var(--nb-ink);font-weight:600}
+.price-sub{font-size:.66rem;opacity:.8;margin-top:.15rem}
+.link-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.35rem}
+.link-grid a{display:block;text-decoration:none;color:var(--nb-ink-soft);background:var(--nb-bg-warm);border:1px solid var(--nb-rule);border-radius:8px;padding:.45rem .5rem;font-size:.62rem;line-height:1.3}
+.link-grid a b{display:block;font-family:var(--font-display);font-size:.68rem;font-weight:500;color:var(--nb-ink);margin-bottom:.1rem}
+.feature-row.cols4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:640px){
+  .feature-row,.path-grid,.link-grid,.feature-row.cols4{grid-template-columns:1fr}
+}
+
 .foot{
   border-top:1px solid var(--nb-rule);padding:.6rem 1.35rem;flex:none;
   display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-wrap:wrap;
@@ -206,6 +228,269 @@ body{font-family:var(--font-body);color:var(--nb-ink);background:#eceae4;line-he
 .cta{font-size:.72rem;font-weight:600;color:var(--nb-ink);border-bottom:2px solid var(--nb-accent);text-decoration:none}
 .links{font-size:.64rem;color:var(--nb-ink-dim)}
 .links a{color:var(--nb-ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--nb-accent)}
+
+/* ---- spacious screen flyer (opt-in: .sheet--spacious) ---- */
+@media screen{
+  .sheet--spacious{
+    width:min(980px,100%);
+  }
+  .sheet--spacious .body{
+    padding:clamp(1.5rem,3.5vw,2.25rem) clamp(1.5rem,4vw,2.5rem) clamp(1.25rem,3vw,1.75rem);
+    gap:clamp(1.1rem,2.4vw,1.6rem);
+  }
+  .sheet--spacious .lede{
+    font-size:clamp(1.05rem,1.6vw,1.2rem);
+    line-height:1.55;
+    max-width:62ch;
+    color:var(--nb-ink-soft);
+    text-wrap:pretty;
+  }
+  .sheet--spacious .sec-hd{
+    font-size:.72rem;
+    letter-spacing:.14em;
+    padding-bottom:.45rem;
+    margin-top:.35rem;
+  }
+  .sheet--spacious .feature-row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:.75rem;
+  }
+  .sheet--spacious .feature-item{
+    background:var(--nb-bg-warm);
+    border:1px solid var(--nb-rule);
+    border-radius:10px;
+    padding:1rem 1.1rem;
+  }
+  .sheet--spacious .feature-item b{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.05rem;
+    font-weight:500;
+    color:var(--nb-ink);
+    margin-bottom:.25rem;
+    letter-spacing:-.015em;
+  }
+  .sheet--spacious .feature-item span{
+    font-size:.9rem;
+    color:var(--nb-ink-soft);
+    line-height:1.4;
+  }
+  .sheet--spacious .path-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.85rem;
+  }
+  .sheet--spacious .path-card{
+    background:var(--nb-bg-warm);
+    border:1px solid var(--nb-rule);
+    border-radius:10px;
+    padding:1.15rem 1.25rem;
+  }
+  .sheet--spacious .path-card b{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1.15rem;
+    font-weight:500;
+    color:var(--nb-ink);
+    margin-bottom:.45rem;
+    letter-spacing:-.02em;
+    text-wrap:balance;
+  }
+  .sheet--spacious .path-card p{
+    margin:0;
+    font-size:.98rem;
+    line-height:1.5;
+    color:var(--nb-ink-soft);
+    text-wrap:pretty;
+  }
+  .sheet--spacious .steps-plain{
+    margin:0;
+    padding:0 0 0 1.25rem;
+    display:grid;
+    gap:.85rem;
+  }
+  .sheet--spacious .steps-plain li{
+    font-size:1.02rem;
+    line-height:1.5;
+    color:var(--nb-ink-soft);
+    padding-left:.25rem;
+    text-wrap:pretty;
+  }
+  .sheet--spacious .steps-plain b{color:var(--nb-ink);font-weight:600}
+  .sheet--spacious .grid2{gap:1rem}
+  .sheet--spacious .box{
+    padding:1.15rem 1.3rem;
+    border-radius:10px;
+  }
+  .sheet--spacious .box h3{
+    font-size:1.15rem;
+    margin-bottom:.65rem;
+    text-wrap:balance;
+  }
+  .sheet--spacious .box ul{
+    font-size:.98rem;
+    line-height:1.45;
+    padding-left:1.15rem;
+  }
+  .sheet--spacious .box li{margin-bottom:.55rem}
+  .sheet--spacious .box li:last-child{margin-bottom:0}
+  .sheet--spacious .callout{
+    font-size:1rem;
+    line-height:1.5;
+    padding:1rem 1.2rem;
+    border-radius:10px;
+  }
+  .sheet--spacious .price-bar{
+    padding:1.1rem 1.35rem;
+    gap:1rem;
+  }
+  .sheet--spacious .price-bar .amt{font-size:1.45rem}
+  .sheet--spacious .price-bar .amt span{font-size:.85rem}
+  .sheet--spacious .price-sub{
+    font-size:.88rem;
+    opacity:.8;
+    margin-top:.2rem;
+  }
+  .sheet--spacious .price-bar .note{
+    font-size:.95rem;
+    max-width:28ch;
+    line-height:1.4;
+  }
+  .sheet--spacious .contact-block{padding:1.1rem 1.25rem}
+  .sheet--spacious .contact-photo{width:64px;height:64px}
+  .sheet--spacious .contact-block .info{font-size:.88rem;line-height:1.5}
+  .sheet--spacious .contact-block .info b{font-size:.98rem;margin-bottom:.15rem}
+  .sheet--spacious .foot{
+    padding:1rem clamp(1.5rem,4vw,2.5rem);
+    font-size:.85rem;
+  }
+  .sheet--spacious .foot b{font-size:.95rem}
+
+  /* Shared spacious extras used across remaining flyers */
+  .sheet--spacious .timeline{
+    grid-template-columns:1fr;
+    gap:.55rem;
+  }
+  .sheet--spacious .timeline .tl{
+    text-align:left;
+    padding:.85rem 1rem;
+    font-size:.95rem;
+    line-height:1.45;
+    color:var(--nb-ink-soft);
+  }
+  .sheet--spacious .timeline .tl b{
+    display:inline;
+    font-size:1rem;
+    margin:0 .45rem 0 0;
+  }
+  .sheet--spacious .traffic{gap:.85rem}
+  .sheet--spacious .tl-zone{
+    padding:1rem 1.15rem;
+    font-size:.95rem;
+    line-height:1.45;
+  }
+  .sheet--spacious .tl-zone h4{
+    font-size:1.05rem;
+    margin-bottom:.35rem;
+  }
+  .sheet--spacious .compact-table{
+    font-size:.92rem;
+  }
+  .sheet--spacious .compact-table th,
+  .sheet--spacious .compact-table td{
+    padding:.65rem .75rem;
+  }
+  .sheet--spacious .compact-table th{
+    font-size:.68rem;
+  }
+  .sheet--spacious .cols{gap:1rem}
+  .sheet--spacious .lane{
+    padding:1.15rem 1.3rem;
+    border-radius:10px;
+  }
+  .sheet--spacious .lane h2{
+    font-size:.72rem;
+    margin-bottom:.55rem;
+  }
+  .sheet--spacious .lane ul{
+    font-size:.95rem;
+    line-height:1.45;
+    padding-left:1.15rem;
+  }
+  .sheet--spacious .lane li{margin-bottom:.4rem}
+  .sheet--spacious .link-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:.65rem;
+  }
+  .sheet--spacious .link-grid a{
+    display:block;
+    text-decoration:none;
+    color:var(--nb-ink-soft);
+    background:var(--nb-bg-warm);
+    border:1px solid var(--nb-rule);
+    border-radius:10px;
+    padding:.85rem .9rem;
+    font-size:.88rem;
+    line-height:1.35;
+  }
+  .sheet--spacious .link-grid a b{
+    display:block;
+    font-family:var(--font-display);
+    font-size:1rem;
+    font-weight:500;
+    color:var(--nb-ink);
+    margin-bottom:.2rem;
+  }
+  .sheet--spacious .feature-row.cols4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:720px){
+    .sheet--spacious .feature-row,
+    .sheet--spacious .feature-row.cols4,
+    .sheet--spacious .path-grid,
+    .sheet--spacious .traffic,
+    .sheet--spacious .cols,
+    .sheet--spacious .link-grid{grid-template-columns:1fr}
+  }
+}
+
+/* Print: keep spacious flyers readable but still A4-fit */
+@media print{
+  .sheet--spacious .body{padding:1rem 1.35rem .85rem;gap:.75rem}
+  .sheet--spacious .lede{font-size:.92rem}
+  .sheet--spacious .feature-row{gap:.45rem}
+  .sheet--spacious .feature-item{padding:.65rem .75rem}
+  .sheet--spacious .feature-item b{font-size:.88rem}
+  .sheet--spacious .feature-item span{font-size:.72rem}
+  .sheet--spacious .path-grid{gap:.45rem}
+  .sheet--spacious .path-card{padding:.65rem .75rem}
+  .sheet--spacious .path-card b{font-size:.88rem;margin-bottom:.25rem}
+  .sheet--spacious .path-card p{font-size:.72rem;line-height:1.35}
+  .sheet--spacious .steps-plain{gap:.4rem}
+  .sheet--spacious .steps-plain li{font-size:.78rem}
+  .sheet--spacious .box{padding:.65rem .8rem}
+  .sheet--spacious .box h3{font-size:.88rem;margin-bottom:.35rem}
+  .sheet--spacious .box ul{font-size:.72rem}
+  .sheet--spacious .box li{margin-bottom:.28rem}
+  .sheet--spacious .callout{font-size:.78rem;padding:.55rem .7rem}
+  .sheet--spacious .price-bar{padding:.65rem .85rem}
+  .sheet--spacious .price-bar .amt{font-size:1.1rem}
+  .sheet--spacious .price-sub{font-size:.66rem}
+  .sheet--spacious .price-bar .note{font-size:.72rem}
+  .sheet--spacious .contact-block .info{font-size:.7rem}
+  .sheet--spacious .timeline{grid-template-columns:1fr;gap:.3rem}
+  .sheet--spacious .timeline .tl{padding:.4rem .55rem;font-size:.7rem;text-align:left}
+  .sheet--spacious .timeline .tl b{display:inline;font-size:.72rem;margin:0 .35rem 0 0}
+  .sheet--spacious .tl-zone{padding:.5rem .6rem;font-size:.7rem}
+  .sheet--spacious .tl-zone h4{font-size:.78rem;margin-bottom:.15rem}
+  .sheet--spacious .compact-table{font-size:.7rem}
+  .sheet--spacious .compact-table th,.sheet--spacious .compact-table td{padding:.35rem .45rem}
+  .sheet--spacious .lane{padding:.55rem .65rem}
+  .sheet--spacious .lane ul{font-size:.7rem}
+  .sheet--spacious .link-grid{grid-template-columns:repeat(4,1fr);gap:.3rem}
+  .sheet--spacious .link-grid a{padding:.4rem .45rem;font-size:.62rem}
+  .sheet--spacious .link-grid a b{font-size:.7rem}
+}
 
 /* ---- web landing shell (educators-pd, tools) ---- */
 .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1.1rem,4vw,2.4rem)}
