@@ -63,7 +63,8 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       const transformed = await vite.transformIndexHtml(url, template);
-      const page = injectOgMeta(transformed, req.path);
+      const urlPath = (req.originalUrl || req.url || req.path || "/").split("?")[0] || "/";
+      const page = injectOgMeta(transformed, urlPath);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);

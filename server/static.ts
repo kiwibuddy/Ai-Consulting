@@ -45,7 +45,8 @@ export function serveStatic(app: Express) {
   // fall through to index.html if the file doesn't exist;
   // inject per-route OG tags so social-media crawlers see the right preview
   app.use("/{*path}", (req, res) => {
-    const html = injectOgMeta(rawHtml, req.path);
+    const urlPath = (req.originalUrl || req.url || req.path || "/").split("?")[0] || "/";
+    const html = injectOgMeta(rawHtml, urlPath);
     res
       .status(200)
       .set({
