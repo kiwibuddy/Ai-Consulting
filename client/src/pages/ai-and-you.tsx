@@ -101,28 +101,6 @@ const familyWorksheets: Resource[] = [
     href: "/resources/worksheet/family-rewiring-rhythms",
     cta: "Open worksheet",
   },
-  {
-    tag: "Article",
-    title: "The Calm Middle",
-    description: "How worried should you actually be about AI, and what cheap actions help either way.",
-    href: "/resources/how-worried-should-you-be-about-ai",
-    cta: "Read the article",
-  },
-  {
-    tag: "Article",
-    title: "When Your Teen's Best Friend Is an Algorithm",
-    description:
-      "What shifts when the 2 a.m. conversation moves to a chatbot, and what parents can do.",
-    href: "/resources/when-your-teens-best-friend-is-an-algorithm",
-    cta: "Read the article",
-  },
-  {
-    tag: "Article",
-    title: "The Voice on the Phone Is Not Your Son",
-    description: "The voice-clone scam, the defence, and why every household needs a safe phrase.",
-    href: "/resources/the-voice-on-the-phone-is-not-your-son",
-    cta: "Read the article",
-  },
 ];
 
 const schoolWorksheets: Resource[] = [
@@ -142,28 +120,6 @@ const schoolWorksheets: Resource[] = [
     href: "/resources/worksheet/edu-verify-method",
     cta: "Open worksheet",
   },
-  {
-    tag: "Education",
-    title: "The Prompt Engineering Workshop",
-    description: "Think on paper before you type a single prompt — for students and teachers.",
-    href: "/resources/worksheet/edu-prompt-engineering",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Education",
-    title: "What Is School Actually For?",
-    description:
-      "If AI can retrieve information and write essays, what does that leave for school to be?",
-    href: "/resources/worksheet/edu-what-is-school-for",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Schools pack",
-    title: "School programmes",
-    description: "Policy, staff PD, assemblies, parent evenings, and whole-school days.",
-    href: "/schools",
-    cta: "View school programmes",
-  },
 ];
 
 const workChurchWorksheets: Resource[] = [
@@ -182,43 +138,6 @@ const workChurchWorksheets: Resource[] = [
       "Ghost Job Detector, ATS Survival, Human-in-the-Loop résumé kit, and Skills Bridge.",
     href: "/business/workers",
     cta: "Explore worker tools",
-  },
-  {
-    tag: "Professionals",
-    title: "Is My Job Automation or Augmentation?",
-    description:
-      "Map where your tasks sit on the spectrum, with a 90-day plan — for people who follow Jesus.",
-    href: "/resources/christian-professional/automation-or-augmentation-christian",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Professionals",
-    title: "The 52-Minute Opportunity",
-    description: "AI may return roughly an hour a day. Plan what you will do with that time.",
-    href: "/resources/christian-professional/52-minute-opportunity-christian",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Tauranga SMEs",
-    title: "Bay of Plenty business prep",
-    description:
-      "Readiness, time audit, team conversation, and privacy basics — the free layer of the Business Pack.",
-    href: "/resources/worksheet/tauranga-sme-readiness",
-    cta: "Open the business set",
-  },
-  {
-    tag: "Church / growth",
-    title: "Digital Liturgy Audit",
-    description: "Where has the feed quietly replaced prayer, Scripture, and gathered worship?",
-    href: "/resources/worksheet/christian-digital-liturgy-audit",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Church / growth",
-    title: "Healthy AI Use",
-    description: "A practical guide for disciples who want the tool without surrendering formation.",
-    href: "/resources/worksheet/christian-healthy-ai-use",
-    cta: "Open worksheet",
   },
   {
     tag: "Products hub",
@@ -545,19 +464,19 @@ export default function AiAndYouTakehomePage() {
           <WorksheetBlock
             eyebrow="Families"
             title="Home, kids, and household defence"
-            intro="Safe Phrase, family agreements, attachment, rhythms, and the articles behind tonight’s warnings."
+            intro="Safe Phrase, family agreements, attachment, and rhythms — practical tools for the home."
             items={familyWorksheets}
           />
           <WorksheetBlock
             eyebrow="School"
             title="Students, parents, and educators"
-            intro="Pathway Compass for leavers, classroom VERIFY tools, and the wider schools pack."
+            intro="Pathway Compass for leavers, and VERIFY for checking AI claims before you act on them."
             items={schoolWorksheets}
           />
           <WorksheetBlock
             eyebrow="Work & church"
-            title="Jobs, teams, and formation at scale"
-            intro="The free AI Use Audit, worker tools, professional worksheets, and church growth practices."
+            title="Jobs, teams, and next steps"
+            intro="The free AI Use Audit, the job transition toolkit, and all programmes and products."
             items={workChurchWorksheets}
           />
         </div>
