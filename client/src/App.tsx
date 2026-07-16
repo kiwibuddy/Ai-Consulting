@@ -45,6 +45,7 @@ import {
   ForgotPasswordPublicRoute,
   IntakePublicRoute,
   LeadershipCollectivePublicRoute,
+  AiAndYouPublicRoute,
   ThankYouPublicRoute,
   LoginPublicRoute,
   NotFoundPublicRoute,
@@ -278,6 +279,8 @@ function Router() {
         <Route path="/speaking" component={SpeakingPublicRoute} />
         <Route path="/survey" component={SurveyPublicRoute} />
         <Route path="/ai-leadership-collective" component={LeadershipCollectivePublicRoute} />
+        <Route path="/ai-and-you" component={AiAndYouPublicRoute} />
+        <Route path="/free-resources" component={AiAndYouPublicRoute} />
         <Route path="/thank-you" component={ThankYouPublicRoute} />
         <Route path="/resources" component={ResourcesPublicRoute} />
         <Route path="/articles/when-your-teens-best-friend-is-an-algorithm">

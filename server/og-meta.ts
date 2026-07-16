@@ -20,7 +20,12 @@ interface PageMeta {
 }
 
 /** Unlisted pages: have rich link previews but must stay out of search results. */
-const NOINDEX_PATHS = new Set<string>(["/ai-leadership-collective", "/thank-you"]);
+const NOINDEX_PATHS = new Set<string>([
+  "/ai-leadership-collective",
+  "/ai-and-you",
+  "/free-resources",
+  "/thank-you",
+]);
 
 function lookupMeta(urlPath: string): PageMeta | null {
   return lookupPublicPageMeta(urlPath);

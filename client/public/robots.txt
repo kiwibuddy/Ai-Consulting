@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /ai-and-you
+Disallow: /free-resources
+Disallow: /ai-leadership-collective
 
 Sitemap: https://www.nathanielbaldock.com/sitemap.xml

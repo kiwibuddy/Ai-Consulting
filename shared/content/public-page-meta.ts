@@ -29,6 +29,21 @@ const staticPages: Record<string, PublicPageMeta> = {
     image: `${SITE}/images/email/thumb-social-revolution.png`,
     ogType: "website",
   },
+  // Unlisted QR hub for the AI & You public evening — not in nav or sitemap.
+  "/ai-and-you": {
+    title: "AI & You — Free resources & take-homes",
+    description:
+      "Practical follow-up from AI & You in Tauranga: Safe Phrase, family worksheets, Pathway Compass, Calm Middle, AI Use Audit, Safe Surfer, and recommended videos.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
+  "/free-resources": {
+    title: "AI & You — Free resources & take-homes",
+    description:
+      "Practical follow-up from AI & You in Tauranga: Safe Phrase, family worksheets, Pathway Compass, Calm Middle, AI Use Audit, Safe Surfer, and recommended videos.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
   "/thank-you": {
     title: "Thank you for coming — AI session follow-up",
     description:
