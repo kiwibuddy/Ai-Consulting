@@ -342,6 +342,17 @@ export default function ProductsPage() {
               </div>
             </div>
           </ScrollReveal>
+
+          <p className="mt-16 max-w-2xl mx-auto text-center text-xs leading-relaxed text-[var(--nb-ink-soft)]">
+            AI disclosure: These products draw on considerable AI-assisted research — I used
+            Google NotebookLM to work through source material in depth, and that research helped
+            me select the key data points and statistics referenced in the worksheets and decks
+            behind each package. Claude (Anthropic) supported the editorial process throughout,
+            helping draft, edit, and refine the content, and Cursor.ai supported the technical
+            build. Every idea, framework, and recommendation was created and confirmed by me — AI
+            assisted the research and editing, it did not set the direction or conclusions. I take
+            full responsibility for the accuracy and judgement in what's delivered here.
+          </p>
         </div>
       </main>
 
