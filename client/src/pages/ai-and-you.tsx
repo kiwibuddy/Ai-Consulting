@@ -1,17 +1,36 @@
+import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { SiteFooter } from "@/components/site-footer";
 import { PageSEO } from "@/components/page-seo";
 import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
+import {
+  isResourceSetUnlocked,
+  ResourceSetUnlockForm,
+} from "@/components/resource-set-unlock-form";
 import {
   cardSlideUpContainerVariants,
   cardSlideUpItemVariants,
   landingViewportReveal,
 } from "@/lib/animations";
 import { SCHOOL_SUITE_PATHWAY_COMPASS_TOOL } from "@/content/school-suite";
+import { getResourceSetById } from "@shared/content/resource-sets";
 
 const PORTRAIT = "/images/email/nathaniel-baldock-portrait.png";
 const SAFESURFER_ICON = "/images/partners/safesurfer-icon.png";
 const SAFESURFER_LOGO = "/images/partners/safesurfer-logo.png";
+
+/** Slightly different on-brand fills so resource cards read as distinct tiles. */
+const CARD_TONES = [
+  "color-mix(in srgb, var(--nb-accent) 10%, var(--nb-bg-raised))",
+  "color-mix(in srgb, var(--nb-green) 12%, var(--nb-bg-raised))",
+  "color-mix(in srgb, #F4EFE2 8%, var(--nb-bg-raised))",
+  "color-mix(in srgb, var(--nb-accent) 6%, #1a1d24)",
+  "color-mix(in srgb, var(--nb-green) 8%, #14161b)",
+] as const;
+
+function cardTone(index: number) {
+  return CARD_TONES[index % CARD_TONES.length];
+}
 
 interface Resource {
   tag: string;
@@ -26,6 +45,32 @@ interface VideoResource extends Resource {
   thumb: string;
   thumbAlt: string;
 }
+
+const familySetDef = getResourceSetById("family")!;
+
+const familySetExtras: Resource[] = [
+  {
+    tag: "Family set",
+    title: "Family AI Agreement",
+    description: "A simple household covenant for phones, companions, homework, and screens.",
+    href: "/resources/worksheet/family-ai-agreement",
+    cta: "Open worksheet",
+  },
+  {
+    tag: "Family set",
+    title: "Attachment Audit",
+    description: "Where has a machine started to replace a person in your home?",
+    href: "/resources/worksheet/family-attachment-audit",
+    cta: "Open worksheet",
+  },
+  {
+    tag: "Family set",
+    title: "Rewiring Family Rhythms",
+    description: "Four weeks of small formation habits that keep people ahead of the feed.",
+    href: "/resources/worksheet/family-rewiring-rhythms",
+    cta: "Open worksheet",
+  },
+];
 
 const videos: VideoResource[] = [
   {
@@ -73,32 +118,11 @@ const familyWorksheets: Resource[] = [
     cta: "Get the worksheet",
   },
   {
-    tag: "Family set",
+    tag: "Family set · free preview",
     title: "Who Is Raising Our Kids?",
     description:
       "Name the voices shaping your children — including the ones that talk back at 2 a.m.",
     href: "/resources/worksheet/family-who-is-raising-our-kids",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Family set",
-    title: "Family AI Agreement",
-    description: "A simple household covenant for phones, companions, homework, and screens.",
-    href: "/resources/worksheet/family-ai-agreement",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Family set",
-    title: "Attachment Audit",
-    description: "Where has a machine started to replace a person in your home?",
-    href: "/resources/worksheet/family-attachment-audit",
-    cta: "Open worksheet",
-  },
-  {
-    tag: "Family set",
-    title: "Rewiring Family Rhythms",
-    description: "Four weeks of small formation habits that keep people ahead of the feed.",
-    href: "/resources/worksheet/family-rewiring-rhythms",
     cta: "Open worksheet",
   },
 ];
@@ -188,7 +212,7 @@ function SectionHeading({
   );
 }
 
-function ResourceCard({ r }: { r: Resource }) {
+function ResourceCard({ r, toneIndex = 0 }: { r: Resource; toneIndex?: number }) {
   const externalProps = r.external
     ? { target: "_blank" as const, rel: "noopener noreferrer" }
     : {};
@@ -196,8 +220,11 @@ function ResourceCard({ r }: { r: Resource }) {
   return (
     <a
       href={r.href}
-      className="nb-card block no-underline transition-transform duration-200 hover:-translate-y-0.5"
-      style={{ borderColor: "var(--nb-rule)" }}
+      className="nb-card block h-full no-underline transition-transform duration-200 hover:-translate-y-0.5"
+      style={{
+        borderColor: "color-mix(in srgb, var(--nb-accent) 18%, var(--nb-rule))",
+        background: cardTone(toneIndex),
+      }}
       {...externalProps}
     >
       <p className="nb-mono-label m-0 mb-3 text-[var(--nb-accent)]">{r.tag}</p>
@@ -211,14 +238,17 @@ function ResourceCard({ r }: { r: Resource }) {
   );
 }
 
-function VideoCard({ v }: { v: VideoResource }) {
+function VideoCard({ v, toneIndex = 0 }: { v: VideoResource; toneIndex?: number }) {
   return (
     <a
       href={v.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="nb-card group block overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5 p-0"
-      style={{ borderColor: "var(--nb-rule)" }}
+      className="nb-card group block h-full overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5 p-0"
+      style={{
+        borderColor: "color-mix(in srgb, var(--nb-accent) 18%, var(--nb-rule))",
+        background: cardTone(toneIndex),
+      }}
     >
       <div className="relative aspect-video overflow-hidden bg-[var(--nb-bg)]">
         <img
@@ -252,7 +282,7 @@ function VideoCard({ v }: { v: VideoResource }) {
   );
 }
 
-function ResourceGrid({ items }: { items: Resource[] }) {
+function ResourceGrid({ items, toneOffset = 0 }: { items: Resource[]; toneOffset?: number }) {
   return (
     <motion.div
       className="grid grid-cols-1 md:grid-cols-2 gap-4"
@@ -261,12 +291,67 @@ function ResourceGrid({ items }: { items: Resource[] }) {
       viewport={landingViewportReveal}
       variants={cardSlideUpContainerVariants}
     >
-      {items.map((r) => (
+      {items.map((r, i) => (
         <motion.div key={r.href + r.title} variants={cardSlideUpItemVariants}>
-          <ResourceCard r={r} />
+          <ResourceCard r={r} toneIndex={toneOffset + i} />
         </motion.div>
       ))}
     </motion.div>
+  );
+}
+
+function FamilySetUnlockCard() {
+  const [unlocked, setUnlocked] = useState(false);
+
+  useEffect(() => {
+    setUnlocked(isResourceSetUnlocked(familySetDef.id));
+  }, []);
+
+  return (
+    <ScrollReveal>
+      <div
+        className="nb-card mt-4"
+        style={{
+          borderColor: "color-mix(in srgb, var(--nb-accent) 28%, var(--nb-rule))",
+          background: cardTone(2),
+        }}
+      >
+        <p className="nb-mono-label m-0 mb-3 text-[var(--nb-accent)]">Full set · free with email</p>
+        <h3 className="nb-card-title m-0 mb-2">Get the rest of the AI &amp; Family set</h3>
+        <p className="nb-body m-0 mb-4 text-[var(--nb-ink-soft)] max-w-[42em]">
+          Family AI Agreement, Attachment Audit, and Rewiring Family Rhythms unlock when you sign up
+          for the full set.
+        </p>
+
+        {unlocked ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {familySetExtras.map((r, i) => (
+              <a
+                key={r.href}
+                href={r.href}
+                className="nb-card block no-underline transition-transform duration-200 hover:-translate-y-0.5"
+                style={{
+                  borderColor: "color-mix(in srgb, var(--nb-accent) 18%, var(--nb-rule))",
+                  background: cardTone(i + 3),
+                  padding: "1rem 1.1rem",
+                }}
+              >
+                <p className="nb-mono-label m-0 mb-2 text-[var(--nb-accent)]">{r.tag}</p>
+                <h4 className="nb-card-title m-0 mb-2 text-[clamp(1.05rem,1.6vw,1.25rem)]">
+                  {r.title}
+                </h4>
+                <p className="nb-body m-0 mb-3 text-[0.9rem] text-[var(--nb-ink-soft)]">
+                  {r.description}
+                </p>
+                <span className="nb-mono-label text-[var(--nb-accent)]">{r.cta} →</span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <ResourceSetUnlockForm setDef={familySetDef} onUnlocked={() => setUnlocked(true)} />
+        )}
+      </div>
+    </ScrollReveal>
   );
 }
 
@@ -275,16 +360,21 @@ function WorksheetBlock({
   title,
   intro,
   items,
+  toneOffset = 0,
+  footer,
 }: {
   eyebrow: string;
   title: string;
   intro: string;
   items: Resource[];
+  toneOffset?: number;
+  footer?: ReactNode;
 }) {
   return (
     <div className="mb-10 md:mb-14 last:mb-0">
       <SectionHeading eyebrow={eyebrow} title={title} intro={intro} />
-      <ResourceGrid items={items} />
+      <ResourceGrid items={items} toneOffset={toneOffset} />
+      {footer}
     </div>
   );
 }
@@ -347,7 +437,7 @@ export default function AiAndYouTakehomePage() {
           <h1 className="nb-display nb-display-lg m-0">
             <ScrollReveal delay={160}>
               <span className="block">
-                Tonight&rsquo;s take-homes
+                Additional Resources
                 <span className="text-[var(--nb-accent)]">.</span>
               </span>
             </ScrollReveal>
@@ -382,7 +472,10 @@ export default function AiAndYouTakehomePage() {
               target="_blank"
               rel="noopener noreferrer"
               className="nb-card flex flex-col sm:flex-row items-center gap-6 md:gap-8 no-underline transition-transform duration-200 hover:-translate-y-0.5 p-6 md:p-8"
-              style={{ borderColor: "color-mix(in srgb, var(--nb-accent) 35%, var(--nb-rule))" }}
+              style={{
+                borderColor: "color-mix(in srgb, var(--nb-accent) 35%, var(--nb-rule))",
+                background: cardTone(0),
+              }}
             >
               <div className="flex flex-col items-center sm:items-start gap-4 sm:flex-1 text-center sm:text-left">
                 <p className="nb-body m-0 text-[var(--nb-ink-soft)] max-w-[38em]">
@@ -437,9 +530,9 @@ export default function AiAndYouTakehomePage() {
             viewport={landingViewportReveal}
             variants={cardSlideUpContainerVariants}
           >
-            {videos.map((v) => (
+            {videos.map((v, i) => (
               <motion.div key={v.href} variants={cardSlideUpItemVariants}>
-                <VideoCard v={v} />
+                <VideoCard v={v} toneIndex={i + 1} />
               </motion.div>
             ))}
           </motion.div>
@@ -464,20 +557,24 @@ export default function AiAndYouTakehomePage() {
           <WorksheetBlock
             eyebrow="Families"
             title="Home, kids, and household defence"
-            intro="Safe Phrase, family agreements, attachment, and rhythms — practical tools for the home."
+            intro="Safe Phrase and Who Is Raising Our Kids are open here. Sign up for the full AI & Family set to unlock the rest."
             items={familyWorksheets}
+            toneOffset={0}
+            footer={<FamilySetUnlockCard />}
           />
           <WorksheetBlock
             eyebrow="School"
             title="Students, parents, and educators"
             intro="Pathway Compass for leavers, and VERIFY for checking AI claims before you act on them."
             items={schoolWorksheets}
+            toneOffset={2}
           />
           <WorksheetBlock
             eyebrow="Work & church"
             title="Jobs, teams, and next steps"
             intro="The free AI Use Audit, the job transition toolkit, and all programmes and products."
             items={workChurchWorksheets}
+            toneOffset={4}
           />
         </div>
       </section>

@@ -210,6 +210,15 @@ html[data-theme="public"].light {
   text-wrap: balance;
 }
 
+[data-theme="public"] .nb-card,
+[data-public-site] .nb-card {
+  border-radius: 18px;
+  border: 1px solid var(--nb-rule);
+  background: var(--nb-bg-raised);
+  padding: 1.25rem 1.4rem;
+  color: inherit;
+}
+
 [data-theme="public"] .nb-card-title,
 [data-public-site] .nb-card-title {
   font-family: var(--nb-font-display);
