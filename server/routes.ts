@@ -2339,4 +2339,10 @@ function registerKiwiClarityAudit(app: Express): void {
   app.get("/audit", serveHtml("audit.html"));
   // Nathaniel's internal pre-call briefing tool — paste JSON from consultant email
   app.get("/companion", serveHtml("companion.html"));
+  // Nathaniel's internal operator console — per-tool hardening walkthroughs.
+  // Unlisted + noindex (also has a <meta robots> tag); belt-and-braces header here.
+  app.get("/operator", (req: Request, res: Response) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+    return serveHtml("operator.html")(req, res);
+  });
 }

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- INTERNAL TOOL — keep it out of search + crawlers. Unlisted, not linked anywhere. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Operator Console · Internal</title>
+<link rel="stylesheet" href="/audit-cinematic.css?v=20260625a">
+<link rel="icon" href="/favicon.png">
+<style>
+/* ── Operator Console — component styles (tokens inherited from .companion-shell) ── */
+body.operator-shell{background:var(--nb-bg);color:var(--nb-ink);font-family:var(--font-sans);margin:0;-webkit-font-smoothing:antialiased;}
+.op-wrap{max-width:1280px;margin:0 auto;padding:0 20px 80px;}
+
+/* Header */
+.op-hdr{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0 18px;border-bottom:1px solid var(--nb-rule);flex-wrap:wrap;position:sticky;top:0;background:color-mix(in srgb,var(--nb-bg) 88%,transparent);backdrop-filter:blur(8px);z-index:20;}
+.op-brand{display:flex;align-items:center;gap:12px;}
+.op-mark{width:40px;height:40px;border-radius:10px;background:var(--nb-cta-gradient);color:#0b0c0f;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);letter-spacing:.5px;}
+.op-brand-txt .t{font-family:var(--font-display);font-size:18px;line-height:1.1;}
+.op-brand-txt .s{font-family:var(--nb-font-mono);font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--nb-ink-dim);margin-top:3px;}
+.op-badge-internal{font-family:var(--nb-font-mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#ffd7a8;border:1px solid rgba(255,180,90,.4);background:rgba(255,150,60,.08);padding:5px 10px;border-radius:999px;white-space:nowrap;}
+
+/* Update-check control */
+.op-sync{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.op-sync-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-sans);font-weight:600;font-size:13px;color:var(--nb-ink);background:var(--nb-panel);border:1px solid var(--nb-rule-strong);border-radius:999px;padding:9px 16px;cursor:pointer;transition:border-color .2s,background .2s;}
+.op-sync-btn:hover{border-color:var(--nb-accent);background:var(--lime-bg);}
+.op-sync-btn:disabled{opacity:.6;cursor:progress;}
+.op-sync-btn svg{width:15px;height:15px;}
+.op-sync-btn.spinning svg{animation:opspin 1s linear infinite;}
+@keyframes opspin{to{transform:rotate(360deg);}}
+.op-sync-result{font-size:12px;color:var(--nb-ink-soft);font-family:var(--nb-font-mono);max-width:420px;line-height:1.5;}
+
+/* Layout */
+.op-body{display:grid;grid-template-columns:280px 1fr;gap:28px;padding-top:24px;}
+@media(max-width:860px){.op-body{grid-template-columns:1fr;}}
+
+/* Sidebar */
+.op-nav-cat{font-family:var(--nb-font-mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--nb-ink-dim);margin:20px 0 8px;padding-left:4px;}
+.op-nav-cat:first-child{margin-top:0;}
+.op-tab{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:10px;padding:9px 12px;cursor:pointer;color:var(--nb-ink-soft);font-family:var(--font-sans);font-size:14px;transition:background .15s,border-color .15s,color .15s;}
+.op-tab:hover{background:var(--nb-panel);color:var(--nb-ink);}
+.op-tab.active{background:var(--lime-bg);border-color:rgba(124,204,30,.35);color:var(--nb-ink);}
+.op-tab .tico{width:26px;height:26px;border-radius:6px;background:var(--nb-bg-raised);display:flex;align-items:center;justify-content:center;font-size:15px;overflow:hidden;flex:0 0 auto;}
+.op-tab .tico img{width:100%;height:100%;object-fit:contain;padding:2px;}
+.op-tab .tname{flex:1;line-height:1.15;}
+.op-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;box-shadow:0 0 0 2px rgba(0,0,0,.25);}
+.dot-fresh{background:#39d353;}
+.dot-due{background:#e3b341;}
+.dot-stale{background:#f26d6d;}
+.dot-none{background:var(--nb-ink-dim);}
+
+/* Panel */
+.op-panel{min-width:0;}
+.op-panel-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--nb-rule);}
+.op-tool-id{display:flex;align-items:center;gap:14px;}
+.op-tool-ico{width:52px;height:52px;border-radius:12px;background:var(--nb-bg-raised);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex:0 0 auto;border:1px solid var(--nb-rule);}
+.op-tool-ico img{width:100%;height:100%;object-fit:contain;padding:8px;}
+.op-tool-name{font-family:var(--font-display);font-size:28px;line-height:1.05;}
+.op-tool-vendor{font-family:var(--nb-font-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--nb-ink-dim);margin-top:5px;}
+.op-verified{text-align:right;}
+.op-verified .lbl{font-family:var(--nb-font-mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--nb-ink-dim);}
+.op-verified .val{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--nb-ink-soft);margin-top:4px;font-family:var(--nb-font-mono);}
+.op-verified .status{font-size:10.5px;margin-top:3px;font-family:var(--nb-font-mono);}
+.st-fresh{color:#5fdd7a;}.st-due{color:#e3b341;}.st-stale{color:#f26d6d;}
+
+/* Controls */
+.op-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:22px 0 8px;}
+@media(max-width:720px){.op-controls{grid-template-columns:1fr;}}
+.op-ctrl .clbl{font-family:var(--nb-font-mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--nb-ink-dim);margin-bottom:9px;}
+.op-seg{display:flex;flex-direction:column;gap:6px;}
+.op-opt{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--nb-rule);border-radius:9px;cursor:pointer;font-size:13.5px;color:var(--nb-ink-soft);transition:border-color .15s,background .15s,color .15s;}
+.op-opt:hover{border-color:var(--nb-rule-strong);color:var(--nb-ink);}
+.op-opt.sel{border-color:var(--nb-accent);background:var(--lime-bg);color:var(--nb-ink);}
+.op-opt .rd{width:14px;height:14px;border-radius:50%;border:2px solid var(--nb-ink-dim);flex:0 0 auto;position:relative;}
+.op-opt.sel .rd{border-color:var(--nb-accent);}
+.op-opt.sel .rd::after{content:"";position:absolute;inset:2px;border-radius:50%;background:var(--nb-accent);}
+.op-opt small{display:block;color:var(--nb-ink-dim);font-size:11px;margin-top:1px;}
+
+/* RAG banner */
+.op-rag{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:12px;margin:8px 0 22px;border:1px solid;}
+.rag-green{background:rgba(57,211,83,.08);border-color:rgba(57,211,83,.35);}
+.rag-amber{background:rgba(227,179,65,.09);border-color:rgba(227,179,65,.38);}
+.rag-red{background:rgba(242,109,109,.09);border-color:rgba(242,109,109,.4);}
+.op-rag .chip{font-family:var(--nb-font-mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600;padding:5px 11px;border-radius:999px;white-space:nowrap;}
+.chip-green{background:#39d353;color:#04250d;}.chip-amber{background:#e3b341;color:#2e2202;}.chip-red{background:#f26d6d;color:#2e0606;}
+.op-rag .rtxt{font-size:13.5px;color:var(--nb-ink);line-height:1.4;}
+.op-rag .rtxt b{font-family:var(--font-display);font-weight:600;}
+
+/* Walkthrough sections */
+.op-sec{margin:0 0 24px;}
+.op-sec-h{display:flex;align-items:center;gap:9px;font-family:var(--nb-font-mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--nb-accent);margin-bottom:11px;padding-bottom:7px;border-bottom:1px solid var(--nb-rule);}
+.op-sec-h .n{width:20px;height:20px;border-radius:5px;background:var(--lime-bg);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--nb-accent);}
+.op-verdict{font-family:var(--font-display);font-size:20px;line-height:1.3;color:var(--nb-ink);}
+.op-upgrade{background:var(--nb-bg-raised);border:1px solid var(--nb-rule);border-left:3px solid var(--nb-accent);border-radius:0 10px 10px 0;padding:14px 18px;font-size:14.5px;line-height:1.6;color:var(--nb-ink-soft);}
+.op-upgrade b{color:var(--nb-ink);}
+.op-steps{list-style:none;margin:0;padding:0;counter-reset:opstep;}
+.op-steps li{position:relative;padding:11px 0 11px 42px;border-bottom:1px dashed var(--nb-rule);font-size:14.5px;line-height:1.55;color:var(--nb-ink-soft);counter-increment:opstep;}
+.op-steps li:last-child{border-bottom:none;}
+.op-steps li::before{content:counter(opstep);position:absolute;left:0;top:10px;width:26px;height:26px;border-radius:7px;background:var(--nb-bg-raised);border:1px solid var(--nb-rule-strong);color:var(--nb-accent);font-family:var(--nb-font-mono);font-size:12px;display:flex;align-items:center;justify-content:center;}
+.op-steps code,.op-verify code{font-family:var(--nb-font-mono);font-size:12.5px;background:var(--nb-panel);padding:1px 5px;border-radius:4px;color:var(--nb-ink);}
+.op-verify{background:var(--nb-panel);border-radius:10px;padding:13px 16px;font-size:13.5px;line-height:1.6;color:var(--nb-ink-soft);}
+.op-verify b{color:var(--nb-ink);}
+
+/* Safe-content matrix */
+.op-safe{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+@media(max-width:720px){.op-safe{grid-template-columns:1fr;}}
+.safe-card{border:1px solid var(--nb-rule);border-radius:11px;padding:13px 14px;background:var(--nb-bg-raised);transition:box-shadow .2s,border-color .2s;}
+.safe-card.active{border-color:var(--nb-accent);box-shadow:0 0 0 1px var(--nb-accent);}
+.safe-card .sh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;}
+.safe-card .sn{font-weight:600;font-size:13px;color:var(--nb-ink);}
+.safe-card .sv{width:10px;height:10px;border-radius:50%;}
+.sv-ok{background:#39d353;}.sv-caution{background:#e3b341;}.sv-no{background:#f26d6d;}
+.safe-card .sd{font-size:12.5px;line-height:1.5;color:var(--nb-ink-soft);}
+.safe-card .stag{font-family:var(--nb-font-mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--nb-ink-dim);}
+
+/* Red lines + say */
+.op-redlines{list-style:none;margin:0;padding:0;}
+.op-redlines li{position:relative;padding:8px 0 8px 26px;font-size:14px;line-height:1.5;color:var(--nb-ink-soft);}
+.op-redlines li::before{content:"✕";position:absolute;left:0;top:8px;color:#f26d6d;font-weight:700;font-size:13px;}
+.op-say{background:linear-gradient(135deg,rgba(124,204,30,.10),rgba(17,194,92,.06));border:1px solid rgba(124,204,30,.3);border-radius:12px;padding:16px 20px;}
+.op-say .qm{font-family:var(--font-display);font-size:34px;line-height:0;color:var(--nb-accent);opacity:.5;}
+.op-say p{font-family:var(--nb-font-italic);font-size:18px;line-height:1.45;color:var(--nb-ink);margin:6px 0 0;}
+
+/* Policy block */
+.op-policy{background:var(--nb-bg-raised);border:1px solid var(--nb-rule);border-radius:12px;padding:18px 20px;}
+.op-policy p{font-size:14px;line-height:1.65;color:var(--nb-ink-soft);margin:0 0 12px;}
+.op-policy p:last-child{margin-bottom:0;}
+.op-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.op-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-family:var(--nb-font-mono);color:var(--nb-accent);text-decoration:none;border:1px solid rgba(124,204,30,.3);border-radius:999px;padding:6px 12px;transition:background .15s;}
+.op-link:hover{background:var(--lime-bg);}
+.op-link svg{width:12px;height:12px;}
+
+/* Authored / derived badge */
+.op-src-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--nb-font-mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-left:auto;}
+.src-authored{color:#7ccc1e;border:1px solid rgba(124,204,30,.35);background:var(--lime-bg);}
+.src-derived{color:#e3b341;border:1px solid rgba(227,179,65,.35);background:rgba(227,179,65,.08);}
+
+.op-disclaimer{margin-top:34px;padding:14px 18px;border:1px dashed var(--nb-rule-strong);border-radius:10px;font-size:12px;line-height:1.6;color:var(--nb-ink-dim);font-family:var(--nb-font-mono);}
+.op-disclaimer b{color:var(--nb-ink-soft);}
+</style>
+</head>
+<body class="companion-shell operator-shell">
+<div class="op-wrap">
+
+  <header class="op-hdr">
+    <div class="op-brand">
+      <div class="op-mark">NB</div>
+      <div class="op-brand-txt">
+        <div class="t">Operator Console</div>
+        <div class="s">AI Tool Hardening · Nathaniel Baldock</div>
+      </div>
+      <span class="op-badge-internal">Internal · not for clients</span>
+    </div>
+    <div class="op-sync">
+      <button class="op-sync-btn" id="syncBtn" onclick="checkForUpdates()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><polyline points="21 3 21 9 15 9"/></svg>
+        Check for updates
+      </button>
+      <div class="op-sync-result" id="syncResult"></div>
+    </div>
+  </header>
+
+  <div class="op-body">
+    <nav class="op-nav" id="opNav" aria-label="Tools"></nav>
+    <main class="op-panel" id="opPanel"></main>
+  </div>
+
+  <div class="op-disclaimer" id="opDisclaimer"></div>
+</div>
+
+<script src="/audit-policies.js?v=20260724a"></script>
+<script src="/operator-data.js?v=20260724b"></script>
+<script>
+(function(){
+  var OP = window.OPERATOR;
+  var POL = window.AUDIT_POLICIES || {};
+  var LS = 'nb-operator-v1';
+
+  // ── State ──────────────────────────────────────────────────────────────
+  var st = load();
+  function load(){ try{return JSON.parse(localStorage.getItem(LS))||{};}catch(e){return {};} }
+  function save(){ try{localStorage.setItem(LS,JSON.stringify(st));}catch(e){} }
+  function sel(toolId){
+    var tool = OP.TOOLS.find(function(t){return t.id===toolId;});
+    if(!st[toolId]) st[toolId] = {tierId:tool.tiers[0].id, data:'internal', review:'usually'};
+    // guard: tier may have been removed
+    if(!tool.tiers.some(function(x){return x.id===st[toolId].tierId;})) st[toolId].tierId=tool.tiers[0].id;
+    return st[toolId];
+  }
+  var activeTool = st.__active && OP.TOOLS.some(function(t){return t.id===st.__active;}) ? st.__active : OP.TOOLS[0].id;
+
+  // ── Staleness helpers ──────────────────────────────────────────────────
+  function daysSince(iso){
+    if(!iso) return null;
+    var d=new Date(iso+'T00:00:00'); if(isNaN(d)) return null;
+    return Math.floor((Date.now()-d.getTime())/86400000);
+  }
+  function classifyDays(n){
+    if(n===null) return 'none';
+    if(n<=OP.STALENESS.freshDays) return 'fresh';
+    if(n<=OP.STALENESS.dueDays) return 'due';
+    return 'stale';
+  }
+  // tier-level review date from policies
+  function tierReviewed(toolId,tierId){ var p=POL[toolId+':'+tierId]; return p?p.lastReviewed:null; }
+  // tool-level worst-case (oldest) date across its tiers
+  function toolWorst(toolId){
+    var tool=OP.TOOLS.find(function(t){return t.id===toolId;});
+    var dates=tool.tiers.map(function(x){return tierReviewed(toolId,x.id);}).filter(Boolean);
+    if(!dates.length) return null;
+    return dates.sort()[0]; // earliest ISO string = oldest
+  }
+  function fmtDate(iso){
+    if(!iso) return 'not on record';
+    var d=new Date(iso+'T00:00:00');
+    return d.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'});
+  }
+
+  // ── Logo/icon ──────────────────────────────────────────────────────────
+  function ico(tool,cls){
+    if(tool.logo) return '<span class="'+cls+'"><img src="'+tool.logo+'" alt="" onerror="this.style.display=\'none\';this.parentNode.textContent=\''+tool.icon+'\'"></span>';
+    return '<span class="'+cls+'">'+tool.icon+'</span>';
+  }
+
+  // ── Sidebar ─────────────────────────────────────────────────────────────
+  function renderNav(){
+    var html='';
+    OP.CATS.forEach(function(cat){
+      var tools=OP.TOOLS.filter(function(t){return t.cat===cat.id;});
+      if(!tools.length) return;
+      html+='<div class="op-nav-cat">'+cat.label+'</div>';
+      tools.forEach(function(t){
+        var cls=classifyDays(daysSince(toolWorst(t.id)));
+        html+='<button class="op-tab'+(t.id===activeTool?' active':'')+'" data-dot="'+t.id+'" onclick="OPui.pick(\''+t.id+'\')">'
+          + ico(t,'tico')
+          + '<span class="tname">'+t.name+'</span>'
+          + '<span class="op-dot dot-'+cls+'" title="Verified '+fmtDate(toolWorst(t.id))+'"></span>'
+          + '</button>';
+      });
+    });
+    document.getElementById('opNav').innerHTML=html;
+  }
+
+  // ── Derive a walkthrough when no authored entry exists ───────────────────
+  function derive(tool,tier){
+    var pol=POL[tool.id+':'+tier.id]||{};
+    var steps=[];
+    if(tier.action) steps.push(tier.action);
+    steps.push('Confirm the change saved, then note the date you verified it.');
+    var verdict = tier.trainingOn
+      ? 'Trains on your data by default — change the setting below before any real work goes in.'
+      : (tier.vendorRisk===1 ? 'Business-grade tier. Confirm the admin defaults and you are in good shape.'
+                             : 'Reasonable tier — tighten the setting below and mind the data limits.');
+    var upgrade = tier.vendorRisk>=2
+      ? 'Where a business tier exists for '+tool.name+', moving to it removes the training-by-default risk and adds admin control. Check the other tier tab for the exact target plan.'
+      : null;
+    var safe = {
+      public: 'Fine — public / already-published content.',
+      internal: tier.trainingOn ? 'Only after the setting below is off; keep it generic.' : 'Generally OK on this tier; still minimise specifics.',
+      personal: tier.vendorRisk===1 && !tier.trainingOn ? 'Business use OK; minimise PII and confirm the DPA covers cross-border (IPP 12).' : 'No — don\'t put client personal data into this tier.'
+    };
+    var redlines = [];
+    if(tier.trainingOn) redlines.push('Nothing confidential until the training setting is confirmed off.');
+    redlines.push('No client personal data unless this is a business tier with a DPA (NZ Privacy Act IPP 12).');
+    return {
+      authored:false,
+      verdict:verdict,
+      upgrade:upgrade,
+      steps:steps,
+      verify:'Re-open the setting and confirm it held. If staff use more than one login or device, check each — these settings are per-account.',
+      safe:safe,
+      redlines:redlines,
+      say: pol.summary ? ('In plain terms: '+pol.summary) : 'The key move here is the one setting below — let\'s change it together and confirm it saved.'
+    };
+  }
+
+  // Classify the safe-matrix dot from the cell's LEADING verdict word (each
+  // safe string is authored to open with No / Only / Fine / Yes / OK). A caveat
+  // clause later in the sentence (e.g. "…avoid X in feedback") shouldn't flip
+  // the whole cell red — only the opening verdict, plus caveat words, decide it.
+  var CAVEAT=/minimise|confirm|prefer|consent|caution|generic|regulated|only|avoid|don't/;
+  function svClass(txt){
+    var t=String(txt).trim().toLowerCase();
+    if(/^(no\b|never\b)/.test(t)) return 'sv-no';
+    if(/^only\b/.test(t)) return 'sv-caution';
+    if(/^(fine\b|yes\b)/.test(t)) return CAVEAT.test(t)?'sv-caution':'sv-ok';
+    // "OK…", "Generally…", "Appropriate…", "Business use OK…"
+    return CAVEAT.test(t)?'sv-caution':'sv-ok';
+  }
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function codeify(s){return esc(s).replace(/([A-Za-z0-9 "']+(?: › [A-Za-z0-9 "'()/]+)+)/g,'<code>$1</code>');}
+
+  // ── Panel ────────────────────────────────────────────────────────────────
+  function renderPanel(){
+    var tool=OP.TOOLS.find(function(t){return t.id===activeTool;});
+    var s=sel(tool.id);
+    var tier=tool.tiers.find(function(x){return x.id===s.tierId;})||tool.tiers[0];
+    var score=OP.scoreEntry(tool.id,tier.id,s.data,s.review);
+    var deep=OP.DEEP[tool.id+':'+tier.id]||derive(tool,tier);
+    var pol=POL[tool.id+':'+tier.id]||{};
+    var revDate=tierReviewed(tool.id,tier.id);
+    var stCls=classifyDays(daysSince(revDate));
+    var stLabel={fresh:'Up to date',due:'Due for review',stale:'Re-verify',none:'Not on record'}[stCls];
+
+    var dataOpts=[['public','Public','Already published / public'],['internal','Internal','Business but not sensitive'],['personal','Personal / client','Names, health, financial, IDs']];
+    var revOpts=[['always','Always review','Checks every output'],['usually','Usually','Checks most'],['rarely','Rarely','Trusts it / auto-uses']];
+
+    function seg(group,opts,current){
+      return opts.map(function(o){
+        return '<div class="op-opt'+(current===o[0]?' sel':'')+'" onclick="OPui.set(\''+group+'\',\''+o[0]+'\')">'
+          +'<span class="rd"></span><span>'+o[1]+'<small>'+o[2]+'</small></span></div>';
+      }).join('');
+    }
+    var tierSeg=tool.tiers.map(function(x){
+      return '<div class="op-opt'+(x.id===tier.id?' sel':'')+'" onclick="OPui.set(\'tier\',\''+x.id+'\')">'
+        +'<span class="rd"></span><span>'+x.label+'<small>'+x.note+'</small></span></div>';
+    }).join('');
+
+    var safeCards=[['public','Public content'],['internal','Internal content'],['personal','Personal / client data']].map(function(k){
+      var txt=deep.safe[k[0]]||'—';
+      return '<div class="safe-card'+(s.data===k[0]?' active':'')+'">'
+        +'<div class="sh"><span class="sn">'+k[1]+'</span><span class="sv '+svClass(txt)+'"></span></div>'
+        +'<div class="sd">'+esc(txt)+'</div>'
+        +(s.data===k[0]?'<div class="stag" style="margin-top:8px">← selected in audit</div>':'')
+        +'</div>';
+    }).join('');
+
+    var html='';
+    // header
+    html+='<div class="op-panel-hd">'
+      +'<div class="op-tool-id">'+ico(tool,'op-tool-ico')
+      +'<div><div class="op-tool-name">'+tool.name+'</div><div class="op-tool-vendor">'+tool.vendor+'</div></div></div>'
+      +'<div class="op-verified"><div class="lbl">Policy verified</div>'
+      +'<div class="val"><span class="op-dot dot-'+stCls+'"></span>'+fmtDate(revDate)+'</div>'
+      +'<div class="status st-'+(stCls==='none'?'due':stCls)+'">'+stLabel
+      + (revDate?(' · '+daysSince(revDate)+'d ago'):'')
+      + (pol.confidence?(' · '+pol.confidence+' confidence'):'')
+      +'</div></div></div>';
+
+    // controls
+    html+='<div class="op-controls">'
+      +'<div class="op-ctrl"><div class="clbl">Plan / tier</div><div class="op-seg">'+tierSeg+'</div></div>'
+      +'<div class="op-ctrl"><div class="clbl">Data sensitivity</div><div class="op-seg">'+seg('data',dataOpts,s.data)+'</div></div>'
+      +'<div class="op-ctrl"><div class="clbl">Review habit</div><div class="op-seg">'+seg('review',revOpts,s.review)+'</div></div>'
+      +'</div>';
+
+    // RAG banner
+    html+='<div class="op-rag rag-'+score.rag+'"><span class="chip chip-'+score.rag+'">'+score.ragLabel+'</span>'
+      +'<span class="rtxt"><b>'+tier.label+'</b> · '+esc(tier.warning)
+      +(score.flags.length?' <span style="color:var(--nb-ink-dim)">— '+esc(score.flags[0])+'</span>':'')+'</span></div>';
+
+    // 1 Verdict
+    html+='<section class="op-sec"><div class="op-sec-h"><span class="n">✓</span>Operator verdict'
+      +'<span class="op-src-badge '+(deep.authored?'src-authored':'src-derived')+'">'+(deep.authored?'hand-authored':'auto-derived — deepen me')+'</span></div>'
+      +'<div class="op-verdict">'+esc(deep.verdict)+'</div></section>';
+
+    // 2 Upgrade
+    if(deep.upgrade){
+      html+='<section class="op-sec"><div class="op-sec-h"><span class="n">↑</span>The upgrade play</div>'
+        +'<div class="op-upgrade">'+esc(deep.upgrade).replace(/(ChatGPT Team|Microsoft 365 Copilot|Gemini for Workspace|Claude Team[^.]*|Enterprise Pro|Business Terms|Enterprise Data Protection)/g,'<b>$1</b>')+'</div></section>';
+    }
+
+    // 3 Steps
+    html+='<section class="op-sec"><div class="op-sec-h"><span class="n">⚙</span>Harden this tier — step by step</div>'
+      +'<ol class="op-steps">'+deep.steps.map(function(x){return '<li>'+codeify(x)+'</li>';}).join('')+'</ol></section>';
+
+    // 4 Verify
+    html+='<section class="op-sec"><div class="op-sec-h"><span class="n">👁</span>Confirm it stuck</div>'
+      +'<div class="op-verify">'+codeify(deep.verify)+'</div></section>';
+
+    // 5 Safe content
+    html+='<section class="op-sec"><div class="op-sec-h"><span class="n">▦</span>What\'s safe to put in — at this tier</div>'
+      +'<div class="op-safe">'+safeCards+'</div></section>';
+
+    // 6 Red lines
+    if(deep.redlines&&deep.redlines.length){
+      html+='<section class="op-sec"><div class="op-sec-h"><span class="n">!</span>Hard red lines</div>'
+        +'<ul class="op-redlines">'+deep.redlines.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul></section>';
+    }
+
+    // 7 Say this
+    html+='<section class="op-sec"><div class="op-sec-h"><span class="n">"</span>Say this to the client</div>'
+      +'<div class="op-say"><span class="qm">&ldquo;</span><p>'+esc(deep.say)+'</p></div></section>';
+
+    // 8 Policy detail
+    if(pol.explainer||pol.summary){
+      html+='<section class="op-sec"><div class="op-sec-h"><span class="n">§</span>The policy, verified</div><div class="op-policy">';
+      if(pol.summary) html+='<p style="color:var(--nb-ink)"><b>'+esc(pol.summary)+'</b></p>';
+      (pol.explainer||[]).forEach(function(p){ html+='<p>'+esc(p)+'</p>'; });
+      var links=[];
+      if(pol.policyUrl) links.push([pol.policyLabel||'Official policy',pol.policyUrl]);
+      (pol.sources||[]).forEach(function(sc){ links.push([sc.label,sc.url]); });
+      if(links.length){
+        html+='<div class="op-links">'+links.map(function(l){
+          return '<a class="op-link" href="'+l[1]+'" target="_blank" rel="noopener noreferrer">'
+            +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+            +esc(l[0])+'</a>';
+        }).join('')+'</div>';
+      }
+      html+='</div></section>';
+    }
+
+    document.getElementById('opPanel').innerHTML=html;
+  }
+
+  // ── Check-for-updates (client-side staleness sweep) ──────────────────────
+  window.checkForUpdates=function(){
+    var btn=document.getElementById('syncBtn');
+    var out=document.getElementById('syncResult');
+    btn.classList.add('spinning'); btn.disabled=true;
+    out.textContent='Checking review dates across '+OP.TOOLS.length+' tools…';
+    setTimeout(function(){
+      var fresh=0,due=0,stale=0,none=0,oldest=null,oldestName='';
+      OP.TOOLS.forEach(function(t){
+        var d=toolWorst(t.id), c=classifyDays(daysSince(d));
+        if(c==='fresh')fresh++;else if(c==='due')due++;else if(c==='stale')stale++;else none++;
+        if(d&&(!oldest||d<oldest)){oldest=d;oldestName=t.name;}
+      });
+      renderNav(); // refresh dots
+      var parts=[fresh+' up to date'];
+      if(due) parts.push(due+' due for review');
+      if(stale) parts.push(stale+' need re-verifying');
+      if(none) parts.push(none+' not on record');
+      var msg=parts.join(' · ')+'.';
+      if(stale||due) msg+=' Oldest: '+oldestName+' ('+fmtDate(oldest)+'). This compares your saved review dates to today — it does not read vendors\' live pages. Open a flagged tool\'s official policy link to re-check, then update lastReviewed in audit-policies.js.';
+      else msg+=' All within the '+OP.STALENESS.freshDays+'-day cadence.';
+      out.textContent=msg;
+      btn.classList.remove('spinning'); btn.disabled=false;
+    },800);
+  };
+
+  // ── UI actions ───────────────────────────────────────────────────────────
+  window.OPui={
+    pick:function(id){ activeTool=id; st.__active=id; save(); renderNav(); renderPanel(); window.scrollTo({top:0,behavior:'smooth'}); },
+    set:function(group,val){
+      var s=sel(activeTool);
+      if(group==='tier') s.tierId=val; else if(group==='data') s.data=val; else if(group==='review') s.review=val;
+      save(); renderPanel();
+    }
+  };
+
+  // ── Footer disclaimer ────────────────────────────────────────────────────
+  document.getElementById('opDisclaimer').innerHTML=
+    '<b>Internal operator reference.</b> Data mirrors the live /audit (TOOLS + audit-policies.js). '
+    +'The green/amber/red dots are a <b>review-cadence signal</b> — they show how long since you last verified each vendor policy, not a live read of the vendor\'s site. '
+    +'Cadence: fresh ≤'+OP.STALENESS.freshDays+' days, due ≤'+OP.STALENESS.dueDays+' days. '
+    +'Panels badged <b>auto-derived</b> are built from the verified audit data and are the ones to deepen next. '
+    +'When a policy link shows a change, update <b>lastReviewed</b> (and the copy) in audit-policies.js — this page and the client audit both update from that single source.';
+
+  renderNav();
+  renderPanel();
+})();
+</script>
+</body>
+</html>

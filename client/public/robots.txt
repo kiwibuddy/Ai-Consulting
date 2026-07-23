@@ -3,5 +3,8 @@ Allow: /
 Disallow: /ai-and-you
 Disallow: /free-resources
 Disallow: /ai-leadership-collective
+Disallow: /operator
+Disallow: /operator.html
+Disallow: /companion
 
 Sitemap: https://www.nathanielbaldock.com/sitemap.xml
