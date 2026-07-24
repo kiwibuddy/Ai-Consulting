@@ -439,26 +439,23 @@
       <article class="audit-pricing-card">
         <div class="audit-pricing-card-hdr">
           <h3 class="audit-pricing-name">AI Basic</h3>
-          <span class="audit-pricing-sale-badge">50% off · until July 1</span>
-          <p class="audit-pricing-price"><span class="audit-pricing-was">$500</span> <span class="audit-pricing-amount">$250</span> NZD</p>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$500</span> NZD <span class="audit-pricing-gst">+ GST</span></p>
         </div>
         <ul class="audit-pricing-list">
           <li>Emailed result report plus team results</li>
           <li>30-minute call to review results</li>
-          <li>Custom AI policy / governance document</li>
+          <li>AI Policy Starter Kit — editable policy template, Traffic Light data guide, and staff acknowledgement form</li>
         </ul>
         <a class="audit-pricing-cta audit-upgrade-cta" data-tier="basic" href="#">Upgrade to AI Basic</a>
       </article>
       <article class="audit-pricing-card audit-pricing-card--featured">
         <div class="audit-pricing-card-hdr">
           <h3 class="audit-pricing-name">Ai Plus</h3>
-          <span class="audit-pricing-sale-badge">50% off · until July 1</span>
-          <p class="audit-pricing-price"><span class="audit-pricing-was">$1,500</span> <span class="audit-pricing-amount">$750</span> NZD</p>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$1,500</span> NZD <span class="audit-pricing-gst">+ GST</span></p>
         </div>
         <ul class="audit-pricing-list">
-          <li>Emailed result report plus team results</li>
-          <li>30-minute call to review results</li>
-          <li>Custom AI policy / governance document</li>
+          <li>Everything in AI Basic</li>
+          <li>Custom AI policy written for your organisation — not a template</li>
           <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
           <li>4 custom website, email footer, and document AI usage statements</li>
         </ul>
@@ -467,22 +464,18 @@
       <article class="audit-pricing-card">
         <div class="audit-pricing-card-hdr">
           <h3 class="audit-pricing-name">AI Premium</h3>
-          <span class="audit-pricing-sale-badge">50% off · until July 1</span>
-          <p class="audit-pricing-price"><span class="audit-pricing-was">$2,500</span> <span class="audit-pricing-amount">$1,250</span> NZD</p>
+          <p class="audit-pricing-price"><span class="audit-pricing-amount">$2,500</span> NZD <span class="audit-pricing-gst">+ GST</span></p>
         </div>
         <ul class="audit-pricing-list">
-          <li>Emailed result report plus team results</li>
-          <li>30-minute call to review results</li>
-          <li>Custom AI policy / governance document</li>
-          <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
-          <li>4 custom website, email footer, and document AI usage statements</li>
+          <li>Everything in Ai Plus</li>
           <li>Custom team member specific AI usage document</li>
           <li>90-minute Zoom/in-person team implementation / best-practices training</li>
-          <li>6-month AI tool, privacy and regulation and your team policy review call</li>
+          <li>6-month AI tool, privacy and regulation, and team policy review call</li>
         </ul>
         <a class="audit-pricing-cta audit-upgrade-cta" data-tier="premium" href="#">Upgrade to AI Premium</a>
       </article>
     </div>
+    <p class="audit-pricing-governance-link">Need a facilitated engagement instead? <a href="/products">See governance packages →</a></p>
     <p class="audit-pricing-note">Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.</p>
   </div>
 </template>
@@ -1154,9 +1147,9 @@ function openUpgradeForTier(tierId){
   var desc=document.getElementById('upgradeTierDesc');
   var link=document.getElementById('upgradePayLink');
   var map={
-    basic:{t:'AI Basic',d:'Team insights and a custom AI policy / governance document.'},
-    plus:{t:'Ai Plus',d:'Policy walkthrough + AI usage statements for website, email footers, and documents.'},
-    premium:{t:'AI Premium',d:'Team training + implementation session, plus a 6‑month policy refresh.'},
+    basic:{t:'AI Basic',d:'Team insights, a results review call, and the AI Policy Starter Kit.'},
+    plus:{t:'Ai Plus',d:'Custom AI policy written for your organisation, plus a walkthrough and AI usage statements.'},
+    premium:{t:'AI Premium',d:'Everything in Plus, plus team training and a 6-month policy review.'},
   };
   var x=map[tierId]||{t:'Upgrade',d:'Complete payment to lock in this package.'};
   if(title) title.textContent=x.t;
@@ -1288,43 +1281,44 @@ function showPurchaseSuccessPage(){
 var PURCHASE_PACKAGE_META={
   basic:{
     title:'AI Basic',
-    value:250,
+    value:500,
     lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
-    consultantNote:"I'll review your audit results, summarise any team surveys, and prepare your custom AI policy document.",
-    bookingSub:'Book a free 30-minute call so we can review your audit findings and confirm timelines for your policy deliverable.',
+    consultantNote:"I'll review your audit results, summarise any team surveys, and send your AI Policy Starter Kit.",
+    bookingSub:'Book a free 30-minute call so we can review your audit findings and walk through your starter kit.',
     includes:[
       'Emailed audit report plus team survey results (if sent)',
       '30-minute call to review your results',
-      'Custom AI policy / governance document',
+      'AI Policy Starter Kit — editable template, Traffic Light guide, acknowledgement form',
     ],
     steps:[
       'Check your inbox for payment confirmation and receipt.',
       'Book your follow-up call using the button above (takes about 30 seconds).',
-      "I'll walk through your audit on the call and begin your custom policy document.",
-      "You'll receive your policy by email after our session.",
+      "I'll walk through your audit findings and how to adapt the starter kit for your team.",
+      'Your starter kit arrives by email after our session.',
     ],
   },
   plus:{
     title:'Ai Plus',
-    value:750,
+    value:1500,
     lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
-    consultantNote:"We'll schedule your policy walkthrough and prepare your four custom AI usage statements for web, email, and documents.",
-    bookingSub:"Book your first session — we'll align on your policy walkthrough and usage statements.",
+    consultantNote:"I'll write your custom AI policy, then schedule your walkthrough and prepare your four AI usage statements.",
+    bookingSub:"Book your first session — we'll align on your policy and usage statements.",
     includes:[
       'Everything in AI Basic',
+      'Custom AI policy written for your organisation',
       '45-minute policy walkthrough and Q&A (Zoom or in-person if local)',
       '4 custom AI usage statements (website, email footer, documents)',
     ],
     steps:[
       'Check your inbox for payment confirmation and receipt.',
       'Book your follow-up call using the button above.',
-      "We'll deliver your AI policy, then schedule the walkthrough and usage statements.",
+      "I'll draft your custom policy, then we schedule the walkthrough.",
       "You'll receive drafts for review before anything goes live.",
     ],
   },
   premium:{
     title:'AI Premium',
-    value:1250,
+    value:2500,
     lead:'Your payment was successful. A confirmation email and Stripe receipt are on their way.',
     consultantNote:"I'll be in touch personally to schedule team training and your six-month policy review.",
     bookingSub:"Book a kickoff call — we'll plan your team training session and implementation timeline.",

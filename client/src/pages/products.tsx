@@ -18,6 +18,7 @@ import {
   schoolProductCards,
   SCHOOL_SUITE_PACK,
 } from "@/content/school-suite";
+import { sectorProductCards } from "@/content/sector-governance";
 
 const PRODUCTS_HERO_IMAGE = "/images/tauranga-ai-bg.jpg";
 
@@ -50,12 +51,12 @@ const businessCards: ProductCardData[] = [
     title: "The AI Use Audit",
     badge: "Free · 10 minutes",
     body:
-      "Free ten-minute survey: map your tools, get a red/amber/green report in your inbox. Works for businesses, churches, schools, and NGOs. Upgrade when you need more than a report — from a custom policy through to hands-on team training.",
+      "Free ten-minute survey: map your tools, get a red/amber/green report in your inbox. Works for businesses, churches, schools, and NGOs. Upgrade when you need more than a report — from a policy starter kit through to hands-on team training.",
     tierIncludes: [
-      { tier: "bronze", text: "custom AI policy and a results review call" },
+      { tier: "bronze", text: "AI Policy Starter Kit and a results review call" },
       {
         tier: "silver",
-        text: "everything in Bronze plus a policy walkthrough and usage statements for web, email, and documents",
+        text: "everything in Bronze plus a custom AI policy, walkthrough, and usage statements for web, email, and documents",
       },
       {
         tier: "gold",
@@ -103,6 +104,17 @@ const businessCards: ProductCardData[] = [
     ctaHref: "/business/workers",
   },
 ];
+
+const governanceCards: ProductCardData[] = sectorProductCards.map((card) => ({
+  title: card.title,
+  badge: card.badge,
+  body: card.body,
+  includes: card.includes,
+  ctaLabel: card.ctaLabel,
+  ctaHref: card.ctaHref,
+  featured: card.featured,
+  featuredLabel: card.featuredLabel,
+}));
 
 const ctaLabel = "Book a free 30-min consultation";
 
@@ -280,13 +292,38 @@ export default function ProductsPage() {
               intro="For owners, boards, pastors, and team leads who suspect AI is already in the building and want clarity before it becomes a problem."
             />
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 md:mb-24"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-14"
               initial="hidden"
               whileInView="visible"
               viewport={landingViewportReveal}
               variants={fadeUpRevealVariants}
             >
               {businessCards.map((card) => (
+                <ProductCard key={card.title} card={card} />
+              ))}
+            </motion.div>
+
+            <div id="business" className="scroll-mt-24 mb-8">
+              <p
+                className="nb-mono-label m-0 mb-3 text-[11px] tracking-[0.18em]"
+                style={{ color: "var(--nb-accent)" }}
+              >
+                AI Policy &amp; Governance
+              </p>
+              <p className="nb-body m-0 mb-6 max-w-2xl text-[var(--nb-ink-soft)]">
+                Facilitated engagements for organisations that need a written policy, compliance
+                review, and staff training — same tiers for business, church, and not-for-profit,
+                with sector-specific language.
+              </p>
+            </div>
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 md:mb-24"
+              initial="hidden"
+              whileInView="visible"
+              viewport={landingViewportReveal}
+              variants={fadeUpRevealVariants}
+            >
+              {governanceCards.map((card) => (
                 <ProductCard key={card.title} card={card} />
               ))}
             </motion.div>

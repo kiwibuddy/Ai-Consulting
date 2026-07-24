@@ -1639,18 +1639,19 @@ export function auditPackagePurchaseEmail(options: {
   > = {
     basic: {
       title: "AI Basic",
-      line: "Thanks for upgrading. I'll review your audit results and team surveys, then deliver your custom AI policy / governance document.",
+      line: "Thanks for upgrading. I'll review your audit results and team surveys, then send your AI Policy Starter Kit.",
       includes: [
         "Emailed result report plus team results",
         "30-minute call to review results",
-        "Custom AI policy / governance document",
+        "AI Policy Starter Kit — editable template, Traffic Light guide, acknowledgement form",
       ],
     },
     plus: {
       title: "Ai Plus",
-      line: "Thanks for upgrading. We'll walk through your policy together and I'll prepare your four custom AI usage statements.",
+      line: "Thanks for upgrading. I'll write your custom AI policy, then we'll schedule your walkthrough and usage statements.",
       includes: [
         "Everything in AI Basic",
+        "Custom AI policy written for your organisation",
         "45-minute Zoom/in-person policy walkthrough and Q&A",
         "4 custom website, email footer, and document AI usage statements",
       ],
@@ -1662,7 +1663,7 @@ export function auditPackagePurchaseEmail(options: {
         "Everything in Ai Plus",
         "Custom team member specific AI usage document",
         "90-minute Zoom/in-person team implementation / best-practices training",
-        "6-month AI tool, privacy and regulation and your team policy review call",
+        "6-month AI tool, privacy and regulation, and team policy review call",
       ],
     },
   };

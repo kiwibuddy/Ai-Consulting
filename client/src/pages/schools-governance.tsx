@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { ScrollReveal } from "@/components/public-cinematic/scroll-reveal";
 import {
   CinematicPrimaryCTA,
@@ -31,9 +32,9 @@ const PHASES = [
 ];
 
 const TIERS = [
-  { name: "Enhancement", price: "$4,800", note: "Existing policy refresh" },
-  { name: "Standard", price: "$8,500", note: "Partial foundations" },
-  { name: "Full Build", price: "$12,500", note: "From zero" },
+  { name: "Enhancement", price: "$3,500", note: "Existing policy refresh" },
+  { name: "Standard", price: "$5,900", note: "Partial foundations" },
+  { name: "Full Build", price: "$8,500", note: "From zero" },
 ];
 
 function GovernanceBody() {
@@ -63,7 +64,7 @@ function GovernanceBody() {
             </div>
             <p className="nb-body m-0 lg:col-span-12 text-[var(--nb-ink-soft)] border border-[var(--nb-rule)] bg-[var(--nb-bg-raised)] p-6 md:p-8">
               <span className="nb-display text-2xl font-normal text-[var(--nb-ink)] block mb-2">
-                $4,800–$12,500
+                $3,500–$8,500
               </span>
               <span className="nb-mono-label text-[11px]" style={{ color: "var(--nb-accent)" }}>
                 + GST · by phase
@@ -163,17 +164,26 @@ function GovernanceBody() {
               ))}
             </ul>
             <p className="nb-body text-[14px] m-0 mt-4 text-[var(--nb-ink-soft)]">
-              Retainer $2,400/yr · City forum $4,500 · 30-minute briefing free
+              Retainer $1,800/yr · City forum $2,900 · 30-minute briefing free
             </p>
           </div>
         </section>
       </ScrollReveal>
 
       <ScrollReveal>
+        <p className="nb-body m-0 mb-10 text-center text-[var(--nb-ink-soft)]">
+          Not a school?{" "}
+          <Link href="/products#business" className="text-[var(--nb-accent)] hover:underline">
+            See business, church, and not-for-profit governance →
+          </Link>
+        </p>
+      </ScrollReveal>
+
+      <ScrollReveal>
         <section className="mb-14 md:mb-16 py-8 px-6 md:px-10 border border-[var(--nb-accent)]/30 bg-[var(--nb-bg-raised)] flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="max-w-2xl">
             <p className="nb-mono-label text-[11px] mb-2 m-0" style={{ color: "var(--nb-accent)" }}>
-              {offer?.priceNote ?? "$4,800–$12,500 + GST"}
+              {offer?.priceNote ?? "$3,500–$8,500 + GST"}
             </p>
             <h2 className="nb-display text-2xl font-normal m-0 mb-2">
               Complimentary policy briefing
@@ -203,7 +213,7 @@ export default function SchoolsGovernancePage() {
       canonicalPath: "/schools/governance",
       seoTitle: "AI Policy & Governance for NZ Schools | Nathaniel Baldock",
       seoDescription:
-        "Board-ready school AI policy suite: 9-part framework, NZQA integrity addendum, Privacy Act provisions, tool audit, and staff workshop. $4,800–$12,500 + GST.",
+        "Board-ready school AI policy suite: 9-part framework, NZQA integrity addendum, Privacy Act provisions, tool audit, and staff workshop. $3,500–$8,500 + GST.",
       heroImage: GOVERNANCE_HERO,
       heroObjectPosition: "center 30%",
       eyebrow: "Policy & governance",

@@ -29,18 +29,18 @@ const staticPages: Record<string, PublicPageMeta> = {
     image: `${SITE}/images/email/thumb-social-revolution.png`,
     ogType: "website",
   },
-  // Unlisted QR hub for the AI & You public evening — not in nav or sitemap.
+  // Unlisted QR hub for presentation follow-up — not in nav or sitemap.
   "/ai-and-you": {
-    title: "AI & You — Free resources & take-homes",
+    title: "Free resources & take-homes",
     description:
-      "Practical follow-up from AI & You in Tauranga: Safe Phrase, family worksheets, Pathway Compass, Calm Middle, AI Use Audit, Safe Surfer, and recommended videos.",
+      "Practical follow-up after a presentation: Safe Phrase, family worksheets, Pathway Compass, AI Use Audit, Safe Surfer, and recommended videos.",
     image: DEFAULT_IMAGE,
     ogType: "website",
   },
   "/free-resources": {
-    title: "AI & You — Free resources & take-homes",
+    title: "Free resources & take-homes",
     description:
-      "Practical follow-up from AI & You in Tauranga: Safe Phrase, family worksheets, Pathway Compass, Calm Middle, AI Use Audit, Safe Surfer, and recommended videos.",
+      "Practical follow-up after a presentation: Safe Phrase, family worksheets, Pathway Compass, AI Use Audit, Safe Surfer, and recommended videos.",
     image: DEFAULT_IMAGE,
     ogType: "website",
   },
@@ -109,6 +109,27 @@ const staticPages: Record<string, PublicPageMeta> = {
     title: "Free AI Use Audit — Nathaniel Baldock AI Consulting",
     description:
       "Free ten-minute AI Use Audit for NZ businesses, churches, and schools. Map your tools, answer three questions each, get red/amber/green risk guidance in your inbox.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
+  "/business/governance": {
+    title: "AI Policy & Governance for Business | Nathaniel Baldock — Tauranga NZ",
+    description:
+      "Custom AI policy, Privacy Act 2020 compliance review, and staff training for New Zealand businesses. Packages from $1,800 + GST.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
+  "/church/governance": {
+    title: "AI Policy & Governance for Churches | Nathaniel Baldock — Tauranga NZ",
+    description:
+      "AI policy written in your church's language. Protects pastoral confidentiality and congregation trust. Packages from $1,800 + GST. Charity rate available.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
+  "/nonprofit/governance": {
+    title: "AI Policy & Governance for Not-for-Profits | Nathaniel Baldock — Tauranga NZ",
+    description:
+      "Board-ready AI governance for NZ charities and NGOs. Privacy Act 2020 compliance and staff training. From $1,800 + GST. Charity rate available.",
     image: DEFAULT_IMAGE,
     ogType: "website",
   },

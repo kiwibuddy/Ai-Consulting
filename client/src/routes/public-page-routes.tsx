@@ -14,6 +14,7 @@ import SchoolsStaffPage from "@/pages/schools-staff";
 import SchoolsStudentsPage from "@/pages/schools-students";
 import SchoolsGovernancePage from "@/pages/schools-governance";
 import BusinessWorkersPage from "@/pages/business-workers";
+import SectorGovernancePage from "@/pages/sector-governance";
 import ResourcesPage from "@/pages/resources";
 import SpeakingPage from "@/pages/speaking";
 import { EXPERTISE_PAGE_PATHS, type ExpertisePagePath } from "@/content/expertise-pages";
@@ -85,6 +86,22 @@ export const SchoolsStaffPublicRoute = withPublicPage(SchoolsStaffPage);
 export const SchoolsStudentsPublicRoute = withPublicPage(SchoolsStudentsPage);
 export const SchoolsGovernancePublicRoute = withPublicPage(SchoolsGovernancePage);
 export const BusinessWorkersPublicRoute = withPublicPage(BusinessWorkersPage);
+
+function withSectorGovernancePage(sector: "business" | "church" | "nonprofit") {
+  function SectorRoute() {
+    return (
+      <PublicRoute>
+        <SectorGovernancePage sector={sector} />
+      </PublicRoute>
+    );
+  }
+  SectorRoute.displayName = `Public(SectorGovernance/${sector})`;
+  return SectorRoute;
+}
+
+export const BusinessGovernancePublicRoute = withSectorGovernancePage("business");
+export const ChurchGovernancePublicRoute = withSectorGovernancePage("church");
+export const NonprofitGovernancePublicRoute = withSectorGovernancePage("nonprofit");
 export const TaurangaSmeWelcomePublicRoute = withPublicPage(TaurangaSmeWelcomePage);
 export const TaurangaSmePublicRoute = withPublicPage(TaurangaSmePage);
 export const PresentationContactPublicRoute = withPublicPage(PresentationContactPage);

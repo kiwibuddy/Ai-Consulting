@@ -380,7 +380,7 @@ function WorksheetBlock({
 }
 
 /**
- * Unlisted take-home hub for the AI & You public evening (Holy Trinity, 16 July 2026).
+ * Unlisted post-presentation resource hub.
  * Reachable by QR / direct URL only — noindex, not in nav, not in sitemap.
  * Primary URL: /free-resources (alias: /ai-and-you).
  */
@@ -388,8 +388,8 @@ export default function AiAndYouTakehomePage() {
   return (
     <div className="nb-page overflow-x-hidden">
       <PageSEO
-        title="AI & You — Free resources & take-homes"
-        description="Practical follow-up from AI & You in Tauranga: Safe Surfer, Safe Phrase, family and school worksheets, Pathway Compass, AI Use Audit, and recommended videos."
+        title="Free resources & take-homes"
+        description="Practical follow-up after a presentation: Safe Surfer, Safe Phrase, family and school worksheets, Pathway Compass, AI Use Audit, and recommended videos."
         canonicalPath="/free-resources"
         image={PORTRAIT}
         noindex
@@ -413,9 +413,7 @@ export default function AiAndYouTakehomePage() {
           <ScrollReveal>
             <div className="nb-mono-label inline-flex items-center gap-3 justify-center mb-9">
               <AccentDot />
-              <span>AI &amp; You · Free resources</span>
-              <span className="w-[18px] h-px bg-[var(--nb-rule)]" />
-              <span>Tauranga · 16 July 2026</span>
+              <span>Free resources</span>
             </div>
           </ScrollReveal>
 
@@ -445,7 +443,7 @@ export default function AiAndYouTakehomePage() {
 
           <ScrollReveal delay={280}>
             <p className="nb-body-lg mt-7 mb-0 text-[var(--nb-ink-soft)] max-w-[640px] mx-auto">
-              Start with a household safety net, then watch the videos named tonight, then take the
+              Start with a household safety net, then watch the recommended videos, then take the
               worksheets that match your home, school, workplace, or church.
             </p>
           </ScrollReveal>
@@ -521,7 +519,7 @@ export default function AiAndYouTakehomePage() {
           <SectionHeading
             eyebrow="Section 1 · Videos"
             title="Watch next"
-            intro="Three pieces named in the evening — companions, chatbot risk, and spiritual formation."
+            intro="Three pieces on companions, chatbot risk, and spiritual formation."
           />
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-4"

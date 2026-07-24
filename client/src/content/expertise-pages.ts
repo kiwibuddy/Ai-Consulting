@@ -68,7 +68,7 @@ export const expertisePages: ExpertisePageContent[] = [
     citableHook:
       "A useful starting point: tick every AI tool your church uses — including personal accounts — and answer three questions per tool: who owns the data, what kind of information goes in, and whether output is reviewed before it reaches people.",
     primaryCta: { label: "Book a free 30-min consultation", href: "/intake" },
-    secondaryCta: { label: "About Nathaniel Baldock", href: "/about" },
+    secondaryCta: { label: "Explore church governance packages", href: "/church/governance" },
     faqs: [
       {
         question: "Does Nathaniel Baldock provide AI consulting for churches in New Zealand?",
@@ -104,7 +104,7 @@ export const expertisePages: ExpertisePageContent[] = [
       "Parent and whānau evening - traffic-light AI rules and family boundaries.",
       "Staff PD - 'Teaching for the Discernment Age' ($1,500-$4,000 + GST by staff size).",
       "Whole-School Day - assembly, staff PD, and parent evening in one visit (recommended bundle).",
-      "AI Policy and Governance - written school policy suite ($4,800-$12,500 by phase).",
+      "AI Policy and Governance - written school policy suite ($3,500-$8,500 by phase).",
       "Free on-ramp - Pathway Compass tool and VERIFY classroom worksheet.",
       "Yrs 12-13 programme - Highest-Return Portfolio (founding-school pilot pricing).",
     ],
@@ -165,7 +165,7 @@ export const expertisePages: ExpertisePageContent[] = [
     citableHook:
       "Seven steps for implementing AI governance in a New Zealand nonprofit: inventory every tool (including personal accounts), classify data inputs, check whether consumer plans train on your data, assign review before external use, document opt-outs, train staff on red lines, and revisit quarterly.",
     primaryCta: { label: "Book a free 30-min consultation", href: "/intake" },
-    secondaryCta: { label: "Take the free AI Use Audit", href: "/audit" },
+    secondaryCta: { label: "Explore NFP governance packages", href: "/nonprofit/governance" },
     faqs: [
       {
         question: "Does Nathaniel Baldock help nonprofits with AI policy in New Zealand?",

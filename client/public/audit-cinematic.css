@@ -1339,6 +1339,29 @@ body.companion-shell {
   margin-right: 4px;
   opacity: 0.75;
 }
+.audit-pricing-gst {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  margin-left: 2px;
+}
+.audit-pricing-governance-link {
+  margin: 14px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  text-align: center;
+}
+.audit-pricing-governance-link a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.audit-pricing-governance-link a:hover {
+  text-decoration: underline;
+}
 .audit-pricing-sale-badge {
   display: inline-block;
   margin: 0 0 6px;

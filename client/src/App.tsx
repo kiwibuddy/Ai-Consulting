@@ -68,6 +68,9 @@ import {
   TaurangaSmeWelcomePublicRoute,
   TermsPublicRoute,
   WorksheetSharePublicRoute,
+  BusinessGovernancePublicRoute,
+  ChurchGovernancePublicRoute,
+  NonprofitGovernancePublicRoute,
 } from "@/routes/public-page-routes";
 
 /** Logged-in users visiting `/` may briefly see the marketing page before redirect (faster anonymous first paint). */
@@ -322,6 +325,9 @@ function Router() {
         <Route path="/pricing" component={PricingPublicRoute} />
         <Route path="/products" component={ProductsPublicRoute} />
         <Route path="/business/workers" component={BusinessWorkersPublicRoute} />
+        <Route path="/business/governance" component={BusinessGovernancePublicRoute} />
+        <Route path="/church/governance" component={ChurchGovernancePublicRoute} />
+        <Route path="/nonprofit/governance" component={NonprofitGovernancePublicRoute} />
         <Route path="/schools/staff" component={SchoolsStaffPublicRoute} />
         <Route path="/schools/students" component={SchoolsStudentsPublicRoute} />
         <Route path="/schools/governance" component={SchoolsGovernancePublicRoute} />

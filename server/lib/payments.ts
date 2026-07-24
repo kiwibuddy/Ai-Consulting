@@ -501,7 +501,7 @@ async function processAuditCheckoutCompleted(session: Stripe.Checkout.Session): 
     currency: session.currency || "nzd",
     subtotalCents: session.amount_subtotal ?? session.amount_total ?? 0,
     discountCents: discountCents > 0 ? discountCents : null,
-    discountLabel: discountCents > 0 ? "Audit launch 50% off" : null,
+    discountLabel: discountCents > 0 ? "Discount applied" : null,
     reference: paymentIntentId || session.id,
     receiptUrl,
   };

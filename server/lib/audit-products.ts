@@ -30,10 +30,10 @@ const DEFAULT_SALE_ENDS_AT = "2026-07-01T23:59:59+12:00";
 
 const DEFAULT_MAILTO: Record<AuditPackageTier, string> = {
   basic:
-    "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24250%20NZD%20-%2050%25%20off%20until%20July%201)",
-  plus: "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%24750%20NZD%20-%2050%25%20off%20until%20July%201)",
+    "mailto:nathanielbaldock@gmail.com?subject=AI%20Basic%20package%20(%24500%20NZD%20%2B%20GST)",
+  plus: "mailto:nathanielbaldock@gmail.com?subject=Ai%20Plus%20package%20(%241%2C500%20NZD%20%2B%20GST)",
   premium:
-    "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%241%2C250%20NZD%20-%2050%25%20off%20until%20July%201)",
+    "mailto:nathanielbaldock@gmail.com?subject=AI%20Premium%20package%20(%242%2C500%20NZD%20%2B%20GST)",
 };
 
 export const AUDIT_PACKAGES: AuditPackage[] = [
@@ -45,7 +45,7 @@ export const AUDIT_PACKAGES: AuditPackage[] = [
     includes: [
       "Emailed result report plus team results",
       "30-minute call to review results",
-      "Custom AI policy / governance document",
+      "AI Policy Starter Kit — editable policy template, Traffic Light data guide, and staff acknowledgement form",
     ],
   },
   {
@@ -55,6 +55,7 @@ export const AUDIT_PACKAGES: AuditPackage[] = [
     salePrice: 750,
     includes: [
       "Everything in AI Basic",
+      "Custom AI policy written for your organisation — not a template",
       "45-minute Zoom/in-person policy walkthrough and Q&A",
       "4 custom website, email footer, and document AI usage statements",
     ],
@@ -68,7 +69,7 @@ export const AUDIT_PACKAGES: AuditPackage[] = [
       "Everything in Ai Plus",
       "Custom team member specific AI usage document",
       "90-minute Zoom/in-person team implementation / best-practices training",
-      "6-month AI tool, privacy and regulation and your team policy review call",
+      "6-month AI tool, privacy and regulation, and team policy review call",
     ],
   },
 ];

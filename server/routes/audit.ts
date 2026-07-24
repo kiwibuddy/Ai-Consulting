@@ -239,8 +239,6 @@ function pricingBlock(p: OwnerPayload): string {
   const basicHref = buildTrackedPricingUrl("basic", p.bizName);
   const plusHref = buildTrackedPricingUrl("plus", p.bizName);
   const premiumHref = buildTrackedPricingUrl("premium", p.bizName);
-  const saleNote =
-    '<span style="font-size:11px;font-weight:700;color:#3f6212;background:#f7fee7;border:1px solid #bbf7d0;padding:2px 8px;border-radius:999px;margin-left:6px;">50% off · until July 1</span>';
 
   return `
   <div style="margin-top:22px;border-top:1px solid ${BORDER_SOFT};padding-top:22px;">
@@ -251,40 +249,41 @@ function pricingBlock(p: OwnerPayload): string {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border-spacing:10px 10px;margin:0 -10px;">
       <tr>
         <td width="33%" style="${cardStyle}">
-          <div style="${nameStyle}">AI Basic ${saleNote}</div>
-          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$500</span>$250 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">AI Basic</div>
+          <div style="${priceStyle}">$500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD + GST</span></div>
           <ul style="${listStyle}">
             <li>Emailed result report plus team results</li>
             <li>30-minute call to review results</li>
-            <li>Custom AI policy / governance document</li>
+            <li>AI Policy Starter Kit — editable template, Traffic Light guide, acknowledgement form</li>
           </ul>
           <a href="${esc(basicHref)}" style="${ctaPrimary}">${basicCta} AI Basic</a>
         </td>
         <td width="33%" style="${cardStyle}border:2px solid ${NB_LIME};box-shadow:0 12px 28px rgba(17,194,92,.12);">
-          <div style="${nameStyle}">Ai Plus ${saleNote}</div>
-          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$1,500</span>$750 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">Ai Plus</div>
+          <div style="${priceStyle}">$1,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD + GST</span></div>
           <ul style="${listStyle}">
             <li>Everything in AI Basic</li>
+            <li>Custom AI policy written for your organisation</li>
             <li>45-minute Zoom/in-person policy walkthrough and Q&amp;A</li>
             <li>4 custom website, email footer, and document AI usage statements</li>
           </ul>
           <a href="${esc(plusHref)}" style="${ctaPrimary}">${plusCta} Ai Plus</a>
         </td>
         <td width="33%" style="${cardStyle}">
-          <div style="${nameStyle}">AI Premium ${saleNote}</div>
-          <div style="${priceStyle}"><span style="font-size:14px;color:#94a3b8;text-decoration:line-through;margin-right:6px;">$2,500</span>$1,250 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD</span></div>
+          <div style="${nameStyle}">AI Premium</div>
+          <div style="${priceStyle}">$2,500 <span style="font-size:12px;font-weight:700;color:#64748b;font-family:${bodyFont};">NZD + GST</span></div>
           <ul style="${listStyle}">
             <li>Everything in Ai Plus</li>
             <li>Custom team member specific AI usage document</li>
             <li>90-minute Zoom/in-person team implementation / best-practices training</li>
-            <li>6-month AI tool, privacy and regulation and your team policy review call</li>
+            <li>6-month AI tool, privacy and regulation, and team policy review call</li>
           </ul>
           <a href="${esc(premiumHref)}" style="${ctaPrimary}">${premiumCta} AI Premium</a>
         </td>
       </tr>
     </table>
     <p style="margin:10px 0 0;font-size:11px;line-height:1.6;color:#6b7280;font-family:${bodyFont};">
-      Package names and pricing are indicative — Nathaniel will confirm scope on your free review call.
+      Package names and pricing are indicative — Nathaniel will confirm scope on your free review call. Need a facilitated engagement? See governance packages at nathanielbaldock.com/products.
     </p>
   </div>`;
 }

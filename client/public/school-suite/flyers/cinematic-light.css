@@ -232,140 +232,149 @@ body{font-family:var(--font-body);color:var(--nb-ink);background:#eceae4;line-he
 /* ---- spacious screen flyer (opt-in: .sheet--spacious) ---- */
 @media screen{
   .sheet--spacious{
-    width:min(980px,100%);
+    width:min(920px,100%);
+  }
+  .sheet--spacious .hero-overlay{
+    padding:clamp(1.75rem,4vw,2.75rem) clamp(2.25rem,6vw,3.75rem) clamp(1.5rem,3.5vw,2.25rem);
+  }
+  .sheet--spacious .nb-site-bar--dark{
+    padding:.65rem clamp(2.25rem,6vw,3.75rem);
   }
   .sheet--spacious .body{
-    padding:clamp(1.5rem,3.5vw,2.25rem) clamp(1.5rem,4vw,2.5rem) clamp(1.25rem,3vw,1.75rem);
-    gap:clamp(1.1rem,2.4vw,1.6rem);
+    padding:
+      clamp(2.25rem,5vw,3.5rem)
+      clamp(2.25rem,6vw,3.75rem)
+      clamp(2rem,4.5vw,3rem);
+    gap:clamp(1.85rem,3.8vw,2.85rem);
   }
   .sheet--spacious .lede{
-    font-size:clamp(1.05rem,1.6vw,1.2rem);
-    line-height:1.55;
-    max-width:62ch;
+    font-size:clamp(1.05rem,1.55vw,1.18rem);
+    line-height:1.6;
+    max-width:none;
     color:var(--nb-ink-soft);
     text-wrap:pretty;
   }
   .sheet--spacious .sec-hd{
     font-size:.72rem;
     letter-spacing:.14em;
-    padding-bottom:.45rem;
-    margin-top:.35rem;
+    padding-bottom:.55rem;
+    margin-top:.55rem;
   }
   .sheet--spacious .feature-row{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:.75rem;
+    gap:1rem;
   }
   .sheet--spacious .feature-item{
     background:var(--nb-bg-warm);
     border:1px solid var(--nb-rule);
     border-radius:10px;
-    padding:1rem 1.1rem;
+    padding:1.25rem 1.35rem;
   }
   .sheet--spacious .feature-item b{
     display:block;
     font-family:var(--font-display);
-    font-size:1.05rem;
+    font-size:1.08rem;
     font-weight:500;
     color:var(--nb-ink);
-    margin-bottom:.25rem;
+    margin-bottom:.35rem;
     letter-spacing:-.015em;
   }
   .sheet--spacious .feature-item span{
-    font-size:.9rem;
+    font-size:.92rem;
     color:var(--nb-ink-soft);
-    line-height:1.4;
+    line-height:1.45;
   }
   .sheet--spacious .path-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:.85rem;
+    gap:1.1rem;
   }
   .sheet--spacious .path-card{
     background:var(--nb-bg-warm);
     border:1px solid var(--nb-rule);
     border-radius:10px;
-    padding:1.15rem 1.25rem;
+    padding:1.35rem 1.45rem;
   }
   .sheet--spacious .path-card b{
     display:block;
     font-family:var(--font-display);
-    font-size:1.15rem;
+    font-size:1.18rem;
     font-weight:500;
     color:var(--nb-ink);
-    margin-bottom:.45rem;
+    margin-bottom:.55rem;
     letter-spacing:-.02em;
     text-wrap:balance;
   }
   .sheet--spacious .path-card p{
     margin:0;
-    font-size:.98rem;
-    line-height:1.5;
+    font-size:1rem;
+    line-height:1.55;
     color:var(--nb-ink-soft);
     text-wrap:pretty;
   }
   .sheet--spacious .steps-plain{
     margin:0;
-    padding:0 0 0 1.25rem;
+    padding:0 0 0 1.35rem;
     display:grid;
-    gap:.85rem;
+    gap:1.05rem;
   }
   .sheet--spacious .steps-plain li{
-    font-size:1.02rem;
-    line-height:1.5;
+    font-size:1.05rem;
+    line-height:1.55;
     color:var(--nb-ink-soft);
-    padding-left:.25rem;
+    padding-left:.35rem;
     text-wrap:pretty;
   }
   .sheet--spacious .steps-plain b{color:var(--nb-ink);font-weight:600}
-  .sheet--spacious .grid2{gap:1rem}
+  .sheet--spacious .grid2{gap:1.25rem}
   .sheet--spacious .box{
-    padding:1.15rem 1.3rem;
+    padding:1.4rem 1.5rem;
     border-radius:10px;
   }
   .sheet--spacious .box h3{
-    font-size:1.15rem;
-    margin-bottom:.65rem;
+    font-size:1.2rem;
+    margin-bottom:.85rem;
     text-wrap:balance;
   }
   .sheet--spacious .box ul{
-    font-size:.98rem;
-    line-height:1.45;
-    padding-left:1.15rem;
-  }
-  .sheet--spacious .box li{margin-bottom:.55rem}
-  .sheet--spacious .box li:last-child{margin-bottom:0}
-  .sheet--spacious .callout{
     font-size:1rem;
     line-height:1.5;
-    padding:1rem 1.2rem;
+    padding-left:1.2rem;
+  }
+  .sheet--spacious .box li{margin-bottom:.7rem}
+  .sheet--spacious .box li:last-child{margin-bottom:0}
+  .sheet--spacious .callout{
+    font-size:1.02rem;
+    line-height:1.55;
+    padding:1.25rem 1.4rem;
     border-radius:10px;
   }
   .sheet--spacious .price-bar{
-    padding:1.1rem 1.35rem;
-    gap:1rem;
+    padding:1.35rem 1.5rem;
+    gap:1.25rem;
   }
-  .sheet--spacious .price-bar .amt{font-size:1.45rem}
-  .sheet--spacious .price-bar .amt span{font-size:.85rem}
+  .sheet--spacious .price-bar .amt{font-size:1.5rem}
+  .sheet--spacious .price-bar .amt span{font-size:.88rem}
   .sheet--spacious .price-sub{
-    font-size:.88rem;
+    font-size:.9rem;
     opacity:.8;
-    margin-top:.2rem;
+    margin-top:.3rem;
   }
   .sheet--spacious .price-bar .note{
-    font-size:.95rem;
+    font-size:.98rem;
     max-width:28ch;
-    line-height:1.4;
+    line-height:1.45;
   }
-  .sheet--spacious .contact-block{padding:1.1rem 1.25rem}
-  .sheet--spacious .contact-photo{width:64px;height:64px}
-  .sheet--spacious .contact-block .info{font-size:.88rem;line-height:1.5}
-  .sheet--spacious .contact-block .info b{font-size:.98rem;margin-bottom:.15rem}
+  .sheet--spacious .contact-block{padding:1.35rem 1.5rem}
+  .sheet--spacious .contact-photo{width:68px;height:68px}
+  .sheet--spacious .contact-block .info{font-size:.92rem;line-height:1.55}
+  .sheet--spacious .contact-block .info b{font-size:1.02rem;margin-bottom:.2rem}
   .sheet--spacious .foot{
-    padding:1rem clamp(1.5rem,4vw,2.5rem);
-    font-size:.85rem;
+    padding:1.25rem clamp(2.25rem,6vw,3.75rem);
+    font-size:.88rem;
   }
-  .sheet--spacious .foot b{font-size:.95rem}
+  .sheet--spacious .foot b{font-size:.98rem}
 
   /* Shared spacious extras used across remaining flyers */
   .sheet--spacious .timeline{

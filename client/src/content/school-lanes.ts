@@ -161,7 +161,7 @@ export const SCHOOL_LANE_HUB_CARDS = [
     title: "Policy & governance",
     body:
       "Board-ready AI policy suite — 9-part framework, NZQA integrity addendum, Privacy Act provisions, and green/amber/red tool register.",
-    badge: "$4,800–$12,500 + GST",
+    badge: "$3,500–$8,500 + GST",
     image: "/school-suite/flyers/headers/ai-policy-governance.png?v=5",
   },
   {

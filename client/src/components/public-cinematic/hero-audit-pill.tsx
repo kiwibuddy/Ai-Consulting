@@ -5,13 +5,13 @@ interface HeroAuditPillProps {
   className?: string;
 }
 
-/** Floating hero badge linking to the free AI use survey — highlights the limited-time 50% discount. */
+/** Floating hero badge linking to the free AI use survey. */
 export function HeroAuditPill({ className }: HeroAuditPillProps) {
   return (
     <a
       href="/audit"
       data-event="hero-floating-audit"
-      aria-label="Take the free 10-minute AI use survey — 50% off all packages until July 1"
+      aria-label="Take the free 10-minute AI use survey"
       className={cn("nb-hero-audit-pill", className)}
     >
       <span aria-hidden className="relative flex h-3 w-3 shrink-0">
@@ -20,7 +20,7 @@ export function HeroAuditPill({ className }: HeroAuditPillProps) {
       </span>
       <span className="nb-hero-audit-pill-text">
         <span className="nb-hero-audit-pill-label">Free · 10-min AI survey</span>
-        <span className="nb-hero-audit-pill-sale">50% off all packages · until July 1</span>
+        <span className="nb-hero-audit-pill-sale">Policy upgrades from $500 + GST</span>
       </span>
       <span aria-hidden className="nb-hero-audit-pill-arrow">
         →

@@ -107,7 +107,7 @@ export const schoolSuiteOffers: SchoolSuiteOffer[] = [
     label: "AI Policy & Governance",
     detail:
       "Tool audit, written school AI policy, and staff guidance - the schools edition of the audit.",
-    priceNote: "$4,800–$12,500 (by phase)",
+    priceNote: "$3,500–$8,500 (by phase)",
     href: "/school-suite/flyers/ai-policy-governance.html",
     headerImage: "ai-policy-governance.png",
     lane: "governance",
@@ -150,7 +150,7 @@ export const schoolProductCards: SchoolProductCard[] = [
   {
     id: "governance",
     title: "AI Policy & Governance",
-    badge: "$4,800–$12,500 + GST",
+    badge: "$3,500–$8,500 + GST",
     body:
       "Board-ready policy suite when you need compliance, not just conversation. Tool audit, written acceptable-use policy, NZQA integrity addendum, Privacy Act provisions, and a staff workshop so the policy actually lands.",
     includes: [
