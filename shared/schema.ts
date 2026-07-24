@@ -484,3 +484,22 @@ export const auditSessions = pgTable("audit_sessions", {
 
 export type AuditSession = typeof auditSessions.$inferSelect;
 export type NewAuditSession = typeof auditSessions.$inferInsert;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LEAD MAGNET DOWNLOADS
+// Captured emails from gated PDF lead magnets (e.g. AI Policy Starter Kit sample).
+// ─────────────────────────────────────────────────────────────────────────────
+export const leadMagnetDownloads = pgTable("lead_magnet_downloads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").notNull(),
+  magnetId: varchar("magnet_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertLeadMagnetDownloadSchema = createInsertSchema(leadMagnetDownloads).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type LeadMagnetDownload = typeof leadMagnetDownloads.$inferSelect;
+export type InsertLeadMagnetDownload = z.infer<typeof insertLeadMagnetDownloadSchema>;

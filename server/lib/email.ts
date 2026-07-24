@@ -1639,7 +1639,7 @@ export function auditPackagePurchaseEmail(options: {
   > = {
     basic: {
       title: "AI Basic",
-      line: "Thanks for upgrading. I'll review your audit results and team surveys, then send your AI Policy Starter Kit.",
+      line: "Thanks for upgrading. Your AI Policy Starter Kit is ready to download below — and I'll follow up to review your audit results and team surveys.",
       includes: [
         "Emailed result report plus team results",
         "30-minute call to review results",
@@ -1675,6 +1675,25 @@ export function auditPackagePurchaseEmail(options: {
   const includesList = meta.includes
     .map((item) => `<li style="margin-bottom:6px;">${escapeHtmlForEmail(item)}</li>`)
     .join("");
+
+  // AI Policy Starter Kit — included in every tier. Unlisted static download path.
+  const kitBase = `${siteOrigin}/downloads/ai-policy-starter-kit`;
+  const kitIntro =
+    tier === "basic"
+      ? "Here is your AI Policy Starter Kit. Download the full pack, or grab the files individually:"
+      : "Your purchase includes the AI Policy Starter Kit. I'll send your custom policy separately, but you can start with these now:";
+  const kitDownloadsHtml = `
+    <div style="background:#eef6ff;border:1px solid #bcd8f5;border-radius:12px;padding:16px 18px;margin-bottom:20px;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#1d4ed8;margin-bottom:10px;">Your AI Policy Starter Kit — download now</div>
+      <p style="margin:0 0 12px;font-size:13.5px;color:#374151;">${kitIntro}</p>
+      <p style="margin:0 0 14px;"><a href="${kitBase}/ai-policy-starter-kit.zip" style="display:inline-block;background:#1d4ed8;color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:11px 20px;border-radius:9px;">Download the full kit (ZIP) →</a></p>
+      <ul style="margin:0;padding:0 0 0 18px;font-size:13px;color:#374151;line-height:1.7;">
+        <li><a href="${kitBase}/START-HERE.pdf" style="color:#1d4ed8;">Start here — how to use the kit (PDF)</a></li>
+        <li><a href="${kitBase}/01-ai-policy-template.docx" style="color:#1d4ed8;">Editable AI policy template (Word)</a></li>
+        <li><a href="${kitBase}/02-traffic-light-data-guide.pdf" style="color:#1d4ed8;">Traffic Light data guide (PDF)</a></li>
+        <li><a href="${kitBase}/03-staff-acknowledgement-form.docx" style="color:#1d4ed8;">Staff acknowledgement form (Word)</a></li>
+      </ul>
+    </div>`;
 
   const receiptHtml = buildAuditReceiptHtml(
     receipt,
@@ -1713,6 +1732,7 @@ export function auditPackagePurchaseEmail(options: {
       <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#3f6212;margin-bottom:10px;">What's included</div>
       <ul style="margin:0;padding:0 0 0 18px;font-size:13.5px;color:#374151;line-height:1.55;">${includesList}</ul>
     </div>
+    ${kitDownloadsHtml}
     <p style="font-size:14px;color:#374151;margin:0 0 16px;">Book your free follow-up call so we can align on timing and next steps:</p>
     <p style="text-align:center;margin:0 0 20px;"><a href="${calendarUrl}" style="display:inline-block;background:linear-gradient(135deg,#11c25c,#7ccc1e);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;">Book a follow-up call →</a></p>
     <p style="font-size:13px;color:#525252;margin:0;">— Nathaniel<br><a href="${siteOrigin}" style="color:#3f6212;">nathanielbaldock.com</a></p>
@@ -1815,6 +1835,59 @@ export function resourceSetUnlockEmail(
   </div>
   <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:13px;color:#737373;text-align:center;background:#fafbfc;">
     <a href="${siteOrigin}/resources" style="color:${accentDark};font-weight:600;text-decoration:none;">More resources</a>
+    · Practical AI for people who lead with discernment
+  </div>
+</div>
+</div>
+</body></html>`,
+  };
+}
+
+/** Delivery email for a gated PDF lead magnet (e.g. AI Policy Starter Kit sample). */
+export function leadMagnetEmail(
+  recipientEmail: string,
+  label: string,
+  emailBlurb: string,
+  pdfPath: string,
+  productPath: string,
+): EmailOptions {
+  const siteOrigin = buyerFacingSiteOrigin();
+  const downloadUrl = `${siteOrigin}${pdfPath}`;
+  const productHref = `${siteOrigin}${productPath}`;
+  const portraitUrl = `${siteOrigin}/images/email/nathaniel-baldock-portrait.png`;
+  const logoUrl = emailLogoUrl;
+  const accent = "#7CCC1E";
+  const accentDark = "#11C25C";
+
+  return {
+    to: recipientEmail,
+    subject: `Your free sample — ${label}`,
+    html: `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;line-height:1.6;color:#262626;background:#f4f1ea;">
+<div style="max-width:640px;margin:0 auto;padding:24px 16px;">
+<div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(15,23,42,.08);border:1px solid #e8eaef;">
+  <div style="background:linear-gradient(135deg,${accentDark},${accent});padding:24px 26px;color:#fff;text-align:center;">
+    <img src="${logoUrl}" alt="Nathaniel Baldock" width="164" height="36" style="display:block;margin:0 auto 14px;height:36px;width:auto;max-width:180px;opacity:.95;" />
+    <div style="font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;opacity:.92;margin-bottom:8px;">Free sample</div>
+    <h1 style="margin:0;font-family:Georgia,'Newsreader',serif;font-size:1.5rem;font-weight:700;line-height:1.2;">${escapeHtmlForEmail(label)}</h1>
+  </div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-36px;">
+    <tr>
+      <td align="center" style="padding:0 20px 6px;">
+        <img src="${portraitUrl}" alt="Nathaniel Baldock" width="88" height="88" style="display:block;width:88px;height:88px;border-radius:50%;object-fit:cover;border:4px solid ${accent};box-shadow:0 12px 32px rgba(15,23,42,.15);background:#fff;" />
+      </td>
+    </tr>
+  </table>
+  <div style="padding:8px 26px 28px;">
+    <p style="margin:0 0 12px;font-size:15px;">Hi there,</p>
+    <p style="margin:0 0 18px;font-size:15px;color:#404040;">${escapeHtmlForEmail(emailBlurb)}</p>
+    <p style="text-align:center;margin:0 0 20px;"><a href="${escapeHtmlForEmail(downloadUrl)}" style="display:inline-block;background:linear-gradient(135deg,${accentDark},${accent});color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 30px;border-radius:10px;">Download the free sample (PDF) →</a></p>
+    <p style="margin:0 0 8px;font-size:14px;color:#525252;">When you are ready for the full editable kit — policy template, Traffic Light one-pager, staff acknowledgement form, and four sector versions — it is a single self-serve purchase:</p>
+    <p style="text-align:center;margin:8px 0 0;"><a href="${escapeHtmlForEmail(productHref)}" style="color:${accentDark};font-weight:700;text-decoration:none;font-size:14px;">See the full AI Policy Starter Kit →</a></p>
+    <p style="margin:22px 0 0;font-size:14px;color:#525252;">— Nathaniel</p>
+  </div>
+  <div style="padding:18px 24px;border-top:1px solid #ebecef;font-size:13px;color:#737373;text-align:center;background:#fafbfc;">
+    <a href="${siteOrigin}/products" style="color:${accentDark};font-weight:600;text-decoration:none;">All products</a>
     · Practical AI for people who lead with discernment
   </div>
 </div>

@@ -1,0 +1,3 @@
+# Local build tooling and generated exports — regenerate with build-exports.py
+.venv/
+exports/*.html

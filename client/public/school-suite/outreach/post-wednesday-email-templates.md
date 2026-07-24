@@ -59,9 +59,9 @@ I have developed a **9-part School AI Policy Framework** (built from 50 internat
 
 **Typical investment (ex GST):**
 
-- **Standard tier** (partial foundations): NZ$8,500 - full policy suite + Board pack + half-day staff workshop
-- **Full build** (no existing policy): NZ$12,500 - extended discovery, parent forum, student sessions
-- **Enhancement** (existing policy like BTI SA.18): NZ$4,800 - targeted addenda only
+- **Enhancement** (existing policy like BTI SA.18): NZ$3,500 - targeted addenda only
+- **Standard** (partial foundations): NZ$5,900 - full policy suite + Board pack + half-day staff workshop
+- **Full Build** (no existing policy): NZ$8,500 - extended discovery, parent forum, student sessions
 
 **Flyer with full deliverable list:** `[link to brand-strategy/school-suite/flyers/ai-policy-governance.html]`
 

@@ -119,6 +119,13 @@ const staticPages: Record<string, PublicPageMeta> = {
     image: DEFAULT_IMAGE,
     ogType: "website",
   },
+  "/ai-policy-starter-kit": {
+    title: "Free AI Policy Starter Kit Sample | Nathaniel Baldock — Tauranga NZ",
+    description:
+      "Download a free sample of the AI Policy Starter Kit — a plain-language AI policy for NZ businesses, churches, schools, and not-for-profits. Grounded in the Privacy Act 2020.",
+    image: DEFAULT_IMAGE,
+    ogType: "website",
+  },
   "/church/governance": {
     title: "AI Policy & Governance for Churches | Nathaniel Baldock — Tauranga NZ",
     description:

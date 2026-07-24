@@ -20,6 +20,10 @@ import {
   getResourceSetById,
   RESOURCE_SET_ID_VALUES,
 } from "@shared/content/resource-sets";
+import {
+  getLeadMagnetById,
+  LEAD_MAGNET_ID_VALUES,
+} from "@shared/content/lead-magnets";
 import { worksheets } from "../client/src/content/worksheets";
 import { isAuthenticated, authStorage } from "./auth";
 import type { EventAttributes } from "ics";
@@ -35,6 +39,7 @@ import {
   worksheetReportEmail,
   type WorksheetReportEmailPayload,
   resourceSetUnlockEmail,
+  leadMagnetEmail,
 } from "./lib/email";
 import {
   createCheckoutSessionForInvoice,
@@ -370,6 +375,49 @@ export async function registerRoutes(
         res.status(400).json({ error: "Invalid request." });
       } else {
         console.error("resource-set-request error:", error);
+        res.status(500).json({ error: "Something went wrong. Please try again." });
+      }
+    }
+  });
+
+  // Gated PDF lead magnet: capture email, persist the lead, deliver the download.
+  app.post("/api/lead-magnet-request", publicFormLimiter, async (req, res) => {
+    try {
+      const schema = z.object({
+        email: z.string().email(),
+        magnetId: z.enum(LEAD_MAGNET_ID_VALUES),
+        website: z.string().optional(),
+      });
+      const { email, magnetId, website } = schema.parse(req.body);
+      if (website?.trim()) {
+        // Honeypot tripped — pretend success, do nothing.
+        res.status(200).json({ ok: true, message: "Thanks." });
+        return;
+      }
+      const def = getLeadMagnetById(magnetId);
+      if (!def) {
+        res.status(400).json({ error: "Unknown resource." });
+        return;
+      }
+      // Persist the lead (best-effort; table is created via `npm run db:push`).
+      try {
+        await storage.createLeadMagnetDownload({ email, magnetId });
+      } catch (e) {
+        console.error("lead-magnet persist failed (continuing with delivery):", e);
+      }
+      await sendEmail(
+        leadMagnetEmail(email, def.label, def.emailBlurb, def.pdfPath, "/ai-policy-starter-kit"),
+      );
+      res.status(200).json({
+        ok: true,
+        message: "Check your inbox — your sample is on its way.",
+        downloadPath: def.pdfPath,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid request." });
+      } else {
+        console.error("lead-magnet-request error:", error);
         res.status(500).json({ error: "Something went wrong. Please try again." });
       }
     }

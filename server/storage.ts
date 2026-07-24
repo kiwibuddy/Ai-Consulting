@@ -15,6 +15,7 @@ import {
   invoices,
   userOAuthTokens,
   surveyResponses,
+  leadMagnetDownloads,
   type User,
   type ClientProfile,
   type InsertClientProfile,
@@ -36,6 +37,8 @@ import {
   type InsertCoachSettings,
   type SurveyResponse,
   type InsertSurveyResponse,
+  type LeadMagnetDownload,
+  type InsertLeadMagnetDownload,
 } from "@shared/schema";
 
 export interface IStorage {
@@ -102,6 +105,9 @@ export interface IStorage {
 
   // Survey Responses
   createSurveyResponse(response: InsertSurveyResponse): Promise<SurveyResponse>;
+
+  // Lead magnet downloads
+  createLeadMagnetDownload(row: InsertLeadMagnetDownload): Promise<LeadMagnetDownload>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -410,6 +416,12 @@ export class DatabaseStorage implements IStorage {
   // Survey Responses
   async createSurveyResponse(response: InsertSurveyResponse): Promise<SurveyResponse> {
     const [created] = await db.insert(surveyResponses).values(response).returning();
+    return created;
+  }
+
+  // Lead magnet downloads
+  async createLeadMagnetDownload(row: InsertLeadMagnetDownload): Promise<LeadMagnetDownload> {
+    const [created] = await db.insert(leadMagnetDownloads).values(row).returning();
     return created;
   }
 

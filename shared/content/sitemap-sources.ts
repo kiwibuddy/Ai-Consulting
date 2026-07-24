@@ -22,6 +22,7 @@ const CORE_STATIC: Array<{ path: string; priority: number; changefreq: "weekly" 
   { path: "/business/governance", priority: 0.9, changefreq: "monthly" },
   { path: "/church/governance", priority: 0.85, changefreq: "monthly" },
   { path: "/nonprofit/governance", priority: 0.85, changefreq: "monthly" },
+  { path: "/ai-policy-starter-kit", priority: 0.85, changefreq: "monthly" },
   { path: "/speaking", priority: 0.9, changefreq: "monthly" },
   { path: "/speaking/invite", priority: 0.8, changefreq: "monthly" },
   { path: "/resources", priority: 0.8, changefreq: "monthly" },

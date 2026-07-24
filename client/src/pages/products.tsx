@@ -310,10 +310,17 @@ export default function ProductsPage() {
               >
                 AI Policy &amp; Governance
               </p>
-              <p className="nb-body m-0 mb-6 max-w-2xl text-[var(--nb-ink-soft)]">
+              <p className="nb-body m-0 mb-4 max-w-2xl text-[var(--nb-ink-soft)]">
                 Facilitated engagements for organisations that need a written policy, compliance
                 review, and staff training — same tiers for business, church, and not-for-profit,
                 with sector-specific language.
+              </p>
+              <p className="nb-body m-0 mb-6 max-w-2xl text-[var(--nb-ink-soft)]">
+                Want to start smaller? Grab the free{" "}
+                <a href="/ai-policy-starter-kit" className="text-[var(--nb-accent)] hover:underline">
+                  AI Policy Starter Kit sample
+                </a>{" "}
+                — a plain-language policy you can adapt yourself.
               </p>
             </div>
             <motion.div

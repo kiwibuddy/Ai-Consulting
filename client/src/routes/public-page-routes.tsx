@@ -15,6 +15,7 @@ import SchoolsStudentsPage from "@/pages/schools-students";
 import SchoolsGovernancePage from "@/pages/schools-governance";
 import BusinessWorkersPage from "@/pages/business-workers";
 import SectorGovernancePage from "@/pages/sector-governance";
+import AiPolicyStarterKitPage from "@/pages/ai-policy-starter-kit";
 import ResourcesPage from "@/pages/resources";
 import SpeakingPage from "@/pages/speaking";
 import { EXPERTISE_PAGE_PATHS, type ExpertisePagePath } from "@/content/expertise-pages";
@@ -86,6 +87,7 @@ export const SchoolsStaffPublicRoute = withPublicPage(SchoolsStaffPage);
 export const SchoolsStudentsPublicRoute = withPublicPage(SchoolsStudentsPage);
 export const SchoolsGovernancePublicRoute = withPublicPage(SchoolsGovernancePage);
 export const BusinessWorkersPublicRoute = withPublicPage(BusinessWorkersPage);
+export const AiPolicyStarterKitPublicRoute = withPublicPage(AiPolicyStarterKitPage);
 
 function withSectorGovernancePage(sector: "business" | "church" | "nonprofit") {
   function SectorRoute() {
